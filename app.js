@@ -18,6 +18,10 @@ const BADGE_DEFS = [
   { id: "faithful", icon: "🌟", name: "Faithful Encourager", desc: "30-day streak", type: "streak", threshold: 30 },
 ];
 
+function defaultSettings() {
+  return { onboarded: false, theme: "system" };
+}
+
 function loadState() {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (raw) {
@@ -29,6 +33,8 @@ function loadState() {
           order: parsed.order,
           entries: parsed.entries || {},
           totalStars: parsed.totalStars || 0,
+          favorites: parsed.favorites || [],
+          settings: { ...defaultSettings(), ...(parsed.settings || {}) },
         };
       }
     } catch (e) {
@@ -40,6 +46,8 @@ function loadState() {
     order: shuffledOrder(TOTAL_DAYS),
     entries: {},
     totalStars: 0,
+    favorites: [],
+    settings: defaultSettings(),
   };
 }
 
@@ -82,19 +90,149 @@ function awardStars(entry, field, amount) {
   state.totalStars += amount;
 }
 
+// One missed day per 7-day window can be "graced" — it bridges the streak
+// without breaking it, but doesn't itself count toward the streak number.
+function weekBucket(dayNumber) {
+  return Math.floor((dayNumber - 1) / 7);
+}
+
 function computeStreak() {
   let streak = 0;
-  for (let n = unlockedDay(); n >= 1; n--) {
+  const graceUsed = new Set();
+  let n = unlockedDay();
+  while (n >= 1) {
     const entry = state.entries[`day-${n}`];
     const hasActivity = entry && (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal);
-    if (!hasActivity) break;
-    streak += 1;
+    if (hasActivity) {
+      streak += 1;
+      n -= 1;
+      continue;
+    }
+    const week = weekBucket(n);
+    if (!graceUsed.has(week)) {
+      graceUsed.add(week);
+      n -= 1;
+      continue;
+    }
+    break;
   }
   return streak;
 }
 
 function countMomentsDone() {
   return Object.values(state.entries).filter((e) => e.momentDone).length;
+}
+
+// ---------- Favorites ----------
+
+function favoriteId(type, dayNumber) {
+  return `${type}-${dayNumber}`;
+}
+
+function isFavorited(type, dayNumber) {
+  return state.favorites.some((f) => f.id === favoriteId(type, dayNumber));
+}
+
+function toggleFavorite(type, dayNumber, payload) {
+  const id = favoriteId(type, dayNumber);
+  const idx = state.favorites.findIndex((f) => f.id === id);
+  if (idx >= 0) {
+    state.favorites.splice(idx, 1);
+  } else {
+    state.favorites.push({ id, type, dayNumber, savedAt: todayDateKey(), ...payload });
+  }
+  saveState(state);
+}
+
+// ---------- Theme ----------
+
+function systemPrefersDark() {
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+function effectiveTheme() {
+  if (state.settings.theme === "system") return systemPrefersDark() ? "dark" : "light";
+  return state.settings.theme;
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute("data-theme", effectiveTheme());
+  const btn = document.getElementById("themeToggle");
+  if (btn) btn.textContent = effectiveTheme() === "dark" ? "☀️" : "🌙";
+}
+
+function toggleTheme() {
+  state.settings.theme = effectiveTheme() === "dark" ? "light" : "dark";
+  saveState(state);
+  applyTheme();
+}
+
+// ---------- Export / Import ----------
+
+function exportData() {
+  const payload = { app: "barnabas-journal", schema: 2, exportedAt: new Date().toISOString(), state };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `barnabas-journal-backup-${todayDateKey()}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function showBackupMsg(text, isError) {
+  const el = document.getElementById("backupMsg");
+  el.textContent = text;
+  el.classList.toggle("backup-msg-error", Boolean(isError));
+  el.hidden = false;
+  setTimeout(() => { el.hidden = true; }, 4000);
+}
+
+function importDataFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(String(reader.result));
+      const incoming = parsed.state || parsed;
+      if (!incoming.journeyStartDate || !Array.isArray(incoming.order)) {
+        throw new Error("Missing required fields");
+      }
+      state = {
+        journeyStartDate: incoming.journeyStartDate,
+        order: incoming.order,
+        entries: incoming.entries || {},
+        totalStars: incoming.totalStars || 0,
+        favorites: incoming.favorites || [],
+        settings: { ...defaultSettings(), ...(incoming.settings || {}), onboarded: true },
+      };
+      viewingDay = unlockedDay();
+      saveState(state);
+      applyTheme();
+      renderToday();
+      renderHistory();
+      renderRewards();
+      renderFavorites();
+      showBackupMsg("Backup restored. Welcome back!");
+    } catch (e) {
+      showBackupMsg("That file doesn't look like a valid Barnabas Journal backup.", true);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---------- Onboarding ----------
+
+function maybeShowOnboarding() {
+  if (state.settings.onboarded) return;
+  document.getElementById("onboardingOverlay").hidden = false;
+}
+
+function completeOnboarding() {
+  state.settings.onboarded = true;
+  saveState(state);
+  document.getElementById("onboardingOverlay").hidden = true;
 }
 
 // ---------- Rendering ----------
@@ -106,6 +244,7 @@ function renderToday() {
   const verse = pickForDay(VERSES, day, state.order);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
   document.getElementById("verseRef").textContent = verse.ref;
+  updateFavoriteBtn("verseFavoriteBtn", "verse", day);
 
   document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
 
@@ -123,6 +262,7 @@ function renderToday() {
     textEl.textContent = `“${wisdom.text}”`;
     sourceEl.textContent = `— ${wisdom.source}`;
   }
+  updateFavoriteBtn("wisdomFavoriteBtn", "wisdom", day);
 
   document.getElementById("momentText").textContent = pickForDay(BARNABAS_MOMENTS, day, state.order);
 
@@ -150,6 +290,13 @@ function renderToday() {
 
   renderDayNav();
   renderHeaderStats();
+}
+
+function updateFavoriteBtn(btnId, type, day) {
+  const btn = document.getElementById(btnId);
+  const on = isFavorited(type, day);
+  btn.textContent = on ? "★ Saved" : "☆ Save";
+  btn.classList.toggle("favorited", on);
 }
 
 function renderDayNav() {
@@ -217,6 +364,44 @@ function renderHistory() {
     .join("");
 }
 
+function renderFavorites() {
+  const list = document.getElementById("favoritesList");
+  const empty = document.getElementById("favoritesEmpty");
+  const favorites = state.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
+
+  if (favorites.length === 0) {
+    list.innerHTML = "";
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+
+  list.innerHTML = favorites
+    .map((f) => {
+      const kindLabel = f.type === "verse" ? "Verse" : f.title ? "Story" : "Quote";
+      const sourceLine = f.type === "verse" ? f.ref : f.title ? f.title : `— ${f.source || ""}`;
+      return `<div class="favorite-entry">
+        <div class="favorite-header">
+          <span class="favorite-kind">${kindLabel} · Day ${f.dayNumber}</span>
+          <button class="favorite-remove" data-id="${f.id}" aria-label="Remove from favorites">✕</button>
+        </div>
+        <p class="favorite-text">“${escapeHtml(f.text)}”</p>
+        <p class="favorite-source">${escapeHtml(sourceLine)}</p>
+      </div>`;
+    })
+    .join("");
+
+  list.querySelectorAll(".favorite-remove").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.id;
+      state.favorites = state.favorites.filter((f) => f.id !== id);
+      saveState(state);
+      renderFavorites();
+      renderToday();
+    });
+  });
+}
+
 function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
@@ -260,6 +445,7 @@ function setupTabs() {
       document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
       if (btn.dataset.tab === "history") renderHistory();
       if (btn.dataset.tab === "rewards") renderRewards();
+      if (btn.dataset.tab === "favorites") renderFavorites();
     });
   });
 }
@@ -322,13 +508,61 @@ function setupSaveReflection() {
   });
 }
 
+function setupFavoriteButtons() {
+  document.getElementById("verseFavoriteBtn").addEventListener("click", () => {
+    const verse = pickForDay(VERSES, viewingDay, state.order);
+    toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref });
+    updateFavoriteBtn("verseFavoriteBtn", "verse", viewingDay);
+  });
+  document.getElementById("wisdomFavoriteBtn").addEventListener("click", () => {
+    const wisdom = pickForDay(WISDOM, viewingDay, state.order);
+    toggleFavorite("wisdom", viewingDay, {
+      text: wisdom.text,
+      source: wisdom.source || "",
+      title: wisdom.title || null,
+    });
+    updateFavoriteBtn("wisdomFavoriteBtn", "wisdom", viewingDay);
+  });
+}
+
+function setupThemeToggle() {
+  document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+  if (window.matchMedia) {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      if (state.settings.theme === "system") applyTheme();
+    });
+  }
+}
+
+function setupBackup() {
+  document.getElementById("exportBtn").addEventListener("click", exportData);
+  const fileInput = document.getElementById("importFile");
+  document.getElementById("importBtn").addEventListener("click", () => fileInput.click());
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files && fileInput.files[0]) {
+      importDataFromFile(fileInput.files[0]);
+    }
+    fileInput.value = "";
+  });
+}
+
+function setupOnboarding() {
+  document.getElementById("onboardingStartBtn").addEventListener("click", completeOnboarding);
+}
+
 function init() {
+  applyTheme();
   setupTabs();
   setupDayNav();
   setupMoodPicker();
   setupMomentButton();
   setupSaveReflection();
+  setupFavoriteButtons();
+  setupThemeToggle();
+  setupBackup();
+  setupOnboarding();
   renderToday();
+  maybeShowOnboarding();
 }
 
 document.addEventListener("DOMContentLoaded", init);

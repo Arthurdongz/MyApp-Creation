@@ -19,6 +19,7 @@
       </div>
     </div>
     <div class="header-stats">
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
       <div class="stat" title="Total stars earned">
         <span class="stat-icon">⭐</span>
         <span id="statTotalStars">0</span>
@@ -32,7 +33,8 @@
 
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="today">Today</button>
-    <button class="tab-btn" data-tab="history">My Journal</button>
+    <button class="tab-btn" data-tab="history">Journal</button>
+    <button class="tab-btn" data-tab="favorites">Favorites</button>
     <button class="tab-btn" data-tab="rewards">Rewards</button>
   </nav>
 
@@ -51,7 +53,10 @@
       </div>
 
       <article class="card verse-card">
-        <p class="card-label">Verse</p>
+        <div class="card-label-row">
+          <p class="card-label">Verse</p>
+          <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+        </div>
         <p class="verse-text" id="verseText"></p>
         <p class="verse-ref" id="verseRef"></p>
       </article>
@@ -62,7 +67,10 @@
       </article>
 
       <article class="card">
-        <p class="card-label" id="wisdomLabel">On Encouragement &amp; Hope</p>
+        <div class="card-label-row">
+          <p class="card-label" id="wisdomLabel">On Encouragement &amp; Hope</p>
+          <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+        </div>
         <h3 class="wisdom-title" id="wisdomTitle" hidden></h3>
         <p class="wisdom-text" id="wisdomText"></p>
         <p class="wisdom-source" id="wisdomSource"></p>
@@ -107,6 +115,14 @@
       <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
     </section>
 
+    <!-- FAVORITES -->
+    <section id="tab-favorites" class="tab-panel">
+      <h2 class="section-title">Favorites</h2>
+      <p class="section-sub">Verses and quotes you've saved to come back to.</p>
+      <div id="favoritesList" class="favorites-list"></div>
+      <p id="favoritesEmpty" class="empty-state" hidden>Nothing saved yet — tap "Save" on a verse or quote you want to keep.</p>
+    </section>
+
     <!-- REWARDS -->
     <section id="tab-rewards" class="tab-panel">
       <h2 class="section-title">Rewards</h2>
@@ -129,6 +145,15 @@
 
       <h3 class="badges-title">Badges</h3>
       <div id="badgesGrid" class="badges-grid"></div>
+
+      <h3 class="badges-title">Backup</h3>
+      <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
+      <div class="backup-actions">
+        <button id="exportBtn" class="btn btn-secondary" type="button">Export Backup</button>
+        <button id="importBtn" class="btn btn-secondary" type="button">Restore Backup</button>
+        <input id="importFile" type="file" accept="application/json" hidden>
+      </div>
+      <p id="backupMsg" class="backup-msg" hidden></p>
     </section>
 
   </main>
@@ -137,6 +162,18 @@
     <p>Be still. Be kind. Be someone's encouragement today.</p>
   </footer>
 
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboardingOverlay" class="onboarding-overlay" hidden>
+  <div class="onboarding-card">
+    <span class="onboarding-mark">✦</span>
+    <h2>Welcome to Barnabas Journal</h2>
+    <p>In the book of Acts, a man named Joseph was given a new name by the apostles: Barnabas — "son of encouragement." He had a gift for lifting others up with a kind word or a well-timed act of generosity.</p>
+    <p>This journal gives you a new verse, a word of encouragement, and a small "Barnabas moment" to do for someone else — one day at a time. A new day unlocks every day; you can always look back on days you've already lived, but not skip ahead.</p>
+    <p>Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to notice how far you've come.</p>
+    <button id="onboardingStartBtn" class="btn btn-primary">Begin your journey</button>
+  </div>
 </div>
 
 <script src="data-verses.js"></script>
