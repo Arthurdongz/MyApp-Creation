@@ -16,7 +16,7 @@ export default function HistoryScreen({ store }) {
       const e = entries[k];
       return e.reflection || e.barnabasNote || e.momentDone;
     })
-    .sort((a, b) => (a < b ? 1 : -1));
+    .sort((a, b) => entries[b].dayNumber - entries[a].dayNumber);
 
   return (
     <View>
@@ -33,7 +33,7 @@ export default function HistoryScreen({ store }) {
           return (
             <View key={key} style={styles.entryCard}>
               <View style={styles.entryHeader}>
-                <Text style={styles.entryDate}>{formatDate(key)}</Text>
+                <Text style={styles.entryDate}>Day {e.dayNumber} · {formatDate(e.dateLogged)}</Text>
                 <Text style={styles.entryMood}>{e.mood ? MOOD_EMOJI[e.mood] : ""}</Text>
               </View>
               {e.reflection ? (
@@ -51,7 +51,7 @@ export default function HistoryScreen({ store }) {
               {e.momentDone && !e.barnabasNote ? (
                 <View style={styles.block}>
                   <Text style={styles.blockLabel}>Barnabas Moment</Text>
-                  <Text style={styles.blockText}>Marked as done today.</Text>
+                  <Text style={styles.blockText}>Marked as done.</Text>
                 </View>
               ) : null}
             </View>

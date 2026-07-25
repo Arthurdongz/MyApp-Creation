@@ -123,6 +123,61 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Day navigation */
+.day-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.day-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.day-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--sage-dark);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.day-nav-btn:active { transform: scale(0.94); }
+
+.day-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.day-nav-label {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--sage-dark);
+  min-width: 110px;
+  text-align: center;
+}
+
+.day-nav-jump {
+  border: none;
+  background: transparent;
+  color: var(--sky);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* Cards */
 .card {
   background: var(--card);

@@ -41,14 +41,23 @@
     <!-- TODAY -->
     <section id="tab-today" class="tab-panel active">
 
+      <div class="day-nav">
+        <div class="day-nav-row">
+          <button id="dayNavPrev" class="day-nav-btn" aria-label="Previous day">‹</button>
+          <span id="dayLabel" class="day-nav-label">Today</span>
+          <button id="dayNavNext" class="day-nav-btn" aria-label="Next day">›</button>
+        </div>
+        <button id="dayNavJump" class="day-nav-jump" hidden>Back to today</button>
+      </div>
+
       <article class="card verse-card">
-        <p class="card-label">Today's Verse</p>
+        <p class="card-label">Verse</p>
         <p class="verse-text" id="verseText"></p>
         <p class="verse-ref" id="verseRef"></p>
       </article>
 
       <article class="card">
-        <p class="card-label">A Word for You Today</p>
+        <p class="card-label">A Word for You</p>
         <p class="encouragement-text" id="encouragementText"></p>
       </article>
 
@@ -67,7 +76,7 @@
       </article>
 
       <article class="card reflection-card">
-        <p class="card-label">Today's Reflection</p>
+        <p class="card-label" id="reflectionCardLabel">Today's Reflection</p>
 
         <label class="field-label" for="reflectionInput">What's on your heart today?</label>
         <textarea id="reflectionInput" rows="3" placeholder="Write freely — this is just for you..."></textarea>

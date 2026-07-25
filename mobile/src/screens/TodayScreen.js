@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Card from "../components/Card";
 import { colors } from "../theme";
-import { pickForToday } from "../content";
+import { pickForDay } from "../content";
 import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
@@ -17,16 +17,25 @@ const MOODS = [
 ];
 
 export default function TodayScreen({ store }) {
-  const verse = useMemo(() => pickForToday(VERSES), []);
-  const encouragement = useMemo(() => pickForToday(ENCOURAGEMENTS), []);
-  const wisdom = useMemo(() => pickForToday(WISDOM), []);
-  const moment = useMemo(() => pickForToday(BARNABAS_MOMENTS), []);
+  const { viewingDay, latestDay, isToday, order, today, goToPrevDay, goToNextDay, jumpToToday, setMood, markMomentDone, saveReflection } = store;
 
-  const { today, setMood, markMomentDone, saveReflection } = store;
+  const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
+  const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
+  const wisdom = useMemo(() => pickForDay(WISDOM, viewingDay, order), [viewingDay, order]);
+  const moment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
 
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
   const [showSaved, setShowSaved] = useState(false);
+
+  // The viewed day's saved reflection/note only comes through on first
+  // mount via useState's initial value — keep the text boxes in sync
+  // whenever the user navigates to a different day.
+  useEffect(() => {
+    setReflection(today.reflection || "");
+    setBarnabasNote(today.barnabasNote || "");
+    setShowSaved(false);
+  }, [viewingDay]);
 
   const handleSave = () => {
     saveReflection(reflection, barnabasNote);
@@ -36,14 +45,39 @@ export default function TodayScreen({ store }) {
 
   return (
     <View>
+      <View style={styles.dayNav}>
+        <View style={styles.dayNavRow}>
+          <TouchableOpacity
+            style={[styles.dayNavBtn, viewingDay <= 1 && styles.dayNavBtnDisabled]}
+            onPress={goToPrevDay}
+            disabled={viewingDay <= 1}
+          >
+            <Text style={styles.dayNavBtnText}>‹</Text>
+          </TouchableOpacity>
+          <Text style={styles.dayNavLabel}>{isToday ? `Today · Day ${viewingDay}` : `Day ${viewingDay}`}</Text>
+          <TouchableOpacity
+            style={[styles.dayNavBtn, viewingDay >= latestDay && styles.dayNavBtnDisabled]}
+            onPress={goToNextDay}
+            disabled={viewingDay >= latestDay}
+          >
+            <Text style={styles.dayNavBtnText}>›</Text>
+          </TouchableOpacity>
+        </View>
+        {!isToday ? (
+          <TouchableOpacity onPress={jumpToToday}>
+            <Text style={styles.dayNavJump}>Back to today</Text>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+
       <Card style={styles.verseCard}>
-        <Text style={styles.cardLabel}>Today's Verse</Text>
+        <Text style={styles.cardLabel}>Verse</Text>
         <Text style={styles.verseText}>“{verse.text}”</Text>
         <Text style={styles.verseRef}>{verse.ref}</Text>
       </Card>
 
       <Card>
-        <Text style={styles.cardLabel}>A Word for You Today</Text>
+        <Text style={styles.cardLabel}>A Word for You</Text>
         <Text style={styles.bodyText}>{encouragement}</Text>
       </Card>
 
@@ -67,7 +101,9 @@ export default function TodayScreen({ store }) {
           onPress={markMomentDone}
           disabled={today.momentDone}
         >
-          <Text style={styles.buttonText}>{today.momentDone ? "Done today ✓" : "I did this today ✓"}</Text>
+          <Text style={styles.buttonText}>
+            {today.momentDone ? "Done ✓" : isToday ? "I did this today ✓" : "I did this ✓"}
+          </Text>
         </TouchableOpacity>
         {today.momentDone ? (
           <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
@@ -75,7 +111,7 @@ export default function TodayScreen({ store }) {
       </Card>
 
       <Card>
-        <Text style={styles.cardLabel}>Today's Reflection</Text>
+        <Text style={styles.cardLabel}>{isToday ? "Today's Reflection" : `Day ${viewingDay}'s Reflection`}</Text>
 
         <Text style={styles.fieldLabel}>What's on your heart today?</Text>
         <TextInput
@@ -119,7 +155,11 @@ export default function TodayScreen({ store }) {
           <Text style={styles.buttonText}>Save Reflection</Text>
         </TouchableOpacity>
         {showSaved ? (
-          <Text style={styles.doneMsg}>Saved gently. Thank you for showing up today. ⭐⭐</Text>
+          <Text style={styles.doneMsg}>
+            {isToday
+              ? "Saved gently. Thank you for showing up today. ⭐⭐"
+              : "Saved gently. Thank you for going back to this day. ⭐⭐"}
+          </Text>
         ) : null}
       </Card>
     </View>
@@ -127,6 +167,30 @@ export default function TodayScreen({ store }) {
 }
 
 const styles = StyleSheet.create({
+  dayNav: {
+    alignItems: "center",
+    marginBottom: 16,
+    gap: 4,
+  },
+  dayNavRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+  dayNavBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.card,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dayNavBtnDisabled: { opacity: 0.35 },
+  dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.sageDark },
+  dayNavLabel: { fontWeight: "700", fontSize: 14, color: colors.sageDark, minWidth: 110, textAlign: "center" },
+  dayNavJump: { fontSize: 12, fontWeight: "700", color: colors.sky, textDecorationLine: "underline" },
   cardLabel: {
     textTransform: "uppercase",
     letterSpacing: 0.8,

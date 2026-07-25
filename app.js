@@ -1,6 +1,12 @@
 // Barnabas Journal — app logic. Pure client-side, persisted to localStorage.
+//
+// Content is organized around a per-user "journey day" number (1..366),
+// not the calendar day-of-year: each user gets their own shuffled order of
+// the 366 content slots on first use, and a new day unlocks once per real
+// calendar day since then. Users can navigate back through days they've
+// already reached, but not ahead of the current unlocked day.
 
-const STORAGE_KEY = "barnabasJournalState";
+const STORAGE_KEY = "barnabasJournalStateV2";
 
 const BADGE_DEFS = [
   { id: "seed", icon: "🌱", name: "Seed of Encouragement", desc: "Earn 10 stars", type: "stars", threshold: 10 },
@@ -12,22 +18,29 @@ const BADGE_DEFS = [
   { id: "faithful", icon: "🌟", name: "Faithful Encourager", desc: "30-day streak", type: "streak", threshold: 30 },
 ];
 
-function todayKey() {
-  const d = new Date();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${d.getFullYear()}-${mm}-${dd}`;
-}
-
 function loadState() {
   const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return { entries: {}, totalStars: 0 };
-  try {
-    const parsed = JSON.parse(raw);
-    return { entries: parsed.entries || {}, totalStars: parsed.totalStars || 0 };
-  } catch (e) {
-    return { entries: {}, totalStars: 0 };
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      if (parsed.journeyStartDate && Array.isArray(parsed.order)) {
+        return {
+          journeyStartDate: parsed.journeyStartDate,
+          order: parsed.order,
+          entries: parsed.entries || {},
+          totalStars: parsed.totalStars || 0,
+        };
+      }
+    } catch (e) {
+      // fall through to a fresh journey
+    }
   }
+  return {
+    journeyStartDate: todayDateKey(),
+    order: shuffledOrder(TOTAL_DAYS),
+    entries: {},
+    totalStars: 0,
+  };
 }
 
 function saveState(state) {
@@ -35,11 +48,22 @@ function saveState(state) {
 }
 
 let state = loadState();
+saveState(state);
 
-function ensureTodayEntry() {
-  const key = todayKey();
+// The day currently unlocked for this user (advances once per real day).
+function unlockedDay() {
+  return unlockedDayFor(state.journeyStartDate);
+}
+
+// The day currently being viewed (may be any unlocked day, not just today's).
+let viewingDay = unlockedDay();
+
+function ensureDayEntry(dayNumber) {
+  const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
     state.entries[key] = {
+      dayNumber,
+      dateLogged: todayDateKey(),
       mood: null,
       reflection: "",
       barnabasNote: "",
@@ -47,7 +71,6 @@ function ensureTodayEntry() {
       starsAwarded: { daily: false, moment: false, journal: false },
     };
   }
-  // Backfill for entries saved before a field existed.
   const entry = state.entries[key];
   if (!entry.starsAwarded) entry.starsAwarded = { daily: false, moment: false, journal: false };
   return entry;
@@ -61,16 +84,11 @@ function awardStars(entry, field, amount) {
 
 function computeStreak() {
   let streak = 0;
-  let cursor = new Date();
-  for (;;) {
-    const mm = String(cursor.getMonth() + 1).padStart(2, "0");
-    const dd = String(cursor.getDate()).padStart(2, "0");
-    const key = `${cursor.getFullYear()}-${mm}-${dd}`;
-    const entry = state.entries[key];
+  for (let n = unlockedDay(); n >= 1; n--) {
+    const entry = state.entries[`day-${n}`];
     const hasActivity = entry && (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal);
     if (!hasActivity) break;
     streak += 1;
-    cursor.setDate(cursor.getDate() - 1);
   }
   return streak;
 }
@@ -82,13 +100,16 @@ function countMomentsDone() {
 // ---------- Rendering ----------
 
 function renderToday() {
-  const verse = pickForToday(VERSES);
+  const day = viewingDay;
+  const isToday = day === unlockedDay();
+
+  const verse = pickForDay(VERSES, day, state.order);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
   document.getElementById("verseRef").textContent = verse.ref;
 
-  document.getElementById("encouragementText").textContent = pickForToday(ENCOURAGEMENTS);
+  document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
 
-  const wisdom = pickForToday(WISDOM);
+  const wisdom = pickForDay(WISDOM, day, state.order);
   const titleEl = document.getElementById("wisdomTitle");
   const textEl = document.getElementById("wisdomText");
   const sourceEl = document.getElementById("wisdomSource");
@@ -103,9 +124,9 @@ function renderToday() {
     sourceEl.textContent = `— ${wisdom.source}`;
   }
 
-  document.getElementById("momentText").textContent = pickForToday(BARNABAS_MOMENTS);
+  document.getElementById("momentText").textContent = pickForDay(BARNABAS_MOMENTS, day, state.order);
 
-  const entry = ensureTodayEntry();
+  const entry = ensureDayEntry(day);
   awardStars(entry, "daily", 1);
   saveState(state);
 
@@ -113,11 +134,11 @@ function renderToday() {
   const momentMsg = document.getElementById("momentDoneMsg");
   if (entry.momentDone) {
     momentBtn.disabled = true;
-    momentBtn.textContent = "Done today ✓";
+    momentBtn.textContent = "Done ✓";
     momentMsg.hidden = false;
   } else {
     momentBtn.disabled = false;
-    momentBtn.textContent = "I did this today ✓";
+    momentBtn.textContent = isToday ? "I did this today ✓" : "I did this ✓";
     momentMsg.hidden = true;
   }
 
@@ -127,7 +148,27 @@ function renderToday() {
     btn.classList.toggle("selected", btn.dataset.mood === entry.mood);
   });
 
+  renderDayNav();
   renderHeaderStats();
+}
+
+function renderDayNav() {
+  const day = viewingDay;
+  const latest = unlockedDay();
+  const isToday = day === latest;
+
+  document.getElementById("dayLabel").textContent = isToday ? `Today · Day ${day}` : `Day ${day}`;
+  document.getElementById("dayNavPrev").disabled = day <= 1;
+  document.getElementById("dayNavNext").disabled = day >= latest;
+  document.getElementById("dayNavJump").hidden = isToday;
+
+  const reflectionLabel = isToday ? "Today's Reflection" : `Day ${day}'s Reflection`;
+  document.getElementById("reflectionCardLabel").textContent = reflectionLabel;
+
+  const saveMsg = document.getElementById("saveMsg");
+  saveMsg.textContent = isToday
+    ? "Saved gently. Thank you for showing up today. ⭐⭐"
+    : "Saved gently. Thank you for going back to this day. ⭐⭐";
 }
 
 function renderHeaderStats() {
@@ -143,7 +184,7 @@ function renderHistory() {
       const e = state.entries[k];
       return e.reflection || e.barnabasNote || e.momentDone;
     })
-    .sort((a, b) => (a < b ? 1 : -1));
+    .sort((a, b) => state.entries[b].dayNumber - state.entries[a].dayNumber);
 
   if (keys.length === 0) {
     list.innerHTML = "";
@@ -165,11 +206,11 @@ function renderHistory() {
         parts.push(`<div class="history-block"><div class="history-block-label">Barnabas Moment</div>${escapeHtml(e.barnabasNote)}</div>`);
       }
       if (e.momentDone && !e.barnabasNote) {
-        parts.push(`<div class="history-block"><div class="history-block-label">Barnabas Moment</div>Marked as done today.</div>`);
+        parts.push(`<div class="history-block"><div class="history-block-label">Barnabas Moment</div>Marked as done.</div>`);
       }
       const mood = e.mood ? moodEmoji[e.mood] || "" : "";
       return `<div class="history-entry">
-        <div class="history-date"><span>${formatDate(key)}</span><span class="history-mood">${mood}</span></div>
+        <div class="history-date"><span>Day ${e.dayNumber} · ${formatDate(e.dateLogged)}</span><span class="history-mood">${mood}</span></div>
         ${parts.join("")}
       </div>`;
     })
@@ -223,12 +264,31 @@ function setupTabs() {
   });
 }
 
+function setupDayNav() {
+  document.getElementById("dayNavPrev").addEventListener("click", () => {
+    if (viewingDay > 1) {
+      viewingDay -= 1;
+      renderToday();
+    }
+  });
+  document.getElementById("dayNavNext").addEventListener("click", () => {
+    if (viewingDay < unlockedDay()) {
+      viewingDay += 1;
+      renderToday();
+    }
+  });
+  document.getElementById("dayNavJump").addEventListener("click", () => {
+    viewingDay = unlockedDay();
+    renderToday();
+  });
+}
+
 function setupMoodPicker() {
   document.querySelectorAll(".mood-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".mood-btn").forEach((b) => b.classList.remove("selected"));
       btn.classList.add("selected");
-      const entry = ensureTodayEntry();
+      const entry = ensureDayEntry(viewingDay);
       entry.mood = btn.dataset.mood;
       saveState(state);
     });
@@ -237,7 +297,7 @@ function setupMoodPicker() {
 
 function setupMomentButton() {
   document.getElementById("momentBtn").addEventListener("click", () => {
-    const entry = ensureTodayEntry();
+    const entry = ensureDayEntry(viewingDay);
     if (entry.momentDone) return;
     entry.momentDone = true;
     awardStars(entry, "moment", 2);
@@ -248,7 +308,7 @@ function setupMomentButton() {
 
 function setupSaveReflection() {
   document.getElementById("saveReflectionBtn").addEventListener("click", () => {
-    const entry = ensureTodayEntry();
+    const entry = ensureDayEntry(viewingDay);
     entry.reflection = document.getElementById("reflectionInput").value.trim();
     entry.barnabasNote = document.getElementById("barnabasInput").value.trim();
     if (entry.reflection || entry.barnabasNote) {
@@ -264,6 +324,7 @@ function setupSaveReflection() {
 
 function init() {
   setupTabs();
+  setupDayNav();
   setupMoodPicker();
   setupMomentButton();
   setupSaveReflection();
