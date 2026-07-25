@@ -1,0 +1,424 @@
+:root {
+  --bg: #f4f0e6;
+  --bg-gradient-start: #f6f2e9;
+  --bg-gradient-end: #e9eee3;
+  --card: #fffdf8;
+  --sage: #7c9885;
+  --sage-dark: #56705f;
+  --sky: #8fb3c9;
+  --gold: #e0ab3c;
+  --text: #3a3a34;
+  --text-soft: #71716a;
+  --border: #e7e1d3;
+  --shadow: 0 6px 20px rgba(90, 100, 80, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(160deg, var(--bg-gradient-start), var(--bg-gradient-end));
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 18px 60px;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  font-size: 28px;
+  color: var(--gold);
+}
+
+.brand h1 {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-size: 22px;
+  margin: 0;
+  color: var(--sage-dark);
+  letter-spacing: 0.2px;
+}
+
+.tagline {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-soft);
+  font-style: italic;
+}
+
+.header-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: var(--shadow);
+}
+
+.stat-icon { font-size: 14px; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.tab-btn.active {
+  background: var(--sage);
+  color: #fff;
+}
+
+.tab-panel { display: none; animation: fadeIn 0.35s ease; }
+.tab-panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.card-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sage-dark);
+  margin: 0 0 10px;
+}
+
+.verse-card {
+  background: linear-gradient(135deg, #eef4ea, #f7f3e6);
+}
+
+.verse-text {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.verse-ref {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+.encouragement-text {
+  font-size: 16px;
+  margin: 0;
+  color: var(--text);
+}
+
+.wisdom-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: var(--sage-dark);
+}
+
+.wisdom-text {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.wisdom-source {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-soft);
+  text-align: right;
+}
+
+.moment-card {
+  background: linear-gradient(135deg, #eaf1f5, #fdf8ee);
+}
+
+.moment-text {
+  font-size: 16px;
+  margin: 0 0 14px;
+}
+
+.moment-done-msg {
+  margin: 10px 0 0;
+  font-size: 14px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease, opacity 0.2s ease;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--sage);
+  color: #fff;
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* Reflection */
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  margin: 14px 0 6px;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+  background: #fffefc;
+  color: var(--text);
+}
+
+textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 1px;
+}
+
+.mood-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mood-btn {
+  flex: 1;
+  min-width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 4px;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-soft);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.mood-btn span {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.mood-btn.selected {
+  background: #eef4ea;
+  border-color: var(--sage);
+  color: var(--sage-dark);
+}
+
+.save-msg {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+#saveReflectionBtn { margin-top: 16px; }
+
+/* History */
+.section-title {
+  font-family: Georgia, "Iowan Old Style", serif;
+  color: var(--sage-dark);
+  margin: 0 0 4px;
+}
+
+.section-sub {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin: 0 0 18px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-entry {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.history-date {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--sage-dark);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-mood { font-size: 18px; }
+
+.history-block {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.history-block-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.empty-state {
+  color: var(--text-soft);
+  font-size: 14px;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+/* Rewards */
+.rewards-summary {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.reward-tile {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.reward-number {
+  display: block;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--sage-dark);
+}
+
+.reward-label {
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+.badges-title {
+  font-size: 15px;
+  color: var(--sage-dark);
+  margin: 0 0 12px;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.badge {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  opacity: 0.4;
+}
+
+.badge.earned { opacity: 1; }
+
+.badge-icon { font-size: 24px; display: block; margin-bottom: 6px; }
+.badge-name { font-size: 13px; font-weight: 700; color: var(--sage-dark); }
+.badge-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  margin-top: 30px;
+  color: var(--text-soft);
+  font-size: 13px;
+  font-style: italic;
+}
+
+@media (max-width: 400px) {
+  .brand h1 { font-size: 19px; }
+  .mood-btn { font-size: 17px; }
+}

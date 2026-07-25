@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barnabas Journal — Son of Encouragement</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <div>
+        <h1>Barnabas Journal</h1>
+        <p class="tagline">"Son of Encouragement" — Acts 4:36</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat" title="Total stars earned">
+        <span class="stat-icon">⭐</span>
+        <span id="statTotalStars">0</span>
+      </div>
+      <div class="stat" title="Current daily streak">
+        <span class="stat-icon">🔥</span>
+        <span id="statStreak">0</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="today">Today</button>
+    <button class="tab-btn" data-tab="history">My Journal</button>
+    <button class="tab-btn" data-tab="rewards">Rewards</button>
+  </nav>
+
+  <main>
+
+    <!-- TODAY -->
+    <section id="tab-today" class="tab-panel active">
+
+      <article class="card verse-card">
+        <p class="card-label">Today's Verse</p>
+        <p class="verse-text" id="verseText"></p>
+        <p class="verse-ref" id="verseRef"></p>
+      </article>
+
+      <article class="card">
+        <p class="card-label">A Word for You Today</p>
+        <p class="encouragement-text" id="encouragementText"></p>
+      </article>
+
+      <article class="card">
+        <p class="card-label" id="wisdomLabel">On Encouragement &amp; Hope</p>
+        <h3 class="wisdom-title" id="wisdomTitle" hidden></h3>
+        <p class="wisdom-text" id="wisdomText"></p>
+        <p class="wisdom-source" id="wisdomSource"></p>
+      </article>
+
+      <article class="card moment-card">
+        <p class="card-label">Your Barnabas Moment</p>
+        <p class="moment-text" id="momentText"></p>
+        <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
+        <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
+      </article>
+
+      <article class="card reflection-card">
+        <p class="card-label">Today's Reflection</p>
+
+        <label class="field-label" for="reflectionInput">What's on your heart today?</label>
+        <textarea id="reflectionInput" rows="3" placeholder="Write freely — this is just for you..."></textarea>
+
+        <label class="field-label" for="barnabasInput">Your Barnabas moment — what did you do, and how did it feel?</label>
+        <textarea id="barnabasInput" rows="3" placeholder="What did you do for someone today, and how did it feel?"></textarea>
+
+        <p class="field-label">How are you feeling?</p>
+        <div class="mood-picker" id="moodPicker">
+          <button type="button" class="mood-btn" data-mood="joyful">😊<span>Joyful</span></button>
+          <button type="button" class="mood-btn" data-mood="peaceful">🙂<span>Peaceful</span></button>
+          <button type="button" class="mood-btn" data-mood="hopeful">🌱<span>Hopeful</span></button>
+          <button type="button" class="mood-btn" data-mood="tired">😔<span>Tired</span></button>
+          <button type="button" class="mood-btn" data-mood="struggling">😢<span>Struggling</span></button>
+        </div>
+
+        <button id="saveReflectionBtn" class="btn btn-primary">Save Reflection</button>
+        <p class="save-msg" id="saveMsg" hidden>Saved gently. Thank you for showing up today. ⭐⭐</p>
+      </article>
+
+    </section>
+
+    <!-- HISTORY -->
+    <section id="tab-history" class="tab-panel">
+      <h2 class="section-title">My Journal</h2>
+      <p class="section-sub">Every entry you've written, kept in one quiet place.</p>
+      <div id="historyList" class="history-list"></div>
+      <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
+    </section>
+
+    <!-- REWARDS -->
+    <section id="tab-rewards" class="tab-panel">
+      <h2 class="section-title">Rewards</h2>
+      <p class="section-sub">A small way to notice how far you've come.</p>
+
+      <div class="rewards-summary">
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardStars">0</span>
+          <span class="reward-label">Total Stars</span>
+        </div>
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardStreak">0</span>
+          <span class="reward-label">Day Streak</span>
+        </div>
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardMoments">0</span>
+          <span class="reward-label">Barnabas Moments</span>
+        </div>
+      </div>
+
+      <h3 class="badges-title">Badges</h3>
+      <div id="badgesGrid" class="badges-grid"></div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Be still. Be kind. Be someone's encouragement today.</p>
+  </footer>
+
+</div>
+
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
