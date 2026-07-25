@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { colors, shadow } from "../theme";
+import { useTheme } from "../theme";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -10,6 +10,8 @@ function formatDate(key) {
 }
 
 export default function HistoryScreen({ store }) {
+  const { colors, shadow } = useTheme();
+  const styles = getStyles(colors, shadow);
   const entries = store.state.entries;
   const keys = Object.keys(entries)
     .filter((k) => {
@@ -62,34 +64,36 @@ export default function HistoryScreen({ store }) {
   );
 }
 
-const styles = StyleSheet.create({
-  title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
-  subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
-  empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
-  entryCard: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    ...shadow,
-  },
-  entryHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  entryDate: { fontWeight: "700", fontSize: 13, color: colors.sageDark },
-  entryMood: { fontSize: 18 },
-  block: { marginTop: 8 },
-  blockLabel: {
-    fontSize: 11,
-    textTransform: "uppercase",
-    letterSpacing: 0.6,
-    color: colors.textSoft,
-    fontWeight: "700",
-    marginBottom: 2,
-  },
-  blockText: { fontSize: 14, color: colors.text },
-});
+function getStyles(colors, shadow) {
+  return StyleSheet.create({
+    title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
+    subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
+    empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
+    entryCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 12,
+      ...shadow,
+    },
+    entryHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    entryDate: { fontWeight: "700", fontSize: 13, color: colors.sageDark },
+    entryMood: { fontSize: 18 },
+    block: { marginTop: 8 },
+    blockLabel: {
+      fontSize: 11,
+      textTransform: "uppercase",
+      letterSpacing: 0.6,
+      color: colors.textSoft,
+      fontWeight: "700",
+      marginBottom: 2,
+    },
+    blockText: { fontSize: 14, color: colors.text },
+  });
+}

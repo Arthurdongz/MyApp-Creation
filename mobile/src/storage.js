@@ -20,12 +20,24 @@ export const BADGE_DEFS = [
   { id: "faithful", icon: "🌟", name: "Faithful Encourager", desc: "30-day streak", type: "streak", threshold: 30 },
 ];
 
+function defaultSettings() {
+  return {
+    onboarded: false,
+    theme: "system",
+    reminderEnabled: false,
+    reminderHour: 9,
+    reminderMinute: 0,
+  };
+}
+
 function freshJourney() {
   return {
     journeyStartDate: todayKey(),
     order: shuffledOrder(TOTAL_DAYS),
     entries: {},
     totalStars: 0,
+    favorites: [],
+    settings: defaultSettings(),
   };
 }
 
@@ -41,14 +53,43 @@ function emptyEntry(dayNumber) {
   };
 }
 
+function normalizeLoaded(parsed) {
+  return {
+    journeyStartDate: parsed.journeyStartDate,
+    order: parsed.order,
+    entries: parsed.entries || {},
+    totalStars: parsed.totalStars || 0,
+    favorites: parsed.favorites || [],
+    settings: { ...defaultSettings(), ...(parsed.settings || {}) },
+  };
+}
+
+// One missed day per 7-day window can be "graced" — it bridges the streak
+// without breaking it, but doesn't itself count toward the streak number.
+function weekBucket(dayNumber) {
+  return Math.floor((dayNumber - 1) / 7);
+}
+
 export function computeStreak(entries, latestDay) {
   let streak = 0;
-  for (let n = latestDay; n >= 1; n--) {
+  const graceUsed = new Set();
+  let n = latestDay;
+  while (n >= 1) {
     const entry = entries[`day-${n}`];
     const hasActivity =
       entry && (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal);
-    if (!hasActivity) break;
-    streak += 1;
+    if (hasActivity) {
+      streak += 1;
+      n -= 1;
+      continue;
+    }
+    const week = weekBucket(n);
+    if (!graceUsed.has(week)) {
+      graceUsed.add(week);
+      n -= 1;
+      continue;
+    }
+    break;
   }
   return streak;
 }
@@ -75,10 +116,18 @@ function ensureDayEntryWithStar(state, dayNumber) {
   };
 }
 
+function favoriteId(type, dayNumber) {
+  return `${type}-${dayNumber}`;
+}
+
 export function useJournalStore() {
   const [state, setState] = useState(freshJourney());
   const [ready, setReady] = useState(false);
   const [viewingDay, setViewingDay] = useState(1);
+
+  const persist = useCallback((next) => {
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -88,12 +137,7 @@ export function useJournalStore() {
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed.journeyStartDate && Array.isArray(parsed.order)) {
-            loaded = {
-              journeyStartDate: parsed.journeyStartDate,
-              order: parsed.order,
-              entries: parsed.entries || {},
-              totalStars: parsed.totalStars || 0,
-            };
+            loaded = normalizeLoaded(parsed);
           }
         }
       } catch (e) {
@@ -115,7 +159,7 @@ export function useJournalStore() {
     if (!ready) return;
     setState((prev) => {
       const next = ensureDayEntryWithStar(prev, viewingDay);
-      AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
+      persist(next);
       return next;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,11 +191,11 @@ export function useJournalStore() {
           totalStars: prev.totalStars + (starsGained || 0),
           entries: { ...prev.entries, [key]: nextEntry },
         };
-        AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
+        persist(next);
         return next;
       });
     },
-    [viewingDay]
+    [viewingDay, persist]
   );
 
   const setMood = useCallback(
@@ -201,6 +245,63 @@ export function useJournalStore() {
     [updateViewedEntry]
   );
 
+  const isFavorited = useCallback(
+    (type, dayNumber) => state.favorites.some((f) => f.id === favoriteId(type, dayNumber)),
+    [state.favorites]
+  );
+
+  const toggleFavorite = useCallback(
+    (type, dayNumber, payload) => {
+      setState((prev) => {
+        const id = favoriteId(type, dayNumber);
+        const exists = prev.favorites.some((f) => f.id === id);
+        const favorites = exists
+          ? prev.favorites.filter((f) => f.id !== id)
+          : [...prev.favorites, { id, type, dayNumber, savedAt: todayKey(), ...payload }];
+        const next = { ...prev, favorites };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const removeFavorite = useCallback(
+    (id) => {
+      setState((prev) => {
+        const next = { ...prev, favorites: prev.favorites.filter((f) => f.id !== id) };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const updateSettings = useCallback(
+    (patch) => {
+      setState((prev) => {
+        const next = { ...prev, settings: { ...prev.settings, ...patch } };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const completeOnboarding = useCallback(() => updateSettings({ onboarded: true }), [updateSettings]);
+
+  const restoreFromBackup = useCallback(
+    (incoming) => {
+      const next = normalizeLoaded(incoming);
+      next.settings.onboarded = true;
+      setState(next);
+      setViewingDay(unlockedDayFor(next.journeyStartDate));
+      persist(next);
+      return next;
+    },
+    [persist]
+  );
+
   const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
@@ -216,11 +317,19 @@ export function useJournalStore() {
     streak,
     momentsDone,
     totalStars: state.totalStars,
+    favorites: state.favorites,
+    settings: state.settings,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
     setMood,
     markMomentDone,
     saveReflection,
+    isFavorited,
+    toggleFavorite,
+    removeFavorite,
+    updateSettings,
+    completeOnboarding,
+    restoreFromBackup,
   };
 }

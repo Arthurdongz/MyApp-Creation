@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Card from "../components/Card";
-import { colors } from "../theme";
+import { useTheme } from "../theme";
 import { pickForDay } from "../content";
 import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
@@ -17,7 +17,24 @@ const MOODS = [
 ];
 
 export default function TodayScreen({ store }) {
-  const { viewingDay, latestDay, isToday, order, today, goToPrevDay, goToNextDay, jumpToToday, setMood, markMomentDone, saveReflection } = store;
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
+
+  const {
+    viewingDay,
+    latestDay,
+    isToday,
+    order,
+    today,
+    goToPrevDay,
+    goToNextDay,
+    jumpToToday,
+    setMood,
+    markMomentDone,
+    saveReflection,
+    isFavorited,
+    toggleFavorite,
+  } = store;
 
   const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
@@ -42,6 +59,9 @@ export default function TodayScreen({ store }) {
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
   };
+
+  const verseSaved = isFavorited("verse", viewingDay);
+  const wisdomSaved = isFavorited("wisdom", viewingDay);
 
   return (
     <View>
@@ -71,7 +91,16 @@ export default function TodayScreen({ store }) {
       </View>
 
       <Card style={styles.verseCard}>
-        <Text style={styles.cardLabel}>Verse</Text>
+        <View style={styles.cardLabelRow}>
+          <Text style={styles.cardLabel}>Verse</Text>
+          <TouchableOpacity
+            onPress={() => toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref })}
+          >
+            <Text style={[styles.favoriteBtn, verseSaved && styles.favoriteBtnActive]}>
+              {verseSaved ? "★ Saved" : "☆ Save"}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.verseText}>“{verse.text}”</Text>
         <Text style={styles.verseRef}>{verse.ref}</Text>
       </Card>
@@ -82,7 +111,22 @@ export default function TodayScreen({ store }) {
       </Card>
 
       <Card>
-        <Text style={styles.cardLabel}>On Encouragement &amp; Hope</Text>
+        <View style={styles.cardLabelRow}>
+          <Text style={styles.cardLabel}>On Encouragement &amp; Hope</Text>
+          <TouchableOpacity
+            onPress={() =>
+              toggleFavorite("wisdom", viewingDay, {
+                text: wisdom.text,
+                source: wisdom.source || "",
+                title: wisdom.title || null,
+              })
+            }
+          >
+            <Text style={[styles.favoriteBtn, wisdomSaved && styles.favoriteBtnActive]}>
+              {wisdomSaved ? "★ Saved" : "☆ Save"}
+            </Text>
+          </TouchableOpacity>
+        </View>
         {wisdom.type === "story" ? (
           <Text style={styles.bodyText}>{wisdom.text}</Text>
         ) : (
@@ -166,116 +210,136 @@ export default function TodayScreen({ store }) {
   );
 }
 
-const styles = StyleSheet.create({
-  dayNav: {
-    alignItems: "center",
-    marginBottom: 16,
-    gap: 4,
-  },
-  dayNavRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-  },
-  dayNavBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.card,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dayNavBtnDisabled: { opacity: 0.35 },
-  dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.sageDark },
-  dayNavLabel: { fontWeight: "700", fontSize: 14, color: colors.sageDark, minWidth: 110, textAlign: "center" },
-  dayNavJump: { fontSize: 12, fontWeight: "700", color: colors.sky, textDecorationLine: "underline" },
-  cardLabel: {
-    textTransform: "uppercase",
-    letterSpacing: 0.8,
-    fontSize: 11,
-    fontWeight: "700",
-    color: colors.sageDark,
-    marginBottom: 10,
-  },
-  verseCard: { backgroundColor: colors.verseCard },
-  momentCard: { backgroundColor: colors.momentCard },
-  verseText: {
-    fontSize: 18,
-    lineHeight: 26,
-    color: colors.text,
-    marginBottom: 10,
-  },
-  verseRef: {
-    fontSize: 13,
-    color: colors.sageDark,
-    fontWeight: "600",
-  },
-  bodyText: {
-    fontSize: 16,
-    color: colors.text,
-    lineHeight: 22,
-  },
-  wisdomSource: {
-    marginTop: 8,
-    fontSize: 13,
-    color: colors.textSoft,
-    textAlign: "right",
-  },
-  button: {
-    backgroundColor: colors.sage,
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    alignItems: "center",
-  },
-  buttonDisabled: { opacity: 0.55 },
-  buttonText: { color: "#fff", fontWeight: "700", fontSize: 14 },
-  doneMsg: {
-    marginTop: 10,
-    fontSize: 14,
-    color: colors.sageDark,
-    fontWeight: "600",
-  },
-  fieldLabel: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: colors.textSoft,
-    marginTop: 14,
-    marginBottom: 6,
-  },
-  textArea: {
-    borderWidth: 1,
-    borderColor: colors.border,
-    borderRadius: 12,
-    padding: 12,
-    fontSize: 14,
-    color: colors.text,
-    backgroundColor: "#fffefc",
-    textAlignVertical: "top",
-    minHeight: 70,
-  },
-  moodRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  moodBtn: {
-    flexGrow: 1,
-    flexBasis: "18%",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 2,
-  },
-  moodBtnSelected: {
-    backgroundColor: colors.verseCard,
-    borderColor: colors.sage,
-  },
-  moodEmoji: { fontSize: 20 },
-  moodLabel: { fontSize: 10, fontWeight: "600", color: colors.textSoft, marginTop: 4 },
-});
+function getStyles(colors) {
+  return StyleSheet.create({
+    dayNav: {
+      alignItems: "center",
+      marginBottom: 16,
+      gap: 4,
+    },
+    dayNavRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 14,
+    },
+    dayNavBtn: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    dayNavBtnDisabled: { opacity: 0.35 },
+    dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.sageDark },
+    dayNavLabel: { fontWeight: "700", fontSize: 14, color: colors.sageDark, minWidth: 110, textAlign: "center" },
+    dayNavJump: { fontSize: 12, fontWeight: "700", color: colors.sky, textDecorationLine: "underline" },
+    cardLabelRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    cardLabel: {
+      textTransform: "uppercase",
+      letterSpacing: 0.8,
+      fontSize: 11,
+      fontWeight: "700",
+      color: colors.sageDark,
+      marginBottom: 10,
+    },
+    favoriteBtn: {
+      fontSize: 12,
+      fontWeight: "700",
+      color: colors.textSoft,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 999,
+      paddingVertical: 3,
+      paddingHorizontal: 9,
+      marginBottom: 10,
+      overflow: "hidden",
+    },
+    favoriteBtnActive: { color: colors.gold, borderColor: colors.gold },
+    verseCard: { backgroundColor: colors.verseCard },
+    momentCard: { backgroundColor: colors.momentCard },
+    verseText: {
+      fontSize: 18,
+      lineHeight: 26,
+      color: colors.text,
+      marginBottom: 10,
+    },
+    verseRef: {
+      fontSize: 13,
+      color: colors.sageDark,
+      fontWeight: "600",
+    },
+    bodyText: {
+      fontSize: 16,
+      color: colors.text,
+      lineHeight: 22,
+    },
+    wisdomSource: {
+      marginTop: 8,
+      fontSize: 13,
+      color: colors.textSoft,
+      textAlign: "right",
+    },
+    button: {
+      backgroundColor: colors.sage,
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 18,
+      alignItems: "center",
+    },
+    buttonDisabled: { opacity: 0.55 },
+    buttonText: { color: "#fff", fontWeight: "700", fontSize: 14 },
+    doneMsg: {
+      marginTop: 10,
+      fontSize: 14,
+      color: colors.sageDark,
+      fontWeight: "600",
+    },
+    fieldLabel: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.textSoft,
+      marginTop: 14,
+      marginBottom: 6,
+    },
+    textArea: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      padding: 12,
+      fontSize: 14,
+      color: colors.text,
+      backgroundColor: colors.input,
+      textAlignVertical: "top",
+      minHeight: 70,
+    },
+    moodRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+    },
+    moodBtn: {
+      flexGrow: 1,
+      flexBasis: "18%",
+      alignItems: "center",
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 2,
+    },
+    moodBtnSelected: {
+      backgroundColor: colors.verseCard,
+      borderColor: colors.sage,
+    },
+    moodEmoji: { fontSize: 20 },
+    moodLabel: { fontSize: 10, fontWeight: "600", color: colors.textSoft, marginTop: 4 },
+  });
+}
