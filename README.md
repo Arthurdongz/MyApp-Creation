@@ -49,3 +49,7 @@ All journal entries, moods, stars, and streaks are stored only in your browser's
 - `data-wisdom.js` — 366 quotes/short stories on encouragement and hope
 - `content.js` — shared day-of-year indexing logic
 - `app.js` — app state, rewards logic, and rendering
+
+## Mobile app
+
+There's also a native iOS/Android version of this app, built with React Native and Expo, in [`mobile/`](./mobile) — same content banks, same features, same design. See `mobile/README.md` for how to run it.
