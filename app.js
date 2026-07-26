@@ -389,6 +389,22 @@ async function shareMoment(day) {
   }
 }
 
+async function reachOut() {
+  const message = "Hey, I wanted to reach out today — just thinking of you. How are you doing?";
+  const result = await shareText(message);
+  const msgEl = document.getElementById("reachOutMsg");
+  if (result === "copied") {
+    msgEl.textContent = "Copied! Paste it into a text or message to send it.";
+    msgEl.hidden = false;
+    setTimeout(() => { msgEl.hidden = true; }, 4000);
+  } else if (result === "failed") {
+    msgEl.textContent = `Couldn't copy automatically — here it is to copy by hand: "${message}"`;
+    msgEl.hidden = false;
+  } else {
+    msgEl.hidden = true;
+  }
+}
+
 function showShareMsg(elId, result) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -786,6 +802,7 @@ function setupShareButtons() {
   document.getElementById("momentShareBtn").addEventListener("click", () => {
     shareMoment(viewingDay);
   });
+  document.getElementById("reachOutBtn").addEventListener("click", reachOut);
 }
 
 function speak(text) {

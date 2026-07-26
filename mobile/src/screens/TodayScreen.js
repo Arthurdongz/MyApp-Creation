@@ -108,6 +108,15 @@ export default function TodayScreen({ store }) {
     }
   };
 
+  const reachOutToSomeone = async () => {
+    const message = "Hey, I wanted to reach out today — just thinking of you. How are you doing?";
+    try {
+      await Share.share({ message });
+    } catch (e) {
+      // user dismissed the share sheet — nothing to do
+    }
+  };
+
   return (
     <View>
       <View style={styles.dayNav}>
@@ -214,6 +223,17 @@ export default function TodayScreen({ store }) {
         {today.momentDone ? (
           <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
         ) : null}
+      </Card>
+
+      <Card style={styles.reachOutCard}>
+        <Text style={styles.cardLabel}>Reach Out</Text>
+        <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+          If today feels heavy, you don't have to carry it alone. Send a message to someone who cares about you —
+          even just to say hello.
+        </Text>
+        <TouchableOpacity style={styles.secondaryButton} onPress={reachOutToSomeone}>
+          <Text style={styles.secondaryButtonText}>💛 Reach Out to Someone</Text>
+        </TouchableOpacity>
       </Card>
 
       {/* Off-screen card captured to an image when sharing a verse/quote. */}
@@ -345,6 +365,7 @@ function getStyles(colors) {
     favoriteBtnActive: { color: colors.gold, borderColor: colors.gold },
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
+    reachOutCard: { backgroundColor: colors.reachOutCard },
     verseText: {
       fontSize: 18,
       lineHeight: 26,

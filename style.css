@@ -17,6 +17,8 @@
   --moment-grad-2: #fdf8ee;
   --story-grad-1: #f7ece0;
   --story-grad-2: #eef2e4;
+  --reachout-grad-1: #fbe4d8;
+  --reachout-grad-2: #f6ecdf;
   --input-bg: #fffefc;
   --tabs-bg: rgba(255, 255, 255, 0.5);
 }
@@ -40,6 +42,8 @@
   --moment-grad-2: #2e2c22;
   --story-grad-1: #2e271f;
   --story-grad-2: #262d22;
+  --reachout-grad-1: #33251f;
+  --reachout-grad-2: #2c2820;
   --input-bg: #1f241f;
   --tabs-bg: rgba(0, 0, 0, 0.2);
 }
@@ -363,6 +367,16 @@ body {
   font-size: 13px;
   color: var(--sage-dark);
   font-weight: 600;
+}
+
+.reach-out-card {
+  background: linear-gradient(135deg, var(--reachout-grad-1), var(--reachout-grad-2));
+}
+
+.reach-out-text {
+  font-size: 16px;
+  margin: 0 0 14px;
+  color: var(--text);
 }
 
 /* Buttons */
