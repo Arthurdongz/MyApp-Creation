@@ -58,10 +58,14 @@
       <article class="card verse-card">
         <div class="card-label-row">
           <p class="card-label">Verse</p>
-          <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          <div class="card-label-actions">
+            <button id="verseShareBtn" class="favorite-btn" type="button">↗ Share</button>
+            <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          </div>
         </div>
         <p class="verse-text" id="verseText"></p>
         <p class="verse-ref" id="verseRef"></p>
+        <p class="share-msg" id="verseShareMsg" hidden></p>
       </article>
 
       <article class="card">
@@ -72,18 +76,26 @@
       <article class="card">
         <div class="card-label-row">
           <p class="card-label" id="wisdomLabel">On Encouragement &amp; Hope</p>
-          <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          <div class="card-label-actions">
+            <button id="wisdomShareBtn" class="favorite-btn" type="button">↗ Share</button>
+            <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          </div>
         </div>
         <h3 class="wisdom-title" id="wisdomTitle" hidden></h3>
         <p class="wisdom-text" id="wisdomText"></p>
         <p class="wisdom-source" id="wisdomSource"></p>
+        <p class="share-msg" id="wisdomShareMsg" hidden></p>
       </article>
 
       <article class="card moment-card">
         <p class="card-label">Your Barnabas Moment</p>
         <p class="moment-text" id="momentText"></p>
-        <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
+        <div class="moment-actions">
+          <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
+          <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>
+        </div>
         <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
+        <p class="moment-share-msg" id="momentShareMsg" hidden></p>
       </article>
 
       <article class="card reflection-card">

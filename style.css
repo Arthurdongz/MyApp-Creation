@@ -246,6 +246,11 @@ body {
 
 .card-label-row .card-label { margin-bottom: 10px; }
 
+.card-label-actions {
+  display: flex;
+  gap: 6px;
+}
+
 .favorite-btn {
   border: 1px solid var(--border);
   background: var(--card);
@@ -307,6 +312,13 @@ body {
   text-align: right;
 }
 
+.share-msg {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+}
+
 .moment-card {
   background: linear-gradient(135deg, var(--moment-grad-1), var(--moment-grad-2));
 }
@@ -316,9 +328,22 @@ body {
   margin: 0 0 14px;
 }
 
+.moment-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .moment-done-msg {
   margin: 10px 0 0;
   font-size: 14px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+.moment-share-msg {
+  margin: 10px 0 0;
+  font-size: 13px;
   color: var(--sage-dark);
   font-weight: 600;
 }

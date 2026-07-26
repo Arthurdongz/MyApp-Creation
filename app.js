@@ -222,6 +222,166 @@ function importDataFromFile(file) {
   reader.readAsText(file);
 }
 
+// ---------- Sharing ----------
+
+function wrapCanvasText(ctx, text, maxWidth) {
+  const words = text.split(" ");
+  const lines = [];
+  let current = "";
+  for (const word of words) {
+    const test = current ? `${current} ${word}` : word;
+    if (ctx.measureText(test).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+function renderQuoteCardCanvas(mainText, sourceLine) {
+  const W = 1080;
+  const H = 1080;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+
+  const grad = ctx.createLinearGradient(0, 0, W, H);
+  grad.addColorStop(0, "#f7dca3");
+  grad.addColorStop(1, "#6f9578");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#3a3a34";
+  ctx.font = "56px Georgia, 'Iowan Old Style', serif";
+  const maxWidth = W - 180;
+  const lines = wrapCanvasText(ctx, `“${mainText}”`, maxWidth);
+  const lineHeight = 74;
+  const blockHeight = lines.length * lineHeight;
+  const startY = H / 2 - blockHeight / 2 + lineHeight / 2 - 20;
+  lines.forEach((line, i) => ctx.fillText(line, W / 2, startY + i * lineHeight));
+
+  if (sourceLine) {
+    ctx.font = "700 32px -apple-system, Helvetica, Arial, sans-serif";
+    ctx.fillStyle = "#3f5548";
+    ctx.fillText(sourceLine, W / 2, startY + blockHeight + 46);
+  }
+
+  ctx.font = "700 30px Georgia, 'Iowan Old Style', serif";
+  ctx.fillStyle = "rgba(58, 58, 52, 0.55)";
+  ctx.fillText("✦ Barnabas Journal", W / 2, H - 64);
+
+  return canvas;
+}
+
+function canvasToBlob(canvas) {
+  return new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+}
+
+async function shareOrDownloadImage(blob, filename, shareTitle, shareText) {
+  try {
+    const file = new File([blob], filename, { type: "image/png" });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: shareTitle, text: shareText });
+      return "shared";
+    }
+  } catch (e) {
+    if (e && e.name === "AbortError") return "cancelled";
+    // fall through to download
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  return "downloaded";
+}
+
+async function shareText(text) {
+  try {
+    if (navigator.share) {
+      await navigator.share({ text });
+      return "shared";
+    }
+  } catch (e) {
+    if (e && e.name === "AbortError") return "cancelled";
+    // fall through to clipboard
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    return "copied";
+  } catch (e) {
+    return "failed";
+  }
+}
+
+async function shareVerse(day) {
+  const verse = pickForDay(VERSES, day, state.order);
+  const canvas = renderQuoteCardCanvas(verse.text, verse.ref);
+  const blob = await canvasToBlob(canvas);
+  const result = await shareOrDownloadImage(
+    blob,
+    `barnabas-journal-verse-day${day}.png`,
+    "Barnabas Journal",
+    `${verse.text} — ${verse.ref}`
+  );
+  showShareMsg("verseShareMsg", result);
+  return result;
+}
+
+async function shareWisdom(day) {
+  const wisdom = pickForDay(WISDOM, day, state.order);
+  const mainText = wisdom.type === "story" ? wisdom.text : wisdom.text;
+  const sourceLine = wisdom.type === "story" ? wisdom.title || "" : `— ${wisdom.source || ""}`;
+  const canvas = renderQuoteCardCanvas(mainText, sourceLine);
+  const blob = await canvasToBlob(canvas);
+  const result = await shareOrDownloadImage(
+    blob,
+    `barnabas-journal-quote-day${day}.png`,
+    "Barnabas Journal",
+    mainText
+  );
+  showShareMsg("wisdomShareMsg", result);
+}
+
+async function shareMoment(day) {
+  const moment = pickForDay(BARNABAS_MOMENTS, day, state.order);
+  const message = `A little encouragement from me to you today: ${moment}\n\n— sent from Barnabas Journal`;
+  const result = await shareText(message);
+  const msgEl = document.getElementById("momentShareMsg");
+  if (result === "copied") {
+    msgEl.textContent = "Copied! Paste it into a text or message to send it.";
+    msgEl.hidden = false;
+    setTimeout(() => { msgEl.hidden = true; }, 4000);
+  } else if (result === "failed") {
+    msgEl.textContent = `Couldn't copy automatically — here it is to copy by hand: "${message}"`;
+    msgEl.hidden = false;
+  } else {
+    msgEl.hidden = true;
+  }
+}
+
+function showShareMsg(elId, result) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (result === "downloaded") {
+    el.textContent = "Image saved — share it from your downloads.";
+  } else if (result === "shared") {
+    el.textContent = "Shared. Thank you for passing it on!";
+  } else {
+    return;
+  }
+  el.hidden = false;
+  setTimeout(() => { el.hidden = true; }, 4000);
+}
+
 // ---------- Onboarding ----------
 
 function maybeShowOnboarding() {
@@ -525,6 +685,18 @@ function setupFavoriteButtons() {
   });
 }
 
+function setupShareButtons() {
+  document.getElementById("verseShareBtn").addEventListener("click", () => {
+    shareVerse(viewingDay);
+  });
+  document.getElementById("wisdomShareBtn").addEventListener("click", () => {
+    shareWisdom(viewingDay);
+  });
+  document.getElementById("momentShareBtn").addEventListener("click", () => {
+    shareMoment(viewingDay);
+  });
+}
+
 function setupThemeToggle() {
   document.getElementById("themeToggle").addEventListener("click", toggleTheme);
   if (window.matchMedia) {
@@ -558,6 +730,7 @@ function init() {
   setupMomentButton();
   setupSaveReflection();
   setupFavoriteButtons();
+  setupShareButtons();
   setupThemeToggle();
   setupBackup();
   setupOnboarding();
