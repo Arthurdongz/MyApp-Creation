@@ -1,6 +1,24 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../theme";
 
+// f.type is "verse", "wisdom" (quotes), or "truestory". Older favorites saved
+// before the content split could be a "wisdom" entry with a title (from when
+// WISDOM mixed in short fictional vignettes) — keep labeling those as
+// "Story" so previously-saved favorites don't look wrong.
+function favoriteKindLabel(f) {
+  if (f.type === "verse") return "Verse";
+  if (f.type === "truestory") return "True Story";
+  if (f.type === "wisdom" && f.title) return "Story";
+  return "Quote";
+}
+
+function favoriteSourceLine(f) {
+  if (f.type === "verse") return f.ref;
+  if (f.type === "truestory") return f.title;
+  if (f.type === "wisdom" && f.title) return f.title;
+  return `— ${f.source || ""}`;
+}
+
 export default function FavoritesScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
@@ -17,8 +35,8 @@ export default function FavoritesScreen({ store }) {
         </Text>
       ) : (
         favorites.map((f) => {
-          const kindLabel = f.type === "verse" ? "Verse" : f.title ? "Story" : "Quote";
-          const sourceLine = f.type === "verse" ? f.ref : f.title ? f.title : `— ${f.source || ""}`;
+          const kindLabel = favoriteKindLabel(f);
+          const sourceLine = favoriteSourceLine(f);
           return (
             <View key={f.id} style={styles.entryCard}>
               <View style={styles.entryHeader}>

@@ -4,6 +4,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import TodayScreen from "./src/screens/TodayScreen";
+import StoryScreen from "./src/screens/StoryScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
 import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
@@ -11,6 +12,7 @@ import OnboardingScreen from "./src/screens/OnboardingScreen";
 
 const TABS = [
   { key: "today", label: "Today" },
+  { key: "story", label: "Story" },
   { key: "history", label: "Journal" },
   { key: "favorites", label: "Favorites" },
   { key: "rewards", label: "Rewards" },
@@ -93,6 +95,7 @@ function AppContent({ store }) {
             </View>
 
             {tab === "today" && <TodayScreen store={store} />}
+            {tab === "story" && <StoryScreen store={store} />}
             {tab === "history" && <HistoryScreen store={store} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}

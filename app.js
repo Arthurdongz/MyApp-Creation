@@ -8,6 +8,13 @@
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
+// The "Encouraging Thought" card is quotes-only now (true stories moved to
+// their own Story tab, backed by data-stories.js). WISDOM itself still holds
+// legacy "story"-type entries alongside quotes; filter down to just quotes.
+const QUOTES = WISDOM.filter((w) => w.type === "quote");
+
+const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
+
 const BADGE_DEFS = [
   { id: "seed", icon: "🌱", name: "Seed of Encouragement", desc: "Earn 10 stars", type: "stars", threshold: 10 },
   { id: "growing", icon: "🌿", name: "Growing in Grace", desc: "Earn 50 stars", type: "stars", threshold: 50 },
@@ -211,8 +218,11 @@ function importDataFromFile(file) {
       saveState(state);
       applyTheme();
       renderToday();
+      renderStory();
       renderHistory();
+      renderOnThisDay();
       renderRewards();
+      renderMoodCalendar();
       renderFavorites();
       showBackupMsg("Backup restored. Welcome back!");
     } catch (e) {
@@ -337,18 +347,29 @@ async function shareVerse(day) {
 }
 
 async function shareWisdom(day) {
-  const wisdom = pickForDay(WISDOM, day, state.order);
-  const mainText = wisdom.type === "story" ? wisdom.text : wisdom.text;
-  const sourceLine = wisdom.type === "story" ? wisdom.title || "" : `— ${wisdom.source || ""}`;
-  const canvas = renderQuoteCardCanvas(mainText, sourceLine);
+  const quote = pickForDaySmallBank(QUOTES, day, state.order);
+  const canvas = renderQuoteCardCanvas(quote.text, `— ${quote.source || ""}`);
   const blob = await canvasToBlob(canvas);
   const result = await shareOrDownloadImage(
     blob,
     `barnabas-journal-quote-day${day}.png`,
     "Barnabas Journal",
-    mainText
+    quote.text
   );
   showShareMsg("wisdomShareMsg", result);
+}
+
+async function shareStory(day) {
+  const story = pickForDaySmallBank(STORIES, day, state.order);
+  const canvas = renderQuoteCardCanvas(story.text, story.title);
+  const blob = await canvasToBlob(canvas);
+  const result = await shareOrDownloadImage(
+    blob,
+    `barnabas-journal-story-day${day}.png`,
+    "Barnabas Journal",
+    `${story.title} — ${story.text}`
+  );
+  showShareMsg("storyShareMsg", result);
 }
 
 async function shareMoment(day) {
@@ -408,20 +429,9 @@ function renderToday() {
 
   document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
 
-  const wisdom = pickForDay(WISDOM, day, state.order);
-  const titleEl = document.getElementById("wisdomTitle");
-  const textEl = document.getElementById("wisdomText");
-  const sourceEl = document.getElementById("wisdomSource");
-  if (wisdom.type === "story") {
-    titleEl.hidden = false;
-    titleEl.textContent = wisdom.title;
-    textEl.textContent = wisdom.text;
-    sourceEl.textContent = "";
-  } else {
-    titleEl.hidden = true;
-    textEl.textContent = `“${wisdom.text}”`;
-    sourceEl.textContent = `— ${wisdom.source}`;
-  }
+  const quote = pickForDaySmallBank(QUOTES, day, state.order);
+  document.getElementById("wisdomText").textContent = `“${quote.text}”`;
+  document.getElementById("wisdomSource").textContent = `— ${quote.source}`;
   updateFavoriteBtn("wisdomFavoriteBtn", "wisdom", day);
 
   document.getElementById("momentText").textContent = pickForDay(BARNABAS_MOMENTS, day, state.order);
@@ -450,6 +460,14 @@ function renderToday() {
 
   renderDayNav();
   renderHeaderStats();
+}
+
+function renderStory() {
+  const day = viewingDay;
+  const story = pickForDaySmallBank(STORIES, day, state.order);
+  document.getElementById("storyTitle").textContent = story.title;
+  document.getElementById("storyText").textContent = story.text;
+  updateFavoriteBtn("storyFavoriteBtn", "truestory", day);
 }
 
 function updateFavoriteBtn(btnId, type, day) {
@@ -524,6 +542,24 @@ function renderHistory() {
     .join("");
 }
 
+// f.type is "verse", "wisdom" (quotes), or "truestory". Older favorites saved
+// before the content split could be a "wisdom" entry with a title (from when
+// WISDOM mixed in short fictional vignettes) — keep labeling those as
+// "Story" so previously-saved favorites don't look wrong.
+function favoriteKindLabel(f) {
+  if (f.type === "verse") return "Verse";
+  if (f.type === "truestory") return "True Story";
+  if (f.type === "wisdom" && f.title) return "Story";
+  return "Quote";
+}
+
+function favoriteSourceLine(f) {
+  if (f.type === "verse") return f.ref;
+  if (f.type === "truestory") return f.title;
+  if (f.type === "wisdom" && f.title) return f.title;
+  return `— ${f.source || ""}`;
+}
+
 function renderFavorites() {
   const list = document.getElementById("favoritesList");
   const empty = document.getElementById("favoritesEmpty");
@@ -538,8 +574,8 @@ function renderFavorites() {
 
   list.innerHTML = favorites
     .map((f) => {
-      const kindLabel = f.type === "verse" ? "Verse" : f.title ? "Story" : "Quote";
-      const sourceLine = f.type === "verse" ? f.ref : f.title ? f.title : `— ${f.source || ""}`;
+      const kindLabel = favoriteKindLabel(f);
+      const sourceLine = favoriteSourceLine(f);
       return `<div class="favorite-entry">
         <div class="favorite-header">
           <span class="favorite-kind">${kindLabel} · Day ${f.dayNumber}</span>
@@ -582,6 +618,53 @@ function renderRewards() {
     .join("");
 }
 
+function renderOnThisDay() {
+  const card = document.getElementById("onThisDayCard");
+  const textEl = document.getElementById("onThisDayText");
+  const latest = unlockedDay();
+  const offsets = [
+    { days: 365, label: "a year ago" },
+    { days: 90, label: "three months ago" },
+    { days: 30, label: "a month ago" },
+    { days: 7, label: "a week ago" },
+  ];
+  for (const { days, label } of offsets) {
+    const dayNumber = latest - days;
+    if (dayNumber < 1) continue;
+    const entry = state.entries[`day-${dayNumber}`];
+    const snippet = entry && (entry.reflection || entry.barnabasNote);
+    if (snippet) {
+      const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
+      textEl.textContent = `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
+      card.hidden = false;
+      return;
+    }
+  }
+  card.hidden = true;
+}
+
+function renderMoodCalendar() {
+  const grid = document.getElementById("moodCalendar");
+  const legend = document.getElementById("moodLegend");
+  const latest = unlockedDay();
+  const start = Math.max(1, latest - 34);
+
+  let html = "";
+  for (let day = start; day <= latest; day++) {
+    const entry = state.entries[`day-${day}`];
+    const mood = entry && entry.mood;
+    const emoji = mood ? MOOD_EMOJI[mood] : "";
+    const dateLabel = entry ? formatDate(entry.dateLogged) : `Day ${day}`;
+    const cls = `mood-cell${mood ? ` mood-${mood}` : " mood-empty"}`;
+    html += `<div class="${cls}" title="${escapeHtml(dateLabel)}">${emoji}</div>`;
+  }
+  grid.innerHTML = html;
+
+  legend.innerHTML = Object.entries(MOOD_EMOJI)
+    .map(([mood, emoji]) => `<span class="mood-legend-item">${emoji} ${mood.charAt(0).toUpperCase()}${mood.slice(1)}</span>`)
+    .join("");
+}
+
 function formatDate(key) {
   const [y, m, d] = key.split("-").map(Number);
   const date = new Date(y, m - 1, d);
@@ -603,8 +686,9 @@ function setupTabs() {
       document.querySelectorAll(".tab-panel").forEach((p) => p.classList.remove("active"));
       btn.classList.add("active");
       document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
-      if (btn.dataset.tab === "history") renderHistory();
-      if (btn.dataset.tab === "rewards") renderRewards();
+      if (btn.dataset.tab === "story") renderStory();
+      if (btn.dataset.tab === "history") { renderHistory(); renderOnThisDay(); }
+      if (btn.dataset.tab === "rewards") { renderRewards(); renderMoodCalendar(); }
       if (btn.dataset.tab === "favorites") renderFavorites();
     });
   });
@@ -615,17 +699,20 @@ function setupDayNav() {
     if (viewingDay > 1) {
       viewingDay -= 1;
       renderToday();
+      renderStory();
     }
   });
   document.getElementById("dayNavNext").addEventListener("click", () => {
     if (viewingDay < unlockedDay()) {
       viewingDay += 1;
       renderToday();
+      renderStory();
     }
   });
   document.getElementById("dayNavJump").addEventListener("click", () => {
     viewingDay = unlockedDay();
     renderToday();
+    renderStory();
   });
 }
 
@@ -675,13 +762,14 @@ function setupFavoriteButtons() {
     updateFavoriteBtn("verseFavoriteBtn", "verse", viewingDay);
   });
   document.getElementById("wisdomFavoriteBtn").addEventListener("click", () => {
-    const wisdom = pickForDay(WISDOM, viewingDay, state.order);
-    toggleFavorite("wisdom", viewingDay, {
-      text: wisdom.text,
-      source: wisdom.source || "",
-      title: wisdom.title || null,
-    });
+    const quote = pickForDaySmallBank(QUOTES, viewingDay, state.order);
+    toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" });
     updateFavoriteBtn("wisdomFavoriteBtn", "wisdom", viewingDay);
+  });
+  document.getElementById("storyFavoriteBtn").addEventListener("click", () => {
+    const story = pickForDaySmallBank(STORIES, viewingDay, state.order);
+    toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
+    updateFavoriteBtn("storyFavoriteBtn", "truestory", viewingDay);
   });
 }
 
@@ -692,8 +780,41 @@ function setupShareButtons() {
   document.getElementById("wisdomShareBtn").addEventListener("click", () => {
     shareWisdom(viewingDay);
   });
+  document.getElementById("storyShareBtn").addEventListener("click", () => {
+    shareStory(viewingDay);
+  });
   document.getElementById("momentShareBtn").addEventListener("click", () => {
     shareMoment(viewingDay);
+  });
+}
+
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 0.95;
+  window.speechSynthesis.speak(utterance);
+}
+
+function setupListenButtons() {
+  const ids = ["verseListenBtn", "encouragementListenBtn", "storyListenBtn"];
+  if (!window.speechSynthesis) {
+    ids.forEach((id) => {
+      const btn = document.getElementById(id);
+      if (btn) btn.hidden = true;
+    });
+    return;
+  }
+  document.getElementById("verseListenBtn").addEventListener("click", () => {
+    const verse = pickForDay(VERSES, viewingDay, state.order);
+    speak(`${verse.text} — ${verse.ref}`);
+  });
+  document.getElementById("encouragementListenBtn").addEventListener("click", () => {
+    speak(pickForDay(ENCOURAGEMENTS, viewingDay, state.order));
+  });
+  document.getElementById("storyListenBtn").addEventListener("click", () => {
+    const story = pickForDaySmallBank(STORIES, viewingDay, state.order);
+    speak(`${story.title}. ${story.text}`);
   });
 }
 
@@ -731,10 +852,12 @@ function init() {
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();
+  setupListenButtons();
   setupThemeToggle();
   setupBackup();
   setupOnboarding();
   renderToday();
+  renderStory();
   maybeShowOnboarding();
 }
 

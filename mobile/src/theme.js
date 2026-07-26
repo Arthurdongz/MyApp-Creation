@@ -12,6 +12,7 @@ export const lightColors = {
   border: "#e7e1d3",
   verseCard: "#eef4ea",
   momentCard: "#eaf1f5",
+  storyCard: "#f7ece0",
   input: "#fffefc",
 };
 
@@ -27,6 +28,7 @@ export const darkColors = {
   border: "#3a4139",
   verseCard: "#24312a",
   momentCard: "#212d33",
+  storyCard: "#2e271f",
   input: "#1f241f",
 };
 
