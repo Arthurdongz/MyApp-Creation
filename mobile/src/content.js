@@ -51,3 +51,12 @@ export function pickForDay(arr, dayNumber, order) {
   const idx = order[(dayNumber - 1) % order.length];
   return arr[idx];
 }
+
+// For banks smaller than the full 366 (like the true-stories bank, which
+// grows over time), still route through the user's per-user shuffle order
+// so the sequence doesn't feel like a flat repeating loop, but wrap it down
+// to the bank's actual size.
+export function pickForDaySmallBank(arr, dayNumber, order) {
+  const idx = order[(dayNumber - 1) % order.length] % arr.length;
+  return arr[idx];
+}

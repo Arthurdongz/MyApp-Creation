@@ -5,6 +5,14 @@ import { BADGE_DEFS } from "../storage";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { scheduleDailyReminder, cancelDailyReminder, notificationsSupported } from "../notifications";
 
+const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
+
+function formatDate(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+}
+
 const REMINDER_PRESETS = [
   { label: "Morning · 8:00", hour: 8, minute: 0 },
   { label: "Midday · 13:00", hour: 13, minute: 0 },
@@ -100,6 +108,10 @@ export default function RewardsScreen({ store }) {
         })}
       </View>
 
+      <Text style={styles.sectionTitle}>Mood Calendar</Text>
+      <Text style={styles.subtitle}>How you've been feeling, day by day.</Text>
+      <MoodCalendar store={store} styles={styles} />
+
       {notificationsSupported ? (
         <>
           <Text style={styles.sectionTitle}>Daily Reminder</Text>
@@ -144,6 +156,44 @@ export default function RewardsScreen({ store }) {
         </TouchableOpacity>
       </View>
       {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
+    </View>
+  );
+}
+
+function MoodCalendar({ store, styles }) {
+  const entries = store.state.entries;
+  const latest = store.latestDay;
+  const start = Math.max(1, latest - 34);
+  const days = [];
+  for (let day = start; day <= latest; day++) {
+    days.push(day);
+  }
+
+  return (
+    <View style={{ marginBottom: 8 }}>
+      <View style={styles.moodGrid}>
+        {days.map((day) => {
+          const entry = entries[`day-${day}`];
+          const mood = entry && entry.mood;
+          const dateLabel = entry ? formatDate(entry.dateLogged) : `Day ${day}`;
+          return (
+            <View
+              key={day}
+              style={[styles.moodCell, !mood && styles.moodCellEmpty]}
+              accessibilityLabel={dateLabel}
+            >
+              <Text style={styles.moodCellEmoji}>{mood ? MOOD_EMOJI[mood] : ""}</Text>
+            </View>
+          );
+        })}
+      </View>
+      <View style={styles.moodLegendRow}>
+        {Object.entries(MOOD_EMOJI).map(([mood, emoji]) => (
+          <Text key={mood} style={styles.moodLegendItem}>
+            {emoji} {mood.charAt(0).toUpperCase() + mood.slice(1)}
+          </Text>
+        ))}
+      </View>
     </View>
   );
 }
@@ -225,6 +275,26 @@ function getStyles(colors, shadow) {
     presetBtnActive: { backgroundColor: colors.sage, borderColor: colors.sage },
     presetText: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
     presetTextActive: { color: "#fff" },
+    moodGrid: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 6,
+      marginBottom: 12,
+    },
+    moodCell: {
+      width: "12%",
+      aspectRatio: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 8,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    moodCellEmpty: { backgroundColor: "transparent", borderStyle: "dashed", opacity: 0.5 },
+    moodCellEmoji: { fontSize: 14 },
+    moodLegendRow: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginBottom: 24 },
+    moodLegendItem: { fontSize: 12, color: colors.textSoft },
     backupRow: { flexDirection: "row", gap: 10, flexWrap: "wrap" },
     secondaryBtn: {
       borderWidth: 1,

@@ -2,14 +2,25 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
+import * as Speech from "expo-speech";
 import Card from "../components/Card";
 import ShareQuoteCard from "../components/ShareQuoteCard";
 import { useTheme } from "../theme";
-import { pickForDay } from "../content";
+import { pickForDay, pickForDaySmallBank } from "../content";
 import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
+
+// The "Encouraging Thought" card is quotes-only now (true stories moved to
+// their own Story tab, backed by data/stories.js). WISDOM still holds
+// legacy "story"-type entries alongside quotes; filter down to just quotes.
+const QUOTES = WISDOM.filter((w) => w.type === "quote");
+
+function speak(text) {
+  Speech.stop();
+  Speech.speak(text, { rate: 0.95 });
+}
 
 const MOODS = [
   { key: "joyful", emoji: "😊", label: "Joyful" },
@@ -41,7 +52,7 @@ export default function TodayScreen({ store }) {
 
   const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
-  const wisdom = useMemo(() => pickForDay(WISDOM, viewingDay, order), [viewingDay, order]);
+  const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
   const moment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
 
   const [reflection, setReflection] = useState(today.reflection || "");
@@ -64,7 +75,7 @@ export default function TodayScreen({ store }) {
   };
 
   const verseSaved = isFavorited("verse", viewingDay);
-  const wisdomSaved = isFavorited("wisdom", viewingDay);
+  const quoteSaved = isFavorited("wisdom", viewingDay);
 
   const shareCardRef = useRef(null);
   const [shareCardContent, setShareCardContent] = useState(null);
@@ -128,6 +139,9 @@ export default function TodayScreen({ store }) {
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>Verse</Text>
           <View style={styles.cardLabelActions}>
+            <TouchableOpacity onPress={() => speak(`${verse.text} — ${verse.ref}`)}>
+              <Text style={styles.favoriteBtn}>🔊 Listen</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => captureAndShareImage(verse.text, verse.ref, "verse")}
             >
@@ -148,45 +162,35 @@ export default function TodayScreen({ store }) {
       </Card>
 
       <Card>
-        <Text style={styles.cardLabel}>A Word for You</Text>
+        <View style={styles.cardLabelRow}>
+          <Text style={styles.cardLabel}>A Word for You</Text>
+          <TouchableOpacity onPress={() => speak(encouragement)}>
+            <Text style={styles.favoriteBtn}>🔊 Listen</Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.bodyText}>{encouragement}</Text>
       </Card>
 
       <Card>
         <View style={styles.cardLabelRow}>
-          <Text style={styles.cardLabel}>On Encouragement &amp; Hope</Text>
+          <Text style={styles.cardLabel}>Encouraging Thought</Text>
           <View style={styles.cardLabelActions}>
             <TouchableOpacity
-              onPress={() => {
-                const sourceLine = wisdom.type === "story" ? wisdom.title || "" : `— ${wisdom.source || ""}`;
-                captureAndShareImage(wisdom.text, sourceLine, "wisdom");
-              }}
+              onPress={() => captureAndShareImage(quote.text, `— ${quote.source || ""}`, "wisdom")}
             >
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                toggleFavorite("wisdom", viewingDay, {
-                  text: wisdom.text,
-                  source: wisdom.source || "",
-                  title: wisdom.title || null,
-                })
-              }
+              onPress={() => toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" })}
             >
-              <Text style={[styles.favoriteBtn, wisdomSaved && styles.favoriteBtnActive]}>
-                {wisdomSaved ? "★ Saved" : "☆ Save"}
+              <Text style={[styles.favoriteBtn, quoteSaved && styles.favoriteBtnActive]}>
+                {quoteSaved ? "★ Saved" : "☆ Save"}
               </Text>
             </TouchableOpacity>
           </View>
         </View>
-        {wisdom.type === "story" ? (
-          <Text style={styles.bodyText}>{wisdom.text}</Text>
-        ) : (
-          <>
-            <Text style={styles.bodyText}>“{wisdom.text}”</Text>
-            <Text style={styles.wisdomSource}>— {wisdom.source}</Text>
-          </>
-        )}
+        <Text style={styles.bodyText}>“{quote.text}”</Text>
+        <Text style={styles.wisdomSource}>— {quote.source}</Text>
         {shareMsg.wisdom ? <Text style={styles.shareMsg}>{shareMsg.wisdom}</Text> : null}
       </Card>
 

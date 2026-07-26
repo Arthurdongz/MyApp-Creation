@@ -9,6 +9,26 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
+function onThisDaySnippet(entries, latestDay) {
+  const offsets = [
+    { days: 365, label: "a year ago" },
+    { days: 90, label: "three months ago" },
+    { days: 30, label: "a month ago" },
+    { days: 7, label: "a week ago" },
+  ];
+  for (const { days, label } of offsets) {
+    const dayNumber = latestDay - days;
+    if (dayNumber < 1) continue;
+    const entry = entries[`day-${dayNumber}`];
+    const snippet = entry && (entry.reflection || entry.barnabasNote);
+    if (snippet) {
+      const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
+      return `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
+    }
+  }
+  return null;
+}
+
 export default function HistoryScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
@@ -20,10 +40,19 @@ export default function HistoryScreen({ store }) {
     })
     .sort((a, b) => entries[b].dayNumber - entries[a].dayNumber);
 
+  const onThisDay = onThisDaySnippet(entries, store.latestDay);
+
   return (
     <View>
       <Text style={styles.title}>My Journal</Text>
       <Text style={styles.subtitle}>Every entry you've written, kept in one quiet place.</Text>
+
+      {onThisDay ? (
+        <View style={styles.onThisDayCard}>
+          <Text style={styles.onThisDayLabel}>On This Day</Text>
+          <Text style={styles.onThisDayText}>{onThisDay}</Text>
+        </View>
+      ) : null}
 
       {keys.length === 0 ? (
         <Text style={styles.empty}>
@@ -69,6 +98,24 @@ function getStyles(colors, shadow) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
+    onThisDayCard: {
+      backgroundColor: colors.momentCard,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 20,
+      ...shadow,
+    },
+    onThisDayLabel: {
+      textTransform: "uppercase",
+      letterSpacing: 0.8,
+      fontSize: 11,
+      fontWeight: "700",
+      color: colors.sageDark,
+      marginBottom: 8,
+    },
+    onThisDayText: { fontSize: 14, lineHeight: 20, color: colors.text },
     entryCard: {
       backgroundColor: colors.card,
       borderWidth: 1,
