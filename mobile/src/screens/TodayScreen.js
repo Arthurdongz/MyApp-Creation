@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { captureRef } from "react-native-view-shot";
+import * as Sharing from "expo-sharing";
 import Card from "../components/Card";
+import ShareQuoteCard from "../components/ShareQuoteCard";
 import { useTheme } from "../theme";
 import { pickForDay } from "../content";
 import { VERSES } from "../data/verses";
@@ -63,6 +66,37 @@ export default function TodayScreen({ store }) {
   const verseSaved = isFavorited("verse", viewingDay);
   const wisdomSaved = isFavorited("wisdom", viewingDay);
 
+  const shareCardRef = useRef(null);
+  const [shareCardContent, setShareCardContent] = useState(null);
+  const [shareMsg, setShareMsg] = useState({ verse: "", wisdom: "" });
+
+  const captureAndShareImage = async (text, sourceLine, key) => {
+    setShareCardContent({ text, sourceLine });
+    // Give React a couple of frames to actually paint the updated card
+    // before capturing it.
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    try {
+      const uri = await captureRef(shareCardRef, { format: "png", quality: 1 });
+      const canShare = await Sharing.isAvailableAsync();
+      if (canShare) {
+        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: "Share from Barnabas Journal" });
+      }
+      setShareMsg((prev) => ({ ...prev, [key]: "Shared. Thank you for passing it on!" }));
+    } catch (e) {
+      setShareMsg((prev) => ({ ...prev, [key]: "Couldn't create the share image right now." }));
+    }
+    setTimeout(() => setShareMsg((prev) => ({ ...prev, [key]: "" })), 4000);
+  };
+
+  const shareMomentText = async () => {
+    const message = `A little encouragement from me to you today: ${moment}\n\n— sent from Barnabas Journal`;
+    try {
+      await Share.share({ message });
+    } catch (e) {
+      // user dismissed the share sheet — nothing to do
+    }
+  };
+
   return (
     <View>
       <View style={styles.dayNav}>
@@ -93,16 +127,24 @@ export default function TodayScreen({ store }) {
       <Card style={styles.verseCard}>
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>Verse</Text>
-          <TouchableOpacity
-            onPress={() => toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref })}
-          >
-            <Text style={[styles.favoriteBtn, verseSaved && styles.favoriteBtnActive]}>
-              {verseSaved ? "★ Saved" : "☆ Save"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.cardLabelActions}>
+            <TouchableOpacity
+              onPress={() => captureAndShareImage(verse.text, verse.ref, "verse")}
+            >
+              <Text style={styles.favoriteBtn}>↗ Share</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref })}
+            >
+              <Text style={[styles.favoriteBtn, verseSaved && styles.favoriteBtnActive]}>
+                {verseSaved ? "★ Saved" : "☆ Save"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <Text style={styles.verseText}>“{verse.text}”</Text>
         <Text style={styles.verseRef}>{verse.ref}</Text>
+        {shareMsg.verse ? <Text style={styles.shareMsg}>{shareMsg.verse}</Text> : null}
       </Card>
 
       <Card>
@@ -113,19 +155,29 @@ export default function TodayScreen({ store }) {
       <Card>
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>On Encouragement &amp; Hope</Text>
-          <TouchableOpacity
-            onPress={() =>
-              toggleFavorite("wisdom", viewingDay, {
-                text: wisdom.text,
-                source: wisdom.source || "",
-                title: wisdom.title || null,
-              })
-            }
-          >
-            <Text style={[styles.favoriteBtn, wisdomSaved && styles.favoriteBtnActive]}>
-              {wisdomSaved ? "★ Saved" : "☆ Save"}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.cardLabelActions}>
+            <TouchableOpacity
+              onPress={() => {
+                const sourceLine = wisdom.type === "story" ? wisdom.title || "" : `— ${wisdom.source || ""}`;
+                captureAndShareImage(wisdom.text, sourceLine, "wisdom");
+              }}
+            >
+              <Text style={styles.favoriteBtn}>↗ Share</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                toggleFavorite("wisdom", viewingDay, {
+                  text: wisdom.text,
+                  source: wisdom.source || "",
+                  title: wisdom.title || null,
+                })
+              }
+            >
+              <Text style={[styles.favoriteBtn, wisdomSaved && styles.favoriteBtnActive]}>
+                {wisdomSaved ? "★ Saved" : "☆ Save"}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         {wisdom.type === "story" ? (
           <Text style={styles.bodyText}>{wisdom.text}</Text>
@@ -135,24 +187,39 @@ export default function TodayScreen({ store }) {
             <Text style={styles.wisdomSource}>— {wisdom.source}</Text>
           </>
         )}
+        {shareMsg.wisdom ? <Text style={styles.shareMsg}>{shareMsg.wisdom}</Text> : null}
       </Card>
 
       <Card style={styles.momentCard}>
         <Text style={styles.cardLabel}>Your Barnabas Moment</Text>
         <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
-        <TouchableOpacity
-          style={[styles.button, today.momentDone && styles.buttonDisabled]}
-          onPress={markMomentDone}
-          disabled={today.momentDone}
-        >
-          <Text style={styles.buttonText}>
-            {today.momentDone ? "Done ✓" : isToday ? "I did this today ✓" : "I did this ✓"}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.momentActions}>
+          <TouchableOpacity
+            style={[styles.button, today.momentDone && styles.buttonDisabled]}
+            onPress={markMomentDone}
+            disabled={today.momentDone}
+          >
+            <Text style={styles.buttonText}>
+              {today.momentDone ? "Done ✓" : isToday ? "I did this today ✓" : "I did this ✓"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondaryButton} onPress={shareMomentText}>
+            <Text style={styles.secondaryButtonText}>Send to someone</Text>
+          </TouchableOpacity>
+        </View>
         {today.momentDone ? (
           <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
         ) : null}
       </Card>
+
+      {/* Off-screen card captured to an image when sharing a verse/quote. */}
+      <View style={styles.hiddenCapture} pointerEvents="none">
+        <ShareQuoteCard
+          ref={shareCardRef}
+          text={shareCardContent?.text || ""}
+          sourceLine={shareCardContent?.sourceLine || ""}
+        />
+      </View>
 
       <Card>
         <Text style={styles.cardLabel}>{isToday ? "Today's Reflection" : `Day ${viewingDay}'s Reflection`}</Text>
@@ -241,6 +308,16 @@ function getStyles(colors) {
       alignItems: "center",
       justifyContent: "space-between",
     },
+    cardLabelActions: {
+      flexDirection: "row",
+      gap: 6,
+    },
+    shareMsg: {
+      marginTop: 8,
+      fontSize: 12,
+      fontWeight: "600",
+      color: colors.sageDark,
+    },
     cardLabel: {
       textTransform: "uppercase",
       letterSpacing: 0.8,
@@ -295,6 +372,26 @@ function getStyles(colors) {
     },
     buttonDisabled: { opacity: 0.55 },
     buttonText: { color: "#fff", fontWeight: "700", fontSize: 14 },
+    momentActions: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 10,
+    },
+    secondaryButton: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    secondaryButtonText: { color: colors.sageDark, fontWeight: "700", fontSize: 13 },
+    hiddenCapture: {
+      position: "absolute",
+      top: -10000,
+      left: 0,
+    },
     doneMsg: {
       marginTop: 10,
       fontSize: 14,
