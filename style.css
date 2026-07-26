@@ -15,6 +15,8 @@
   --verse-grad-2: #f7f3e6;
   --moment-grad-1: #eaf1f5;
   --moment-grad-2: #fdf8ee;
+  --story-grad-1: #f7ece0;
+  --story-grad-2: #eef2e4;
   --input-bg: #fffefc;
   --tabs-bg: rgba(255, 255, 255, 0.5);
 }
@@ -36,6 +38,8 @@
   --verse-grad-2: #2b2c22;
   --moment-grad-1: #212d33;
   --moment-grad-2: #2e2c22;
+  --story-grad-1: #2e271f;
+  --story-grad-2: #262d22;
   --input-bg: #1f241f;
   --tabs-bg: rgba(0, 0, 0, 0.2);
 }
@@ -294,12 +298,6 @@ body {
   color: var(--text);
 }
 
-.wisdom-title {
-  margin: 0 0 6px;
-  font-size: 15px;
-  color: var(--sage-dark);
-}
-
 .wisdom-text {
   margin: 0 0 8px;
   font-size: 15px;
@@ -321,6 +319,25 @@ body {
 
 .moment-card {
   background: linear-gradient(135deg, var(--moment-grad-1), var(--moment-grad-2));
+}
+
+/* Story of the Day */
+.story-card {
+  background: linear-gradient(135deg, var(--story-grad-1), var(--story-grad-2));
+}
+
+.story-title {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-size: 19px;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.story-text {
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--text);
 }
 
 .moment-text {
@@ -459,6 +476,18 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   margin: 0 0 18px;
 }
 
+.on-this-day-card {
+  background: linear-gradient(135deg, var(--moment-grad-1), var(--story-grad-1));
+  margin-bottom: 20px;
+}
+
+.on-this-day-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
 .history-list {
   display: flex;
   flex-direction: column;
@@ -561,6 +590,44 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 .badge-icon { font-size: 24px; display: block; margin-bottom: 6px; }
 .badge-name { font-size: 13px; font-weight: 700; color: var(--sage-dark); }
 .badge-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
+
+/* Mood Calendar */
+.mood-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.mood-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.mood-cell.mood-empty {
+  background: transparent;
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.mood-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.mood-legend-item {
+  font-size: 12px;
+  color: var(--text-soft);
+  white-space: nowrap;
+}
 
 /* Backup */
 .backup-actions {

@@ -36,6 +36,7 @@
 
   <nav class="tabs" role="tablist">
     <button class="tab-btn active" data-tab="today">Today</button>
+    <button class="tab-btn" data-tab="story">Story</button>
     <button class="tab-btn" data-tab="history">Journal</button>
     <button class="tab-btn" data-tab="favorites">Favorites</button>
     <button class="tab-btn" data-tab="rewards">Rewards</button>
@@ -59,6 +60,7 @@
         <div class="card-label-row">
           <p class="card-label">Verse</p>
           <div class="card-label-actions">
+            <button id="verseListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
             <button id="verseShareBtn" class="favorite-btn" type="button">↗ Share</button>
             <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
           </div>
@@ -69,19 +71,21 @@
       </article>
 
       <article class="card">
-        <p class="card-label">A Word for You</p>
+        <div class="card-label-row">
+          <p class="card-label">A Word for You</p>
+          <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+        </div>
         <p class="encouragement-text" id="encouragementText"></p>
       </article>
 
       <article class="card">
         <div class="card-label-row">
-          <p class="card-label" id="wisdomLabel">On Encouragement &amp; Hope</p>
+          <p class="card-label">Encouraging Thought</p>
           <div class="card-label-actions">
             <button id="wisdomShareBtn" class="favorite-btn" type="button">↗ Share</button>
             <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
           </div>
         </div>
-        <h3 class="wisdom-title" id="wisdomTitle" hidden></h3>
         <p class="wisdom-text" id="wisdomText"></p>
         <p class="wisdom-source" id="wisdomSource"></p>
         <p class="share-msg" id="wisdomShareMsg" hidden></p>
@@ -122,10 +126,35 @@
 
     </section>
 
+    <!-- STORY -->
+    <section id="tab-story" class="tab-panel">
+      <h2 class="section-title">Story of the Day</h2>
+      <p class="section-sub">A true story of someone showing the good side of humanity — the Barnabas effect, at work in real life.</p>
+      <article class="card story-card">
+        <div class="card-label-row">
+          <p class="card-label">True Story</p>
+          <div class="card-label-actions">
+            <button id="storyListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+            <button id="storyShareBtn" class="favorite-btn" type="button">↗ Share</button>
+            <button id="storyFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          </div>
+        </div>
+        <h3 class="story-title" id="storyTitle"></h3>
+        <p class="story-text" id="storyText"></p>
+        <p class="share-msg" id="storyShareMsg" hidden></p>
+      </article>
+    </section>
+
     <!-- HISTORY -->
     <section id="tab-history" class="tab-panel">
       <h2 class="section-title">My Journal</h2>
       <p class="section-sub">Every entry you've written, kept in one quiet place.</p>
+
+      <article class="card on-this-day-card" id="onThisDayCard" hidden>
+        <p class="card-label">On This Day</p>
+        <p class="on-this-day-text" id="onThisDayText"></p>
+      </article>
+
       <div id="historyList" class="history-list"></div>
       <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
     </section>
@@ -161,6 +190,11 @@
       <h3 class="badges-title">Badges</h3>
       <div id="badgesGrid" class="badges-grid"></div>
 
+      <h3 class="badges-title">Mood Calendar</h3>
+      <p class="section-sub">How you've been feeling, day by day.</p>
+      <div id="moodCalendar" class="mood-calendar"></div>
+      <div class="mood-legend" id="moodLegend"></div>
+
       <h3 class="badges-title">Backup</h3>
       <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
       <div class="backup-actions">
@@ -195,6 +229,7 @@
 <script src="data-encouragements.js"></script>
 <script src="data-moments.js"></script>
 <script src="data-wisdom.js"></script>
+<script src="data-stories.js"></script>
 <script src="content.js"></script>
 <script src="app.js"></script>
 </body>
