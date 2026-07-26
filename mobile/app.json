@@ -14,6 +14,15 @@
           "icon": "./assets/icon.png",
           "color": "#7c9885"
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#f4f0e6"
+        }
       ]
     ],
     "ios": {
@@ -24,7 +33,7 @@
       "package": "com.barnabasjournal.app",
       "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#E3B05A",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
