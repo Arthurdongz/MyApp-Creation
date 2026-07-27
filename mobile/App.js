@@ -9,6 +9,7 @@ import HistoryScreen from "./src/screens/HistoryScreen";
 import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
 
 const TABS = [
   { key: "today", label: "Today" },
@@ -37,8 +38,9 @@ export default function App() {
 }
 
 function AppContent({ store }) {
-  const { colors, mode, toggleTheme } = useTheme();
+  const { colors, mode } = useTheme();
   const [tab, setTab] = useState("today");
+  const [showSettings, setShowSettings] = useState(false);
   const styles = getStyles(colors);
 
   if (store.ready && !store.settings.onboarded) {
@@ -59,6 +61,8 @@ function AppContent({ store }) {
           <View style={styles.loading}>
             <Text style={styles.loadingText}>Loading...</Text>
           </View>
+        ) : showSettings ? (
+          <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollContent}>
             <View style={styles.header}>
@@ -70,8 +74,12 @@ function AppContent({ store }) {
                 </View>
               </View>
               <View style={styles.statsRow}>
-                <TouchableOpacity style={styles.themeToggle} onPress={toggleTheme}>
-                  <Text style={styles.themeToggleText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
+                <TouchableOpacity
+                  style={styles.themeToggle}
+                  onPress={() => setShowSettings(true)}
+                  accessibilityLabel="Settings"
+                >
+                  <Text style={styles.themeToggleText}>⚙️</Text>
                 </TouchableOpacity>
                 <View style={styles.stat}>
                   <Text style={styles.statText}>⭐ {store.totalStars}</Text>

@@ -181,7 +181,7 @@ function effectiveTheme() {
 
 function applyTheme() {
   document.documentElement.setAttribute("data-theme", effectiveTheme());
-  const btn = document.getElementById("themeToggle");
+  const btn = document.getElementById("settingsThemeToggle");
   if (btn) btn.textContent = effectiveTheme() === "dark" ? "☀️" : "🌙";
 }
 
@@ -653,7 +653,6 @@ function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
   document.getElementById("rewardMoments").textContent = countMomentsDone();
-  renderShareThemePicker();
 
   const streak = computeStreak();
   const grid = document.getElementById("badgesGrid");
@@ -872,12 +871,29 @@ function setupListenButtons() {
 }
 
 function setupThemeToggle() {
-  document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+  document.getElementById("settingsThemeToggle").addEventListener("click", toggleTheme);
   if (window.matchMedia) {
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
       if (state.settings.theme === "system") applyTheme();
     });
   }
+}
+
+function openSettings() {
+  renderShareThemePicker();
+  document.getElementById("settingsOverlay").hidden = false;
+}
+
+function closeSettings() {
+  document.getElementById("settingsOverlay").hidden = true;
+}
+
+function setupSettings() {
+  document.getElementById("settingsBtn").addEventListener("click", openSettings);
+  document.getElementById("settingsCloseBtn").addEventListener("click", closeSettings);
+  document.getElementById("settingsOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "settingsOverlay") closeSettings();
+  });
 }
 
 function setupBackup() {
@@ -907,6 +923,7 @@ function init() {
   setupShareButtons();
   setupListenButtons();
   setupThemeToggle();
+  setupSettings();
   setupBackup();
   setupOnboarding();
   renderToday();
