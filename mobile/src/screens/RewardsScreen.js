@@ -4,7 +4,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
 import { exportBackup, pickAndReadBackup } from "../backup";
-import { scheduleDailyReminder, cancelDailyReminder, notificationsSupported } from "../notifications";
+import {
+  scheduleMorningReminder,
+  cancelMorningReminder,
+  scheduleEveningReminder,
+  cancelEveningReminder,
+  notificationsSupported,
+} from "../notifications";
 import { SHARE_THEMES } from "../shareThemes";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
@@ -15,10 +21,18 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
-const REMINDER_PRESETS = [
-  { label: "Morning · 8:00", hour: 8, minute: 0 },
-  { label: "Midday · 13:00", hour: 13, minute: 0 },
-  { label: "Evening · 19:00", hour: 19, minute: 0 },
+const MORNING_PRESETS = [
+  { label: "6:00 AM", hour: 6, minute: 0 },
+  { label: "7:00 AM", hour: 7, minute: 0 },
+  { label: "8:00 AM", hour: 8, minute: 0 },
+  { label: "9:00 AM", hour: 9, minute: 0 },
+];
+
+const EVENING_PRESETS = [
+  { label: "6:00 PM", hour: 18, minute: 0 },
+  { label: "7:00 PM", hour: 19, minute: 0 },
+  { label: "8:00 PM", hour: 20, minute: 0 },
+  { label: "9:00 PM", hour: 21, minute: 0 },
 ];
 
 export default function RewardsScreen({ store }) {
@@ -51,15 +65,20 @@ export default function RewardsScreen({ store }) {
     }
   };
 
-  const handleReminderToggle = async () => {
-    if (settings.reminderEnabled) {
-      await cancelDailyReminder();
-      updateSettings({ reminderEnabled: false });
+  const handleMorningToggle = async () => {
+    if (settings.morningReminderEnabled) {
+      await cancelMorningReminder();
+      updateSettings({ morningReminderEnabled: false });
       return;
     }
-    const ok = await scheduleDailyReminder(settings.reminderHour, settings.reminderMinute, store.state.journeyStartDate, store.order);
+    const ok = await scheduleMorningReminder(
+      settings.morningReminderHour,
+      settings.morningReminderMinute,
+      store.state.journeyStartDate,
+      store.order
+    );
     if (ok) {
-      updateSettings({ reminderEnabled: true });
+      updateSettings({ morningReminderEnabled: true });
     } else {
       Alert.alert(
         "Notifications not enabled",
@@ -68,10 +87,34 @@ export default function RewardsScreen({ store }) {
     }
   };
 
-  const handlePreset = async (preset) => {
-    updateSettings({ reminderHour: preset.hour, reminderMinute: preset.minute });
-    if (settings.reminderEnabled) {
-      await scheduleDailyReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+  const handleMorningPreset = async (preset) => {
+    updateSettings({ morningReminderHour: preset.hour, morningReminderMinute: preset.minute });
+    if (settings.morningReminderEnabled) {
+      await scheduleMorningReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    }
+  };
+
+  const handleEveningToggle = async () => {
+    if (settings.eveningReminderEnabled) {
+      await cancelEveningReminder();
+      updateSettings({ eveningReminderEnabled: false });
+      return;
+    }
+    const ok = await scheduleEveningReminder(settings.eveningReminderHour, settings.eveningReminderMinute);
+    if (ok) {
+      updateSettings({ eveningReminderEnabled: true });
+    } else {
+      Alert.alert(
+        "Notifications not enabled",
+        "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings."
+      );
+    }
+  };
+
+  const handleEveningPreset = async (preset) => {
+    updateSettings({ eveningReminderHour: preset.hour, eveningReminderMinute: preset.minute });
+    if (settings.eveningReminderEnabled) {
+      await scheduleEveningReminder(preset.hour, preset.minute);
     }
   };
 
@@ -138,25 +181,57 @@ export default function RewardsScreen({ store }) {
 
       {notificationsSupported ? (
         <>
-          <Text style={styles.sectionTitle}>Daily Reminder</Text>
+          <Text style={styles.sectionTitle}>Daily Reminders</Text>
+          <Text style={styles.subtitle}>
+            Two gentle nudges — a verse to start the day, and a moment to reflect as it closes.
+          </Text>
+
           <View style={styles.settingsCard}>
             <View style={styles.settingsRow}>
-              <Text style={styles.settingsLabel}>Remind me once a day</Text>
+              <Text style={styles.settingsLabel}>Morning · Word for the day</Text>
               <TouchableOpacity
-                style={[styles.switchTrack, settings.reminderEnabled && styles.switchTrackOn]}
-                onPress={handleReminderToggle}
+                style={[styles.switchTrack, settings.morningReminderEnabled && styles.switchTrackOn]}
+                onPress={handleMorningToggle}
               >
-                <View style={[styles.switchThumb, settings.reminderEnabled && styles.switchThumbOn]} />
+                <View style={[styles.switchThumb, settings.morningReminderEnabled && styles.switchThumbOn]} />
               </TouchableOpacity>
             </View>
             <View style={styles.presetRow}>
-              {REMINDER_PRESETS.map((preset) => {
-                const active = settings.reminderHour === preset.hour && settings.reminderMinute === preset.minute;
+              {MORNING_PRESETS.map((preset) => {
+                const active =
+                  settings.morningReminderHour === preset.hour && settings.morningReminderMinute === preset.minute;
                 return (
                   <TouchableOpacity
                     key={preset.label}
                     style={[styles.presetBtn, active && styles.presetBtnActive]}
-                    onPress={() => handlePreset(preset)}
+                    onPress={() => handleMorningPreset(preset)}
+                  >
+                    <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.settingsCard}>
+            <View style={styles.settingsRow}>
+              <Text style={styles.settingsLabel}>Evening · Time to reflect</Text>
+              <TouchableOpacity
+                style={[styles.switchTrack, settings.eveningReminderEnabled && styles.switchTrackOn]}
+                onPress={handleEveningToggle}
+              >
+                <View style={[styles.switchThumb, settings.eveningReminderEnabled && styles.switchThumbOn]} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.presetRow}>
+              {EVENING_PRESETS.map((preset) => {
+                const active =
+                  settings.eveningReminderHour === preset.hour && settings.eveningReminderMinute === preset.minute;
+                return (
+                  <TouchableOpacity
+                    key={preset.label}
+                    style={[styles.presetBtn, active && styles.presetBtnActive]}
+                    onPress={() => handleEveningPreset(preset)}
                   >
                     <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
                   </TouchableOpacity>

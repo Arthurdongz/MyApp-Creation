@@ -7,7 +7,11 @@
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { todayKey, shuffledOrder, unlockedDayFor, TOTAL_DAYS } from "./content";
-import { scheduleDailyReminder } from "./notifications";
+import {
+  requestNotificationPermission,
+  scheduleMorningReminder,
+  scheduleEveningReminder,
+} from "./notifications";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
@@ -26,9 +30,12 @@ function defaultSettings() {
     onboarded: false,
     theme: "system",
     shareTheme: "classic",
-    reminderEnabled: false,
-    reminderHour: 8,
-    reminderMinute: 0,
+    morningReminderEnabled: false,
+    morningReminderHour: 8,
+    morningReminderMinute: 0,
+    eveningReminderEnabled: false,
+    eveningReminderHour: 20,
+    eveningReminderMinute: 0,
   };
 }
 
@@ -55,6 +62,20 @@ function emptyEntry(dayNumber) {
   };
 }
 
+// Before reminders became twice-a-day, settings stored a single
+// reminderEnabled/reminderHour/reminderMinute. Carry that forward as the
+// morning reminder so existing users keep the time they already chose,
+// rather than losing it silently; evening stays off until they opt in.
+function migrateSettings(rawSettings) {
+  const migrated = { ...rawSettings };
+  if (migrated.morningReminderEnabled === undefined && rawSettings.reminderEnabled !== undefined) {
+    migrated.morningReminderEnabled = rawSettings.reminderEnabled;
+    migrated.morningReminderHour = rawSettings.reminderHour;
+    migrated.morningReminderMinute = rawSettings.reminderMinute;
+  }
+  return migrated;
+}
+
 function normalizeLoaded(parsed) {
   return {
     journeyStartDate: parsed.journeyStartDate,
@@ -62,7 +83,7 @@ function normalizeLoaded(parsed) {
     entries: parsed.entries || {},
     totalStars: parsed.totalStars || 0,
     favorites: parsed.favorites || [],
-    settings: { ...defaultSettings(), ...(parsed.settings || {}) },
+    settings: { ...defaultSettings(), ...migrateSettings(parsed.settings || {}) },
   };
 }
 
@@ -153,13 +174,23 @@ export function useJournalStore() {
 
   const latestDay = unlockedDayFor(state.journeyStartDate);
 
-  // "Top up" the rolling notification schedule once per app launch, so the
-  // reminder keeps showing fresh, content-matched days even if the user
+  // "Top up" both rolling notification schedules once per app launch, so
+  // the reminders keep showing fresh, content-matched days even if the user
   // hasn't opened the app in a while (as long as it's within the lookahead
   // window notifications.js schedules).
   useEffect(() => {
-    if (!ready || !state.settings.reminderEnabled) return;
-    scheduleDailyReminder(state.settings.reminderHour, state.settings.reminderMinute, state.journeyStartDate, state.order);
+    if (!ready) return;
+    if (state.settings.morningReminderEnabled) {
+      scheduleMorningReminder(
+        state.settings.morningReminderHour,
+        state.settings.morningReminderMinute,
+        state.journeyStartDate,
+        state.order
+      );
+    }
+    if (state.settings.eveningReminderEnabled) {
+      scheduleEveningReminder(state.settings.eveningReminderHour, state.settings.eveningReminderMinute);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
@@ -301,8 +332,22 @@ export function useJournalStore() {
   );
 
   const completeOnboarding = useCallback(async () => {
-    const granted = await scheduleDailyReminder(8, 0, state.journeyStartDate, state.order);
-    updateSettings({ onboarded: true, reminderEnabled: granted, reminderHour: 8, reminderMinute: 0 });
+    const granted = await requestNotificationPermission();
+    let morningOk = false;
+    let eveningOk = false;
+    if (granted) {
+      morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order);
+      eveningOk = await scheduleEveningReminder(20, 0);
+    }
+    updateSettings({
+      onboarded: true,
+      morningReminderEnabled: morningOk,
+      morningReminderHour: 8,
+      morningReminderMinute: 0,
+      eveningReminderEnabled: eveningOk,
+      eveningReminderHour: 20,
+      eveningReminderMinute: 0,
+    });
   }, [state.journeyStartDate, state.order, updateSettings]);
 
   const restoreFromBackup = useCallback(
