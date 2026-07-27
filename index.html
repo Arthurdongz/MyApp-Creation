@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="header-stats">
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+      <button id="settingsBtn" class="theme-toggle" aria-label="Settings" type="button">⚙️</button>
       <div class="stat" title="Total stars earned">
         <span class="stat-icon">⭐</span>
         <span id="statTotalStars">0</span>
@@ -197,23 +197,10 @@
       <h3 class="badges-title">Badges</h3>
       <div id="badgesGrid" class="badges-grid"></div>
 
-      <h3 class="badges-title">Quote Card Color</h3>
-      <p class="section-sub">Choose a background for verses, quotes, and stories you share.</p>
-      <div id="shareThemePicker" class="share-theme-picker"></div>
-
       <h3 class="badges-title">Mood Calendar</h3>
       <p class="section-sub">How you've been feeling, day by day.</p>
       <div id="moodCalendar" class="mood-calendar"></div>
       <div class="mood-legend" id="moodLegend"></div>
-
-      <h3 class="badges-title">Backup</h3>
-      <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
-      <div class="backup-actions">
-        <button id="exportBtn" class="btn btn-secondary" type="button">Export Backup</button>
-        <button id="importBtn" class="btn btn-secondary" type="button">Restore Backup</button>
-        <input id="importFile" type="file" accept="application/json" hidden>
-      </div>
-      <p id="backupMsg" class="backup-msg" hidden></p>
     </section>
 
   </main>
@@ -233,6 +220,35 @@
     <p>This journal gives you a new verse, a word of encouragement, and a small "Barnabas moment" to do for someone else — one day at a time. A new day unlocks every day; you can always look back on days you've already lived, but not skip ahead.</p>
     <p>Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to notice how far you've come.</p>
     <button id="onboardingStartBtn" class="btn btn-primary">Begin your journey</button>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settingsOverlay" class="settings-overlay" hidden>
+  <div class="settings-card">
+    <div class="settings-card-header">
+      <h2>Settings</h2>
+      <button id="settingsCloseBtn" class="settings-close-btn" aria-label="Close settings" type="button">✕</button>
+    </div>
+
+    <h3 class="badges-title">Appearance</h3>
+    <div class="settings-row">
+      <p class="settings-row-label">Dark Mode</p>
+      <button id="settingsThemeToggle" class="theme-toggle" aria-label="Toggle dark mode" type="button">🌙</button>
+    </div>
+
+    <h3 class="badges-title">Quote Card Color</h3>
+    <p class="section-sub">Choose a background for verses, quotes, and stories you share.</p>
+    <div id="shareThemePicker" class="share-theme-picker"></div>
+
+    <h3 class="badges-title">Backup</h3>
+    <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
+    <div class="backup-actions">
+      <button id="exportBtn" class="btn btn-secondary" type="button">Export Backup</button>
+      <button id="importBtn" class="btn btn-secondary" type="button">Restore Backup</button>
+      <input id="importFile" type="file" accept="application/json" hidden>
+    </div>
+    <p id="backupMsg" class="backup-msg" hidden></p>
   </div>
 </div>
 
