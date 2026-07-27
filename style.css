@@ -605,6 +605,28 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 .badge-name { font-size: 13px; font-weight: 700; color: var(--sage-dark); }
 .badge-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; }
 
+/* Quote Card Color picker */
+.share-theme-picker {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.share-theme-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: var(--shadow);
+}
+
+.share-theme-swatch.selected {
+  border-color: var(--sage-dark);
+}
+
 /* Mood Calendar */
 .mood-calendar {
   display: grid;

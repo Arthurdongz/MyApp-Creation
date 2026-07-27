@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { scheduleDailyReminder, cancelDailyReminder, notificationsSupported } from "../notifications";
+import { SHARE_THEMES } from "../shareThemes";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -104,6 +106,28 @@ export default function RewardsScreen({ store }) {
               <Text style={styles.badgeName}>{b.name}</Text>
               <Text style={styles.badgeDesc}>{b.desc}</Text>
             </View>
+          );
+        })}
+      </View>
+
+      <Text style={styles.sectionTitle}>Quote Card Color</Text>
+      <Text style={styles.subtitle}>Choose a background for verses, quotes, and stories you share.</Text>
+      <View style={styles.shareThemeRow}>
+        {SHARE_THEMES.map((t) => {
+          const selected = settings.shareTheme === t.id;
+          return (
+            <TouchableOpacity
+              key={t.id}
+              onPress={() => updateSettings({ shareTheme: t.id })}
+              style={[styles.shareThemeSwatchWrap, selected && styles.shareThemeSwatchWrapSelected]}
+            >
+              <LinearGradient
+                colors={t.colors}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.shareThemeSwatch}
+              />
+            </TouchableOpacity>
           );
         })}
       </View>
@@ -275,6 +299,25 @@ function getStyles(colors, shadow) {
     presetBtnActive: { backgroundColor: colors.sage, borderColor: colors.sage },
     presetText: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
     presetTextActive: { color: "#fff" },
+    shareThemeRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 12,
+      marginBottom: 24,
+    },
+    shareThemeSwatchWrap: {
+      width: 46,
+      height: 46,
+      borderRadius: 23,
+      borderWidth: 3,
+      borderColor: "transparent",
+      ...shadow,
+    },
+    shareThemeSwatchWrapSelected: { borderColor: colors.sageDark },
+    shareThemeSwatch: {
+      flex: 1,
+      borderRadius: 20,
+    },
     moodGrid: {
       flexDirection: "row",
       flexWrap: "wrap",

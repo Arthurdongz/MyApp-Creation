@@ -11,6 +11,7 @@ import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
+import { shareThemeColors } from "../shareThemes";
 
 // The "Encouraging Thought" card is quotes-only now (true stories moved to
 // their own Story tab, backed by data/stories.js). WISDOM still holds
@@ -40,6 +41,7 @@ export default function TodayScreen({ store }) {
     isToday,
     order,
     today,
+    settings,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
@@ -49,6 +51,8 @@ export default function TodayScreen({ store }) {
     isFavorited,
     toggleFavorite,
   } = store;
+
+  const activeShareColors = shareThemeColors(settings.shareTheme);
 
   const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
@@ -242,6 +246,7 @@ export default function TodayScreen({ store }) {
           ref={shareCardRef}
           text={shareCardContent?.text || ""}
           sourceLine={shareCardContent?.sourceLine || ""}
+          colors={activeShareColors}
         />
       </View>
 

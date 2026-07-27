@@ -5,11 +5,11 @@ import { LinearGradient } from "expo-linear-gradient";
 // Rendered off-screen and captured to an image for sharing — see
 // TodayScreen's captureAndShare. Fixed at 360x360 dp so it captures at a
 // consistent, generous resolution on standard device pixel ratios.
-const ShareQuoteCard = forwardRef(function ShareQuoteCard({ text, sourceLine }, ref) {
+const ShareQuoteCard = forwardRef(function ShareQuoteCard({ text, sourceLine, colors }, ref) {
   return (
     <View ref={ref} collapsable={false} style={styles.container}>
       <LinearGradient
-        colors={["#f7dca3", "#6f9578"]}
+        colors={colors || ["#f7dca3", "#6f9578"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFill}

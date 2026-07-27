@@ -25,6 +25,7 @@ function defaultSettings() {
   return {
     onboarded: false,
     theme: "system",
+    shareTheme: "classic",
     reminderEnabled: false,
     reminderHour: 8,
     reminderMinute: 0,
