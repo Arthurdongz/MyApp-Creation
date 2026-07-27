@@ -24,8 +24,8 @@ export default function OnboardingScreen({ onStart }) {
         notice how far you've come.
       </Text>
       <Text style={styles.paragraph}>
-        We'll ask permission to send a gentle morning reminder with that day's verse — you can turn
-        this off anytime from the Rewards tab.
+        We'll ask permission to send two gentle reminders each day — a morning verse, and an
+        evening nudge to reflect — you can turn either off anytime from the Rewards tab.
       </Text>
       <TouchableOpacity style={styles.button} onPress={onStart}>
         <Text style={styles.buttonText}>Begin your journey</Text>
