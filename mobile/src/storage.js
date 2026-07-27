@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { todayKey, shuffledOrder, unlockedDayFor, TOTAL_DAYS } from "./content";
+import { scheduleDailyReminder } from "./notifications";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
@@ -25,7 +26,7 @@ function defaultSettings() {
     onboarded: false,
     theme: "system",
     reminderEnabled: false,
-    reminderHour: 9,
+    reminderHour: 8,
     reminderMinute: 0,
   };
 }
@@ -150,6 +151,16 @@ export function useJournalStore() {
   }, []);
 
   const latestDay = unlockedDayFor(state.journeyStartDate);
+
+  // "Top up" the rolling notification schedule once per app launch, so the
+  // reminder keeps showing fresh, content-matched days even if the user
+  // hasn't opened the app in a while (as long as it's within the lookahead
+  // window notifications.js schedules).
+  useEffect(() => {
+    if (!ready || !state.settings.reminderEnabled) return;
+    scheduleDailyReminder(state.settings.reminderHour, state.settings.reminderMinute, state.journeyStartDate, state.order);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready]);
 
   // Whenever the viewed day changes (including right after load), make sure
   // that day's entry exists and has received its "showing up" star. This
@@ -288,7 +299,10 @@ export function useJournalStore() {
     [persist]
   );
 
-  const completeOnboarding = useCallback(() => updateSettings({ onboarded: true }), [updateSettings]);
+  const completeOnboarding = useCallback(async () => {
+    const granted = await scheduleDailyReminder(8, 0, state.journeyStartDate, state.order);
+    updateSettings({ onboarded: true, reminderEnabled: granted, reminderHour: 8, reminderMinute: 0 });
+  }, [state.journeyStartDate, state.order, updateSettings]);
 
   const restoreFromBackup = useCallback(
     (incoming) => {

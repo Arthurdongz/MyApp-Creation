@@ -60,3 +60,18 @@ export function pickForDaySmallBank(arr, dayNumber, order) {
   const idx = order[(dayNumber - 1) % order.length] % arr.length;
   return arr[idx];
 }
+
+// The date key for "today plus N days" — used to preview which day's
+// content will show on a future date (e.g. when scheduling reminder
+// notifications ahead of time).
+export function dateKeyForOffset(offsetDays) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return dateKey(d);
+}
+
+// Like unlockedDayFor, but for an arbitrary target date rather than today.
+export function dayNumberForDate(journeyStartKey, targetKey) {
+  const elapsed = daysBetweenKeys(journeyStartKey, targetKey);
+  return Math.min(TOTAL_DAYS, Math.max(1, elapsed + 1));
+}

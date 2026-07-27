@@ -23,6 +23,10 @@ export default function OnboardingScreen({ onStart }) {
         Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to
         notice how far you've come.
       </Text>
+      <Text style={styles.paragraph}>
+        We'll ask permission to send a gentle morning reminder with that day's verse — you can turn
+        this off anytime from the Rewards tab.
+      </Text>
       <TouchableOpacity style={styles.button} onPress={onStart}>
         <Text style={styles.buttonText}>Begin your journey</Text>
       </TouchableOpacity>
