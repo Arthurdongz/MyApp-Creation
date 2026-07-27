@@ -55,7 +55,7 @@ export default function RewardsScreen({ store }) {
       updateSettings({ reminderEnabled: false });
       return;
     }
-    const ok = await scheduleDailyReminder(settings.reminderHour, settings.reminderMinute);
+    const ok = await scheduleDailyReminder(settings.reminderHour, settings.reminderMinute, store.state.journeyStartDate, store.order);
     if (ok) {
       updateSettings({ reminderEnabled: true });
     } else {
@@ -69,7 +69,7 @@ export default function RewardsScreen({ store }) {
   const handlePreset = async (preset) => {
     updateSettings({ reminderHour: preset.hour, reminderMinute: preset.minute });
     if (settings.reminderEnabled) {
-      await scheduleDailyReminder(preset.hour, preset.minute);
+      await scheduleDailyReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
     }
   };
 
