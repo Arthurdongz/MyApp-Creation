@@ -8,11 +8,13 @@ import ShareQuoteCard from "../components/ShareQuoteCard";
 import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
 import { STORIES } from "../data/stories";
+import { shareThemeColors } from "../shareThemes";
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { viewingDay, order, isFavorited, toggleFavorite } = store;
+  const { viewingDay, order, settings, isFavorited, toggleFavorite } = store;
+  const activeShareColors = shareThemeColors(settings.shareTheme);
 
   const story = useMemo(() => pickForDaySmallBank(STORIES, viewingDay, order), [viewingDay, order]);
   const storySaved = isFavorited("truestory", viewingDay);
@@ -83,6 +85,7 @@ export default function StoryScreen({ store }) {
           ref={shareCardRef}
           text={shareCardContent?.text || ""}
           sourceLine={shareCardContent?.sourceLine || ""}
+          colors={activeShareColors}
         />
       </View>
     </View>

@@ -15,6 +15,23 @@ const QUOTES = WISDOM.filter((w) => w.type === "quote");
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
+// Background gradients offered for shared quote/verse/story images — each
+// pulled straight from the app's own palette (sage, gold, sky, the card
+// accent colors) so every option still feels like Barnabas Journal, rather
+// than an arbitrary color picker.
+const SHARE_THEMES = [
+  { id: "classic", name: "Classic", colors: ["#f7dca3", "#6f9578"] },
+  { id: "sage", name: "Sage", colors: ["#eef4ea", "#56705f"] },
+  { id: "sky", name: "Sky", colors: ["#cfe3ec", "#7c9885"] },
+  { id: "story", name: "Story", colors: ["#f7dca3", "#8fae97"] },
+  { id: "warm", name: "Warm", colors: ["#fbe4d8", "#e0ab3c"] },
+];
+
+function shareThemeColors() {
+  const found = SHARE_THEMES.find((t) => t.id === state.settings.shareTheme);
+  return (found || SHARE_THEMES[0]).colors;
+}
+
 const BADGE_DEFS = [
   { id: "seed", icon: "🌱", name: "Seed of Encouragement", desc: "Earn 10 stars", type: "stars", threshold: 10 },
   { id: "growing", icon: "🌿", name: "Growing in Grace", desc: "Earn 50 stars", type: "stars", threshold: 50 },
@@ -26,7 +43,7 @@ const BADGE_DEFS = [
 ];
 
 function defaultSettings() {
-  return { onboarded: false, theme: "system" };
+  return { onboarded: false, theme: "system", shareTheme: "classic" };
 }
 
 function loadState() {
@@ -251,7 +268,7 @@ function wrapCanvasText(ctx, text, maxWidth) {
   return lines;
 }
 
-function renderQuoteCardCanvas(mainText, sourceLine) {
+function renderQuoteCardCanvas(mainText, sourceLine, colors) {
   const W = 1080;
   const H = 1080;
   const canvas = document.createElement("canvas");
@@ -259,9 +276,10 @@ function renderQuoteCardCanvas(mainText, sourceLine) {
   canvas.height = H;
   const ctx = canvas.getContext("2d");
 
+  const [colorStart, colorEnd] = colors || shareThemeColors();
   const grad = ctx.createLinearGradient(0, 0, W, H);
-  grad.addColorStop(0, "#f7dca3");
-  grad.addColorStop(1, "#6f9578");
+  grad.addColorStop(0, colorStart);
+  grad.addColorStop(1, colorEnd);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
@@ -614,10 +632,28 @@ function renderFavorites() {
   });
 }
 
+function renderShareThemePicker() {
+  const picker = document.getElementById("shareThemePicker");
+  picker.innerHTML = SHARE_THEMES
+    .map((t) => {
+      const selected = state.settings.shareTheme === t.id;
+      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
+    })
+    .join("");
+  picker.querySelectorAll(".share-theme-swatch").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.settings.shareTheme = btn.dataset.theme;
+      saveState(state);
+      renderShareThemePicker();
+    });
+  });
+}
+
 function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
   document.getElementById("rewardMoments").textContent = countMomentsDone();
+  renderShareThemePicker();
 
   const streak = computeStreak();
   const grid = document.getElementById("badgesGrid");
