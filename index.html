@@ -237,10 +237,6 @@
       <button id="settingsThemeToggle" class="theme-toggle" aria-label="Toggle dark mode" type="button">🌙</button>
     </div>
 
-    <h3 class="badges-title">Quote Card Color</h3>
-    <p class="section-sub">Choose a background for verses, quotes, and stories you share.</p>
-    <div id="shareThemePicker" class="share-theme-picker"></div>
-
     <h3 class="badges-title">Backup</h3>
     <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
     <div class="backup-actions">
@@ -249,6 +245,20 @@
       <input id="importFile" type="file" accept="application/json" hidden>
     </div>
     <p id="backupMsg" class="backup-msg" hidden></p>
+  </div>
+</div>
+
+<!-- SHARE PREVIEW -->
+<div id="sharePreviewOverlay" class="settings-overlay" hidden>
+  <div class="settings-card share-preview-card">
+    <div class="settings-card-header">
+      <h2>Choose a Background</h2>
+      <button id="sharePreviewCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <img id="sharePreviewImage" class="share-preview-image" alt="Preview of the quote you're about to share">
+    <div id="sharePreviewSwatches" class="share-theme-picker"></div>
+    <button id="sharePreviewShareBtn" class="btn btn-primary share-preview-share-btn" type="button">Share this</button>
+    <p class="share-msg" id="sharePreviewMsg" hidden></p>
   </div>
 </div>
 
