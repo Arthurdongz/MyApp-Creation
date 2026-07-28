@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Speech from "expo-speech";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { speak } from "../speech";
+import { hapticTap } from "../haptics";
+import { todayKey } from "../content";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
@@ -11,6 +13,23 @@ import {
   cancelEveningReminder,
   notificationsSupported,
 } from "../notifications";
+
+function formatDate(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+}
+
+function daysSince(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  const from = new Date(y, m - 1, d);
+  const to = new Date();
+  to.setHours(0, 0, 0, 0);
+  from.setHours(0, 0, 0, 0);
+  return Math.round((to - from) / 86400000);
+}
+
+const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";
 
 const PITCH_PRESETS = [
   { label: "Lower", value: 0.8 },
@@ -64,6 +83,7 @@ export default function SettingsScreen({ store, onClose }) {
   const handleExport = async () => {
     try {
       await exportBackup(store.state);
+      updateSettings({ lastBackupAt: todayKey() });
     } catch (e) {
       showBackupMsg("Couldn't export a backup right now.");
     }
@@ -81,6 +101,7 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleMorningToggle = async () => {
+    hapticTap();
     if (settings.morningReminderEnabled) {
       await cancelMorningReminder();
       updateSettings({ morningReminderEnabled: false });
@@ -110,6 +131,7 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleEveningToggle = async () => {
+    hapticTap();
     if (settings.eveningReminderEnabled) {
       await cancelEveningReminder();
       updateSettings({ eveningReminderEnabled: false });
@@ -137,7 +159,7 @@ export default function SettingsScreen({ store, onClose }) {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Settings</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close settings" accessibilityRole="button">
           <Text style={styles.closeBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
@@ -145,7 +167,12 @@ export default function SettingsScreen({ store, onClose }) {
       <Text style={styles.sectionTitle}>Appearance</Text>
       <View style={styles.settingsRow}>
         <Text style={styles.settingsLabel}>Dark Mode</Text>
-        <TouchableOpacity style={styles.themeBtn} onPress={toggleTheme}>
+        <TouchableOpacity
+          style={styles.themeBtn}
+          onPress={toggleTheme}
+          accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          accessibilityRole="button"
+        >
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
@@ -155,7 +182,12 @@ export default function SettingsScreen({ store, onClose }) {
 
       <View style={styles.settingsRow}>
         <Text style={styles.settingsLabel}>Voice</Text>
-        <TouchableOpacity style={styles.voiceValueBtn} onPress={() => setVoicePickerOpen(true)}>
+        <TouchableOpacity
+          style={styles.voiceValueBtn}
+          onPress={() => setVoicePickerOpen(true)}
+          accessibilityLabel={`Voice: ${selectedVoiceName}. Tap to change.`}
+          accessibilityRole="button"
+        >
           <Text style={styles.voiceValueText} numberOfLines={1}>
             {selectedVoiceName} ›
           </Text>
@@ -206,7 +238,12 @@ export default function SettingsScreen({ store, onClose }) {
           <View style={styles.modalCard}>
             <View style={styles.header}>
               <Text style={styles.title}>Choose a Voice</Text>
-              <TouchableOpacity onPress={() => setVoicePickerOpen(false)} style={styles.closeBtn}>
+              <TouchableOpacity
+                onPress={() => setVoicePickerOpen(false)}
+                style={styles.closeBtn}
+                accessibilityLabel="Close voice picker"
+                accessibilityRole="button"
+              >
                 <Text style={styles.closeBtnText}>✕</Text>
               </TouchableOpacity>
             </View>
@@ -311,7 +348,15 @@ export default function SettingsScreen({ store, onClose }) {
 
       <Text style={styles.sectionTitle}>Backup</Text>
       <Text style={styles.subtitle}>
-        Your journal lives only on this device. Export a backup now and then, or restore one here.
+        Your journal lives on this device (Android may also auto-back it up to your own Google
+        account as a safety net). Export a backup now and then, or restore one here.
+      </Text>
+      <Text style={styles.backupNote}>
+        {settings.lastBackupAt
+          ? daysSince(settings.lastBackupAt) >= 30
+            ? `It's been ${daysSince(settings.lastBackupAt)} days since your last backup (${formatDate(settings.lastBackupAt)}) — consider exporting a fresh one.`
+            : `Last backup: ${formatDate(settings.lastBackupAt)}.`
+          : "You haven't exported a backup yet."}
       </Text>
       <View style={styles.backupRow}>
         <TouchableOpacity style={styles.secondaryBtn} onPress={handleExport}>
@@ -322,6 +367,10 @@ export default function SettingsScreen({ store, onClose }) {
         </TouchableOpacity>
       </View>
       {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
+
+      <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
+        <Text style={styles.footerLink}>Privacy Policy</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -456,5 +505,8 @@ function getStyles(colors, shadow) {
     },
     secondaryBtnText: { color: colors.sageDark, fontWeight: "700", fontSize: 13 },
     backupMsg: { marginTop: 10, fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    backupNote: { fontSize: 13, color: colors.textSoft, marginBottom: 12 },
+    footerLinkWrap: { marginTop: 24, alignItems: "center" },
+    footerLink: { fontSize: 13, color: colors.textSoft, textDecorationLine: "underline" },
   });
 }

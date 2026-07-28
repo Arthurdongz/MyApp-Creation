@@ -6,6 +6,7 @@ import * as Sharing from "expo-sharing";
 import ShareQuoteCard from "./ShareQuoteCard";
 import { useTheme } from "../theme";
 import { SHARE_THEMES } from "../shareThemes";
+import { hapticTap } from "../haptics";
 
 // Shown when the user taps Share on a verse, quote, or story — lets them
 // preview the actual card with different background colors before sending
@@ -27,6 +28,7 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
   const selectedTheme = SHARE_THEMES.find((t) => t.id === selectedId) || SHARE_THEMES[0];
 
   const handleSelect = (theme) => {
+    hapticTap();
     setSelectedId(theme.id);
     if (onThemeChange) onThemeChange(theme.id);
   };
@@ -51,7 +53,7 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
         <View style={styles.card}>
           <View style={styles.header}>
             <Text style={styles.title}>Choose a Background</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close" accessibilityRole="button">
               <Text style={styles.closeBtnText}>✕</Text>
             </TouchableOpacity>
           </View>
@@ -66,6 +68,8 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
                 key={t.id}
                 onPress={() => handleSelect(t)}
                 style={[styles.swatchWrap, selectedId === t.id && styles.swatchWrapSelected]}
+                accessibilityLabel={`${t.name} background${selectedId === t.id ? ", selected" : ""}`}
+                accessibilityRole="button"
               >
                 <LinearGradient
                   colors={t.colors}

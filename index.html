@@ -162,16 +162,21 @@
         <p class="on-this-day-text" id="onThisDayText"></p>
       </article>
 
+      <input type="search" id="historySearch" class="search-input" placeholder="Search your journal...">
+
       <div id="historyList" class="history-list"></div>
       <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
+      <p id="historyNoMatch" class="empty-state" hidden>No entries match your search.</p>
     </section>
 
     <!-- FAVORITES -->
     <section id="tab-favorites" class="tab-panel">
       <h2 class="section-title">Favorites</h2>
       <p class="section-sub">Verses and quotes you've saved to come back to.</p>
+      <input type="search" id="favoritesSearch" class="search-input" placeholder="Search your favorites...">
       <div id="favoritesList" class="favorites-list"></div>
       <p id="favoritesEmpty" class="empty-state" hidden>Nothing saved yet — tap "Save" on a verse or quote you want to keep.</p>
+      <p id="favoritesNoMatch" class="empty-state" hidden>No favorites match your search.</p>
     </section>
 
     <!-- REWARDS -->
@@ -254,13 +259,18 @@
     </div>
 
     <h3 class="badges-title">Backup</h3>
-    <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
+    <p class="section-sub">Your journal lives only in this browser. Export a backup now and then, or restore one here.</p>
+    <p id="lastBackupNote" class="backup-note"></p>
     <div class="backup-actions">
       <button id="exportBtn" class="btn btn-secondary" type="button">Export Backup</button>
       <button id="importBtn" class="btn btn-secondary" type="button">Restore Backup</button>
       <input id="importFile" type="file" accept="application/json" hidden>
     </div>
     <p id="backupMsg" class="backup-msg" hidden></p>
+
+    <p class="settings-footer-link">
+      <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>
+    </p>
   </div>
 </div>
 

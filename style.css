@@ -7,8 +7,9 @@
   --sage-dark: #56705f;
   --sky: #8fb3c9;
   --gold: #e0ab3c;
+  --gold-text: #96650f;
   --text: #3a3a34;
-  --text-soft: #71716a;
+  --text-soft: #6b6a63;
   --border: #e7e1d3;
   --shadow: 0 6px 20px rgba(90, 100, 80, 0.08);
   --verse-grad-1: #eef4ea;
@@ -32,6 +33,7 @@
   --sage-dark: #b7cfbd;
   --sky: #9fc4dc;
   --gold: #e8bd5a;
+  --gold-text: #e8bd5a;
   --text: #e8e5d9;
   --text-soft: #a3a296;
   --border: #3a4139;
@@ -273,8 +275,8 @@ body {
 }
 
 .favorite-btn.favorited {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--gold-text);
+  border-color: var(--gold-text);
 }
 
 .verse-card {
@@ -427,6 +429,18 @@ textarea {
   resize: vertical;
   background: var(--input-bg);
   color: var(--text);
+}
+
+.search-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text);
+  margin-bottom: 16px;
 }
 
 .voice-select {
@@ -689,6 +703,12 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 /* Backup */
+.backup-note {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 4px 0 12px;
+}
+
 .backup-actions {
   display: flex;
   gap: 10px;
@@ -704,6 +724,17 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 .backup-msg-error { color: #c0524f; }
+
+.settings-footer-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.settings-footer-link a {
+  color: var(--text-soft);
+  text-decoration: underline;
+}
 
 /* Favorites */
 .favorites-list {

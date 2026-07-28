@@ -211,6 +211,25 @@ function exportData() {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+  state.settings.lastBackupAt = todayDateKey();
+  saveState(state);
+  renderLastBackupNote();
+}
+
+function renderLastBackupNote() {
+  const el = document.getElementById("lastBackupNote");
+  if (!el) return;
+  const last = state.settings.lastBackupAt;
+  if (!last) {
+    el.textContent = "You haven't exported a backup yet — your journal only lives on this device.";
+    return;
+  }
+  const daysAgo = daysBetweenKeys(last, todayDateKey());
+  if (daysAgo >= 30) {
+    el.textContent = `It's been ${daysAgo} days since your last backup (${formatDate(last)}) — consider exporting a fresh one.`;
+  } else {
+    el.textContent = `Last backup: ${formatDate(last)}.`;
+  }
 }
 
 function showBackupMsg(text, isError) {
@@ -248,6 +267,7 @@ function importDataFromFile(file) {
       renderRewards();
       renderMoodCalendar();
       renderFavorites();
+      renderLastBackupNote();
       showBackupMsg("Backup restored. Welcome back!");
     } catch (e) {
       showBackupMsg("That file doesn't look like a valid Barnabas Journal backup.", true);
@@ -371,7 +391,7 @@ function renderSharePreviewSwatches() {
   container.innerHTML = SHARE_THEMES
     .map((t) => {
       const selected = sharePreview.colors[0] === t.colors[0] && sharePreview.colors[1] === t.colors[1];
-      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
+      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" aria-label="${t.name} background${selected ? ", selected" : ""}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
     })
     .join("");
   container.querySelectorAll(".share-theme-swatch").forEach((btn) => {
@@ -577,19 +597,39 @@ function renderHeaderStats() {
 function renderHistory() {
   const list = document.getElementById("historyList");
   const empty = document.getElementById("historyEmpty");
-  const keys = Object.keys(state.entries)
+  const noMatch = document.getElementById("historyNoMatch");
+  const query = (document.getElementById("historySearch").value || "").trim().toLowerCase();
+  const allKeys = Object.keys(state.entries)
     .filter((k) => {
       const e = state.entries[k];
       return e.reflection || e.barnabasNote || e.momentDone;
     })
     .sort((a, b) => state.entries[b].dayNumber - state.entries[a].dayNumber);
 
-  if (keys.length === 0) {
+  if (allKeys.length === 0) {
     list.innerHTML = "";
     empty.hidden = false;
+    noMatch.hidden = true;
     return;
   }
   empty.hidden = true;
+
+  const keys = query
+    ? allKeys.filter((k) => {
+        const e = state.entries[k];
+        return (
+          (e.reflection && e.reflection.toLowerCase().includes(query)) ||
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query))
+        );
+      })
+    : allKeys;
+
+  if (keys.length === 0) {
+    list.innerHTML = "";
+    noMatch.hidden = false;
+    return;
+  }
+  noMatch.hidden = true;
 
   const moodEmoji = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -636,14 +676,34 @@ function favoriteSourceLine(f) {
 function renderFavorites() {
   const list = document.getElementById("favoritesList");
   const empty = document.getElementById("favoritesEmpty");
-  const favorites = state.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
+  const noMatch = document.getElementById("favoritesNoMatch");
+  const query = (document.getElementById("favoritesSearch").value || "").trim().toLowerCase();
+  const allFavorites = state.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
 
-  if (favorites.length === 0) {
+  if (allFavorites.length === 0) {
     list.innerHTML = "";
     empty.hidden = false;
+    noMatch.hidden = true;
     return;
   }
   empty.hidden = true;
+
+  const favorites = query
+    ? allFavorites.filter((f) => {
+        const sourceLine = favoriteSourceLine(f);
+        return (
+          (f.text && f.text.toLowerCase().includes(query)) ||
+          (sourceLine && sourceLine.toLowerCase().includes(query))
+        );
+      })
+    : allFavorites;
+
+  if (favorites.length === 0) {
+    list.innerHTML = "";
+    noMatch.hidden = false;
+    return;
+  }
+  noMatch.hidden = true;
 
   list.innerHTML = favorites
     .map((f) => {
@@ -765,6 +825,11 @@ function setupTabs() {
       if (btn.dataset.tab === "favorites") renderFavorites();
     });
   });
+}
+
+function setupSearch() {
+  document.getElementById("historySearch").addEventListener("input", renderHistory);
+  document.getElementById("favoritesSearch").addEventListener("input", renderFavorites);
 }
 
 function setupDayNav() {
@@ -955,6 +1020,7 @@ function setupThemeToggle() {
 }
 
 function openSettings() {
+  renderLastBackupNote();
   document.getElementById("settingsOverlay").hidden = false;
 }
 
@@ -1002,6 +1068,7 @@ function init() {
   setupSharePreview();
   setupBackup();
   setupOnboarding();
+  setupSearch();
   renderToday();
   renderStory();
   maybeShowOnboarding();

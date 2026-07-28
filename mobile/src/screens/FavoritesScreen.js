@@ -1,4 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../theme";
 
 // f.type is "verse", "wisdom" (quotes), or "truestory". Older favorites saved
@@ -22,17 +23,40 @@ function favoriteSourceLine(f) {
 export default function FavoritesScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
-  const favorites = store.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
+  const [query, setQuery] = useState("");
+  const allFavorites = store.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
+
+  const q = query.trim().toLowerCase();
+  const favorites = q
+    ? allFavorites.filter((f) => {
+        const sourceLine = favoriteSourceLine(f);
+        return (
+          (f.text && f.text.toLowerCase().includes(q)) || (sourceLine && sourceLine.toLowerCase().includes(q))
+        );
+      })
+    : allFavorites;
 
   return (
     <View>
       <Text style={styles.title}>Favorites</Text>
       <Text style={styles.subtitle}>Verses and quotes you've saved to come back to.</Text>
 
-      {favorites.length === 0 ? (
+      {allFavorites.length === 0 ? null : (
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search your favorites..."
+          placeholderTextColor={colors.textSoft}
+          value={query}
+          onChangeText={setQuery}
+        />
+      )}
+
+      {allFavorites.length === 0 ? (
         <Text style={styles.empty}>
           Nothing saved yet — tap "Save" on a verse or quote you want to keep.
         </Text>
+      ) : favorites.length === 0 ? (
+        <Text style={styles.empty}>No favorites match your search.</Text>
       ) : (
         favorites.map((f) => {
           const kindLabel = favoriteKindLabel(f);
@@ -60,6 +84,17 @@ function getStyles(colors, shadow) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
+    searchInput: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      fontSize: 14,
+      color: colors.text,
+      backgroundColor: colors.input,
+      marginBottom: 16,
+    },
     entryCard: {
       backgroundColor: colors.card,
       borderWidth: 1,

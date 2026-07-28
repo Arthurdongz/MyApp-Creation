@@ -6,6 +6,7 @@ import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
 import { STORIES } from "../data/stories";
 import { speak } from "../speech";
+import { hapticTap } from "../haptics";
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
@@ -39,7 +40,10 @@ export default function StoryScreen({ store }) {
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title })}
+              onPress={() => {
+                hapticTap();
+                toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
+              }}
             >
               <Text style={[styles.favoriteBtn, storySaved && styles.favoriteBtnActive]}>
                 {storySaved ? "★ Saved" : "☆ Save"}
@@ -97,7 +101,7 @@ function getStyles(colors) {
       marginBottom: 10,
       overflow: "hidden",
     },
-    favoriteBtnActive: { color: colors.gold, borderColor: colors.gold },
+    favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     storyTitle: {
       fontSize: 17,
       fontWeight: "700",
