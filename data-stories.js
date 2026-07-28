@@ -1,9 +1,10 @@
 // True stories of real people encouraging, rescuing, or showing kindness to
-// others — the "Barnabas effect" in real history and current events. Each
-// entry is written in original words from well-documented public facts (not
-// copied from any single source) and involves public/historical figures or
-// events already covered in public reporting, so nothing here should raise
-// copyright or privacy concerns.
+// others — the "Barnabas effect" in real history, current events, and
+// scripture. Each entry is written in original words (not copied from any
+// single source or translation) from either well-documented public facts or
+// biblical narratives, with a scripture reference included at the end of
+// the biblical entries, so nothing here should raise copyright or privacy
+// concerns.
 //
 // This bank (100+ entries) is smaller than the app's other 366-entry banks
 // for now, and cycles through the user's shuffle order modulo its own length
@@ -401,5 +402,73 @@ const STORIES = [
   {
     title: "A Pizza Delivery That Became a Rescue",
     text: "While delivering pizza late one night in 2022, a young driver named Nick Bostic noticed a house engulfed in flames and went in to help, pulling five children, including a toddler, to safety before firefighters arrived. He was later awarded one of the country's oldest honors for civilian heroism.",
+  },
+  {
+    title: "The Man Who Vouched for Saul",
+    text: "After his conversion, Saul of Tarsus tried to join the disciples in Jerusalem, but they were afraid of him, remembering how he had persecuted the church. A believer named Joseph — nicknamed Barnabas, \"son of encouragement\" — took Saul aside, heard his story, and personally brought him to the apostles, vouching for how boldly he had already preached in Damascus. Because one man was willing to stand beside someone still surrounded by suspicion, Saul was welcomed into the community that would later send him out as the apostle Paul.\n\n— Acts 9:26-28",
+  },
+  {
+    title: "The Cousin He Wouldn't Give Up On",
+    text: "John Mark had left Paul and Barnabas partway through their first missionary journey, and when it came time to set out again, Paul refused to take him along, believing he had already proven unreliable. Barnabas disagreed so strongly that the two lifelong partners split into separate teams, with Barnabas sailing off to Cyprus and giving Mark exactly the second chance Paul wouldn't. Years later, writing from a prison cell, Paul asked for Mark by name, calling him useful to him in ministry — a quiet admission that Barnabas's patience with someone others had written off had paid off after all.\n\n— Acts 15:36-39; 2 Timothy 4:11",
+  },
+  {
+    title: "The Friendship That Cost Him a Throne",
+    text: "As the son of King Saul, Jonathan stood to inherit his father's kingdom — until Saul grew jealous and murderous toward a young shepherd named David. Jonathan chose friendship over ambition anyway, warning David of his father's plots, defending him before the king, and making a covenant of loyalty that put his own future last. When Saul's rage turned violent at the dinner table, Jonathan risked his own safety to get word to David to flee, sending him off in peace on the strength of a friendship the two of them had sworn before God.\n\n— 1 Samuel 18-20",
+  },
+  {
+    title: "I Will Go Where You Go",
+    text: "After losing her husband and both her sons in a foreign land, Naomi decided to return home to Bethlehem and urged her two widowed daughters-in-law to go back to their own families instead of following her into an uncertain future. One did — but her daughter-in-law Ruth refused to leave, telling Naomi that wherever she went, she would go too, and that Naomi's people and God would become her own. Ruth's steady loyalty carried both women through poverty and grief, and it was this same foreigner, with nothing to offer but faithfulness, who would go on to become an ancestor of King David.\n\n— Ruth 1:16-17",
+  },
+  {
+    title: "The Hands That Held His Up",
+    text: "During a battle against the Amalekites, Moses discovered that as long as he held his hands raised, the Israelites prevailed, but when his tired arms dropped, the enemy began to win. Rather than let him fail from sheer exhaustion, Aaron and Hur found him a stone to sit on and each held up one of his arms, keeping them steady until the sun went down and the battle was won. Moses never had to fight alone — he only had to let two friends carry what he could no longer carry by himself.\n\n— Exodus 17:10-13",
+  },
+  {
+    title: "Enough to Get Him Up Again",
+    text: "After a great victory over the prophets of Baal, the prophet Elijah collapsed into despair, fled into the wilderness, and told God he had had enough and wanted to die. Instead of a rebuke, he was met with rest, a warm meal prepared for him twice, and a quiet voice that later found him in a cave and asked gently what was wrong rather than demanding he simply snap out of it. Elijah wasn't handed a speech to fix everything at once — just food, sleep, and a God willing to meet him exactly where his exhaustion had taken him.\n\n— 1 Kings 19:1-13",
+  },
+  {
+    title: "Neither Do I Condemn You",
+    text: "A woman caught in adultery was dragged before Jesus by religious leaders demanding she be stoned, testing whether he would contradict the law or his own mercy. Jesus knelt, wrote in the dust, and said that whoever among them was without sin could throw the first stone — and one by one, beginning with the oldest, her accusers walked away until none were left. Alone with her, Jesus asked where they had gone, then told her he did not condemn her either, sending her forward with a second chance rather than the shame she'd braced for.\n\n— John 8:3-11",
+  },
+  {
+    title: "The Field He Sold for Others",
+    text: "In the earliest days of the church in Jerusalem, believers pooled what they had so that no one among them would go without, and a Levite from Cyprus named Joseph sold a field he owned and laid the money at the apostles' feet for the community's use. It was this kind of generosity that earned him the nickname the apostles gave him instead — Barnabas, meaning \"son of encouragement\" — a name that stuck because lifting others up was simply who he had become known to be.\n\n— Acts 4:36-37",
+  },
+  {
+    title: "No Longer a Slave, But a Brother",
+    text: "Onesimus was a slave who had run away from his master, Philemon, and somewhere along the way met Paul, who came to describe him as like a son during his imprisonment. Rather than simply keeping him, Paul sent Onesimus back to Philemon with a letter, urging him to receive his former slave not as property to be punished but as a beloved brother, and offering to personally repay whatever Onesimus owed. It was a bold ask in a culture with no expectation of such mercy, made because one man believed a broken relationship was still worth restoring.\n\n— Philemon 1:10-18",
+  },
+  {
+    title: "Don't Let Anyone Look Down on You",
+    text: "Timothy was young and apparently anxious, serving in a difficult ministry post, when his mentor Paul wrote to remind him to fan back into flame the gift he'd been given, since God had given him a spirit not of fear but of power, love, and self-discipline. Paul told him plainly not to let anyone look down on him for his youth, but instead to set an example in speech, conduct, love, faith, and purity. It was the kind of steady, repeated encouragement a mentor gives someone who is capable but doesn't yet believe it about himself.\n\n— 2 Timothy 1:6-7; 1 Timothy 4:12",
+  },
+  {
+    title: "They Took Him Aside",
+    text: "Apollos was an eloquent, scripture-literate preacher with a real gift for teaching, but he only knew part of the story, having never learned of anything beyond John's baptism. Rather than correcting him publicly or dismissing his gift, a couple named Priscilla and Aquila took him aside privately and explained the way of God to him more accurately, protecting his dignity while helping him grow. Apollos went on to become a powerful teacher across the region, in part because two people cared enough to help him quietly instead of exposing him publicly.\n\n— Acts 18:24-26",
+  },
+  {
+    title: "While He Was Still a Long Way Off",
+    text: "A younger son demanded his inheritance early, squandered it in a distant country, and returned home rehearsing an apology, expecting at best to be taken back as a hired servant. But his father saw him while he was still far off and, rather than waiting for the apology or extracting a punishment first, ran to him, embraced him, and called for a robe, a ring, and a feast to celebrate that his son who was lost had been found. It remains one of the clearest pictures of a second chance offered before it was even fully asked for.\n\n— Luke 15:11-24",
+  },
+  {
+    title: "You Meant It for Evil",
+    text: "Joseph's own brothers had sold him into slavery out of jealousy, and years later, now second-in-command of Egypt, he held complete power to punish them when famine forced them to come begging for grain. Instead, he wept, revealed who he was, and told them not to be afraid or angry with themselves, saying that what they had intended for evil, God had intended for good, to save many lives. He went on to provide for the very family who had betrayed him, choosing reconciliation over the revenge he could easily have taken.\n\n— Genesis 45:4-5; 50:19-21",
+  },
+  {
+    title: "The One Who Stopped",
+    text: "A man was beaten, robbed, and left for dead on the road to Jericho, and both a priest and a Levite passed by on the other side rather than get involved. It was a Samaritan — someone from a group typically despised by the wounded man's own people — who stopped, bandaged his wounds, carried him to an inn, and paid for his continued care out of his own pocket. When Jesus asked which of the three had been a neighbor to the wounded man, the answer was obvious: the one who showed mercy, regardless of who the man was to him.\n\n— Luke 10:30-37",
+  },
+  {
+    title: "He Went to Look for Him",
+    text: "When the young, fast-growing church in Antioch needed someone to help teach and strengthen new believers, the apostles sent Barnabas, who arrived, saw evidence of God's grace at work, and was glad. Rather than trying to do the work alone, he traveled to Tarsus specifically to search for Saul, whom no one had heard from in years, and personally brought him back to Antioch to teach the growing church together. It was there, through their partnership, that believers were first called Christians — the fruit, in part, of one man going out of his way to bring back someone others had lost track of.\n\n— Acts 11:22-26",
+  },
+  {
+    title: "The Woman Who Hid Them",
+    text: "When two Israelite spies slipped into Jericho, it was Rahab, a woman with a checkered reputation in her own city, who hid them on her roof and misled the king's men to protect their lives, asking only that her own family be spared when the city eventually fell. Her risk paid off — she and her family were the only household spared when Jericho was destroyed, and she went on to be named among the ancestors of King David and, later, of Jesus himself. It is a striking inclusion for someone the rest of her story might have written off, kept in the account precisely because her courage mattered more than her past.\n\n— Joshua 2:1-21; 6:22-25",
+  },
+  {
+    title: "For Such a Time as This",
+    text: "When a plot arose to destroy the Jewish people across the Persian empire, Esther, a queen who had kept her own identity secret, was reminded by her cousin Mordecai that her position might exist for exactly this moment, and that silence now could cost her own life along with everyone else's. Esther asked her people to fast and pray for her, then risked her life by approaching the king unsummoned, eventually exposing the plot and saving her people. It took someone willing to risk everything, spurred on by one relative's blunt encouragement, to change the outcome for an entire nation.\n\n— Esther 4:13-16",
   },
 ];
