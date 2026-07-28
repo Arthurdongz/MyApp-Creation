@@ -893,6 +893,49 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   margin: 0;
 }
 
+.menu-card { max-width: 340px; }
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.menu-item:hover { background: var(--card); }
+
+.menu-item-icon { font-size: 18px; }
+
+.menu-item-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.about-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+
+.about-meta {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 0 0 8px;
+}
+
+.about-meta a {
+  color: var(--sage-dark);
+}
+
 .share-preview-image {
   width: 100%;
   border-radius: 14px;

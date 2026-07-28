@@ -10,6 +10,8 @@ import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
+import AboutScreen from "./src/screens/AboutScreen";
+import MenuModal from "./src/components/MenuModal";
 
 const TABS = [
   { key: "today", label: "Today" },
@@ -41,6 +43,8 @@ function AppContent({ store }) {
   const { colors, mode } = useTheme();
   const [tab, setTab] = useState("today");
   const [showSettings, setShowSettings] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const styles = getStyles(colors);
 
   if (store.ready && !store.settings.onboarded) {
@@ -63,6 +67,8 @@ function AppContent({ store }) {
           </View>
         ) : showSettings ? (
           <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
+        ) : showAbout ? (
+          <AboutScreen onClose={() => setShowAbout(false)} />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollContent}>
             <View style={styles.header}>
@@ -76,10 +82,10 @@ function AppContent({ store }) {
               <View style={styles.statsRow}>
                 <TouchableOpacity
                   style={styles.themeToggle}
-                  onPress={() => setShowSettings(true)}
-                  accessibilityLabel="Settings"
+                  onPress={() => setShowMenu(true)}
+                  accessibilityLabel="Menu"
                 >
-                  <Text style={styles.themeToggleText}>⚙️</Text>
+                  <Text style={styles.themeToggleText}>☰</Text>
                 </TouchableOpacity>
                 <View style={styles.stat}>
                   <Text style={styles.statText}>⭐ {store.totalStars}</Text>
@@ -111,6 +117,12 @@ function AppContent({ store }) {
             <Text style={styles.footer}>Be still. Be kind. Be someone's encouragement today.</Text>
           </ScrollView>
         )}
+        <MenuModal
+          visible={showMenu}
+          onClose={() => setShowMenu(false)}
+          onSettings={() => setShowSettings(true)}
+          onAbout={() => setShowAbout(true)}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );

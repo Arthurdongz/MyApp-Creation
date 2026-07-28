@@ -1029,10 +1029,76 @@ function closeSettings() {
 }
 
 function setupSettings() {
-  document.getElementById("settingsBtn").addEventListener("click", openSettings);
   document.getElementById("settingsCloseBtn").addEventListener("click", closeSettings);
   document.getElementById("settingsOverlay").addEventListener("click", (e) => {
     if (e.target.id === "settingsOverlay") closeSettings();
+  });
+}
+
+const APP_SHARE_URL = "https://arthurdongz.github.io/MyApp-Creation/";
+
+function openMenu() {
+  document.getElementById("menuShareMsg").hidden = true;
+  document.getElementById("menuOverlay").hidden = false;
+}
+
+function closeMenu() {
+  document.getElementById("menuOverlay").hidden = true;
+}
+
+function openAbout() {
+  document.getElementById("aboutOverlay").hidden = false;
+}
+
+function closeAbout() {
+  document.getElementById("aboutOverlay").hidden = true;
+}
+
+async function shareApp() {
+  const shareData = {
+    title: "Barnabas Journal",
+    text: "I've been using Barnabas Journal — a daily verse, quote, and true story of encouragement. Thought you might like it too.",
+    url: APP_SHARE_URL,
+  };
+  const msgEl = document.getElementById("menuShareMsg");
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+    } catch (e) {
+      // user cancelled the share sheet — nothing to do
+    }
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+    msgEl.textContent = "Link copied to clipboard!";
+  } catch (e) {
+    msgEl.textContent = shareData.url;
+  }
+  msgEl.hidden = false;
+}
+
+function setupMenu() {
+  document.getElementById("menuBtn").addEventListener("click", openMenu);
+  document.getElementById("menuCloseBtn").addEventListener("click", closeMenu);
+  document.getElementById("menuOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "menuOverlay") closeMenu();
+  });
+  document.getElementById("menuSettingsBtn").addEventListener("click", () => {
+    closeMenu();
+    openSettings();
+  });
+  document.getElementById("menuAboutBtn").addEventListener("click", () => {
+    closeMenu();
+    openAbout();
+  });
+  document.getElementById("menuShareAppBtn").addEventListener("click", shareApp);
+}
+
+function setupAbout() {
+  document.getElementById("aboutCloseBtn").addEventListener("click", closeAbout);
+  document.getElementById("aboutOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "aboutOverlay") closeAbout();
   });
 }
 
@@ -1065,6 +1131,8 @@ function init() {
   setupVoiceSettings();
   setupThemeToggle();
   setupSettings();
+  setupMenu();
+  setupAbout();
   setupSharePreview();
   setupBackup();
   setupOnboarding();
