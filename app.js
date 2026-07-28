@@ -391,7 +391,7 @@ function renderSharePreviewSwatches() {
   container.innerHTML = SHARE_THEMES
     .map((t) => {
       const selected = sharePreview.colors[0] === t.colors[0] && sharePreview.colors[1] === t.colors[1];
-      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
+      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" aria-label="${t.name} background${selected ? ", selected" : ""}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
     })
     .join("");
   container.querySelectorAll(".share-theme-swatch").forEach((btn) => {

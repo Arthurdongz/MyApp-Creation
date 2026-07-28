@@ -101,7 +101,7 @@ function getStyles(colors) {
       marginBottom: 10,
       overflow: "hidden",
     },
-    favoriteBtnActive: { color: colors.gold, borderColor: colors.gold },
+    favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     storyTitle: {
       fontSize: 17,
       fontWeight: "700",

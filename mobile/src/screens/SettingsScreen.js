@@ -159,7 +159,7 @@ export default function SettingsScreen({ store, onClose }) {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Settings</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close settings" accessibilityRole="button">
           <Text style={styles.closeBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
@@ -167,7 +167,12 @@ export default function SettingsScreen({ store, onClose }) {
       <Text style={styles.sectionTitle}>Appearance</Text>
       <View style={styles.settingsRow}>
         <Text style={styles.settingsLabel}>Dark Mode</Text>
-        <TouchableOpacity style={styles.themeBtn} onPress={toggleTheme}>
+        <TouchableOpacity
+          style={styles.themeBtn}
+          onPress={toggleTheme}
+          accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          accessibilityRole="button"
+        >
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
@@ -177,7 +182,12 @@ export default function SettingsScreen({ store, onClose }) {
 
       <View style={styles.settingsRow}>
         <Text style={styles.settingsLabel}>Voice</Text>
-        <TouchableOpacity style={styles.voiceValueBtn} onPress={() => setVoicePickerOpen(true)}>
+        <TouchableOpacity
+          style={styles.voiceValueBtn}
+          onPress={() => setVoicePickerOpen(true)}
+          accessibilityLabel={`Voice: ${selectedVoiceName}. Tap to change.`}
+          accessibilityRole="button"
+        >
           <Text style={styles.voiceValueText} numberOfLines={1}>
             {selectedVoiceName} ›
           </Text>
@@ -228,7 +238,12 @@ export default function SettingsScreen({ store, onClose }) {
           <View style={styles.modalCard}>
             <View style={styles.header}>
               <Text style={styles.title}>Choose a Voice</Text>
-              <TouchableOpacity onPress={() => setVoicePickerOpen(false)} style={styles.closeBtn}>
+              <TouchableOpacity
+                onPress={() => setVoicePickerOpen(false)}
+                style={styles.closeBtn}
+                accessibilityLabel="Close voice picker"
+                accessibilityRole="button"
+              >
                 <Text style={styles.closeBtnText}>✕</Text>
               </TouchableOpacity>
             </View>

@@ -102,6 +102,8 @@ export default function TodayScreen({ store }) {
             style={[styles.dayNavBtn, viewingDay <= 1 && styles.dayNavBtnDisabled]}
             onPress={goToPrevDay}
             disabled={viewingDay <= 1}
+            accessibilityLabel="Previous day"
+            accessibilityRole="button"
           >
             <Text style={styles.dayNavBtnText}>‹</Text>
           </TouchableOpacity>
@@ -110,6 +112,8 @@ export default function TodayScreen({ store }) {
             style={[styles.dayNavBtn, viewingDay >= latestDay && styles.dayNavBtnDisabled]}
             onPress={goToNextDay}
             disabled={viewingDay >= latestDay}
+            accessibilityLabel="Next day"
+            accessibilityRole="button"
           >
             <Text style={styles.dayNavBtnText}>›</Text>
           </TouchableOpacity>
@@ -343,7 +347,7 @@ function getStyles(colors) {
       marginBottom: 10,
       overflow: "hidden",
     },
-    favoriteBtnActive: { color: colors.gold, borderColor: colors.gold },
+    favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },

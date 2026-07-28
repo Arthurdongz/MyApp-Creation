@@ -53,7 +53,7 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
         <View style={styles.card}>
           <View style={styles.header}>
             <Text style={styles.title}>Choose a Background</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn}>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close" accessibilityRole="button">
               <Text style={styles.closeBtnText}>✕</Text>
             </TouchableOpacity>
           </View>
@@ -68,6 +68,8 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
                 key={t.id}
                 onPress={() => handleSelect(t)}
                 style={[styles.swatchWrap, selectedId === t.id && styles.swatchWrapSelected]}
+                accessibilityLabel={`${t.name} background${selectedId === t.id ? ", selected" : ""}`}
+                accessibilityRole="button"
               >
                 <LinearGradient
                   colors={t.colors}
