@@ -43,7 +43,14 @@ const BADGE_DEFS = [
 ];
 
 function defaultSettings() {
-  return { onboarded: false, theme: "system", shareTheme: "classic" };
+  return {
+    onboarded: false,
+    theme: "system",
+    shareTheme: "classic",
+    speechVoiceURI: "",
+    speechPitch: 1,
+    speechRate: 0.95,
+  };
 }
 
 function loadState() {
@@ -862,8 +869,58 @@ function speak(text) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.95;
+  utterance.rate = state.settings.speechRate;
+  utterance.pitch = state.settings.speechPitch;
+  const voice = window.speechSynthesis
+    .getVoices()
+    .find((v) => v.voiceURI === state.settings.speechVoiceURI);
+  if (voice) utterance.voice = voice;
   window.speechSynthesis.speak(utterance);
+}
+
+function populateVoiceList() {
+  if (!window.speechSynthesis) return;
+  const select = document.getElementById("voiceSelect");
+  const voices = window.speechSynthesis.getVoices();
+  const current = state.settings.speechVoiceURI;
+  select.innerHTML =
+    `<option value="">Default</option>` +
+    voices.map((v) => `<option value="${v.voiceURI}">${v.name} (${v.lang})</option>`).join("");
+  select.value = voices.some((v) => v.voiceURI === current) ? current : "";
+}
+
+function setupVoiceSettings() {
+  if (!window.speechSynthesis) {
+    const section = document.getElementById("voiceSettingsSection");
+    if (section) section.hidden = true;
+    return;
+  }
+
+  populateVoiceList();
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+
+  const pitchRange = document.getElementById("pitchRange");
+  const rateRange = document.getElementById("rateRange");
+  pitchRange.value = state.settings.speechPitch;
+  rateRange.value = state.settings.speechRate;
+
+  document.getElementById("voiceSelect").addEventListener("change", (e) => {
+    state.settings.speechVoiceURI = e.target.value;
+    saveState(state);
+  });
+  pitchRange.addEventListener("input", (e) => {
+    state.settings.speechPitch = Number(e.target.value);
+    saveState(state);
+  });
+  rateRange.addEventListener("input", (e) => {
+    state.settings.speechRate = Number(e.target.value);
+    saveState(state);
+  });
+  document.getElementById("testVoiceBtn").addEventListener("click", () => {
+    speak("This is what the voice will sound like when reading your verse or story aloud.");
+  });
 }
 
 function setupListenButtons() {
@@ -939,6 +996,7 @@ function init() {
   setupFavoriteButtons();
   setupShareButtons();
   setupListenButtons();
+  setupVoiceSettings();
   setupThemeToggle();
   setupSettings();
   setupSharePreview();

@@ -429,6 +429,29 @@ textarea {
   color: var(--text);
 }
 
+.voice-select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.voice-range {
+  width: 100%;
+  accent-color: var(--sage);
+  margin-bottom: 4px;
+}
+
+.voice-test-btn {
+  margin-top: 14px;
+  width: 100%;
+}
+
 textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   outline: 2px solid var(--sky);
   outline-offset: 1px;

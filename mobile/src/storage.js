@@ -36,6 +36,9 @@ function defaultSettings() {
     eveningReminderEnabled: false,
     eveningReminderHour: 20,
     eveningReminderMinute: 0,
+    speechVoiceURI: "",
+    speechPitch: 1,
+    speechRate: 0.95,
   };
 }
 

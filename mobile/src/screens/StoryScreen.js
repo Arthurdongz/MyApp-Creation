@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as Speech from "expo-speech";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
 import { STORIES } from "../data/stories";
+import { speak } from "../speech";
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
@@ -18,8 +18,7 @@ export default function StoryScreen({ store }) {
   const [sharePreview, setSharePreview] = useState(false);
 
   const handleListen = () => {
-    Speech.stop();
-    Speech.speak(`${story.title}. ${story.text}`, { rate: 0.95 });
+    speak(`${story.title}. ${story.text}`, settings);
   };
 
   return (
