@@ -32,6 +32,7 @@
     "android": {
       "package": "com.barnabasjournal.app",
       "versionCode": 2,
+      "allowBackup": true,
       "adaptiveIcon": {
         "backgroundColor": "#E3B05A",
         "foregroundImage": "./assets/android-icon-foreground.png",

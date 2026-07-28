@@ -689,6 +689,12 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 /* Backup */
+.backup-note {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin: 4px 0 12px;
+}
+
 .backup-actions {
   display: flex;
   gap: 10px;
@@ -704,6 +710,17 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 .backup-msg-error { color: #c0524f; }
+
+.settings-footer-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.settings-footer-link a {
+  color: var(--text-soft);
+  text-decoration: underline;
+}
 
 /* Favorites */
 .favorites-list {

@@ -211,6 +211,25 @@ function exportData() {
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+  state.settings.lastBackupAt = todayDateKey();
+  saveState(state);
+  renderLastBackupNote();
+}
+
+function renderLastBackupNote() {
+  const el = document.getElementById("lastBackupNote");
+  if (!el) return;
+  const last = state.settings.lastBackupAt;
+  if (!last) {
+    el.textContent = "You haven't exported a backup yet — your journal only lives on this device.";
+    return;
+  }
+  const daysAgo = daysBetweenKeys(last, todayDateKey());
+  if (daysAgo >= 30) {
+    el.textContent = `It's been ${daysAgo} days since your last backup (${formatDate(last)}) — consider exporting a fresh one.`;
+  } else {
+    el.textContent = `Last backup: ${formatDate(last)}.`;
+  }
 }
 
 function showBackupMsg(text, isError) {
@@ -248,6 +267,7 @@ function importDataFromFile(file) {
       renderRewards();
       renderMoodCalendar();
       renderFavorites();
+      renderLastBackupNote();
       showBackupMsg("Backup restored. Welcome back!");
     } catch (e) {
       showBackupMsg("That file doesn't look like a valid Barnabas Journal backup.", true);
@@ -955,6 +975,7 @@ function setupThemeToggle() {
 }
 
 function openSettings() {
+  renderLastBackupNote();
   document.getElementById("settingsOverlay").hidden = false;
 }
 
