@@ -1,48 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { captureRef } from "react-native-view-shot";
-import * as Sharing from "expo-sharing";
 import * as Speech from "expo-speech";
 import Card from "../components/Card";
-import ShareQuoteCard from "../components/ShareQuoteCard";
+import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
 import { STORIES } from "../data/stories";
-import { shareThemeColors } from "../shareThemes";
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { viewingDay, order, settings, isFavorited, toggleFavorite } = store;
-  const activeShareColors = shareThemeColors(settings.shareTheme);
+  const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
   const story = useMemo(() => pickForDaySmallBank(STORIES, viewingDay, order), [viewingDay, order]);
   const storySaved = isFavorited("truestory", viewingDay);
 
-  const shareCardRef = useRef(null);
-  const [shareCardContent, setShareCardContent] = useState(null);
-  const [shareMsg, setShareMsg] = useState("");
-
-  // Clear any leftover share message when the viewed day changes.
-  useEffect(() => {
-    setShareMsg("");
-  }, [viewingDay]);
-
-  const handleShare = async () => {
-    setShareCardContent({ text: story.text, sourceLine: story.title });
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    try {
-      const uri = await captureRef(shareCardRef, { format: "png", quality: 1 });
-      const canShare = await Sharing.isAvailableAsync();
-      if (canShare) {
-        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: "Share from Barnabas Journal" });
-      }
-      setShareMsg("Shared. Thank you for passing it on!");
-    } catch (e) {
-      setShareMsg("Couldn't create the share image right now.");
-    }
-    setTimeout(() => setShareMsg(""), 4000);
-  };
+  const [sharePreview, setSharePreview] = useState(false);
 
   const handleListen = () => {
     Speech.stop();
@@ -63,7 +36,7 @@ export default function StoryScreen({ store }) {
             <TouchableOpacity onPress={handleListen}>
               <Text style={styles.favoriteBtn}>🔊 Listen</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleShare}>
+            <TouchableOpacity onPress={() => setSharePreview(true)}>
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -77,17 +50,16 @@ export default function StoryScreen({ store }) {
         </View>
         <Text style={styles.storyTitle}>{story.title}</Text>
         <Text style={styles.storyText}>{story.text}</Text>
-        {shareMsg ? <Text style={styles.shareMsg}>{shareMsg}</Text> : null}
       </Card>
 
-      <View style={styles.hiddenCapture} pointerEvents="none">
-        <ShareQuoteCard
-          ref={shareCardRef}
-          text={shareCardContent?.text || ""}
-          sourceLine={shareCardContent?.sourceLine || ""}
-          colors={activeShareColors}
-        />
-      </View>
+      <SharePreviewModal
+        visible={sharePreview}
+        mainText={story.text}
+        sourceLine={story.title}
+        initialThemeId={settings.shareTheme}
+        onThemeChange={(id) => updateSettings({ shareTheme: id })}
+        onClose={() => setSharePreview(false)}
+      />
     </View>
   );
 }
@@ -137,17 +109,6 @@ function getStyles(colors) {
       fontSize: 15,
       lineHeight: 22,
       color: colors.text,
-    },
-    shareMsg: {
-      marginTop: 8,
-      fontSize: 12,
-      fontWeight: "600",
-      color: colors.sageDark,
-    },
-    hiddenCapture: {
-      position: "absolute",
-      top: -10000,
-      left: 0,
     },
   });
 }

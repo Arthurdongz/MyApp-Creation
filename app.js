@@ -350,44 +350,76 @@ async function shareText(text) {
   }
 }
 
-async function shareVerse(day) {
-  const verse = pickForDay(VERSES, day, state.order);
-  const canvas = renderQuoteCardCanvas(verse.text, verse.ref);
-  const blob = await canvasToBlob(canvas);
-  const result = await shareOrDownloadImage(
-    blob,
-    `barnabas-journal-verse-day${day}.png`,
-    "Barnabas Journal",
-    `${verse.text} — ${verse.ref}`
-  );
-  showShareMsg("verseShareMsg", result);
-  return result;
+// ---------- Share preview (color picker shown at share time) ----------
+
+let sharePreview = null;
+
+function renderSharePreviewImage() {
+  const canvas = renderQuoteCardCanvas(sharePreview.mainText, sharePreview.sourceLine, sharePreview.colors);
+  document.getElementById("sharePreviewImage").src = canvas.toDataURL("image/png");
 }
 
-async function shareWisdom(day) {
-  const quote = pickForDaySmallBank(QUOTES, day, state.order);
-  const canvas = renderQuoteCardCanvas(quote.text, `— ${quote.source || ""}`);
-  const blob = await canvasToBlob(canvas);
-  const result = await shareOrDownloadImage(
-    blob,
-    `barnabas-journal-quote-day${day}.png`,
-    "Barnabas Journal",
-    quote.text
-  );
-  showShareMsg("wisdomShareMsg", result);
+function renderSharePreviewSwatches() {
+  const container = document.getElementById("sharePreviewSwatches");
+  container.innerHTML = SHARE_THEMES
+    .map((t) => {
+      const selected = sharePreview.colors[0] === t.colors[0] && sharePreview.colors[1] === t.colors[1];
+      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
+    })
+    .join("");
+  container.querySelectorAll(".share-theme-swatch").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const theme = SHARE_THEMES.find((t) => t.id === btn.dataset.theme);
+      sharePreview.colors = theme.colors;
+      state.settings.shareTheme = theme.id;
+      saveState(state);
+      renderSharePreviewSwatches();
+      renderSharePreviewImage();
+    });
+  });
 }
 
-async function shareStory(day) {
-  const story = pickForDaySmallBank(STORIES, day, state.order);
-  const canvas = renderQuoteCardCanvas(story.text, story.title);
+function openSharePreview(mainText, sourceLine, filenamePrefix, msgElId, day) {
+  sharePreview = { mainText, sourceLine, filenamePrefix, msgElId, day, colors: shareThemeColors() };
+  renderSharePreviewSwatches();
+  renderSharePreviewImage();
+  document.getElementById("sharePreviewMsg").hidden = true;
+  document.getElementById("sharePreviewOverlay").hidden = false;
+}
+
+function closeSharePreview() {
+  document.getElementById("sharePreviewOverlay").hidden = true;
+}
+
+async function confirmSharePreview() {
+  if (!sharePreview) return;
+  const { mainText, sourceLine, filenamePrefix, msgElId, day, colors } = sharePreview;
+  const canvas = renderQuoteCardCanvas(mainText, sourceLine, colors);
   const blob = await canvasToBlob(canvas);
   const result = await shareOrDownloadImage(
     blob,
-    `barnabas-journal-story-day${day}.png`,
+    `barnabas-journal-${filenamePrefix}-day${day}.png`,
     "Barnabas Journal",
-    `${story.title} — ${story.text}`
+    mainText
   );
-  showShareMsg("storyShareMsg", result);
+  const msgEl = document.getElementById("sharePreviewMsg");
+  if (result === "downloaded") {
+    msgEl.textContent = "Image saved — share it from your downloads.";
+    msgEl.hidden = false;
+  } else if (result === "shared") {
+    msgEl.textContent = "Shared. Thank you for passing it on!";
+    msgEl.hidden = false;
+  }
+  showShareMsg(msgElId, result);
+  setTimeout(closeSharePreview, 1200);
+}
+
+function setupSharePreview() {
+  document.getElementById("sharePreviewCloseBtn").addEventListener("click", closeSharePreview);
+  document.getElementById("sharePreviewShareBtn").addEventListener("click", confirmSharePreview);
+  document.getElementById("sharePreviewOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "sharePreviewOverlay") closeSharePreview();
+  });
 }
 
 async function shareMoment(day) {
@@ -632,23 +664,6 @@ function renderFavorites() {
   });
 }
 
-function renderShareThemePicker() {
-  const picker = document.getElementById("shareThemePicker");
-  picker.innerHTML = SHARE_THEMES
-    .map((t) => {
-      const selected = state.settings.shareTheme === t.id;
-      return `<button type="button" class="share-theme-swatch${selected ? " selected" : ""}" data-theme="${t.id}" title="${t.name}" style="background: linear-gradient(135deg, ${t.colors[0]}, ${t.colors[1]})"></button>`;
-    })
-    .join("");
-  picker.querySelectorAll(".share-theme-swatch").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.settings.shareTheme = btn.dataset.theme;
-      saveState(state);
-      renderShareThemePicker();
-    });
-  });
-}
-
 function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
@@ -826,13 +841,16 @@ function setupFavoriteButtons() {
 
 function setupShareButtons() {
   document.getElementById("verseShareBtn").addEventListener("click", () => {
-    shareVerse(viewingDay);
+    const verse = pickForDay(VERSES, viewingDay, state.order);
+    openSharePreview(verse.text, verse.ref, "verse", "verseShareMsg", viewingDay);
   });
   document.getElementById("wisdomShareBtn").addEventListener("click", () => {
-    shareWisdom(viewingDay);
+    const quote = pickForDaySmallBank(QUOTES, viewingDay, state.order);
+    openSharePreview(quote.text, `— ${quote.source || ""}`, "quote", "wisdomShareMsg", viewingDay);
   });
   document.getElementById("storyShareBtn").addEventListener("click", () => {
-    shareStory(viewingDay);
+    const story = pickForDaySmallBank(STORIES, viewingDay, state.order);
+    openSharePreview(story.text, story.title, "story", "storyShareMsg", viewingDay);
   });
   document.getElementById("momentShareBtn").addEventListener("click", () => {
     shareMoment(viewingDay);
@@ -880,7 +898,6 @@ function setupThemeToggle() {
 }
 
 function openSettings() {
-  renderShareThemePicker();
   document.getElementById("settingsOverlay").hidden = false;
 }
 
@@ -924,6 +941,7 @@ function init() {
   setupListenButtons();
   setupThemeToggle();
   setupSettings();
+  setupSharePreview();
   setupBackup();
   setupOnboarding();
   renderToday();

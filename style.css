@@ -839,6 +839,19 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   margin: 0;
 }
 
+.share-preview-image {
+  width: 100%;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  display: block;
+  box-shadow: var(--shadow);
+}
+
+.share-preview-share-btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
 /* Footer */
 .app-footer {
   text-align: center;

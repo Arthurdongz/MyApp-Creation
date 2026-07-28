@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import {
@@ -10,7 +9,6 @@ import {
   cancelEveningReminder,
   notificationsSupported,
 } from "../notifications";
-import { SHARE_THEMES } from "../shareThemes";
 
 const MORNING_PRESETS = [
   { label: "6:00 AM", hour: 6, minute: 0 },
@@ -124,28 +122,6 @@ export default function SettingsScreen({ store, onClose }) {
         <TouchableOpacity style={styles.themeBtn} onPress={toggleTheme}>
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
-      </View>
-
-      <Text style={styles.sectionTitle}>Quote Card Color</Text>
-      <Text style={styles.subtitle}>Choose a background for verses, quotes, and stories you share.</Text>
-      <View style={styles.shareThemeRow}>
-        {SHARE_THEMES.map((t) => {
-          const selected = settings.shareTheme === t.id;
-          return (
-            <TouchableOpacity
-              key={t.id}
-              onPress={() => updateSettings({ shareTheme: t.id })}
-              style={[styles.shareThemeSwatchWrap, selected && styles.shareThemeSwatchWrapSelected]}
-            >
-              <LinearGradient
-                colors={t.colors}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={styles.shareThemeSwatch}
-              />
-            </TouchableOpacity>
-          );
-        })}
       </View>
 
       {notificationsSupported ? (
@@ -269,25 +245,6 @@ function getStyles(colors, shadow) {
       justifyContent: "center",
     },
     themeBtnText: { fontSize: 16 },
-    shareThemeRow: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      gap: 12,
-      marginBottom: 24,
-    },
-    shareThemeSwatchWrap: {
-      width: 46,
-      height: 46,
-      borderRadius: 23,
-      borderWidth: 3,
-      borderColor: "transparent",
-      ...shadow,
-    },
-    shareThemeSwatchWrapSelected: { borderColor: colors.sageDark },
-    shareThemeSwatch: {
-      flex: 1,
-      borderRadius: 20,
-    },
     settingsCard: {
       backgroundColor: colors.card,
       borderWidth: 1,
