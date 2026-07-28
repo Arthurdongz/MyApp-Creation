@@ -1,17 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { captureRef } from "react-native-view-shot";
-import * as Sharing from "expo-sharing";
 import * as Speech from "expo-speech";
 import Card from "../components/Card";
-import ShareQuoteCard from "../components/ShareQuoteCard";
+import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDay, pickForDaySmallBank } from "../content";
 import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
-import { shareThemeColors } from "../shareThemes";
 
 // The "Encouraging Thought" card is quotes-only now (true stories moved to
 // their own Story tab, backed by data/stories.js). WISDOM still holds
@@ -42,6 +39,7 @@ export default function TodayScreen({ store }) {
     order,
     today,
     settings,
+    updateSettings,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
@@ -51,8 +49,6 @@ export default function TodayScreen({ store }) {
     isFavorited,
     toggleFavorite,
   } = store;
-
-  const activeShareColors = shareThemeColors(settings.shareTheme);
 
   const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
@@ -81,27 +77,7 @@ export default function TodayScreen({ store }) {
   const verseSaved = isFavorited("verse", viewingDay);
   const quoteSaved = isFavorited("wisdom", viewingDay);
 
-  const shareCardRef = useRef(null);
-  const [shareCardContent, setShareCardContent] = useState(null);
-  const [shareMsg, setShareMsg] = useState({ verse: "", wisdom: "" });
-
-  const captureAndShareImage = async (text, sourceLine, key) => {
-    setShareCardContent({ text, sourceLine });
-    // Give React a couple of frames to actually paint the updated card
-    // before capturing it.
-    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    try {
-      const uri = await captureRef(shareCardRef, { format: "png", quality: 1 });
-      const canShare = await Sharing.isAvailableAsync();
-      if (canShare) {
-        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: "Share from Barnabas Journal" });
-      }
-      setShareMsg((prev) => ({ ...prev, [key]: "Shared. Thank you for passing it on!" }));
-    } catch (e) {
-      setShareMsg((prev) => ({ ...prev, [key]: "Couldn't create the share image right now." }));
-    }
-    setTimeout(() => setShareMsg((prev) => ({ ...prev, [key]: "" })), 4000);
-  };
+  const [sharePreview, setSharePreview] = useState(null);
 
   const shareMomentText = async () => {
     const message = `A little encouragement from me to you today: ${moment}\n\n— sent from Barnabas Journal`;
@@ -156,7 +132,7 @@ export default function TodayScreen({ store }) {
               <Text style={styles.favoriteBtn}>🔊 Listen</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => captureAndShareImage(verse.text, verse.ref, "verse")}
+              onPress={() => setSharePreview({ text: verse.text, sourceLine: verse.ref })}
             >
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
@@ -171,7 +147,6 @@ export default function TodayScreen({ store }) {
         </View>
         <Text style={styles.verseText}>“{verse.text}”</Text>
         <Text style={styles.verseRef}>{verse.ref}</Text>
-        {shareMsg.verse ? <Text style={styles.shareMsg}>{shareMsg.verse}</Text> : null}
       </Card>
 
       <Card>
@@ -189,7 +164,7 @@ export default function TodayScreen({ store }) {
           <Text style={styles.cardLabel}>Encouraging Thought</Text>
           <View style={styles.cardLabelActions}>
             <TouchableOpacity
-              onPress={() => captureAndShareImage(quote.text, `— ${quote.source || ""}`, "wisdom")}
+              onPress={() => setSharePreview({ text: quote.text, sourceLine: `— ${quote.source || ""}` })}
             >
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
@@ -204,7 +179,6 @@ export default function TodayScreen({ store }) {
         </View>
         <Text style={styles.bodyText}>“{quote.text}”</Text>
         <Text style={styles.wisdomSource}>— {quote.source}</Text>
-        {shareMsg.wisdom ? <Text style={styles.shareMsg}>{shareMsg.wisdom}</Text> : null}
       </Card>
 
       <Card style={styles.momentCard}>
@@ -240,15 +214,14 @@ export default function TodayScreen({ store }) {
         </TouchableOpacity>
       </Card>
 
-      {/* Off-screen card captured to an image when sharing a verse/quote. */}
-      <View style={styles.hiddenCapture} pointerEvents="none">
-        <ShareQuoteCard
-          ref={shareCardRef}
-          text={shareCardContent?.text || ""}
-          sourceLine={shareCardContent?.sourceLine || ""}
-          colors={activeShareColors}
-        />
-      </View>
+      <SharePreviewModal
+        visible={!!sharePreview}
+        mainText={sharePreview?.text || ""}
+        sourceLine={sharePreview?.sourceLine || ""}
+        initialThemeId={settings.shareTheme}
+        onThemeChange={(id) => updateSettings({ shareTheme: id })}
+        onClose={() => setSharePreview(null)}
+      />
 
       <Card>
         <Text style={styles.cardLabel}>{isToday ? "Today's Reflection" : `Day ${viewingDay}'s Reflection`}</Text>
@@ -341,12 +314,6 @@ function getStyles(colors) {
       flexDirection: "row",
       gap: 6,
     },
-    shareMsg: {
-      marginTop: 8,
-      fontSize: 12,
-      fontWeight: "600",
-      color: colors.sageDark,
-    },
     cardLabel: {
       textTransform: "uppercase",
       letterSpacing: 0.8,
@@ -417,11 +384,6 @@ function getStyles(colors) {
       justifyContent: "center",
     },
     secondaryButtonText: { color: colors.sageDark, fontWeight: "700", fontSize: 13 },
-    hiddenCapture: {
-      position: "absolute",
-      top: -10000,
-      left: 0,
-    },
     doneMsg: {
       marginTop: 10,
       fontSize: 14,
