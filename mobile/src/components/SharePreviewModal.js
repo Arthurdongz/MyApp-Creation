@@ -6,6 +6,7 @@ import * as Sharing from "expo-sharing";
 import ShareQuoteCard from "./ShareQuoteCard";
 import { useTheme } from "../theme";
 import { SHARE_THEMES } from "../shareThemes";
+import { hapticTap } from "../haptics";
 
 // Shown when the user taps Share on a verse, quote, or story — lets them
 // preview the actual card with different background colors before sending
@@ -27,6 +28,7 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
   const selectedTheme = SHARE_THEMES.find((t) => t.id === selectedId) || SHARE_THEMES[0];
 
   const handleSelect = (theme) => {
+    hapticTap();
     setSelectedId(theme.id);
     if (onThemeChange) onThemeChange(theme.id);
   };

@@ -4,6 +4,7 @@ import * as Speech from "expo-speech";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { speak } from "../speech";
+import { hapticTap } from "../haptics";
 import { todayKey } from "../content";
 import {
   scheduleMorningReminder,
@@ -100,6 +101,7 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleMorningToggle = async () => {
+    hapticTap();
     if (settings.morningReminderEnabled) {
       await cancelMorningReminder();
       updateSettings({ morningReminderEnabled: false });
@@ -129,6 +131,7 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleEveningToggle = async () => {
+    hapticTap();
     if (settings.eveningReminderEnabled) {
       await cancelEveningReminder();
       updateSettings({ eveningReminderEnabled: false });

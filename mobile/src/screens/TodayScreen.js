@@ -9,6 +9,7 @@ import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
 import { speak } from "../speech";
+import { hapticSuccess, hapticTap } from "../haptics";
 
 // The "Encouraging Thought" card is quotes-only now (true stories moved to
 // their own Story tab, backed by data/stories.js). WISDOM still holds
@@ -65,6 +66,7 @@ export default function TodayScreen({ store }) {
 
   const handleSave = () => {
     saveReflection(reflection, barnabasNote);
+    hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
   };
@@ -132,7 +134,10 @@ export default function TodayScreen({ store }) {
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref })}
+              onPress={() => {
+                hapticTap();
+                toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref });
+              }}
             >
               <Text style={[styles.favoriteBtn, verseSaved && styles.favoriteBtnActive]}>
                 {verseSaved ? "★ Saved" : "☆ Save"}
@@ -164,7 +169,10 @@ export default function TodayScreen({ store }) {
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" })}
+              onPress={() => {
+                hapticTap();
+                toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" });
+              }}
             >
               <Text style={[styles.favoriteBtn, quoteSaved && styles.favoriteBtnActive]}>
                 {quoteSaved ? "★ Saved" : "☆ Save"}
@@ -182,7 +190,10 @@ export default function TodayScreen({ store }) {
         <View style={styles.momentActions}>
           <TouchableOpacity
             style={[styles.button, today.momentDone && styles.buttonDisabled]}
-            onPress={markMomentDone}
+            onPress={() => {
+              hapticSuccess();
+              markMomentDone();
+            }}
             disabled={today.momentDone}
           >
             <Text style={styles.buttonText}>
@@ -251,7 +262,10 @@ export default function TodayScreen({ store }) {
             <TouchableOpacity
               key={m.key}
               style={[styles.moodBtn, today.mood === m.key && styles.moodBtnSelected]}
-              onPress={() => setMood(m.key)}
+              onPress={() => {
+                hapticTap();
+                setMood(m.key);
+              }}
             >
               <Text style={styles.moodEmoji}>{m.emoji}</Text>
               <Text style={styles.moodLabel}>{m.label}</Text>
