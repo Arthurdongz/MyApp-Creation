@@ -597,19 +597,39 @@ function renderHeaderStats() {
 function renderHistory() {
   const list = document.getElementById("historyList");
   const empty = document.getElementById("historyEmpty");
-  const keys = Object.keys(state.entries)
+  const noMatch = document.getElementById("historyNoMatch");
+  const query = (document.getElementById("historySearch").value || "").trim().toLowerCase();
+  const allKeys = Object.keys(state.entries)
     .filter((k) => {
       const e = state.entries[k];
       return e.reflection || e.barnabasNote || e.momentDone;
     })
     .sort((a, b) => state.entries[b].dayNumber - state.entries[a].dayNumber);
 
-  if (keys.length === 0) {
+  if (allKeys.length === 0) {
     list.innerHTML = "";
     empty.hidden = false;
+    noMatch.hidden = true;
     return;
   }
   empty.hidden = true;
+
+  const keys = query
+    ? allKeys.filter((k) => {
+        const e = state.entries[k];
+        return (
+          (e.reflection && e.reflection.toLowerCase().includes(query)) ||
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query))
+        );
+      })
+    : allKeys;
+
+  if (keys.length === 0) {
+    list.innerHTML = "";
+    noMatch.hidden = false;
+    return;
+  }
+  noMatch.hidden = true;
 
   const moodEmoji = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -656,14 +676,34 @@ function favoriteSourceLine(f) {
 function renderFavorites() {
   const list = document.getElementById("favoritesList");
   const empty = document.getElementById("favoritesEmpty");
-  const favorites = state.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
+  const noMatch = document.getElementById("favoritesNoMatch");
+  const query = (document.getElementById("favoritesSearch").value || "").trim().toLowerCase();
+  const allFavorites = state.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
 
-  if (favorites.length === 0) {
+  if (allFavorites.length === 0) {
     list.innerHTML = "";
     empty.hidden = false;
+    noMatch.hidden = true;
     return;
   }
   empty.hidden = true;
+
+  const favorites = query
+    ? allFavorites.filter((f) => {
+        const sourceLine = favoriteSourceLine(f);
+        return (
+          (f.text && f.text.toLowerCase().includes(query)) ||
+          (sourceLine && sourceLine.toLowerCase().includes(query))
+        );
+      })
+    : allFavorites;
+
+  if (favorites.length === 0) {
+    list.innerHTML = "";
+    noMatch.hidden = false;
+    return;
+  }
+  noMatch.hidden = true;
 
   list.innerHTML = favorites
     .map((f) => {
@@ -785,6 +825,11 @@ function setupTabs() {
       if (btn.dataset.tab === "favorites") renderFavorites();
     });
   });
+}
+
+function setupSearch() {
+  document.getElementById("historySearch").addEventListener("input", renderHistory);
+  document.getElementById("favoritesSearch").addEventListener("input", renderFavorites);
 }
 
 function setupDayNav() {
@@ -1023,6 +1068,7 @@ function init() {
   setupSharePreview();
   setupBackup();
   setupOnboarding();
+  setupSearch();
   renderToday();
   renderStory();
   maybeShowOnboarding();

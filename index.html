@@ -162,16 +162,21 @@
         <p class="on-this-day-text" id="onThisDayText"></p>
       </article>
 
+      <input type="search" id="historySearch" class="search-input" placeholder="Search your journal...">
+
       <div id="historyList" class="history-list"></div>
       <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
+      <p id="historyNoMatch" class="empty-state" hidden>No entries match your search.</p>
     </section>
 
     <!-- FAVORITES -->
     <section id="tab-favorites" class="tab-panel">
       <h2 class="section-title">Favorites</h2>
       <p class="section-sub">Verses and quotes you've saved to come back to.</p>
+      <input type="search" id="favoritesSearch" class="search-input" placeholder="Search your favorites...">
       <div id="favoritesList" class="favorites-list"></div>
       <p id="favoritesEmpty" class="empty-state" hidden>Nothing saved yet — tap "Save" on a verse or quote you want to keep.</p>
+      <p id="favoritesNoMatch" class="empty-state" hidden>No favorites match your search.</p>
     </section>
 
     <!-- REWARDS -->

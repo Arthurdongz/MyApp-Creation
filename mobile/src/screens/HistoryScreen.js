@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useTheme } from "../theme";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
@@ -33,12 +34,24 @@ export default function HistoryScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const entries = store.state.entries;
-  const keys = Object.keys(entries)
+  const [query, setQuery] = useState("");
+  const allKeys = Object.keys(entries)
     .filter((k) => {
       const e = entries[k];
       return e.reflection || e.barnabasNote || e.momentDone;
     })
     .sort((a, b) => entries[b].dayNumber - entries[a].dayNumber);
+
+  const q = query.trim().toLowerCase();
+  const keys = q
+    ? allKeys.filter((k) => {
+        const e = entries[k];
+        return (
+          (e.reflection && e.reflection.toLowerCase().includes(q)) ||
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(q))
+        );
+      })
+    : allKeys;
 
   const onThisDay = onThisDaySnippet(entries, store.latestDay);
 
@@ -54,10 +67,22 @@ export default function HistoryScreen({ store }) {
         </View>
       ) : null}
 
-      {keys.length === 0 ? (
+      {allKeys.length === 0 ? null : (
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search your journal..."
+          placeholderTextColor={colors.textSoft}
+          value={query}
+          onChangeText={setQuery}
+        />
+      )}
+
+      {allKeys.length === 0 ? (
         <Text style={styles.empty}>
           Your journal is still quiet — write your first reflection on the Today tab.
         </Text>
+      ) : keys.length === 0 ? (
+        <Text style={styles.empty}>No entries match your search.</Text>
       ) : (
         keys.map((key) => {
           const e = entries[key];
@@ -98,6 +123,17 @@ function getStyles(colors, shadow) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
+    searchInput: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      fontSize: 14,
+      color: colors.text,
+      backgroundColor: colors.input,
+      marginBottom: 16,
+    },
     onThisDayCard: {
       backgroundColor: colors.momentCard,
       borderWidth: 1,

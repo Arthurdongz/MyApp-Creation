@@ -431,6 +431,18 @@ textarea {
   color: var(--text);
 }
 
+.search-input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
 .voice-select {
   width: 100%;
   border: 1px solid var(--border);
