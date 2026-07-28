@@ -237,6 +237,22 @@
       <button id="settingsThemeToggle" class="theme-toggle" aria-label="Toggle dark mode" type="button">🌙</button>
     </div>
 
+    <div id="voiceSettingsSection">
+      <h3 class="badges-title">Voice &amp; Speech</h3>
+      <p class="section-sub">Choose how the 🔊 Listen buttons sound.</p>
+
+      <label class="field-label" for="voiceSelect">Voice</label>
+      <select id="voiceSelect" class="voice-select"></select>
+
+      <label class="field-label" for="pitchRange">Pitch</label>
+      <input type="range" id="pitchRange" class="voice-range" min="0" max="2" step="0.1" value="1">
+
+      <label class="field-label" for="rateRange">Speed</label>
+      <input type="range" id="rateRange" class="voice-range" min="0.5" max="2" step="0.1" value="0.95">
+
+      <button id="testVoiceBtn" class="btn btn-secondary voice-test-btn" type="button">🔊 Test Voice</button>
+    </div>
+
     <h3 class="badges-title">Backup</h3>
     <p class="section-sub">Your journal lives only on this device. Export a backup now and then, or restore one here.</p>
     <div class="backup-actions">

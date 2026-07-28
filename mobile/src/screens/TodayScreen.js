@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import * as Speech from "expo-speech";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
@@ -9,16 +8,12 @@ import { VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
+import { speak } from "../speech";
 
 // The "Encouraging Thought" card is quotes-only now (true stories moved to
 // their own Story tab, backed by data/stories.js). WISDOM still holds
 // legacy "story"-type entries alongside quotes; filter down to just quotes.
 const QUOTES = WISDOM.filter((w) => w.type === "quote");
-
-function speak(text) {
-  Speech.stop();
-  Speech.speak(text, { rate: 0.95 });
-}
 
 const MOODS = [
   { key: "joyful", emoji: "😊", label: "Joyful" },
@@ -128,7 +123,7 @@ export default function TodayScreen({ store }) {
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>Verse</Text>
           <View style={styles.cardLabelActions}>
-            <TouchableOpacity onPress={() => speak(`${verse.text} — ${verse.ref}`)}>
+            <TouchableOpacity onPress={() => speak(`${verse.text} — ${verse.ref}`, settings)}>
               <Text style={styles.favoriteBtn}>🔊 Listen</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -152,7 +147,7 @@ export default function TodayScreen({ store }) {
       <Card>
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>A Word for You</Text>
-          <TouchableOpacity onPress={() => speak(encouragement)}>
+          <TouchableOpacity onPress={() => speak(encouragement, settings)}>
             <Text style={styles.favoriteBtn}>🔊 Listen</Text>
           </TouchableOpacity>
         </View>

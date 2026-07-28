@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Alert, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as Speech from "expo-speech";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
+import { speak } from "../speech";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
@@ -9,6 +11,19 @@ import {
   cancelEveningReminder,
   notificationsSupported,
 } from "../notifications";
+
+const PITCH_PRESETS = [
+  { label: "Lower", value: 0.8 },
+  { label: "Normal", value: 1.0 },
+  { label: "Higher", value: 1.3 },
+];
+
+const RATE_PRESETS = [
+  { label: "Slower", value: 0.75 },
+  { label: "Normal", value: 0.95 },
+  { label: "Faster", value: 1.15 },
+  { label: "Fastest", value: 1.4 },
+];
 
 const MORNING_PRESETS = [
   { label: "6:00 AM", hour: 6, minute: 0 },
@@ -29,6 +44,17 @@ export default function SettingsScreen({ store, onClose }) {
   const styles = getStyles(colors, shadow);
   const { settings, updateSettings } = store;
   const [backupMsg, setBackupMsg] = useState("");
+  const [voices, setVoices] = useState([]);
+  const [voicePickerOpen, setVoicePickerOpen] = useState(false);
+
+  useEffect(() => {
+    Speech.getAvailableVoicesAsync()
+      .then(setVoices)
+      .catch(() => setVoices([]));
+  }, []);
+
+  const selectedVoiceName =
+    voices.find((v) => v.identifier === settings.speechVoiceURI)?.name || "Default";
 
   const showBackupMsg = (text) => {
     setBackupMsg(text);
@@ -123,6 +149,102 @@ export default function SettingsScreen({ store, onClose }) {
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
+
+      <Text style={styles.sectionTitle}>Voice &amp; Speech</Text>
+      <Text style={styles.subtitle}>Choose how the 🔊 Listen buttons sound.</Text>
+
+      <View style={styles.settingsRow}>
+        <Text style={styles.settingsLabel}>Voice</Text>
+        <TouchableOpacity style={styles.voiceValueBtn} onPress={() => setVoicePickerOpen(true)}>
+          <Text style={styles.voiceValueText} numberOfLines={1}>
+            {selectedVoiceName} ›
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.settingsLabel}>Pitch</Text>
+      <View style={styles.presetRow}>
+        {PITCH_PRESETS.map((preset) => {
+          const active = settings.speechPitch === preset.value;
+          return (
+            <TouchableOpacity
+              key={preset.label}
+              style={[styles.presetBtn, active && styles.presetBtnActive]}
+              onPress={() => updateSettings({ speechPitch: preset.value })}
+            >
+              <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <Text style={[styles.settingsLabel, { marginTop: 14 }]}>Speed</Text>
+      <View style={styles.presetRow}>
+        {RATE_PRESETS.map((preset) => {
+          const active = settings.speechRate === preset.value;
+          return (
+            <TouchableOpacity
+              key={preset.label}
+              style={[styles.presetBtn, active && styles.presetBtnActive]}
+              onPress={() => updateSettings({ speechRate: preset.value })}
+            >
+              <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      <TouchableOpacity
+        style={styles.testVoiceBtn}
+        onPress={() => speak("This is what the voice will sound like when reading your verse or story aloud.", settings)}
+      >
+        <Text style={styles.testVoiceBtnText}>🔊 Test Voice</Text>
+      </TouchableOpacity>
+
+      <Modal visible={voicePickerOpen} animationType="slide" transparent onRequestClose={() => setVoicePickerOpen(false)}>
+        <View style={styles.modalBackdrop}>
+          <View style={styles.modalCard}>
+            <View style={styles.header}>
+              <Text style={styles.title}>Choose a Voice</Text>
+              <TouchableOpacity onPress={() => setVoicePickerOpen(false)} style={styles.closeBtn}>
+                <Text style={styles.closeBtnText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView style={styles.voiceList}>
+              <TouchableOpacity
+                style={styles.voiceRow}
+                onPress={() => {
+                  updateSettings({ speechVoiceURI: "" });
+                  setVoicePickerOpen(false);
+                }}
+              >
+                <Text style={[styles.voiceRowText, !settings.speechVoiceURI && styles.voiceRowTextActive]}>
+                  Default
+                </Text>
+              </TouchableOpacity>
+              {voices.map((v) => (
+                <TouchableOpacity
+                  key={v.identifier}
+                  style={styles.voiceRow}
+                  onPress={() => {
+                    updateSettings({ speechVoiceURI: v.identifier });
+                    setVoicePickerOpen(false);
+                  }}
+                >
+                  <Text
+                    style={[
+                      styles.voiceRowText,
+                      settings.speechVoiceURI === v.identifier && styles.voiceRowTextActive,
+                    ]}
+                  >
+                    {v.name} ({v.language})
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
 
       {notificationsSupported ? (
         <>
@@ -281,6 +403,49 @@ function getStyles(colors, shadow) {
     presetBtnActive: { backgroundColor: colors.sage, borderColor: colors.sage },
     presetText: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
     presetTextActive: { color: "#fff" },
+    voiceValueBtn: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 999,
+      paddingVertical: 6,
+      paddingHorizontal: 14,
+      maxWidth: 220,
+    },
+    voiceValueText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    testVoiceBtn: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 12,
+      paddingVertical: 12,
+      alignItems: "center",
+      marginTop: 16,
+      marginBottom: 24,
+    },
+    testVoiceBtnText: { color: colors.sageDark, fontWeight: "700", fontSize: 14 },
+    modalBackdrop: {
+      flex: 1,
+      backgroundColor: "rgba(20, 24, 18, 0.55)",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20,
+    },
+    modalCard: {
+      backgroundColor: colors.card,
+      borderRadius: 20,
+      padding: 20,
+      width: "100%",
+      maxWidth: 420,
+      maxHeight: "75%",
+      ...shadow,
+    },
+    voiceList: { marginTop: 4 },
+    voiceRow: {
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    voiceRowText: { fontSize: 14, color: colors.text },
+    voiceRowTextActive: { color: colors.sageDark, fontWeight: "700" },
     backupRow: { flexDirection: "row", gap: 10, flexWrap: "wrap" },
     secondaryBtn: {
       borderWidth: 1,
