@@ -56,162 +56,215 @@
         <button id="dayNavJump" class="day-nav-jump" hidden>Back to today</button>
       </div>
 
-      <article class="card moment-card" id="momentFollowUpCard" hidden>
-        <p class="card-label">Yesterday's Barnabas Moment</p>
-        <p class="moment-text" id="momentFollowUpText"></p>
-        <p class="follow-up-question">Did you get to it?</p>
-        <div class="follow-up-actions">
-          <button type="button" class="follow-up-btn" data-status="done">Yes, I did it 🎉</button>
-          <button type="button" class="follow-up-btn" data-status="not_yet">Not yet, but I still might</button>
-          <button type="button" class="follow-up-btn" data-status="no">No, not this time</button>
+      <!-- Today's Reading: Verse, A Word for You, Encouraging Thought grouped as one card -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">📖</span>
+          <h2 class="section-group-title">Today's Reading</h2>
         </div>
-      </article>
-
-      <article class="card verse-card">
-        <div class="card-label-row">
-          <p class="card-label">Verse</p>
-          <div class="card-label-actions">
-            <button id="verseListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
-            <button id="verseShareBtn" class="favorite-btn" type="button">↗ Share</button>
-            <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+        <article class="unified-card reading-card">
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">Verse</p>
+              <div class="mini-actions">
+                <button id="verseListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+                <button id="verseShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="verse-text" id="verseText"></p>
+            <p class="verse-ref" id="verseRef"></p>
+            <p class="share-msg" id="verseShareMsg" hidden></p>
           </div>
-        </div>
-        <p class="verse-text" id="verseText"></p>
-        <p class="verse-ref" id="verseRef"></p>
-        <p class="share-msg" id="verseShareMsg" hidden></p>
-      </article>
 
-      <article class="card">
-        <div class="card-label-row">
-          <p class="card-label">A Word for You</p>
-          <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
-        </div>
-        <p class="encouragement-text" id="encouragementText"></p>
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">A Word for You</p>
+              <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+            </div>
+            <p class="encouragement-text" id="encouragementText"></p>
 
-        <button type="button" class="custom-moment-link" id="wordReflectLinkBtn">Let this sit for a moment — what does it stir in you?</button>
-        <div class="custom-moment-prompt" id="wordReflectPrompt" hidden>
-          <textarea id="wordReflectInput" rows="2" placeholder="What does this stir in you?"></textarea>
-          <div class="custom-moment-btn-row">
-            <button type="button" id="wordReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
-            <button type="button" id="wordReflectCancelBtn" class="moment-intention-change">Cancel</button>
+            <button type="button" class="custom-moment-link" id="wordReflectLinkBtn">Let this sit for a moment — what does it stir in you?</button>
+            <div class="custom-moment-prompt" id="wordReflectPrompt" hidden>
+              <textarea id="wordReflectInput" rows="2" placeholder="What does this stir in you?"></textarea>
+              <div class="custom-moment-btn-row">
+                <button type="button" id="wordReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+                <button type="button" id="wordReflectCancelBtn" class="moment-intention-change">Cancel</button>
+              </div>
+            </div>
+            <p class="moment-reflect-saved-msg" id="wordReflectSavedMsg" hidden>Saved. Thank you for sitting with that. ⭐⭐</p>
           </div>
-        </div>
-        <p class="moment-reflect-saved-msg" id="wordReflectSavedMsg" hidden>Saved. Thank you for sitting with that. ⭐⭐</p>
-      </article>
 
-      <article class="card">
-        <div class="card-label-row">
-          <p class="card-label">Encouraging Thought</p>
-          <div class="card-label-actions">
-            <button id="wisdomShareBtn" class="favorite-btn" type="button">↗ Share</button>
-            <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">Encouraging Thought</p>
+              <div class="mini-actions">
+                <button id="wisdomShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="wisdom-text" id="wisdomText"></p>
+            <p class="wisdom-source" id="wisdomSource"></p>
+            <p class="share-msg" id="wisdomShareMsg" hidden></p>
           </div>
-        </div>
-        <p class="wisdom-text" id="wisdomText"></p>
-        <p class="wisdom-source" id="wisdomSource"></p>
-        <p class="share-msg" id="wisdomShareMsg" hidden></p>
-      </article>
+        </article>
+      </div>
 
-      <article class="card moment-card">
-        <p class="card-label">Your Barnabas Moment</p>
-        <p class="moment-text" id="momentText"></p>
-
-        <div class="custom-moment-row" id="customMomentRow" hidden>
-          <p class="moment-intention-text">This is your own idea for today.</p>
-          <button type="button" class="moment-intention-change" id="useSuggestionBtn">Use today's suggestion instead</button>
+      <!-- Your Barnabas Moment: yesterday's follow-up folded in as an inset strip, Reach Out folded in as an inline link -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">🤝</span>
+          <h2 class="section-group-title">Your Barnabas Moment</h2>
         </div>
-        <div class="custom-moment-prompt" id="customMomentPrompt" hidden>
-          <textarea id="customMomentInput" rows="2" placeholder="What's your own act of kindness today?"></textarea>
-          <div class="custom-moment-btn-row">
-            <button type="button" id="useCustomMomentBtn" class="btn btn-secondary moment-reflect-save-btn">Use this instead</button>
-            <button type="button" id="cancelCustomMomentBtn" class="moment-intention-change">Cancel</button>
+        <article class="card moment-card">
+          <div class="followup-strip" id="momentFollowUpCard" hidden>
+            <p class="followup-strip-label">Yesterday, you planned to:</p>
+            <p class="followup-strip-text" id="momentFollowUpText"></p>
+            <p class="follow-up-question">Did you get to it?</p>
+            <div class="follow-up-actions">
+              <button type="button" class="follow-up-btn" data-status="done">Yes, I did it 🎉</button>
+              <button type="button" class="follow-up-btn" data-status="not_yet">Not yet, but I still might</button>
+              <button type="button" class="follow-up-btn" data-status="no">No, not this time</button>
+            </div>
           </div>
-        </div>
-        <button type="button" class="custom-moment-link" id="customMomentLinkBtn">Or, write your own kindness for today</button>
 
-        <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
-          <p class="moment-intention-label">When will you do this?</p>
-          <div class="moment-intention-options">
-            <button type="button" class="intention-btn" data-intention="today">Today</button>
-            <button type="button" class="intention-btn" data-intention="tonight">Tonight</button>
-            <button type="button" class="intention-btn" data-intention="tomorrow">Tomorrow morning</button>
+          <p class="moment-text" id="momentText"></p>
+
+          <div class="custom-moment-row" id="customMomentRow" hidden>
+            <p class="moment-intention-text">This is your own idea for today.</p>
+            <button type="button" class="moment-intention-change" id="useSuggestionBtn">Use today's suggestion instead</button>
           </div>
+          <div class="custom-moment-prompt" id="customMomentPrompt" hidden>
+            <textarea id="customMomentInput" rows="2" placeholder="What's your own act of kindness today?"></textarea>
+            <div class="custom-moment-btn-row">
+              <button type="button" id="useCustomMomentBtn" class="btn btn-secondary moment-reflect-save-btn">Use this instead</button>
+              <button type="button" id="cancelCustomMomentBtn" class="moment-intention-change">Cancel</button>
+            </div>
+          </div>
+          <button type="button" class="custom-moment-link" id="customMomentLinkBtn">Or, write your own kindness for today</button>
+
+          <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
+            <p class="moment-intention-label">When will you do this?</p>
+            <div class="moment-intention-options">
+              <button type="button" class="intention-btn" data-intention="today">Today</button>
+              <button type="button" class="intention-btn" data-intention="tonight">Tonight</button>
+              <button type="button" class="intention-btn" data-intention="tomorrow">Tomorrow morning</button>
+            </div>
+          </div>
+          <div class="moment-intention-row" id="momentIntentionRow" hidden>
+            <p class="moment-intention-text" id="momentIntentionText"></p>
+            <button type="button" class="moment-intention-change" id="momentIntentionChangeBtn">Change</button>
+          </div>
+          <div class="moment-actions">
+            <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
+            <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>
+          </div>
+          <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
+          <div class="moment-reflect-prompt" id="momentReflectPrompt" hidden>
+            <label class="moment-reflect-label" for="momentReflectInput">What happened? (optional)</label>
+            <textarea id="momentReflectInput" rows="2" placeholder="What happened when you did it?"></textarea>
+            <button type="button" id="momentReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+          </div>
+          <p class="moment-reflect-saved-msg" id="momentReflectSavedMsg" hidden>Saved. Thank you for sharing that. ⭐⭐</p>
+          <p class="moment-share-msg" id="momentShareMsg" hidden></p>
+
+          <div class="reach-out-inline">
+            <span>💛 If today feels heavy —</span>
+            <button type="button" id="reachOutBtn">reach out to someone who cares</button>
+          </div>
+          <p class="share-msg" id="reachOutMsg" hidden></p>
+        </article>
+      </div>
+
+      <!-- A Little Extra Support: call nudge / check-in nudge / crisis resource unified into one card -->
+      <div class="section-group" id="supportSection" hidden>
+        <div class="section-group-header">
+          <span class="section-group-icon">💬</span>
+          <h2 class="section-group-title">A Little Extra Support</h2>
         </div>
-        <div class="moment-intention-row" id="momentIntentionRow" hidden>
-          <p class="moment-intention-text" id="momentIntentionText"></p>
-          <button type="button" class="moment-intention-change" id="momentIntentionChangeBtn">Change</button>
+        <article class="unified-card support-card">
+          <div class="unified-block" id="crisisCard" hidden>
+            <p class="card-label">A Resource, If You Need It</p>
+            <p class="reach-out-text">It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself.</p>
+            <p class="reach-out-text">If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line. Outside the US, searching "crisis line" with your country's name will find a local number.</p>
+            <a href="tel:988" class="btn btn-secondary crisis-call-btn">📞 Call 988</a>
+          </div>
+
+          <div class="unified-block" id="checkInNudgeCard" hidden>
+            <div id="checkInTalkVariant">
+              <p class="card-label">Since It's Been Heavy Lately</p>
+              <p class="reach-out-text">This past week has felt like a lot. A problem shared is a problem halved — is there someone you trust that you could talk to about how you're really doing?</p>
+              <button id="talkToSomeoneBtn" class="btn btn-secondary" type="button">💬 Talk to Someone</button>
+              <p class="share-msg" id="talkToSomeoneMsg" hidden></p>
+            </div>
+            <div id="checkInGratitudeVariant">
+              <p class="card-label">A Moment to Pause</p>
+              <p class="reach-out-text">In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again.</p>
+            </div>
+          </div>
+
+          <div class="unified-block" id="callNudgeCard" hidden>
+            <p class="card-label">A Little Further This Week</p>
+            <p class="reach-out-text">A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?</p>
+            <a href="tel:" class="btn btn-secondary crisis-call-btn">📞 Call Someone</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Reflect on Today: three journal fields as accordion rows -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">📝</span>
+          <h2 class="section-group-title" id="reflectionCardLabel">Today's Reflection</h2>
         </div>
-        <div class="moment-actions">
-          <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
-          <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>
-        </div>
-        <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
-        <div class="moment-reflect-prompt" id="momentReflectPrompt" hidden>
-          <label class="moment-reflect-label" for="momentReflectInput">What happened? (optional)</label>
-          <textarea id="momentReflectInput" rows="2" placeholder="What happened when you did it?"></textarea>
-          <button type="button" id="momentReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
-        </div>
-        <p class="moment-reflect-saved-msg" id="momentReflectSavedMsg" hidden>Saved. Thank you for sharing that. ⭐⭐</p>
-        <p class="moment-share-msg" id="momentShareMsg" hidden></p>
-      </article>
+        <article class="card reflection-card">
 
-      <article class="card reach-out-card">
-        <p class="card-label">Reach Out</p>
-        <p class="reach-out-text">If today feels heavy, you don't have to carry it alone. Send a message to someone who cares about you — even just to say hello.</p>
-        <button id="reachOutBtn" class="btn btn-secondary" type="button">💛 Reach Out to Someone</button>
-        <p class="share-msg" id="reachOutMsg" hidden></p>
-      </article>
+          <div class="accordion-row" id="reflectHeartRow">
+            <button type="button" class="accordion-row-head" data-accordion="heart">
+              <span class="accordion-row-title"><span class="emoji">💭</span> What's on your heart today?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectHeartPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="reflectionInput" rows="3" placeholder="Write freely — this is just for you..."></textarea>
+            </div>
+          </div>
 
-      <article class="card story-card" id="callNudgeCard" hidden>
-        <p class="card-label">A Little Further This Week</p>
-        <p class="reach-out-text">A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?</p>
-        <a href="tel:" class="btn btn-secondary crisis-call-btn">📞 Call Someone</a>
-      </article>
+          <div class="accordion-row" id="reflectBarnabasRow">
+            <button type="button" class="accordion-row-head" data-accordion="barnabas">
+              <span class="accordion-row-title"><span class="emoji">🤝</span> Your Barnabas moment — what did you do, and how did it feel?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectBarnabasPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="barnabasInput" rows="3" placeholder="What did you do for someone today, and how did it feel?"></textarea>
+            </div>
+          </div>
 
-      <article class="card story-card" id="checkInNudgeCard" hidden>
-        <div id="checkInTalkVariant">
-          <p class="card-label">Since It's Been Heavy Lately</p>
-          <p class="reach-out-text">This past week has felt like a lot. A problem shared is a problem halved — is there someone you trust that you could talk to about how you're really doing?</p>
-          <button id="talkToSomeoneBtn" class="btn btn-secondary" type="button">💬 Talk to Someone</button>
-          <p class="share-msg" id="talkToSomeoneMsg" hidden></p>
-        </div>
-        <div id="checkInGratitudeVariant">
-          <p class="card-label">A Moment to Pause</p>
-          <p class="reach-out-text">In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again.</p>
-        </div>
-      </article>
+          <div class="accordion-row" id="reflectKindnessRow">
+            <button type="button" class="accordion-row-head" data-accordion="kindness">
+              <span class="accordion-row-title"><span class="emoji">💛</span> Someone watered me today — did anyone show you kindness?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectKindnessPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="receivedKindnessInput" rows="3" placeholder="What did someone do for you today, and how did it feel?"></textarea>
+            </div>
+          </div>
 
-      <article class="card reach-out-card" id="crisisCard" hidden>
-        <p class="card-label">A Resource, If You Need It</p>
-        <p class="reach-out-text">It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself.</p>
-        <p class="reach-out-text">If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line. Outside the US, searching "crisis line" with your country's name will find a local number.</p>
-        <a href="tel:988" class="btn btn-secondary crisis-call-btn">📞 Call 988</a>
-      </article>
+          <p class="field-label" id="moodFieldLabel">How are you feeling?</p>
+          <div class="mood-picker" id="moodPicker">
+            <button type="button" class="mood-btn" data-mood="joyful">😊<span>Joyful</span></button>
+            <button type="button" class="mood-btn" data-mood="peaceful">🙂<span>Peaceful</span></button>
+            <button type="button" class="mood-btn" data-mood="hopeful">🌱<span>Hopeful</span></button>
+            <button type="button" class="mood-btn" data-mood="tired">😔<span>Tired</span></button>
+            <button type="button" class="mood-btn" data-mood="struggling">😢<span>Struggling</span></button>
+          </div>
 
-      <article class="card reflection-card">
-        <p class="card-label" id="reflectionCardLabel">Today's Reflection</p>
-
-        <label class="field-label" for="reflectionInput">What's on your heart today?</label>
-        <textarea id="reflectionInput" rows="3" placeholder="Write freely — this is just for you..."></textarea>
-
-        <label class="field-label" for="barnabasInput">Your Barnabas moment — what did you do, and how did it feel?</label>
-        <textarea id="barnabasInput" rows="3" placeholder="What did you do for someone today, and how did it feel?"></textarea>
-
-        <label class="field-label" for="receivedKindnessInput">Someone watered me today — did anyone show you kindness?</label>
-        <textarea id="receivedKindnessInput" rows="3" placeholder="What did someone do for you today, and how did it feel?"></textarea>
-
-        <p class="field-label">How are you feeling?</p>
-        <div class="mood-picker" id="moodPicker">
-          <button type="button" class="mood-btn" data-mood="joyful">😊<span>Joyful</span></button>
-          <button type="button" class="mood-btn" data-mood="peaceful">🙂<span>Peaceful</span></button>
-          <button type="button" class="mood-btn" data-mood="hopeful">🌱<span>Hopeful</span></button>
-          <button type="button" class="mood-btn" data-mood="tired">😔<span>Tired</span></button>
-          <button type="button" class="mood-btn" data-mood="struggling">😢<span>Struggling</span></button>
-        </div>
-
-        <button id="saveReflectionBtn" class="btn btn-primary">Save Reflection</button>
-        <p class="save-msg" id="saveMsg" hidden>Saved gently. Thank you for showing up today. ⭐⭐</p>
-      </article>
+          <button id="saveReflectionBtn" class="btn btn-primary">Save Reflection</button>
+          <p class="save-msg" id="saveMsg" hidden>Saved gently. Thank you for showing up today. ⭐⭐</p>
+        </article>
+      </div>
 
     </section>
 
