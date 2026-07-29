@@ -83,6 +83,11 @@ export default function TodayScreen({ store }) {
     !(prevEntry && prevEntry.momentDone) &&
     !(prevEntry && prevEntry.momentFollowUpAsked);
 
+  // Shown only on two calendar weekdays (Wednesday, Saturday) — a deliberate
+  // once-or-twice-a-week cadence, not a daily nag, so it keeps its weight.
+  const todayWeekday = new Date().getDay();
+  const showCallNudge = isToday && (todayWeekday === 3 || todayWeekday === 6);
+
   const handleFollowUp = (status) => {
     hapticTap();
     answerMomentFollowUp(prevDayNumber, status);
@@ -103,8 +108,11 @@ export default function TodayScreen({ store }) {
 
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
+  const [receivedKindness, setReceivedKindness] = useState(today.receivedKindness || "");
   const [showSaved, setShowSaved] = useState(false);
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
+  const [showWordReflectPrompt, setShowWordReflectPrompt] = useState(false);
+  const [showWordReflectSaved, setShowWordReflectSaved] = useState(false);
 
   // The viewed day's saved reflection/note only comes through on first
   // mount via useState's initial value — keep the text boxes in sync
@@ -112,20 +120,30 @@ export default function TodayScreen({ store }) {
   useEffect(() => {
     setReflection(today.reflection || "");
     setBarnabasNote(today.barnabasNote || "");
+    setReceivedKindness(today.receivedKindness || "");
     setShowSaved(false);
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
+    setShowWordReflectPrompt(false);
   }, [viewingDay]);
 
   const handleSave = () => {
-    saveReflection(reflection, barnabasNote);
+    saveReflection(reflection, barnabasNote, receivedKindness);
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
   };
 
+  const handleWordReflectSave = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness);
+    hapticSuccess();
+    setShowWordReflectPrompt(false);
+    setShowWordReflectSaved(true);
+    setTimeout(() => setShowWordReflectSaved(false), 2500);
+  };
+
   const handleMomentReflectSave = () => {
-    saveReflection(reflection, barnabasNote);
+    saveReflection(reflection, barnabasNote, receivedKindness);
     hapticSuccess();
     setShowMomentReflectSaved(true);
     setTimeout(() => setShowMomentReflectSaved(false), 2500);
@@ -147,6 +165,15 @@ export default function TodayScreen({ store }) {
 
   const reachOutToSomeone = async () => {
     const message = "Hey, I wanted to reach out today — just thinking of you. How are you doing?";
+    try {
+      await Share.share({ message });
+    } catch (e) {
+      // user dismissed the share sheet — nothing to do
+    }
+  };
+
+  const talkToSomeone = async () => {
+    const message = "Hey, do you have a few minutes to talk? I could use a listening ear lately.";
     try {
       await Share.share({ message });
     } catch (e) {
@@ -240,6 +267,45 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         </View>
         <Text style={styles.bodyText}>{encouragement}</Text>
+
+        {!today.reflection ? (
+          showWordReflectPrompt ? (
+            <View style={styles.customMomentPrompt}>
+              <TextInput
+                style={[styles.textArea, { marginTop: 12 }]}
+                multiline
+                numberOfLines={2}
+                placeholder="What does this stir in you?"
+                placeholderTextColor={colors.textSoft}
+                value={reflection}
+                onChangeText={setReflection}
+              />
+              <View style={styles.customMomentBtnRow}>
+                <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleWordReflectSave}>
+                  <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowWordReflectPrompt(false)}>
+                  <Text style={styles.intentionChange}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={[styles.customMomentLinkWrap, { marginTop: 12, marginBottom: 0 }]}
+              onPress={() => {
+                hapticTap();
+                setShowWordReflectPrompt(true);
+              }}
+            >
+              <Text style={styles.customMomentLink}>Let this sit for a moment — what does it stir in you?</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
+        {showWordReflectSaved ? (
+          <Text style={[styles.momentReflectSavedMsg, { marginTop: 12 }]}>
+            Saved. Thank you for sitting with that. ⭐⭐
+          </Text>
+        ) : null}
       </Card>
 
       <Card>
@@ -398,6 +464,45 @@ export default function TodayScreen({ store }) {
         </TouchableOpacity>
       </Card>
 
+      {showCallNudge ? (
+        <Card style={styles.callNudgeCard}>
+          <Text style={styles.cardLabel}>A Little Further This Week</Text>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+            A text is easy to send, and just as easy to scroll past. Is there someone you could actually
+            call, or see face to face, instead of just texting today?
+          </Text>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => Linking.openURL("tel:")}>
+            <Text style={styles.secondaryButtonText}>📞 Call Someone</Text>
+          </TouchableOpacity>
+        </Card>
+      ) : null}
+
+      {isToday && store.showCheckInNudge ? (
+        <Card style={styles.callNudgeCard}>
+          {store.checkInNudgeVariant === "talk" ? (
+            <>
+              <Text style={styles.cardLabel}>Since It's Been Heavy Lately</Text>
+              <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+                This past week has felt like a lot. A problem shared is a problem halved — is there
+                someone you trust that you could talk to about how you're really doing?
+              </Text>
+              <TouchableOpacity style={styles.secondaryButton} onPress={talkToSomeone}>
+                <Text style={styles.secondaryButtonText}>💬 Talk to Someone</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <Text style={styles.cardLabel}>A Moment to Pause</Text>
+              <Text style={styles.bodyText}>
+                In this heavy season, pause for a moment: what's one small thing you're grateful for
+                right now, even if it's tiny? And think back — is there something that once felt
+                impossible to get through, that you made it through anyway? You can again.
+              </Text>
+            </>
+          )}
+        </Card>
+      ) : null}
+
       {isToday && store.showCrisisNudge ? (
         <Card style={styles.crisisCard}>
           <Text style={styles.cardLabel}>A Resource, If You Need It</Text>
@@ -453,6 +558,19 @@ export default function TodayScreen({ store }) {
           placeholderTextColor={colors.textSoft}
           value={barnabasNote}
           onChangeText={setBarnabasNote}
+        />
+
+        <Text style={styles.fieldLabel}>
+          Someone watered me today — did anyone show you kindness?
+        </Text>
+        <TextInput
+          style={styles.textArea}
+          multiline
+          numberOfLines={3}
+          placeholder="What did someone do for you today, and how did it feel?"
+          placeholderTextColor={colors.textSoft}
+          value={receivedKindness}
+          onChangeText={setReceivedKindness}
         />
 
         <Text style={styles.fieldLabel}>How are you feeling?</Text>
@@ -546,6 +664,7 @@ function getStyles(colors) {
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },
+    callNudgeCard: { backgroundColor: colors.storyCard },
     crisisCard: { backgroundColor: colors.reachOutCard },
     followUpCard: { backgroundColor: colors.momentCard },
     followUpQuestion: { fontSize: 13, fontWeight: "600", color: colors.sageDark, marginBottom: 10 },

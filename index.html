@@ -87,6 +87,16 @@
           <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
         </div>
         <p class="encouragement-text" id="encouragementText"></p>
+
+        <button type="button" class="custom-moment-link" id="wordReflectLinkBtn">Let this sit for a moment — what does it stir in you?</button>
+        <div class="custom-moment-prompt" id="wordReflectPrompt" hidden>
+          <textarea id="wordReflectInput" rows="2" placeholder="What does this stir in you?"></textarea>
+          <div class="custom-moment-btn-row">
+            <button type="button" id="wordReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+            <button type="button" id="wordReflectCancelBtn" class="moment-intention-change">Cancel</button>
+          </div>
+        </div>
+        <p class="moment-reflect-saved-msg" id="wordReflectSavedMsg" hidden>Saved. Thank you for sitting with that. ⭐⭐</p>
       </article>
 
       <article class="card">
@@ -152,6 +162,25 @@
         <p class="share-msg" id="reachOutMsg" hidden></p>
       </article>
 
+      <article class="card story-card" id="callNudgeCard" hidden>
+        <p class="card-label">A Little Further This Week</p>
+        <p class="reach-out-text">A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?</p>
+        <a href="tel:" class="btn btn-secondary crisis-call-btn">📞 Call Someone</a>
+      </article>
+
+      <article class="card story-card" id="checkInNudgeCard" hidden>
+        <div id="checkInTalkVariant">
+          <p class="card-label">Since It's Been Heavy Lately</p>
+          <p class="reach-out-text">This past week has felt like a lot. A problem shared is a problem halved — is there someone you trust that you could talk to about how you're really doing?</p>
+          <button id="talkToSomeoneBtn" class="btn btn-secondary" type="button">💬 Talk to Someone</button>
+          <p class="share-msg" id="talkToSomeoneMsg" hidden></p>
+        </div>
+        <div id="checkInGratitudeVariant">
+          <p class="card-label">A Moment to Pause</p>
+          <p class="reach-out-text">In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again.</p>
+        </div>
+      </article>
+
       <article class="card reach-out-card" id="crisisCard" hidden>
         <p class="card-label">A Resource, If You Need It</p>
         <p class="reach-out-text">It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself.</p>
@@ -167,6 +196,9 @@
 
         <label class="field-label" for="barnabasInput">Your Barnabas moment — what did you do, and how did it feel?</label>
         <textarea id="barnabasInput" rows="3" placeholder="What did you do for someone today, and how did it feel?"></textarea>
+
+        <label class="field-label" for="receivedKindnessInput">Someone watered me today — did anyone show you kindness?</label>
+        <textarea id="receivedKindnessInput" rows="3" placeholder="What did someone do for you today, and how did it feel?"></textarea>
 
         <p class="field-label">How are you feeling?</p>
         <div class="mood-picker" id="moodPicker">
@@ -237,6 +269,7 @@
       <article class="card recap-card" id="weeklyRecapCard" hidden>
         <p class="card-label">This Week</p>
         <p class="recap-text" id="weeklyRecapText"></p>
+        <p class="recap-text" id="weeklyRecapReceivedText" style="margin-top: 8px;"></p>
       </article>
 
       <div class="rewards-summary">

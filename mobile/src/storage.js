@@ -44,6 +44,7 @@ function defaultSettings() {
     speechPitch: 1,
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
+    lastCheckInNudgeShownAt: null,
   };
 }
 
@@ -65,6 +66,7 @@ function emptyEntry(dayNumber, journeyStartDate) {
     mood: null,
     reflection: "",
     barnabasNote: "",
+    receivedKindness: "",
     momentDone: false,
     momentIntention: null,
     customMoment: null,
@@ -147,18 +149,36 @@ function daysSinceKey(key) {
 // once every 14 days even if the pattern continues, so it never feels like
 // nagging — "days > 0" lets it stay visible for the rest of the day it's
 // first triggered on, since that's the same day lastShownAt gets set to.
-function computeShowCrisisNudge(entries, latestDay, lastShownAt) {
-  if (lastShownAt) {
-    const days = daysSinceKey(lastShownAt);
-    if (days > 0 && days < 14) return false;
-  }
+function countStrugglingDays(entries, latestDay) {
   const start = Math.max(1, latestDay - 6);
   let strugglingCount = 0;
   for (let day = start; day <= latestDay; day++) {
     const entry = entries[`day-${day}`];
     if (entry && entry.mood === "struggling") strugglingCount += 1;
   }
-  return strugglingCount >= 3;
+  return strugglingCount;
+}
+
+function computeShowCrisisNudge(entries, latestDay, lastShownAt) {
+  if (lastShownAt) {
+    const days = daysSinceKey(lastShownAt);
+    if (days > 0 && days < 14) return false;
+  }
+  return countStrugglingDays(entries, latestDay) >= 3;
+}
+
+// A softer companion to the crisis nudge — fires on a lighter, earlier
+// signal (2 struggling days in the last week rather than 3+), offering
+// human connection or a reflective pause instead of crisis resources.
+// Suppressed whenever the crisis nudge itself is showing, so the two never
+// stack into two heavy cards at once.
+function computeShowCheckInNudge(entries, latestDay, lastShownAt, showCrisisNudge) {
+  if (showCrisisNudge) return false;
+  if (lastShownAt) {
+    const days = daysSinceKey(lastShownAt);
+    if (days > 0 && days < 14) return false;
+  }
+  return countStrugglingDays(entries, latestDay) >= 2;
 }
 
 // A quick look back at the last 7 journey days (or fewer, near the very
@@ -169,6 +189,7 @@ export function computeWeeklyRecap(entries, latestDay) {
   let daysShownUp = 0;
   let momentsDone = 0;
   let journalEntries = 0;
+  let kindnessReceived = 0;
   for (let day = start; day <= latestDay; day++) {
     const entry = entries[`day-${day}`];
     if (!entry) continue;
@@ -177,8 +198,9 @@ export function computeWeeklyRecap(entries, latestDay) {
     }
     if (entry.momentDone) momentsDone += 1;
     if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+    if (entry.receivedKindness) kindnessReceived += 1;
   }
-  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+  return { daysShownUp, momentsDone, journalEntries, kindnessReceived, totalDays: latestDay - start + 1 };
 }
 
 function ensureDayEntryWithStar(state, dayNumber) {
@@ -378,11 +400,12 @@ export function useJournalStore() {
   );
 
   const saveReflection = useCallback(
-    (reflection, barnabasNote) => {
+    (reflection, barnabasNote, receivedKindness) => {
       updateViewedEntry((entry) => {
         const trimmedReflection = reflection.trim();
         const trimmedNote = barnabasNote.trim();
-        const hasContent = trimmedReflection || trimmedNote;
+        const trimmedReceived = (receivedKindness || "").trim();
+        const hasContent = trimmedReflection || trimmedNote || trimmedReceived;
         const alreadyAwarded = entry.starsAwarded.journal;
         const starsGained = hasContent && !alreadyAwarded ? 2 : 0;
         return {
@@ -390,6 +413,7 @@ export function useJournalStore() {
             ...entry,
             reflection: trimmedReflection,
             barnabasNote: trimmedNote,
+            receivedKindness: trimmedReceived,
             starsAwarded: {
               ...entry.starsAwarded,
               journal: alreadyAwarded || Boolean(hasContent),
@@ -457,6 +481,21 @@ export function useJournalStore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, showCrisisNudge]);
 
+  const showCheckInNudge = ready
+    ? computeShowCheckInNudge(state.entries, latestDay, state.settings.lastCheckInNudgeShownAt, showCrisisNudge)
+    : false;
+  // Alternates between the two check-in messages based on the day number,
+  // so it stays stable within a day but varies across occurrences.
+  const checkInNudgeVariant = latestDay % 2 === 0 ? "talk" : "gratitude";
+
+  useEffect(() => {
+    if (!ready) return;
+    if (showCheckInNudge && state.settings.lastCheckInNudgeShownAt !== todayKey()) {
+      updateSettings({ lastCheckInNudgeShownAt: todayKey() });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, showCheckInNudge]);
+
   const completeOnboarding = useCallback(async () => {
     const granted = await requestNotificationPermission();
     let morningOk = false;
@@ -510,6 +549,8 @@ export function useJournalStore() {
     momentsDone,
     weeklyRecap,
     showCrisisNudge,
+    showCheckInNudge,
+    checkInNudgeVariant,
     totalStars: state.totalStars,
     favorites: state.favorites,
     settings: state.settings,

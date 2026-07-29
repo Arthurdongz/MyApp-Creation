@@ -21,7 +21,7 @@ function onThisDaySnippet(entries, latestDay) {
     const dayNumber = latestDay - days;
     if (dayNumber < 1) continue;
     const entry = entries[`day-${dayNumber}`];
-    const snippet = entry && (entry.reflection || entry.barnabasNote);
+    const snippet = entry && (entry.reflection || entry.barnabasNote || entry.receivedKindness);
     if (snippet) {
       const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
       return `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
@@ -38,7 +38,7 @@ export default function HistoryScreen({ store }) {
   const allKeys = Object.keys(entries)
     .filter((k) => {
       const e = entries[k];
-      return e.reflection || e.barnabasNote || e.momentDone;
+      return e.reflection || e.barnabasNote || e.receivedKindness || e.momentDone;
     })
     .sort((a, b) => entries[b].dayNumber - entries[a].dayNumber);
 
@@ -48,7 +48,8 @@ export default function HistoryScreen({ store }) {
         const e = entries[k];
         return (
           (e.reflection && e.reflection.toLowerCase().includes(q)) ||
-          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(q))
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(q)) ||
+          (e.receivedKindness && e.receivedKindness.toLowerCase().includes(q))
         );
       })
     : allKeys;
@@ -108,6 +109,12 @@ export default function HistoryScreen({ store }) {
                 <View style={styles.block}>
                   <Text style={styles.blockLabel}>Barnabas Moment</Text>
                   <Text style={styles.blockText}>Marked as done.</Text>
+                </View>
+              ) : null}
+              {e.receivedKindness ? (
+                <View style={styles.block}>
+                  <Text style={styles.blockLabel}>Kindness Received</Text>
+                  <Text style={styles.blockText}>{e.receivedKindness}</Text>
                 </View>
               ) : null}
             </View>

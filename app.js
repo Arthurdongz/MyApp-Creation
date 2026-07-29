@@ -51,6 +51,7 @@ function defaultSettings() {
     speechPitch: 1,
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
+    lastCheckInNudgeShownAt: null,
   };
 }
 
@@ -102,6 +103,10 @@ let viewingDay = unlockedDay();
 // a UI toggle, not persisted, reset whenever the viewed day changes.
 let showCustomMomentInputUI = false;
 
+// Whether the "let this sit for a moment" reflection box (under A Word for
+// You) is currently open — same kind of purely-local UI toggle.
+let showWordReflectInputUI = false;
+
 function ensureDayEntry(dayNumber) {
   const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
@@ -111,6 +116,7 @@ function ensureDayEntry(dayNumber) {
       mood: null,
       reflection: "",
       barnabasNote: "",
+      receivedKindness: "",
       momentDone: false,
       momentIntention: null,
       customMoment: null,
@@ -492,6 +498,22 @@ async function reachOut() {
   }
 }
 
+async function talkToSomeone() {
+  const message = "Hey, do you have a few minutes to talk? I could use a listening ear lately.";
+  const result = await shareText(message);
+  const msgEl = document.getElementById("talkToSomeoneMsg");
+  if (result === "copied") {
+    msgEl.textContent = "Copied! Paste it into a text or message to send it.";
+    msgEl.hidden = false;
+    setTimeout(() => { msgEl.hidden = true; }, 4000);
+  } else if (result === "failed") {
+    msgEl.textContent = `Couldn't copy automatically — here it is to copy by hand: "${message}"`;
+    msgEl.hidden = false;
+  } else {
+    msgEl.hidden = true;
+  }
+}
+
 function showShareMsg(elId, result) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -536,12 +558,36 @@ function renderToday() {
       (prevEntry && prevEntry.customMoment) || pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
   }
 
+  // Shown only on two calendar weekdays (Wednesday, Saturday) — a deliberate
+  // once-or-twice-a-week cadence, not a daily nag, so it keeps its weight.
+  const callNudgeCard = document.getElementById("callNudgeCard");
+  const todayWeekday = new Date().getDay();
+  const showCallNudge = isToday && (todayWeekday === 3 || todayWeekday === 6);
+  callNudgeCard.hidden = !showCallNudge;
+
   const crisisCard = document.getElementById("crisisCard");
   const showCrisisNudge =
     isToday && computeShowCrisisNudge(state.entries, unlockedDay(), state.settings.lastCrisisNudgeShownAt);
   crisisCard.hidden = !showCrisisNudge;
   if (showCrisisNudge && state.settings.lastCrisisNudgeShownAt !== todayDateKey()) {
     state.settings.lastCrisisNudgeShownAt = todayDateKey();
+    saveState(state);
+  }
+
+  const checkInNudgeCard = document.getElementById("checkInNudgeCard");
+  const checkInTalkVariant = document.getElementById("checkInTalkVariant");
+  const checkInGratitudeVariant = document.getElementById("checkInGratitudeVariant");
+  const showCheckInNudge =
+    isToday &&
+    computeShowCheckInNudge(state.entries, unlockedDay(), state.settings.lastCheckInNudgeShownAt, showCrisisNudge);
+  checkInNudgeCard.hidden = !showCheckInNudge;
+  if (showCheckInNudge) {
+    const variant = unlockedDay() % 2 === 0 ? "talk" : "gratitude";
+    checkInTalkVariant.hidden = variant !== "talk";
+    checkInGratitudeVariant.hidden = variant !== "gratitude";
+  }
+  if (showCheckInNudge && state.settings.lastCheckInNudgeShownAt !== todayDateKey()) {
+    state.settings.lastCheckInNudgeShownAt = todayDateKey();
     saveState(state);
   }
 
@@ -585,6 +631,20 @@ function renderToday() {
     customMomentLinkBtn.hidden = false;
   }
 
+  const wordReflectLinkBtn = document.getElementById("wordReflectLinkBtn");
+  const wordReflectPrompt = document.getElementById("wordReflectPrompt");
+  if (entry.reflection) {
+    wordReflectLinkBtn.hidden = true;
+    wordReflectPrompt.hidden = true;
+  } else if (showWordReflectInputUI) {
+    wordReflectLinkBtn.hidden = true;
+    wordReflectPrompt.hidden = false;
+    document.getElementById("wordReflectInput").value = "";
+  } else {
+    wordReflectLinkBtn.hidden = false;
+    wordReflectPrompt.hidden = true;
+  }
+
   const momentBtn = document.getElementById("momentBtn");
   const momentMsg = document.getElementById("momentDoneMsg");
   const momentReflectPrompt = document.getElementById("momentReflectPrompt");
@@ -624,6 +684,7 @@ function renderToday() {
 
   document.getElementById("reflectionInput").value = entry.reflection || "";
   document.getElementById("barnabasInput").value = entry.barnabasNote || "";
+  document.getElementById("receivedKindnessInput").value = entry.receivedKindness || "";
   document.querySelectorAll(".mood-btn").forEach((btn) => {
     btn.classList.toggle("selected", btn.dataset.mood === entry.mood);
   });
@@ -679,7 +740,7 @@ function renderHistory() {
   const allKeys = Object.keys(state.entries)
     .filter((k) => {
       const e = state.entries[k];
-      return e.reflection || e.barnabasNote || e.momentDone;
+      return e.reflection || e.barnabasNote || e.receivedKindness || e.momentDone;
     })
     .sort((a, b) => state.entries[b].dayNumber - state.entries[a].dayNumber);
 
@@ -696,7 +757,8 @@ function renderHistory() {
         const e = state.entries[k];
         return (
           (e.reflection && e.reflection.toLowerCase().includes(query)) ||
-          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query))
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query)) ||
+          (e.receivedKindness && e.receivedKindness.toLowerCase().includes(query))
         );
       })
     : allKeys;
@@ -722,6 +784,9 @@ function renderHistory() {
       }
       if (e.momentDone && !e.barnabasNote) {
         parts.push(`<div class="history-block"><div class="history-block-label">Barnabas Moment</div>Marked as done.</div>`);
+      }
+      if (e.receivedKindness) {
+        parts.push(`<div class="history-block"><div class="history-block-label">Kindness Received</div>${escapeHtml(e.receivedKindness)}</div>`);
       }
       const mood = e.mood ? moodEmoji[e.mood] || "" : "";
       return `<div class="history-entry">
@@ -823,6 +888,10 @@ function renderWeeklyRecap() {
   document.getElementById("weeklyRecapText").textContent =
     `Over the last ${pluralize(recap.totalDays, "day")}, you showed up ${pluralize(recap.daysShownUp, "day")}, ` +
     `did ${pluralize(recap.momentsDone, "Barnabas Moment")}, and wrote ${pluralize(recap.journalEntries, "journal entry", "journal entries")}.`;
+  document.getElementById("weeklyRecapReceivedText").textContent =
+    recap.kindnessReceived > 0
+      ? `And you noticed kindness coming your way ${pluralize(recap.kindnessReceived, "time")} — you're being watered too, not just pouring out.`
+      : "He who waters others is himself watered — don't forget to notice when kindness comes your way, too.";
 }
 
 function renderRewards() {
@@ -860,7 +929,7 @@ function renderOnThisDay() {
     const dayNumber = latest - days;
     if (dayNumber < 1) continue;
     const entry = state.entries[`day-${dayNumber}`];
-    const snippet = entry && (entry.reflection || entry.barnabasNote);
+    const snippet = entry && (entry.reflection || entry.barnabasNote || entry.receivedKindness);
     if (snippet) {
       const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
       textEl.textContent = `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
@@ -932,6 +1001,7 @@ function setupDayNav() {
     if (viewingDay > 1) {
       viewingDay -= 1;
       showCustomMomentInputUI = false;
+      showWordReflectInputUI = false;
       renderToday();
       renderStory();
     }
@@ -940,6 +1010,7 @@ function setupDayNav() {
     if (viewingDay < unlockedDay()) {
       viewingDay += 1;
       showCustomMomentInputUI = false;
+      showWordReflectInputUI = false;
       renderToday();
       renderStory();
     }
@@ -947,6 +1018,7 @@ function setupDayNav() {
   document.getElementById("dayNavJump").addEventListener("click", () => {
     viewingDay = unlockedDay();
     showCustomMomentInputUI = false;
+    showWordReflectInputUI = false;
     renderToday();
     renderStory();
   });
@@ -1020,6 +1092,31 @@ function setupCustomMoment() {
   });
 }
 
+function setupWordReflect() {
+  document.getElementById("wordReflectLinkBtn").addEventListener("click", () => {
+    showWordReflectInputUI = true;
+    renderToday();
+  });
+  document.getElementById("wordReflectCancelBtn").addEventListener("click", () => {
+    showWordReflectInputUI = false;
+    renderToday();
+  });
+  document.getElementById("wordReflectSaveBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.reflection = document.getElementById("wordReflectInput").value.trim();
+    if (entry.reflection || entry.barnabasNote || entry.receivedKindness) {
+      awardStars(entry, "journal", 2);
+    }
+    showWordReflectInputUI = false;
+    saveState(state);
+    renderToday();
+    renderHeaderStats();
+    const msg = document.getElementById("wordReflectSavedMsg");
+    msg.hidden = false;
+    setTimeout(() => { msg.hidden = true; }, 2500);
+  });
+}
+
 function answerMomentFollowUp(status) {
   const prevDayNumber = unlockedDay() - 1;
   if (prevDayNumber < 1) return;
@@ -1062,7 +1159,8 @@ function setupSaveReflection() {
     const entry = ensureDayEntry(viewingDay);
     entry.reflection = document.getElementById("reflectionInput").value.trim();
     entry.barnabasNote = document.getElementById("barnabasInput").value.trim();
-    if (entry.reflection || entry.barnabasNote) {
+    entry.receivedKindness = document.getElementById("receivedKindnessInput").value.trim();
+    if (entry.reflection || entry.barnabasNote || entry.receivedKindness) {
       awardStars(entry, "journal", 2);
     }
     saveState(state);
@@ -1108,6 +1206,8 @@ function setupShareButtons() {
     shareMoment(viewingDay);
   });
   document.getElementById("reachOutBtn").addEventListener("click", reachOut);
+  const talkToSomeoneBtn = document.getElementById("talkToSomeoneBtn");
+  if (talkToSomeoneBtn) talkToSomeoneBtn.addEventListener("click", talkToSomeone);
 }
 
 function speak(text) {
@@ -1306,6 +1406,7 @@ function init() {
   setupMomentButton();
   setupMomentIntention();
   setupCustomMoment();
+  setupWordReflect();
   setupMomentFollowUp();
   setupMomentReflect();
   setupSaveReflection();
