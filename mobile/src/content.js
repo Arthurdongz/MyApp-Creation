@@ -21,6 +21,15 @@ export function todayKey() {
   return dateKey(new Date());
 }
 
+// The actual calendar date a given journey day number fell (or falls) on,
+// regardless of whether the user ever viewed it.
+export function dateKeyForDayNumber(journeyStartKey, dayNumber) {
+  const [y, m, d] = journeyStartKey.split("-").map(Number);
+  const date = new Date(y, m - 1, d);
+  date.setDate(date.getDate() + (dayNumber - 1));
+  return dateKey(date);
+}
+
 function daysBetweenKeys(fromKey, toKey) {
   const [fy, fm, fd] = fromKey.split("-").map(Number);
   const [ty, tm, td] = toKey.split("-").map(Number);

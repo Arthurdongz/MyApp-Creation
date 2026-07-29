@@ -56,6 +56,17 @@
         <button id="dayNavJump" class="day-nav-jump" hidden>Back to today</button>
       </div>
 
+      <article class="card moment-card" id="momentFollowUpCard" hidden>
+        <p class="card-label">Yesterday's Barnabas Moment</p>
+        <p class="moment-text" id="momentFollowUpText"></p>
+        <p class="follow-up-question">Did you get to it?</p>
+        <div class="follow-up-actions">
+          <button type="button" class="follow-up-btn" data-status="done">Yes, I did it 🎉</button>
+          <button type="button" class="follow-up-btn" data-status="not_yet">Not yet, but I still might</button>
+          <button type="button" class="follow-up-btn" data-status="no">No, not this time</button>
+        </div>
+      </article>
+
       <article class="card verse-card">
         <div class="card-label-row">
           <p class="card-label">Verse</p>
@@ -94,11 +105,29 @@
       <article class="card moment-card">
         <p class="card-label">Your Barnabas Moment</p>
         <p class="moment-text" id="momentText"></p>
+        <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
+          <p class="moment-intention-label">When will you do this?</p>
+          <div class="moment-intention-options">
+            <button type="button" class="intention-btn" data-intention="today">Today</button>
+            <button type="button" class="intention-btn" data-intention="tonight">Tonight</button>
+            <button type="button" class="intention-btn" data-intention="tomorrow">Tomorrow morning</button>
+          </div>
+        </div>
+        <div class="moment-intention-row" id="momentIntentionRow" hidden>
+          <p class="moment-intention-text" id="momentIntentionText"></p>
+          <button type="button" class="moment-intention-change" id="momentIntentionChangeBtn">Change</button>
+        </div>
         <div class="moment-actions">
           <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
           <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>
         </div>
         <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
+        <div class="moment-reflect-prompt" id="momentReflectPrompt" hidden>
+          <label class="moment-reflect-label" for="momentReflectInput">What happened? (optional)</label>
+          <textarea id="momentReflectInput" rows="2" placeholder="What happened when you did it?"></textarea>
+          <button type="button" id="momentReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+        </div>
+        <p class="moment-reflect-saved-msg" id="momentReflectSavedMsg" hidden>Saved. Thank you for sharing that. ⭐⭐</p>
         <p class="moment-share-msg" id="momentShareMsg" hidden></p>
       </article>
 
@@ -107,6 +136,13 @@
         <p class="reach-out-text">If today feels heavy, you don't have to carry it alone. Send a message to someone who cares about you — even just to say hello.</p>
         <button id="reachOutBtn" class="btn btn-secondary" type="button">💛 Reach Out to Someone</button>
         <p class="share-msg" id="reachOutMsg" hidden></p>
+      </article>
+
+      <article class="card reach-out-card" id="crisisCard" hidden>
+        <p class="card-label">A Resource, If You Need It</p>
+        <p class="reach-out-text">It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself.</p>
+        <p class="reach-out-text">If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line. Outside the US, searching "crisis line" with your country's name will find a local number.</p>
+        <a href="tel:988" class="btn btn-secondary crisis-call-btn">📞 Call 988</a>
       </article>
 
       <article class="card reflection-card">
@@ -183,6 +219,11 @@
     <section id="tab-rewards" class="tab-panel">
       <h2 class="section-title">Rewards</h2>
       <p class="section-sub">A small way to notice how far you've come.</p>
+
+      <article class="card recap-card" id="weeklyRecapCard" hidden>
+        <p class="card-label">This Week</p>
+        <p class="recap-text" id="weeklyRecapText"></p>
+      </article>
 
       <div class="rewards-summary">
         <div class="reward-tile">

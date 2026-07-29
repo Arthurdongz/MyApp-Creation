@@ -351,6 +351,65 @@ body {
   margin: 0 0 14px;
 }
 
+.moment-intention-prompt { margin-bottom: 14px; }
+
+.moment-intention-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin: 0 0 8px;
+}
+
+.moment-intention-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.intention-btn {
+  border: 1px solid var(--sage);
+  background: transparent;
+  color: var(--sage-dark);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.intention-btn:hover { background: var(--card); }
+
+.moment-intention-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.moment-intention-row[hidden],
+.moment-intention-prompt[hidden] {
+  display: none;
+}
+
+.moment-intention-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin: 0;
+}
+
+.moment-intention-change {
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
 .moment-actions {
   display: flex;
   gap: 10px;
@@ -360,6 +419,68 @@ body {
 .moment-done-msg {
   margin: 10px 0 0;
   font-size: 14px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
+.follow-up-question {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin: 0 0 10px;
+}
+
+.follow-up-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.follow-up-btn {
+  border: 1px solid var(--sage);
+  background: transparent;
+  color: var(--sage-dark);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.follow-up-btn:hover { background: var(--card); }
+
+.moment-reflect-prompt { margin-top: 14px; }
+
+.moment-reflect-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin-bottom: 6px;
+}
+
+.moment-reflect-prompt textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--input);
+  resize: vertical;
+}
+
+.moment-reflect-save-btn {
+  margin-top: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.moment-reflect-saved-msg {
+  margin: 8px 0 0;
+  font-size: 13px;
   color: var(--sage-dark);
   font-weight: 600;
 }
@@ -408,6 +529,11 @@ body {
   background: transparent;
   color: var(--sage-dark);
   border: 1px solid var(--sage);
+}
+
+.crisis-call-btn {
+  display: inline-block;
+  text-decoration: none;
 }
 
 /* Reflection */
@@ -586,6 +712,13 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 /* Rewards */
+.recap-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0;
+}
+
 .rewards-summary {
   display: flex;
   gap: 10px;

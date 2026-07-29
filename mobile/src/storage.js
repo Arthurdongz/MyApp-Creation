@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { todayKey, shuffledOrder, unlockedDayFor, TOTAL_DAYS } from "./content";
+import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
   scheduleMorningReminder,
@@ -43,6 +43,7 @@ function defaultSettings() {
     speechVoiceURI: "",
     speechPitch: 1,
     speechRate: 0.95,
+    lastCrisisNudgeShownAt: null,
   };
 }
 
@@ -57,14 +58,17 @@ function freshJourney() {
   };
 }
 
-function emptyEntry(dayNumber) {
+function emptyEntry(dayNumber, journeyStartDate) {
   return {
     dayNumber,
-    dateLogged: todayKey(),
+    dateLogged: journeyStartDate ? dateKeyForDayNumber(journeyStartDate, dayNumber) : todayKey(),
     mood: null,
     reflection: "",
     barnabasNote: "",
     momentDone: false,
+    momentIntention: null,
+    momentFollowUpAsked: false,
+    momentFollowUpStatus: null,
     starsAwarded: { daily: false, moment: false, journal: false },
   };
 }
@@ -128,12 +132,60 @@ export function countMomentsDone(entries) {
   return Object.values(entries).filter((e) => e.momentDone).length;
 }
 
+function daysSinceKey(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  const from = new Date(y, m - 1, d);
+  const to = new Date();
+  to.setHours(0, 0, 0, 0);
+  from.setHours(0, 0, 0, 0);
+  return Math.round((to - from) / 86400000);
+}
+
+// A gentle, rate-limited nudge toward real crisis resources when someone's
+// logged mood has been "struggling" often over the last week. Shown at most
+// once every 14 days even if the pattern continues, so it never feels like
+// nagging — "days > 0" lets it stay visible for the rest of the day it's
+// first triggered on, since that's the same day lastShownAt gets set to.
+function computeShowCrisisNudge(entries, latestDay, lastShownAt) {
+  if (lastShownAt) {
+    const days = daysSinceKey(lastShownAt);
+    if (days > 0 && days < 14) return false;
+  }
+  const start = Math.max(1, latestDay - 6);
+  let strugglingCount = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    if (entry && entry.mood === "struggling") strugglingCount += 1;
+  }
+  return strugglingCount >= 3;
+}
+
+// A quick look back at the last 7 journey days (or fewer, near the very
+// start of a journey) — how many days had any activity, how many Barnabas
+// Moments got done, and how many journal entries got written.
+export function computeWeeklyRecap(entries, latestDay) {
+  const start = Math.max(1, latestDay - 6);
+  let daysShownUp = 0;
+  let momentsDone = 0;
+  let journalEntries = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    if (!entry) continue;
+    if (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal) {
+      daysShownUp += 1;
+    }
+    if (entry.momentDone) momentsDone += 1;
+    if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+  }
+  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+}
+
 function ensureDayEntryWithStar(state, dayNumber) {
   const key = `day-${dayNumber}`;
   const existing = state.entries[key];
   const entry = existing
     ? { ...existing, starsAwarded: { ...existing.starsAwarded } }
-    : emptyEntry(dayNumber);
+    : emptyEntry(dayNumber, state.journeyStartDate);
   let totalStars = state.totalStars;
   if (!entry.starsAwarded.daily) {
     entry.starsAwarded.daily = true;
@@ -239,7 +291,7 @@ export function useJournalStore() {
     (updater) => {
       setState((prev) => {
         const key = `day-${viewingDay}`;
-        const current = prev.entries[key] || emptyEntry(viewingDay);
+        const current = prev.entries[key] || emptyEntry(viewingDay, prev.journeyStartDate);
         const { entry: nextEntry, starsGained } = updater({
           ...current,
           starsAwarded: { ...current.starsAwarded },
@@ -263,6 +315,13 @@ export function useJournalStore() {
     [updateViewedEntry]
   );
 
+  const setMomentIntention = useCallback(
+    (momentIntention) => {
+      updateViewedEntry((entry) => ({ entry: { ...entry, momentIntention }, starsGained: 0 }));
+    },
+    [updateViewedEntry]
+  );
+
   const markMomentDone = useCallback(() => {
     updateViewedEntry((entry) => {
       if (entry.momentDone) return { entry, starsGained: 0 };
@@ -277,6 +336,37 @@ export function useJournalStore() {
       };
     });
   }, [updateViewedEntry]);
+
+  // Answers the "did you get to it?" follow-up for a day other than the one
+  // currently being viewed (always the previous day) — separate from
+  // updateViewedEntry, which only ever touches viewingDay.
+  const answerMomentFollowUp = useCallback(
+    (dayNumber, status) => {
+      setState((prev) => {
+        const key = `day-${dayNumber}`;
+        const existing = prev.entries[key] || emptyEntry(dayNumber, prev.journeyStartDate);
+        const entry = { ...existing, starsAwarded: { ...existing.starsAwarded } };
+        entry.momentFollowUpAsked = true;
+        entry.momentFollowUpStatus = status;
+        let starsGained = 0;
+        if (status === "done" && !entry.momentDone) {
+          entry.momentDone = true;
+          if (!entry.starsAwarded.moment) {
+            entry.starsAwarded.moment = true;
+            starsGained = 2;
+          }
+        }
+        const next = {
+          ...prev,
+          totalStars: prev.totalStars + starsGained,
+          entries: { ...prev.entries, [key]: entry },
+        };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
 
   const saveReflection = useCallback(
     (reflection, barnabasNote) => {
@@ -346,6 +436,18 @@ export function useJournalStore() {
     [persist]
   );
 
+  const showCrisisNudge = ready
+    ? computeShowCrisisNudge(state.entries, latestDay, state.settings.lastCrisisNudgeShownAt)
+    : false;
+
+  useEffect(() => {
+    if (!ready) return;
+    if (showCrisisNudge && state.settings.lastCrisisNudgeShownAt !== todayKey()) {
+      updateSettings({ lastCrisisNudgeShownAt: todayKey() });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, showCrisisNudge]);
+
   const completeOnboarding = useCallback(async () => {
     const granted = await requestNotificationPermission();
     let morningOk = false;
@@ -382,9 +484,10 @@ export function useJournalStore() {
     [persist]
   );
 
-  const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay);
+  const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
+  const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
 
   return {
     ready,
@@ -396,6 +499,8 @@ export function useJournalStore() {
     today: viewedEntry,
     streak,
     momentsDone,
+    weeklyRecap,
+    showCrisisNudge,
     totalStars: state.totalStars,
     favorites: state.favorites,
     settings: state.settings,
@@ -403,7 +508,9 @@ export function useJournalStore() {
     goToNextDay,
     jumpToToday,
     setMood,
+    setMomentIntention,
     markMomentDone,
+    answerMomentFollowUp,
     saveReflection,
     isFavorited,
     toggleFavorite,

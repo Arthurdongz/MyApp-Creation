@@ -50,6 +50,7 @@ function defaultSettings() {
     speechVoiceURI: "",
     speechPitch: 1,
     speechRate: 0.95,
+    lastCrisisNudgeShownAt: null,
   };
 }
 
@@ -102,11 +103,14 @@ function ensureDayEntry(dayNumber) {
   if (!state.entries[key]) {
     state.entries[key] = {
       dayNumber,
-      dateLogged: todayDateKey(),
+      dateLogged: dateKeyForDayNumber(state.journeyStartDate, dayNumber),
       mood: null,
       reflection: "",
       barnabasNote: "",
       momentDone: false,
+      momentIntention: null,
+      momentFollowUpAsked: false,
+      momentFollowUpStatus: null,
       starsAwarded: { daily: false, moment: false, journal: false },
     };
   }
@@ -515,6 +519,25 @@ function renderToday() {
   const day = viewingDay;
   const isToday = day === unlockedDay();
 
+  const followUpCard = document.getElementById("momentFollowUpCard");
+  const prevDayNumber = unlockedDay() - 1;
+  const prevEntry = prevDayNumber >= 1 ? state.entries[`day-${prevDayNumber}`] : null;
+  const showFollowUp =
+    isToday && prevDayNumber >= 1 && !(prevEntry && prevEntry.momentDone) && !(prevEntry && prevEntry.momentFollowUpAsked);
+  followUpCard.hidden = !showFollowUp;
+  if (showFollowUp) {
+    document.getElementById("momentFollowUpText").textContent = pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
+  }
+
+  const crisisCard = document.getElementById("crisisCard");
+  const showCrisisNudge =
+    isToday && computeShowCrisisNudge(state.entries, unlockedDay(), state.settings.lastCrisisNudgeShownAt);
+  crisisCard.hidden = !showCrisisNudge;
+  if (showCrisisNudge && state.settings.lastCrisisNudgeShownAt !== todayDateKey()) {
+    state.settings.lastCrisisNudgeShownAt = todayDateKey();
+    saveState(state);
+  }
+
   const verse = pickForDay(VERSES, day, state.order);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
   document.getElementById("verseRef").textContent = verse.ref;
@@ -535,14 +558,39 @@ function renderToday() {
 
   const momentBtn = document.getElementById("momentBtn");
   const momentMsg = document.getElementById("momentDoneMsg");
+  const momentReflectPrompt = document.getElementById("momentReflectPrompt");
   if (entry.momentDone) {
     momentBtn.disabled = true;
     momentBtn.textContent = "Done ✓";
     momentMsg.hidden = false;
+    if (!entry.barnabasNote) {
+      momentReflectPrompt.hidden = false;
+      document.getElementById("momentReflectInput").value = "";
+    } else {
+      momentReflectPrompt.hidden = true;
+    }
   } else {
     momentBtn.disabled = false;
     momentBtn.textContent = isToday ? "I did this today ✓" : "I did this ✓";
     momentMsg.hidden = true;
+    momentReflectPrompt.hidden = true;
+  }
+
+  const intentionPrompt = document.getElementById("momentIntentionPrompt");
+  const intentionRow = document.getElementById("momentIntentionRow");
+  if (isToday && !entry.momentDone) {
+    if (entry.momentIntention) {
+      intentionPrompt.hidden = true;
+      intentionRow.hidden = false;
+      document.getElementById("momentIntentionText").textContent =
+        `Planned for: ${INTENTION_LABELS[entry.momentIntention]}`;
+    } else {
+      intentionPrompt.hidden = false;
+      intentionRow.hidden = true;
+    }
+  } else {
+    intentionPrompt.hidden = true;
+    intentionRow.hidden = true;
   }
 
   document.getElementById("reflectionInput").value = entry.reflection || "";
@@ -731,10 +779,28 @@ function renderFavorites() {
   });
 }
 
+function pluralize(n, singular, plural) {
+  return `${n} ${n === 1 ? singular : plural || `${singular}s`}`;
+}
+
+function renderWeeklyRecap() {
+  const recap = computeWeeklyRecap(state.entries, unlockedDay());
+  const card = document.getElementById("weeklyRecapCard");
+  if (recap.totalDays < 2) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+  document.getElementById("weeklyRecapText").textContent =
+    `Over the last ${pluralize(recap.totalDays, "day")}, you showed up ${pluralize(recap.daysShownUp, "day")}, ` +
+    `did ${pluralize(recap.momentsDone, "Barnabas Moment")}, and wrote ${pluralize(recap.journalEntries, "journal entry", "journal entries")}.`;
+}
+
 function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
   document.getElementById("rewardMoments").textContent = countMomentsDone();
+  renderWeeklyRecap();
 
   const streak = computeStreak();
   const grid = document.getElementById("badgesGrid");
@@ -874,6 +940,62 @@ function setupMomentButton() {
     awardStars(entry, "moment", 2);
     saveState(state);
     renderToday();
+  });
+}
+
+const INTENTION_LABELS = { today: "Today", tonight: "Tonight", tomorrow: "Tomorrow morning" };
+
+function setupMomentIntention() {
+  document.querySelectorAll(".intention-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const entry = ensureDayEntry(viewingDay);
+      entry.momentIntention = btn.dataset.intention;
+      saveState(state);
+      renderToday();
+    });
+  });
+  document.getElementById("momentIntentionChangeBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.momentIntention = null;
+    saveState(state);
+    renderToday();
+  });
+}
+
+function answerMomentFollowUp(status) {
+  const prevDayNumber = unlockedDay() - 1;
+  if (prevDayNumber < 1) return;
+  const entry = ensureDayEntry(prevDayNumber);
+  entry.momentFollowUpAsked = true;
+  entry.momentFollowUpStatus = status;
+  if (status === "done" && !entry.momentDone) {
+    entry.momentDone = true;
+    awardStars(entry, "moment", 2);
+  }
+  saveState(state);
+  renderToday();
+  renderHeaderStats();
+}
+
+function setupMomentReflect() {
+  document.getElementById("momentReflectSaveBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.barnabasNote = document.getElementById("momentReflectInput").value.trim();
+    if (entry.reflection || entry.barnabasNote) {
+      awardStars(entry, "journal", 2);
+    }
+    saveState(state);
+    renderToday();
+    renderHeaderStats();
+    const msg = document.getElementById("momentReflectSavedMsg");
+    msg.hidden = false;
+    setTimeout(() => { msg.hidden = true; }, 2500);
+  });
+}
+
+function setupMomentFollowUp() {
+  document.querySelectorAll(".follow-up-btn").forEach((btn) => {
+    btn.addEventListener("click", () => answerMomentFollowUp(btn.dataset.status));
   });
 }
 
@@ -1124,6 +1246,9 @@ function init() {
   setupDayNav();
   setupMoodPicker();
   setupMomentButton();
+  setupMomentIntention();
+  setupMomentFollowUp();
+  setupMomentReflect();
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();

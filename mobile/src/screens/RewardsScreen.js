@@ -10,15 +10,35 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
+function pluralize(n, singular, plural) {
+  return `${n} ${n === 1 ? singular : plural || `${singular}s`}`;
+}
+
+function WeeklyRecapCard({ recap, styles }) {
+  if (recap.totalDays < 2) return null;
+  return (
+    <View style={styles.recapCard}>
+      <Text style={styles.sectionTitle}>This Week</Text>
+      <Text style={styles.recapText}>
+        Over the last {pluralize(recap.totalDays, "day")}, you showed up{" "}
+        {pluralize(recap.daysShownUp, "day")}, did {pluralize(recap.momentsDone, "Barnabas Moment")}, and
+        wrote {pluralize(recap.journalEntries, "journal entry", "journal entries")}.
+      </Text>
+    </View>
+  );
+}
+
 export default function RewardsScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
-  const { totalStars, streak, momentsDone } = store;
+  const { totalStars, streak, momentsDone, weeklyRecap } = store;
 
   return (
     <View>
       <Text style={styles.title}>Rewards</Text>
       <Text style={styles.subtitle}>A small way to notice how far you've come.</Text>
+
+      <WeeklyRecapCard recap={weeklyRecap} styles={styles} />
 
       <View style={styles.summaryRow}>
         <View style={styles.tile}>
@@ -99,6 +119,16 @@ function getStyles(colors, shadow) {
   return StyleSheet.create({
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 20 },
+    recapCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 20,
+      ...shadow,
+    },
+    recapText: { fontSize: 14, lineHeight: 20, color: colors.text },
     summaryRow: { flexDirection: "row", gap: 10, marginBottom: 24 },
     tile: {
       flex: 1,

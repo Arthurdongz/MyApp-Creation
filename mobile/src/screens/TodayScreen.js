@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
@@ -24,6 +24,18 @@ const MOODS = [
   { key: "struggling", emoji: "😢", label: "Struggling" },
 ];
 
+const MOMENT_INTENTIONS = [
+  { key: "today", label: "Today" },
+  { key: "tonight", label: "Tonight" },
+  { key: "tomorrow", label: "Tomorrow morning" },
+];
+
+const MOMENT_INTENTION_LABELS = {
+  today: "Today",
+  tonight: "Tonight",
+  tomorrow: "Tomorrow morning",
+};
+
 export default function TodayScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
@@ -40,7 +52,9 @@ export default function TodayScreen({ store }) {
     goToNextDay,
     jumpToToday,
     setMood,
+    setMomentIntention,
     markMomentDone,
+    answerMomentFollowUp,
     saveReflection,
     isFavorited,
     toggleFavorite,
@@ -51,9 +65,27 @@ export default function TodayScreen({ store }) {
   const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
   const moment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
 
+  const prevDayNumber = latestDay - 1;
+  const prevEntry = store.state.entries[`day-${prevDayNumber}`];
+  const prevMoment = useMemo(
+    () => (prevDayNumber >= 1 ? pickForDay(BARNABAS_MOMENTS, prevDayNumber, order) : ""),
+    [prevDayNumber, order]
+  );
+  const showMomentFollowUp =
+    isToday &&
+    prevDayNumber >= 1 &&
+    !(prevEntry && prevEntry.momentDone) &&
+    !(prevEntry && prevEntry.momentFollowUpAsked);
+
+  const handleFollowUp = (status) => {
+    hapticTap();
+    answerMomentFollowUp(prevDayNumber, status);
+  };
+
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
   const [showSaved, setShowSaved] = useState(false);
+  const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
 
   // The viewed day's saved reflection/note only comes through on first
   // mount via useState's initial value — keep the text boxes in sync
@@ -69,6 +101,13 @@ export default function TodayScreen({ store }) {
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
+  };
+
+  const handleMomentReflectSave = () => {
+    saveReflection(reflection, barnabasNote);
+    hapticSuccess();
+    setShowMomentReflectSaved(true);
+    setTimeout(() => setShowMomentReflectSaved(false), 2500);
   };
 
   const verseSaved = isFavorited("verse", viewingDay);
@@ -124,6 +163,25 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         ) : null}
       </View>
+
+      {showMomentFollowUp ? (
+        <Card style={styles.followUpCard}>
+          <Text style={styles.cardLabel}>Yesterday's Barnabas Moment</Text>
+          <Text style={[styles.bodyText, { marginBottom: 12 }]}>{prevMoment}</Text>
+          <Text style={styles.followUpQuestion}>Did you get to it?</Text>
+          <View style={styles.followUpActions}>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("done")}>
+              <Text style={styles.followUpBtnText}>Yes, I did it 🎉</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("not_yet")}>
+              <Text style={styles.followUpBtnText}>Not yet, but I still might</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("no")}>
+              <Text style={styles.followUpBtnText}>No, not this time</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      ) : null}
 
       <Card style={styles.verseCard}>
         <View style={styles.cardLabelRow}>
@@ -191,6 +249,38 @@ export default function TodayScreen({ store }) {
       <Card style={styles.momentCard}>
         <Text style={styles.cardLabel}>Your Barnabas Moment</Text>
         <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
+
+        {isToday && !today.momentDone ? (
+          today.momentIntention ? (
+            <View style={styles.intentionRow}>
+              <Text style={styles.intentionText}>
+                Planned for: {MOMENT_INTENTION_LABELS[today.momentIntention]}
+              </Text>
+              <TouchableOpacity onPress={() => setMomentIntention(null)}>
+                <Text style={styles.intentionChange}>Change</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.intentionPrompt}>
+              <Text style={styles.intentionPromptLabel}>When will you do this?</Text>
+              <View style={styles.intentionOptions}>
+                {MOMENT_INTENTIONS.map((opt) => (
+                  <TouchableOpacity
+                    key={opt.key}
+                    style={styles.intentionBtn}
+                    onPress={() => {
+                      hapticTap();
+                      setMomentIntention(opt.key);
+                    }}
+                  >
+                    <Text style={styles.intentionBtnText}>{opt.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )
+        ) : null}
+
         <View style={styles.momentActions}>
           <TouchableOpacity
             style={[styles.button, today.momentDone && styles.buttonDisabled]}
@@ -209,7 +299,29 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         </View>
         {today.momentDone ? (
-          <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
+          <>
+            <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
+            {!today.barnabasNote ? (
+              <View style={styles.momentReflectPrompt}>
+                <Text style={styles.momentReflectLabel}>What happened? (optional)</Text>
+                <TextInput
+                  style={styles.textArea}
+                  multiline
+                  numberOfLines={2}
+                  placeholder="What happened when you did it?"
+                  placeholderTextColor={colors.textSoft}
+                  value={barnabasNote}
+                  onChangeText={setBarnabasNote}
+                />
+                <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleMomentReflectSave}>
+                  <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            {showMomentReflectSaved ? (
+              <Text style={styles.momentReflectSavedMsg}>Saved. Thank you for sharing that. ⭐⭐</Text>
+            ) : null}
+          </>
         ) : null}
       </Card>
 
@@ -223,6 +335,27 @@ export default function TodayScreen({ store }) {
           <Text style={styles.secondaryButtonText}>💛 Reach Out to Someone</Text>
         </TouchableOpacity>
       </Card>
+
+      {isToday && store.showCrisisNudge ? (
+        <Card style={styles.crisisCard}>
+          <Text style={styles.cardLabel}>A Resource, If You Need It</Text>
+          <Text style={[styles.bodyText, { marginBottom: 10 }]}>
+            It looks like the last little while has been heavy for you. That matters, and you don't have to
+            carry it by yourself.
+          </Text>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+            If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or
+            night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line.
+            Outside the US, searching "crisis line" with your country's name will find a local number.
+          </Text>
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => Linking.openURL("tel:988")}
+          >
+            <Text style={styles.secondaryButtonText}>📞 Call 988</Text>
+          </TouchableOpacity>
+        </Card>
+      ) : null}
 
       <SharePreviewModal
         visible={!!sharePreview}
@@ -351,6 +484,42 @@ function getStyles(colors) {
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },
+    crisisCard: { backgroundColor: colors.reachOutCard },
+    followUpCard: { backgroundColor: colors.momentCard },
+    followUpQuestion: { fontSize: 13, fontWeight: "600", color: colors.sageDark, marginBottom: 10 },
+    followUpActions: { gap: 8 },
+    followUpBtn: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      alignItems: "center",
+    },
+    followUpBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    momentReflectPrompt: { marginTop: 14 },
+    momentReflectLabel: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 6,
+    },
+    momentReflectSaveBtn: {
+      alignSelf: "flex-start",
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 10,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      marginTop: 8,
+    },
+    momentReflectSaveBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    momentReflectSavedMsg: {
+      marginTop: 8,
+      fontSize: 13,
+      color: colors.sageDark,
+      fontWeight: "600",
+    },
     verseText: {
       fontSize: 18,
       lineHeight: 26,
@@ -387,6 +556,34 @@ function getStyles(colors) {
       flexWrap: "wrap",
       gap: 10,
     },
+    intentionPrompt: { marginBottom: 14 },
+    intentionPromptLabel: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 8,
+    },
+    intentionOptions: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+    },
+    intentionBtn: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 999,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+    },
+    intentionBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    intentionRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14,
+    },
+    intentionText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    intentionChange: { fontSize: 12, color: colors.textSoft, textDecorationLine: "underline" },
     secondaryButton: {
       borderWidth: 1,
       borderColor: colors.sage,
