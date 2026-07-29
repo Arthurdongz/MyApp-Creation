@@ -94,6 +94,18 @@
       <article class="card moment-card">
         <p class="card-label">Your Barnabas Moment</p>
         <p class="moment-text" id="momentText"></p>
+        <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
+          <p class="moment-intention-label">When will you do this?</p>
+          <div class="moment-intention-options">
+            <button type="button" class="intention-btn" data-intention="today">Today</button>
+            <button type="button" class="intention-btn" data-intention="tonight">Tonight</button>
+            <button type="button" class="intention-btn" data-intention="tomorrow">Tomorrow morning</button>
+          </div>
+        </div>
+        <div class="moment-intention-row" id="momentIntentionRow" hidden>
+          <p class="moment-intention-text" id="momentIntentionText"></p>
+          <button type="button" class="moment-intention-change" id="momentIntentionChangeBtn">Change</button>
+        </div>
         <div class="moment-actions">
           <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
           <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>

@@ -107,6 +107,9 @@ function ensureDayEntry(dayNumber) {
       reflection: "",
       barnabasNote: "",
       momentDone: false,
+      momentIntention: null,
+      momentReflection: "",
+      momentFollowUpAsked: false,
       starsAwarded: { daily: false, moment: false, journal: false },
     };
   }
@@ -545,6 +548,23 @@ function renderToday() {
     momentMsg.hidden = true;
   }
 
+  const intentionPrompt = document.getElementById("momentIntentionPrompt");
+  const intentionRow = document.getElementById("momentIntentionRow");
+  if (isToday && !entry.momentDone) {
+    if (entry.momentIntention) {
+      intentionPrompt.hidden = true;
+      intentionRow.hidden = false;
+      document.getElementById("momentIntentionText").textContent =
+        `Planned for: ${INTENTION_LABELS[entry.momentIntention]}`;
+    } else {
+      intentionPrompt.hidden = false;
+      intentionRow.hidden = true;
+    }
+  } else {
+    intentionPrompt.hidden = true;
+    intentionRow.hidden = true;
+  }
+
   document.getElementById("reflectionInput").value = entry.reflection || "";
   document.getElementById("barnabasInput").value = entry.barnabasNote || "";
   document.querySelectorAll(".mood-btn").forEach((btn) => {
@@ -877,6 +897,25 @@ function setupMomentButton() {
   });
 }
 
+const INTENTION_LABELS = { today: "Today", tonight: "Tonight", tomorrow: "Tomorrow morning" };
+
+function setupMomentIntention() {
+  document.querySelectorAll(".intention-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const entry = ensureDayEntry(viewingDay);
+      entry.momentIntention = btn.dataset.intention;
+      saveState(state);
+      renderToday();
+    });
+  });
+  document.getElementById("momentIntentionChangeBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.momentIntention = null;
+    saveState(state);
+    renderToday();
+  });
+}
+
 function setupSaveReflection() {
   document.getElementById("saveReflectionBtn").addEventListener("click", () => {
     const entry = ensureDayEntry(viewingDay);
@@ -1124,6 +1163,7 @@ function init() {
   setupDayNav();
   setupMoodPicker();
   setupMomentButton();
+  setupMomentIntention();
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();

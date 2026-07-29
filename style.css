@@ -351,6 +351,65 @@ body {
   margin: 0 0 14px;
 }
 
+.moment-intention-prompt { margin-bottom: 14px; }
+
+.moment-intention-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin: 0 0 8px;
+}
+
+.moment-intention-options {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.intention-btn {
+  border: 1px solid var(--sage);
+  background: transparent;
+  color: var(--sage-dark);
+  font-weight: 700;
+  font-size: 13px;
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.intention-btn:hover { background: var(--card); }
+
+.moment-intention-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.moment-intention-row[hidden],
+.moment-intention-prompt[hidden] {
+  display: none;
+}
+
+.moment-intention-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin: 0;
+}
+
+.moment-intention-change {
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
 .moment-actions {
   display: flex;
   gap: 10px;

@@ -24,6 +24,18 @@ const MOODS = [
   { key: "struggling", emoji: "😢", label: "Struggling" },
 ];
 
+const MOMENT_INTENTIONS = [
+  { key: "today", label: "Today" },
+  { key: "tonight", label: "Tonight" },
+  { key: "tomorrow", label: "Tomorrow morning" },
+];
+
+const MOMENT_INTENTION_LABELS = {
+  today: "Today",
+  tonight: "Tonight",
+  tomorrow: "Tomorrow morning",
+};
+
 export default function TodayScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
@@ -40,6 +52,7 @@ export default function TodayScreen({ store }) {
     goToNextDay,
     jumpToToday,
     setMood,
+    setMomentIntention,
     markMomentDone,
     saveReflection,
     isFavorited,
@@ -191,6 +204,38 @@ export default function TodayScreen({ store }) {
       <Card style={styles.momentCard}>
         <Text style={styles.cardLabel}>Your Barnabas Moment</Text>
         <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
+
+        {isToday && !today.momentDone ? (
+          today.momentIntention ? (
+            <View style={styles.intentionRow}>
+              <Text style={styles.intentionText}>
+                Planned for: {MOMENT_INTENTION_LABELS[today.momentIntention]}
+              </Text>
+              <TouchableOpacity onPress={() => setMomentIntention(null)}>
+                <Text style={styles.intentionChange}>Change</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.intentionPrompt}>
+              <Text style={styles.intentionPromptLabel}>When will you do this?</Text>
+              <View style={styles.intentionOptions}>
+                {MOMENT_INTENTIONS.map((opt) => (
+                  <TouchableOpacity
+                    key={opt.key}
+                    style={styles.intentionBtn}
+                    onPress={() => {
+                      hapticTap();
+                      setMomentIntention(opt.key);
+                    }}
+                  >
+                    <Text style={styles.intentionBtnText}>{opt.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          )
+        ) : null}
+
         <View style={styles.momentActions}>
           <TouchableOpacity
             style={[styles.button, today.momentDone && styles.buttonDisabled]}
@@ -387,6 +432,34 @@ function getStyles(colors) {
       flexWrap: "wrap",
       gap: 10,
     },
+    intentionPrompt: { marginBottom: 14 },
+    intentionPromptLabel: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 8,
+    },
+    intentionOptions: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+    },
+    intentionBtn: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 999,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+    },
+    intentionBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    intentionRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 14,
+    },
+    intentionText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    intentionChange: { fontSize: 12, color: colors.textSoft, textDecorationLine: "underline" },
     secondaryButton: {
       borderWidth: 1,
       borderColor: colors.sage,

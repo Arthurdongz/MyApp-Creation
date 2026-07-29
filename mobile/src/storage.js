@@ -65,6 +65,9 @@ function emptyEntry(dayNumber) {
     reflection: "",
     barnabasNote: "",
     momentDone: false,
+    momentIntention: null,
+    momentReflection: "",
+    momentFollowUpAsked: false,
     starsAwarded: { daily: false, moment: false, journal: false },
   };
 }
@@ -263,6 +266,13 @@ export function useJournalStore() {
     [updateViewedEntry]
   );
 
+  const setMomentIntention = useCallback(
+    (momentIntention) => {
+      updateViewedEntry((entry) => ({ entry: { ...entry, momentIntention }, starsGained: 0 }));
+    },
+    [updateViewedEntry]
+  );
+
   const markMomentDone = useCallback(() => {
     updateViewedEntry((entry) => {
       if (entry.momentDone) return { entry, starsGained: 0 };
@@ -403,6 +413,7 @@ export function useJournalStore() {
     goToNextDay,
     jumpToToday,
     setMood,
+    setMomentIntention,
     markMomentDone,
     saveReflection,
     isFavorited,
