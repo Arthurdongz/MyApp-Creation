@@ -346,6 +346,59 @@ body {
   color: var(--text);
 }
 
+.story-insight-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.story-insight-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sage-dark);
+  background: transparent;
+  color: var(--sage-dark);
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.story-insight-btn:hover,
+.story-insight-btn[aria-expanded="true"] {
+  background: var(--sage-dark);
+  color: var(--card);
+}
+
+.story-insight-panel {
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.story-insight-panel[hidden] { display: none; }
+
+.story-insight-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin: 0 0 6px;
+}
+
+.story-insight-text {
+  font-size: 14px;
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+  color: var(--text);
+}
+
 .moment-text {
   font-size: 16px;
   margin: 0 0 14px;

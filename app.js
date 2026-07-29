@@ -107,6 +107,10 @@ let showCustomMomentInputUI = false;
 // You) is currently open — same kind of purely-local UI toggle.
 let showWordReflectInputUI = false;
 
+// Whether the story insight ("i") panel is currently open — same kind of
+// purely-local UI toggle, reset whenever the viewed day/story changes.
+let showStoryInsightUI = false;
+
 function ensureDayEntry(dayNumber) {
   const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
@@ -698,7 +702,13 @@ function renderStory() {
   const story = pickForDaySmallBank(STORIES, day, state.order);
   document.getElementById("storyTitle").textContent = story.title;
   document.getElementById("storyText").textContent = story.text;
+  document.getElementById("storyInsightText").textContent = story.insight || "";
   updateFavoriteBtn("storyFavoriteBtn", "truestory", day);
+
+  const panel = document.getElementById("storyInsightPanel");
+  const btn = document.getElementById("storyInsightBtn");
+  panel.hidden = !showStoryInsightUI;
+  btn.setAttribute("aria-expanded", String(showStoryInsightUI));
 }
 
 function updateFavoriteBtn(btnId, type, day) {
@@ -1002,6 +1012,7 @@ function setupDayNav() {
       viewingDay -= 1;
       showCustomMomentInputUI = false;
       showWordReflectInputUI = false;
+      showStoryInsightUI = false;
       renderToday();
       renderStory();
     }
@@ -1011,6 +1022,7 @@ function setupDayNav() {
       viewingDay += 1;
       showCustomMomentInputUI = false;
       showWordReflectInputUI = false;
+      showStoryInsightUI = false;
       renderToday();
       renderStory();
     }
@@ -1019,6 +1031,7 @@ function setupDayNav() {
     viewingDay = unlockedDay();
     showCustomMomentInputUI = false;
     showWordReflectInputUI = false;
+    showStoryInsightUI = false;
     renderToday();
     renderStory();
   });
@@ -1114,6 +1127,13 @@ function setupWordReflect() {
     const msg = document.getElementById("wordReflectSavedMsg");
     msg.hidden = false;
     setTimeout(() => { msg.hidden = true; }, 2500);
+  });
+}
+
+function setupStoryInsight() {
+  document.getElementById("storyInsightBtn").addEventListener("click", () => {
+    showStoryInsightUI = !showStoryInsightUI;
+    renderStory();
   });
 }
 
@@ -1407,6 +1427,7 @@ function init() {
   setupMomentIntention();
   setupCustomMoment();
   setupWordReflect();
+  setupStoryInsight();
   setupMomentFollowUp();
   setupMomentReflect();
   setupSaveReflection();

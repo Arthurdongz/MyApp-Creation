@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
@@ -17,6 +17,11 @@ export default function StoryScreen({ store }) {
   const storySaved = isFavorited("truestory", viewingDay);
 
   const [sharePreview, setSharePreview] = useState(false);
+  const [showInsight, setShowInsight] = useState(false);
+
+  useEffect(() => {
+    setShowInsight(false);
+  }, [viewingDay]);
 
   const handleListen = () => {
     speak(`${story.title}. ${story.text}`, settings);
@@ -53,6 +58,23 @@ export default function StoryScreen({ store }) {
         </View>
         <Text style={styles.storyTitle}>{story.title}</Text>
         <Text style={styles.storyText}>{story.text}</Text>
+        <View style={styles.insightRow}>
+          <TouchableOpacity
+            onPress={() => {
+              hapticTap();
+              setShowInsight((v) => !v);
+            }}
+            accessibilityLabel="Show the lesson behind this story"
+          >
+            <Text style={[styles.insightBtn, showInsight && styles.insightBtnActive]}>i</Text>
+          </TouchableOpacity>
+        </View>
+        {showInsight && (
+          <View style={styles.insightPanel}>
+            <Text style={styles.insightLabel}>What it meant</Text>
+            <Text style={styles.insightText}>{story.insight}</Text>
+          </View>
+        )}
       </Card>
 
       <SharePreviewModal
@@ -111,6 +133,49 @@ function getStyles(colors) {
     storyText: {
       fontSize: 15,
       lineHeight: 22,
+      color: colors.text,
+    },
+    insightRow: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      marginTop: 10,
+    },
+    insightBtn: {
+      width: 26,
+      height: 26,
+      lineHeight: 24,
+      borderRadius: 13,
+      borderWidth: 1.5,
+      borderColor: colors.sageDark,
+      color: colors.sageDark,
+      fontSize: 14,
+      fontWeight: "700",
+      fontStyle: "italic",
+      textAlign: "center",
+      overflow: "hidden",
+    },
+    insightBtnActive: {
+      backgroundColor: colors.sageDark,
+      color: colors.card,
+    },
+    insightPanel: {
+      marginTop: 10,
+      paddingTop: 12,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    insightLabel: {
+      textTransform: "uppercase",
+      letterSpacing: 0.6,
+      fontSize: 11,
+      fontWeight: "700",
+      color: colors.sageDark,
+      marginBottom: 6,
+    },
+    insightText: {
+      fontSize: 14,
+      lineHeight: 21,
+      fontStyle: "italic",
       color: colors.text,
     },
   });
