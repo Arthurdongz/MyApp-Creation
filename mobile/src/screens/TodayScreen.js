@@ -172,6 +172,15 @@ export default function TodayScreen({ store }) {
     }
   };
 
+  const talkToSomeone = async () => {
+    const message = "Hey, do you have a few minutes to talk? I could use a listening ear lately.";
+    try {
+      await Share.share({ message });
+    } catch (e) {
+      // user dismissed the share sheet — nothing to do
+    }
+  };
+
   return (
     <View>
       <View style={styles.dayNav}>
@@ -465,6 +474,32 @@ export default function TodayScreen({ store }) {
           <TouchableOpacity style={styles.secondaryButton} onPress={() => Linking.openURL("tel:")}>
             <Text style={styles.secondaryButtonText}>📞 Call Someone</Text>
           </TouchableOpacity>
+        </Card>
+      ) : null}
+
+      {isToday && store.showCheckInNudge ? (
+        <Card style={styles.callNudgeCard}>
+          {store.checkInNudgeVariant === "talk" ? (
+            <>
+              <Text style={styles.cardLabel}>Since It's Been Heavy Lately</Text>
+              <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+                This past week has felt like a lot. A problem shared is a problem halved — is there
+                someone you trust that you could talk to about how you're really doing?
+              </Text>
+              <TouchableOpacity style={styles.secondaryButton} onPress={talkToSomeone}>
+                <Text style={styles.secondaryButtonText}>💬 Talk to Someone</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <Text style={styles.cardLabel}>A Moment to Pause</Text>
+              <Text style={styles.bodyText}>
+                In this heavy season, pause for a moment: what's one small thing you're grateful for
+                right now, even if it's tiny? And think back — is there something that once felt
+                impossible to get through, that you made it through anyway? You can again.
+              </Text>
+            </>
+          )}
         </Card>
       ) : null}
 

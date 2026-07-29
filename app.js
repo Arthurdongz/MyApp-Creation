@@ -51,6 +51,7 @@ function defaultSettings() {
     speechPitch: 1,
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
+    lastCheckInNudgeShownAt: null,
   };
 }
 
@@ -497,6 +498,22 @@ async function reachOut() {
   }
 }
 
+async function talkToSomeone() {
+  const message = "Hey, do you have a few minutes to talk? I could use a listening ear lately.";
+  const result = await shareText(message);
+  const msgEl = document.getElementById("talkToSomeoneMsg");
+  if (result === "copied") {
+    msgEl.textContent = "Copied! Paste it into a text or message to send it.";
+    msgEl.hidden = false;
+    setTimeout(() => { msgEl.hidden = true; }, 4000);
+  } else if (result === "failed") {
+    msgEl.textContent = `Couldn't copy automatically — here it is to copy by hand: "${message}"`;
+    msgEl.hidden = false;
+  } else {
+    msgEl.hidden = true;
+  }
+}
+
 function showShareMsg(elId, result) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -554,6 +571,23 @@ function renderToday() {
   crisisCard.hidden = !showCrisisNudge;
   if (showCrisisNudge && state.settings.lastCrisisNudgeShownAt !== todayDateKey()) {
     state.settings.lastCrisisNudgeShownAt = todayDateKey();
+    saveState(state);
+  }
+
+  const checkInNudgeCard = document.getElementById("checkInNudgeCard");
+  const checkInTalkVariant = document.getElementById("checkInTalkVariant");
+  const checkInGratitudeVariant = document.getElementById("checkInGratitudeVariant");
+  const showCheckInNudge =
+    isToday &&
+    computeShowCheckInNudge(state.entries, unlockedDay(), state.settings.lastCheckInNudgeShownAt, showCrisisNudge);
+  checkInNudgeCard.hidden = !showCheckInNudge;
+  if (showCheckInNudge) {
+    const variant = unlockedDay() % 2 === 0 ? "talk" : "gratitude";
+    checkInTalkVariant.hidden = variant !== "talk";
+    checkInGratitudeVariant.hidden = variant !== "gratitude";
+  }
+  if (showCheckInNudge && state.settings.lastCheckInNudgeShownAt !== todayDateKey()) {
+    state.settings.lastCheckInNudgeShownAt = todayDateKey();
     saveState(state);
   }
 
@@ -1172,6 +1206,8 @@ function setupShareButtons() {
     shareMoment(viewingDay);
   });
   document.getElementById("reachOutBtn").addEventListener("click", reachOut);
+  const talkToSomeoneBtn = document.getElementById("talkToSomeoneBtn");
+  if (talkToSomeoneBtn) talkToSomeoneBtn.addEventListener("click", talkToSomeone);
 }
 
 function speak(text) {
