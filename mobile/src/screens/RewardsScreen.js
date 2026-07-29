@@ -24,6 +24,11 @@ function WeeklyRecapCard({ recap, styles }) {
         {pluralize(recap.daysShownUp, "day")}, did {pluralize(recap.momentsDone, "Barnabas Moment")}, and
         wrote {pluralize(recap.journalEntries, "journal entry", "journal entries")}.
       </Text>
+      <Text style={[styles.recapText, { marginTop: 8 }]}>
+        {recap.kindnessReceived > 0
+          ? `And you noticed kindness coming your way ${pluralize(recap.kindnessReceived, "time")} — you're being watered too, not just pouring out.`
+          : "He who waters others is himself watered — don't forget to notice when kindness comes your way, too."}
+      </Text>
     </View>
   );
 }

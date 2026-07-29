@@ -103,6 +103,7 @@ export default function TodayScreen({ store }) {
 
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
+  const [receivedKindness, setReceivedKindness] = useState(today.receivedKindness || "");
   const [showSaved, setShowSaved] = useState(false);
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
 
@@ -112,20 +113,21 @@ export default function TodayScreen({ store }) {
   useEffect(() => {
     setReflection(today.reflection || "");
     setBarnabasNote(today.barnabasNote || "");
+    setReceivedKindness(today.receivedKindness || "");
     setShowSaved(false);
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
   }, [viewingDay]);
 
   const handleSave = () => {
-    saveReflection(reflection, barnabasNote);
+    saveReflection(reflection, barnabasNote, receivedKindness);
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
   };
 
   const handleMomentReflectSave = () => {
-    saveReflection(reflection, barnabasNote);
+    saveReflection(reflection, barnabasNote, receivedKindness);
     hapticSuccess();
     setShowMomentReflectSaved(true);
     setTimeout(() => setShowMomentReflectSaved(false), 2500);
@@ -453,6 +455,19 @@ export default function TodayScreen({ store }) {
           placeholderTextColor={colors.textSoft}
           value={barnabasNote}
           onChangeText={setBarnabasNote}
+        />
+
+        <Text style={styles.fieldLabel}>
+          Someone watered me today — did anyone show you kindness?
+        </Text>
+        <TextInput
+          style={styles.textArea}
+          multiline
+          numberOfLines={3}
+          placeholder="What did someone do for you today, and how did it feel?"
+          placeholderTextColor={colors.textSoft}
+          value={receivedKindness}
+          onChangeText={setReceivedKindness}
         />
 
         <Text style={styles.fieldLabel}>How are you feeling?</Text>

@@ -111,6 +111,7 @@ function ensureDayEntry(dayNumber) {
       mood: null,
       reflection: "",
       barnabasNote: "",
+      receivedKindness: "",
       momentDone: false,
       momentIntention: null,
       customMoment: null,
@@ -624,6 +625,7 @@ function renderToday() {
 
   document.getElementById("reflectionInput").value = entry.reflection || "";
   document.getElementById("barnabasInput").value = entry.barnabasNote || "";
+  document.getElementById("receivedKindnessInput").value = entry.receivedKindness || "";
   document.querySelectorAll(".mood-btn").forEach((btn) => {
     btn.classList.toggle("selected", btn.dataset.mood === entry.mood);
   });
@@ -679,7 +681,7 @@ function renderHistory() {
   const allKeys = Object.keys(state.entries)
     .filter((k) => {
       const e = state.entries[k];
-      return e.reflection || e.barnabasNote || e.momentDone;
+      return e.reflection || e.barnabasNote || e.receivedKindness || e.momentDone;
     })
     .sort((a, b) => state.entries[b].dayNumber - state.entries[a].dayNumber);
 
@@ -696,7 +698,8 @@ function renderHistory() {
         const e = state.entries[k];
         return (
           (e.reflection && e.reflection.toLowerCase().includes(query)) ||
-          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query))
+          (e.barnabasNote && e.barnabasNote.toLowerCase().includes(query)) ||
+          (e.receivedKindness && e.receivedKindness.toLowerCase().includes(query))
         );
       })
     : allKeys;
@@ -722,6 +725,9 @@ function renderHistory() {
       }
       if (e.momentDone && !e.barnabasNote) {
         parts.push(`<div class="history-block"><div class="history-block-label">Barnabas Moment</div>Marked as done.</div>`);
+      }
+      if (e.receivedKindness) {
+        parts.push(`<div class="history-block"><div class="history-block-label">Kindness Received</div>${escapeHtml(e.receivedKindness)}</div>`);
       }
       const mood = e.mood ? moodEmoji[e.mood] || "" : "";
       return `<div class="history-entry">
@@ -823,6 +829,10 @@ function renderWeeklyRecap() {
   document.getElementById("weeklyRecapText").textContent =
     `Over the last ${pluralize(recap.totalDays, "day")}, you showed up ${pluralize(recap.daysShownUp, "day")}, ` +
     `did ${pluralize(recap.momentsDone, "Barnabas Moment")}, and wrote ${pluralize(recap.journalEntries, "journal entry", "journal entries")}.`;
+  document.getElementById("weeklyRecapReceivedText").textContent =
+    recap.kindnessReceived > 0
+      ? `And you noticed kindness coming your way ${pluralize(recap.kindnessReceived, "time")} — you're being watered too, not just pouring out.`
+      : "He who waters others is himself watered — don't forget to notice when kindness comes your way, too.";
 }
 
 function renderRewards() {
@@ -860,7 +870,7 @@ function renderOnThisDay() {
     const dayNumber = latest - days;
     if (dayNumber < 1) continue;
     const entry = state.entries[`day-${dayNumber}`];
-    const snippet = entry && (entry.reflection || entry.barnabasNote);
+    const snippet = entry && (entry.reflection || entry.barnabasNote || entry.receivedKindness);
     if (snippet) {
       const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
       textEl.textContent = `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
@@ -1062,7 +1072,8 @@ function setupSaveReflection() {
     const entry = ensureDayEntry(viewingDay);
     entry.reflection = document.getElementById("reflectionInput").value.trim();
     entry.barnabasNote = document.getElementById("barnabasInput").value.trim();
-    if (entry.reflection || entry.barnabasNote) {
+    entry.receivedKindness = document.getElementById("receivedKindnessInput").value.trim();
+    if (entry.reflection || entry.barnabasNote || entry.receivedKindness) {
       awardStars(entry, "journal", 2);
     }
     saveState(state);

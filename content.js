@@ -94,6 +94,7 @@ function computeWeeklyRecap(entries, latestDay) {
   let daysShownUp = 0;
   let momentsDone = 0;
   let journalEntries = 0;
+  let kindnessReceived = 0;
   for (let day = start; day <= latestDay; day++) {
     const entry = entries[`day-${day}`];
     if (!entry) continue;
@@ -102,8 +103,9 @@ function computeWeeklyRecap(entries, latestDay) {
     }
     if (entry.momentDone) momentsDone += 1;
     if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+    if (entry.receivedKindness) kindnessReceived += 1;
   }
-  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+  return { daysShownUp, momentsDone, journalEntries, kindnessReceived, totalDays: latestDay - start + 1 };
 }
 
 function pickForDay(arr, dayNumber, order) {

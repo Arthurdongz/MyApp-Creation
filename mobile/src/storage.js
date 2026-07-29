@@ -65,6 +65,7 @@ function emptyEntry(dayNumber, journeyStartDate) {
     mood: null,
     reflection: "",
     barnabasNote: "",
+    receivedKindness: "",
     momentDone: false,
     momentIntention: null,
     customMoment: null,
@@ -169,6 +170,7 @@ export function computeWeeklyRecap(entries, latestDay) {
   let daysShownUp = 0;
   let momentsDone = 0;
   let journalEntries = 0;
+  let kindnessReceived = 0;
   for (let day = start; day <= latestDay; day++) {
     const entry = entries[`day-${day}`];
     if (!entry) continue;
@@ -177,8 +179,9 @@ export function computeWeeklyRecap(entries, latestDay) {
     }
     if (entry.momentDone) momentsDone += 1;
     if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+    if (entry.receivedKindness) kindnessReceived += 1;
   }
-  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+  return { daysShownUp, momentsDone, journalEntries, kindnessReceived, totalDays: latestDay - start + 1 };
 }
 
 function ensureDayEntryWithStar(state, dayNumber) {
@@ -378,11 +381,12 @@ export function useJournalStore() {
   );
 
   const saveReflection = useCallback(
-    (reflection, barnabasNote) => {
+    (reflection, barnabasNote, receivedKindness) => {
       updateViewedEntry((entry) => {
         const trimmedReflection = reflection.trim();
         const trimmedNote = barnabasNote.trim();
-        const hasContent = trimmedReflection || trimmedNote;
+        const trimmedReceived = (receivedKindness || "").trim();
+        const hasContent = trimmedReflection || trimmedNote || trimmedReceived;
         const alreadyAwarded = entry.starsAwarded.journal;
         const starsGained = hasContent && !alreadyAwarded ? 2 : 0;
         return {
@@ -390,6 +394,7 @@ export function useJournalStore() {
             ...entry,
             reflection: trimmedReflection,
             barnabasNote: trimmedNote,
+            receivedKindness: trimmedReceived,
             starsAwarded: {
               ...entry.starsAwarded,
               journal: alreadyAwarded || Boolean(hasContent),
