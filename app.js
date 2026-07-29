@@ -102,7 +102,7 @@ function ensureDayEntry(dayNumber) {
   if (!state.entries[key]) {
     state.entries[key] = {
       dayNumber,
-      dateLogged: todayDateKey(),
+      dateLogged: dateKeyForDayNumber(state.journeyStartDate, dayNumber),
       mood: null,
       reflection: "",
       barnabasNote: "",
@@ -110,6 +110,7 @@ function ensureDayEntry(dayNumber) {
       momentIntention: null,
       momentReflection: "",
       momentFollowUpAsked: false,
+      momentFollowUpStatus: null,
       starsAwarded: { daily: false, moment: false, journal: false },
     };
   }
@@ -518,6 +519,16 @@ function renderToday() {
   const day = viewingDay;
   const isToday = day === unlockedDay();
 
+  const followUpCard = document.getElementById("momentFollowUpCard");
+  const prevDayNumber = unlockedDay() - 1;
+  const prevEntry = prevDayNumber >= 1 ? state.entries[`day-${prevDayNumber}`] : null;
+  const showFollowUp =
+    isToday && prevDayNumber >= 1 && !(prevEntry && prevEntry.momentDone) && !(prevEntry && prevEntry.momentFollowUpAsked);
+  followUpCard.hidden = !showFollowUp;
+  if (showFollowUp) {
+    document.getElementById("momentFollowUpText").textContent = pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
+  }
+
   const verse = pickForDay(VERSES, day, state.order);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
   document.getElementById("verseRef").textContent = verse.ref;
@@ -916,6 +927,27 @@ function setupMomentIntention() {
   });
 }
 
+function answerMomentFollowUp(status) {
+  const prevDayNumber = unlockedDay() - 1;
+  if (prevDayNumber < 1) return;
+  const entry = ensureDayEntry(prevDayNumber);
+  entry.momentFollowUpAsked = true;
+  entry.momentFollowUpStatus = status;
+  if (status === "done" && !entry.momentDone) {
+    entry.momentDone = true;
+    awardStars(entry, "moment", 2);
+  }
+  saveState(state);
+  renderToday();
+  renderHeaderStats();
+}
+
+function setupMomentFollowUp() {
+  document.querySelectorAll(".follow-up-btn").forEach((btn) => {
+    btn.addEventListener("click", () => answerMomentFollowUp(btn.dataset.status));
+  });
+}
+
 function setupSaveReflection() {
   document.getElementById("saveReflectionBtn").addEventListener("click", () => {
     const entry = ensureDayEntry(viewingDay);
@@ -1164,6 +1196,7 @@ function init() {
   setupMoodPicker();
   setupMomentButton();
   setupMomentIntention();
+  setupMomentFollowUp();
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();

@@ -54,6 +54,7 @@ export default function TodayScreen({ store }) {
     setMood,
     setMomentIntention,
     markMomentDone,
+    answerMomentFollowUp,
     saveReflection,
     isFavorited,
     toggleFavorite,
@@ -63,6 +64,23 @@ export default function TodayScreen({ store }) {
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
   const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
   const moment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
+
+  const prevDayNumber = latestDay - 1;
+  const prevEntry = store.state.entries[`day-${prevDayNumber}`];
+  const prevMoment = useMemo(
+    () => (prevDayNumber >= 1 ? pickForDay(BARNABAS_MOMENTS, prevDayNumber, order) : ""),
+    [prevDayNumber, order]
+  );
+  const showMomentFollowUp =
+    isToday &&
+    prevDayNumber >= 1 &&
+    !(prevEntry && prevEntry.momentDone) &&
+    !(prevEntry && prevEntry.momentFollowUpAsked);
+
+  const handleFollowUp = (status) => {
+    hapticTap();
+    answerMomentFollowUp(prevDayNumber, status);
+  };
 
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
@@ -137,6 +155,25 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         ) : null}
       </View>
+
+      {showMomentFollowUp ? (
+        <Card style={styles.followUpCard}>
+          <Text style={styles.cardLabel}>Yesterday's Barnabas Moment</Text>
+          <Text style={[styles.bodyText, { marginBottom: 12 }]}>{prevMoment}</Text>
+          <Text style={styles.followUpQuestion}>Did you get to it?</Text>
+          <View style={styles.followUpActions}>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("done")}>
+              <Text style={styles.followUpBtnText}>Yes, I did it 🎉</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("not_yet")}>
+              <Text style={styles.followUpBtnText}>Not yet, but I still might</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("no")}>
+              <Text style={styles.followUpBtnText}>No, not this time</Text>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      ) : null}
 
       <Card style={styles.verseCard}>
         <View style={styles.cardLabelRow}>
@@ -396,6 +433,18 @@ function getStyles(colors) {
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },
+    followUpCard: { backgroundColor: colors.momentCard },
+    followUpQuestion: { fontSize: 13, fontWeight: "600", color: colors.sageDark, marginBottom: 10 },
+    followUpActions: { gap: 8 },
+    followUpBtn: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      alignItems: "center",
+    },
+    followUpBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
     verseText: {
       fontSize: 18,
       lineHeight: 26,

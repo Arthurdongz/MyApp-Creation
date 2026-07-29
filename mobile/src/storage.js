@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { todayKey, shuffledOrder, unlockedDayFor, TOTAL_DAYS } from "./content";
+import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
   scheduleMorningReminder,
@@ -57,10 +57,10 @@ function freshJourney() {
   };
 }
 
-function emptyEntry(dayNumber) {
+function emptyEntry(dayNumber, journeyStartDate) {
   return {
     dayNumber,
-    dateLogged: todayKey(),
+    dateLogged: journeyStartDate ? dateKeyForDayNumber(journeyStartDate, dayNumber) : todayKey(),
     mood: null,
     reflection: "",
     barnabasNote: "",
@@ -68,6 +68,7 @@ function emptyEntry(dayNumber) {
     momentIntention: null,
     momentReflection: "",
     momentFollowUpAsked: false,
+    momentFollowUpStatus: null,
     starsAwarded: { daily: false, moment: false, journal: false },
   };
 }
@@ -136,7 +137,7 @@ function ensureDayEntryWithStar(state, dayNumber) {
   const existing = state.entries[key];
   const entry = existing
     ? { ...existing, starsAwarded: { ...existing.starsAwarded } }
-    : emptyEntry(dayNumber);
+    : emptyEntry(dayNumber, state.journeyStartDate);
   let totalStars = state.totalStars;
   if (!entry.starsAwarded.daily) {
     entry.starsAwarded.daily = true;
@@ -242,7 +243,7 @@ export function useJournalStore() {
     (updater) => {
       setState((prev) => {
         const key = `day-${viewingDay}`;
-        const current = prev.entries[key] || emptyEntry(viewingDay);
+        const current = prev.entries[key] || emptyEntry(viewingDay, prev.journeyStartDate);
         const { entry: nextEntry, starsGained } = updater({
           ...current,
           starsAwarded: { ...current.starsAwarded },
@@ -287,6 +288,37 @@ export function useJournalStore() {
       };
     });
   }, [updateViewedEntry]);
+
+  // Answers the "did you get to it?" follow-up for a day other than the one
+  // currently being viewed (always the previous day) — separate from
+  // updateViewedEntry, which only ever touches viewingDay.
+  const answerMomentFollowUp = useCallback(
+    (dayNumber, status) => {
+      setState((prev) => {
+        const key = `day-${dayNumber}`;
+        const existing = prev.entries[key] || emptyEntry(dayNumber, prev.journeyStartDate);
+        const entry = { ...existing, starsAwarded: { ...existing.starsAwarded } };
+        entry.momentFollowUpAsked = true;
+        entry.momentFollowUpStatus = status;
+        let starsGained = 0;
+        if (status === "done" && !entry.momentDone) {
+          entry.momentDone = true;
+          if (!entry.starsAwarded.moment) {
+            entry.starsAwarded.moment = true;
+            starsGained = 2;
+          }
+        }
+        const next = {
+          ...prev,
+          totalStars: prev.totalStars + starsGained,
+          entries: { ...prev.entries, [key]: entry },
+        };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
 
   const saveReflection = useCallback(
     (reflection, barnabasNote) => {
@@ -392,7 +424,7 @@ export function useJournalStore() {
     [persist]
   );
 
-  const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay);
+  const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
 
@@ -415,6 +447,7 @@ export function useJournalStore() {
     setMood,
     setMomentIntention,
     markMomentDone,
+    answerMomentFollowUp,
     saveReflection,
     isFavorited,
     toggleFavorite,
