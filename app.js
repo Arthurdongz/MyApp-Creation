@@ -108,7 +108,6 @@ function ensureDayEntry(dayNumber) {
       barnabasNote: "",
       momentDone: false,
       momentIntention: null,
-      momentReflection: "",
       momentFollowUpAsked: false,
       momentFollowUpStatus: null,
       starsAwarded: { daily: false, moment: false, journal: false },
@@ -549,14 +548,22 @@ function renderToday() {
 
   const momentBtn = document.getElementById("momentBtn");
   const momentMsg = document.getElementById("momentDoneMsg");
+  const momentReflectPrompt = document.getElementById("momentReflectPrompt");
   if (entry.momentDone) {
     momentBtn.disabled = true;
     momentBtn.textContent = "Done ✓";
     momentMsg.hidden = false;
+    if (!entry.barnabasNote) {
+      momentReflectPrompt.hidden = false;
+      document.getElementById("momentReflectInput").value = "";
+    } else {
+      momentReflectPrompt.hidden = true;
+    }
   } else {
     momentBtn.disabled = false;
     momentBtn.textContent = isToday ? "I did this today ✓" : "I did this ✓";
     momentMsg.hidden = true;
+    momentReflectPrompt.hidden = true;
   }
 
   const intentionPrompt = document.getElementById("momentIntentionPrompt");
@@ -942,6 +949,22 @@ function answerMomentFollowUp(status) {
   renderHeaderStats();
 }
 
+function setupMomentReflect() {
+  document.getElementById("momentReflectSaveBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.barnabasNote = document.getElementById("momentReflectInput").value.trim();
+    if (entry.reflection || entry.barnabasNote) {
+      awardStars(entry, "journal", 2);
+    }
+    saveState(state);
+    renderToday();
+    renderHeaderStats();
+    const msg = document.getElementById("momentReflectSavedMsg");
+    msg.hidden = false;
+    setTimeout(() => { msg.hidden = true; }, 2500);
+  });
+}
+
 function setupMomentFollowUp() {
   document.querySelectorAll(".follow-up-btn").forEach((btn) => {
     btn.addEventListener("click", () => answerMomentFollowUp(btn.dataset.status));
@@ -1197,6 +1220,7 @@ function init() {
   setupMomentButton();
   setupMomentIntention();
   setupMomentFollowUp();
+  setupMomentReflect();
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();

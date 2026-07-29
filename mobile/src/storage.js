@@ -66,7 +66,6 @@ function emptyEntry(dayNumber, journeyStartDate) {
     barnabasNote: "",
     momentDone: false,
     momentIntention: null,
-    momentReflection: "",
     momentFollowUpAsked: false,
     momentFollowUpStatus: null,
     starsAwarded: { daily: false, moment: false, journal: false },

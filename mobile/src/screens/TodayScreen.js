@@ -85,6 +85,7 @@ export default function TodayScreen({ store }) {
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
   const [showSaved, setShowSaved] = useState(false);
+  const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
 
   // The viewed day's saved reflection/note only comes through on first
   // mount via useState's initial value — keep the text boxes in sync
@@ -100,6 +101,13 @@ export default function TodayScreen({ store }) {
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
+  };
+
+  const handleMomentReflectSave = () => {
+    saveReflection(reflection, barnabasNote);
+    hapticSuccess();
+    setShowMomentReflectSaved(true);
+    setTimeout(() => setShowMomentReflectSaved(false), 2500);
   };
 
   const verseSaved = isFavorited("verse", viewingDay);
@@ -291,7 +299,29 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         </View>
         {today.momentDone ? (
-          <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
+          <>
+            <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
+            {!today.barnabasNote ? (
+              <View style={styles.momentReflectPrompt}>
+                <Text style={styles.momentReflectLabel}>What happened? (optional)</Text>
+                <TextInput
+                  style={styles.textArea}
+                  multiline
+                  numberOfLines={2}
+                  placeholder="What happened when you did it?"
+                  placeholderTextColor={colors.textSoft}
+                  value={barnabasNote}
+                  onChangeText={setBarnabasNote}
+                />
+                <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleMomentReflectSave}>
+                  <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            ) : null}
+            {showMomentReflectSaved ? (
+              <Text style={styles.momentReflectSavedMsg}>Saved. Thank you for sharing that. ⭐⭐</Text>
+            ) : null}
+          </>
         ) : null}
       </Card>
 
@@ -445,6 +475,29 @@ function getStyles(colors) {
       alignItems: "center",
     },
     followUpBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    momentReflectPrompt: { marginTop: 14 },
+    momentReflectLabel: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 6,
+    },
+    momentReflectSaveBtn: {
+      alignSelf: "flex-start",
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 10,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      marginTop: 8,
+    },
+    momentReflectSaveBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    momentReflectSavedMsg: {
+      marginTop: 8,
+      fontSize: 13,
+      color: colors.sageDark,
+      fontWeight: "600",
+    },
     verseText: {
       fontSize: 18,
       lineHeight: 26,

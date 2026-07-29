@@ -450,6 +450,41 @@ body {
 
 .follow-up-btn:hover { background: var(--card); }
 
+.moment-reflect-prompt { margin-top: 14px; }
+
+.moment-reflect-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sage-dark);
+  margin-bottom: 6px;
+}
+
+.moment-reflect-prompt textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--input);
+  resize: vertical;
+}
+
+.moment-reflect-save-btn {
+  margin-top: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.moment-reflect-saved-msg {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--sage-dark);
+  font-weight: 600;
+}
+
 .moment-share-msg {
   margin: 10px 0 0;
   font-size: 13px;
