@@ -10,6 +10,7 @@ import { todayKey, shuffledOrder, unlockedDayFor, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
   scheduleMorningReminder,
+  scheduleHighlightReminder,
   scheduleEveningReminder,
 } from "./notifications";
 
@@ -33,6 +34,9 @@ function defaultSettings() {
     morningReminderEnabled: false,
     morningReminderHour: 8,
     morningReminderMinute: 0,
+    highlightReminderEnabled: false,
+    highlightReminderHour: 13,
+    highlightReminderMinute: 0,
     eveningReminderEnabled: false,
     eveningReminderHour: 20,
     eveningReminderMinute: 0,
@@ -191,6 +195,14 @@ export function useJournalStore() {
         state.order
       );
     }
+    if (state.settings.highlightReminderEnabled) {
+      scheduleHighlightReminder(
+        state.settings.highlightReminderHour,
+        state.settings.highlightReminderMinute,
+        state.journeyStartDate,
+        state.order
+      );
+    }
     if (state.settings.eveningReminderEnabled) {
       scheduleEveningReminder(state.settings.eveningReminderHour, state.settings.eveningReminderMinute);
     }
@@ -337,9 +349,11 @@ export function useJournalStore() {
   const completeOnboarding = useCallback(async () => {
     const granted = await requestNotificationPermission();
     let morningOk = false;
+    let highlightOk = false;
     let eveningOk = false;
     if (granted) {
       morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order);
+      highlightOk = await scheduleHighlightReminder(13, 0, state.journeyStartDate, state.order);
       eveningOk = await scheduleEveningReminder(20, 0);
     }
     updateSettings({
@@ -347,6 +361,9 @@ export function useJournalStore() {
       morningReminderEnabled: morningOk,
       morningReminderHour: 8,
       morningReminderMinute: 0,
+      highlightReminderEnabled: highlightOk,
+      highlightReminderHour: 13,
+      highlightReminderMinute: 0,
       eveningReminderEnabled: eveningOk,
       eveningReminderHour: 20,
       eveningReminderMinute: 0,
