@@ -111,6 +111,52 @@ let showWordReflectInputUI = false;
 // purely-local UI toggle, reset whenever the viewed day/story changes.
 let showStoryInsightUI = false;
 
+// The three "Reflect on Today" journal fields are shown as accordion rows.
+// Each field's open/closed state defaults to whether the viewed day already
+// has text in it (so a returning user sees their own words immediately),
+// but the user can freely toggle any row after that — reset only when the
+// viewed day itself changes.
+function reflectRowsConfig() {
+  return [
+    { key: "heart", field: "reflection", rowId: "reflectHeartRow", inputId: "reflectionInput", previewId: "reflectHeartPreview" },
+    { key: "barnabas", field: "barnabasNote", rowId: "reflectBarnabasRow", inputId: "barnabasInput", previewId: "reflectBarnabasPreview" },
+    { key: "kindness", field: "receivedKindness", rowId: "reflectKindnessRow", inputId: "receivedKindnessInput", previewId: "reflectKindnessPreview" },
+  ];
+}
+
+let reflectAccordionOpen = { heart: false, barnabas: false, kindness: false };
+
+function initReflectAccordionForDay(entry) {
+  reflectAccordionOpen = {
+    heart: Boolean(entry.reflection),
+    barnabas: Boolean(entry.barnabasNote),
+    kindness: Boolean(entry.receivedKindness),
+  };
+}
+
+function truncateForPreview(text) {
+  const trimmed = text.trim();
+  return trimmed.length > 90 ? `${trimmed.slice(0, 90).trimEnd()}…` : trimmed;
+}
+
+// Updates one accordion row's open/closed display and preview text.
+// `syncInput` is false when called from a plain toggle click, so toggling
+// one row never clobbers unsaved text a user is mid-typing in another row.
+function syncAccordionRow(cfg, entry, syncInput) {
+  const row = document.getElementById(cfg.rowId);
+  const isOpen = reflectAccordionOpen[cfg.key];
+  row.classList.toggle("open", isOpen);
+  row.querySelector(".accordion-row-body").hidden = !isOpen;
+  if (syncInput) document.getElementById(cfg.inputId).value = entry[cfg.field] || "";
+  const preview = document.getElementById(cfg.previewId);
+  if (!isOpen && entry[cfg.field]) {
+    preview.textContent = truncateForPreview(entry[cfg.field]);
+    preview.hidden = false;
+  } else {
+    preview.hidden = true;
+  }
+}
+
 function ensureDayEntry(dayNumber) {
   const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
@@ -279,6 +325,7 @@ function importDataFromFile(file) {
       viewingDay = unlockedDay();
       saveState(state);
       applyTheme();
+      initReflectAccordionForDay(ensureDayEntry(viewingDay));
       renderToday();
       renderStory();
       renderHistory();
@@ -595,6 +642,8 @@ function renderToday() {
     saveState(state);
   }
 
+  document.getElementById("supportSection").hidden = !(showCallNudge || showCrisisNudge || showCheckInNudge);
+
   const verse = pickForDay(VERSES, day, state.order);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
   document.getElementById("verseRef").textContent = verse.ref;
@@ -686,9 +735,7 @@ function renderToday() {
     intentionRow.hidden = true;
   }
 
-  document.getElementById("reflectionInput").value = entry.reflection || "";
-  document.getElementById("barnabasInput").value = entry.barnabasNote || "";
-  document.getElementById("receivedKindnessInput").value = entry.receivedKindness || "";
+  reflectRowsConfig().forEach((cfg) => syncAccordionRow(cfg, entry, true));
   document.querySelectorAll(".mood-btn").forEach((btn) => {
     btn.classList.toggle("selected", btn.dataset.mood === entry.mood);
   });
@@ -1013,6 +1060,7 @@ function setupDayNav() {
       showCustomMomentInputUI = false;
       showWordReflectInputUI = false;
       showStoryInsightUI = false;
+      initReflectAccordionForDay(ensureDayEntry(viewingDay));
       renderToday();
       renderStory();
     }
@@ -1023,6 +1071,7 @@ function setupDayNav() {
       showCustomMomentInputUI = false;
       showWordReflectInputUI = false;
       showStoryInsightUI = false;
+      initReflectAccordionForDay(ensureDayEntry(viewingDay));
       renderToday();
       renderStory();
     }
@@ -1032,6 +1081,7 @@ function setupDayNav() {
     showCustomMomentInputUI = false;
     showWordReflectInputUI = false;
     showStoryInsightUI = false;
+    initReflectAccordionForDay(ensureDayEntry(viewingDay));
     renderToday();
     renderStory();
   });
@@ -1134,6 +1184,17 @@ function setupStoryInsight() {
   document.getElementById("storyInsightBtn").addEventListener("click", () => {
     showStoryInsightUI = !showStoryInsightUI;
     renderStory();
+  });
+}
+
+function setupReflectAccordion() {
+  document.querySelectorAll(".accordion-row-head").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.accordion;
+      reflectAccordionOpen[key] = !reflectAccordionOpen[key];
+      const cfg = reflectRowsConfig().find((r) => r.key === key);
+      syncAccordionRow(cfg, ensureDayEntry(viewingDay), false);
+    });
   });
 }
 
@@ -1428,6 +1489,7 @@ function init() {
   setupCustomMoment();
   setupWordReflect();
   setupStoryInsight();
+  setupReflectAccordion();
   setupMomentFollowUp();
   setupMomentReflect();
   setupSaveReflection();
@@ -1443,6 +1505,7 @@ function init() {
   setupBackup();
   setupOnboarding();
   setupSearch();
+  initReflectAccordionForDay(ensureDayEntry(viewingDay));
   renderToday();
   renderStory();
   maybeShowOnboarding();
