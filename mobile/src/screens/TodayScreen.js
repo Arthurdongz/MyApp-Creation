@@ -53,6 +53,7 @@ export default function TodayScreen({ store }) {
     jumpToToday,
     setMood,
     setMomentIntention,
+    setCustomMoment,
     markMomentDone,
     answerMomentFollowUp,
     saveReflection,
@@ -63,14 +64,19 @@ export default function TodayScreen({ store }) {
   const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
   const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
-  const moment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
+  const suggestedMoment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
+  const moment = today.customMoment || suggestedMoment;
+
+  const [showCustomMomentInput, setShowCustomMomentInput] = useState(false);
+  const [customMomentInput, setCustomMomentInput] = useState("");
 
   const prevDayNumber = latestDay - 1;
   const prevEntry = store.state.entries[`day-${prevDayNumber}`];
-  const prevMoment = useMemo(
-    () => (prevDayNumber >= 1 ? pickForDay(BARNABAS_MOMENTS, prevDayNumber, order) : ""),
-    [prevDayNumber, order]
-  );
+  const prevMoment = useMemo(() => {
+    if (prevDayNumber < 1) return "";
+    if (prevEntry && prevEntry.customMoment) return prevEntry.customMoment;
+    return pickForDay(BARNABAS_MOMENTS, prevDayNumber, order);
+  }, [prevDayNumber, prevEntry, order]);
   const showMomentFollowUp =
     isToday &&
     prevDayNumber >= 1 &&
@@ -80,6 +86,19 @@ export default function TodayScreen({ store }) {
   const handleFollowUp = (status) => {
     hapticTap();
     answerMomentFollowUp(prevDayNumber, status);
+  };
+
+  const handleUseCustomMoment = () => {
+    if (!customMomentInput.trim()) return;
+    hapticTap();
+    setCustomMoment(customMomentInput);
+    setShowCustomMomentInput(false);
+  };
+
+  const handleUseSuggestion = () => {
+    hapticTap();
+    setCustomMoment("");
+    setCustomMomentInput("");
   };
 
   const [reflection, setReflection] = useState(today.reflection || "");
@@ -94,6 +113,8 @@ export default function TodayScreen({ store }) {
     setReflection(today.reflection || "");
     setBarnabasNote(today.barnabasNote || "");
     setShowSaved(false);
+    setShowCustomMomentInput(false);
+    setCustomMomentInput("");
   }, [viewingDay]);
 
   const handleSave = () => {
@@ -249,6 +270,47 @@ export default function TodayScreen({ store }) {
       <Card style={styles.momentCard}>
         <Text style={styles.cardLabel}>Your Barnabas Moment</Text>
         <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
+
+        {!today.momentDone ? (
+          today.customMoment ? (
+            <View style={styles.customMomentRow}>
+              <Text style={styles.customMomentNote}>This is your own idea for today.</Text>
+              <TouchableOpacity onPress={handleUseSuggestion}>
+                <Text style={styles.intentionChange}>Use today's suggestion instead</Text>
+              </TouchableOpacity>
+            </View>
+          ) : showCustomMomentInput ? (
+            <View style={styles.customMomentPrompt}>
+              <TextInput
+                style={styles.textArea}
+                multiline
+                numberOfLines={2}
+                placeholder="What's your own act of kindness today?"
+                placeholderTextColor={colors.textSoft}
+                value={customMomentInput}
+                onChangeText={setCustomMomentInput}
+              />
+              <View style={styles.customMomentBtnRow}>
+                <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleUseCustomMoment}>
+                  <Text style={styles.momentReflectSaveBtnText}>Use this instead</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowCustomMomentInput(false)}>
+                  <Text style={styles.intentionChange}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={styles.customMomentLinkWrap}
+              onPress={() => {
+                hapticTap();
+                setShowCustomMomentInput(true);
+              }}
+            >
+              <Text style={styles.customMomentLink}>Or, write your own kindness for today</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
 
         {isToday && !today.momentDone ? (
           today.momentIntention ? (
@@ -555,6 +617,27 @@ function getStyles(colors) {
       flexDirection: "row",
       flexWrap: "wrap",
       gap: 10,
+    },
+    customMomentLinkWrap: { marginBottom: 14 },
+    customMomentLink: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      textDecorationLine: "underline",
+    },
+    customMomentPrompt: { marginBottom: 14 },
+    customMomentBtnRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 14,
+      marginTop: 8,
+    },
+    customMomentRow: { marginBottom: 14 },
+    customMomentNote: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 4,
     },
     intentionPrompt: { marginBottom: 14 },
     intentionPromptLabel: {

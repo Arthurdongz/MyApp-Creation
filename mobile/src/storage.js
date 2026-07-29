@@ -67,6 +67,7 @@ function emptyEntry(dayNumber, journeyStartDate) {
     barnabasNote: "",
     momentDone: false,
     momentIntention: null,
+    customMoment: null,
     momentFollowUpAsked: false,
     momentFollowUpStatus: null,
     starsAwarded: { daily: false, moment: false, journal: false },
@@ -322,6 +323,14 @@ export function useJournalStore() {
     [updateViewedEntry]
   );
 
+  const setCustomMoment = useCallback(
+    (text) => {
+      const customMoment = text.trim() || null;
+      updateViewedEntry((entry) => ({ entry: { ...entry, customMoment }, starsGained: 0 }));
+    },
+    [updateViewedEntry]
+  );
+
   const markMomentDone = useCallback(() => {
     updateViewedEntry((entry) => {
       if (entry.momentDone) return { entry, starsGained: 0 };
@@ -509,6 +518,7 @@ export function useJournalStore() {
     jumpToToday,
     setMood,
     setMomentIntention,
+    setCustomMoment,
     markMomentDone,
     answerMomentFollowUp,
     saveReflection,

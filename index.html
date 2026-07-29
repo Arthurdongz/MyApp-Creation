@@ -105,6 +105,20 @@
       <article class="card moment-card">
         <p class="card-label">Your Barnabas Moment</p>
         <p class="moment-text" id="momentText"></p>
+
+        <div class="custom-moment-row" id="customMomentRow" hidden>
+          <p class="moment-intention-text">This is your own idea for today.</p>
+          <button type="button" class="moment-intention-change" id="useSuggestionBtn">Use today's suggestion instead</button>
+        </div>
+        <div class="custom-moment-prompt" id="customMomentPrompt" hidden>
+          <textarea id="customMomentInput" rows="2" placeholder="What's your own act of kindness today?"></textarea>
+          <div class="custom-moment-btn-row">
+            <button type="button" id="useCustomMomentBtn" class="btn btn-secondary moment-reflect-save-btn">Use this instead</button>
+            <button type="button" id="cancelCustomMomentBtn" class="moment-intention-change">Cancel</button>
+          </div>
+        </div>
+        <button type="button" class="custom-moment-link" id="customMomentLinkBtn">Or, write your own kindness for today</button>
+
         <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
           <p class="moment-intention-label">When will you do this?</p>
           <div class="moment-intention-options">

@@ -98,6 +98,10 @@ function unlockedDay() {
 // The day currently being viewed (may be any unlocked day, not just today's).
 let viewingDay = unlockedDay();
 
+// Whether the "write your own kindness" text box is currently open — purely
+// a UI toggle, not persisted, reset whenever the viewed day changes.
+let showCustomMomentInputUI = false;
+
 function ensureDayEntry(dayNumber) {
   const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
@@ -109,6 +113,7 @@ function ensureDayEntry(dayNumber) {
       barnabasNote: "",
       momentDone: false,
       momentIntention: null,
+      customMoment: null,
       momentFollowUpAsked: false,
       momentFollowUpStatus: null,
       starsAwarded: { daily: false, moment: false, journal: false },
@@ -454,7 +459,8 @@ function setupSharePreview() {
 }
 
 async function shareMoment(day) {
-  const moment = pickForDay(BARNABAS_MOMENTS, day, state.order);
+  const entry = ensureDayEntry(day);
+  const moment = entry.customMoment || pickForDay(BARNABAS_MOMENTS, day, state.order);
   const message = `A little encouragement from me to you today: ${moment}\n\n— sent from Barnabas Journal`;
   const result = await shareText(message);
   const msgEl = document.getElementById("momentShareMsg");
@@ -526,7 +532,8 @@ function renderToday() {
     isToday && prevDayNumber >= 1 && !(prevEntry && prevEntry.momentDone) && !(prevEntry && prevEntry.momentFollowUpAsked);
   followUpCard.hidden = !showFollowUp;
   if (showFollowUp) {
-    document.getElementById("momentFollowUpText").textContent = pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
+    document.getElementById("momentFollowUpText").textContent =
+      (prevEntry && prevEntry.customMoment) || pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
   }
 
   const crisisCard = document.getElementById("crisisCard");
@@ -550,11 +557,33 @@ function renderToday() {
   document.getElementById("wisdomSource").textContent = `— ${quote.source}`;
   updateFavoriteBtn("wisdomFavoriteBtn", "wisdom", day);
 
-  document.getElementById("momentText").textContent = pickForDay(BARNABAS_MOMENTS, day, state.order);
-
   const entry = ensureDayEntry(day);
   awardStars(entry, "daily", 1);
   saveState(state);
+
+  const suggestedMoment = pickForDay(BARNABAS_MOMENTS, day, state.order);
+  document.getElementById("momentText").textContent = entry.customMoment || suggestedMoment;
+
+  const customMomentRow = document.getElementById("customMomentRow");
+  const customMomentPrompt = document.getElementById("customMomentPrompt");
+  const customMomentLinkBtn = document.getElementById("customMomentLinkBtn");
+  if (entry.momentDone) {
+    customMomentRow.hidden = true;
+    customMomentPrompt.hidden = true;
+    customMomentLinkBtn.hidden = true;
+  } else if (entry.customMoment) {
+    customMomentRow.hidden = false;
+    customMomentPrompt.hidden = true;
+    customMomentLinkBtn.hidden = true;
+  } else if (showCustomMomentInputUI) {
+    customMomentRow.hidden = true;
+    customMomentPrompt.hidden = false;
+    customMomentLinkBtn.hidden = true;
+  } else {
+    customMomentRow.hidden = true;
+    customMomentPrompt.hidden = true;
+    customMomentLinkBtn.hidden = false;
+  }
 
   const momentBtn = document.getElementById("momentBtn");
   const momentMsg = document.getElementById("momentDoneMsg");
@@ -902,6 +931,7 @@ function setupDayNav() {
   document.getElementById("dayNavPrev").addEventListener("click", () => {
     if (viewingDay > 1) {
       viewingDay -= 1;
+      showCustomMomentInputUI = false;
       renderToday();
       renderStory();
     }
@@ -909,12 +939,14 @@ function setupDayNav() {
   document.getElementById("dayNavNext").addEventListener("click", () => {
     if (viewingDay < unlockedDay()) {
       viewingDay += 1;
+      showCustomMomentInputUI = false;
       renderToday();
       renderStory();
     }
   });
   document.getElementById("dayNavJump").addEventListener("click", () => {
     viewingDay = unlockedDay();
+    showCustomMomentInputUI = false;
     renderToday();
     renderStory();
   });
@@ -957,6 +989,32 @@ function setupMomentIntention() {
   document.getElementById("momentIntentionChangeBtn").addEventListener("click", () => {
     const entry = ensureDayEntry(viewingDay);
     entry.momentIntention = null;
+    saveState(state);
+    renderToday();
+  });
+}
+
+function setupCustomMoment() {
+  document.getElementById("customMomentLinkBtn").addEventListener("click", () => {
+    showCustomMomentInputUI = true;
+    renderToday();
+  });
+  document.getElementById("cancelCustomMomentBtn").addEventListener("click", () => {
+    showCustomMomentInputUI = false;
+    renderToday();
+  });
+  document.getElementById("useCustomMomentBtn").addEventListener("click", () => {
+    const text = document.getElementById("customMomentInput").value.trim();
+    if (!text) return;
+    const entry = ensureDayEntry(viewingDay);
+    entry.customMoment = text;
+    showCustomMomentInputUI = false;
+    saveState(state);
+    renderToday();
+  });
+  document.getElementById("useSuggestionBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.customMoment = null;
     saveState(state);
     renderToday();
   });
@@ -1247,6 +1305,7 @@ function init() {
   setupMoodPicker();
   setupMomentButton();
   setupMomentIntention();
+  setupCustomMoment();
   setupMomentFollowUp();
   setupMomentReflect();
   setupSaveReflection();

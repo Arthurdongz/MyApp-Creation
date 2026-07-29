@@ -351,6 +351,49 @@ body {
   margin: 0 0 14px;
 }
 
+.custom-moment-row { margin-bottom: 14px; }
+
+.custom-moment-prompt { margin-bottom: 14px; }
+
+.custom-moment-prompt textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--input);
+  resize: vertical;
+}
+
+.custom-moment-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.custom-moment-link {
+  display: inline-block;
+  border: none;
+  background: transparent;
+  color: var(--sage-dark);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+  margin-bottom: 14px;
+}
+
+.custom-moment-link[hidden],
+.custom-moment-row[hidden],
+.custom-moment-prompt[hidden] {
+  display: none;
+}
+
 .moment-intention-prompt { margin-bottom: 14px; }
 
 .moment-intention-label {
