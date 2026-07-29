@@ -111,6 +111,8 @@ export default function TodayScreen({ store }) {
   const [receivedKindness, setReceivedKindness] = useState(today.receivedKindness || "");
   const [showSaved, setShowSaved] = useState(false);
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
+  const [showWordReflectPrompt, setShowWordReflectPrompt] = useState(false);
+  const [showWordReflectSaved, setShowWordReflectSaved] = useState(false);
 
   // The viewed day's saved reflection/note only comes through on first
   // mount via useState's initial value — keep the text boxes in sync
@@ -122,6 +124,7 @@ export default function TodayScreen({ store }) {
     setShowSaved(false);
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
+    setShowWordReflectPrompt(false);
   }, [viewingDay]);
 
   const handleSave = () => {
@@ -129,6 +132,14 @@ export default function TodayScreen({ store }) {
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
+  };
+
+  const handleWordReflectSave = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness);
+    hapticSuccess();
+    setShowWordReflectPrompt(false);
+    setShowWordReflectSaved(true);
+    setTimeout(() => setShowWordReflectSaved(false), 2500);
   };
 
   const handleMomentReflectSave = () => {
@@ -247,6 +258,45 @@ export default function TodayScreen({ store }) {
           </TouchableOpacity>
         </View>
         <Text style={styles.bodyText}>{encouragement}</Text>
+
+        {!today.reflection ? (
+          showWordReflectPrompt ? (
+            <View style={styles.customMomentPrompt}>
+              <TextInput
+                style={[styles.textArea, { marginTop: 12 }]}
+                multiline
+                numberOfLines={2}
+                placeholder="What does this stir in you?"
+                placeholderTextColor={colors.textSoft}
+                value={reflection}
+                onChangeText={setReflection}
+              />
+              <View style={styles.customMomentBtnRow}>
+                <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleWordReflectSave}>
+                  <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setShowWordReflectPrompt(false)}>
+                  <Text style={styles.intentionChange}>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={[styles.customMomentLinkWrap, { marginTop: 12, marginBottom: 0 }]}
+              onPress={() => {
+                hapticTap();
+                setShowWordReflectPrompt(true);
+              }}
+            >
+              <Text style={styles.customMomentLink}>Let this sit for a moment — what does it stir in you?</Text>
+            </TouchableOpacity>
+          )
+        ) : null}
+        {showWordReflectSaved ? (
+          <Text style={[styles.momentReflectSavedMsg, { marginTop: 12 }]}>
+            Saved. Thank you for sitting with that. ⭐⭐
+          </Text>
+        ) : null}
       </Card>
 
       <Card>

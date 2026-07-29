@@ -102,6 +102,10 @@ let viewingDay = unlockedDay();
 // a UI toggle, not persisted, reset whenever the viewed day changes.
 let showCustomMomentInputUI = false;
 
+// Whether the "let this sit for a moment" reflection box (under A Word for
+// You) is currently open — same kind of purely-local UI toggle.
+let showWordReflectInputUI = false;
+
 function ensureDayEntry(dayNumber) {
   const key = `day-${dayNumber}`;
   if (!state.entries[key]) {
@@ -593,6 +597,20 @@ function renderToday() {
     customMomentLinkBtn.hidden = false;
   }
 
+  const wordReflectLinkBtn = document.getElementById("wordReflectLinkBtn");
+  const wordReflectPrompt = document.getElementById("wordReflectPrompt");
+  if (entry.reflection) {
+    wordReflectLinkBtn.hidden = true;
+    wordReflectPrompt.hidden = true;
+  } else if (showWordReflectInputUI) {
+    wordReflectLinkBtn.hidden = true;
+    wordReflectPrompt.hidden = false;
+    document.getElementById("wordReflectInput").value = "";
+  } else {
+    wordReflectLinkBtn.hidden = false;
+    wordReflectPrompt.hidden = true;
+  }
+
   const momentBtn = document.getElementById("momentBtn");
   const momentMsg = document.getElementById("momentDoneMsg");
   const momentReflectPrompt = document.getElementById("momentReflectPrompt");
@@ -949,6 +967,7 @@ function setupDayNav() {
     if (viewingDay > 1) {
       viewingDay -= 1;
       showCustomMomentInputUI = false;
+      showWordReflectInputUI = false;
       renderToday();
       renderStory();
     }
@@ -957,6 +976,7 @@ function setupDayNav() {
     if (viewingDay < unlockedDay()) {
       viewingDay += 1;
       showCustomMomentInputUI = false;
+      showWordReflectInputUI = false;
       renderToday();
       renderStory();
     }
@@ -964,6 +984,7 @@ function setupDayNav() {
   document.getElementById("dayNavJump").addEventListener("click", () => {
     viewingDay = unlockedDay();
     showCustomMomentInputUI = false;
+    showWordReflectInputUI = false;
     renderToday();
     renderStory();
   });
@@ -1034,6 +1055,31 @@ function setupCustomMoment() {
     entry.customMoment = null;
     saveState(state);
     renderToday();
+  });
+}
+
+function setupWordReflect() {
+  document.getElementById("wordReflectLinkBtn").addEventListener("click", () => {
+    showWordReflectInputUI = true;
+    renderToday();
+  });
+  document.getElementById("wordReflectCancelBtn").addEventListener("click", () => {
+    showWordReflectInputUI = false;
+    renderToday();
+  });
+  document.getElementById("wordReflectSaveBtn").addEventListener("click", () => {
+    const entry = ensureDayEntry(viewingDay);
+    entry.reflection = document.getElementById("wordReflectInput").value.trim();
+    if (entry.reflection || entry.barnabasNote || entry.receivedKindness) {
+      awardStars(entry, "journal", 2);
+    }
+    showWordReflectInputUI = false;
+    saveState(state);
+    renderToday();
+    renderHeaderStats();
+    const msg = document.getElementById("wordReflectSavedMsg");
+    msg.hidden = false;
+    setTimeout(() => { msg.hidden = true; }, 2500);
   });
 }
 
@@ -1324,6 +1370,7 @@ function init() {
   setupMomentButton();
   setupMomentIntention();
   setupCustomMoment();
+  setupWordReflect();
   setupMomentFollowUp();
   setupMomentReflect();
   setupSaveReflection();
