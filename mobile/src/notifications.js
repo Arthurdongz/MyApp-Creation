@@ -1,22 +1,25 @@
-// Two daily reminders — a morning one previewing that day's verse, and an
-// evening one nudging the user to reflect and log their Barnabas moment.
-// Local (on-device) scheduled notifications only — no push server involved.
-// Not supported on web, so every function here no-ops there instead of
-// throwing.
+// Three daily notifications — a morning one previewing that day's verse, a
+// highlight later on with a fact or point about kindness/encouragement/hope
+// to nudge the user toward their Barnabas Moment, and an evening one nudging
+// the user to reflect and log it. Local (on-device) scheduled notifications
+// only — no push server involved. Not supported on web, so every function
+// here no-ops there instead of throwing.
 //
 // Rather than one repeating notification with a fixed message, each
 // reminder schedules a rolling window of individual, date-specific
 // notifications so the text changes day to day instead of repeating the
-// same line forever. The app "tops up" both windows (see useJournalStore)
-// whenever it's opened, so as long as the user opens the app at least once
-// every LOOKAHEAD_DAYS, neither schedule runs dry.
+// same line forever. The app "tops up" all three windows (see
+// useJournalStore) whenever it's opened, so as long as the user opens the
+// app at least once every LOOKAHEAD_DAYS, none of the schedules run dry.
 
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
 import { dateKeyForOffset, dayNumberForDate, pickForDay } from "./content";
 import { VERSES } from "./data/verses";
+import { HIGHLIGHTS } from "./data/highlights";
 
 const MORNING_PREFIX = "barnabas-morning-reminder";
+const HIGHLIGHT_PREFIX = "barnabas-highlight-reminder";
 const EVENING_PREFIX = "barnabas-evening-reminder";
 const LOOKAHEAD_DAYS = 21;
 
@@ -65,6 +68,16 @@ function morningContentFor(journeyStartDate, order, offsetDays) {
   };
 }
 
+function highlightContentFor(journeyStartDate, order, offsetDays) {
+  const targetKey = dateKeyForOffset(offsetDays);
+  const dayNumber = dayNumberForDate(journeyStartDate, targetKey);
+  const highlight = pickForDay(HIGHLIGHTS, dayNumber, order);
+  return {
+    title: "Barnabas Journal",
+    body: highlight,
+  };
+}
+
 function eveningContentFor(offsetDays) {
   const prompt = EVENING_PROMPTS[(offsetDays - 1) % EVENING_PROMPTS.length];
   return { title: "Barnabas Journal", body: prompt };
@@ -108,6 +121,25 @@ export async function scheduleMorningReminder(hour, minute, journeyStartDate, or
 
 export async function cancelMorningReminder() {
   await cancelWindow(MORNING_PREFIX);
+}
+
+export async function scheduleHighlightReminder(hour, minute, journeyStartDate, order) {
+  if (!SUPPORTED) return false;
+  const granted = await requestNotificationPermission();
+  if (!granted) return false;
+  try {
+    await cancelWindow(HIGHLIGHT_PREFIX);
+    await scheduleWindow(HIGHLIGHT_PREFIX, hour, minute, (offset) =>
+      highlightContentFor(journeyStartDate, order, offset)
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+export async function cancelHighlightReminder() {
+  await cancelWindow(HIGHLIGHT_PREFIX);
 }
 
 export async function scheduleEveningReminder(hour, minute) {

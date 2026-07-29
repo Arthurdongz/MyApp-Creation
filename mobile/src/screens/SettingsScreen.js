@@ -9,6 +9,8 @@ import { todayKey } from "../content";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
+  scheduleHighlightReminder,
+  cancelHighlightReminder,
   scheduleEveningReminder,
   cancelEveningReminder,
   notificationsSupported,
@@ -56,6 +58,13 @@ const EVENING_PRESETS = [
   { label: "7:00 PM", hour: 19, minute: 0 },
   { label: "8:00 PM", hour: 20, minute: 0 },
   { label: "9:00 PM", hour: 21, minute: 0 },
+];
+
+const HIGHLIGHT_PRESETS = [
+  { label: "11:00 AM", hour: 11, minute: 0 },
+  { label: "1:00 PM", hour: 13, minute: 0 },
+  { label: "3:00 PM", hour: 15, minute: 0 },
+  { label: "5:00 PM", hour: 17, minute: 0 },
 ];
 
 export default function SettingsScreen({ store, onClose }) {
@@ -127,6 +136,36 @@ export default function SettingsScreen({ store, onClose }) {
     updateSettings({ morningReminderHour: preset.hour, morningReminderMinute: preset.minute });
     if (settings.morningReminderEnabled) {
       await scheduleMorningReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    }
+  };
+
+  const handleHighlightToggle = async () => {
+    hapticTap();
+    if (settings.highlightReminderEnabled) {
+      await cancelHighlightReminder();
+      updateSettings({ highlightReminderEnabled: false });
+      return;
+    }
+    const ok = await scheduleHighlightReminder(
+      settings.highlightReminderHour,
+      settings.highlightReminderMinute,
+      store.state.journeyStartDate,
+      store.order
+    );
+    if (ok) {
+      updateSettings({ highlightReminderEnabled: true });
+    } else {
+      Alert.alert(
+        "Notifications not enabled",
+        "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings."
+      );
+    }
+  };
+
+  const handleHighlightPreset = async (preset) => {
+    updateSettings({ highlightReminderHour: preset.hour, highlightReminderMinute: preset.minute });
+    if (settings.highlightReminderEnabled) {
+      await scheduleHighlightReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
     }
   };
 
@@ -287,7 +326,8 @@ export default function SettingsScreen({ store, onClose }) {
         <>
           <Text style={styles.sectionTitle}>Daily Reminders</Text>
           <Text style={styles.subtitle}>
-            Two gentle nudges — a verse to start the day, and a moment to reflect as it closes.
+            Three gentle nudges — a verse to start the day, a highlight to encourage you along the
+            way, and a moment to reflect as it closes.
           </Text>
 
           <View style={styles.settingsCard}>
@@ -309,6 +349,34 @@ export default function SettingsScreen({ store, onClose }) {
                     key={preset.label}
                     style={[styles.presetBtn, active && styles.presetBtnActive]}
                     onPress={() => handleMorningPreset(preset)}
+                  >
+                    <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={styles.settingsCard}>
+            <View style={styles.settingsRow}>
+              <Text style={styles.settingsLabel}>Highlight · Encouragement along the way</Text>
+              <TouchableOpacity
+                style={[styles.switchTrack, settings.highlightReminderEnabled && styles.switchTrackOn]}
+                onPress={handleHighlightToggle}
+              >
+                <View style={[styles.switchThumb, settings.highlightReminderEnabled && styles.switchThumbOn]} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.presetRow}>
+              {HIGHLIGHT_PRESETS.map((preset) => {
+                const active =
+                  settings.highlightReminderHour === preset.hour &&
+                  settings.highlightReminderMinute === preset.minute;
+                return (
+                  <TouchableOpacity
+                    key={preset.label}
+                    style={[styles.presetBtn, active && styles.presetBtnActive]}
+                    onPress={() => handleHighlightPreset(preset)}
                   >
                     <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
                   </TouchableOpacity>
