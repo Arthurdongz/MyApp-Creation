@@ -707,6 +707,13 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 /* Rewards */
+.recap-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0;
+}
+
 .rewards-summary {
   display: flex;
   gap: 10px;

@@ -131,6 +131,26 @@ export function countMomentsDone(entries) {
   return Object.values(entries).filter((e) => e.momentDone).length;
 }
 
+// A quick look back at the last 7 journey days (or fewer, near the very
+// start of a journey) — how many days had any activity, how many Barnabas
+// Moments got done, and how many journal entries got written.
+export function computeWeeklyRecap(entries, latestDay) {
+  const start = Math.max(1, latestDay - 6);
+  let daysShownUp = 0;
+  let momentsDone = 0;
+  let journalEntries = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    if (!entry) continue;
+    if (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal) {
+      daysShownUp += 1;
+    }
+    if (entry.momentDone) momentsDone += 1;
+    if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+  }
+  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+}
+
 function ensureDayEntryWithStar(state, dayNumber) {
   const key = `day-${dayNumber}`;
   const existing = state.entries[key];
@@ -426,6 +446,7 @@ export function useJournalStore() {
   const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
+  const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
 
   return {
     ready,
@@ -437,6 +458,7 @@ export function useJournalStore() {
     today: viewedEntry,
     streak,
     momentsDone,
+    weeklyRecap,
     totalStars: state.totalStars,
     favorites: state.favorites,
     settings: state.settings,

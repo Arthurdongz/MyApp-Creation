@@ -769,10 +769,28 @@ function renderFavorites() {
   });
 }
 
+function pluralize(n, singular, plural) {
+  return `${n} ${n === 1 ? singular : plural || `${singular}s`}`;
+}
+
+function renderWeeklyRecap() {
+  const recap = computeWeeklyRecap(state.entries, unlockedDay());
+  const card = document.getElementById("weeklyRecapCard");
+  if (recap.totalDays < 2) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+  document.getElementById("weeklyRecapText").textContent =
+    `Over the last ${pluralize(recap.totalDays, "day")}, you showed up ${pluralize(recap.daysShownUp, "day")}, ` +
+    `did ${pluralize(recap.momentsDone, "Barnabas Moment")}, and wrote ${pluralize(recap.journalEntries, "journal entry", "journal entries")}.`;
+}
+
 function renderRewards() {
   document.getElementById("rewardStars").textContent = state.totalStars;
   document.getElementById("rewardStreak").textContent = computeStreak();
   document.getElementById("rewardMoments").textContent = countMomentsDone();
+  renderWeeklyRecap();
 
   const streak = computeStreak();
   const grid = document.getElementById("badgesGrid");

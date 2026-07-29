@@ -58,6 +58,26 @@ function unlockedDayFor(journeyStartKey) {
   return Math.min(TOTAL_DAYS, Math.max(1, elapsed + 1));
 }
 
+// A quick look back at the last 7 journey days (or fewer, near the very
+// start of a journey) — how many days had any activity, how many Barnabas
+// Moments got done, and how many journal entries got written.
+function computeWeeklyRecap(entries, latestDay) {
+  const start = Math.max(1, latestDay - 6);
+  let daysShownUp = 0;
+  let momentsDone = 0;
+  let journalEntries = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    if (!entry) continue;
+    if (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal) {
+      daysShownUp += 1;
+    }
+    if (entry.momentDone) momentsDone += 1;
+    if (entry.reflection || entry.barnabasNote) journalEntries += 1;
+  }
+  return { daysShownUp, momentsDone, journalEntries, totalDays: latestDay - start + 1 };
+}
+
 function pickForDay(arr, dayNumber, order) {
   const idx = order[(dayNumber - 1) % order.length];
   return arr[idx];
