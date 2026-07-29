@@ -537,6 +537,13 @@ function renderToday() {
       (prevEntry && prevEntry.customMoment) || pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
   }
 
+  // Shown only on two calendar weekdays (Wednesday, Saturday) — a deliberate
+  // once-or-twice-a-week cadence, not a daily nag, so it keeps its weight.
+  const callNudgeCard = document.getElementById("callNudgeCard");
+  const todayWeekday = new Date().getDay();
+  const showCallNudge = isToday && (todayWeekday === 3 || todayWeekday === 6);
+  callNudgeCard.hidden = !showCallNudge;
+
   const crisisCard = document.getElementById("crisisCard");
   const showCrisisNudge =
     isToday && computeShowCrisisNudge(state.entries, unlockedDay(), state.settings.lastCrisisNudgeShownAt);

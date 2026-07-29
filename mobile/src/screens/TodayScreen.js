@@ -83,6 +83,11 @@ export default function TodayScreen({ store }) {
     !(prevEntry && prevEntry.momentDone) &&
     !(prevEntry && prevEntry.momentFollowUpAsked);
 
+  // Shown only on two calendar weekdays (Wednesday, Saturday) — a deliberate
+  // once-or-twice-a-week cadence, not a daily nag, so it keeps its weight.
+  const todayWeekday = new Date().getDay();
+  const showCallNudge = isToday && (todayWeekday === 3 || todayWeekday === 6);
+
   const handleFollowUp = (status) => {
     hapticTap();
     answerMomentFollowUp(prevDayNumber, status);
@@ -400,6 +405,19 @@ export default function TodayScreen({ store }) {
         </TouchableOpacity>
       </Card>
 
+      {showCallNudge ? (
+        <Card style={styles.callNudgeCard}>
+          <Text style={styles.cardLabel}>A Little Further This Week</Text>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+            A text is easy to send, and just as easy to scroll past. Is there someone you could actually
+            call, or see face to face, instead of just texting today?
+          </Text>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => Linking.openURL("tel:")}>
+            <Text style={styles.secondaryButtonText}>📞 Call Someone</Text>
+          </TouchableOpacity>
+        </Card>
+      ) : null}
+
       {isToday && store.showCrisisNudge ? (
         <Card style={styles.crisisCard}>
           <Text style={styles.cardLabel}>A Resource, If You Need It</Text>
@@ -561,6 +579,7 @@ function getStyles(colors) {
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },
+    callNudgeCard: { backgroundColor: colors.storyCard },
     crisisCard: { backgroundColor: colors.reachOutCard },
     followUpCard: { backgroundColor: colors.momentCard },
     followUpQuestion: { fontSize: 13, fontWeight: "600", color: colors.sageDark, marginBottom: 10 },
