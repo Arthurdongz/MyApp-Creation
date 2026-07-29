@@ -50,6 +50,7 @@ function defaultSettings() {
     speechVoiceURI: "",
     speechPitch: 1,
     speechRate: 0.95,
+    lastCrisisNudgeShownAt: null,
   };
 }
 
@@ -526,6 +527,15 @@ function renderToday() {
   followUpCard.hidden = !showFollowUp;
   if (showFollowUp) {
     document.getElementById("momentFollowUpText").textContent = pickForDay(BARNABAS_MOMENTS, prevDayNumber, state.order);
+  }
+
+  const crisisCard = document.getElementById("crisisCard");
+  const showCrisisNudge =
+    isToday && computeShowCrisisNudge(state.entries, unlockedDay(), state.settings.lastCrisisNudgeShownAt);
+  crisisCard.hidden = !showCrisisNudge;
+  if (showCrisisNudge && state.settings.lastCrisisNudgeShownAt !== todayDateKey()) {
+    state.settings.lastCrisisNudgeShownAt = todayDateKey();
+    saveState(state);
   }
 
   const verse = pickForDay(VERSES, day, state.order);

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
@@ -336,6 +336,27 @@ export default function TodayScreen({ store }) {
         </TouchableOpacity>
       </Card>
 
+      {isToday && store.showCrisisNudge ? (
+        <Card style={styles.crisisCard}>
+          <Text style={styles.cardLabel}>A Resource, If You Need It</Text>
+          <Text style={[styles.bodyText, { marginBottom: 10 }]}>
+            It looks like the last little while has been heavy for you. That matters, and you don't have to
+            carry it by yourself.
+          </Text>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
+            If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or
+            night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line.
+            Outside the US, searching "crisis line" with your country's name will find a local number.
+          </Text>
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => Linking.openURL("tel:988")}
+          >
+            <Text style={styles.secondaryButtonText}>📞 Call 988</Text>
+          </TouchableOpacity>
+        </Card>
+      ) : null}
+
       <SharePreviewModal
         visible={!!sharePreview}
         mainText={sharePreview?.text || ""}
@@ -463,6 +484,7 @@ function getStyles(colors) {
     verseCard: { backgroundColor: colors.verseCard },
     momentCard: { backgroundColor: colors.momentCard },
     reachOutCard: { backgroundColor: colors.reachOutCard },
+    crisisCard: { backgroundColor: colors.reachOutCard },
     followUpCard: { backgroundColor: colors.momentCard },
     followUpQuestion: { fontSize: 13, fontWeight: "600", color: colors.sageDark, marginBottom: 10 },
     followUpActions: { gap: 8 },

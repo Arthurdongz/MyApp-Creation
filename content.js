@@ -58,6 +58,34 @@ function unlockedDayFor(journeyStartKey) {
   return Math.min(TOTAL_DAYS, Math.max(1, elapsed + 1));
 }
 
+function daysSinceKey(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  const from = new Date(y, m - 1, d);
+  const to = new Date();
+  to.setHours(0, 0, 0, 0);
+  from.setHours(0, 0, 0, 0);
+  return Math.round((to - from) / 86400000);
+}
+
+// A gentle, rate-limited nudge toward real crisis resources when someone's
+// logged mood has been "struggling" often over the last week. Shown at most
+// once every 14 days even if the pattern continues, so it never feels like
+// nagging — "days > 0" lets it stay visible for the rest of the day it's
+// first triggered on, since that's the same day lastShownAt gets set to.
+function computeShowCrisisNudge(entries, latestDay, lastShownAt) {
+  if (lastShownAt) {
+    const days = daysSinceKey(lastShownAt);
+    if (days > 0 && days < 14) return false;
+  }
+  const start = Math.max(1, latestDay - 6);
+  let strugglingCount = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    if (entry && entry.mood === "struggling") strugglingCount += 1;
+  }
+  return strugglingCount >= 3;
+}
+
 // A quick look back at the last 7 journey days (or fewer, near the very
 // start of a journey) — how many days had any activity, how many Barnabas
 // Moments got done, and how many journal entries got written.

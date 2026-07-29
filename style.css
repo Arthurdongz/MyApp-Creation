@@ -531,6 +531,11 @@ body {
   border: 1px solid var(--sage);
 }
 
+.crisis-call-btn {
+  display: inline-block;
+  text-decoration: none;
+}
+
 /* Reflection */
 .field-label {
   display: block;
