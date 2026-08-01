@@ -33,3 +33,10 @@ Then:
 
 Journal entries, moods, stars, and streaks are stored on-device via
 `@react-native-async-storage/async-storage`. Nothing is sent to a server.
+
+## Over-the-air updates
+
+Pushes to this branch that touch `mobile/**` automatically publish an EAS Update
+to the `preview` channel via `.github/workflows/eas-update.yml`. Installed builds
+on the `preview` channel pick up JS/asset changes on next launch — no rebuild or
+reinstall needed, as long as the change doesn't require new native code.
