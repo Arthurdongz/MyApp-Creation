@@ -3,8 +3,8 @@ import { Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } f
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
-import { pickForDay, pickForDaySmallBank } from "../content";
-import { VERSES } from "../data/verses";
+import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
+import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
@@ -36,6 +36,8 @@ const MOMENT_INTENTION_LABELS = {
   tomorrow: "Tomorrow morning",
 };
 
+const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
+
 function truncateForPreview(text) {
   const trimmed = text.trim();
   return trimmed.length > 90 ? `${trimmed.slice(0, 90).trimEnd()}…` : trimmed;
@@ -66,7 +68,11 @@ export default function TodayScreen({ store }) {
     toggleFavorite,
   } = store;
 
-  const verse = useMemo(() => pickForDay(VERSES, viewingDay, order), [viewingDay, order]);
+  const verse = useMemo(() => {
+    const entry = pickForDay(VERSES, viewingDay, order);
+    const version = pickVerseVersion(viewingDay, settings, VERSE_VERSION_IDS);
+    return { ref: entry.ref, version, text: entry.versions[version] || entry.versions.KJV };
+  }, [viewingDay, order, settings.verseVersionMode, settings.verseFavoriteVersion]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
   const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
   const suggestedMoment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
@@ -314,14 +320,14 @@ export default function TodayScreen({ store }) {
                   <Text style={styles.favoriteBtn}>🔊 Listen</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => setSharePreview({ text: verse.text, sourceLine: verse.ref })}
+                  onPress={() => setSharePreview({ text: verse.text, sourceLine: `${verse.ref} (${verse.version})` })}
                 >
                   <Text style={styles.favoriteBtn}>↗ Share</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     hapticTap();
-                    toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref });
+                    toggleFavorite("verse", viewingDay, { text: verse.text, ref: `${verse.ref} (${verse.version})` });
                   }}
                 >
                   <Text style={[styles.favoriteBtn, verseSaved && styles.favoriteBtnActive]}>
@@ -331,7 +337,7 @@ export default function TodayScreen({ store }) {
               </View>
             </View>
             <Text style={styles.verseText}>“{verse.text}”</Text>
-            <Text style={styles.verseRef}>{verse.ref}</Text>
+            <Text style={styles.verseRef}>{verse.ref} ({verse.version})</Text>
           </View>
 
           <View style={[styles.unifiedBlock, styles.unifiedBlockDivider]}>

@@ -45,6 +45,8 @@ function defaultSettings() {
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
     lastCheckInNudgeShownAt: null,
+    verseVersionMode: "alternate",
+    verseFavoriteVersion: "KJV",
   };
 }
 
