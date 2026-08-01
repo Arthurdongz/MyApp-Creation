@@ -46,7 +46,8 @@
     "extra": {
       "eas": {
         "projectId": "fe93cf8f-fb13-4188-89d1-d1a615a3a246"
-      }
+      },
+      "sentryDsn": ""
     },
     "owner": "arthurdongz",
     "runtimeVersion": {

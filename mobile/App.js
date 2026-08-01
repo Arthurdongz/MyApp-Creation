@@ -3,6 +3,7 @@ import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, useColorSche
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
+import { initCrashReporting, Sentry } from "./src/crashReporting";
 import TodayScreen from "./src/screens/TodayScreen";
 import StoryScreen from "./src/screens/StoryScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
@@ -13,6 +14,8 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import MenuModal from "./src/components/MenuModal";
 
+initCrashReporting();
+
 const TABS = [
   { key: "today", label: "Today" },
   { key: "story", label: "Story" },
@@ -21,7 +24,7 @@ const TABS = [
   { key: "rewards", label: "Rewards" },
 ];
 
-export default function App() {
+function App() {
   const store = useJournalStore();
   const systemScheme = useColorScheme();
 
@@ -38,6 +41,8 @@ export default function App() {
     </ThemeProvider>
   );
 }
+
+export default Sentry.wrap(App);
 
 function AppContent({ store }) {
   const { colors, mode } = useTheme();
