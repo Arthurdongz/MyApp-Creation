@@ -102,6 +102,8 @@ function AppContent({ store }) {
                   key={t.key}
                   style={[styles.tabBtn, tab === t.key && styles.tabBtnActive]}
                   onPress={() => setTab(t.key)}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: tab === t.key }}
                 >
                   <Text style={[styles.tabLabel, tab === t.key && styles.tabLabelActive]}>{t.label}</Text>
                 </TouchableOpacity>
@@ -183,9 +185,9 @@ function getStyles(colors) {
       paddingVertical: 10,
       alignItems: "center",
     },
-    tabBtnActive: { backgroundColor: colors.sage },
+    tabBtnActive: { backgroundColor: colors.buttonBg },
     tabLabel: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
-    tabLabelActive: { color: "#fff" },
+    tabLabelActive: { color: colors.buttonOnText },
     footer: {
       textAlign: "center",
       marginTop: 20,

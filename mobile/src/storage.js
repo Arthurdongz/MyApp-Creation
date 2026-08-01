@@ -6,6 +6,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as StoreReview from "expo-store-review";
 import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
@@ -47,6 +48,7 @@ function defaultSettings() {
     lastCheckInNudgeShownAt: null,
     verseVersionMode: "alternate",
     verseFavoriteVersion: "KJV",
+    reviewPromptShownAt: null,
   };
 }
 
@@ -538,6 +540,23 @@ export function useJournalStore() {
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
   const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
+
+  // Ask for a store review once a person has shown real, sustained
+  // engagement (a 7-day streak — the same threshold as the "Week of Hope"
+  // badge), never more than once. requestReview() is itself throttled by
+  // the OS and may silently no-op depending on how recently the system
+  // last showed any app's review prompt, so this only ever gets one
+  // attempt per install, not a nag loop.
+  useEffect(() => {
+    if (!ready) return;
+    if (streak >= 7 && !state.settings.reviewPromptShownAt) {
+      updateSettings({ reviewPromptShownAt: todayKey() });
+      StoreReview.isAvailableAsync().then((available) => {
+        if (available) StoreReview.requestReview();
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, streak]);
 
   return {
     ready,
