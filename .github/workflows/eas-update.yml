@@ -39,4 +39,8 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Publish update to preview channel
-        run: eas update --branch preview --message "${{ github.event.head_commit.message }}" --non-interactive
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          SUBJECT="$(printf '%s' "$COMMIT_MESSAGE" | head -n1)"
+          eas update --branch preview --message "$SUBJECT" --non-interactive
