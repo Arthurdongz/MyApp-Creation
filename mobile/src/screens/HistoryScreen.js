@@ -75,6 +75,7 @@ export default function HistoryScreen({ store }) {
           placeholderTextColor={colors.textSoft}
           value={query}
           onChangeText={setQuery}
+          accessibilityLabel="Search your journal"
         />
       )}
 
@@ -91,7 +92,12 @@ export default function HistoryScreen({ store }) {
             <View key={key} style={styles.entryCard}>
               <View style={styles.entryHeader}>
                 <Text style={styles.entryDate}>Day {e.dayNumber} · {formatDate(e.dateLogged)}</Text>
-                <Text style={styles.entryMood}>{e.mood ? MOOD_EMOJI[e.mood] : ""}</Text>
+                <Text
+                  style={styles.entryMood}
+                  accessibilityLabel={e.mood ? `Mood: ${e.mood}` : undefined}
+                >
+                  {e.mood ? MOOD_EMOJI[e.mood] : ""}
+                </Text>
               </View>
               {e.reflection ? (
                 <View style={styles.block}>

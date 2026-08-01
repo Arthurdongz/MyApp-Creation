@@ -48,6 +48,7 @@ export default function FavoritesScreen({ store }) {
           placeholderTextColor={colors.textSoft}
           value={query}
           onChangeText={setQuery}
+          accessibilityLabel="Search your favorites"
         />
       )}
 
@@ -65,7 +66,11 @@ export default function FavoritesScreen({ store }) {
             <View key={f.id} style={styles.entryCard}>
               <View style={styles.entryHeader}>
                 <Text style={styles.entryKind}>{kindLabel} · Day {f.dayNumber}</Text>
-                <TouchableOpacity onPress={() => store.removeFavorite(f.id)}>
+                <TouchableOpacity
+                  onPress={() => store.removeFavorite(f.id)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Remove this ${kindLabel.toLowerCase()} from favorites`}
+                >
                   <Text style={styles.remove}>✕</Text>
                 </TouchableOpacity>
               </View>

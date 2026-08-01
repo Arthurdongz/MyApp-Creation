@@ -7,7 +7,7 @@ export const lightColors = {
   sageDark: "#56705f",
   sky: "#8fb3c9",
   gold: "#e0ab3c",
-  goldText: "#96650f",
+  goldText: "#8a5c0d",
   text: "#3a3a34",
   textSoft: "#6b6a63",
   border: "#e7e1d3",
@@ -16,6 +16,12 @@ export const lightColors = {
   storyCard: "#f7ece0",
   reachOutCard: "#fbe4d8",
   input: "#fffefc",
+  // Solid-fill button background + the text color that sits on top of it —
+  // plain colors.sage fails WCAG AA contrast against white text (3.14:1 in
+  // light mode, 2.42:1 in dark), so buttons use dedicated, checked tokens
+  // instead of reusing the decorative sage/border color.
+  buttonBg: "#56705f",
+  buttonOnText: "#ffffff",
 };
 
 export const darkColors = {
@@ -34,6 +40,8 @@ export const darkColors = {
   storyCard: "#2e271f",
   reachOutCard: "#33251f",
   input: "#1f241f",
+  buttonBg: "#8fae97",
+  buttonOnText: "#1b201c",
 };
 
 export function shadowFor(mode) {

@@ -713,6 +713,8 @@ export default function TodayScreen({ store }) {
                   hapticTap();
                   setMood(m.key);
                 }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: today.mood === m.key }}
               >
                 <Text style={styles.moodEmoji}>{m.emoji}</Text>
                 <Text style={styles.moodLabel}>{m.label}</Text>
@@ -909,14 +911,14 @@ function getStyles(colors) {
       textAlign: "right",
     },
     button: {
-      backgroundColor: colors.sage,
+      backgroundColor: colors.buttonBg,
       borderRadius: 12,
       paddingVertical: 12,
       paddingHorizontal: 18,
       alignItems: "center",
     },
     buttonDisabled: { opacity: 0.55 },
-    buttonText: { color: "#fff", fontWeight: "700", fontSize: 14 },
+    buttonText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 14 },
     momentActions: {
       flexDirection: "row",
       flexWrap: "wrap",

@@ -230,6 +230,8 @@ export default function SettingsScreen({ store, onClose }) {
             hapticTap();
             updateSettings({ verseVersionMode: "alternate" });
           }}
+          accessibilityRole="button"
+          accessibilityState={{ selected: settings.verseVersionMode !== "favorite" }}
         >
           <Text style={[styles.presetText, settings.verseVersionMode !== "favorite" && styles.presetTextActive]}>
             Alternate daily
@@ -241,6 +243,8 @@ export default function SettingsScreen({ store, onClose }) {
             hapticTap();
             updateSettings({ verseVersionMode: "favorite" });
           }}
+          accessibilityRole="button"
+          accessibilityState={{ selected: settings.verseVersionMode === "favorite" }}
         >
           <Text style={[styles.presetText, settings.verseVersionMode === "favorite" && styles.presetTextActive]}>
             Always use my favorite
@@ -259,6 +263,8 @@ export default function SettingsScreen({ store, onClose }) {
                   hapticTap();
                   updateSettings({ verseFavoriteVersion: v.id });
                 }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
               >
                 <Text style={[styles.presetText, active && styles.presetTextActive]}>
                   {v.name} ({v.id})
@@ -297,6 +303,8 @@ export default function SettingsScreen({ store, onClose }) {
               key={preset.label}
               style={[styles.presetBtn, active && styles.presetBtnActive]}
               onPress={() => updateSettings({ speechPitch: preset.value })}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
             >
               <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
             </TouchableOpacity>
@@ -313,6 +321,8 @@ export default function SettingsScreen({ store, onClose }) {
               key={preset.label}
               style={[styles.presetBtn, active && styles.presetBtnActive]}
               onPress={() => updateSettings({ speechRate: preset.value })}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
             >
               <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
             </TouchableOpacity>
@@ -348,6 +358,8 @@ export default function SettingsScreen({ store, onClose }) {
                   updateSettings({ speechVoiceURI: "" });
                   setVoicePickerOpen(false);
                 }}
+                accessibilityRole="button"
+                accessibilityState={{ selected: !settings.speechVoiceURI }}
               >
                 <Text style={[styles.voiceRowText, !settings.speechVoiceURI && styles.voiceRowTextActive]}>
                   Default
@@ -361,6 +373,8 @@ export default function SettingsScreen({ store, onClose }) {
                     updateSettings({ speechVoiceURI: v.identifier });
                     setVoicePickerOpen(false);
                   }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: settings.speechVoiceURI === v.identifier }}
                 >
                   <Text
                     style={[
@@ -391,6 +405,9 @@ export default function SettingsScreen({ store, onClose }) {
               <TouchableOpacity
                 style={[styles.switchTrack, settings.morningReminderEnabled && styles.switchTrackOn]}
                 onPress={handleMorningToggle}
+                accessibilityRole="switch"
+                accessibilityLabel="Morning reminder"
+                accessibilityState={{ checked: !!settings.morningReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.morningReminderEnabled && styles.switchThumbOn]} />
               </TouchableOpacity>
@@ -404,6 +421,8 @@ export default function SettingsScreen({ store, onClose }) {
                     key={preset.label}
                     style={[styles.presetBtn, active && styles.presetBtnActive]}
                     onPress={() => handleMorningPreset(preset)}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
                   >
                     <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
                   </TouchableOpacity>
@@ -418,6 +437,9 @@ export default function SettingsScreen({ store, onClose }) {
               <TouchableOpacity
                 style={[styles.switchTrack, settings.highlightReminderEnabled && styles.switchTrackOn]}
                 onPress={handleHighlightToggle}
+                accessibilityRole="switch"
+                accessibilityLabel="Highlight reminder"
+                accessibilityState={{ checked: !!settings.highlightReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.highlightReminderEnabled && styles.switchThumbOn]} />
               </TouchableOpacity>
@@ -432,6 +454,8 @@ export default function SettingsScreen({ store, onClose }) {
                     key={preset.label}
                     style={[styles.presetBtn, active && styles.presetBtnActive]}
                     onPress={() => handleHighlightPreset(preset)}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
                   >
                     <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
                   </TouchableOpacity>
@@ -446,6 +470,9 @@ export default function SettingsScreen({ store, onClose }) {
               <TouchableOpacity
                 style={[styles.switchTrack, settings.eveningReminderEnabled && styles.switchTrackOn]}
                 onPress={handleEveningToggle}
+                accessibilityRole="switch"
+                accessibilityLabel="Evening reminder"
+                accessibilityState={{ checked: !!settings.eveningReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.eveningReminderEnabled && styles.switchThumbOn]} />
               </TouchableOpacity>
@@ -459,6 +486,8 @@ export default function SettingsScreen({ store, onClose }) {
                     key={preset.label}
                     style={[styles.presetBtn, active && styles.presetBtnActive]}
                     onPress={() => handleEveningPreset(preset)}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
                   >
                     <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
                   </TouchableOpacity>
@@ -572,9 +601,9 @@ function getStyles(colors, shadow) {
       paddingVertical: 6,
       paddingHorizontal: 12,
     },
-    presetBtnActive: { backgroundColor: colors.sage, borderColor: colors.sage },
+    presetBtnActive: { backgroundColor: colors.buttonBg, borderColor: colors.buttonBg },
     presetText: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
-    presetTextActive: { color: "#fff" },
+    presetTextActive: { color: colors.buttonOnText },
     voiceValueBtn: {
       borderWidth: 1,
       borderColor: colors.border,

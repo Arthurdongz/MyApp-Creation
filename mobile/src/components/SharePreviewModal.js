@@ -145,12 +145,12 @@ function getStyles(colors, shadow) {
     swatchWrapSelected: { borderColor: colors.sageDark },
     swatch: { flex: 1, borderRadius: 17 },
     shareBtn: {
-      backgroundColor: colors.sage,
+      backgroundColor: colors.buttonBg,
       borderRadius: 12,
       paddingVertical: 13,
       alignItems: "center",
     },
-    shareBtnText: { color: "#fff", fontWeight: "700", fontSize: 14 },
+    shareBtnText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 14 },
     shareMsg: {
       marginTop: 10,
       fontSize: 13,

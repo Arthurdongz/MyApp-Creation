@@ -27,7 +27,7 @@ export default function OnboardingScreen({ onStart }) {
         We'll ask permission to send two gentle reminders each day — a morning verse, and an
         evening nudge to reflect — you can turn either off anytime from the Rewards tab.
       </Text>
-      <TouchableOpacity style={styles.button} onPress={onStart}>
+      <TouchableOpacity style={styles.button} onPress={onStart} accessibilityRole="button">
         <Text style={styles.buttonText}>Begin your journey</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -57,12 +57,12 @@ function getStyles(colors) {
       marginBottom: 14,
     },
     button: {
-      backgroundColor: colors.sage,
+      backgroundColor: colors.buttonBg,
       borderRadius: 12,
       paddingVertical: 14,
       paddingHorizontal: 24,
       marginTop: 8,
     },
-    buttonText: { color: "#fff", fontWeight: "700", fontSize: 15 },
+    buttonText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 15 },
   });
 }
