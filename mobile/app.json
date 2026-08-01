@@ -23,6 +23,24 @@
           "resizeMode": "contain",
           "backgroundColor": "#f4f0e6"
         }
+      ],
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "TodayVerse",
+              "label": "Today's Verse",
+              "description": "Shows today's Barnabas Journal verse on your home screen.",
+              "minWidth": "180dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 3,
+              "targetCellHeight": 2,
+              "resizeMode": "horizontal|vertical",
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
       ]
     ],
     "ios": {
