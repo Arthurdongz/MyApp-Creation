@@ -43,3 +43,14 @@ reinstall needed, as long as the change doesn't require new native code.
 
 Requires an `EXPO_TOKEN` repo secret (Settings > Secrets and variables > Actions),
 generated from an Expo access token at https://expo.dev/settings/access-tokens.
+
+**⚠️ Before adding or upgrading anything with native code** (a new package with an
+`android/`/`ios/` folder, a new Expo config plugin, upgrading Expo SDK itself): bump
+`version` in `app.json` (and `android.versionCode`) in the *same* commit. This
+project's `runtimeVersion.policy` is `"appVersion"`, so EAS Update ties compatibility
+to that version string — if it isn't bumped, the auto-publish workflow will happily
+push JS that references the new native module to every already-installed binary that
+doesn't have it, crashing the app on launch. (This happened once — see the "Fix
+app-crashing OTA update" commit.) After bumping, existing installs simply won't be
+offered that update until they're rebuilt with `eas build`; only a fresh build
+actually gets the new native code.
