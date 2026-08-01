@@ -48,6 +48,12 @@
         "projectId": "fe93cf8f-fb13-4188-89d1-d1a615a3a246"
       }
     },
-    "owner": "arthurdongz"
+    "owner": "arthurdongz",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fe93cf8f-fb13-4188-89d1-d1a615a3a246"
+    }
   }
 }
