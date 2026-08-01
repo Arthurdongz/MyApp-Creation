@@ -70,6 +70,17 @@ export function pickForDaySmallBank(arr, dayNumber, order) {
   return arr[idx];
 }
 
+// Which Bible translation to show for a given day: either a pinned favorite
+// version (same every day), or rotating through the available versions one
+// per day so the variety is visible over time.
+export function pickVerseVersion(dayNumber, settings, versionIds) {
+  if (settings.verseVersionMode === "favorite" && settings.verseFavoriteVersion) {
+    return settings.verseFavoriteVersion;
+  }
+  const ids = versionIds && versionIds.length ? versionIds : ["KJV"];
+  return ids[(dayNumber - 1) % ids.length];
+}
+
 // The date key for "today plus N days" — used to preview which day's
 // content will show on a future date (e.g. when scheduling reminder
 // notifications ahead of time).

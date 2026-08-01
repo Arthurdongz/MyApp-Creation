@@ -6,6 +6,7 @@ import { exportBackup, pickAndReadBackup } from "../backup";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
 import { todayKey } from "../content";
+import { BIBLE_VERSIONS } from "../data/verses";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
@@ -215,6 +216,60 @@ export default function SettingsScreen({ store, onClose }) {
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
+
+      <Text style={styles.sectionTitle}>Bible Version</Text>
+      <Text style={styles.subtitle}>
+        The daily verse is available in four public-domain translations: the King James Version
+        (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV),
+        and Young's Literal Translation (YLT).
+      </Text>
+      <View style={styles.presetRow}>
+        <TouchableOpacity
+          style={[styles.presetBtn, settings.verseVersionMode !== "favorite" && styles.presetBtnActive]}
+          onPress={() => {
+            hapticTap();
+            updateSettings({ verseVersionMode: "alternate" });
+          }}
+        >
+          <Text style={[styles.presetText, settings.verseVersionMode !== "favorite" && styles.presetTextActive]}>
+            Alternate daily
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.presetBtn, settings.verseVersionMode === "favorite" && styles.presetBtnActive]}
+          onPress={() => {
+            hapticTap();
+            updateSettings({ verseVersionMode: "favorite" });
+          }}
+        >
+          <Text style={[styles.presetText, settings.verseVersionMode === "favorite" && styles.presetTextActive]}>
+            Always use my favorite
+          </Text>
+        </TouchableOpacity>
+      </View>
+      {settings.verseVersionMode === "favorite" ? (
+        <View style={[styles.presetRow, { marginTop: 12, marginBottom: 20 }]}>
+          {BIBLE_VERSIONS.map((v) => {
+            const active = (settings.verseFavoriteVersion || "KJV") === v.id;
+            return (
+              <TouchableOpacity
+                key={v.id}
+                style={[styles.presetBtn, active && styles.presetBtnActive]}
+                onPress={() => {
+                  hapticTap();
+                  updateSettings({ verseFavoriteVersion: v.id });
+                }}
+              >
+                <Text style={[styles.presetText, active && styles.presetTextActive]}>
+                  {v.name} ({v.id})
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      ) : (
+        <View style={{ marginBottom: 6 }} />
+      )}
 
       <Text style={styles.sectionTitle}>Voice &amp; Speech</Text>
       <Text style={styles.subtitle}>Choose how the 🔊 Listen buttons sound.</Text>

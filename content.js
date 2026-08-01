@@ -131,6 +131,18 @@ function pickForDay(arr, dayNumber, order) {
   return arr[idx];
 }
 
+// Which Bible translation to show for a given day: either a pinned favorite
+// version (same every day), or rotating through the available versions one
+// per day so the variety is visible over time.
+function pickVerseVersion(dayNumber, settings, versionIds) {
+  if (settings.verseVersionMode === "favorite" && settings.verseFavoriteVersion) {
+    return settings.verseFavoriteVersion;
+  }
+  const ids = versionIds && versionIds.length ? versionIds : ["KJV"];
+  return ids[(dayNumber - 1) % ids.length];
+}
+
+
 // For banks smaller than the full 366 (like the true-stories bank, which
 // grows over time), still route through the user's per-user shuffle order
 // so the sequence doesn't feel like a flat repeating loop, but wrap it down

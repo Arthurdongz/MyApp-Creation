@@ -1114,6 +1114,25 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   margin: 0;
 }
 
+.version-mode-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.version-mode-btn.selected {
+  background: var(--verse-grad-1);
+  border-color: var(--sage-dark);
+  color: var(--sage-dark);
+}
+
+.version-favorite-row {
+  margin-bottom: 20px;
+}
+
+.version-favorite-row[hidden] { display: none; }
+
 .menu-card { max-width: 340px; }
 
 .menu-item {

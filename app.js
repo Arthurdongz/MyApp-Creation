@@ -15,6 +15,16 @@ const QUOTES = WISDOM.filter((w) => w.type === "quote");
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
+const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
+
+// Resolves a day's verse entry down to the actual translation text to show,
+// based on the user's alternate/favorite setting.
+function getVerseForDay(day) {
+  const entry = pickForDay(VERSES, day, state.order);
+  const version = pickVerseVersion(day, state.settings, VERSE_VERSION_IDS);
+  return { ref: entry.ref, version, text: entry.versions[version] || entry.versions.KJV };
+}
+
 // Background gradients offered for shared quote/verse/story images — each
 // pulled straight from the app's own palette (sage, gold, sky, the card
 // accent colors) so every option still feels like Barnabas Journal, rather
@@ -52,6 +62,8 @@ function defaultSettings() {
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
     lastCheckInNudgeShownAt: null,
+    verseVersionMode: "alternate",
+    verseFavoriteVersion: "KJV",
   };
 }
 
@@ -644,9 +656,9 @@ function renderToday() {
 
   document.getElementById("supportSection").hidden = !(showCallNudge || showCrisisNudge || showCheckInNudge);
 
-  const verse = pickForDay(VERSES, day, state.order);
+  const verse = getVerseForDay(day);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
-  document.getElementById("verseRef").textContent = verse.ref;
+  document.getElementById("verseRef").textContent = `${verse.ref} (${verse.version})`;
   updateFavoriteBtn("verseFavoriteBtn", "verse", day);
 
   document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
@@ -1254,8 +1266,8 @@ function setupSaveReflection() {
 
 function setupFavoriteButtons() {
   document.getElementById("verseFavoriteBtn").addEventListener("click", () => {
-    const verse = pickForDay(VERSES, viewingDay, state.order);
-    toggleFavorite("verse", viewingDay, { text: verse.text, ref: verse.ref });
+    const verse = getVerseForDay(viewingDay);
+    toggleFavorite("verse", viewingDay, { text: verse.text, ref: `${verse.ref} (${verse.version})` });
     updateFavoriteBtn("verseFavoriteBtn", "verse", viewingDay);
   });
   document.getElementById("wisdomFavoriteBtn").addEventListener("click", () => {
@@ -1272,8 +1284,8 @@ function setupFavoriteButtons() {
 
 function setupShareButtons() {
   document.getElementById("verseShareBtn").addEventListener("click", () => {
-    const verse = pickForDay(VERSES, viewingDay, state.order);
-    openSharePreview(verse.text, verse.ref, "verse", "verseShareMsg", viewingDay);
+    const verse = getVerseForDay(viewingDay);
+    openSharePreview(verse.text, `${verse.ref} (${verse.version})`, "verse", "verseShareMsg", viewingDay);
   });
   document.getElementById("wisdomShareBtn").addEventListener("click", () => {
     const quote = pickForDaySmallBank(QUOTES, viewingDay, state.order);
@@ -1359,7 +1371,7 @@ function setupListenButtons() {
     return;
   }
   document.getElementById("verseListenBtn").addEventListener("click", () => {
-    const verse = pickForDay(VERSES, viewingDay, state.order);
+    const verse = getVerseForDay(viewingDay);
     speak(`${verse.text} — ${verse.ref}`);
   });
   document.getElementById("encouragementListenBtn").addEventListener("click", () => {
@@ -1382,6 +1394,7 @@ function setupThemeToggle() {
 
 function openSettings() {
   renderLastBackupNote();
+  renderVerseVersionSettings();
   document.getElementById("settingsOverlay").hidden = false;
 }
 
@@ -1393,6 +1406,38 @@ function setupSettings() {
   document.getElementById("settingsCloseBtn").addEventListener("click", closeSettings);
   document.getElementById("settingsOverlay").addEventListener("click", (e) => {
     if (e.target.id === "settingsOverlay") closeSettings();
+  });
+}
+
+function renderVerseVersionSettings() {
+  const select = document.getElementById("verseFavoriteSelect");
+  if (!select.options.length) {
+    select.innerHTML = BIBLE_VERSIONS.map((v) => `<option value="${v.id}">${v.name} (${v.id})</option>`).join("");
+  }
+  const isFavoriteMode = state.settings.verseVersionMode === "favorite";
+  document.getElementById("verseModeAlternateBtn").classList.toggle("selected", !isFavoriteMode);
+  document.getElementById("verseModeFavoriteBtn").classList.toggle("selected", isFavoriteMode);
+  document.getElementById("verseFavoritePickerRow").hidden = !isFavoriteMode;
+  select.value = state.settings.verseFavoriteVersion || "KJV";
+}
+
+function setupVerseVersionSettings() {
+  document.getElementById("verseModeAlternateBtn").addEventListener("click", () => {
+    state.settings.verseVersionMode = "alternate";
+    saveState(state);
+    renderVerseVersionSettings();
+    renderToday();
+  });
+  document.getElementById("verseModeFavoriteBtn").addEventListener("click", () => {
+    state.settings.verseVersionMode = "favorite";
+    saveState(state);
+    renderVerseVersionSettings();
+    renderToday();
+  });
+  document.getElementById("verseFavoriteSelect").addEventListener("change", (e) => {
+    state.settings.verseFavoriteVersion = e.target.value;
+    saveState(state);
+    renderToday();
   });
 }
 
@@ -1499,6 +1544,7 @@ function init() {
   setupVoiceSettings();
   setupThemeToggle();
   setupSettings();
+  setupVerseVersionSettings();
   setupMenu();
   setupAbout();
   setupSharePreview();
