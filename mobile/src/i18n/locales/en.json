@@ -1,0 +1,24 @@
+{
+  "app": {
+    "brand": "Barnabas Journal",
+    "tagline": "\"Son of Encouragement\" — Acts 4:36",
+    "menu": "Menu",
+    "loading": "Loading...",
+    "footer": "Be still. Be kind. Be someone's encouragement today.",
+    "tabs": {
+      "today": "Today",
+      "story": "Story",
+      "journal": "Journal",
+      "favorites": "Favorites",
+      "rewards": "Rewards"
+    }
+  },
+  "onboarding": {
+    "welcomeTitle": "Welcome to Barnabas Journal",
+    "paragraph1": "In the book of Acts, a man named Joseph was given a new name by the apostles: Barnabas — \"son of encouragement.\" He had a gift for lifting others up with a kind word or a well-timed act of generosity.",
+    "paragraph2": "This journal gives you a new verse, a word of encouragement, and a small \"Barnabas moment\" to do for someone else — one day at a time. A new day unlocks every day; you can always look back on days you've already lived, but not skip ahead.",
+    "paragraph3": "Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to notice how far you've come.",
+    "paragraph4": "We'll ask permission to send two gentle reminders each day — a morning verse, and an evening nudge to reflect — you can turn either off anytime from the Rewards tab.",
+    "startButton": "Begin your journey"
+  }
+}

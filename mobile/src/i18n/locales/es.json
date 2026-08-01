@@ -1,0 +1,24 @@
+{
+  "app": {
+    "brand": "Barnabas Journal",
+    "tagline": "\"Hijo de consuelo\" — Hechos 4:36",
+    "menu": "Menú",
+    "loading": "Cargando...",
+    "footer": "Quédate quieto. Sé bondadoso. Sé el aliento de alguien hoy.",
+    "tabs": {
+      "today": "Hoy",
+      "story": "Historia",
+      "journal": "Diario",
+      "favorites": "Favoritos",
+      "rewards": "Logros"
+    }
+  },
+  "onboarding": {
+    "welcomeTitle": "Bienvenido a Barnabas Journal",
+    "paragraph1": "En el libro de Hechos, los apóstoles le dieron un nuevo nombre a un hombre llamado José: Bernabé, \"hijo de consuelo\". Tenía el don de animar a otros con una palabra amable o un gesto de generosidad en el momento justo.",
+    "paragraph2": "Este diario te ofrece cada día un nuevo versículo, una palabra de aliento y un pequeño \"momento Bernabé\" para hacer por otra persona. Cada día se desbloquea uno nuevo; siempre puedes mirar atrás a los días que ya viviste, pero no puedes adelantarte.",
+    "paragraph3": "Preséntate, sé bondadoso y reflexiona un poco. Las estrellas, las rachas y las insignias solo están ahí para que notes cuánto has avanzado.",
+    "paragraph4": "Te pediremos permiso para enviarte dos recordatorios suaves cada día — un versículo por la mañana y un aviso por la noche para reflexionar — puedes desactivar cualquiera de los dos cuando quieras desde la pestaña de Logros.",
+    "startButton": "Comienza tu camino"
+  }
+}

@@ -1,34 +1,22 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 
 export default function OnboardingScreen({ onStart }) {
   const { colors } = useTheme();
+  const { t } = useTranslation();
   const styles = getStyles(colors);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.mark}>✦</Text>
-      <Text style={styles.title}>Welcome to Barnabas Journal</Text>
-      <Text style={styles.paragraph}>
-        In the book of Acts, a man named Joseph was given a new name by the apostles: Barnabas —
-        "son of encouragement." He had a gift for lifting others up with a kind word or a
-        well-timed act of generosity.
-      </Text>
-      <Text style={styles.paragraph}>
-        This journal gives you a new verse, a word of encouragement, and a small "Barnabas moment"
-        to do for someone else — one day at a time. A new day unlocks every day; you can always
-        look back on days you've already lived, but not skip ahead.
-      </Text>
-      <Text style={styles.paragraph}>
-        Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to
-        notice how far you've come.
-      </Text>
-      <Text style={styles.paragraph}>
-        We'll ask permission to send two gentle reminders each day — a morning verse, and an
-        evening nudge to reflect — you can turn either off anytime from the Rewards tab.
-      </Text>
+      <Text style={styles.title}>{t("onboarding.welcomeTitle")}</Text>
+      <Text style={styles.paragraph}>{t("onboarding.paragraph1")}</Text>
+      <Text style={styles.paragraph}>{t("onboarding.paragraph2")}</Text>
+      <Text style={styles.paragraph}>{t("onboarding.paragraph3")}</Text>
+      <Text style={styles.paragraph}>{t("onboarding.paragraph4")}</Text>
       <TouchableOpacity style={styles.button} onPress={onStart} accessibilityRole="button">
-        <Text style={styles.buttonText}>Begin your journey</Text>
+        <Text style={styles.buttonText}>{t("onboarding.startButton")}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

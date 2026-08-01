@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
+import "./src/i18n";
 import TodayScreen from "./src/screens/TodayScreen";
 import StoryScreen from "./src/screens/StoryScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
@@ -16,12 +18,12 @@ import MenuModal from "./src/components/MenuModal";
 
 initCrashReporting();
 
-const TABS = [
-  { key: "today", label: "Today" },
-  { key: "story", label: "Story" },
-  { key: "history", label: "Journal" },
-  { key: "favorites", label: "Favorites" },
-  { key: "rewards", label: "Rewards" },
+const TAB_KEYS = [
+  { key: "today", i18nKey: "app.tabs.today" },
+  { key: "story", i18nKey: "app.tabs.story" },
+  { key: "history", i18nKey: "app.tabs.journal" },
+  { key: "favorites", i18nKey: "app.tabs.favorites" },
+  { key: "rewards", i18nKey: "app.tabs.rewards" },
 ];
 
 function App() {
@@ -46,6 +48,7 @@ export default Sentry.wrap(App);
 
 function AppContent({ store }) {
   const { colors, mode } = useTheme();
+  const { t } = useTranslation();
   const [tab, setTab] = useState("today");
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -68,7 +71,7 @@ function AppContent({ store }) {
         <StatusBar barStyle={mode === "dark" ? "light-content" : "dark-content"} />
         {!store.ready ? (
           <View style={styles.loading}>
-            <Text style={styles.loadingText}>Loading...</Text>
+            <Text style={styles.loadingText}>{t("app.loading")}</Text>
           </View>
         ) : showSettings ? (
           <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
@@ -80,15 +83,15 @@ function AppContent({ store }) {
               <View style={styles.brandRow}>
                 <Text style={styles.brandMark}>✦</Text>
                 <View>
-                  <Text style={styles.title}>Barnabas Journal</Text>
-                  <Text style={styles.tagline}>"Son of Encouragement" — Acts 4:36</Text>
+                  <Text style={styles.title}>{t("app.brand")}</Text>
+                  <Text style={styles.tagline}>{t("app.tagline")}</Text>
                 </View>
               </View>
               <View style={styles.statsRow}>
                 <TouchableOpacity
                   style={styles.themeToggle}
                   onPress={() => setShowMenu(true)}
-                  accessibilityLabel="Menu"
+                  accessibilityLabel={t("app.menu")}
                 >
                   <Text style={styles.themeToggleText}>☰</Text>
                 </TouchableOpacity>
@@ -102,15 +105,17 @@ function AppContent({ store }) {
             </View>
 
             <View style={styles.tabs}>
-              {TABS.map((t) => (
+              {TAB_KEYS.map((tabDef) => (
                 <TouchableOpacity
-                  key={t.key}
-                  style={[styles.tabBtn, tab === t.key && styles.tabBtnActive]}
-                  onPress={() => setTab(t.key)}
+                  key={tabDef.key}
+                  style={[styles.tabBtn, tab === tabDef.key && styles.tabBtnActive]}
+                  onPress={() => setTab(tabDef.key)}
                   accessibilityRole="tab"
-                  accessibilityState={{ selected: tab === t.key }}
+                  accessibilityState={{ selected: tab === tabDef.key }}
                 >
-                  <Text style={[styles.tabLabel, tab === t.key && styles.tabLabelActive]}>{t.label}</Text>
+                  <Text style={[styles.tabLabel, tab === tabDef.key && styles.tabLabelActive]}>
+                    {t(tabDef.i18nKey)}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -121,7 +126,7 @@ function AppContent({ store }) {
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}
 
-            <Text style={styles.footer}>Be still. Be kind. Be someone's encouragement today.</Text>
+            <Text style={styles.footer}>{t("app.footer")}</Text>
           </ScrollView>
         )}
         <MenuModal
