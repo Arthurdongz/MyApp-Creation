@@ -626,6 +626,46 @@ body {
   border: 1px solid var(--sage);
 }
 
+.android-download-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  background: var(--verse-grad-1);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.android-download-text {
+  flex: 1 1 260px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.android-download-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.android-download-btn {
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.android-download-dismiss {
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+}
+
 .crisis-call-btn {
   display: inline-block;
   text-decoration: none;

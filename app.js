@@ -1484,6 +1484,33 @@ async function shareApp() {
   msgEl.hidden = false;
 }
 
+// Points at whatever APK was most recently attached (under this exact
+// filename) to any published GitHub Release — GitHub's own "latest" alias
+// resolves this automatically, so this URL never needs to change as new
+// builds are published. See mobile/README.md for the upload steps.
+const ANDROID_APK_DOWNLOAD_URL =
+  "https://github.com/Arthurdongz/MyApp-Creation/releases/latest/download/barnabas-journal.apk";
+const ANDROID_DOWNLOAD_DISMISSED_KEY = "androidDownloadBannerDismissed";
+
+function setupAndroidDownloadBanner() {
+  const isAndroid = /Android/i.test(navigator.userAgent || "");
+  const dismissed = localStorage.getItem(ANDROID_DOWNLOAD_DISMISSED_KEY) === "1";
+  if (!isAndroid || dismissed) return;
+
+  const banner = document.getElementById("androidDownloadBanner");
+  const link = document.getElementById("androidDownloadLink");
+  const dismissBtn = document.getElementById("androidDownloadDismiss");
+  if (!banner || !link || !dismissBtn) return;
+
+  link.href = ANDROID_APK_DOWNLOAD_URL;
+  banner.hidden = false;
+
+  dismissBtn.addEventListener("click", () => {
+    banner.hidden = true;
+    localStorage.setItem(ANDROID_DOWNLOAD_DISMISSED_KEY, "1");
+  });
+}
+
 function setupMenu() {
   document.getElementById("menuBtn").addEventListener("click", openMenu);
   document.getElementById("menuCloseBtn").addEventListener("click", closeMenu);
@@ -1526,6 +1553,7 @@ function setupOnboarding() {
 
 function init() {
   applyTheme();
+  setupAndroidDownloadBanner();
   setupTabs();
   setupDayNav();
   setupMoodPicker();

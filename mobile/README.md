@@ -54,3 +54,31 @@ doesn't have it, crashing the app on launch. (This happened once — see the "Fi
 app-crashing OTA update" commit.) After bumping, existing installs simply won't be
 offered that update until they're rebuilt with `eas build`; only a fresh build
 actually gets the new native code.
+
+## Distributing the APK before a Play Store listing exists
+
+The web app (repo root) shows a "Download for Android" banner to anyone visiting on
+an Android browser, linking to:
+
+```
+https://github.com/Arthurdongz/MyApp-Creation/releases/latest/download/barnabas-journal.apk
+```
+
+GitHub resolves `/releases/latest/download/<filename>` to that exact filename on
+whichever release was most recently published — so the link itself never needs to
+change, as long as every release you publish includes an asset with this exact name:
+`barnabas-journal.apk`.
+
+After each `eas build --platform android --profile preview`:
+1. Download the built APK from the link/QR code `eas build` gives you.
+2. Rename it to `barnabas-journal.apk` if it isn't already.
+3. On GitHub: **Releases** → **Draft a new release**.
+4. Pick a new tag (e.g. bump to match `app.json`'s `version`, like `v1.1.0`) — the tag
+   itself doesn't matter to the download link, only that this release is the most
+   recently published one.
+5. Drag `barnabas-journal.apk` into the release's asset upload area.
+6. Leave "Set as the latest release" checked, and make sure it's **not** marked as a
+   draft or pre-release (only a fully published, non-prerelease release counts as
+   "latest").
+7. Publish. The banner's link on the web app now points at this build automatically —
+   no code change needed.
