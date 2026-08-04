@@ -105,15 +105,18 @@ function normalizeLoaded(parsed) {
   };
 }
 
-// One missed day per 7-day window can be "graced" — it bridges the streak
-// without breaking it, but doesn't itself count toward the streak number.
-function weekBucket(dayNumber) {
-  return Math.floor((dayNumber - 1) / 7);
-}
-
+// At most one missed day per any rolling 7-day window can be "graced" — it
+// bridges the streak without breaking it, but doesn't itself count toward
+// the streak number. Tracked as a rolling lookback (the gap in day numbers
+// since the last graced day), not a fixed calendar-week bucket — a fixed
+// bucket anchored to day 1 let two adjacent missed days both get graced
+// whenever they happened to straddle a bucket boundary (e.g. days 7 and 8),
+// while the same two-day gap elsewhere (e.g. days 8 and 9) broke the streak
+// entirely. A rolling window treats every two-day gap the same regardless
+// of where the journey started.
 export function computeStreak(entries, latestDay) {
   let streak = 0;
-  const graceUsed = new Set();
+  let lastGraceDay = null;
   let n = latestDay;
   while (n >= 1) {
     const entry = entries[`day-${n}`];
@@ -124,9 +127,9 @@ export function computeStreak(entries, latestDay) {
       n -= 1;
       continue;
     }
-    const week = weekBucket(n);
-    if (!graceUsed.has(week)) {
-      graceUsed.add(week);
+    const graceAvailable = lastGraceDay === null || lastGraceDay - n >= 7;
+    if (graceAvailable) {
+      lastGraceDay = n;
       n -= 1;
       continue;
     }
