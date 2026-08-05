@@ -1,10 +1,12 @@
-import { useState } from "react";
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Linking, ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
+import { pickForDay, pickVerseVersion } from "./src/content";
+import { BIBLE_VERSIONS, VERSES } from "./src/data/verses";
 import "./src/i18n";
 import TodayScreen from "./src/screens/TodayScreen";
 import StoryScreen from "./src/screens/StoryScreen";
@@ -15,6 +17,26 @@ import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import MenuModal from "./src/components/MenuModal";
+
+const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
+
+// Fired by the "Share Verse" Android app shortcut (long-press the launcher
+// icon) via the plugins/withShareShortcut.js config plugin, which routes it
+// to this barnabas-journal://share-today deep link. Skips in-app navigation
+// entirely — the share sheet opens straight from the shortcut tap.
+const SHARE_SHORTCUT_URL_MARKER = "share-today";
+
+async function shareTodaysVerse(store) {
+  const entry = pickForDay(VERSES, store.latestDay, store.order);
+  const version = pickVerseVersion(store.latestDay, store.settings, VERSE_VERSION_IDS);
+  const text = entry.versions[version] || entry.versions.KJV;
+  const message = `“${text}” — ${entry.ref} (${version})\n\n— sent from Barnabas Journal`;
+  try {
+    await Share.share({ message });
+  } catch (e) {
+    // user dismissed the share sheet — nothing to do
+  }
+}
 
 initCrashReporting();
 
@@ -54,6 +76,29 @@ function AppContent({ store }) {
   const [showAbout, setShowAbout] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const styles = getStyles(colors);
+
+  const shortcutHandledRef = useRef(false);
+
+  useEffect(() => {
+    if (!store.ready || shortcutHandledRef.current) return;
+    Linking.getInitialURL().then((url) => {
+      if (url && url.includes(SHARE_SHORTCUT_URL_MARKER) && !shortcutHandledRef.current) {
+        shortcutHandledRef.current = true;
+        shareTodaysVerse(store);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.ready]);
+
+  useEffect(() => {
+    const subscription = Linking.addEventListener("url", (event) => {
+      if (event.url && event.url.includes(SHARE_SHORTCUT_URL_MARKER)) {
+        shareTodaysVerse(store);
+      }
+    });
+    return () => subscription.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.latestDay, store.order, store.settings]);
 
   if (store.ready && !store.settings.onboarded) {
     return (

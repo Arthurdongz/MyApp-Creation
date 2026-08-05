@@ -29,6 +29,18 @@ Then:
 - `src/screens/` — `TodayScreen`, `HistoryScreen`, `RewardsScreen`
 - `src/components/Card.js` — shared card container
 
+## Android share shortcut
+
+Long-pressing the launcher icon on Android offers a "Share Verse" shortcut
+that jumps straight to sharing today's verse, skipping the app's normal
+navigation. It's a static shortcut defined by `plugins/withShareShortcut.js`
+(a config plugin, since this project has no checked-in `android/` folder —
+`eas build` regenerates it fresh via `expo prebuild` every time). The
+shortcut opens the `barnabas-journal://share-today` deep link; `App.js`
+listens for it and calls `Share.share()` with today's verse text. Like any
+new config plugin, this only takes effect after a fresh `eas build` — it
+won't reach devices via an OTA update.
+
 ## Data & privacy
 
 Journal entries, moods, stars, and streaks are stored on-device via

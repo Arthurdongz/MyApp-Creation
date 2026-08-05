@@ -2,7 +2,7 @@
   "expo": {
     "name": "Barnabas Journal",
     "slug": "barnabas-journal",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -41,7 +41,8 @@
             }
           ]
         }
-      ]
+      ],
+      "./plugins/withShareShortcut"
     ],
     "ios": {
       "supportsTablet": true,
@@ -49,7 +50,7 @@
     },
     "android": {
       "package": "com.barnabasjournal.app",
-      "versionCode": 3,
+      "versionCode": 4,
       "allowBackup": true,
       "adaptiveIcon": {
         "backgroundColor": "#E3B05A",
