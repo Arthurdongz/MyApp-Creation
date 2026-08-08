@@ -6,6 +6,7 @@ import * as Notifications from "expo-notifications";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
+import { checkForUpdateAndApply } from "./src/updates";
 import { pickForDay, pickVerseVersion } from "./src/content";
 import { BIBLE_VERSIONS, VERSES } from "./src/data/verses";
 import "./src/i18n";
@@ -40,6 +41,7 @@ async function shareTodaysVerse(store) {
 }
 
 initCrashReporting();
+checkForUpdateAndApply();
 
 const TAB_KEYS = [
   { key: "today", i18nKey: "app.tabs.today" },
