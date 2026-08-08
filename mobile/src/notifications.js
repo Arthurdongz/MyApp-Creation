@@ -14,9 +14,11 @@
 
 import { Platform } from "react-native";
 import * as Notifications from "expo-notifications";
-import { dateKeyForOffset, dayNumberForDate, pickForDay } from "./content";
-import { VERSES } from "./data/verses";
+import { dateKeyForOffset, dayNumberForDate, pickForDay, pickVerseVersion } from "./content";
+import { BIBLE_VERSIONS, VERSES } from "./data/verses";
 import { HIGHLIGHTS } from "./data/highlights";
+
+const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 
 const MORNING_PREFIX = "barnabas-morning-reminder";
 const HIGHLIGHT_PREFIX = "barnabas-highlight-reminder";
@@ -58,13 +60,15 @@ export async function requestNotificationPermission() {
   }
 }
 
-function morningContentFor(journeyStartDate, order, offsetDays) {
+function morningContentFor(journeyStartDate, order, settings, offsetDays) {
   const targetKey = dateKeyForOffset(offsetDays);
   const dayNumber = dayNumberForDate(journeyStartDate, targetKey);
   const verse = pickForDay(VERSES, dayNumber, order);
+  const versionId = pickVerseVersion(dayNumber, settings || {}, VERSE_VERSION_IDS);
+  const text = verse.versions[versionId] || verse.versions.KJV;
   return {
     title: "Barnabas Journal",
-    body: `“${verse.text}” — ${verse.ref}`,
+    body: `“${text}” — ${verse.ref}`,
   };
 }
 
@@ -106,13 +110,15 @@ async function cancelWindow(prefix) {
   }
 }
 
-export async function scheduleMorningReminder(hour, minute, journeyStartDate, order) {
+export async function scheduleMorningReminder(hour, minute, journeyStartDate, order, settings) {
   if (!SUPPORTED) return false;
   const granted = await requestNotificationPermission();
   if (!granted) return false;
   try {
     await cancelWindow(MORNING_PREFIX);
-    await scheduleWindow(MORNING_PREFIX, hour, minute, (offset) => morningContentFor(journeyStartDate, order, offset));
+    await scheduleWindow(MORNING_PREFIX, hour, minute, (offset) =>
+      morningContentFor(journeyStartDate, order, settings, offset)
+    );
     return true;
   } catch (e) {
     return false;

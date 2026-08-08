@@ -17,6 +17,31 @@ import {
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
+// journeyStartDate and order decide which verse/encouragement/moment/story
+// show on a given day, and are set once, at journey creation, and never
+// recomputed afterward — except as a fallback when AsyncStorage.getItem
+// comes back empty or fails validation. On Android, the main state blob
+// above grows over time (it holds every journal entry ever written) and is
+// written as a single all-or-nothing JSON value; some devices can fail to
+// persist that write cleanly across a reboot (a known AsyncStorage/SQLite
+// issue on certain OEMs), which trips the "no data" fallback and silently
+// starts a fresh journey with a newly shuffled order — shifting that day's
+// content even though it's still the same day. Mirroring just these two
+// small, truly-immutable values into their own tiny key makes them far less
+// likely to be lost the same way, and gives the loader a resilient anchor
+// to fall back on even if the (much larger, more failure-prone) main blob
+// didn't survive.
+const IDENTITY_KEY = "barnabasJournalIdentityV1";
+
+function isValidIdentity(candidate) {
+  return Boolean(
+    candidate &&
+      typeof candidate.journeyStartDate === "string" &&
+      Array.isArray(candidate.order) &&
+      candidate.order.length === TOTAL_DAYS
+  );
+}
+
 export const BADGE_DEFS = [
   { id: "seed", icon: "🌱", name: "Seed of Encouragement", desc: "Earn 10 stars", type: "stars", threshold: 10 },
   { id: "growing", icon: "🌿", name: "Growing in Grace", desc: "Earn 50 stars", type: "stars", threshold: 50 },
@@ -239,10 +264,28 @@ export function useJournalStore() {
 
   const persist = useCallback((next) => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
+    // The identity pair never changes after journey creation, so this is a
+    // cheap, small, low-risk write to keep the resilient anchor current —
+    // in practice it writes the same bytes every time after the first save.
+    AsyncStorage.setItem(
+      IDENTITY_KEY,
+      JSON.stringify({ journeyStartDate: next.journeyStartDate, order: next.order })
+    ).catch(() => {});
   }, []);
 
   useEffect(() => {
     (async () => {
+      let identity = null;
+      try {
+        const rawIdentity = await AsyncStorage.getItem(IDENTITY_KEY);
+        if (rawIdentity) {
+          const parsedIdentity = JSON.parse(rawIdentity);
+          if (isValidIdentity(parsedIdentity)) identity = parsedIdentity;
+        }
+      } catch (e) {
+        identity = null;
+      }
+
       let loaded = freshJourney();
       try {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -255,6 +298,20 @@ export function useJournalStore() {
       } catch (e) {
         loaded = freshJourney();
       }
+
+      if (identity) {
+        // The identity key is the more resilient of the two — trust it for
+        // these two fields even if the main blob disagreed or was lost.
+        loaded = { ...loaded, journeyStartDate: identity.journeyStartDate, order: identity.order };
+      } else {
+        // First launch since this fix shipped (or a genuinely fresh
+        // install) — protect whatever we resolved, going forward.
+        AsyncStorage.setItem(
+          IDENTITY_KEY,
+          JSON.stringify({ journeyStartDate: loaded.journeyStartDate, order: loaded.order })
+        ).catch(() => {});
+      }
+
       setState(loaded);
       setViewingDay(unlockedDayFor(loaded.journeyStartDate));
       setReady(true);
@@ -274,7 +331,8 @@ export function useJournalStore() {
         state.settings.morningReminderHour,
         state.settings.morningReminderMinute,
         state.journeyStartDate,
-        state.order
+        state.order,
+        state.settings
       );
     }
     if (state.settings.highlightReminderEnabled) {
@@ -509,7 +567,7 @@ export function useJournalStore() {
     let highlightOk = false;
     let eveningOk = false;
     if (granted) {
-      morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order);
+      morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order, state.settings);
       highlightOk = await scheduleHighlightReminder(13, 0, state.journeyStartDate, state.order);
       eveningOk = await scheduleEveningReminder(20, 0);
     }
@@ -525,7 +583,7 @@ export function useJournalStore() {
       eveningReminderHour: 20,
       eveningReminderMinute: 0,
     });
-  }, [state.journeyStartDate, state.order, updateSettings]);
+  }, [state.journeyStartDate, state.order, state.settings, updateSettings]);
 
   const restoreFromBackup = useCallback(
     (incoming) => {

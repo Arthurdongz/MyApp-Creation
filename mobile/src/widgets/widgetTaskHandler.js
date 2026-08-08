@@ -13,22 +13,39 @@ import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { TodayVerseWidget } from "./TodayVerseWidget";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
+// See storage.js for why this exists: journeyStartDate/order are set once
+// and never change, so this small mirror key is the resilient source of
+// truth for them — the widget prefers it over the (larger, more
+// failure-prone) main state blob whenever both are available.
+const IDENTITY_KEY = "barnabasJournalIdentityV1";
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 const FALLBACK_TEXT = "Open Barnabas Journal to start your daily verse.";
 
 async function resolveTodayVerse() {
   try {
-    const raw = await AsyncStorage.getItem(STORAGE_KEY);
-    if (!raw) return { text: FALLBACK_TEXT, ref: "" };
+    const [rawIdentity, raw] = await Promise.all([
+      AsyncStorage.getItem(IDENTITY_KEY),
+      AsyncStorage.getItem(STORAGE_KEY),
+    ]);
 
-    const state = JSON.parse(raw);
-    if (!state?.journeyStartDate || !Array.isArray(state.order)) {
+    let identity = null;
+    if (rawIdentity) {
+      const parsedIdentity = JSON.parse(rawIdentity);
+      if (parsedIdentity?.journeyStartDate && Array.isArray(parsedIdentity.order)) {
+        identity = parsedIdentity;
+      }
+    }
+
+    const state = raw ? JSON.parse(raw) : null;
+    const journeyStartDate = identity?.journeyStartDate || state?.journeyStartDate;
+    const order = identity?.order || state?.order;
+    if (!journeyStartDate || !Array.isArray(order)) {
       return { text: FALLBACK_TEXT, ref: "" };
     }
 
-    const dayNumber = unlockedDayFor(state.journeyStartDate);
-    const verse = pickForDay(VERSES, dayNumber, state.order);
-    const versionId = pickVerseVersion(dayNumber, state.settings || {}, VERSE_VERSION_IDS);
+    const dayNumber = unlockedDayFor(journeyStartDate);
+    const verse = pickForDay(VERSES, dayNumber, order);
+    const versionId = pickVerseVersion(dayNumber, state?.settings || {}, VERSE_VERSION_IDS);
     const text = verse.versions[versionId] || verse.versions.KJV;
 
     return { text, ref: `${verse.ref} (${versionId})` };
