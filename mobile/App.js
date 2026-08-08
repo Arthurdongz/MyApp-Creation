@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Linking, ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
+import {
+  Linking,
+  Platform,
+  ScrollView,
+  Share,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import * as Notifications from "expo-notifications";
@@ -21,6 +32,10 @@ import AboutScreen from "./src/screens/AboutScreen";
 import MenuModal from "./src/components/MenuModal";
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
+// expo-notifications' response-listener APIs aren't implemented on web and
+// throw there — matches the same guard notifications.js uses before calling
+// into this module for anything.
+const NOTIFICATIONS_SUPPORTED = Platform.OS === "ios" || Platform.OS === "android";
 
 // Fired by the "Share Verse" Android app shortcut (long-press the launcher
 // icon) via the plugins/withShareShortcut.js config plugin, which routes it
@@ -116,7 +131,7 @@ function AppContent({ store }) {
   };
 
   useEffect(() => {
-    if (!store.ready || notificationHandledRef.current) return;
+    if (!NOTIFICATIONS_SUPPORTED || !store.ready || notificationHandledRef.current) return;
     Notifications.getLastNotificationResponseAsync().then((response) => {
       if (response && !notificationHandledRef.current) {
         notificationHandledRef.current = true;
@@ -127,6 +142,7 @@ function AppContent({ store }) {
   }, [store.ready]);
 
   useEffect(() => {
+    if (!NOTIFICATIONS_SUPPORTED) return;
     const subscription = Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
     return () => subscription.remove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
