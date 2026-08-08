@@ -9,6 +9,7 @@ import { useTheme } from "../theme";
 function favoriteKindLabel(f) {
   if (f.type === "verse") return "Verse";
   if (f.type === "truestory") return "True Story";
+  if (f.type === "highlight") return "Fact";
   if (f.type === "wisdom" && f.title) return "Story";
   return "Quote";
 }
@@ -16,6 +17,7 @@ function favoriteKindLabel(f) {
 function favoriteSourceLine(f) {
   if (f.type === "verse") return f.ref;
   if (f.type === "truestory") return f.title;
+  if (f.type === "highlight") return `— ${f.source || ""}`;
   if (f.type === "wisdom" && f.title) return f.title;
   return `— ${f.source || ""}`;
 }
@@ -39,7 +41,7 @@ export default function FavoritesScreen({ store }) {
   return (
     <View>
       <Text style={styles.title}>Favorites</Text>
-      <Text style={styles.subtitle}>Verses and quotes you've saved to come back to.</Text>
+      <Text style={styles.subtitle}>Verses, quotes, and facts you've saved to come back to.</Text>
 
       {allFavorites.length === 0 ? null : (
         <TextInput

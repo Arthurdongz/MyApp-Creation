@@ -23,6 +23,7 @@ import { BIBLE_VERSIONS, VERSES } from "./src/data/verses";
 import "./src/i18n";
 import TodayScreen from "./src/screens/TodayScreen";
 import StoryScreen from "./src/screens/StoryScreen";
+import FactScreen from "./src/screens/FactScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
 import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
@@ -61,6 +62,7 @@ checkForUpdateAndApply();
 const TAB_KEYS = [
   { key: "today", i18nKey: "app.tabs.today" },
   { key: "story", i18nKey: "app.tabs.story" },
+  { key: "facts", i18nKey: "app.tabs.facts" },
   { key: "history", i18nKey: "app.tabs.journal" },
   { key: "favorites", i18nKey: "app.tabs.favorites" },
   { key: "rewards", i18nKey: "app.tabs.rewards" },
@@ -96,6 +98,7 @@ function AppContent({ store }) {
   const styles = getStyles(colors);
 
   const shortcutHandledRef = useRef(false);
+  const scrollViewRef = useRef(null);
 
   useEffect(() => {
     if (!store.ready || shortcutHandledRef.current) return;
@@ -171,7 +174,7 @@ function AppContent({ store }) {
         ) : showAbout ? (
           <AboutScreen onClose={() => setShowAbout(false)} />
         ) : (
-          <ScrollView contentContainerStyle={styles.scrollContent}>
+          <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollContent}>
             <View style={styles.header}>
               <View style={styles.brandRow}>
                 <Text style={styles.brandMark}>✦</Text>
@@ -197,7 +200,12 @@ function AppContent({ store }) {
               </View>
             </View>
 
-            <View style={styles.tabs}>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.tabsScroll}
+              contentContainerStyle={styles.tabs}
+            >
               {TAB_KEYS.map((tabDef) => (
                 <TouchableOpacity
                   key={tabDef.key}
@@ -211,10 +219,11 @@ function AppContent({ store }) {
                   </Text>
                 </TouchableOpacity>
               ))}
-            </View>
+            </ScrollView>
 
-            {tab === "today" && <TodayScreen store={store} />}
+            {tab === "today" && <TodayScreen store={store} scrollViewRef={scrollViewRef} />}
             {tab === "story" && <StoryScreen store={store} />}
+            {tab === "facts" && <FactScreen store={store} />}
             {tab === "history" && <HistoryScreen store={store} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}
@@ -272,6 +281,7 @@ function getStyles(colors) {
       paddingHorizontal: 12,
     },
     statText: { fontWeight: "700", fontSize: 13, color: colors.text },
+    tabsScroll: { marginBottom: 20 },
     tabs: {
       flexDirection: "row",
       backgroundColor: colors.card,
@@ -279,13 +289,13 @@ function getStyles(colors) {
       borderColor: colors.border,
       borderRadius: 14,
       padding: 5,
-      marginBottom: 20,
       gap: 4,
     },
     tabBtn: {
-      flex: 1,
+      minWidth: 74,
       borderRadius: 10,
       paddingVertical: 10,
+      paddingHorizontal: 12,
       alignItems: "center",
     },
     tabBtnActive: { backgroundColor: colors.buttonBg },

@@ -15,6 +15,7 @@ export const lightColors = {
   momentCard: "#eaf1f5",
   storyCard: "#f7ece0",
   reachOutCard: "#fbe4d8",
+  factCard: "#f9f0d8",
   input: "#fffefc",
   // Solid-fill button background + the text color that sits on top of it —
   // plain colors.sage fails WCAG AA contrast against white text (3.14:1 in
@@ -39,6 +40,7 @@ export const darkColors = {
   momentCard: "#212d33",
   storyCard: "#2e271f",
   reachOutCard: "#33251f",
+  factCard: "#332b1c",
   input: "#1f241f",
   buttonBg: "#8fae97",
   buttonOnText: "#1b201c",
