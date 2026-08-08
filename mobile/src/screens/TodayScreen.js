@@ -8,6 +8,7 @@ import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { WISDOM } from "../data/wisdom";
+import { HIGHLIGHTS } from "../data/highlights";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 
@@ -75,6 +76,7 @@ export default function TodayScreen({ store }) {
   }, [viewingDay, order, settings.verseVersionMode, settings.verseFavoriteVersion]);
   const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
   const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
+  const fact = useMemo(() => pickForDay(HIGHLIGHTS, viewingDay, order), [viewingDay, order]);
   const suggestedMoment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
   const moment = today.customMoment || suggestedMoment;
 
@@ -412,6 +414,21 @@ export default function TodayScreen({ store }) {
             </View>
             <Text style={styles.bodyText}>“{quote.text}”</Text>
             <Text style={styles.wisdomSource}>— {quote.source}</Text>
+          </View>
+
+          <View style={[styles.unifiedBlock, styles.unifiedBlockDivider]}>
+            <View style={styles.cardLabelRow}>
+              <Text style={styles.cardLabel}>Fact of the Day</Text>
+              <View style={styles.cardLabelActions}>
+                <TouchableOpacity onPress={() => speak(fact, settings)}>
+                  <Text style={styles.favoriteBtn}>🔊 Listen</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setSharePreview({ text: fact, sourceLine: "Barnabas Journal" })}>
+                  <Text style={styles.favoriteBtn}>↗ Share</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Text style={styles.bodyText}>{fact}</Text>
           </View>
         </View>
       </View>

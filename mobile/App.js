@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Linking, ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, useColorScheme, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import * as Notifications from "expo-notifications";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
@@ -99,6 +100,35 @@ function AppContent({ store }) {
     return () => subscription.remove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store.latestDay, store.order, store.settings]);
+
+  // Tapping the morning verse or highlight (fact) notification should land
+  // on the exact day it was about, not just wherever "today" is now — see
+  // the dayNumber in each notification's data, set in notifications.js.
+  const notificationHandledRef = useRef(false);
+
+  const handleNotificationResponse = (response) => {
+    const data = response?.notification?.request?.content?.data;
+    if (!data || data.screen !== "today" || !Number.isFinite(data.dayNumber)) return;
+    setTab("today");
+    store.jumpToDay(data.dayNumber);
+  };
+
+  useEffect(() => {
+    if (!store.ready || notificationHandledRef.current) return;
+    Notifications.getLastNotificationResponseAsync().then((response) => {
+      if (response && !notificationHandledRef.current) {
+        notificationHandledRef.current = true;
+        handleNotificationResponse(response);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.ready]);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(handleNotificationResponse);
+    return () => subscription.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store.latestDay]);
 
   if (store.ready && !store.settings.onboarded) {
     return (

@@ -381,6 +381,18 @@ export function useJournalStore() {
     setViewingDay(latestDay);
   }, [latestDay]);
 
+  // Used to land on the exact day a tapped notification was about — mainly
+  // matters when someone taps a notification after its day has passed
+  // (e.g. the next morning), so they see the day it actually quoted rather
+  // than whatever "today" has since become.
+  const jumpToDay = useCallback(
+    (dayNumber) => {
+      if (!Number.isFinite(dayNumber)) return;
+      setViewingDay(Math.min(latestDay, Math.max(1, dayNumber)));
+    },
+    [latestDay]
+  );
+
   const updateViewedEntry = useCallback(
     (updater) => {
       setState((prev) => {
@@ -645,6 +657,7 @@ export function useJournalStore() {
     goToPrevDay,
     goToNextDay,
     jumpToToday,
+    jumpToDay,
     setMood,
     setMomentIntention,
     setCustomMoment,

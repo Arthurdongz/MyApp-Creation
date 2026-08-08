@@ -96,6 +96,7 @@ function morningContentFor(journeyStartDate, order, settings, offsetDays) {
   return {
     title: "Barnabas Journal",
     body: `“${text}” — ${verse.ref}`,
+    data: { screen: "today", section: "verse", dayNumber },
   };
 }
 
@@ -106,6 +107,7 @@ function highlightContentFor(journeyStartDate, order, offsetDays) {
   return {
     title: "Barnabas Journal",
     body: highlight,
+    data: { screen: "today", section: "fact", dayNumber },
   };
 }
 
