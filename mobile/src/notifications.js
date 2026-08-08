@@ -110,15 +110,26 @@ function highlightContentFor(journeyStartDate, order, offsetDays) {
 }
 
 function eveningContentFor(offsetDays) {
-  const prompt = EVENING_PROMPTS[(offsetDays - 1) % EVENING_PROMPTS.length];
+  const prompt = EVENING_PROMPTS[offsetDays % EVENING_PROMPTS.length];
   return { title: "Barnabas Journal", body: prompt };
 }
 
+// Starts at offset 0 (today), not 1 (tomorrow) — the "top up" call in
+// useJournalStore runs on every single app launch, and cancelWindow below
+// wipes the whole window before this rebuilds it. Starting from tomorrow
+// meant that simply opening the app — at any time of day — cancelled
+// today's already-scheduled highlight/evening notifications and never
+// replaced them, so they'd silently never fire unless the app happened to
+// stay unopened all day. Today's slot is skipped only if its time has
+// already passed, so reopening the app late in the day doesn't fire an
+// immediate "surprise" notification for a moment that's already gone by.
 async function scheduleWindow(prefix, hour, minute, contentFor) {
-  for (let offset = 1; offset <= LOOKAHEAD_DAYS; offset++) {
+  const now = new Date();
+  for (let offset = 0; offset <= LOOKAHEAD_DAYS; offset++) {
     const targetKey = dateKeyForOffset(offset);
     const [y, m, d] = targetKey.split("-").map(Number);
     const fireDate = new Date(y, m - 1, d, hour, minute, 0, 0);
+    if (fireDate <= now) continue;
     await Notifications.scheduleNotificationAsync({
       identifier: `${prefix}-${offset}`,
       content: contentFor(offset),
@@ -130,7 +141,7 @@ async function scheduleWindow(prefix, hour, minute, contentFor) {
 async function cancelWindow(prefix) {
   if (!SUPPORTED) return;
   try {
-    const ids = Array.from({ length: LOOKAHEAD_DAYS }, (_, i) => `${prefix}-${i + 1}`);
+    const ids = Array.from({ length: LOOKAHEAD_DAYS + 1 }, (_, i) => `${prefix}-${i}`);
     await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => {})));
   } catch (e) {
     // nothing scheduled — fine
