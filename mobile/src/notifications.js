@@ -25,6 +25,33 @@ const HIGHLIGHT_PREFIX = "barnabas-highlight-reminder";
 const EVENING_PREFIX = "barnabas-evening-reminder";
 const LOOKAHEAD_DAYS = 21;
 
+// Identifiers used by reminder schemes this app shipped in the past, before
+// settling on the current morning/highlight/evening split:
+//   - "barnabas-daily-reminder": the very first version, a single OS-level
+//     REPEATING notification (a fixed, hardcoded "a new verse and a
+//     Barnabas moment are ready for you today" line). A repeating
+//     notification lives at the OS level until cancelled by this exact
+//     identifier — since no current code path references it anymore, it
+//     would otherwise keep firing forever on any device that had it
+//     scheduled early on.
+//   - "barnabas-daily-reminder-1".."-21": the version after that, a rolling
+//     21-day window of individual notifications (this had the same
+//     verse.versions/.text bug fixed elsewhere in this file, so any still
+//     pending would show "undefined").
+// Neither is scheduled by any current code, so cancelling them is purely
+// cleanup — safe to call unconditionally and every launch.
+const LEGACY_IDENTIFIERS = [
+  "barnabas-daily-reminder",
+  ...Array.from({ length: 21 }, (_, i) => `barnabas-daily-reminder-${i + 1}`),
+];
+
+export async function cleanupLegacyNotifications() {
+  if (!SUPPORTED) return;
+  await Promise.all(
+    LEGACY_IDENTIFIERS.map((id) => Notifications.cancelScheduledNotificationAsync(id).catch(() => {}))
+  );
+}
+
 const EVENING_PROMPTS = [
   "How did today really go? A few honest words in your journal might help.",
   "Before you close the day — is there a small kindness worth remembering?",

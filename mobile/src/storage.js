@@ -13,6 +13,7 @@ import {
   scheduleMorningReminder,
   scheduleHighlightReminder,
   scheduleEveningReminder,
+  cleanupLegacyNotifications,
 } from "./notifications";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
@@ -326,6 +327,11 @@ export function useJournalStore() {
   // window notifications.js schedules).
   useEffect(() => {
     if (!ready) return;
+    // Cancels notifications left behind by reminder schemes this app used
+    // to have, unconditionally — independent of the user's current
+    // reminder settings, since a stale one can outlive the feature that
+    // scheduled it (see notifications.js for the full story).
+    cleanupLegacyNotifications();
     if (state.settings.morningReminderEnabled) {
       scheduleMorningReminder(
         state.settings.morningReminderHour,
