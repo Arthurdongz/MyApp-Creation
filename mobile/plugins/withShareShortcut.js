@@ -48,10 +48,14 @@ function withShareShortcutResources(config) {
       fs.mkdirSync(valuesDir, { recursive: true });
       fs.writeFileSync(
         path.join(valuesDir, "shortcuts_strings.xml"),
+        // Android string resources require a literal apostrophe to be
+        // escaped (\') — an unescaped one fails AAPT resource compilation
+        // (caught by an actual EAS build: "Invalid unicode escape sequence
+        // in string" / "does not contain a valid string resource").
         `<?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="share_shortcut_short_label">Share Verse</string>
-  <string name="share_shortcut_long_label">Share Today's Verse</string>
+  <string name="share_shortcut_long_label">Share Today\\'s Verse</string>
 </resources>
 `
       );
