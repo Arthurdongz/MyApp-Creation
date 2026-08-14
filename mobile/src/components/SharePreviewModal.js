@@ -131,6 +131,7 @@ function getStyles(colors, shadow) {
     },
     swatchRow: {
       flexDirection: "row",
+      flexWrap: "wrap",
       justifyContent: "center",
       gap: 12,
       marginBottom: 16,
