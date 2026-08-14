@@ -33,7 +33,7 @@ python3 -m http.server 8000
 
 Each of the four content banks (verses, encouragements, Barnabas moments, wisdom quotes/stories) has exactly 366 unique entries, indexed by day-of-year — so every calendar day gets its own content with no repeats within a year, including February 29 in leap years (that 366th entry is simply skipped in non-leap years, since day-of-year never reaches it).
 
-The 366 scripture verses are drawn from across the whole Bible (Genesis through Revelation) using the public-domain King James Version (KJV). They were compiled from memory in an offline environment with no live Bible-database access — spot-check important ones against a Bible before relying on this beyond personal devotional use. The wisdom bank mixes well-known real quotes (carefully attributed, with "Unknown" used where the original author is uncertain) with original short vignette stories about kindness and hope.
+The 366 scripture verses are drawn from across the whole Bible (Genesis through Revelation), each carrying text in five public-domain translations: the King James Version (KJV), the World English Bible (WEB), the American Standard Version (ASV), Young's Literal Translation (YLT), and the Bible in Basic English (BBE). They were compiled from memory in an offline environment with no live Bible-database access — spot-check important ones against a Bible before relying on this beyond personal devotional use. The wisdom bank mixes well-known real quotes (carefully attributed, with "Unknown" used where the original author is uncertain) with original short vignette stories about kindness and hope.
 
 ## Data & privacy
 
