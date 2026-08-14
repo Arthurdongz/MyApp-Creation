@@ -219,9 +219,10 @@ export default function SettingsScreen({ store, onClose }) {
 
       <Text style={styles.sectionTitle}>Bible Version</Text>
       <Text style={styles.subtitle}>
-        The daily verse is available in five public-domain translations: the King James Version
+        The daily verse is available in six public-domain translations: the King James Version
         (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV),
-        Young's Literal Translation (YLT), and the simplified Bible in Basic English (BBE).
+        Young's Literal Translation (YLT), the simplified Bible in Basic English (BBE), and the
+        Spanish Reina-Valera Antigua (RVA).
       </Text>
       <View style={styles.presetRow}>
         <TouchableOpacity

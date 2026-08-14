@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDay } from "../content";
 import { HIGHLIGHTS } from "../data/highlights";
+import { HIGHLIGHTS_ES } from "../data/highlights.es";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
 
 export default function FactScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
+  const { i18n } = useTranslation();
+  const highlightsBank = i18n.language === "es" ? HIGHLIGHTS_ES : HIGHLIGHTS;
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
-  const fact = pickForDay(HIGHLIGHTS, viewingDay, order);
+  const fact = pickForDay(highlightsBank, viewingDay, order);
   const factSaved = isFavorited("highlight", viewingDay);
 
   const [sharePreview, setSharePreview] = useState(false);

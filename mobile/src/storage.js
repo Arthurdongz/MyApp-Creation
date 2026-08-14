@@ -7,6 +7,7 @@
 import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as StoreReview from "expo-store-review";
+import i18n from "./i18n";
 import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
@@ -53,7 +54,14 @@ export const BADGE_DEFS = [
   { id: "faithful", icon: "🌟", name: "Faithful Encourager", desc: "30-day streak", type: "streak", threshold: 30 },
 ];
 
+// New journeys default to Spanish scripture (RVA, pinned rather than
+// rotated) when the device's detected language is Spanish, so a Spanish-UI
+// user doesn't land on mostly-English verses by default — they can still
+// switch to any English translation in Settings. Existing users are
+// unaffected: their already-saved verseVersionMode/verseFavoriteVersion
+// values always win over this default (see normalizeLoaded's merge).
 function defaultSettings() {
+  const isSpanish = i18n.language === "es";
   return {
     onboarded: false,
     theme: "system",
@@ -72,8 +80,8 @@ function defaultSettings() {
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
     lastCheckInNudgeShownAt: null,
-    verseVersionMode: "alternate",
-    verseFavoriteVersion: "KJV",
+    verseVersionMode: isSpanish ? "favorite" : "alternate",
+    verseFavoriteVersion: isSpanish ? "RVA" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
   };

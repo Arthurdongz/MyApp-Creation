@@ -10,11 +10,21 @@
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
+import * as Localization from "expo-localization";
 import { unlockedDayFor, pickForDay, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { HIGHLIGHTS } from "../data/highlights";
+import { HIGHLIGHTS_ES } from "../data/highlights.es";
 import { TodayVerseWidget } from "./TodayVerseWidget";
 import { TodayFactWidget } from "./TodayFactWidget";
+
+// This headless task runs outside the app's React tree, so it can't read
+// react-i18next's language state — check the device locale directly
+// instead, the same signal i18n/index.js uses to pick the UI language.
+function isSpanishDevice() {
+  const code = Localization.getLocales()[0]?.languageCode;
+  return code === "es";
+}
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 // See storage.js for why this exists: journeyStartDate/order are set once
@@ -72,7 +82,8 @@ async function resolveTodayFact() {
     }
 
     const dayNumber = unlockedDayFor(journeyStartDate);
-    const text = pickForDay(HIGHLIGHTS, dayNumber, order);
+    const bank = isSpanishDevice() ? HIGHLIGHTS_ES : HIGHLIGHTS;
+    const text = pickForDay(bank, dayNumber, order);
     return { text };
   } catch {
     return { text: FALLBACK_FACT_TEXT };

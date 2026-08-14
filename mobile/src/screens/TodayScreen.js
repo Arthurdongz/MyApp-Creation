@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
@@ -7,8 +8,11 @@ import { useTheme } from "../theme";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
+import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
 import { BARNABAS_MOMENTS } from "../data/moments";
+import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
 import { WISDOM } from "../data/wisdom";
+import { QUOTES_ES } from "../data/quotes.es";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 
@@ -48,6 +52,11 @@ function truncateForPreview(text) {
 export default function TodayScreen({ store, scrollViewRef }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
+  const { i18n } = useTranslation();
+  const isSpanish = i18n.language === "es";
+  const encouragementsBank = isSpanish ? ENCOURAGEMENTS_ES : ENCOURAGEMENTS;
+  const momentsBank = isSpanish ? BARNABAS_MOMENTS_ES : BARNABAS_MOMENTS;
+  const quotesBank = isSpanish ? QUOTES_ES : QUOTES;
 
   const {
     viewingDay,
@@ -75,9 +84,18 @@ export default function TodayScreen({ store, scrollViewRef }) {
     const version = pickVerseVersion(viewingDay, settings, VERSE_VERSION_IDS);
     return { ref: entry.ref, version, text: entry.versions[version] || entry.versions.KJV };
   }, [viewingDay, order, settings.verseVersionMode, settings.verseFavoriteVersion]);
-  const encouragement = useMemo(() => pickForDay(ENCOURAGEMENTS, viewingDay, order), [viewingDay, order]);
-  const quote = useMemo(() => pickForDaySmallBank(QUOTES, viewingDay, order), [viewingDay, order]);
-  const suggestedMoment = useMemo(() => pickForDay(BARNABAS_MOMENTS, viewingDay, order), [viewingDay, order]);
+  const encouragement = useMemo(
+    () => pickForDay(encouragementsBank, viewingDay, order),
+    [encouragementsBank, viewingDay, order]
+  );
+  const quote = useMemo(
+    () => pickForDaySmallBank(quotesBank, viewingDay, order),
+    [quotesBank, viewingDay, order]
+  );
+  const suggestedMoment = useMemo(
+    () => pickForDay(momentsBank, viewingDay, order),
+    [momentsBank, viewingDay, order]
+  );
   const moment = today.customMoment || suggestedMoment;
 
   const [showCustomMomentInput, setShowCustomMomentInput] = useState(false);
