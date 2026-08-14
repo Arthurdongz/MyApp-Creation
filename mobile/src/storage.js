@@ -75,6 +75,7 @@ function defaultSettings() {
     verseVersionMode: "alternate",
     verseFavoriteVersion: "KJV",
     reviewPromptShownAt: null,
+    tourShown: false,
   };
 }
 

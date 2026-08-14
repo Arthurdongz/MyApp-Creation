@@ -31,6 +31,7 @@ import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import MenuModal from "./src/components/MenuModal";
+import OnboardingTour from "./src/components/OnboardingTour";
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 // expo-notifications' response-listener APIs aren't implemented on web and
@@ -236,6 +237,10 @@ function AppContent({ store }) {
           onClose={() => setShowMenu(false)}
           onSettings={() => setShowSettings(true)}
           onAbout={() => setShowAbout(true)}
+        />
+        <OnboardingTour
+          visible={store.ready && store.settings.onboarded && !store.settings.tourShown && !showSettings && !showAbout}
+          onFinish={() => store.updateSettings({ tourShown: true })}
         />
       </SafeAreaView>
     </SafeAreaProvider>
