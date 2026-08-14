@@ -30,10 +30,18 @@ export default function FactScreen({ store }) {
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>Did You Know?</Text>
           <View style={styles.cardLabelActions}>
-            <TouchableOpacity onPress={() => speak(fact, settings)}>
+            <TouchableOpacity
+              onPress={() => speak(fact, settings)}
+              accessibilityRole="button"
+              accessibilityLabel="Listen to today's fact"
+            >
               <Text style={styles.favoriteBtn}>🔊 Listen</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSharePreview(true)}>
+            <TouchableOpacity
+              onPress={() => setSharePreview(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Share today's fact"
+            >
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -41,6 +49,9 @@ export default function FactScreen({ store }) {
                 hapticTap();
                 toggleFavorite("highlight", viewingDay, { text: fact, source: "Barnabas Journal" });
               }}
+              accessibilityRole="button"
+              accessibilityLabel={factSaved ? "Saved — tap to remove from favorites" : "Save to favorites"}
+              accessibilityState={{ selected: factSaved }}
             >
               <Text style={[styles.favoriteBtn, factSaved && styles.favoriteBtnActive]}>
                 {factSaved ? "★ Saved" : "☆ Save"}

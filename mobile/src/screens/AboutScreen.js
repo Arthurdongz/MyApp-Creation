@@ -32,11 +32,20 @@ export default function AboutScreen({ onClose }) {
       </Text>
 
       <Text style={styles.meta}>Version 1.0.0</Text>
-      <TouchableOpacity onPress={() => Linking.openURL(`mailto:${CONTACT_EMAIL}`)}>
+      <TouchableOpacity
+        onPress={() => Linking.openURL(`mailto:${CONTACT_EMAIL}`)}
+        accessibilityRole="link"
+        accessibilityLabel={`Email us at ${CONTACT_EMAIL}`}
+      >
         <Text style={styles.metaLink}>Questions or feedback: {CONTACT_EMAIL}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
+      <TouchableOpacity
+        onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}
+        style={styles.footerLinkWrap}
+        accessibilityRole="link"
+        accessibilityLabel="Privacy Policy"
+      >
         <Text style={styles.footerLink}>Privacy Policy</Text>
       </TouchableOpacity>
     </ScrollView>

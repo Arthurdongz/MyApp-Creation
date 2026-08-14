@@ -25,17 +25,20 @@ export default function ActionMenu({ actions }) {
         accessibilityLabel="More actions"
         style={styles.trigger}
       >
-        <Text style={styles.triggerText}>•••</Text>
+        <Text style={styles.triggerText} maxFontSizeMultiplier={1.3}>•••</Text>
       </TouchableOpacity>
       <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
         <Pressable style={styles.backdrop} onPress={() => setOpen(false)}>
           <View style={styles.menuWrap}>
-            <Pressable style={styles.menu}>
+            <Pressable style={styles.menu} accessibilityRole="menu">
               {actions.map((action, i) => (
                 <TouchableOpacity
                   key={action.label}
                   style={[styles.menuItem, i > 0 && styles.menuItemDivider]}
                   onPress={() => handlePress(action)}
+                  accessibilityRole="menuitem"
+                  accessibilityLabel={action.label}
+                  accessibilityState={action.active ? { selected: true } : undefined}
                 >
                   <Text style={[styles.menuItemText, action.active && styles.menuItemTextActive]}>
                     {action.label}

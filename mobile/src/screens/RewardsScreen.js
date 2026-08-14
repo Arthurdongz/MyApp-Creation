@@ -66,7 +66,12 @@ export default function RewardsScreen({ store }) {
           const value = b.type === "stars" ? totalStars : streak;
           const earned = value >= b.threshold;
           return (
-            <View key={b.id} style={[styles.badge, !earned && styles.badgeLocked]}>
+            <View
+              key={b.id}
+              style={[styles.badge, !earned && styles.badgeLocked]}
+              accessible
+              accessibilityLabel={`${b.name}, ${b.desc}${earned ? "" : ", locked"}`}
+            >
               <Text style={styles.badgeIcon}>{b.icon}</Text>
               <Text style={styles.badgeName}>{b.name}</Text>
               <Text style={styles.badgeDesc}>{b.desc}</Text>

@@ -38,10 +38,14 @@ export default function StoryScreen({ store }) {
         <View style={styles.cardLabelRow}>
           <Text style={styles.cardLabel}>True Story</Text>
           <View style={styles.cardLabelActions}>
-            <TouchableOpacity onPress={handleListen}>
+            <TouchableOpacity onPress={handleListen} accessibilityRole="button" accessibilityLabel="Listen to today's story">
               <Text style={styles.favoriteBtn}>🔊 Listen</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSharePreview(true)}>
+            <TouchableOpacity
+              onPress={() => setSharePreview(true)}
+              accessibilityRole="button"
+              accessibilityLabel="Share today's story"
+            >
               <Text style={styles.favoriteBtn}>↗ Share</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -49,6 +53,9 @@ export default function StoryScreen({ store }) {
                 hapticTap();
                 toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
               }}
+              accessibilityRole="button"
+              accessibilityLabel={storySaved ? "Saved — tap to remove from favorites" : "Save to favorites"}
+              accessibilityState={{ selected: storySaved }}
             >
               <Text style={[styles.favoriteBtn, storySaved && styles.favoriteBtnActive]}>
                 {storySaved ? "★ Saved" : "☆ Save"}
@@ -64,9 +71,13 @@ export default function StoryScreen({ store }) {
               hapticTap();
               setShowInsight((v) => !v);
             }}
+            accessibilityRole="button"
             accessibilityLabel="Show the lesson behind this story"
+            accessibilityState={{ expanded: showInsight }}
           >
-            <Text style={[styles.insightBtn, showInsight && styles.insightBtnActive]}>i</Text>
+            <Text style={[styles.insightBtn, showInsight && styles.insightBtnActive]} maxFontSizeMultiplier={1.3}>
+              i
+            </Text>
           </TouchableOpacity>
         </View>
         {showInsight && (

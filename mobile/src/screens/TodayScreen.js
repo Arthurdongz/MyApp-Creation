@@ -256,7 +256,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
             night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line.
             Outside the US, searching "crisis line" with your country's name will find a local number.
           </Text>
-          <TouchableOpacity style={styles.secondaryButton} onPress={() => Linking.openURL("tel:988")}>
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => Linking.openURL("tel:988")}
+            accessibilityRole="button"
+            accessibilityLabel="Call 988"
+          >
             <Text style={styles.secondaryButtonText}>📞 Call 988</Text>
           </TouchableOpacity>
         </>
@@ -274,7 +279,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
               This past week has felt like a lot. A problem shared is a problem halved — is there
               someone you trust that you could talk to about how you're really doing?
             </Text>
-            <TouchableOpacity style={styles.secondaryButton} onPress={talkToSomeone}>
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={talkToSomeone}
+              accessibilityRole="button"
+              accessibilityLabel="Talk to someone"
+            >
               <Text style={styles.secondaryButtonText}>💬 Talk to Someone</Text>
             </TouchableOpacity>
           </>
@@ -300,7 +310,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
             A text is easy to send, and just as easy to scroll past. Is there someone you could actually
             call, or see face to face, instead of just texting today?
           </Text>
-          <TouchableOpacity style={styles.secondaryButton} onPress={() => Linking.openURL("tel:")}>
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => Linking.openURL("tel:")}
+            accessibilityRole="button"
+            accessibilityLabel="Call someone"
+          >
             <Text style={styles.secondaryButtonText}>📞 Call Someone</Text>
           </TouchableOpacity>
         </>
@@ -319,7 +334,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
             accessibilityLabel="Previous day"
             accessibilityRole="button"
           >
-            <Text style={styles.dayNavBtnText}>‹</Text>
+            <Text style={styles.dayNavBtnText} maxFontSizeMultiplier={1.3}>‹</Text>
           </TouchableOpacity>
           <Text style={styles.dayNavLabel}>{isToday ? `Today · Day ${viewingDay}` : `Day ${viewingDay}`}</Text>
           <TouchableOpacity
@@ -329,18 +344,22 @@ export default function TodayScreen({ store, scrollViewRef }) {
             accessibilityLabel="Next day"
             accessibilityRole="button"
           >
-            <Text style={styles.dayNavBtnText}>›</Text>
+            <Text style={styles.dayNavBtnText} maxFontSizeMultiplier={1.3}>›</Text>
           </TouchableOpacity>
         </View>
         {!isToday ? (
-          <TouchableOpacity onPress={jumpToToday}>
+          <TouchableOpacity onPress={jumpToToday} accessibilityRole="button" accessibilityLabel="Back to today">
             <Text style={styles.dayNavJump}>Back to today</Text>
           </TouchableOpacity>
         ) : null}
       </View>
 
-      <View style={styles.jumpRow}>
-        <TouchableOpacity onPress={() => scrollToRef(verseRef)}>
+      <View style={styles.jumpRow} accessibilityRole="none">
+        <TouchableOpacity
+          onPress={() => scrollToRef(verseRef)}
+          accessibilityRole="button"
+          accessibilityLabel="Jump to Verse"
+        >
           <Text style={styles.jumpLink}>Verse</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
@@ -349,15 +368,25 @@ export default function TodayScreen({ store, scrollViewRef }) {
             setWordOpen(true);
             scrollToRef(wordRef);
           }}
+          accessibilityRole="button"
+          accessibilityLabel="Jump to A Word for You"
         >
           <Text style={styles.jumpLink}>Word</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
-        <TouchableOpacity onPress={() => scrollToRef(momentSectionRef)}>
+        <TouchableOpacity
+          onPress={() => scrollToRef(momentSectionRef)}
+          accessibilityRole="button"
+          accessibilityLabel="Jump to Your Barnabas Moment"
+        >
           <Text style={styles.jumpLink}>Moment</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
-        <TouchableOpacity onPress={() => scrollToRef(reflectRef)}>
+        <TouchableOpacity
+          onPress={() => scrollToRef(reflectRef)}
+          accessibilityRole="button"
+          accessibilityLabel="Jump to Today's Reflection"
+        >
           <Text style={styles.jumpLink}>Reflect</Text>
         </TouchableOpacity>
       </View>
@@ -404,6 +433,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
               hapticTap();
               setWordOpen((v) => !v);
             }}
+            accessibilityRole="button"
+            accessibilityLabel="A Word for You"
+            accessibilityState={{ expanded: wordOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
               <Text style={styles.accordionEmoji}>💛</Text>
@@ -418,6 +450,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
               <TouchableOpacity
                 style={styles.accordionActionBtn}
                 onPress={() => speak(encouragement, settings)}
+                accessibilityRole="button"
+                accessibilityLabel="Listen to today's word for you"
               >
                 <Text style={styles.favoriteBtn}>🔊 Listen</Text>
               </TouchableOpacity>
@@ -436,10 +470,19 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       onChangeText={setReflection}
                     />
                     <View style={styles.customMomentBtnRow}>
-                      <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleWordReflectSave}>
+                      <TouchableOpacity
+                        style={styles.momentReflectSaveBtn}
+                        onPress={handleWordReflectSave}
+                        accessibilityRole="button"
+                        accessibilityLabel="Save reflection"
+                      >
                         <Text style={styles.momentReflectSaveBtnText}>Save</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => setShowWordReflectPrompt(false)}>
+                      <TouchableOpacity
+                        onPress={() => setShowWordReflectPrompt(false)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Cancel"
+                      >
                         <Text style={styles.intentionChange}>Cancel</Text>
                       </TouchableOpacity>
                     </View>
@@ -451,6 +494,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       hapticTap();
                       setShowWordReflectPrompt(true);
                     }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Let this sit for a moment — what does it stir in you?"
                   >
                     <Text style={styles.customMomentLink}>Let this sit for a moment — what does it stir in you?</Text>
                   </TouchableOpacity>
@@ -472,6 +517,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
               hapticTap();
               setThoughtOpen((v) => !v);
             }}
+            accessibilityRole="button"
+            accessibilityLabel="Encouraging Thought"
+            accessibilityState={{ expanded: thoughtOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
               <Text style={styles.accordionEmoji}>✨</Text>
@@ -535,13 +583,28 @@ export default function TodayScreen({ store, scrollViewRef }) {
                   <Text style={[styles.followUpStripText, { marginBottom: 12 }]}>{prevMoment}</Text>
                   <Text style={styles.followUpQuestion}>Did you get to it?</Text>
                   <View style={styles.followUpActions}>
-                    <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("done")}>
+                    <TouchableOpacity
+                      style={styles.followUpBtn}
+                      onPress={() => handleFollowUp("done")}
+                      accessibilityRole="button"
+                      accessibilityLabel="Yes, I did it"
+                    >
                       <Text style={styles.followUpBtnText}>Yes, I did it 🎉</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("not_yet")}>
+                    <TouchableOpacity
+                      style={styles.followUpBtn}
+                      onPress={() => handleFollowUp("not_yet")}
+                      accessibilityRole="button"
+                      accessibilityLabel="Not yet, but I still might"
+                    >
                       <Text style={styles.followUpBtnText}>Not yet, but I still might</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.followUpBtn} onPress={() => handleFollowUp("no")}>
+                    <TouchableOpacity
+                      style={styles.followUpBtn}
+                      onPress={() => handleFollowUp("no")}
+                      accessibilityRole="button"
+                      accessibilityLabel="No, not this time"
+                    >
                       <Text style={styles.followUpBtnText}>No, not this time</Text>
                     </TouchableOpacity>
                   </View>
@@ -555,6 +618,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
                     hapticTap();
                     setMomentOpen(false);
                   }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Collapse today's Barnabas moment"
                 >
                   <Text style={styles.collapseLink}>‹ Collapse</Text>
                 </TouchableOpacity>
@@ -566,7 +631,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 today.customMoment ? (
                   <View style={styles.customMomentRow}>
                     <Text style={styles.customMomentNote}>This is your own idea for today.</Text>
-                    <TouchableOpacity onPress={handleUseSuggestion}>
+                    <TouchableOpacity
+                      onPress={handleUseSuggestion}
+                      accessibilityRole="button"
+                      accessibilityLabel="Use today's suggestion instead"
+                    >
                       <Text style={styles.intentionChange}>Use today's suggestion instead</Text>
                     </TouchableOpacity>
                   </View>
@@ -582,10 +651,19 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       onChangeText={setCustomMomentInput}
                     />
                     <View style={styles.customMomentBtnRow}>
-                      <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleUseCustomMoment}>
+                      <TouchableOpacity
+                        style={styles.momentReflectSaveBtn}
+                        onPress={handleUseCustomMoment}
+                        accessibilityRole="button"
+                        accessibilityLabel="Use this instead"
+                      >
                         <Text style={styles.momentReflectSaveBtnText}>Use this instead</Text>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => setShowCustomMomentInput(false)}>
+                      <TouchableOpacity
+                        onPress={() => setShowCustomMomentInput(false)}
+                        accessibilityRole="button"
+                        accessibilityLabel="Cancel"
+                      >
                         <Text style={styles.intentionChange}>Cancel</Text>
                       </TouchableOpacity>
                     </View>
@@ -597,6 +675,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       hapticTap();
                       setShowCustomMomentInput(true);
                     }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Or, write your own kindness for today"
                   >
                     <Text style={styles.customMomentLink}>Or, write your own kindness for today</Text>
                   </TouchableOpacity>
@@ -609,7 +689,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
                     <Text style={styles.intentionText}>
                       Planned for: {MOMENT_INTENTION_LABELS[today.momentIntention]}
                     </Text>
-                    <TouchableOpacity onPress={() => setMomentIntention(null)}>
+                    <TouchableOpacity
+                      onPress={() => setMomentIntention(null)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Change when you'll do this"
+                    >
                       <Text style={styles.intentionChange}>Change</Text>
                     </TouchableOpacity>
                   </View>
@@ -625,6 +709,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
                             hapticTap();
                             setMomentIntention(opt.key);
                           }}
+                          accessibilityRole="button"
+                          accessibilityLabel={opt.label}
                         >
                           <Text style={styles.intentionBtnText}>{opt.label}</Text>
                         </TouchableOpacity>
@@ -642,12 +728,20 @@ export default function TodayScreen({ store, scrollViewRef }) {
                     markMomentDone();
                   }}
                   disabled={today.momentDone}
+                  accessibilityRole="button"
+                  accessibilityLabel={today.momentDone ? "Done" : isToday ? "I did this today" : "I did this"}
+                  accessibilityState={{ disabled: today.momentDone }}
                 >
                   <Text style={styles.buttonText}>
                     {today.momentDone ? "Done ✓" : isToday ? "I did this today ✓" : "I did this ✓"}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.secondaryButton} onPress={shareMomentText}>
+                <TouchableOpacity
+                  style={styles.secondaryButton}
+                  onPress={shareMomentText}
+                  accessibilityRole="button"
+                  accessibilityLabel="Send to someone"
+                >
                   <Text style={styles.secondaryButtonText}>Send to someone</Text>
                 </TouchableOpacity>
               </View>
@@ -666,7 +760,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
                         value={barnabasNote}
                         onChangeText={setBarnabasNote}
                       />
-                      <TouchableOpacity style={styles.momentReflectSaveBtn} onPress={handleMomentReflectSave}>
+                      <TouchableOpacity
+                        style={styles.momentReflectSaveBtn}
+                        onPress={handleMomentReflectSave}
+                        accessibilityRole="button"
+                        accessibilityLabel="Save"
+                      >
                         <Text style={styles.momentReflectSaveBtnText}>Save</Text>
                       </TouchableOpacity>
                     </View>
@@ -679,7 +778,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
 
               <View style={styles.reachOutInline}>
                 <Text style={styles.reachOutInlineText}>💛 If today feels heavy —</Text>
-                <TouchableOpacity onPress={reachOutToSomeone}>
+                <TouchableOpacity
+                  onPress={reachOutToSomeone}
+                  accessibilityRole="button"
+                  accessibilityLabel="Reach out to someone who cares"
+                >
                   <Text style={styles.reachOutInlineLink}>reach out to someone who cares</Text>
                 </TouchableOpacity>
               </View>
@@ -730,6 +833,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 hapticTap();
                 setHeartOpen((v) => !v);
               }}
+              accessibilityRole="button"
+              accessibilityLabel="What's on your heart today?"
+              accessibilityState={{ expanded: heartOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>💭</Text>
@@ -762,6 +868,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 hapticTap();
                 setBarnabasOpen((v) => !v);
               }}
+              accessibilityRole="button"
+              accessibilityLabel="Your Barnabas moment — what did you do, and how did it feel?"
+              accessibilityState={{ expanded: barnabasOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>🤝</Text>
@@ -796,6 +905,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 hapticTap();
                 setKindnessOpen((v) => !v);
               }}
+              accessibilityRole="button"
+              accessibilityLabel="Someone watered me today — did anyone show you kindness?"
+              accessibilityState={{ expanded: kindnessOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>💛</Text>
@@ -842,7 +954,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
             ))}
           </View>
 
-          <TouchableOpacity style={[styles.button, { marginTop: 16 }]} onPress={handleSave}>
+          <TouchableOpacity
+            style={[styles.button, { marginTop: 16 }]}
+            onPress={handleSave}
+            accessibilityRole="button"
+            accessibilityLabel="Save reflection"
+          >
             <Text style={styles.buttonText}>Save Reflection</Text>
           </TouchableOpacity>
           {showSaved ? (
