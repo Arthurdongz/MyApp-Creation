@@ -1554,6 +1554,14 @@ function setupOnboarding() {
   document.getElementById("onboardingStartBtn").addEventListener("click", completeOnboarding);
 }
 
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker.register("sw.js").catch(() => {
+    // offline support is a nice-to-have — a failed registration shouldn't
+    // block the app from working
+  });
+}
+
 function init() {
   applyTheme();
   setupAndroidDownloadBanner();
@@ -1582,6 +1590,7 @@ function init() {
   setupBackup();
   setupOnboarding();
   setupSearch();
+  registerServiceWorker();
   initReflectAccordionForDay(ensureDayEntry(viewingDay));
   renderToday();
   renderStory();
