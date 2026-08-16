@@ -1,15 +1,14 @@
 import { Modal, Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
 const APP_SHARE_URL = "https://arthurdongz.github.io/MyApp-Creation/";
 
-async function shareApp() {
+async function shareApp(t) {
   try {
     await Share.share({
-      message:
-        "I've been using Barnabas Journal — a daily verse, quote, and true story of encouragement. Thought you might like it too.\n" +
-        APP_SHARE_URL,
+      message: `${t("menu.shareAppMessage", { brand: t("app.brand") })}\n${APP_SHARE_URL}`,
     });
   } catch (e) {
     // user dismissed the share sheet — nothing to do
@@ -19,6 +18,7 @@ async function shareApp() {
 export default function MenuModal({ visible, onClose, onSettings, onAbout }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
 
   const handle = (fn) => {
     hapticTap();
@@ -31,11 +31,11 @@ export default function MenuModal({ visible, onClose, onSettings, onAbout }) {
       <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose}>
         <TouchableOpacity activeOpacity={1} style={styles.card} onPress={() => {}}>
           <View style={styles.header}>
-            <Text style={styles.title}>Menu</Text>
+            <Text style={styles.title}>{t("app.menu")}</Text>
             <TouchableOpacity
               onPress={onClose}
               style={styles.closeBtn}
-              accessibilityLabel="Close menu"
+              accessibilityLabel={t("menu.closeLabel")}
               accessibilityRole="button"
             >
               <Text style={styles.closeBtnText}>✕</Text>
@@ -44,21 +44,21 @@ export default function MenuModal({ visible, onClose, onSettings, onAbout }) {
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onSettings)} accessibilityRole="button">
             <Text style={styles.itemIcon}>⚙️</Text>
-            <Text style={styles.itemLabel}>Settings</Text>
+            <Text style={styles.itemLabel}>{t("settings.title")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.item}
-            onPress={() => handle(shareApp)}
+            onPress={() => handle(() => shareApp(t))}
             accessibilityRole="button"
           >
             <Text style={styles.itemIcon}>↗</Text>
-            <Text style={styles.itemLabel}>Share App</Text>
+            <Text style={styles.itemLabel}>{t("menu.shareApp")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onAbout)} accessibilityRole="button">
             <Text style={styles.itemIcon}>ℹ️</Text>
-            <Text style={styles.itemLabel}>About</Text>
+            <Text style={styles.itemLabel}>{t("menu.about")}</Text>
           </TouchableOpacity>
         </TouchableOpacity>
       </TouchableOpacity>

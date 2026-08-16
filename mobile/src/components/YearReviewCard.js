@@ -1,17 +1,22 @@
 import { forwardRef } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 
 // Rendered off-screen and captured to an image for sharing, the same way
 // ShareQuoteCard is — see SharePreviewModal's CardComponent prop. Fixed at
 // 360x420 (taller than the quote card, to fit a 2x2 stat grid + title).
 const YearReviewCard = forwardRef(function YearReviewCard({ stats, colors }, ref) {
-  const title = stats?.isFullYear ? "My Year with Barnabas Journal" : "My Journey So Far";
+  const { t } = useTranslation();
+  const brand = t("app.brand");
+  const title = stats?.isFullYear
+    ? t("share.yearCard.titleFull", { brand })
+    : t("share.yearCard.titlePartial");
   const tiles = [
-    { label: "Days Shown Up", value: stats?.daysShownUp ?? 0 },
-    { label: "Barnabas Moments", value: stats?.momentsDone ?? 0 },
-    { label: "Best Streak", value: stats?.longestStreak ?? 0 },
-    { label: "Favorites Saved", value: stats?.favoritesSaved ?? 0 },
+    { label: t("share.yearCard.daysShownUp"), value: stats?.daysShownUp ?? 0 },
+    { label: t("rewards.barnabasMoments"), value: stats?.momentsDone ?? 0 },
+    { label: t("share.yearCard.bestStreak"), value: stats?.longestStreak ?? 0 },
+    { label: t("share.yearCard.favoritesSaved"), value: stats?.favoritesSaved ?? 0 },
   ];
 
   return (
@@ -25,15 +30,15 @@ const YearReviewCard = forwardRef(function YearReviewCard({ stats, colors }, ref
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <View style={styles.grid}>
-          {tiles.map((t) => (
-            <View key={t.label} style={styles.tile}>
-              <Text style={styles.tileNumber}>{t.value}</Text>
-              <Text style={styles.tileLabel}>{t.label}</Text>
+          {tiles.map((tile) => (
+            <View key={tile.label} style={styles.tile}>
+              <Text style={styles.tileNumber}>{tile.value}</Text>
+              <Text style={styles.tileLabel}>{tile.label}</Text>
             </View>
           ))}
         </View>
       </View>
-      <Text style={styles.watermark}>✦ Barnabas Journal</Text>
+      <Text style={styles.watermark}>{t("share.watermark", { brand })}</Text>
     </View>
   );
 });

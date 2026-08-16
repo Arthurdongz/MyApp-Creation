@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 
 // f.type is "verse", "wisdom" (quotes), or "truestory". Older favorites saved
 // before the content split could be a "wisdom" entry with a title (from when
 // WISDOM mixed in short fictional vignettes) — keep labeling those as
 // "Story" so previously-saved favorites don't look wrong.
-function favoriteKindLabel(f) {
-  if (f.type === "verse") return "Verse";
-  if (f.type === "truestory") return "True Story";
-  if (f.type === "highlight") return "Fact";
-  if (f.type === "wisdom" && f.title) return "Story";
-  return "Quote";
+function favoriteKindLabel(t, f) {
+  if (f.type === "verse") return t("favorites.kind.verse");
+  if (f.type === "truestory") return t("favorites.kind.trueStory");
+  if (f.type === "highlight") return t("favorites.kind.fact");
+  if (f.type === "wisdom" && f.title) return t("favorites.kind.story");
+  return t("favorites.kind.quote");
 }
 
 function favoriteSourceLine(f) {
@@ -25,6 +26,7 @@ function favoriteSourceLine(f) {
 export default function FavoritesScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const allFavorites = store.favorites.slice().sort((a, b) => b.dayNumber - a.dayNumber);
 
@@ -40,38 +42,36 @@ export default function FavoritesScreen({ store }) {
 
   return (
     <View>
-      <Text style={styles.title}>Favorites</Text>
-      <Text style={styles.subtitle}>Verses, quotes, and facts you've saved to come back to.</Text>
+      <Text style={styles.title}>{t("favorites.title")}</Text>
+      <Text style={styles.subtitle}>{t("favorites.subtitle")}</Text>
 
       {allFavorites.length === 0 ? null : (
         <TextInput
           style={styles.searchInput}
-          placeholder="Search your favorites..."
+          placeholder={t("favorites.searchPlaceholder")}
           placeholderTextColor={colors.textSoft}
           value={query}
           onChangeText={setQuery}
-          accessibilityLabel="Search your favorites"
+          accessibilityLabel={t("favorites.searchPlaceholder")}
         />
       )}
 
       {allFavorites.length === 0 ? (
-        <Text style={styles.empty}>
-          Nothing saved yet — tap "Save" on a verse or quote you want to keep.
-        </Text>
+        <Text style={styles.empty}>{t("favorites.emptyNoFavorites")}</Text>
       ) : favorites.length === 0 ? (
-        <Text style={styles.empty}>No favorites match your search.</Text>
+        <Text style={styles.empty}>{t("favorites.emptySearch")}</Text>
       ) : (
         favorites.map((f) => {
-          const kindLabel = favoriteKindLabel(f);
+          const kindLabel = favoriteKindLabel(t, f);
           const sourceLine = favoriteSourceLine(f);
           return (
             <View key={f.id} style={styles.entryCard}>
               <View style={styles.entryHeader}>
-                <Text style={styles.entryKind}>{kindLabel} · Day {f.dayNumber}</Text>
+                <Text style={styles.entryKind}>{t("favorites.entryKind", { kind: kindLabel, day: f.dayNumber })}</Text>
                 <TouchableOpacity
                   onPress={() => store.removeFavorite(f.id)}
                   accessibilityRole="button"
-                  accessibilityLabel={`Remove this ${kindLabel.toLowerCase()} from favorites`}
+                  accessibilityLabel={t("favorites.removeLabel", { kind: kindLabel.toLowerCase() })}
                 >
                   <Text style={styles.remove}>✕</Text>
                 </TouchableOpacity>

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { sendChatMessage } from "../chat";
 import { getCrisisResource, getDeviceRegionCode } from "../crisisResources";
@@ -16,20 +17,18 @@ import { hapticTap } from "../haptics";
 const crisisResource = getCrisisResource(getDeviceRegionCode());
 
 function ChatPaywall({ styles, onSubscribe }) {
+  const { t } = useTranslation();
   return (
     <View style={styles.paywallCard}>
-      <Text style={styles.paywallTitle}>You've used this month's free messages</Text>
-      <Text style={styles.paywallText}>
-        Your free messages renew next month, or subscribe now for unlimited chatting. Keeping this going costs
-        a little to run — subscribing helps cover that.
-      </Text>
+      <Text style={styles.paywallTitle}>{t("chat.paywall.title")}</Text>
+      <Text style={styles.paywallText}>{t("chat.paywall.text")}</Text>
       <TouchableOpacity
         style={styles.subscribeBtn}
         onPress={onSubscribe}
         accessibilityRole="button"
-        accessibilityLabel="Subscribe for unlimited chat"
+        accessibilityLabel={t("chat.paywall.subscribeLabel")}
       >
-        <Text style={styles.subscribeBtnText}>Subscribe for Unlimited Chat</Text>
+        <Text style={styles.subscribeBtnText}>{t("chat.paywall.subscribeButton")}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -38,6 +37,7 @@ function ChatPaywall({ styles, onSubscribe }) {
 export default function ChatScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const { chatAccess, recordChatMessageSent } = store;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -58,7 +58,7 @@ export default function ChatScreen({ store }) {
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
       recordChatMessageSent();
     } catch (e) {
-      setErrorMsg(e.message || "Something went wrong. Please try again.");
+      setErrorMsg(e.message || t("chat.genericError"));
     } finally {
       setSending(false);
     }
@@ -69,16 +69,13 @@ export default function ChatScreen({ store }) {
   // replace this with the real purchase flow and call
   // store.updateSettings({ chatSubscribed: true }) on success.
   const handleSubscribe = () => {
-    Alert.alert("Coming soon", "Subscriptions aren't set up yet — check back soon.");
+    Alert.alert(t("chat.subscribeComingSoonTitle"), t("chat.subscribeComingSoonMessage"));
   };
 
   return (
     <View>
-      <Text style={styles.title}>Talk to Barnabas</Text>
-      <Text style={styles.subtitle}>
-        A private, one-on-one conversation — ask questions or talk things through. Not a therapist, but a
-        listening ear grounded in Scripture.
-      </Text>
+      <Text style={styles.title}>{t("chat.title")}</Text>
+      <Text style={styles.subtitle}>{t("chat.subtitle")}</Text>
 
       {!chatAccess.granted ? (
         <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
@@ -86,15 +83,15 @@ export default function ChatScreen({ store }) {
         <>
           {!chatAccess.unlimited ? (
             <Text style={styles.quotaBanner}>
-              {chatAccess.messagesLeft} of {chatAccess.limit} free messages left this month
+              {t("chat.quotaBanner", { left: chatAccess.messagesLeft, limit: chatAccess.limit })}
             </Text>
           ) : (
-            <Text style={styles.quotaBanner}>Unlimited chatting — thank you for subscribing ✨</Text>
+            <Text style={styles.quotaBanner}>{t("chat.unlimitedBanner")}</Text>
           )}
 
           <View style={styles.messagesWrap}>
             {messages.length === 0 ? (
-              <Text style={styles.emptyState}>Say hello — Barnabas is listening.</Text>
+              <Text style={styles.emptyState}>{t("chat.emptyState")}</Text>
             ) : (
               messages.map((m, i) => (
                 <View
@@ -117,7 +114,7 @@ export default function ChatScreen({ store }) {
               style={styles.input}
               value={input}
               onChangeText={setInput}
-              placeholder="Type a message..."
+              placeholder={t("chat.inputPlaceholder")}
               placeholderTextColor={colors.textSoft}
               multiline
               editable={!sending}
@@ -127,13 +124,13 @@ export default function ChatScreen({ store }) {
               onPress={handleSend}
               disabled={!input.trim() || sending}
               accessibilityRole="button"
-              accessibilityLabel="Send message"
+              accessibilityLabel={t("chat.sendLabel")}
             >
-              <Text style={styles.sendBtnText}>Send</Text>
+              <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.disclaimer}>If you're in crisis, please reach real help: {crisisResource.sentence}</Text>
+          <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
         </>
       )}
     </View>

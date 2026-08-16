@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
 import SharePreviewModal from "../components/SharePreviewModal";
@@ -13,32 +14,39 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
-function pluralize(n, singular, plural) {
-  return `${n} ${n === 1 ? singular : plural || `${singular}s`}`;
+// Renders a pluralized "{{count}} unit" phrase (e.g. "3 days") via the
+// rewards.units en/es keys, for interpolating into a larger sentence below.
+function unit(t, key, count) {
+  return t(`rewards.units.${key}`, { count });
 }
 
 function WeeklyRecapCard({ recap, styles }) {
+  const { t } = useTranslation();
   if (recap.totalDays < 2) return null;
   return (
     <View style={styles.recapCard}>
-      <Text style={styles.sectionTitle}>This Week</Text>
+      <Text style={styles.sectionTitle}>{t("rewards.weeklyRecap.title")}</Text>
       <Text style={styles.recapText}>
-        Over the last {pluralize(recap.totalDays, "day")}, you showed up{" "}
-        {pluralize(recap.daysShownUp, "day")}, did {pluralize(recap.momentsDone, "Barnabas Moment")}, and
-        wrote {pluralize(recap.journalEntries, "journal entry", "journal entries")}.
+        {t("rewards.weeklyRecap.summary", {
+          days: unit(t, "day", recap.totalDays),
+          shownUp: unit(t, "day", recap.daysShownUp),
+          moments: unit(t, "barnabasMoment", recap.momentsDone),
+          entries: unit(t, "journalEntry", recap.journalEntries),
+        })}
       </Text>
       <Text style={[styles.recapText, { marginTop: 8 }]}>
         {recap.kindnessReceived > 0
-          ? `And you noticed kindness coming your way ${pluralize(recap.kindnessReceived, "time")} — you're being watered too, not just pouring out.`
-          : "He who waters others is himself watered — don't forget to notice when kindness comes your way, too."}
+          ? t("rewards.weeklyRecap.kindnessNoticed", { times: unit(t, "time", recap.kindnessReceived) })
+          : t("rewards.weeklyRecap.kindnessDefault")}
       </Text>
     </View>
   );
 }
 
 function YearInReviewCard({ recap, styles, onShare }) {
+  const { t } = useTranslation();
   if (recap.totalDays < 14) return null;
-  const title = recap.isFullYear ? "Your Year in Review" : "Your Journey So Far";
+  const title = recap.isFullYear ? t("rewards.yearInReview.titleFull") : t("rewards.yearInReview.titlePartial");
   return (
     <View style={styles.recapCard}>
       <View style={styles.recapHeaderRow}>
@@ -46,19 +54,22 @@ function YearInReviewCard({ recap, styles, onShare }) {
         <TouchableOpacity
           onPress={onShare}
           accessibilityRole="button"
-          accessibilityLabel="Share your year in review"
+          accessibilityLabel={t("rewards.yearInReview.shareLabel")}
         >
-          <Text style={styles.recapShareBtn}>↗ Share</Text>
+          <Text style={styles.recapShareBtn}>{t("common.share")}</Text>
         </TouchableOpacity>
       </View>
       <Text style={styles.recapText}>
-        Over {pluralize(recap.totalDays, "day")}, you showed up {pluralize(recap.daysShownUp, "day")}, did{" "}
-        {pluralize(recap.momentsDone, "Barnabas Moment")}, and reached a best streak of{" "}
-        {pluralize(recap.longestStreak, "day")} in a row.
+        {t("rewards.yearInReview.summary", {
+          days: unit(t, "day", recap.totalDays),
+          shownUp: unit(t, "day", recap.daysShownUp),
+          moments: unit(t, "barnabasMoment", recap.momentsDone),
+          streak: unit(t, "day", recap.longestStreak),
+        })}
       </Text>
       {recap.favoritesSaved > 0 ? (
         <Text style={[styles.recapText, { marginTop: 8 }]}>
-          You saved {pluralize(recap.favoritesSaved, "favorite")} along the way to come back to.
+          {t("rewards.yearInReview.favoritesSaved", { favorites: unit(t, "favorite", recap.favoritesSaved) })}
         </Text>
       ) : null}
     </View>
@@ -68,13 +79,14 @@ function YearInReviewCard({ recap, styles, onShare }) {
 export default function RewardsScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const { totalStars, streak, momentsDone, weeklyRecap, yearInReview, settings, updateSettings } = store;
   const [showYearShare, setShowYearShare] = useState(false);
 
   return (
     <View>
-      <Text style={styles.title}>Rewards</Text>
-      <Text style={styles.subtitle}>A small way to notice how far you've come.</Text>
+      <Text style={styles.title}>{t("rewards.title")}</Text>
+      <Text style={styles.subtitle}>{t("rewards.subtitle")}</Text>
 
       <WeeklyRecapCard recap={weeklyRecap} styles={styles} />
       <YearInReviewCard recap={yearInReview} styles={styles} onShare={() => setShowYearShare(true)} />
@@ -82,19 +94,19 @@ export default function RewardsScreen({ store }) {
       <View style={styles.summaryRow}>
         <View style={styles.tile}>
           <Text style={styles.tileNumber}>{totalStars}</Text>
-          <Text style={styles.tileLabel}>Total Stars</Text>
+          <Text style={styles.tileLabel}>{t("rewards.totalStars")}</Text>
         </View>
         <View style={styles.tile}>
           <Text style={styles.tileNumber}>{streak}</Text>
-          <Text style={styles.tileLabel}>Day Streak</Text>
+          <Text style={styles.tileLabel}>{t("rewards.dayStreak")}</Text>
         </View>
         <View style={styles.tile}>
           <Text style={styles.tileNumber}>{momentsDone}</Text>
-          <Text style={styles.tileLabel}>Barnabas Moments</Text>
+          <Text style={styles.tileLabel}>{t("rewards.barnabasMoments")}</Text>
         </View>
       </View>
 
-      <Text style={styles.sectionTitle}>Badges</Text>
+      <Text style={styles.sectionTitle}>{t("rewards.badgesTitle")}</Text>
       <View style={styles.badgesGrid}>
         {BADGE_DEFS.map((b) => {
           const value = b.type === "stars" ? totalStars : streak;
@@ -104,7 +116,7 @@ export default function RewardsScreen({ store }) {
               key={b.id}
               style={[styles.badge, !earned && styles.badgeLocked]}
               accessible
-              accessibilityLabel={`${b.name}, ${b.desc}${earned ? "" : ", locked"}`}
+              accessibilityLabel={`${b.name}, ${b.desc}${earned ? "" : t("rewards.badgeLockedSuffix")}`}
             >
               <Text style={styles.badgeIcon}>{b.icon}</Text>
               <Text style={styles.badgeName}>{b.name}</Text>
@@ -114,8 +126,8 @@ export default function RewardsScreen({ store }) {
         })}
       </View>
 
-      <Text style={styles.sectionTitle}>Mood Calendar</Text>
-      <Text style={styles.subtitle}>How you've been feeling, day by day.</Text>
+      <Text style={styles.sectionTitle}>{t("rewards.moodCalendarTitle")}</Text>
+      <Text style={styles.subtitle}>{t("rewards.moodCalendarSubtitle")}</Text>
       <MoodCalendar store={store} styles={styles} />
 
       <SharePreviewModal
@@ -131,6 +143,7 @@ export default function RewardsScreen({ store }) {
 }
 
 function MoodCalendar({ store, styles }) {
+  const { t } = useTranslation();
   const entries = store.state.entries;
   const latest = store.latestDay;
   const start = Math.max(1, latest - 34);
@@ -145,7 +158,7 @@ function MoodCalendar({ store, styles }) {
         {days.map((day) => {
           const entry = entries[`day-${day}`];
           const mood = entry && entry.mood;
-          const dateLabel = entry ? formatDate(entry.dateLogged) : `Day ${day}`;
+          const dateLabel = entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day });
           return (
             <View
               key={day}
@@ -160,7 +173,7 @@ function MoodCalendar({ store, styles }) {
       <View style={styles.moodLegendRow}>
         {Object.entries(MOOD_EMOJI).map(([mood, emoji]) => (
           <Text key={mood} style={styles.moodLegendItem}>
-            {emoji} {mood.charAt(0).toUpperCase() + mood.slice(1)}
+            {emoji} {t(`common.moods.${mood}`)}
           </Text>
         ))}
       </View>

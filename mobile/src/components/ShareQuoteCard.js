@@ -1,11 +1,13 @@
 import { forwardRef } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 
 // Rendered off-screen and captured to an image for sharing — see
 // TodayScreen's captureAndShare. Fixed at 360x360 dp so it captures at a
 // consistent, generous resolution on standard device pixel ratios.
 const ShareQuoteCard = forwardRef(function ShareQuoteCard({ text, sourceLine, colors }, ref) {
+  const { t } = useTranslation();
   return (
     <View ref={ref} collapsable={false} style={styles.container}>
       <LinearGradient
@@ -18,7 +20,7 @@ const ShareQuoteCard = forwardRef(function ShareQuoteCard({ text, sourceLine, co
         <Text style={styles.quote}>“{text}”</Text>
         {sourceLine ? <Text style={styles.source}>{sourceLine}</Text> : null}
       </View>
-      <Text style={styles.watermark}>✦ Barnabas Journal</Text>
+      <Text style={styles.watermark}>{t("share.watermark", { brand: t("app.brand") })}</Text>
     </View>
   );
 });

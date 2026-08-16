@@ -1,52 +1,45 @@
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 
 const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";
 const CONTACT_EMAIL = "arthurdongz0711@gmail.com";
+const APP_VERSION = "1.0.0";
 
 export default function AboutScreen({ onClose }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
+  const { t } = useTranslation();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>About Barnabas Journal</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close about" accessibilityRole="button">
+        <Text style={styles.title}>{t("about.title", { brand: t("app.brand") })}</Text>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("about.closeLabel")} accessibilityRole="button">
           <Text style={styles.closeBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.paragraph}>
-        Barnabas Journal exists to put a little encouragement into your day — one verse, one
-        quote, and one true story of someone showing up for another person, each day.
-      </Text>
-      <Text style={styles.paragraph}>
-        It's named for Barnabas, called "Son of Encouragement" in Acts 4:36 — a man who
-        introduced the outcast, gave second chances, and stood by people others had given up on.
-      </Text>
-      <Text style={styles.paragraph}>
-        Our hope is simple: that this app helps you carry a little more hope into your day, and
-        gives you an easy way to pass it on to someone else. No matter your background, your
-        faith, or the season of life you're in, there's something here for you.
-      </Text>
+      <Text style={styles.paragraph}>{t("about.paragraph1")}</Text>
+      <Text style={styles.paragraph}>{t("about.paragraph2")}</Text>
+      <Text style={styles.paragraph}>{t("about.paragraph3")}</Text>
 
-      <Text style={styles.meta}>Version 1.0.0</Text>
+      <Text style={styles.meta}>{t("about.version", { version: APP_VERSION })}</Text>
       <TouchableOpacity
         onPress={() => Linking.openURL(`mailto:${CONTACT_EMAIL}`)}
         accessibilityRole="link"
-        accessibilityLabel={`Email us at ${CONTACT_EMAIL}`}
+        accessibilityLabel={t("about.emailLabel", { email: CONTACT_EMAIL })}
       >
-        <Text style={styles.metaLink}>Questions or feedback: {CONTACT_EMAIL}</Text>
+        <Text style={styles.metaLink}>{t("about.emailText", { email: CONTACT_EMAIL })}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => Linking.openURL(PRIVACY_POLICY_URL)}
         style={styles.footerLinkWrap}
         accessibilityRole="link"
-        accessibilityLabel="Privacy Policy"
+        accessibilityLabel={t("common.privacyPolicy")}
       >
-        <Text style={styles.footerLink}>Privacy Policy</Text>
+        <Text style={styles.footerLink}>{t("common.privacyPolicy")}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

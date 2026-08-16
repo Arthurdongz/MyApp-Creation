@@ -13,7 +13,7 @@ import { hapticTap } from "../haptics";
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const storiesBank = i18n.language === "es" ? STORIES_ES : STORIES;
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
@@ -33,24 +33,22 @@ export default function StoryScreen({ store }) {
 
   return (
     <View>
-      <Text style={styles.title}>Story of the Day</Text>
-      <Text style={styles.subtitle}>
-        A true story of someone showing the good side of humanity — the Barnabas effect, at work in real life.
-      </Text>
+      <Text style={styles.title}>{t("story.title")}</Text>
+      <Text style={styles.subtitle}>{t("story.subtitle")}</Text>
 
       <Card style={styles.storyCard}>
         <View style={styles.cardLabelRow}>
-          <Text style={styles.cardLabel}>True Story</Text>
+          <Text style={styles.cardLabel}>{t("story.cardLabel")}</Text>
           <View style={styles.cardLabelActions}>
-            <TouchableOpacity onPress={handleListen} accessibilityRole="button" accessibilityLabel="Listen to today's story">
-              <Text style={styles.favoriteBtn}>🔊 Listen</Text>
+            <TouchableOpacity onPress={handleListen} accessibilityRole="button" accessibilityLabel={t("story.listenLabel")}>
+              <Text style={styles.favoriteBtn}>{t("common.listen")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setSharePreview(true)}
               accessibilityRole="button"
-              accessibilityLabel="Share today's story"
+              accessibilityLabel={t("story.shareLabel")}
             >
-              <Text style={styles.favoriteBtn}>↗ Share</Text>
+              <Text style={styles.favoriteBtn}>{t("common.share")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
@@ -58,11 +56,11 @@ export default function StoryScreen({ store }) {
                 toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
               }}
               accessibilityRole="button"
-              accessibilityLabel={storySaved ? "Saved — tap to remove from favorites" : "Save to favorites"}
+              accessibilityLabel={storySaved ? t("common.savedRemoveFromFavorites") : t("common.saveToFavorites")}
               accessibilityState={{ selected: storySaved }}
             >
               <Text style={[styles.favoriteBtn, storySaved && styles.favoriteBtnActive]}>
-                {storySaved ? "★ Saved" : "☆ Save"}
+                {storySaved ? t("common.saved") : t("common.save")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -76,7 +74,7 @@ export default function StoryScreen({ store }) {
               setShowInsight((v) => !v);
             }}
             accessibilityRole="button"
-            accessibilityLabel="Show the lesson behind this story"
+            accessibilityLabel={t("story.insightLabel")}
             accessibilityState={{ expanded: showInsight }}
           >
             <Text style={[styles.insightBtn, showInsight && styles.insightBtnActive]} maxFontSizeMultiplier={1.3}>
@@ -86,7 +84,7 @@ export default function StoryScreen({ store }) {
         </View>
         {showInsight && (
           <View style={styles.insightPanel}>
-            <Text style={styles.insightLabel}>What it meant</Text>
+            <Text style={styles.insightLabel}>{t("story.insightTitle")}</Text>
             <Text style={styles.insightText}>{story.insight}</Text>
           </View>
         )}

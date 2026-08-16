@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Speech from "expo-speech";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { speak } from "../speech";
@@ -34,17 +35,17 @@ function daysSince(key) {
 
 const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";
 
-const PITCH_PRESETS = [
-  { label: "Lower", value: 0.8 },
-  { label: "Normal", value: 1.0 },
-  { label: "Higher", value: 1.3 },
+const PITCH_PRESET_VALUES = [
+  { key: "lower", value: 0.8 },
+  { key: "normal", value: 1.0 },
+  { key: "higher", value: 1.3 },
 ];
 
-const RATE_PRESETS = [
-  { label: "Slower", value: 0.75 },
-  { label: "Normal", value: 0.95 },
-  { label: "Faster", value: 1.15 },
-  { label: "Fastest", value: 1.4 },
+const RATE_PRESET_VALUES = [
+  { key: "slower", value: 0.75 },
+  { key: "normal", value: 0.95 },
+  { key: "faster", value: 1.15 },
+  { key: "fastest", value: 1.4 },
 ];
 
 const MORNING_PRESETS = [
@@ -71,10 +72,16 @@ const HIGHLIGHT_PRESETS = [
 export default function SettingsScreen({ store, onClose }) {
   const { colors, shadow, mode, toggleTheme } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const { settings, updateSettings } = store;
   const [backupMsg, setBackupMsg] = useState("");
   const [voices, setVoices] = useState([]);
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
+
+  const pitchPresetLabel = (key) => (key === "normal" ? t("common.normal") : t(`settings.pitchPresets.${key}`));
+  const ratePresetLabel = (key) => (key === "normal" ? t("common.normal") : t(`settings.ratePresets.${key}`));
+  const PITCH_PRESETS = PITCH_PRESET_VALUES.map((p) => ({ ...p, label: pitchPresetLabel(p.key) }));
+  const RATE_PRESETS = RATE_PRESET_VALUES.map((p) => ({ ...p, label: ratePresetLabel(p.key) }));
 
   useEffect(() => {
     Speech.getAvailableVoicesAsync()
@@ -83,7 +90,7 @@ export default function SettingsScreen({ store, onClose }) {
   }, []);
 
   const selectedVoiceName =
-    voices.find((v) => v.identifier === settings.speechVoiceURI)?.name || "Default";
+    voices.find((v) => v.identifier === settings.speechVoiceURI)?.name || t("settings.defaultVoiceName");
 
   const showBackupMsg = (text) => {
     setBackupMsg(text);
@@ -95,7 +102,7 @@ export default function SettingsScreen({ store, onClose }) {
       await exportBackup(store.state);
       updateSettings({ lastBackupAt: todayKey() });
     } catch (e) {
-      showBackupMsg("Couldn't export a backup right now.");
+      showBackupMsg(t("settings.exportError"));
     }
   };
 
@@ -104,9 +111,9 @@ export default function SettingsScreen({ store, onClose }) {
       const incoming = await pickAndReadBackup();
       if (!incoming) return;
       store.restoreFromBackup(incoming);
-      showBackupMsg("Backup restored. Welcome back!");
+      showBackupMsg(t("settings.importSuccess"));
     } catch (e) {
-      showBackupMsg(e.message || "That file doesn't look like a valid backup.");
+      showBackupMsg(e.message || t("settings.importError"));
     }
   };
 
@@ -126,10 +133,7 @@ export default function SettingsScreen({ store, onClose }) {
     if (ok) {
       updateSettings({ morningReminderEnabled: true });
     } else {
-      Alert.alert(
-        "Notifications not enabled",
-        "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings."
-      );
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -156,10 +160,7 @@ export default function SettingsScreen({ store, onClose }) {
     if (ok) {
       updateSettings({ highlightReminderEnabled: true });
     } else {
-      Alert.alert(
-        "Notifications not enabled",
-        "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings."
-      );
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -181,10 +182,7 @@ export default function SettingsScreen({ store, onClose }) {
     if (ok) {
       updateSettings({ eveningReminderEnabled: true });
     } else {
-      Alert.alert(
-        "Notifications not enabled",
-        "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings."
-      );
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -198,32 +196,27 @@ export default function SettingsScreen({ store, onClose }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Settings</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close settings" accessibilityRole="button">
+        <Text style={styles.title}>{t("settings.title")}</Text>
+        <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("settings.closeLabel")} accessibilityRole="button">
           <Text style={styles.closeBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.sectionTitle}>Appearance</Text>
+      <Text style={styles.sectionTitle}>{t("settings.appearanceTitle")}</Text>
       <View style={styles.settingsRow}>
-        <Text style={styles.settingsLabel}>Dark Mode</Text>
+        <Text style={styles.settingsLabel}>{t("settings.darkMode")}</Text>
         <TouchableOpacity
           style={styles.themeBtn}
           onPress={toggleTheme}
-          accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          accessibilityLabel={mode === "dark" ? t("settings.switchToLight") : t("settings.switchToDark")}
           accessibilityRole="button"
         >
           <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.sectionTitle}>Bible Version</Text>
-      <Text style={styles.subtitle}>
-        The daily verse is available in six public-domain translations: the King James Version
-        (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV),
-        Young's Literal Translation (YLT), the simplified Bible in Basic English (BBE), and the
-        Spanish Reina-Valera Antigua (RVA).
-      </Text>
+      <Text style={styles.sectionTitle}>{t("settings.bibleVersionTitle")}</Text>
+      <Text style={styles.subtitle}>{t("settings.bibleVersionSubtitle")}</Text>
       <View style={styles.presetRow}>
         <TouchableOpacity
           style={[styles.presetBtn, settings.verseVersionMode !== "favorite" && styles.presetBtnActive]}
@@ -235,7 +228,7 @@ export default function SettingsScreen({ store, onClose }) {
           accessibilityState={{ selected: settings.verseVersionMode !== "favorite" }}
         >
           <Text style={[styles.presetText, settings.verseVersionMode !== "favorite" && styles.presetTextActive]}>
-            Alternate daily
+            {t("settings.verseModeAlternate")}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -248,7 +241,7 @@ export default function SettingsScreen({ store, onClose }) {
           accessibilityState={{ selected: settings.verseVersionMode === "favorite" }}
         >
           <Text style={[styles.presetText, settings.verseVersionMode === "favorite" && styles.presetTextActive]}>
-            Always use my favorite
+            {t("settings.verseModeFavorite")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -278,15 +271,15 @@ export default function SettingsScreen({ store, onClose }) {
         <View style={{ marginBottom: 6 }} />
       )}
 
-      <Text style={styles.sectionTitle}>Voice &amp; Speech</Text>
-      <Text style={styles.subtitle}>Choose how the 🔊 Listen buttons sound.</Text>
+      <Text style={styles.sectionTitle}>{t("settings.voiceSpeechTitle")}</Text>
+      <Text style={styles.subtitle}>{t("settings.voiceSpeechSubtitle", { listenLabel: t("common.listen") })}</Text>
 
       <View style={styles.settingsRow}>
-        <Text style={styles.settingsLabel}>Voice</Text>
+        <Text style={styles.settingsLabel}>{t("settings.voiceLabel")}</Text>
         <TouchableOpacity
           style={styles.voiceValueBtn}
           onPress={() => setVoicePickerOpen(true)}
-          accessibilityLabel={`Voice: ${selectedVoiceName}. Tap to change.`}
+          accessibilityLabel={t("settings.voiceValueLabel", { voice: selectedVoiceName })}
           accessibilityRole="button"
         >
           <Text style={styles.voiceValueText} numberOfLines={1}>
@@ -295,13 +288,13 @@ export default function SettingsScreen({ store, onClose }) {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.settingsLabel}>Pitch</Text>
+      <Text style={styles.settingsLabel}>{t("settings.pitchLabel")}</Text>
       <View style={styles.presetRow}>
         {PITCH_PRESETS.map((preset) => {
           const active = settings.speechPitch === preset.value;
           return (
             <TouchableOpacity
-              key={preset.label}
+              key={preset.key}
               style={[styles.presetBtn, active && styles.presetBtnActive]}
               onPress={() => updateSettings({ speechPitch: preset.value })}
               accessibilityRole="button"
@@ -313,13 +306,13 @@ export default function SettingsScreen({ store, onClose }) {
         })}
       </View>
 
-      <Text style={[styles.settingsLabel, { marginTop: 14 }]}>Speed</Text>
+      <Text style={[styles.settingsLabel, { marginTop: 14 }]}>{t("settings.speedLabel")}</Text>
       <View style={styles.presetRow}>
         {RATE_PRESETS.map((preset) => {
           const active = settings.speechRate === preset.value;
           return (
             <TouchableOpacity
-              key={preset.label}
+              key={preset.key}
               style={[styles.presetBtn, active && styles.presetBtnActive]}
               onPress={() => updateSettings({ speechRate: preset.value })}
               accessibilityRole="button"
@@ -333,20 +326,20 @@ export default function SettingsScreen({ store, onClose }) {
 
       <TouchableOpacity
         style={styles.testVoiceBtn}
-        onPress={() => speak("This is what the voice will sound like when reading your verse or story aloud.", settings)}
+        onPress={() => speak(t("settings.testVoiceSpeech"), settings)}
       >
-        <Text style={styles.testVoiceBtnText}>🔊 Test Voice</Text>
+        <Text style={styles.testVoiceBtnText}>{t("settings.testVoiceButton")}</Text>
       </TouchableOpacity>
 
       <Modal visible={voicePickerOpen} animationType="slide" transparent onRequestClose={() => setVoicePickerOpen(false)}>
         <View style={styles.modalBackdrop}>
           <View style={styles.modalCard}>
             <View style={styles.header}>
-              <Text style={styles.title}>Choose a Voice</Text>
+              <Text style={styles.title}>{t("settings.voicePickerTitle")}</Text>
               <TouchableOpacity
                 onPress={() => setVoicePickerOpen(false)}
                 style={styles.closeBtn}
-                accessibilityLabel="Close voice picker"
+                accessibilityLabel={t("settings.closeVoicePickerLabel")}
                 accessibilityRole="button"
               >
                 <Text style={styles.closeBtnText}>✕</Text>
@@ -363,7 +356,7 @@ export default function SettingsScreen({ store, onClose }) {
                 accessibilityState={{ selected: !settings.speechVoiceURI }}
               >
                 <Text style={[styles.voiceRowText, !settings.speechVoiceURI && styles.voiceRowTextActive]}>
-                  Default
+                  {t("settings.defaultVoiceName")}
                 </Text>
               </TouchableOpacity>
               {voices.map((v) => (
@@ -394,20 +387,17 @@ export default function SettingsScreen({ store, onClose }) {
 
       {notificationsSupported ? (
         <>
-          <Text style={styles.sectionTitle}>Daily Reminders</Text>
-          <Text style={styles.subtitle}>
-            Three gentle nudges — a verse to start the day, a highlight to encourage you along the
-            way, and a moment to reflect as it closes.
-          </Text>
+          <Text style={styles.sectionTitle}>{t("settings.remindersTitle")}</Text>
+          <Text style={styles.subtitle}>{t("settings.remindersSubtitle")}</Text>
 
           <View style={styles.settingsCard}>
             <View style={styles.settingsRow}>
-              <Text style={styles.settingsLabel}>Morning · Word for the day</Text>
+              <Text style={styles.settingsLabel}>{t("settings.morningLabel")}</Text>
               <TouchableOpacity
                 style={[styles.switchTrack, settings.morningReminderEnabled && styles.switchTrackOn]}
                 onPress={handleMorningToggle}
                 accessibilityRole="switch"
-                accessibilityLabel="Morning reminder"
+                accessibilityLabel={t("settings.morningSwitchLabel")}
                 accessibilityState={{ checked: !!settings.morningReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.morningReminderEnabled && styles.switchThumbOn]} />
@@ -434,12 +424,12 @@ export default function SettingsScreen({ store, onClose }) {
 
           <View style={styles.settingsCard}>
             <View style={styles.settingsRow}>
-              <Text style={styles.settingsLabel}>Highlight · Encouragement along the way</Text>
+              <Text style={styles.settingsLabel}>{t("settings.highlightLabel")}</Text>
               <TouchableOpacity
                 style={[styles.switchTrack, settings.highlightReminderEnabled && styles.switchTrackOn]}
                 onPress={handleHighlightToggle}
                 accessibilityRole="switch"
-                accessibilityLabel="Highlight reminder"
+                accessibilityLabel={t("settings.highlightSwitchLabel")}
                 accessibilityState={{ checked: !!settings.highlightReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.highlightReminderEnabled && styles.switchThumbOn]} />
@@ -467,12 +457,12 @@ export default function SettingsScreen({ store, onClose }) {
 
           <View style={styles.settingsCard}>
             <View style={styles.settingsRow}>
-              <Text style={styles.settingsLabel}>Evening · Time to reflect</Text>
+              <Text style={styles.settingsLabel}>{t("settings.eveningLabel")}</Text>
               <TouchableOpacity
                 style={[styles.switchTrack, settings.eveningReminderEnabled && styles.switchTrackOn]}
                 onPress={handleEveningToggle}
                 accessibilityRole="switch"
-                accessibilityLabel="Evening reminder"
+                accessibilityLabel={t("settings.eveningSwitchLabel")}
                 accessibilityState={{ checked: !!settings.eveningReminderEnabled }}
               >
                 <View style={[styles.switchThumb, settings.eveningReminderEnabled && styles.switchThumbOn]} />
@@ -499,30 +489,30 @@ export default function SettingsScreen({ store, onClose }) {
         </>
       ) : null}
 
-      <Text style={styles.sectionTitle}>Backup</Text>
-      <Text style={styles.subtitle}>
-        Your journal lives on this device (Android may also auto-back it up to your own Google
-        account as a safety net). Export a backup now and then, or restore one here.
-      </Text>
+      <Text style={styles.sectionTitle}>{t("settings.backupTitle")}</Text>
+      <Text style={styles.subtitle}>{t("settings.backupSubtitle")}</Text>
       <Text style={styles.backupNote}>
         {settings.lastBackupAt
           ? daysSince(settings.lastBackupAt) >= 30
-            ? `It's been ${daysSince(settings.lastBackupAt)} days since your last backup (${formatDate(settings.lastBackupAt)}) — consider exporting a fresh one.`
-            : `Last backup: ${formatDate(settings.lastBackupAt)}.`
-          : "You haven't exported a backup yet."}
+            ? t("settings.backupNote.overdue", {
+                days: daysSince(settings.lastBackupAt),
+                date: formatDate(settings.lastBackupAt),
+              })
+            : t("settings.backupNote.recent", { date: formatDate(settings.lastBackupAt) })
+          : t("settings.backupNote.never")}
       </Text>
       <View style={styles.backupRow}>
         <TouchableOpacity style={styles.secondaryBtn} onPress={handleExport}>
-          <Text style={styles.secondaryBtnText}>Export Backup</Text>
+          <Text style={styles.secondaryBtnText}>{t("settings.exportBackup")}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.secondaryBtn} onPress={handleImport}>
-          <Text style={styles.secondaryBtnText}>Restore Backup</Text>
+          <Text style={styles.secondaryBtnText}>{t("settings.restoreBackup")}</Text>
         </TouchableOpacity>
       </View>
       {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
 
       <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
-        <Text style={styles.footerLink}>Privacy Policy</Text>
+        <Text style={styles.footerLink}>{t("common.privacyPolicy")}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

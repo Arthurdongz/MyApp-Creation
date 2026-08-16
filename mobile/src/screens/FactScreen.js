@@ -13,7 +13,7 @@ import { hapticTap } from "../haptics";
 export default function FactScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const highlightsBank = i18n.language === "es" ? HIGHLIGHTS_ES : HIGHLIGHTS;
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
@@ -24,41 +24,38 @@ export default function FactScreen({ store }) {
 
   return (
     <View>
-      <Text style={styles.title}>Fact of the Day</Text>
-      <Text style={styles.subtitle}>
-        A short, real finding about kindness, connection, or hope — meant to nudge you toward your Barnabas
-        Moment.
-      </Text>
+      <Text style={styles.title}>{t("fact.title")}</Text>
+      <Text style={styles.subtitle}>{t("fact.subtitle")}</Text>
 
       <Card style={styles.factCard}>
         <View style={styles.cardLabelRow}>
-          <Text style={styles.cardLabel}>Did You Know?</Text>
+          <Text style={styles.cardLabel}>{t("fact.cardLabel")}</Text>
           <View style={styles.cardLabelActions}>
             <TouchableOpacity
               onPress={() => speak(fact, settings)}
               accessibilityRole="button"
-              accessibilityLabel="Listen to today's fact"
+              accessibilityLabel={t("fact.listenLabel")}
             >
-              <Text style={styles.favoriteBtn}>🔊 Listen</Text>
+              <Text style={styles.favoriteBtn}>{t("common.listen")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setSharePreview(true)}
               accessibilityRole="button"
-              accessibilityLabel="Share today's fact"
+              accessibilityLabel={t("fact.shareLabel")}
             >
-              <Text style={styles.favoriteBtn}>↗ Share</Text>
+              <Text style={styles.favoriteBtn}>{t("common.share")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
                 hapticTap();
-                toggleFavorite("highlight", viewingDay, { text: fact, source: "Barnabas Journal" });
+                toggleFavorite("highlight", viewingDay, { text: fact, source: t("app.brand") });
               }}
               accessibilityRole="button"
-              accessibilityLabel={factSaved ? "Saved — tap to remove from favorites" : "Save to favorites"}
+              accessibilityLabel={factSaved ? t("common.savedRemoveFromFavorites") : t("common.saveToFavorites")}
               accessibilityState={{ selected: factSaved }}
             >
               <Text style={[styles.favoriteBtn, factSaved && styles.favoriteBtnActive]}>
-                {factSaved ? "★ Saved" : "☆ Save"}
+                {factSaved ? t("common.saved") : t("common.save")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -69,7 +66,7 @@ export default function FactScreen({ store }) {
       <SharePreviewModal
         visible={sharePreview}
         mainText={fact}
-        sourceLine="Barnabas Journal"
+        sourceLine={t("app.brand")}
         initialThemeId={settings.shareTheme}
         onThemeChange={(id) => updateSettings({ shareTheme: id })}
         onClose={() => setSharePreview(false)}

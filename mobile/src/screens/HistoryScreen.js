@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
@@ -10,21 +11,22 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
-function onThisDaySnippet(entries, latestDay) {
+function onThisDaySnippet(t, entries, latestDay) {
   const offsets = [
-    { days: 365, label: "a year ago" },
-    { days: 90, label: "three months ago" },
-    { days: 30, label: "a month ago" },
-    { days: 7, label: "a week ago" },
+    { days: 365, key: "yearAgo" },
+    { days: 90, key: "threeMonthsAgo" },
+    { days: 30, key: "monthAgo" },
+    { days: 7, key: "weekAgo" },
   ];
-  for (const { days, label } of offsets) {
+  for (const { days, key } of offsets) {
     const dayNumber = latestDay - days;
     if (dayNumber < 1) continue;
     const entry = entries[`day-${dayNumber}`];
     const snippet = entry && (entry.reflection || entry.barnabasNote || entry.receivedKindness);
     if (snippet) {
+      const label = t(`history.onThisDay.${key}`);
       const capitalized = label.charAt(0).toUpperCase() + label.slice(1);
-      return `${capitalized} (Day ${dayNumber}), you wrote: "${snippet}"`;
+      return t("history.onThisDay.entry", { label: capitalized, day: dayNumber, snippet });
     }
   }
   return null;
@@ -33,6 +35,7 @@ function onThisDaySnippet(entries, latestDay) {
 export default function HistoryScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const entries = store.state.entries;
   const [query, setQuery] = useState("");
   const allKeys = Object.keys(entries)
@@ -54,16 +57,16 @@ export default function HistoryScreen({ store }) {
       })
     : allKeys;
 
-  const onThisDay = onThisDaySnippet(entries, store.latestDay);
+  const onThisDay = onThisDaySnippet(t, entries, store.latestDay);
 
   return (
     <View>
-      <Text style={styles.title}>My Journal</Text>
-      <Text style={styles.subtitle}>Every entry you've written, kept in one quiet place.</Text>
+      <Text style={styles.title}>{t("history.title")}</Text>
+      <Text style={styles.subtitle}>{t("history.subtitle")}</Text>
 
       {onThisDay ? (
         <View style={styles.onThisDayCard}>
-          <Text style={styles.onThisDayLabel}>On This Day</Text>
+          <Text style={styles.onThisDayLabel}>{t("history.onThisDayLabel")}</Text>
           <Text style={styles.onThisDayText}>{onThisDay}</Text>
         </View>
       ) : null}
@@ -71,55 +74,55 @@ export default function HistoryScreen({ store }) {
       {allKeys.length === 0 ? null : (
         <TextInput
           style={styles.searchInput}
-          placeholder="Search your journal..."
+          placeholder={t("history.searchPlaceholder")}
           placeholderTextColor={colors.textSoft}
           value={query}
           onChangeText={setQuery}
-          accessibilityLabel="Search your journal"
+          accessibilityLabel={t("history.searchPlaceholder")}
         />
       )}
 
       {allKeys.length === 0 ? (
-        <Text style={styles.empty}>
-          Your journal is still quiet — write your first reflection on the Today tab.
-        </Text>
+        <Text style={styles.empty}>{t("history.emptyNoEntries")}</Text>
       ) : keys.length === 0 ? (
-        <Text style={styles.empty}>No entries match your search.</Text>
+        <Text style={styles.empty}>{t("history.emptySearch")}</Text>
       ) : (
         keys.map((key) => {
           const e = entries[key];
           return (
             <View key={key} style={styles.entryCard}>
               <View style={styles.entryHeader}>
-                <Text style={styles.entryDate}>Day {e.dayNumber} · {formatDate(e.dateLogged)}</Text>
+                <Text style={styles.entryDate}>
+                  {t("history.entryDate", { day: e.dayNumber, date: formatDate(e.dateLogged) })}
+                </Text>
                 <Text
                   style={styles.entryMood}
-                  accessibilityLabel={e.mood ? `Mood: ${e.mood}` : undefined}
+                  accessibilityLabel={e.mood ? t("history.moodLabel", { mood: t(`common.moods.${e.mood}`) }) : undefined}
                 >
                   {e.mood ? MOOD_EMOJI[e.mood] : ""}
                 </Text>
               </View>
               {e.reflection ? (
                 <View style={styles.block}>
-                  <Text style={styles.blockLabel}>Reflection</Text>
+                  <Text style={styles.blockLabel}>{t("history.blockLabels.reflection")}</Text>
                   <Text style={styles.blockText}>{e.reflection}</Text>
                 </View>
               ) : null}
               {e.barnabasNote ? (
                 <View style={styles.block}>
-                  <Text style={styles.blockLabel}>Barnabas Moment</Text>
+                  <Text style={styles.blockLabel}>{t("history.blockLabels.barnabasMoment")}</Text>
                   <Text style={styles.blockText}>{e.barnabasNote}</Text>
                 </View>
               ) : null}
               {e.momentDone && !e.barnabasNote ? (
                 <View style={styles.block}>
-                  <Text style={styles.blockLabel}>Barnabas Moment</Text>
-                  <Text style={styles.blockText}>Marked as done.</Text>
+                  <Text style={styles.blockLabel}>{t("history.blockLabels.barnabasMoment")}</Text>
+                  <Text style={styles.blockText}>{t("history.markedDone")}</Text>
                 </View>
               ) : null}
               {e.receivedKindness ? (
                 <View style={styles.block}>
-                  <Text style={styles.blockLabel}>Kindness Received</Text>
+                  <Text style={styles.blockLabel}>{t("history.blockLabels.kindnessReceived")}</Text>
                   <Text style={styles.blockText}>{e.receivedKindness}</Text>
                 </View>
               ) : null}

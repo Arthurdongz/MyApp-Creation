@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
@@ -8,33 +9,24 @@ import { hapticTap } from "../haptics";
 // the Facts/Story/Journal/Favorites tabs, saving to Favorites) that a first
 // glance at Today alone wouldn't surface. Gated by settings.tourShown so it
 // only ever plays once per install, for both brand-new and existing users.
-const STEPS = [
-  {
-    emoji: "📅",
-    title: "Look back anytime",
-    text: "The day navigator lets you revisit any day you've already lived. You can always look back, but you can't skip ahead of today.",
-  },
-  {
-    emoji: "🔗",
-    title: "Jump straight to what you want",
-    text: "The quick links under the day navigator — Verse · Word · Moment · Reflect — scroll you straight to that part of the page.",
-  },
-  {
-    emoji: "🗂️",
-    title: "More to explore",
-    text: "The tabs up top hold a true Story, a Fact of the Day, your Journal of past entries, and everything you've saved to Favorites.",
-  },
-  {
-    emoji: "☆",
-    title: "Save what moves you",
-    text: "Tap Save — or ☆ Save in a card's ••• menu — on any verse, quote, story, or fact to keep it in Favorites for later.",
-  },
+const STEP_KEYS = [
+  { emoji: "📅", key: "lookBack" },
+  { emoji: "🔗", key: "jumpLinks" },
+  { emoji: "🗂️", key: "moreToExplore" },
+  { emoji: "☆", key: "saveWhatMoves" },
 ];
 
 export default function OnboardingTour({ visible, onFinish }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
+
+  const STEPS = STEP_KEYS.map((s) => ({
+    emoji: s.emoji,
+    title: t(`tour.steps.${s.key}.title`),
+    text: t(`tour.steps.${s.key}.text`),
+  }));
 
   const isLast = step === STEPS.length - 1;
   const current = STEPS[step];
@@ -63,9 +55,9 @@ export default function OnboardingTour({ visible, onFinish }) {
             style={styles.skipBtn}
             onPress={handleSkip}
             accessibilityRole="button"
-            accessibilityLabel="Skip tour"
+            accessibilityLabel={t("tour.skipLabel")}
           >
-            <Text style={styles.skipBtnText}>Skip</Text>
+            <Text style={styles.skipBtnText}>{t("tour.skip")}</Text>
           </TouchableOpacity>
 
           <Text style={styles.emoji}>{current.emoji}</Text>
@@ -82,9 +74,9 @@ export default function OnboardingTour({ visible, onFinish }) {
             style={styles.button}
             onPress={handleNext}
             accessibilityRole="button"
-            accessibilityLabel={isLast ? "Got it, finish tour" : "Next tip"}
+            accessibilityLabel={isLast ? t("tour.finishLabel") : t("tour.nextLabel")}
           >
-            <Text style={styles.buttonText}>{isLast ? "Got it!" : "Next"}</Text>
+            <Text style={styles.buttonText}>{isLast ? t("tour.finish") : t("tour.next")}</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
@@ -9,6 +10,7 @@ import { hapticTap } from "../haptics";
 export default function ActionMenu({ actions }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handlePress = (action) => {
@@ -22,7 +24,7 @@ export default function ActionMenu({ actions }) {
       <TouchableOpacity
         onPress={() => setOpen(true)}
         accessibilityRole="button"
-        accessibilityLabel="More actions"
+        accessibilityLabel={t("common.moreActions")}
         style={styles.trigger}
       >
         <Text style={styles.triggerText} maxFontSizeMultiplier={1.3}>•••</Text>

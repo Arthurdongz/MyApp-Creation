@@ -3,6 +3,7 @@ import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
+import { useTranslation } from "react-i18next";
 import ShareQuoteCard from "./ShareQuoteCard";
 import { useTheme } from "../theme";
 import { SHARE_THEMES } from "../shareThemes";
@@ -27,6 +28,7 @@ export default function SharePreviewModal({
 }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
+  const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState(initialThemeId || "classic");
   const [shareMsg, setShareMsg] = useState("");
   const cardRef = useRef(null);
@@ -51,11 +53,11 @@ export default function SharePreviewModal({
       const uri = await captureRef(cardRef, { format: "png", quality: 1 });
       const canShare = await Sharing.isAvailableAsync();
       if (canShare) {
-        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: "Share from Barnabas Journal" });
+        await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("share.dialogTitle", { brand: t("app.brand") }) });
       }
-      setShareMsg("Shared. Thank you for passing it on!");
+      setShareMsg(t("share.successMsg"));
     } catch (e) {
-      setShareMsg("Couldn't create the share image right now.");
+      setShareMsg(t("share.errorMsg"));
     }
     setTimeout(onClose, 900);
   };
@@ -65,8 +67,8 @@ export default function SharePreviewModal({
       <View style={styles.backdrop}>
         <View style={styles.card}>
           <View style={styles.header}>
-            <Text style={styles.title}>Choose a Background</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel="Close" accessibilityRole="button">
+            <Text style={styles.title}>{t("share.chooseBackground")}</Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("common.close")} accessibilityRole="button">
               <Text style={styles.closeBtnText}>✕</Text>
             </TouchableOpacity>
           </View>
@@ -80,16 +82,20 @@ export default function SharePreviewModal({
           </View>
 
           <View style={styles.swatchRow}>
-            {SHARE_THEMES.map((t) => (
+            {SHARE_THEMES.map((theme) => (
               <TouchableOpacity
-                key={t.id}
-                onPress={() => handleSelect(t)}
-                style={[styles.swatchWrap, selectedId === t.id && styles.swatchWrapSelected]}
-                accessibilityLabel={`${t.name} background${selectedId === t.id ? ", selected" : ""}`}
+                key={theme.id}
+                onPress={() => handleSelect(theme)}
+                style={[styles.swatchWrap, selectedId === theme.id && styles.swatchWrapSelected]}
+                accessibilityLabel={
+                  selectedId === theme.id
+                    ? t("share.themeLabelSelected", { name: theme.name })
+                    : t("share.themeLabel", { name: theme.name })
+                }
                 accessibilityRole="button"
               >
                 <LinearGradient
-                  colors={t.colors}
+                  colors={theme.colors}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={styles.swatch}
@@ -99,7 +105,7 @@ export default function SharePreviewModal({
           </View>
 
           <TouchableOpacity style={styles.shareBtn} onPress={handleShare}>
-            <Text style={styles.shareBtnText}>Share this</Text>
+            <Text style={styles.shareBtnText}>{t("share.shareButton")}</Text>
           </TouchableOpacity>
           {shareMsg ? <Text style={styles.shareMsg}>{shareMsg}</Text> : null}
         </View>
