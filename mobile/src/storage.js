@@ -60,8 +60,10 @@ export const BADGE_DEFS = [
 // switch to any English translation in Settings. Existing users are
 // unaffected: their already-saved verseVersionMode/verseFavoriteVersion
 // values always win over this default (see normalizeLoaded's merge).
+// Portuguese-locale devices get the same treatment, pinned to ALM1911.
 function defaultSettings() {
   const isSpanish = i18n.language === "es";
+  const isPortuguese = i18n.language === "pt";
   return {
     onboarded: false,
     theme: "system",
@@ -80,8 +82,8 @@ function defaultSettings() {
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
     lastCheckInNudgeShownAt: null,
-    verseVersionMode: isSpanish ? "favorite" : "alternate",
-    verseFavoriteVersion: isSpanish ? "RVA" : "KJV",
+    verseVersionMode: isSpanish || isPortuguese ? "favorite" : "alternate",
+    verseFavoriteVersion: isSpanish ? "RVA" : isPortuguese ? "ALM1911" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
     chatQuotaMonthKey: null,

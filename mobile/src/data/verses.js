@@ -22,6 +22,34 @@
 // (e.g. Job 13:15, where ASV and WEB follow a different Hebrew reading than
 // KJV) — those are deliberate, not errors. Spot-check before relying on
 // this beyond personal devotional use.
+//
+// A 6th translation, Reina-Valera Antigua (RVA, 1909, Spanish), was added
+// later, for Spanish-locale users -- picked over the 1960 Reina-Valera
+// (RV60) specifically for its age-based public-domain status; RV60 is
+// still copyrighted by the United Bible Societies.
+//
+// A 7th translation, ALM1911 (Portuguese), follows the same logic for
+// Portuguese-locale users: it's João Ferreira de Almeida's translation in
+// its 1911 revision, chosen specifically for age-based public-domain
+// status. Modern Almeida editions are NOT public domain -- "Almeida
+// Revista e Corrigida" (ARC) and "Almeida Revista e Atualizada" (ARA) are
+// both actively copyrighted by Sociedade Bíblica do Brasil (SBB, founded
+// 1948, decades after this 1911 text), and "Almeida Corrigida Fiel" (ACF)
+// is copyrighted by Sociedade Bíblica Trinitariana do Brasil. The 1911
+// revision predates SBB's existence and all of its later copyrighted
+// re-editions, and both Almeida (d. 1691) and the 1911 revisers are long
+// deceased, putting it well past any reasonable copyright term -- the
+// same reasoning as RVA above, just for Portuguese. Its archaic
+// orthography (e.g. "creou" for "criou", "n'elle" for "nele") is original
+// to the 1911 source text, not a transcription error. Sourced in bulk
+// from a structured JSON dump (github.com/damarals/biblias, file
+// ALM1911.json, itself explicitly marked public domain in that project's
+// own translation table) rather than typed from memory.
+//
+// Unlike the English texts above (compiled from training-knowledge recall
+// with no live verification -- see the "good-faith first draft" note
+// above), RVA and ALM1911 were sourced from live, structured bulk Bible
+// text dumps and matched by reference programmatically.
 // Kept in sync with the web app's data-verses.js.
 
 export const BIBLE_VERSIONS = [
@@ -31,6 +59,7 @@ export const BIBLE_VERSIONS = [
   { id: "YLT", name: "Young's Literal Translation" },
   { id: "BBE", name: "Bible in Basic English" },
   { id: "RVA", name: "Reina-Valera Antigua (Espa\u00f1ol)" },
+  { id: "ALM1911", name: "Almeida 1911 (Portugu\u00eas)" },
 ];
 
 export const VERSES = [
@@ -43,6 +72,7 @@ export const VERSES = [
       YLT: "and God saith, 'Let light be;' and light is.",
       BBE: "And God said, Let there be light: and there was light.",
       RVA: "Y dijo Dios: Sea la luz; y fue la luz.",
+      ALM1911: "E disse Deus: Haja luz: e houve luz.",
     },
   },
   {
@@ -54,6 +84,7 @@ export const VERSES = [
       YLT: "And God prepareth the man in His image; in the image of God He prepared him,",
       BBE: "So God made man in his own likeness; in the likeness of God he made him.",
       RVA: "Y creó Dios al hombre a su imagen, a imagen de Dios lo creó.",
+      ALM1911: "E creou Deus o homem á sua imagem: á imagem de Deus o creou: macho e femea os creou.",
     },
   },
   {
@@ -65,6 +96,7 @@ export const VERSES = [
       YLT: "and ye, ye devised against me evil -- God devised it for good,",
       BBE: "As for you, you had evil thoughts against me; but God's purpose was for good.",
       RVA: "Vosotros pensasteis mal contra mí, mas Dios lo encaminó a bien.",
+      ALM1911: "Vós bem intentastes mal contra mim, porém Deus o intentou para bem, para fazer como está n'este dia, para conservar em vida a um povo grande:",
     },
   },
   {
@@ -76,6 +108,7 @@ export const VERSES = [
       YLT: "Jehovah doth fight for you, and ye keep silent.",
       BBE: "The Lord will fight for you, and you have only to be quiet.",
       RVA: "Jehová peleará por vosotros, y vosotros estaréis quietos.",
+      ALM1911: "O Senhor pelejará por vós, e vos calareis.",
     },
   },
   {
@@ -87,6 +120,7 @@ export const VERSES = [
       YLT: "My strength and song is Jah, and He is to me for salvation:",
       BBE: "The Lord is my strength and my song, and he has become my salvation.",
       RVA: "Jehová es mi fortaleza y mi cántico, y ha sido mi salvación.",
+      ALM1911: "O Senhor é a minha força, e o meu cantico; elle me foi por salvação; este é o meu Deus, portanto lhe farei uma habitação; elle é o Deus de meu pae, por isso o exaltarei.",
     },
   },
   {
@@ -98,6 +132,7 @@ export const VERSES = [
       YLT: "and Jehovah, He is the goer before thee, He himself is with thee; He doth not fail thee, nor forsake thee; fear not, nor be affrighted.",
       BBE: "The Lord himself goes before you; he will be with you. He will not fail you or give you up. Have no fear and do not be troubled.",
       RVA: "Y Jehová va delante de ti; él será contigo, no te dejará ni te desamparará: no temas, ni te intimides.",
+      ALM1911: "O Senhor pois é aquelle que vae diante de ti; elle será comtigo, não te deixará, nem te desamparará; não temas, nem te espantes.",
     },
   },
   {
@@ -109,6 +144,7 @@ export const VERSES = [
       YLT: "Jehovah bless thee, and keep thee; Jehovah cause His face to shine upon thee, and favour thee; Jehovah lift up His countenance upon thee, and appoint for thee -- peace.",
       BBE: "May the Lord give you his blessing and keep you safe. May the Lord let his face shine on you and be kind to you. May the Lord be pleased with you and give you peace.",
       RVA: "Jehová te bendiga, y te guarde: Jehová haga resplandecer su rostro sobre ti, y tenga de ti misericordia: Jehová alce a ti su rostro, y ponga en ti paz.",
+      ALM1911: "O Senhor te abençoe e te guarde: O Senhor faça resplandecer o seu rosto sobre ti, e tenha misericordia de ti: O Senhor sobre ti levante o seu rosto, e te dê a paz.",
     },
   },
   {
@@ -120,6 +156,7 @@ export const VERSES = [
       YLT: "be strong and courageous, fear not, nor be terrified, because of them, for Jehovah thy God, He it is who is going with thee;",
       BBE: "Be strong and take heart. Do not be afraid of them. For the Lord your God is the one who goes with you.",
       RVA: "Esforzaos y cobrad ánimo; no temáis, ni tengáis miedo de ellos: que Jehová tu Dios es el que va contigo.",
+      ALM1911: "Esforçae-vos, e animae-vos; não temaes, nem vos espanteis diante d'elles: porque o Senhor teu Deus é o que vae comtigo: não te deixará nem te desamparará.",
     },
   },
   {
@@ -131,6 +168,7 @@ export const VERSES = [
       YLT: "a habitation of the eternal God, and beneath, arms age-during;",
       BBE: "The God of old is a safe place for you, and his arms are under you forever.",
       RVA: "El eterno Dios es tu refugio, y acá abajo los brazos eternos.",
+      ALM1911: "O Deus eterno te seja por habitação, e por baixo sejam os braços eternos: e elle lance o inimigo de diante de ti, e diga: Destroe-o.",
     },
   },
   {
@@ -142,6 +180,7 @@ export const VERSES = [
       YLT: "See, I have set before thee to-day life and good, and death and evil,",
       BBE: "See, I have put before you today life and good, death and evil.",
       RVA: "Mira, yo he puesto delante de ti hoy la vida y el bien, la muerte y el mal.",
+      ALM1911: "Vês aqui, hoje te tenho proposto a vida e o bem, e a morte e o mal;",
     },
   },
   {
@@ -153,6 +192,7 @@ export const VERSES = [
       YLT: "Have not I commanded thee? be strong and courageous; be not terrified, nor be affrighted; for with thee is Jehovah thy God whithersoever thou goest.",
       BBE: "Have I not given you orders? Be strong and take heart. Do not be afraid, and do not let your heart be troubled. For the Lord your God is with you wherever you go.",
       RVA: "¿No te lo mandé yo? Esfuérzate y sé valiente; no temas ni desmayes, porque Jehová tu Dios estará contigo por dondequiera que vayas.",
+      ALM1911: "Não t'o mandei eu? esforça-te, e tem bom animo; não pasmes, nem te espantes: porque o Senhor teu Deus é comtigo, por onde quer que andares.",
     },
   },
   {
@@ -164,6 +204,7 @@ export const VERSES = [
       YLT: "no man doth station himself before thee all days of thy life;",
       BBE: "No man will be able to stand against you all the days of your life.",
       RVA: "Nadie te podrá hacer frente en todos los días de tu vida.",
+      ALM1911: "Nenhum se susterá diante de ti, todos os dias da tua vida: como fui com Moysés, assim serei comtigo: não te deixarei nem te desampararei.",
     },
   },
   {
@@ -175,6 +216,7 @@ export const VERSES = [
       YLT: "choose for you to-day whom ye do serve... and I and my house -- we serve Jehovah.",
       BBE: "Make a decision today who you will be servants of... but as for me and my house, we will be servants of the Lord.",
       RVA: "Escogeos hoy a quién sirváis... pero yo y mi casa serviremos a Jehová.",
+      ALM1911: "Porém, se vos parece mal aos vossos olhos servir ao Senhor, escolhei-vos hoje a quem sirvaes: se os deuses a quem serviram vossos paes, que estavam d'além do rio, ou os deuses dos amorrheos, em cuja terra habitaes: porém eu e a minha casa serviremos ao Senhor.",
     },
   },
   {
@@ -186,6 +228,7 @@ export const VERSES = [
       YLT: "Jehovah is with thee, O mighty one of valour.",
       BBE: "The Lord is with you, you strong man of war.",
       RVA: "Jehová es contigo, varón esforzado y valiente.",
+      ALM1911: "Então o anjo do Senhor lhe appareceu, e lhe disse: O Senhor é comtigo, varão valoroso.",
     },
   },
   {
@@ -197,6 +240,7 @@ export const VERSES = [
       YLT: "for whither thou goest I go, and where thou lodgest I lodge; thy people is my people, and thy God my God.",
       BBE: "Wherever you go, I will go... your people will be my people, and your God my God.",
       RVA: "A dondequiera que tú fueres, iré yo... tu pueblo será mi pueblo, y tu Dios mi Dios.",
+      ALM1911: "Disse porém Ruth: Não me instes para que te deixe, e me torne de detraz de ti; porque aonde quer que tu fores irei eu, e onde quer que pousares á noite ali pousarei eu; o teu povo é o meu povo, o teu Deus é o meu Deus",
     },
   },
   {
@@ -208,6 +252,7 @@ export const VERSES = [
       YLT: "Speak, Jehovah, for Thy servant heareth.",
       BBE: "Say on, Lord; your servant is listening.",
       RVA: "Habla, Jehová, que tu siervo oye.",
+      ALM1911: "Pelo que Eli disse a Samuel: Vae te deitar, e ha de ser que, se te chamar, dirás: Falla, Senhor, porque o teu servo ouve. Então Samuel foi e se deitou no seu logar.",
     },
   },
   {
@@ -219,6 +264,7 @@ export const VERSES = [
       YLT: "Jehovah looketh on the heart.",
       BBE: "The Lord sees what is in the heart.",
       RVA: "Jehová mira el corazón.",
+      ALM1911: "Porém o Senhor disse a Samuel: Não attentes para a sua apparencia, nem para a altura da sua estatura, porque o tenho rejeitado, porque o Senhor não vê como vê o homem, pois o homem vê o que está diante dos olhos, porém o Senhor olha para o coração",
     },
   },
   {
@@ -230,6 +276,7 @@ export const VERSES = [
       YLT: "A lamp to my foot is Thy word, and a light to my path.",
       BBE: "Your word is a light for my feet, and a light on my way.",
       RVA: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.",
+      ALM1911: "A tua palavra é uma lampada para os meus pés e uma luz para o meu caminho.",
     },
   },
   {
@@ -241,6 +288,7 @@ export const VERSES = [
       YLT: "and after the fire a voice, a small, calm one.",
       BBE: "And after the fire, a quiet, small voice.",
       RVA: "Y tras el fuego un silbo apacible y delicado.",
+      ALM1911: "E depois do terremoto um fogo; porém tambem o Senhor não estava no fogo: e depois do fogo uma voz mansa e delicada.",
     },
   },
   {
@@ -252,6 +300,7 @@ export const VERSES = [
       YLT: "for the joy of Jehovah is your strength.",
       BBE: "The joy of the Lord is your strength.",
       RVA: "El gozo de Jehová es vuestra fortaleza.",
+      ALM1911: "Disse-lhes mais: Ide, comei as gorduras, e bebei as doçuras, e enviae porções aos que não teem nada preparado para si; porque este dia é consagrado ao nosso Senhor: portanto não vos entristeçaes: porque a alegria do Senhor é a vossa força.",
     },
   },
   {
@@ -263,6 +312,7 @@ export const VERSES = [
       YLT: "be strong, and do it, fear not, nor be affrighted, for Jehovah God, my God, is with thee;",
       BBE: "Be strong and take heart, have no fear and do not be troubled. For the Lord God, my God, will be with you.",
       RVA: "Esfuérzate y cobra ánimo, y ponlo por obra; no temas, ni desmayes, porque Jehová Dios, mi Dios, será contigo.",
+      ALM1911: "E disse David a Salomão seu filho: Esforça-te e tem bom animo, e obra; não temas, nem te espavoreças; porque o Senhor Deus, meu Deus, ha de ser comtigo; não te deixará, nem te desamparará, até que acabes toda a obra do serviço da casa do Senhor.",
     },
   },
   {
@@ -274,6 +324,7 @@ export const VERSES = [
       YLT: "and My people, on whom My name is called, are humbled, and pray, and seek My face... then I hear from the heavens, and forgive their sin, and heal their land.",
       BBE: "If my people, who are named by my name, will make themselves low, and pray, and make search for my face... then I will give ear from heaven, and take away their sin, and make their land well again.",
       RVA: "Si se humillare mi pueblo, sobre los cuales mi nombre es invocado, y oraren, y buscaren mi rostro... entonces yo oiré desde los cielos, y perdonaré sus pecados, y sanaré su tierra.",
+      ALM1911: "E se o meu povo, que se chama pelo meu nome, se humilhar, e orar, e buscar a minha face e se converter dos seus maus caminhos, então eu ouvirei dos céus, e perdoarei os seus peccados, e sararei a sua terra.",
     },
   },
   {
@@ -285,6 +336,7 @@ export const VERSES = [
       YLT: "for not for you is the battle, but for God.",
       BBE: "This fight is not yours but God's.",
       RVA: "No es vuestra la guerra, sino de Dios.",
+      ALM1911: "E disse: Dae ouvidos todo o Judah, e vós, moradores de Jerusalem, e tu, ó rei Josaphat: assim o Senhor vos diz: Não temaes, nem vos assusteis por causa d'esta grande multidão; pois a peleja não é vossa, senão de Deus.",
     },
   },
   {
@@ -296,6 +348,7 @@ export const VERSES = [
       YLT: "the hand of our God is upon all seeking Him for good;",
       BBE: "The hand of our God is on all those for good who are looking for him.",
       RVA: "La mano de nuestro Dios es para bien sobre todos los que le buscan.",
+      ALM1911: "Porque me envergonhei de pedir ao rei exercito e cavalleiros para nos defenderem do inimigo no caminho: porquanto tinhamos fallado ao rei, dizendo: A mão do nosso Deus é sobre todos os que o buscam para o bem d'elles, mas a sua força e a sua ira sobre todos os que o deixam.",
     },
   },
   {
@@ -307,6 +360,7 @@ export const VERSES = [
       YLT: "and who knoweth whether for a time like this thou hast come to the kingdom?",
       BBE: "Who is to say that you have not come to the kingdom for such a time as this?",
       RVA: "¿Y quién sabe si para esta hora te han hecho llegar al reino?",
+      ALM1911: "Porque, se de todo te calares n'este tempo, soccorro e livramento d'outra parte sairá para os judeos, mas tu e a casa de teu pae perecereis: e quem sabe se para tal tempo como este chegaste a este reino?",
     },
   },
   {
@@ -318,6 +372,7 @@ export const VERSES = [
       YLT: "that I -- I have known my Redeemer, and the latter one on the dust doth rise;",
       BBE: "I am certain that my saviour is living, and that in the end he will take his place on the earth.",
       RVA: "Yo sé que mi Redentor vive, y que al fin se levantará sobre el polvo.",
+      ALM1911: "Porque eu sei que o meu Redemptor vive, e que estará em pé no derradeiro dia sobre o pó.",
     },
   },
   {
@@ -329,6 +384,7 @@ export const VERSES = [
       YLT: "Where wast thou when I founded earth? declare, if thou hast known understanding.",
       BBE: "Where were you when I put the earth's base in place?",
       RVA: "¿Dónde estabas tú cuando yo fundaba la tierra?",
+      ALM1911: "Onde estavas tu, quando eu fundava a terra? faze-m'o saber, se tens intelligencia.",
     },
   },
   {
@@ -340,6 +396,7 @@ export const VERSES = [
       YLT: "By the hearing of the ear I heard Thee, and now mine eye hath seen Thee,",
       BBE: "I had word of you by the hearing of the ear, but now my eye has seen you.",
       RVA: "De oídas te había oído; mas ahora mis ojos te ven.",
+      ALM1911: "Com o ouvido das orelhas te ouvi, mas agora te vê o meu olho.",
     },
   },
   {
@@ -351,6 +408,7 @@ export const VERSES = [
       YLT: "Lo, He doth slay me -- I wait not! Only, my ways unto His face I argue.",
       BBE: "Even if he puts me to death, I will keep on trusting him.",
       RVA: "He aquí, aunque él me matare, en él esperaré.",
+      ALM1911: "Ainda que me matasse, n'elle esperarei; comtudo os meus caminhos defenderei diante d'elle.",
     },
   },
   {
@@ -362,6 +420,7 @@ export const VERSES = [
       YLT: "Man, born of a woman, Is few of days, and satisfied with trouble.",
       BBE: "Man who is born of woman has a short life, full of trouble.",
       RVA: "El hombre nacido de mujer, corto de días, y harto de sinsabores.",
+      ALM1911: "O homem nascido da mulher é curto de dias e farto de inquietação.",
     },
   },
   {
@@ -373,6 +432,7 @@ export const VERSES = [
       YLT: "Jehovah is my shepherd, I do not want.",
       BBE: "The Lord is my shepherd; I will not be in need.",
       RVA: "Jehová es mi pastor; nada me faltará.",
+      ALM1911: "O Senhor é o meu pastor, nada me faltará.",
     },
   },
   {
@@ -384,6 +444,7 @@ export const VERSES = [
       YLT: "My soul He refresheth, He leadeth me in paths of righteousness, For His name's sake.",
       BBE: "He gives new life to my soul: he takes me in the right paths, because of his name.",
       RVA: "Confortará mi alma; me guiará por sendas de justicia por amor de su nombre.",
+      ALM1911: "Refrigera a minha alma; guia-me pelas veredas da justiça, por amor do seu nome.",
     },
   },
   {
@@ -395,6 +456,7 @@ export const VERSES = [
       YLT: "Yea, though I walk in a valley of death-shade, I fear no evil, for Thou art with me,",
       BBE: "Even if I go through the valley of the shadow of death, I will have no fear of evil: for you are with me.",
       RVA: "Aunque ande en valle de sombra de muerte, no temeré mal alguno, porque tú estarás conmigo.",
+      ALM1911: "Ainda que eu andasse pelo valle da sombra da morte, não temeria mal algum, porque tu estás comigo; a tua vara e o teu cajado me consolam.",
     },
   },
   {
@@ -406,6 +468,7 @@ export const VERSES = [
       YLT: "Only -- goodness and kindness pursue me, all days of my life,",
       BBE: "Truly goodness and mercy will be with me all the days of my life.",
       RVA: "Ciertamente el bien y la misericordia me seguirán todos los días de mi vida.",
+      ALM1911: "Certamente que a bondade e a misericordia me seguirão todos os dias da minha vida: e habitarei na casa do Senhor por longos dias.",
     },
   },
   {
@@ -417,6 +480,7 @@ export const VERSES = [
       YLT: "In the evening lodge doth weeping, And at morning -- singing.",
       BBE: "Crying may go on for a night, but joy comes in the morning.",
       RVA: "Por la tarde durará el lloro, y a la mañana vendrá la alegría.",
+      ALM1911: "Porque a sua ira dura só um momento; no seu favor está a vida: o choro pode durar uma noite, mas a alegria vem pela manhã.",
     },
   },
   {
@@ -428,6 +492,7 @@ export const VERSES = [
       YLT: "Thou hast turned my mourning to dancing to me,",
       BBE: "You have turned my sorrow into dancing for me.",
       RVA: "Has tornado mi lamento en danza.",
+      ALM1911: "Tornaste o meu pranto em folguedo: desataste o meu sacco, e me cingiste de alegria:",
     },
   },
   {
@@ -439,6 +504,7 @@ export const VERSES = [
       YLT: "Strengthen yourselves, and He doth strengthen your heart, All ye who are waiting for Jehovah!",
       BBE: "Take heart, and let your heart be strong, all you who put your hope in the Lord.",
       RVA: "Esforzaos todos vosotros los que esperáis en Jehová, y tome ánimo vuestro corazón.",
+      ALM1911: "Esforçae-vos, e elle fortalecerá o vosso coração, vós todos que esperaes no Senhor.",
     },
   },
   {
@@ -450,6 +516,7 @@ export const VERSES = [
       YLT: "Near is Jehovah to the broken of heart, And the bruised of spirit He saveth.",
       BBE: "The Lord is near to those whose hearts are broken; and he is the saviour of those who have no pride of spirit.",
       RVA: "Cercano está Jehová a los quebrantados de corazón; y salvará a los contritos de espíritu.",
+      ALM1911: "Perto está o Senhor dos que teem o coração quebrantado, e salva os contritos de espirito.",
     },
   },
   {
@@ -461,6 +528,7 @@ export const VERSES = [
       YLT: "Taste ye and see that Jehovah is good, O the happiness of the man who trusteth in Him.",
       BBE: "O taste and see that the Lord is good: happy is the man who puts his trust in him.",
       RVA: "Gustad, y ved que es bueno Jehová; dichoso el hombre que confía en él.",
+      ALM1911: "Provae, e vêde que o Senhor é bom; bemaventurado o homem que n'elle confia.",
     },
   },
   {
@@ -472,6 +540,7 @@ export const VERSES = [
       YLT: "This poor one called, and Jehovah heard, And from all his distresses saved him.",
       BBE: "This poor man's cry came to the Lord's ears, and he saved him out of all his troubles.",
       RVA: "Este pobre clamó, y lo oyó Jehová, y lo libró de todas sus angustias.",
+      ALM1911: "Clamou este pobre, e o Senhor o ouviu, e o salvou de todas as suas angustias.",
     },
   },
   {
@@ -483,6 +552,7 @@ export const VERSES = [
       YLT: "And delight thyself on Jehovah, And He giveth to thee the petitions of thy heart.",
       BBE: "Have your delight in the Lord; and he will give you your heart's desires.",
       RVA: "Deléitate asimismo en Jehová, y él te dará las peticiones de tu corazón.",
+      ALM1911: "Deleita-te tambem no Senhor, e te concederá os desejos do teu coração.",
     },
   },
   {
@@ -494,6 +564,7 @@ export const VERSES = [
       YLT: "Be silent for Jehovah, and stay thyself for Him,",
       BBE: "Rest in the Lord, and keep waiting for him with patience.",
       RVA: "Guarda silencio delante de Jehová, y espera en él con paciencia.",
+      ALM1911: "Descança no Senhor, e espera n'elle; não te indignes por causa d'aquelle que prospera em seu caminho, por causa do homem que executa astutos intentos.",
     },
   },
   {
@@ -505,6 +576,7 @@ export const VERSES = [
       YLT: "Young I have been, I have also become old, And I have not seen the righteous forsaken,",
       BBE: "I have been young, and now am old; but I have never seen the upright man given up.",
       RVA: "Joven fui, y he envejecido, y no he visto justo desamparado.",
+      ALM1911: "Fui moço, e agora sou velho; mas nunca vi desamparado o justo, nem a sua semente a mendigar o pão.",
     },
   },
   {
@@ -516,6 +588,7 @@ export const VERSES = [
       YLT: "God is to us a refuge and strength, A help in adversities found most surely.",
       BBE: "God is our safe place and our strength, a very present help in trouble.",
       RVA: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones.",
+      ALM1911: "Deus é o nosso refugio e fortaleza, soccorro bem presente na angustia.",
     },
   },
   {
@@ -527,6 +600,7 @@ export const VERSES = [
       YLT: "Desist, and know that I am God,",
       BBE: "Be quiet, and see that I am God.",
       RVA: "Estad quietos, y conoced que yo soy Dios.",
+      ALM1911: "Aquietae-vos, e sabei que eu sou Deus; serei exaltado entre as nações; serei exaltado sobre a terra.",
     },
   },
   {
@@ -538,6 +612,7 @@ export const VERSES = [
       YLT: "A clean heart create for me, O God, And a stedfast spirit renew within me.",
       BBE: "Make a clean heart in me, O God; give me a new upright spirit.",
       RVA: "Crea en mí, oh Dios, un corazón limpio, y renueva un espíritu recto dentro de mí.",
+      ALM1911: "Cria em mim, ó Deus, um coração puro, e renova em mim um espirito recto.",
     },
   },
   {
@@ -549,6 +624,7 @@ export const VERSES = [
       YLT: "Cast on Jehovah that which He hath given thee, And He doth sustain thee,",
       BBE: "Put your troubles into the hands of the Lord, and he will be your support.",
       RVA: "Echa sobre Jehová tu carga, y él te sustentará.",
+      ALM1911: "Lança a tua carga sobre o Senhor, e elle te susterá: não permittirá nunca que o justo seja abalado.",
     },
   },
   {
@@ -560,6 +636,7 @@ export const VERSES = [
       YLT: "The day I am afraid, I am confident toward Thee.",
       BBE: "When I am full of fear, I will put my trust in you.",
       RVA: "En el día que temo, yo en ti confío.",
+      ALM1911: "Em qualquer tempo que eu temer, me confiarei de ti.",
     },
   },
   {
@@ -571,6 +648,7 @@ export const VERSES = [
       YLT: "My wandering Thou hast counted, Thou placest my tear in Thy bottle,",
       BBE: "You keep an account of my wanderings: put my tears into your bottle.",
       RVA: "Mis huidas has contado tú; pon mis lágrimas en tu redoma.",
+      ALM1911: "Tu contas as minhas vagueações; põe as minhas lagrimas no teu odre: não estão ellas no teu livro?",
     },
   },
   {
@@ -582,6 +660,7 @@ export const VERSES = [
       YLT: "Only -- for God, be silent, O my soul, For from Him is my hope.",
       BBE: "My soul, be quiet and wait only for God; for my hope is from him.",
       RVA: "Alma mía, en Dios solamente reposa, porque de él es mi esperanza.",
+      ALM1911: "Ó minha alma, espera sómente em Deus, porque d'elle vem a minha esperança.",
     },
   },
   {
@@ -593,6 +672,7 @@ export const VERSES = [
       YLT: "In the abundance of my thoughts within me, Thy comforts delight my soul.",
       BBE: "When my thoughts within me are many, your comforts give joy to my soul.",
       RVA: "En la multitud de mis pensamientos dentro de mí, tus consuelos alegraban mi alma.",
+      ALM1911: "Na multidão dos meus pensamentos dentro de mim, as tuas consolações recrearam a minha alma.",
     },
   },
   {
@@ -604,6 +684,7 @@ export const VERSES = [
       YLT: "Come, we sing to Jehovah, We shout to the rock of our salvation.",
       BBE: "O come, let us make songs to the Lord; let us make a glad sound to the Rock of our salvation.",
       RVA: "Venid, cantemos alegremente a Jehová; cantemos con júbilo a la roca de nuestra salvación.",
+      ALM1911: "Vinde, cantemos ao Senhor: jubilemos á rocha da nossa salvação.",
     },
   },
   {
@@ -615,6 +696,7 @@ export const VERSES = [
       YLT: "Shout to Jehovah, all the earth.",
       BBE: "Make a glad sound to the Lord, all the earth.",
       RVA: "Cantad alegres a Jehová, toda la tierra.",
+      ALM1911: "Celebrae com jubilo ao Senhor, todas as terras.",
     },
   },
   {
@@ -626,6 +708,7 @@ export const VERSES = [
       YLT: "Come in to His gates with thanksgiving, To His courts with praise, Give thanks to Him, bless His name.",
       BBE: "Go in through his doors with thanks, and into his house with praise: give him thanks, blessing his name.",
       RVA: "Entrad por sus puertas con acción de gracias, por sus atrios con alabanza; dadle gracias, bendecid su nombre.",
+      ALM1911: "Entrae pelas portas d'elle com louvor, e em seus atrios com hymno: louvae-o, e bemdizei o seu nome.",
     },
   },
   {
@@ -637,6 +720,7 @@ export const VERSES = [
       YLT: "Who is forgiving all thine iniquities, Who is healing all thy diseases,",
       BBE: "Who has forgiveness for all your sins; who takes away all your diseases.",
       RVA: "El que perdona todas tus iniquidades, el que sana todas tus dolencias.",
+      ALM1911: "O que perdôa todas as tuas iniquidades, que sara todas as tuas enfermidades,",
     },
   },
   {
@@ -648,6 +732,7 @@ export const VERSES = [
       YLT: "As the distance of east from west He hath put far from us our transgressions.",
       BBE: "As far as the east is from the west, so far has he put our sins away from us.",
       RVA: "Cuanto está lejos el oriente del occidente, hizo alejar de nosotros nuestras rebeliones.",
+      ALM1911: "Assim como está longe o oriente do occidente, assim affasta de nós as nossas transgressões.",
     },
   },
   {
@@ -659,6 +744,7 @@ export const VERSES = [
       YLT: "As a father hath mercy on sons, Jehovah hath mercy on those fearing Him.",
       BBE: "Like a father has pity on his children, so the Lord has pity on those who fear him.",
       RVA: "Como el padre se compadece de los hijos, se compadece Jehová de los que le temen.",
+      ALM1911: "Assim como um pae se compadece de seus filhos, assim o Senhor se compadece d'aquelles que o temem.",
     },
   },
   {
@@ -670,6 +756,7 @@ export const VERSES = [
       YLT: "Bless, O my soul, Jehovah, And forget not all His benefits,",
       BBE: "Give praise to the Lord, O my soul, and do not let any of his good gifts go out of your memory.",
       RVA: "Bendice, alma mía, a Jehová, y no olvides ninguno de sus beneficios.",
+      ALM1911: "Bemdize, ó alma minha, ao Senhor, e não te esqueças de nenhum de seus beneficios.",
     },
   },
   {
@@ -681,6 +768,7 @@ export const VERSES = [
       YLT: "Who is giving healing to the broken of heart, And is binding up their griefs.",
       BBE: "He makes well the broken in heart, and puts a band round their wounds.",
       RVA: "Él sana a los quebrantados de corazón, y venda sus heridas.",
+      ALM1911: "Sara os quebrantados de coração, e lhes ata as suas feridas.",
     },
   },
   {
@@ -692,6 +780,7 @@ export const VERSES = [
       YLT: "He is giving number to the stars, To all of them He giveth names.",
       BBE: "He gives the number of the stars; he gives names to all of them.",
       RVA: "Él cuenta el número de las estrellas; a todas ellas llama por sus nombres.",
+      ALM1911: "Conta o numero das estrellas, chama-as a todas pelos seus nomes.",
     },
   },
   {
@@ -703,6 +792,7 @@ export const VERSES = [
       YLT: "This is the day Jehovah hath made, We rejoice and are glad in it.",
       BBE: "This is the day which the Lord has made; we will be glad and full of joy in it.",
       RVA: "Este es el día que hizo Jehová; nos gozaremos y alegraremos en él.",
+      ALM1911: "Este é o dia que fez o Senhor: regozijemo-nos, e alegremo-nos n'elle.",
     },
   },
   {
@@ -714,6 +804,7 @@ export const VERSES = [
       YLT: "Better to trust in Jehovah Than to trust in man.",
       BBE: "It is better to have faith in the Lord than to put one's hope in man.",
       RVA: "Mejor es esperar en Jehová que confiar en el hombre.",
+      ALM1911: "É melhor confiar no Senhor do que confiar no homem.",
     },
   },
   {
@@ -725,6 +816,7 @@ export const VERSES = [
       YLT: "My strength and song is Jah, And He is to me for salvation.",
       BBE: "The Lord is my strength and my song, and he has become my salvation.",
       RVA: "Mi fortaleza y mi cántico es Jehová, y ha sido mi salvación.",
+      ALM1911: "O Senhor é a minha força e o meu cantico; e se fez a minha salvação.",
     },
   },
   {
@@ -736,6 +828,7 @@ export const VERSES = [
       YLT: "I lift up mine eyes unto the hills, Whence cometh my help?",
       BBE: "I will keep my eyes on the hills: from where will my help come?",
       RVA: "Alzaré mis ojos a los montes, de donde vendrá mi socorro.",
+      ALM1911: "Levantarei os meus olhos para os montes, de onde vem a minha salvação.",
     },
   },
   {
@@ -747,6 +840,7 @@ export const VERSES = [
       YLT: "My help is from Jehovah, Maker of heaven and earth.",
       BBE: "My help comes from the Lord, who made heaven and earth.",
       RVA: "Mi socorro viene de Jehová, que hizo los cielos y la tierra.",
+      ALM1911: "O meu soccorro vem do Senhor, que fez o céu e a terra.",
     },
   },
   {
@@ -758,6 +852,7 @@ export const VERSES = [
       YLT: "Jehovah doth preserve thee from all evil, He doth preserve thy soul.",
       BBE: "The Lord will keep you safe from all evil: he will keep your soul.",
       RVA: "Jehová te guardará de todo mal; él guardará tu alma.",
+      ALM1911: "O Senhor te guardará de todo o mal: guardará a tua alma.",
     },
   },
   {
@@ -769,6 +864,7 @@ export const VERSES = [
       YLT: "They who sow in tears, in singing do reap.",
       BBE: "Those who put in seed with weeping will get in the grain with cries of joy.",
       RVA: "Los que sembraron con lágrimas, con regocijo segarán.",
+      ALM1911: "Os que semeiam em lagrimas segarão com alegria.",
     },
   },
   {
@@ -780,6 +876,7 @@ export const VERSES = [
       YLT: "If Jehovah doth not build the house, In vain have its builders laboured at it.",
       BBE: "If the Lord is not the builder of the house, its builders are working for nothing.",
       RVA: "Si Jehová no edificare la casa, en vano trabajan los que la edifican.",
+      ALM1911: "Se o Senhor não edificar a casa, em vão trabalham os que edificam: se o Senhor não guardar a cidade, em vão vigia a sentinella.",
     },
   },
   {
@@ -791,6 +888,7 @@ export const VERSES = [
       YLT: "I thank Thee, because that with wonders I have been distinguished. Wonderful are Thy works, And my soul is knowing it well.",
       BBE: "I will give you praise; for I am strangely and wonderfully made.",
       RVA: "Te alabaré, porque formidables y maravillosas son tus obras.",
+      ALM1911: "Eu te louvarei, porque de um modo terrivel, e tão maravilhoso fui feito; maravilhosas são as tuas obras, e a minha alma o sabe muito bem.",
     },
   },
   {
@@ -802,6 +900,7 @@ export const VERSES = [
       YLT: "Whither do I go from Thy Spirit? And whither from Thy face do I flee?",
       BBE: "Where may I go from your spirit? Where may I go in flight from your presence?",
       RVA: "¿Adónde me iré de tu espíritu? ¿Y adónde huiré de tu presencia?",
+      ALM1911: "Para onde me irei do teu Espirito, ou para onde fugirei da tua face?",
     },
   },
   {
@@ -813,6 +912,7 @@ export const VERSES = [
       YLT: "Search me, O God, and know my heart, Try me, and know my thoughts,",
       BBE: "Make search into me, O God, and see my heart: put me to the test, and get knowledge of my thoughts.",
       RVA: "Examíname, oh Dios, y conoce mi corazón; pruébame y conoce mis pensamientos.",
+      ALM1911: "Sonda-me, ó Deus, e conhece o meu coração: prova-me, e conhece os meus pensamentos.",
     },
   },
   {
@@ -824,6 +924,7 @@ export const VERSES = [
       YLT: "Also there Thy hand doth lead me, And Thy right hand doth hold me.",
       BBE: "Even there your hand will be my guide, your right hand will keep me safe.",
       RVA: "Aun allí me guiará tu mano, y me asirá tu diestra.",
+      ALM1911: "Até ali a tua mão me guiará e a tua dextra me susterá.",
     },
   },
   {
@@ -835,6 +936,7 @@ export const VERSES = [
       YLT: "Gracious and merciful is Jehovah, Slow to anger, and great in kindness.",
       BBE: "The Lord is kind and full of pity; slow to anger, and great in mercy.",
       RVA: "Clemente y misericordioso es Jehová, lento para la ira, y grande en misericordia.",
+      ALM1911: "Piedoso e benigno é o Senhor, soffredor e de grande misericordia.",
     },
   },
   {
@@ -846,6 +948,7 @@ export const VERSES = [
       YLT: "Near is Jehovah to all those calling Him, To all who call Him in truth.",
       BBE: "The Lord is near to all who call on him, to all who call on him in truth.",
       RVA: "Cercano está Jehová a todos los que le invocan, a todos los que le invocan de veras.",
+      ALM1911: "Perto está o Senhor de todos os que o invocam, de todos os que o invocam em verdade.",
     },
   },
   {
@@ -857,6 +960,7 @@ export const VERSES = [
       YLT: "Jehovah is supporting all who are falling, And raising up all the bowed down.",
       BBE: "The Lord is the support of all who are falling, and lifts up all those who are bent down.",
       RVA: "Sostiene Jehová a todos los que caen, y levanta a todos los oprimidos.",
+      ALM1911: "O Senhor sustenta a todos os que caem, e levanta a todos os abatidos.",
     },
   },
   {
@@ -868,6 +972,7 @@ export const VERSES = [
       YLT: "Praise ye Jah! for it is good to sing praise to our God, For it is pleasant, praise is comely.",
       BBE: "Give praise to the Lord: for it is good to make songs of praise to our God; it is pleasant, and praise is fitting.",
       RVA: "Alabad a Jehová, porque es bueno cantar salmos a nuestro Dios; porque suave y hermosa es la alabanza.",
+      ALM1911: "Louvae ao Senhor, porque é bom cantar louvores ao nosso Deus, porque é agradavel; decoroso é o louvor.",
     },
   },
   {
@@ -879,6 +984,7 @@ export const VERSES = [
       YLT: "Jehovah is accepting those fearing Him, Those waiting for His kindness.",
       BBE: "The Lord takes pleasure in those who fear him, in those who put their hope in his mercy.",
       RVA: "Se complace Jehová en los que le temen, y en los que esperan en su misericordia.",
+      ALM1911: "O Senhor se agrada dos que o temem e dos que esperam na sua misericordia.",
     },
   },
   {
@@ -890,6 +996,7 @@ export const VERSES = [
       YLT: "Thou causest me to know the path of life; Fulness of joys is with Thy presence, Pleasant things by Thy right hand for ever.",
       BBE: "In your presence there is fulness of joy; at your right hand there are pleasures for ever.",
       RVA: "Delante de ti hay hartura de alegrías; delicias a tu diestra para siempre.",
+      ALM1911: "Far-me-has ver a vereda da vida; na tua presença ha fartura de alegrias; á tua mão direita ha delicias perpetuamente.",
     },
   },
   {
@@ -901,6 +1008,7 @@ export const VERSES = [
       YLT: "I have set Jehovah before me continually, Because -- at my right hand I am not moved.",
       BBE: "I have put the Lord always before me: because he is at my right hand, I will not be moved.",
       RVA: "A Jehová he puesto siempre delante de mí; porque está a mi diestra, no seré conmovido.",
+      ALM1911: "Tenho posto o Senhor continuamente diante de mim: por isso que elle está á minha mão direita, nunca vacillarei.",
     },
   },
   {
@@ -912,6 +1020,7 @@ export const VERSES = [
       YLT: "Lines have fallen to me in pleasant places, Yea, a beauteous inheritance is for me.",
       BBE: "The lines have gone to me in pleasant places; truly, I have a fair heritage.",
       RVA: "Las cuerdas me cayeron en lugares deleitosos; también es hermosa mi heredad.",
+      ALM1911: "As linhas caem-me em logares deliciosos: sim, coube-me uma formosa herança.",
     },
   },
   {
@@ -923,6 +1032,7 @@ export const VERSES = [
       YLT: "Preserve me, O God, for I trusted in Thee.",
       BBE: "Keep me safe, O God: for in you I put my trust.",
       RVA: "Guárdame, oh Dios, porque en ti he confiado.",
+      ALM1911: "Guarda-me, ó Deus, porque em ti confio.",
     },
   },
   {
@@ -934,6 +1044,7 @@ export const VERSES = [
       YLT: "Jehovah is my light and my salvation, Whom do I fear?",
       BBE: "The Lord is my light and my salvation; who then will be a cause of fear to me?",
       RVA: "Jehová es mi luz y mi salvación; ¿de quién temeré?",
+      ALM1911: "O Senhor é a minha luz e a minha salvação; a quem temerei? O Senhor é a força da minha vida; de quem me receiarei?",
     },
   },
   {
@@ -945,6 +1056,7 @@ export const VERSES = [
       YLT: "Wait on Jehovah, be strong, And He doth strengthen thy heart, Yea, wait on Jehovah!",
       BBE: "Wait for the Lord: take heart, and let your heart be strong.",
       RVA: "Aguarda a Jehová; esfuérzate, y aliéntese tu corazón.",
+      ALM1911: "Espera no Senhor, anima-te, e elle fortalecerá o teu coração; espera pois no Senhor.",
     },
   },
   {
@@ -956,6 +1068,7 @@ export const VERSES = [
       YLT: "When my father and my mother have forsaken me, Then doth Jehovah gather me.",
       BBE: "When my father and my mother give me up, then the Lord will take me up.",
       RVA: "Aunque mi padre y mi madre me dejaran, con todo, Jehová me recogerá.",
+      ALM1911: "Porque, quando meu pae e minha mãe me desampararem, o Senhor me recolherá.",
     },
   },
   {
@@ -967,6 +1080,7 @@ export const VERSES = [
       YLT: "Unless I had believed to look on the goodness of Jehovah In the land of the living --",
       BBE: "I would have lost heart, if I had not had faith that I would see the goodness of the Lord in the land of the living.",
       RVA: "Hubiera yo desmayado, si no creyese que había de ver la bondad de Jehová en la tierra de los vivientes.",
+      ALM1911: "Pereceria sem duvida, se não cresse que veria os bens do Senhor na terra dos viventes.",
     },
   },
   {
@@ -978,6 +1092,7 @@ export const VERSES = [
       YLT: "Jehovah is my rock, and my bulwark, and my deliverer.",
       BBE: "The Lord is my rock, my strong place, and my saviour.",
       RVA: "Jehová, roca mía y castillo mío, y mi libertador.",
+      ALM1911: "O Senhor é o meu rochedo, e o meu logar forte e o meu libertador; o meu Deus, a minha fortaleza, em quem confio, o meu escudo, a força da minha salvação, e o meu alto refugio.",
     },
   },
   {
@@ -989,6 +1104,7 @@ export const VERSES = [
       YLT: "And He bringeth me out to a large place, He draweth me out, for He hath delighted in me.",
       BBE: "He took me out into a wide place: he set me free, because he had delight in me.",
       RVA: "Él me sacó a lugar espacioso; me libró, porque se agradó de mí.",
+      ALM1911: "Trouxe-me para um logar espaçoso; livrou-me, porque tinha prazer em mim.",
     },
   },
   {
@@ -1000,6 +1116,7 @@ export const VERSES = [
       YLT: "In my distress I call Jehovah... He doth hear from His temple my voice,",
       BBE: "In my trouble I made my prayer to the Lord... my voice came to his ears in his holy house.",
       RVA: "En mi angustia invoqué a Jehová... él oyó mi voz desde su templo.",
+      ALM1911: "Na angustia invoquei ao Senhor, e clamei ao meu Deus: desde o seu templo ouviu a minha voz, aos seus ouvidos chegou o meu clamor perante a sua face.",
     },
   },
   {
@@ -1011,6 +1128,7 @@ export const VERSES = [
       YLT: "The heavens are recounting the honour of God, And the work of His hands the expanse is declaring.",
       BBE: "The heavens give out the glory of God; the sky makes clear the work of his hands.",
       RVA: "Los cielos cuentan la gloria de Dios, y la expansión denuncia la obra de sus manos.",
+      ALM1911: "Os céus declararam a gloria de Deus e o firmamento annuncia a obra das suas mãos.",
     },
   },
   {
@@ -1022,6 +1140,7 @@ export const VERSES = [
       YLT: "Let the sayings of my mouth And the meditation of my heart, Be for a pleasing thing before Thee, O Jehovah,",
       BBE: "Let the words of my mouth and the thoughts of my heart be pleasing in your eyes, O Lord.",
       RVA: "Sean gratos los dichos de mi boca y la meditación de mi corazón delante de ti, oh Jehová.",
+      ALM1911: "Sejam agradaveis as palavras da minha bocca e a meditação do meu coração perante a tua face, Senhor, Rocha minha e Libertador meu",
     },
   },
   {
@@ -1033,6 +1152,7 @@ export const VERSES = [
       YLT: "Some of chariots, and some of horses, And we of the name of Jehovah our God Make mention.",
       BBE: "Some put their faith in carriages and some in horses: but we will keep in memory the name of the Lord our God.",
       RVA: "Estos confían en carros, y aquellos en caballos; mas nosotros del nombre de Jehová nuestro Dios nos acordaremos.",
+      ALM1911: "Uns confiam em carros e outros em cavallos, mas nós faremos menção do nome do Senhor nosso Deus.",
     },
   },
   {
@@ -1044,6 +1164,7 @@ export const VERSES = [
       YLT: "Fret not thyself because of evil doers, Be not envious against doers of iniquity,",
       BBE: "Do not be troubled because of evildoers, and do not be full of envy against the workers of evil.",
       RVA: "No te impacientes a causa de los malignos, ni tengas envidia de los que hacen iniquidad.",
+      ALM1911: "Não te indignes por causa dos malfeitores, nem tenhas inveja dos que obram a iniquidade.",
     },
   },
   {
@@ -1055,6 +1176,7 @@ export const VERSES = [
       YLT: "From Jehovah are the steps of a man, They have been prepared, And his way he desireth.",
       BBE: "The steps of a good man are guided by the Lord, and he takes joy in his way.",
       RVA: "Por Jehová son ordenados los pasos del hombre bueno, y él aprueba su camino.",
+      ALM1911: "Os passos de um homem bom são confirmados pelo Senhor, e deleita-se no seu caminho.",
     },
   },
   {
@@ -1066,6 +1188,7 @@ export const VERSES = [
       YLT: "I have diligently expected Jehovah, And He inclineth to me, and heareth my cry,",
       BBE: "I waited with patience for the Lord, and he turned to me and gave ear to my cry.",
       RVA: "Esperé con paciencia a Jehová, y se inclinó a mí, y oyó mi clamor.",
+      ALM1911: "Esperei com paciencia ao Senhor, e elle se inclinou para mim, e ouviu o meu clamor.",
     },
   },
   {
@@ -1077,6 +1200,7 @@ export const VERSES = [
       YLT: "And He causeth me to come up from a pit of desolation, from mud of mire, And He raiseth up on a rock my feet, He hath established my steps,",
       BBE: "He took me up out of a deep pit, out of the thick mud, and put my feet on a rock.",
       RVA: "Y me hizo sacar de un lago de miseria, del lodo cenagoso; y puso mis pies sobre peña, y enderezó mis pasos.",
+      ALM1911: "Tirou-me d'um lago horrivel, d'um charco de lodo, poz os meus pés sobre uma rocha, firmou os meus passos,",
     },
   },
   {
@@ -1088,6 +1212,7 @@ export const VERSES = [
       YLT: "And He putteth in my mouth a new song, praise to our God.",
       BBE: "And he has put a new song in my mouth, a song of praise to our God.",
       RVA: "Y puso en mi boca canción nueva, alabanza a nuestro Dios. Verán esto muchos, y temerán, y esperarán en Jehová.",
+      ALM1911: "E poz um novo cantico na minha bocca, um hymno ao nosso Deus; muitos o verão, e temerão, e confiarão no Senhor.",
     },
   },
   {
@@ -1099,6 +1224,7 @@ export const VERSES = [
       YLT: "As the hart doth pant for streams of water, So my soul doth pant toward Thee, O God.",
       BBE: "As a deer cries out for streams of water, so my soul cries out for you, O God.",
       RVA: "Como el ciervo brama por las corrientes de las aguas, así clama por ti, oh Dios, el alma mía.",
+      ALM1911: "Assim como o cervo brama pelas correntes das aguas, assim brama a minha alma por ti, ó Deus!",
     },
   },
   {
@@ -1110,6 +1236,7 @@ export const VERSES = [
       YLT: "What -- bowest thou thyself, O my soul? And what -- art thou disquieted within me? Wait for God,",
       BBE: "Why are you sad, O my soul? Why are you troubled in me? Put your hope in God.",
       RVA: "¿Por qué te abates, oh alma mía, y por qué te turbas dentro de mí? Espera en Dios; porque aún he de alabarle, salvación mía y Dios mío.",
+      ALM1911: "Porque estás abatida, ó alma minha, e porque te perturbas dentro de mim? espera em Deus, pois ainda o louvarei, o qual é a salvação da minha face, e o meu Deus",
     },
   },
   {
@@ -1121,6 +1248,7 @@ export const VERSES = [
       YLT: "Therefore we fear not in the changing of earth, And in the slipping of mountains Into the heart of the seas.",
       BBE: "God is our safe place and our strength, so we will not be afraid, even if the earth is shaken.",
       RVA: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones; por tanto no temeremos, aunque la tierra sea removida.",
+      ALM1911: "Pelo que não temeremos, ainda que a terra se mude, e ainda que os montes se transportem para o meio dos mares.",
     },
   },
   {
@@ -1132,6 +1260,7 @@ export const VERSES = [
       YLT: "A river, its streams rejoice the city of God,",
       BBE: "There is a river whose streams make the city of God glad.",
       RVA: "Hay un río, cuyas corrientes alegran la ciudad de Dios, el santuario de las moradas del Altísimo.",
+      ALM1911: "Ha um rio cujas correntes alegram a cidade de Deus, o sanctuario das moradas do Altissimo.",
     },
   },
   {
@@ -1143,6 +1272,7 @@ export const VERSES = [
       YLT: "Blessed is the man who trusteth in Jehovah, And Jehovah hath been his confidence.",
       BBE: "Happy is the man who puts his trust in the Lord, whose hope is the Lord.",
       RVA: "Bendito el varón que se fía en Jehová, y cuya confianza es Jehová.",
+      ALM1911: "Porém bemdito o varão que confia no Senhor, e cuja confiança é o Senhor.",
     },
   },
   {
@@ -1154,6 +1284,7 @@ export const VERSES = [
       YLT: "Trust unto Jehovah with all thy heart, And unto thine own understanding lean not.",
       BBE: "Put your trust in the Lord with all your heart, and do not put your faith in your own wisdom.",
       RVA: "Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia.",
+      ALM1911: "Confia no Senhor com todo o teu coração, e não te estribes no teu proprio entendimento.",
     },
   },
   {
@@ -1165,6 +1296,7 @@ export const VERSES = [
       YLT: "In all thy ways know thou Him, And He doth make thy paths straight.",
       BBE: "In all your ways give thought to him, and he will make your paths straight.",
       RVA: "Reconócelo en todos tus caminos, y él enderezará tus veredas.",
+      ALM1911: "Reconhece-o em todos os teus caminhos, e elle endireitará as tuas veredas.",
     },
   },
   {
@@ -1176,6 +1308,7 @@ export const VERSES = [
       YLT: "A rejoicing heart doth good to the body,",
       BBE: "A glad heart does good like medicine.",
       RVA: "El corazón alegre produce buena disposición; mas el espíritu triste seca los huesos.",
+      ALM1911: "O coração alegre serve de bom remedio, mas o espirito abatido virá a seccar os ossos.",
     },
   },
   {
@@ -1187,6 +1320,7 @@ export const VERSES = [
       YLT: "Sorrow in the heart of man boweth down, And a good word maketh him glad.",
       BBE: "A heavy heart in a man makes him bend down, but a good word makes him glad.",
       RVA: "El cuidado congojoso en el corazón del hombre lo abate; mas la buena palabra lo alegra.",
+      ALM1911: "A solicitude no coração do homem o abate, mas uma boa palavra o alegra.",
     },
   },
   {
@@ -1198,6 +1332,7 @@ export const VERSES = [
       YLT: "Pleasant sayings are a honeycomb, Sweet to the soul, and healing to the bone.",
       BBE: "Kind words are like sweet honey, sweet to the soul and good for the body.",
       RVA: "Panal de miel son los dichos suaves; suavidad al alma y medicina a los huesos.",
+      ALM1911: "Favo de mel são as palavras suaves, doces para a alma, e saude para os ossos.",
     },
   },
   {
@@ -1209,6 +1344,7 @@ export const VERSES = [
       YLT: "A soft answer turneth back fury, And a grievous word raiseth up anger.",
       BBE: "A soft answer turns away anger, but hard words make anger come up.",
       RVA: "La blanda respuesta quita la ira; mas la palabra áspera hace subir el furor.",
+      ALM1911: "A resposta branda desvia o furor, mas a palavra de dôr suscita a ira.",
     },
   },
   {
@@ -1220,6 +1356,7 @@ export const VERSES = [
       YLT: "A tower of strength is the name of Jehovah, Into it the righteous runneth, and is set on high.",
       BBE: "The name of the Lord is a strong tower: the good man runs into it and is safe.",
       RVA: "Torre fuerte es el nombre de Jehová; a él correrá el justo, y será levantado.",
+      ALM1911: "Torre forte é o nome do Senhor; a elle correrá o justo, e estará em alto retiro.",
     },
   },
   {
@@ -1231,6 +1368,7 @@ export const VERSES = [
       YLT: "And there is a lover sticking closer than a brother.",
       BBE: "There is a friend who stays closer than a brother.",
       RVA: "El hombre que tiene amigos ha de mostrarse amigo; y amigo hay más conjunto que el hermano.",
+      ALM1911: "O homem que tem amigos haja-se amigavelmente, e ha amigo mais chegado do que um irmão.",
     },
   },
   {
@@ -1242,6 +1380,7 @@ export const VERSES = [
       YLT: "Iron by iron is sharpened, And a man sharpeneth the face of his friend.",
       BBE: "Iron makes iron sharp; so a man makes his friend's mind sharp.",
       RVA: "Hierro con hierro se aguza; y el hombre aguza el rostro de su amigo.",
+      ALM1911: "Como o ferro com o ferro se aguça, assim o homem aguça o rosto do seu amigo.",
     },
   },
   {
@@ -1253,6 +1392,7 @@ export const VERSES = [
       YLT: "As water reflecteth face to face, So the heart of man to man.",
       BBE: "As a face is seen again in water, so the heart of man is seen in man.",
       RVA: "Como en agua el rostro corresponde al rostro, así el corazón del hombre al hombre.",
+      ALM1911: "Como na agua o rosto corresponde ao rosto, assim o coração do homem ao homem.",
     },
   },
   {
@@ -1264,6 +1404,7 @@ export const VERSES = [
       YLT: "Ointment and perfume rejoice the heart, And the sweetness of one's friend -- from counsel of the soul.",
       BBE: "Oil and sweet smells make the heart glad; so does a friend's true words of good advice.",
       RVA: "El ungüento y el perfume alegran el corazón; y el amigo al hombre con el cordial consejo.",
+      ALM1911: "O oleo e o perfume alegram o coração: assim a doença do amigo d'alguem com o conselho cordial.",
     },
   },
   {
@@ -1275,6 +1416,7 @@ export const VERSES = [
       YLT: "Better are the two than the one, because they have a good reward by their labour.",
       BBE: "Two are better than one, because they get a good reward for their work.",
       RVA: "Mejores son dos que uno, porque tienen mejor paga de su trabajo.",
+      ALM1911: "Melhores são dois do que um, porque teem melhor paga do seu trabalho.",
     },
   },
   {
@@ -1286,6 +1428,7 @@ export const VERSES = [
       YLT: "For if they fall, the one raiseth up his companion, but wo to the one who falleth, and there is not a second to raise him up.",
       BBE: "For if one of them falls, the other will help him up.",
       RVA: "Porque si cayeren, el uno levantará a su compañero.",
+      ALM1911: "Porque se vierem a cair, um levanta ao seu companheiro: mas ai do que estiver só; pois, caindo, não haverá outro que o levante.",
     },
   },
   {
@@ -1297,6 +1440,7 @@ export const VERSES = [
       YLT: "And the threefold cord is not hastily broken.",
       BBE: "And a cord made of three strings is not quickly broken.",
       RVA: "Y si alguno prevaleciere contra el uno, dos estarán contra él; y cordón de tres dobleces no presto se rompe.",
+      ALM1911: "E, se alguem prevalecer contra um, os dois lhe resistirão; e o cordão de tres dobras não se quebra tão depressa.",
     },
   },
   {
@@ -1308,6 +1452,7 @@ export const VERSES = [
       YLT: "To everything -- a season, and a time to every delight under the heavens.",
       BBE: "For everything there is a season, a time for every purpose under heaven.",
       RVA: "Para todas las cosas hay sazón, y todo lo que se quiere debajo del cielo tiene su tiempo.",
+      ALM1911: "Tudo tem o seu tempo determinado, e todo o proposito debaixo do céu tem o seu tempo:",
     },
   },
   {
@@ -1319,6 +1464,7 @@ export const VERSES = [
       YLT: "Even the whole He hath made beautiful in its season.",
       BBE: "He has made everything beautiful in its time.",
       RVA: "Todo lo hizo hermoso en su tiempo.",
+      ALM1911: "Tudo fez formoso em seu tempo: tambem poz o seculo no coração d'elles, sem que o homem possa descobrir a obra que Deus fez desde o principio até ao fim.",
     },
   },
   {
@@ -1330,6 +1476,7 @@ export const VERSES = [
       YLT: "Many waters are not able to quench the love, And floods do not wash it away.",
       BBE: "Much water is not able to put out love, and rivers cannot drown it.",
       RVA: "Las muchas aguas no podrán apagar el amor, ni los ríos lo cubrirán.",
+      ALM1911: "As muitas aguas não poderiam apagar este amor, nem os rios afogal-o: ainda que desse alguem toda a fazenda de sua casa por este amor, certamente a desprezariam.",
     },
   },
   {
@@ -1341,6 +1488,7 @@ export const VERSES = [
       YLT: "And those expecting Jehovah pass to power, They raise up the pinion as eagles.",
       BBE: "But those who wait for the Lord will get new strength; they will go up on wings like eagles.",
       RVA: "Mas los que esperan en Jehová tendrán nuevas fuerzas; levantarán las alas como águilas; correrán, y no se cansarán; caminarán, y no se fatigarán.",
+      ALM1911: "Mas os que esperam no Senhor renovarão as forças, subirão com azas como aguias: correrão, e não se cançarão; caminharão, e não se fatigarão.",
     },
   },
   {
@@ -1352,6 +1500,7 @@ export const VERSES = [
       YLT: "He is giving power to the weary, And to the powerless He increaseth might.",
       BBE: "He gives strength to the tired, and to him who has no power he gives more strength.",
       RVA: "Él da esfuerzo al cansado, y multiplica las fuerzas al que no tiene ningunas.",
+      ALM1911: "Dá esforço ao cançado, e multiplica as forças ao que não tem nenhum vigor.",
     },
   },
   {
@@ -1363,6 +1512,7 @@ export const VERSES = [
       YLT: "Comfort ye, comfort ye My people, saith your God.",
       BBE: "Give comfort, give comfort to my people, says your God.",
       RVA: "Consolaos, consolaos, pueblo mío, dice vuestro Dios.",
+      ALM1911: "Consolae, consolae o meu povo, diz o vosso Deus.",
     },
   },
   {
@@ -1374,6 +1524,7 @@ export const VERSES = [
       YLT: "As a shepherd His flock He feedeth, With His arm He gathereth lambs,",
       BBE: "He will give food to his flock like a shepherd; he will take the lambs up in his arm.",
       RVA: "Como pastor apacentará su rebaño; en su brazo llevará los corderos, y en su seno los llevará.",
+      ALM1911: "Como pastor apascentará o seu rebanho; entre os seus braços recolherá os cordeirinhos, e os levará no seu seio: as paridas guiará suavemente.",
     },
   },
   {
@@ -1385,6 +1536,7 @@ export const VERSES = [
       YLT: "Be not thou afraid, for with thee I am, Look not around, for I am thy God,",
       BBE: "Have no fear, for I am with you. Do not be troubled, for I am your God.",
       RVA: "No temas, porque yo soy contigo; no desmayes, porque yo soy tu Dios que te esfuerzo.",
+      ALM1911: "Não temas, porque eu estou comtigo; não te assombres, porque eu sou teu Deus: eu te esforço, e te ajudo, e te sustento com a dextra da minha justiça.",
     },
   },
   {
@@ -1396,6 +1548,7 @@ export const VERSES = [
       YLT: "When thou passest into waters, I am with thee, And into floods, they do not overflow thee,",
       BBE: "When you go through deep waters, I will be with you; when you go through rivers, they will not go over you.",
       RVA: "Cuando pasares por las aguas, yo seré contigo; y por los ríos, no te anegarán.",
+      ALM1911: "Quando passares pelas aguas estarei comtigo, e quando pelos rios, não te submergirão: quando passares pelo fogo, não te queimarás, nem a chamma arderá em ti.",
     },
   },
   {
@@ -1407,6 +1560,7 @@ export const VERSES = [
       YLT: "Fear not, for I have redeemed thee, I have called on thy name -- thou art Mine.",
       BBE: "Have no fear, for I have made you free. I have given you your name; you are mine.",
       RVA: "No temas, porque yo te redimí; te puse nombre, mío eres tú.",
+      ALM1911: "Porém agora, assim diz o Senhor que te creou, ó Jacob, e que te formou, ó Israel: Não temas, porque eu te remi: chamei-te pelo teu nome, tu és meu.",
     },
   },
   {
@@ -1418,6 +1572,7 @@ export const VERSES = [
       YLT: "I -- I am He -- your comforter,",
       BBE: "I, even I, am the one who gives you comfort.",
       RVA: "Yo, yo soy vuestro consolador.",
+      ALM1911: "Eu, eu sou aquelle que vos consola; quem pois és tu, para que temas o homem, que é mortal? ou o filho do homem, que se tornará em feno?",
     },
   },
   {
@@ -1429,6 +1584,7 @@ export const VERSES = [
       YLT: "How comely on the mountains, Have been the feet of one proclaiming tidings,",
       BBE: "How beautiful on the mountains are the feet of the one who comes with good news.",
       RVA: "¡Cuán hermosos son sobre los montes los pies del que trae alegres nuevas!",
+      ALM1911: "Quão suaves são sobre os montes os pés do que annuncia as boas novas, o que faz ouvir a paz; do que annuncia o bem, que faz ouvir a salvação: do que diz a Sião: O teu Deus reina",
     },
   },
   {
@@ -1440,6 +1596,7 @@ export const VERSES = [
       YLT: "For in joy ye go out, and in peace ye are brought in,",
       BBE: "For you will go out with joy, and be led out in peace.",
       RVA: "Porque con alegría saldréis, y con paz seréis vueltos.",
+      ALM1911: "Porque com alegria saireis, e em paz sereis guiados: os montes e os outeiros exclamarão de prazer perante a vossa face, e todas as arvores do campo baterão as palmas.",
     },
   },
   {
@@ -1451,6 +1608,7 @@ export const VERSES = [
       YLT: "For My thoughts are not your thoughts, Nor your ways My ways, an affirmation of Jehovah.",
       BBE: "For my thoughts are not your thoughts, and your ways are not my ways, says the Lord.",
       RVA: "Porque mis pensamientos no son vuestros pensamientos, ni vuestros caminos mis caminos, dijo Jehová.",
+      ALM1911: "Porque os meus pensamentos não são os vossos pensamentos, nem os vossos caminhos os meus caminhos, diz o Senhor.",
     },
   },
   {
@@ -1462,6 +1620,7 @@ export const VERSES = [
       YLT: "Seek ye Jehovah while He may be found, Call ye Him while He is near.",
       BBE: "Look for the Lord while he may be seen, call on him while he is near.",
       RVA: "Buscad a Jehová mientras puede ser hallado; llamadle en tanto que está cercano.",
+      ALM1911: "Buscae ao Senhor emquanto se pode achar, invocae-o emquanto está perto.",
     },
   },
   {
@@ -1473,6 +1632,7 @@ export const VERSES = [
       YLT: "The Spirit of the Lord Jehovah is on me... to comfort all mourners,",
       BBE: "The Spirit of the Lord God is on me... to give comfort to all who are sad.",
       RVA: "El espíritu del Señor Jehová es sobre mí, porque me ungió Jehová; me ha enviado a predicar buenas nuevas a los abatidos, a vendar a los quebrantados de corazón, a publicar libertad a los cautivos, y a los presos abertura de la cárcel; a promulgar año de la buena voluntad de Jehová, y día de venganza del Dios nuestro; a consolar a todos los enlutados.",
+      ALM1911: "O Espirito do Senhor Jehovah está sobre mim; porque o Senhor me ungiu, para prégar boas novas aos mansos: enviou-me a restaurar os contritos de coração, a apregoar liberdade aos captivos, e a abertura de prisão aos presos; A apregoar o anno acceitavel do Senhor e o dia da vingança do nosso Deus, a consolar todos os tristes;",
     },
   },
   {
@@ -1484,6 +1644,7 @@ export const VERSES = [
       YLT: "To appoint to mourners in Zion, To give to them beauty instead of ashes, oil of joy instead of mourning,",
       BBE: "To give to those who are sad in Zion beauty in place of ashes, the oil of joy in place of sorrow.",
       RVA: "Para ordenar a los enlutados de Sión, darles gloria en lugar de ceniza, óleo de gozo en lugar del luto, manto de alegría en lugar del espíritu angustiado.",
+      ALM1911: "A ordenar aos tristes de Sião que se lhes dê ornamento por cinza, oleo de gozo por tristeza, vestidura de louvor por espirito angustiado; para que se chamem carvalhos de justiça, plantados do Senhor, para que seja glorificado.",
     },
   },
   {
@@ -1495,6 +1656,7 @@ export const VERSES = [
       YLT: "As one whom his mother comforteth, so do I comfort you,",
       BBE: "As a mother gives comfort to her child, so I will give comfort to you.",
       RVA: "Como aquel a quien consuela su madre, así os consolaré yo a vosotros.",
+      ALM1911: "Como alguem a quem consola sua mãe, assim eu vos consolarei; e em Jerusalem vós sereis consolados.",
     },
   },
   {
@@ -1506,6 +1668,7 @@ export const VERSES = [
       YLT: "In all their distress He hath had distress, And the messenger of His presence saved them,",
       BBE: "In all their trouble he was troubled with them, and the angel who is with him saved them.",
       RVA: "En toda angustia de ellos, él fue angustiado, y el ángel de su presencia los salvó.",
+      ALM1911: "Em toda a angustia d'elles elle foi angustiado, e o anjo da sua face os salvou; pelo seu amor, e pela sua compaixão elle os remiu; e os tomou, e os trouxe sobre si todos os dias da antiguidade.",
     },
   },
   {
@@ -1517,6 +1680,7 @@ export const VERSES = [
       YLT: "An imagination sustained Thou fortifiest peace! peace! for in Thee it is confident.",
       BBE: "You will keep in perfect peace the one whose mind is fixed on you, because he puts his trust in you.",
       RVA: "Tú le guardarás en completa paz, cuyo pensamiento en ti persevera; porque en ti se ha confiado.",
+      ALM1911: "Tu conservarás em paz aquelle cuja mente está firme em ti, porque confiará em ti",
     },
   },
   {
@@ -1528,6 +1692,7 @@ export const VERSES = [
       YLT: "Trust ye in Jehovah for ever, For in Jah Jehovah is a rock of ages,",
       BBE: "Put your trust in the Lord for ever, for in the Lord God is strength that has no end.",
       RVA: "Confiad en Jehová perpetuamente, porque en Jehová está la fortaleza de los siglos.",
+      ALM1911: "Confiae no Senhor perpetuamente; porque em Deus Senhor ha uma rocha eterna.",
     },
   },
   {
@@ -1539,6 +1704,7 @@ export const VERSES = [
       YLT: "A bruised reed he breaketh not, And dim flax he quencheth not,",
       BBE: "A broken stem he will not break, and a small light still burning he will not put out.",
       RVA: "La caña quebrada no quebrará, y el pábilo que humea no apagará.",
+      ALM1911: "A canna trilhada não quebrará, nem apagará o pavio que fumega: com verdade produzirá o juizo;",
     },
   },
   {
@@ -1550,6 +1716,7 @@ export const VERSES = [
       YLT: "Lo, God is my salvation, I trust, and fear not,",
       BBE: "See, God is my saviour; I will put my trust in him and not be afraid.",
       RVA: "He aquí Dios es salvación mía; me aseguraré, y no temeré.",
+      ALM1911: "Eis que Deus é a minha salvação; n'elle confiarei, e não temerei; porque a minha força e o meu cantico é Deus Jehovah, e elle foi a minha salvação.",
     },
   },
   {
@@ -1561,6 +1728,7 @@ export const VERSES = [
       YLT: "And ye have drawn waters with joy Out of the fountains of salvation.",
       BBE: "With joy you will get water out of the wells of salvation.",
       RVA: "Sacaréis aguas con gozo de las fuentes de la salud.",
+      ALM1911: "E vós tirareis aguas com alegria das fontes da salvação.",
     },
   },
   {
@@ -1572,6 +1740,7 @@ export const VERSES = [
       YLT: "The people who are walking in darkness Have seen a great light,",
       BBE: "The people who were walking in the dark have seen a great light.",
       RVA: "El pueblo que andaba en tinieblas vio gran luz.",
+      ALM1911: "O povo que andava em trevas, viu uma grande luz, e sobre os que habitavam na terra da sombra de morte resplandeceu uma luz.",
     },
   },
   {
@@ -1583,6 +1752,7 @@ export const VERSES = [
       YLT: "For a Child hath been born to us, A Son hath been given to us... and He doth call his name Wonderful, Counsellor, Mighty God, Father of Eternity, Prince of Peace.",
       BBE: "For to us a child is born, to us a son is given... and his name will be called Wonderful Guide, Strong God, Father for ever, Prince of Peace.",
       RVA: "Porque un niño nos es nacido, hijo nos es dado; y el principado sobre su hombro; y se llamará su nombre Admirable, Consejero, Dios fuerte, Padre eterno, Príncipe de paz.",
+      ALM1911: "Porque um menino nos nasceu, um filho se nos deu, e o principado está sobre os seus hombros, e o seu nome se chama Maravilhoso, Conselheiro, Deus forte, Pae da eternidade, Principe da paz.",
     },
   },
   {
@@ -1594,6 +1764,7 @@ export const VERSES = [
       YLT: "Of the increase of the government and of peace There is no end,",
       BBE: "There will be no end to the growth of his rule and of peace.",
       RVA: "Lo dilatado de su imperio y la paz no tendrán límite.",
+      ALM1911: "Da grandeza d'este principado e da paz não haverá fim, sobre o throno de David e no seu reino, para o firmar e o fortificar com juizo e com justiça, desde agora para sempre: o zelo do Senhor dos Exercitos fará isto.",
     },
   },
   {
@@ -1605,6 +1776,7 @@ export const VERSES = [
       YLT: "For I have known the thoughts that I am thinking towards you -- an affirmation of Jehovah; thoughts of peace, and not of evil, to give to you posterity and hope.",
       BBE: "For I know the thoughts I have for you, says the Lord, thoughts of peace and not of trouble, to give you a future and a hope.",
       RVA: "Porque yo sé los pensamientos que tengo acerca de vosotros, dice Jehová, pensamientos de paz, y no de mal, para daros el fin que esperáis.",
+      ALM1911: "Porque eu bem sei os pensamentos que eu penso de vós, diz o Senhor; pensamentos de paz, e não de mal, para vos dar o fim que esperaes.",
     },
   },
   {
@@ -1616,6 +1788,7 @@ export const VERSES = [
       YLT: "And ye have called Me, and ye have gone, and prayed unto Me, and I have hearkened unto you,",
       BBE: "Then you will call on me, and you will go and pray to me, and I will give ear to you.",
       RVA: "Entonces me invocaréis, e iréis y oraréis a mí, y yo os oiré.",
+      ALM1911: "Então me invocareis, e ireis, e orareis a mim, e eu vos ouvirei.",
     },
   },
   {
@@ -1627,6 +1800,7 @@ export const VERSES = [
       YLT: "And ye have sought Me, and have found, for ye seek Me with all your heart.",
       BBE: "And you will be looking for me, and you will see me, when you make search for me with all your heart.",
       RVA: "Y me buscaréis y hallaréis, porque me buscaréis de todo vuestro corazón.",
+      ALM1911: "E buscar-me-heis, e me achareis, quando me buscardes com todo o vosso coração.",
     },
   },
   {
@@ -1638,6 +1812,7 @@ export const VERSES = [
       YLT: "Blessed is the man who trusteth in Jehovah, And Jehovah hath been his confidence. And he hath been as a tree planted by waters,",
       BBE: "Happy is the man who puts his trust in the Lord, whose hope is the Lord. He will be like a tree planted by the waters.",
       RVA: "Bendito el varón que se fía en Jehová, y cuya confianza es Jehová. Porque él será como el árbol plantado junto a las aguas, que junto a la corriente echará sus raíces, y no verá cuando viniere el calor, sino que su hoja estará verde; y en el año de sequía no se fatigará, ni dejará de dar fruto.",
+      ALM1911: "Porém bemdito o varão que confia no Senhor, e cuja confiança é o Senhor. Porque será como a arvore plantada junto ás aguas, que estende as suas raizes para o ribeiro, e não sente quando vem o calor, e a sua folha fica verde, e no anno de sequidão não se afadiga, nem deixa de dar fructo.",
     },
   },
   {
@@ -1649,6 +1824,7 @@ export const VERSES = [
       YLT: "from Me is anything too wonderful?",
       BBE: "Is there anything too hard for me?",
       RVA: "¿Habrá algo que sea difícil para mí?",
+      ALM1911: "Eis que eu sou o Senhor Deus de toda a carne: porventura ser-me-hia coisa alguma maravilhosa?",
     },
   },
   {
@@ -1660,6 +1836,7 @@ export const VERSES = [
       YLT: "Call unto Me, and I answer thee, and declare to thee great and fenced things, which thou hast not known.",
       BBE: "Call to me, and I will give you an answer, and give you knowledge of great things, secret things which you have no knowledge of.",
       RVA: "Clama a mí, y te responderé, y te enseñaré cosas grandes y ocultas que tú no sabes.",
+      ALM1911: "Clama a mim, e responder-te-hei, e annunciar-te-hei coisas grandes e firmes que não sabes.",
     },
   },
   {
@@ -1671,6 +1848,7 @@ export const VERSES = [
       YLT: "Yea, a love age-during I have loved thee, Therefore I have drawn thee with kindness.",
       BBE: "I have loved you with a love that has no end; so I have kept my mercy for you and pulled you to myself.",
       RVA: "Con amor eterno te he amado; por tanto, te atraje con misericordia.",
+      ALM1911: "Ha muito que o Senhor me appareceu, dizendo: Porquanto com amor eterno te amei, por isso com benevolencia te attrahi.",
     },
   },
   {
@@ -1682,6 +1860,7 @@ export const VERSES = [
       YLT: "The kindnesses of Jehovah! For we have not been consumed, For not ended have His mercies.",
       BBE: "It is through the Lord's kindness that we are not destroyed, because his loving-pity has no end.",
       RVA: "Por la misericordia de Jehová no hemos sido consumidos, porque nunca decayeron sus misericordias.",
+      ALM1911: "As misericordias do Senhor são a causa de não sermos consumidos; porque as suas misericordias não teem fim.",
     },
   },
   {
@@ -1693,6 +1872,7 @@ export const VERSES = [
       YLT: "New every morning, abundant is Thy faithfulness.",
       BBE: "They are new every morning; great is your faithfulness.",
       RVA: "Nuevas son cada mañana; grande es tu fidelidad.",
+      ALM1911: "Novas são cada manhã; grande é a tua fidelidade.",
     },
   },
   {
@@ -1704,6 +1884,7 @@ export const VERSES = [
       YLT: "Good is Jehovah to those waiting for Him, To the soul that seeketh Him.",
       BBE: "The Lord is good to those who wait for him, to the soul that is looking for him.",
       RVA: "Bueno es Jehová a los que en él esperan, al alma que lo busca.",
+      ALM1911: "Bom é o Senhor para os que se ateem a elle, para a alma que o busca.",
     },
   },
   {
@@ -1715,6 +1896,7 @@ export const VERSES = [
       YLT: "And I have given to you a new heart, and a new spirit I give in your midst,",
       BBE: "I will give you a new heart, and put a new spirit in you.",
       RVA: "Os daré corazón nuevo, y pondré espíritu nuevo dentro de vosotros.",
+      ALM1911: "E vos darei um coração novo, e porei dentro de vós um espirito novo; e tirarei o coração de pedra da vossa carne, e vos darei um coração de carne.",
     },
   },
   {
@@ -1726,6 +1908,7 @@ export const VERSES = [
       YLT: "can these bones live?",
       BBE: "Is it possible for these bones to come to life?",
       RVA: "¿Podrán vivir estos huesos?",
+      ALM1911: "E me disse: Filho do homem, porventura viverão estes ossos? E eu disse: Senhor Jehovah, tu o sabes.",
     },
   },
   {
@@ -1737,6 +1920,7 @@ export const VERSES = [
       YLT: "if it be so, our God whom we are serving, is able to deliver us,",
       BBE: "Our God, whom we serve, is able to save us.",
       RVA: "He aquí, nuestro Dios a quien servimos puede librarnos.",
+      ALM1911: "Eis que é nosso Deus, a quem nós servimos, que nos pode livrar; elle nos livrará do forno de fogo ardente, e da tua mão, ó rei.",
     },
   },
   {
@@ -1748,6 +1932,7 @@ export const VERSES = [
       YLT: "And those teaching do shine as the brightness of the expanse,",
       BBE: "And those who are wise will shine like the brightness of the sky.",
       RVA: "Y los entendidos resplandecerán como el resplandor del firmamento.",
+      ALM1911: "Os entendidos pois resplandecerão como o resplandor do firmamento, e os que a muitos ensinam a justiça como as estrellas sempre e eternamente.",
     },
   },
   {
@@ -1759,6 +1944,7 @@ export const VERSES = [
       YLT: "He is giving wisdom to the wise, and knowledge to those possessing understanding.",
       BBE: "He gives wisdom to the wise, and knowledge to those who have understanding.",
       RVA: "Él da la sabiduría a los sabios, y la ciencia a los entendidos.",
+      ALM1911: "E elle muda os tempos e as horas; elle remove os reis e estabelece os reis: elle dá sabedoria aos sabios e sciencia aos entendidos.",
     },
   },
   {
@@ -1770,6 +1956,7 @@ export const VERSES = [
       YLT: "I heal their backsliding, I love them freely, For turned back hath Mine anger from him.",
       BBE: "I will make their turning away well again, I will love them freely, for my anger is turned from them.",
       RVA: "Yo sanaré su rebelión, los amaré de pura gracia; porque mi furor se apartó de ellos.",
+      ALM1911: "Eu sararei a sua perversão, eu voluntariamente os amarei; porque a minha ira se apartou d'elles.",
     },
   },
   {
@@ -1781,6 +1968,7 @@ export const VERSES = [
       YLT: "Come, and we turn back unto Jehovah, For He hath torn, and He doth heal us,",
       BBE: "Come, let us go back to the Lord, for he has torn us and he will make us well again.",
       RVA: "Venid y volvamos a Jehová, porque él arrebató, y nos curará.",
+      ALM1911: "Vinde, e tornemos ao Senhor, porque elle despedaçou, e nos sarará, feriu, e nos atará a ferida.",
     },
   },
   {
@@ -1792,6 +1980,7 @@ export const VERSES = [
       YLT: "And I have recompensed to you the years that consumed hath the locust,",
       BBE: "And I will give back to you the years that the locusts have eaten.",
       RVA: "Y os restituiré los años que comió la langosta.",
+      ALM1911: "E restituir-vos-hei os annos que comeu o gafanhoto, a locusta, e o pulgão e a aruga, o meu grande exercito que enviei contra vós.",
     },
   },
   {
@@ -1803,6 +1992,7 @@ export const VERSES = [
       YLT: "And Jehovah is a refuge to His people, And a stronghold to sons of Israel.",
       BBE: "The Lord will be a safe place for his people, and strength for the children of Israel.",
       RVA: "Y Jehová será la esperanza de su pueblo, y la fortaleza de los hijos de Israel.",
+      ALM1911: "E o Senhor bramará de Sião, e dará a sua voz de Jerusalem, e os céus e a terra tremerão; mas o Senhor será o refugio do seu povo, e a fortaleza dos filhos de Israel.",
     },
   },
   {
@@ -1814,6 +2004,7 @@ export const VERSES = [
       YLT: "Seek good, and not evil, that ye may live, and it is so, Jehovah... is with you,",
       BBE: "Give your minds to what is good and not to what is evil, so that you may have life, and so the Lord... will be with you.",
       RVA: "Buscad lo bueno, y no lo malo, para que viváis; porque así Jehová, Dios de los ejércitos, será con vosotros.",
+      ALM1911: "Buscae o bem, e não o mal, para que vivaes: e assim o Senhor, o Deus dos Exercitos, estará comvosco, como dizeis.",
     },
   },
   {
@@ -1825,6 +2016,7 @@ export const VERSES = [
       YLT: "of Jehovah is salvation.",
       BBE: "Salvation comes from the Lord.",
       RVA: "La salvación es de Jehová.",
+      ALM1911: "Mas eu te sacrificarei com a voz do agradecimento; o que votei pagarei: do Senhor vem a salvação.",
     },
   },
   {
@@ -1836,6 +2028,7 @@ export const VERSES = [
       YLT: "He hath declared to thee, O man, what is good; Yea, what is Jehovah requiring of thee, Except -- to do judgment, and love kindness, And lowly to walk with thy God?",
       BBE: "He has made clear to you, O man, what is good. What does the Lord ask of you but to do what is right, to love mercy, and to walk without pride before your God?",
       RVA: "Oh hombre, él te ha declarado qué sea lo bueno, y qué pide Jehová de ti: solamente hacer juicio, y amar misericordia, y humillarte para andar con tu Dios.",
+      ALM1911: "Elle te declarou, ó homem, o que é bom; e que é o que o Senhor pede de ti, senão que pratiques a justiça, e ames a beneficencia, e andes humildemente com o teu Deus",
     },
   },
   {
@@ -1847,6 +2040,7 @@ export const VERSES = [
       YLT: "Who is a God like Thee? Taking away iniquity... He hath not held on His anger for ever, Because a lover of kindness is He.",
       BBE: "Who is a God like you, who takes away sin... he does not keep his anger for ever, because he takes joy in mercy.",
       RVA: "¿Qué Dios como tú, que perdona la maldad y olvida el pecado del remanente de su heredad? No retiene para siempre su enojo, porque se deleita en misericordia.",
+      ALM1911: "Quem é Deus similhante a ti, que perdoa a iniquidade, e que passa pela rebellião do restante da sua herança? não retem a sua ira para sempre, porque tem prazer na benignidade.",
     },
   },
   {
@@ -1858,6 +2052,7 @@ export const VERSES = [
       YLT: "Good is Jehovah for a strong place in a day of distress, And He is knowing those trusting in Him.",
       BBE: "The Lord is good, a strong place in the day of trouble; and he knows those who put their trust in him.",
       RVA: "Bueno es Jehová para fortaleza en el día de angustia; y conoce a los que en él confían.",
+      ALM1911: "O Senhor é bom, elle serve de fortaleza no dia da angustia, e conhece aos que confiam n'elle.",
     },
   },
   {
@@ -1869,6 +2064,7 @@ export const VERSES = [
       YLT: "Though the fig-tree doth not flourish... Yet I -- in Jehovah I exult, I joy in the God of my salvation.",
       BBE: "Though the fig tree does not put out flowers... I will still have joy in the Lord, I will be glad in the God of my salvation.",
       RVA: "Aunque la higuera no florecerá, ni en las vides habrá frutos; la obra de la oliva mentirá, y los labrados no darán mantenimiento; y las ovejas serán taladas de la majada, y no habrá vacas en los corrales; con todo yo me alegraré en Jehová, y me gozaré en el Dios de mi salud.",
+      ALM1911: "Porque ainda que a figueira não floresça, nem haja fructo na vide; o producto da oliveira minta, e os campos não produzam mantimento; as ovelhas da malhada sejam arrebatadas, e nos curraes não haja vaccas: Todavia eu me alegrarei no Senhor: gozar-me-hei no Deus da minha salvação.",
     },
   },
   {
@@ -1880,6 +2076,7 @@ export const VERSES = [
       YLT: "the righteous by his stedfastness liveth.",
       BBE: "The upright man will have life by his faith.",
       RVA: "El justo por su fe vivirá.",
+      ALM1911: "Eis que de preguiça se retira, não é recta n'elle; mas o justo pela sua fé viverá.",
     },
   },
   {
@@ -1891,6 +2088,7 @@ export const VERSES = [
       YLT: "Jehovah thy God is in thy midst, A mighty one doth save, He rejoiceth over thee with joy,",
       BBE: "The Lord your God is among you, a mighty one; he will give you salvation; he will have great joy over you.",
       RVA: "Jehová está en medio de ti, poderoso, él salvará; se gozará sobre ti con alegría.",
+      ALM1911: "O Senhor teu Deus está no meio de ti, poderoso te salvará; elle se deleitará em ti com alegria; calar-se-ha por seu amor, regozijar-se-ha em ti com jubilo.",
     },
   },
   {
@@ -1902,6 +2100,7 @@ export const VERSES = [
       YLT: "Greater is the honour of this latter house, Than of the former... and in this place do I give peace.",
       BBE: "The glory of this last house will be greater than the glory of the first... and in this place I will give peace.",
       RVA: "La gloria postrera de esta casa será mayor que la primera, dice Jehová de los ejércitos; y daré paz en este lugar.",
+      ALM1911: "A gloria d'esta ultima casa será maior do que a da primeira, diz o Senhor dos Exercitos, e n'este logar darei a paz, diz o Senhor dos Exercitos.",
     },
   },
   {
@@ -1913,6 +2112,7 @@ export const VERSES = [
       YLT: "Not by a force, nor by power, But -- by My Spirit, said Jehovah of Hosts.",
       BBE: "Not by strength, and not by power, but by my spirit, says the Lord of armies.",
       RVA: "No con ejército, ni con fuerza, sino con mi espíritu, dice Jehová de los ejércitos.",
+      ALM1911: "E respondeu, e me fallou, dizendo: Esta é a palavra do Senhor a Zorobabel, dizendo: Não por força nem por violencia, mas sim pelo meu Espirito, diz o Senhor dos Exercitos.",
     },
   },
   {
@@ -1924,6 +2124,7 @@ export const VERSES = [
       YLT: "Turn back to a fortress, ye prisoners of the hope,",
       BBE: "Turn to the strong place, you prisoners who have hope.",
       RVA: "Volveos a la fortaleza, oh presos de esperanza.",
+      ALM1911: "Voltae á fortaleza ó presos de esperança: tambem hoje vos annuncio que vos renderei em dobro.",
     },
   },
   {
@@ -1935,6 +2136,7 @@ export const VERSES = [
       YLT: "given to you, ye who fear My name, Hath the sun of righteousness, And healing is in its wings,",
       BBE: "But for you who give honour to my name, the sun of righteousness will come up with healing in its wings.",
       RVA: "Mas a vosotros los que teméis mi nombre, nacerá el Sol de justicia, y en sus alas traerá salud.",
+      ALM1911: "Mas a vós, que temeis o meu nome, nascerá o sol da justiça, e saude trará debaixo das suas azas; e saireis, e crescereis como os bezerros do cevadouro.",
     },
   },
   {
@@ -1946,6 +2148,7 @@ export const VERSES = [
       YLT: "Happy the mourning -- because they shall be comforted.",
       BBE: "Happy are those who are sad, for they will be comforted.",
       RVA: "Bienaventurados los que lloran, porque ellos recibirán consolación.",
+      ALM1911: "Bemaventurados os que choram, porque elles serão consolados;",
     },
   },
   {
@@ -1957,6 +2160,7 @@ export const VERSES = [
       YLT: "Happy the poor in spirit -- because theirs is the reign of the heavens.",
       BBE: "Happy are the poor in spirit, for the kingdom of heaven is theirs.",
       RVA: "Bienaventurados los pobres en espíritu, porque de ellos es el reino de los cielos.",
+      ALM1911: "Bemaventurados os pobres de espirito, porque d'elles é o reino dos céus;",
     },
   },
   {
@@ -1968,6 +2172,7 @@ export const VERSES = [
       YLT: "Ye are the light of the world.",
       BBE: "You are the light of the world.",
       RVA: "Vosotros sois la luz del mundo.",
+      ALM1911: "Vós sois a luz do mundo: não se pode esconder uma cidade edificada sobre um monte,",
     },
   },
   {
@@ -1979,6 +2184,7 @@ export const VERSES = [
       YLT: "So let your light shine before men, that they may see your good works, and may glorify your Father who is in the heavens.",
       BBE: "Let your light so shine before men, so that they may see your good works and give glory to your Father in heaven.",
       RVA: "Así alumbre vuestra luz delante de los hombres, para que vean vuestras obras buenas, y glorifiquen a vuestro Padre que está en los cielos.",
+      ALM1911: "Assim resplandeça a vossa luz diante dos homens, para que vejam as vossas boas obras, e glorifiquem a vosso Pae, que está nos céus.",
     },
   },
   {
@@ -1990,6 +2196,7 @@ export const VERSES = [
       YLT: "Be not therefore anxious for the morrow, for the morrow shall be anxious for its own things; sufficient for the day is the evil of it.",
       BBE: "So do not be troubled about tomorrow, for tomorrow will take care of itself.",
       RVA: "Así que, no os congojéis por el día de mañana, porque el día de mañana traerá su afán.",
+      ALM1911: "Não vos inquieteis pois pelo dia d'ámanhã, porque o dia d'ámanhã cuidará de si mesmo. Basta a cada dia o seu mal.",
     },
   },
   {
@@ -2001,6 +2208,7 @@ export const VERSES = [
       YLT: "Look to the fowls of the heaven, for they do not sow, nor reap, nor gather... and your heavenly Father doth nourish them;",
       BBE: "Look at the birds of the air: they do not plant seeds, they do not gather grain... yet your Father in heaven gives them food.",
       RVA: "Mirad las aves del cielo, que ni siembran, ni siegan, ni allegan en alfolíes; y vuestro Padre celestial las alimenta.",
+      ALM1911: "Olhae para as aves do céu, que nem semeiam, nem segam, nem ajuntam em celleiros; e vosso Pae celestial as alimenta. Não tendes vós muito mais valor do que ellas?",
     },
   },
   {
@@ -2012,6 +2220,7 @@ export const VERSES = [
       YLT: "Ask, and it shall be given to you; seek, and ye shall find; knock, and it shall be opened to you;",
       BBE: "Make a request, and it will be given to you; make a search, and you will find; give a knock, and the door will be opened to you.",
       RVA: "Pedid, y se os dará; buscad, y hallaréis; llamad, y se os abrirá.",
+      ALM1911: "Pedi, e dar-se-vos-ha; buscae, e encontrareis; batei, e abrir-se-vos-ha.",
     },
   },
   {
@@ -2023,6 +2232,7 @@ export const VERSES = [
       YLT: "Come unto me, all ye labouring and burdened, and I will give you rest,",
       BBE: "Come to me, all you who work hard and are carrying heavy loads, and I will give you rest.",
       RVA: "Venid a mí todos los que estáis trabajados y cargados, que yo os haré descansar.",
+      ALM1911: "Vinde a mim, todos os que estaes cançados e opprimidos, e eu vos alliviarei.",
     },
   },
   {
@@ -2034,6 +2244,7 @@ export const VERSES = [
       YLT: "take my yoke upon you, and learn from me, because I am meek and humble in heart, and ye shall find rest to your souls,",
       BBE: "Take my yoke on you, and become my students, for I am gentle and without pride in heart, and you will have rest for your souls.",
       RVA: "Llevad mi yugo sobre vosotros, y aprended de mí, que soy manso y humilde de corazón; y hallaréis descanso para vuestras almas.",
+      ALM1911: "Tomae sobre vós o meu jugo, e aprendei de mim, que sou manso e humilde de coração; e encontrareis descanço para as vossas almas.",
     },
   },
   {
@@ -2045,6 +2256,7 @@ export const VERSES = [
       YLT: "for my yoke is easy, and my burden is light.",
       BBE: "For my yoke is a comfort, and my load is not heavy.",
       RVA: "Porque mi yugo es fácil, y ligera mi carga.",
+      ALM1911: "Porque o meu jugo é suave e o meu fardo é leve.",
     },
   },
   {
@@ -2056,6 +2268,7 @@ export const VERSES = [
       YLT: "A bruised reed he shall not break, and smoking flax he shall not quench, till he may put forth judgment to victory,",
       BBE: "A broken stem he will not break, and a small light still burning he will not put out, till he has made righteousness overcome all.",
       RVA: "La caña cascada no quebrará, y el pábilo que humea no apagará, hasta que saque a victoria el juicio.",
+      ALM1911: "Não esmagará a canna quebrada, e não apagará o murrão que fumega, até que faça triumphar o juizo;",
     },
   },
   {
@@ -2067,6 +2280,7 @@ export const VERSES = [
       YLT: "Be of good courage, I am he, be not afraid.",
       BBE: "Take heart. It is I. Have no fear.",
       RVA: "Confiad, yo soy; no tengáis miedo.",
+      ALM1911: "Jesus, porém, lhes fallou logo, dizendo: Tende bom animo, sou eu, não tenhaes medo.",
     },
   },
   {
@@ -2078,6 +2292,7 @@ export const VERSES = [
       YLT: "with men this is impossible, but with God all things are possible.",
       BBE: "With men this is not possible; but with God all things are possible.",
       RVA: "Para con los hombres esto es imposible; mas para con Dios todo es posible.",
+      ALM1911: "E Jesus, olhando para elles, disse-lhes: Aos homens é isso impossivel, mas a Deus tudo é possivel.",
     },
   },
   {
@@ -2089,6 +2304,7 @@ export const VERSES = [
       YLT: "and lo, I am with you all the days -- till the full end of the age.",
       BBE: "See, I am with you at all times, even to the end of the world.",
       RVA: "Y he aquí, yo estoy con vosotros todos los días, hasta el fin del mundo.",
+      ALM1911: "Ensinando-as a guardar todas as coisas que eu vos tenho mandado; e eis que eu estou comvosco todos os dias, até á consummação do mundo. Amen.",
     },
   },
   {
@@ -2100,6 +2316,7 @@ export const VERSES = [
       YLT: "Happy the kind -- because they shall find kindness.",
       BBE: "Happy are those who have pity on others: for they will be given pity.",
       RVA: "Bienaventurados los misericordiosos, porque ellos alcanzarán misericordia.",
+      ALM1911: "Bemaventurados os misericordiosos, porque elles alcançarão misericordia;",
     },
   },
   {
@@ -2111,6 +2328,7 @@ export const VERSES = [
       YLT: "Be not afraid, only believe.",
       BBE: "Have no fear, only have faith.",
       RVA: "No temas; cree solamente.",
+      ALM1911: "E Jesus, tendo ouvido esta palavra que se dizia, disse ao principal da synagoga: Não temas, crê sómente.",
     },
   },
   {
@@ -2122,6 +2340,7 @@ export const VERSES = [
       YLT: "for all things are possible with God.",
       BBE: "With God all things are possible.",
       RVA: "Para con Dios, todas las cosas son posibles.",
+      ALM1911: "Jesus, porém, olhando para elles, disse: Para os homens é impossivel, mas não para Deus, porque para Deus todas as coisas são possiveis.",
     },
   },
   {
@@ -2133,6 +2352,7 @@ export const VERSES = [
       YLT: "All -- as many things as ye pray and ask -- believe that ye receive, and it shall be to you.",
       BBE: "Whatever things you desire, when you pray, have faith that you will get them, and you will have them.",
       RVA: "Todo lo que orando pidiereis, creed que lo recibiréis, y os vendrá.",
+      ALM1911: "Portanto vos digo que tudo o que pedirdes, orando, crêde que o recebereis, e tel-o-heis;",
     },
   },
   {
@@ -2144,6 +2364,7 @@ export const VERSES = [
       YLT: "Peace, be still; and the wind did lull, and there was a great calm.",
       BBE: "Peace, be still. And the wind went down, and all was calm.",
       RVA: "Calla, enmudece. Y cesó el viento, y fue hecha grande bonanza.",
+      ALM1911: "E elle, despertando, reprehendeu o vento, e disse ao mar: Cala-te, aquieta-te. E o vento se aquietou, e houve grande bonança.",
     },
   },
   {
@@ -2155,6 +2376,7 @@ export const VERSES = [
       YLT: "I believe, sir; be helping mine unbelief.",
       BBE: "Lord, I have faith; give help where my faith is weak.",
       RVA: "Creo; ayuda mi incredulidad.",
+      ALM1911: "E logo o pae do menino, clamando com lagrimas, disse: Eu creio, Senhor! ajuda a minha incredulidade.",
     },
   },
   {
@@ -2166,6 +2388,7 @@ export const VERSES = [
       YLT: "fear not, for lo, I bring you good news of great joy, that shall be to all the people,",
       BBE: "Have no fear: for see, I give you news of great joy.",
       RVA: "No temáis, porque he aquí os doy nuevas de gran gozo, que será para todo el pueblo.",
+      ALM1911: "E o anjo lhes disse: Não temaes, porque eis aqui vos dou novas de grande alegria, que será para todo o povo:",
     },
   },
   {
@@ -2177,6 +2400,7 @@ export const VERSES = [
       YLT: "and upon earth peace, among men -- good will.",
       BBE: "And on earth peace, good will to men.",
       RVA: "Y en la tierra paz, buena voluntad para con los hombres.",
+      ALM1911: "Gloria a Deus nas alturas, paz na terra, boa vontade para os homens.",
     },
   },
   {
@@ -2188,6 +2412,7 @@ export const VERSES = [
       YLT: "give, and it shall be given to you; good measure, pressed, and shaken, and running over, shall they give into your bosom,",
       BBE: "Give, and it will be given to you; a good measure, pressed down and shaken together and running over, will be put into your hands.",
       RVA: "Dad, y se os dará; medida buena, apretada, remecida y rebosando darán en vuestro seno.",
+      ALM1911: "Dae, e ser-vos-ha dado; boa medida, recalcada, sacudida e trasbordando, vos deitarão no vosso regaço; porque com a mesma medida com que medirdes vos tornarão a medir.",
     },
   },
   {
@@ -2199,6 +2424,7 @@ export const VERSES = [
       YLT: "Fear not, little flock, because your Father did delight to give you the reign;",
       BBE: "Have no fear, little flock: for it is your Father's good pleasure to give you the kingdom.",
       RVA: "No temáis, manada pequeña, porque a vuestro Padre ha placido daros el reino.",
+      ALM1911: "Não temas, ó pequeno rebanho, porque a vosso Pae agradou dar-vos o reino.",
     },
   },
   {
@@ -2210,6 +2436,7 @@ export const VERSES = [
       YLT: "seeing nothing shall be impossible with God.",
       BBE: "For with God nothing is impossible.",
       RVA: "Porque ninguna cosa es imposible para Dios.",
+      ALM1911: "Porque para Deus nada será impossivel.",
     },
   },
   {
@@ -2221,6 +2448,7 @@ export const VERSES = [
       YLT: "And my spirit was glad on God my Saviour,",
       BBE: "And my spirit is glad in God my Saviour.",
       RVA: "Y mi espíritu se alegró en Dios mi Salvador.",
+      ALM1911: "E o meu espirito se alegra em Deus meu Salvador;",
     },
   },
   {
@@ -2232,6 +2460,7 @@ export const VERSES = [
       YLT: "rejoice ye in that day, and leap, for lo, your reward is great in the heaven,",
       BBE: "Be glad, and full of joy: for your reward in heaven is great.",
       RVA: "Gozaos en aquel día, y alegraos, porque he aquí vuestro galardón es grande en los cielos.",
+      ALM1911: "Folgae n'esse dia, exultae; porque, eis que é grande o vosso galardão no céu, porque assim faziam os seus paes aos prophetas.",
     },
   },
   {
@@ -2243,6 +2472,7 @@ export const VERSES = [
       YLT: "whoever then may humble himself as this child, this one is the greater in the reign of the heavens.",
       BBE: "Whoever makes himself as low as this little child is the greatest in the kingdom of heaven.",
       RVA: "Cualquiera que se humillare como este niño, éste es el mayor en el reino de los cielos.",
+      ALM1911: "Portanto, aquelle que se humilhar como este menino, este é o maior no reino dos céus.",
     },
   },
   {
@@ -2254,6 +2484,7 @@ export const VERSES = [
       YLT: "so I say to you, joy doth come before the messengers of God over one sinner reforming.",
       BBE: "There is joy among the angels of God when one sinner has a change of heart.",
       RVA: "Hay gozo delante de los ángeles de Dios por un pecador que se arrepiente.",
+      ALM1911: "Assim vos digo que ha alegria diante dos anjos de Deus sobre um peccador que se arrepende.",
     },
   },
   {
@@ -2265,6 +2496,7 @@ export const VERSES = [
       YLT: "because this my son was dead, and did live again, and he was lost, and was found;",
       BBE: "This son of mine was dead, and is now alive again; he was lost, and now he is found.",
       RVA: "Porque este mi hijo muerto era, y ha revivido; se había perdido, y es hallado.",
+      ALM1911: "Porque este meu filho era morto, e reviveu, tinha-se perdido, e é achado. E começaram a alegrar-se.",
     },
   },
   {
@@ -2276,6 +2508,7 @@ export const VERSES = [
       YLT: "for God did so love the world, that His Son -- the only begotten -- He gave, that every one who is believing in him may not perish, but may have life age-during.",
       BBE: "For God had such love for the world that he gave his only Son, so that whoever has faith in him will not be lost, but will have life without end.",
       RVA: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito, para que todo aquel que en él cree, no se pierda, mas tenga vida eterna.",
+      ALM1911: "Porque Deus amou o mundo de tal maneira, que deu o seu Filho unigenito, para que todo aquelle que n'elle crê não pereça, mas tenha a vida eterna.",
     },
   },
   {
@@ -2287,6 +2520,7 @@ export const VERSES = [
       YLT: "peace I leave to you, my peace I give to you... let not your heart be troubled, nor let it be afraid.",
       BBE: "Peace I give to you, my own peace I give to you. Let not your heart be troubled, and have no fear.",
       RVA: "La paz os dejo, mi paz os doy... No se turbe vuestro corazón, ni tenga miedo.",
+      ALM1911: "Deixo-vos a paz, a minha paz vos dou: não vol-a dou como o mundo a dá. Não se turbe o vosso coração, nem se atemorize.",
     },
   },
   {
@@ -2298,6 +2532,7 @@ export const VERSES = [
       YLT: "these things I have spoken to you, that in me ye may have peace, in the world ye shall have tribulation, but take courage, I have overcome the world.",
       BBE: "I have said these things to you so that in me you may have peace. In the world you will have trouble: but take heart, I have overcome the world.",
       RVA: "Estas cosas os he hablado, para que en mí tengáis paz. En el mundo tendréis aflicción; mas confiad, yo he vencido al mundo.",
+      ALM1911: "Tenho-vos dito estas coisas, para que em mim tenhaes paz; no mundo tereis afflicção, mas tende bom animo, eu venci o mundo.",
     },
   },
   {
@@ -2309,6 +2544,7 @@ export const VERSES = [
       YLT: "I am the way, and the truth, and the life,",
       BBE: "I am the way, and the truth, and the life.",
       RVA: "Yo soy el camino, y la verdad, y la vida.",
+      ALM1911: "Disse-lhe Jesus: Eu sou o caminho, e a verdade e a vida. Ninguem vem ao Pae, senão por mim.",
     },
   },
   {
@@ -2320,6 +2556,7 @@ export const VERSES = [
       YLT: "in my Father's house are many mansions... I go to prepare a place for you;",
       BBE: "In my Father's house there are many rooms. I am going to make a place ready for you.",
       RVA: "En la casa de mi Padre muchas moradas hay... voy a preparar lugar para vosotros.",
+      ALM1911: "Na casa de meu Pae ha muitas moradas; senão, eu vol-o teria dito; vou preparar-vos logar.",
     },
   },
   {
@@ -2331,6 +2568,7 @@ export const VERSES = [
       YLT: "I came that they may have life, and may have it abundantly.",
       BBE: "I came so that they might have life, and have it in its fullest measure.",
       RVA: "Yo he venido para que tengan vida, y para que la tengan en abundancia.",
+      ALM1911: "O ladrão não vem senão a roubar, a matar, e a destruir: eu vim para que tenham vida, e a tenham com abundancia.",
     },
   },
   {
@@ -2342,6 +2580,7 @@ export const VERSES = [
       YLT: "I am the good shepherd; the good shepherd his life layeth down for the sheep;",
       BBE: "I am the good shepherd. The good shepherd gives his life for the sheep.",
       RVA: "Yo soy el buen pastor; el buen pastor su vida da por las ovejas.",
+      ALM1911: "Eu sou o bom Pastor: o bom Pastor dá a sua vida pelas ovelhas.",
     },
   },
   {
@@ -2353,6 +2592,7 @@ export const VERSES = [
       YLT: "I am the rising again, and the life; he who is believing in me, even if he may die, shall live;",
       BBE: "I am the rising again from the dead, and the life. He who has faith in me will still live, even if he dies.",
       RVA: "Yo soy la resurrección y la vida; el que cree en mí, aunque esté muerto, vivirá.",
+      ALM1911: "Disse-lhe Jesus: Eu sou a resurreição e a vida; quem crê em mim, ainda que esteja morto, viverá;",
     },
   },
   {
@@ -2364,6 +2604,7 @@ export const VERSES = [
       YLT: "Jesus wept.",
       BBE: "And Jesus was weeping.",
       RVA: "Y lloró Jesús.",
+      ALM1911: "Jesus chorou.",
     },
   },
   {
@@ -2375,6 +2616,7 @@ export const VERSES = [
       YLT: "If ye love me, my commands keep, and I will ask the Father, and another Comforter He will give to you,",
       BBE: "If you have love for me, keep my rules. And I will make a request to the Father, and he will give you another Helper.",
       RVA: "Si me amáis, guardad mis mandamientos. Y yo rogaré al Padre, y os dará otro Consolador.",
+      ALM1911: "Se me amaes, guardae os meus mandamentos. E eu rogarei ao Pae, e elle vos dará outro Consolador, para que fique comvosco para sempre:",
     },
   },
   {
@@ -2386,6 +2628,7 @@ export const VERSES = [
       YLT: "and the Comforter -- the Holy Spirit -- ... he shall teach you all things,",
       BBE: "But the Helper, who is the Holy Spirit, will make all things clear to you.",
       RVA: "Mas el Consolador, el Espíritu Santo... él os enseñará todas las cosas.",
+      ALM1911: "Mas aquelle Consolador, o Espirito Sancto, que o Pae enviará em meu nome, esse vos ensinará todas as coisas, e vos fará lembrar de tudo quanto vos tenho dito.",
     },
   },
   {
@@ -2397,6 +2640,7 @@ export const VERSES = [
       YLT: "these things I have spoken to you, that my joy may remain in you, and your joy may be full.",
       BBE: "I have said these things to you so that my joy may be in you, and your joy may be complete.",
       RVA: "Estas cosas os he hablado, para que mi gozo esté en vosotros, y vuestro gozo sea cumplido.",
+      ALM1911: "Tenho-vos dito estas coisas, para que o meu gozo permaneça em vós, e o vosso gozo seja cumprido.",
     },
   },
   {
@@ -2408,6 +2652,7 @@ export const VERSES = [
       YLT: "greater love than this hath no one, that any one his life may lay down for his friends.",
       BBE: "There is no greater love than this, that a man gives his life for his friends.",
       RVA: "Nadie tiene mayor amor que éste, que ponga su vida por sus amigos.",
+      ALM1911: "Ninguem tem maior amor do que este: de dar alguem a sua vida pelos seus amigos.",
     },
   },
   {
@@ -2419,6 +2664,7 @@ export const VERSES = [
       YLT: "therefore now, indeed, sorrow have ye; and again I will see you, and your heart shall rejoice, and your joy no one doth take from you,",
       BBE: "Now you have sorrow: but I will see you again, and your heart will be glad, and no one will take your joy from you.",
       RVA: "También vosotros ahora ciertamente tenéis tristeza; mas otra vez os veré, y se gozará vuestro corazón, y nadie quitará de vosotros vuestro gozo.",
+      ALM1911: "Assim tambem vós agora, na verdade, tendes tristeza; mas outra vez vos verei, e o vosso coração se alegrará, e a vossa alegria ninguem vol-a tirará.",
     },
   },
   {
@@ -2430,6 +2676,7 @@ export const VERSES = [
       YLT: "ask, and ye receive, that your joy may be full.",
       BBE: "Make your request, and it will be given to you, so that your joy may be complete.",
       RVA: "Pedid, y recibiréis, para que vuestro gozo sea cumplido.",
+      ALM1911: "Até agora nada pedistes em meu nome; pedi, e recebereis, para que o vosso gozo se cumpra.",
     },
   },
   {
@@ -2441,6 +2688,7 @@ export const VERSES = [
       YLT: "I am the light of the world; he who is following me shall not walk in the darkness, but he shall have the light of the life.",
       BBE: "I am the light of the world. He who follows me will never walk in the dark, but will have the light of life.",
       RVA: "Yo soy la luz del mundo; el que me sigue, no andará en tinieblas, mas tendrá la lumbre de la vida.",
+      ALM1911: "Fallou-lhes pois Jesus outra vez, dizendo: Eu sou a luz do mundo; quem me segue não andará em trevas, mas terá a luz da vida.",
     },
   },
   {
@@ -2452,6 +2700,7 @@ export const VERSES = [
       YLT: "if then the son may make you free, in reality ye shall be free.",
       BBE: "So Jesus said, If the Son makes you free, you will be truly free.",
       RVA: "Entonces dijo Jesús... Si el Hijo os libertare, seréis verdaderamente libres.",
+      ALM1911: "Se pois o Filho vos libertar, verdadeiramente sereis livres.",
     },
   },
   {
@@ -2463,6 +2712,7 @@ export const VERSES = [
       YLT: "and ye shall know the truth, and the truth shall make you free.",
       BBE: "And you will have knowledge of the truth, and the truth will make you free.",
       RVA: "Y conoceréis la verdad, y la verdad os hará libres.",
+      ALM1911: "E conhecereis a verdade, e a verdade vos libertará.",
     },
   },
   {
@@ -2474,6 +2724,7 @@ export const VERSES = [
       YLT: "remain stedfast in Jehovah your God, and be stedfast; give stedfast belief in His prophets, and prosper.",
       BBE: "Have faith in the Lord, and you will be kept safe. Have faith in his prophets, and things will go well for you.",
       RVA: "Creed a Jehová vuestro Dios, y seréis seguros; creed a sus profetas, y seréis prosperados.",
+      ALM1911: "E pela manhã cedo se levantaram e sairam ao deserto de Tekoa: e, saindo elles, poz-se em pé Josaphat, e disse: Ouvi-me, ó Judah, e vós, moradores de Jerusalem: Crede no Senhor vosso Deus, e estareis seguros; crede nos seus prophetas, e sereis prosperados.",
     },
   },
   {
@@ -2485,6 +2736,7 @@ export const VERSES = [
       YLT: "whom, not having seen, ye love, in whom, though now not seeing, and believing, ye are glad with joy unspeakable and glorified,",
       BBE: "You have love for him though you have not seen him; and though you do not see him now, you have faith in him and are full of a joy which cannot be given words, a joy full of glory.",
       RVA: "Al cual, no habiendo visto, le amáis; en el cual creyendo, aunque de presente no lo veáis, os alegráis con gozo inefable y glorioso.",
+      ALM1911: "Ao qual, não havendo visto, o amaes; no qual, não o vendo agora, porém crendo, vos alegraes com gozo ineffavel e glorioso;",
     },
   },
   {
@@ -2496,6 +2748,7 @@ export const VERSES = [
       YLT: "ye shall receive power, the Holy Spirit having come upon you,",
       BBE: "You will get power when the Holy Spirit comes on you.",
       RVA: "Mas recibiréis la virtud del Espíritu Santo que vendrá sobre vosotros.",
+      ALM1911: "Mas recebereis a virtude do Espirito Sancto, que ha de vir sobre vós; e ser-me-heis testemunhas, tanto em Jerusalem como em toda a Judea e Samaria, e até aos confins da terra.",
     },
   },
   {
@@ -2507,6 +2760,7 @@ export const VERSES = [
       YLT: "for in Him we live, and move, and are;",
       BBE: "For in him we have life, and move, and have our being.",
       RVA: "Porque en él vivimos, y nos movemos, y somos.",
+      ALM1911: "Porque n'elle vivemos, e nos movemos, e existimos; como tambem alguns dos vossos poetas disseram: Porque somos tambem sua geração.",
     },
   },
   {
@@ -2518,6 +2772,7 @@ export const VERSES = [
       YLT: "it is more blessed to give than to receive.",
       BBE: "It is a greater blessing to give than to get.",
       RVA: "Más bienaventurada cosa es dar que recibir.",
+      ALM1911: "Tenho-vos mostrado em tudo que, trabalhando assim, é necessario supportar os enfermos, e lembrar as palavras do Senhor Jesus, que disse: Mais bemaventurada coisa é dar do que receber.",
     },
   },
   {
@@ -2529,6 +2784,7 @@ export const VERSES = [
       YLT: "and they were all filled with the Holy Spirit,",
       BBE: "And they were all full of the Holy Spirit.",
       RVA: "Y fueron todos llenos del Espíritu Santo.",
+      ALM1911: "E todos foram cheios do Espirito Sancto, e começaram a fallar n'outras linguas, conforme o Espirito Sancto lhes concedia que fallassem.",
     },
   },
   {
@@ -2540,6 +2796,7 @@ export const VERSES = [
       YLT: "because he was a good man, and full of the Holy Spirit, and of faith,",
       BBE: "Barnabas was a good man, full of the Holy Spirit and of faith.",
       RVA: "Porque era varón bueno, y lleno del Espíritu Santo y de fe.",
+      ALM1911: "Porque era homem de bem, e cheio do Espirito Sancto e de fé. E muita gente se uniu ao Senhor.",
     },
   },
   {
@@ -2551,6 +2808,7 @@ export const VERSES = [
       YLT: "And Joses, who was surnamed Barnabas by the apostles... which is, having been interpreted, Son of Comfort,",
       BBE: "Joseph, who was given the name Barnabas by the apostles, which means Son of comfort.",
       RVA: "Y José, a quien los apóstoles pusieron por sobrenombre Bernabé, que interpretado es, Hijo de consolación.",
+      ALM1911: "Então José, cognominado pelos apostolos Barnabé (que, traduzido, é Filho de consolação), levita, natural de Chypre,",
     },
   },
   {
@@ -2562,6 +2820,7 @@ export const VERSES = [
       YLT: "and the God of the hope shall fill you with all joy and peace in the believing, for your superabounding in the hope, in power of the Holy Spirit.",
       BBE: "May the God of hope give you complete joy and peace in your faith, so that your hope may be full through the power of the Holy Spirit.",
       RVA: "Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo.",
+      ALM1911: "Ora o Deus de esperança vos encha de todo o gozo e paz na fé, para que abundeis em esperança pela virtude do Espirito Sancto.",
     },
   },
   {
@@ -2573,6 +2832,7 @@ export const VERSES = [
       YLT: "and we have known that to those loving God all things do work together for good,",
       BBE: "And we are certain that all things are working together for good to those who have love for God.",
       RVA: "Y sabemos que a los que a Dios aman, todas las cosas les ayudan a bien.",
+      ALM1911: "E sabemos que todas as coisas contribuem juntamente para o bem d'aquelles que amam a Deus, d'aquelles que são chamados por seu decreto.",
     },
   },
   {
@@ -2584,6 +2844,7 @@ export const VERSES = [
       YLT: "if God is for us, who is against us?",
       BBE: "If God is for us, who can be against us?",
       RVA: "Si Dios es por nosotros, ¿quién será contra nosotros?",
+      ALM1911: "Que diremos pois a estas coisas? Se Deus é por nós, quem será contra nós?",
     },
   },
   {
@@ -2595,6 +2856,7 @@ export const VERSES = [
       YLT: "who shall separate us from the love of the Christ?",
       BBE: "Who will come between us and the love of Christ?",
       RVA: "¿Quién nos apartará del amor de Cristo?",
+      ALM1911: "Quem nos separará do amor de Christo? A tribulação, ou a angustia, ou a perseguição, ou a fome, ou a nudez, ou o perigo, ou a espada?",
     },
   },
   {
@@ -2606,6 +2868,7 @@ export const VERSES = [
       YLT: "nor height, nor depth, nor any other created thing, shall be able to separate us from the love of God, that is in Christ Jesus our Lord.",
       BBE: "Nor height, nor depth, nor anything else in all the world, will be able to come between us and the love of God.",
       RVA: "Ni lo alto, ni lo bajo, ni ninguna criatura nos podrá apartar del amor de Dios, que es en Cristo Jesús Señor nuestro.",
+      ALM1911: "Nem a altura, nem a profundidade, nem alguma outra creatura nos poderá separar do amor de Deus, que está em Christo Jesus nosso Senhor.",
     },
   },
   {
@@ -2617,6 +2880,7 @@ export const VERSES = [
       YLT: "having been declared righteous, then, by faith, we have peace toward God through our Lord Jesus Christ,",
       BBE: "So then, made right with God by faith, we have peace with God through our Lord Jesus Christ.",
       RVA: "Justificados pues por la fe, tenemos paz para con Dios por medio de nuestro Señor Jesucristo.",
+      ALM1911: "Sendo pois justificados pela fé, temos paz com Deus, por nosso Senhor Jesus Christo;",
     },
   },
   {
@@ -2628,6 +2892,7 @@ export const VERSES = [
       YLT: "and God doth commend His own love to us, that, in our being still sinners, Christ did die for us;",
       BBE: "But God gives proof of his love for us in this: while we were still sinners, Christ gave his life for us.",
       RVA: "Mas Dios encarece su amor para con nosotros, porque siendo aún pecadores, Cristo murió por nosotros.",
+      ALM1911: "Mas Deus recommenda o seu amor para comnosco, em que Christo morreu por nós, sendo nós ainda peccadores.",
     },
   },
   {
@@ -2639,6 +2904,7 @@ export const VERSES = [
       YLT: "and the endurance, experience; and the experience, hope; and the hope doth not make ashamed,",
       BBE: "And waiting produces a tested character; and a tested character produces hope: and hope does not put us to shame.",
       RVA: "Y la paciencia, prueba; y la prueba, esperanza; y la esperanza no avergüenza.",
+      ALM1911: "E a paciencia a experiencia, e a experiencia a esperança. E a esperança não confunde, porquanto o amor de Deus está derramado em nossos corações pelo Espirito Sancto que nos foi dado",
     },
   },
   {
@@ -2650,6 +2916,7 @@ export const VERSES = [
       YLT: "and not only so, but we also boast in the tribulations, knowing that the tribulation doth work endurance;",
       BBE: "We are glad even in our troubles, because we know that trouble teaches us to keep on waiting.",
       RVA: "Nos gloriamos también en las tribulaciones, sabiendo que la tribulación produce paciencia.",
+      ALM1911: "E não sómente isto, mas tambem nos gloriamos nas tribulações; sabendo que a tribulação produz a paciencia,",
     },
   },
   {
@@ -2661,6 +2928,7 @@ export const VERSES = [
       YLT: "for I am persuaded that neither death, nor life... shall be able to separate us from the love of God,",
       BBE: "For I am certain that neither death nor life will be able to come between us and the love of God.",
       RVA: "Por lo cual estoy cierto que ni la muerte, ni la vida... nos podrá apartar del amor de Dios, que es en Cristo Jesús Señor nuestro.",
+      ALM1911: "Porque estou certo de que, nem a morte, nem a vida, nem os anjos, nem os principados, nem as potestades, nem o presente, nem o porvir, Nem a altura, nem a profundidade, nem alguma outra creatura nos poderá separar do amor de Deus, que está em Christo Jesus nosso Senhor.",
     },
   },
   {
@@ -2672,6 +2940,7 @@ export const VERSES = [
       YLT: "in the hope rejoicing; in the tribulation enduring; in the prayer persevering;",
       BBE: "Be glad in hope, keep on waiting through trouble, give your time to prayer.",
       RVA: "Gozosos en la esperanza; sufridos en la tribulación; constantes en la oración.",
+      ALM1911: "Alegrae-vos na esperança, sêde pacientes na tribulação, perseverae na oração;",
     },
   },
   {
@@ -2683,6 +2952,7 @@ export const VERSES = [
       YLT: "be not overcome by the evil, but overcome, in the good, the evil.",
       BBE: "Do not let evil overcome you, but overcome evil with good.",
       RVA: "No seas vencido de lo malo; mas vence con el bien el mal.",
+      ALM1911: "Não te deixes vencer do mal, mas vence o mal com o bem.",
     },
   },
   {
@@ -2694,6 +2964,7 @@ export const VERSES = [
       YLT: "to rejoice with the rejoicing, and to weep with the weeping.",
       BBE: "Be glad with those who are glad, and be sad with those who are sad.",
       RVA: "Gozaos con los que se gozan; llorad con los que lloran.",
+      ALM1911: "Alegrae-vos com os que se alegram; e chorae com os que choram;",
     },
   },
   {
@@ -2705,6 +2976,7 @@ export const VERSES = [
       YLT: "The love unfeigned; abhorring the evil; cleaving to the good;",
       BBE: "Let your love be true, with no pretending. Have a great hate for what is evil; keep firm to what is good.",
       RVA: "El amor sea sin fingimiento; aborreciendo lo malo, llegándoos a lo bueno.",
+      ALM1911: "O amor seja não fingido. Aborrecei o mal e apegae-vos ao bem.",
     },
   },
   {
@@ -2716,6 +2988,7 @@ export const VERSES = [
       YLT: "and may the God of the endurance and of the exhortation give to you to have the same mind toward one another, according to Christ Jesus,",
       BBE: "May the God who gives strength to wait and comfort in trouble give you the same mind toward one another.",
       RVA: "Mas el Dios de la paciencia y de la consolación os dé que entre vosotros seáis unánimes.",
+      ALM1911: "Ora o Deus de paciencia e consolação vos conceda que entre vós sintaes uma mesma coisa, segundo Jesus Christo.",
     },
   },
   {
@@ -2727,6 +3000,7 @@ export const VERSES = [
       YLT: "for, as many things as were written before, for our instruction were written before, that through the endurance, and the exhortation, of the Writings, we might have the hope.",
       BBE: "For the things which were put in writing in the past were for our learning, so that through waiting and the comfort of the holy Writings we might have hope.",
       RVA: "Porque las cosas que antes fueron escritas, para nuestra enseñanza fueron escritas, para que por la paciencia y por la consolación de las Escrituras tengamos esperanza.",
+      ALM1911: "Porque todas as coisas que d'antes foram escriptas, para nosso ensino foram escriptas, para que pela paciencia e consolação das Escripturas tenhamos esperança.",
     },
   },
   {
@@ -2738,6 +3012,7 @@ export const VERSES = [
       YLT: "and we ought -- we who are strong -- to bear the infirmities of the weak, and not to please ourselves;",
       BBE: "We who are strong should be patient with the weaknesses of those who are weak, and not just please ourselves.",
       RVA: "Así que, los que somos más firmes debemos sobrellevar las flaquezas de los flacos, y no agradarnos a nosotros mismos.",
+      ALM1911: "Mas nós, que somos fortes, devemos supportar as fraquezas dos fracos, e não agradar a nós mesmos.",
     },
   },
   {
@@ -2749,6 +3024,7 @@ export const VERSES = [
       YLT: "for the reign of God is not eating and drinking, but righteousness, and peace, and joy, in the Holy Spirit;",
       BBE: "For the kingdom of God is not food and drink, but righteousness and peace and joy in the Holy Spirit.",
       RVA: "Que el reino de Dios no es comida ni bebida, sino justicia y paz y gozo por el Espíritu Santo.",
+      ALM1911: "Porque o reino de Deus não é comida nem bebida, mas justiça, e paz, e alegria no Espirito Sancto.",
     },
   },
   {
@@ -2760,6 +3036,7 @@ export const VERSES = [
       YLT: "so, then, each of us concerning himself shall give reckoning to God;",
       BBE: "So then every one of us will have to give an answer to God for himself.",
       RVA: "De manera que cada uno de nosotros dará a Dios razón de sí mismo.",
+      ALM1911: "De maneira que cada um de nós dará conta de si mesmo a Deus.",
     },
   },
   {
@@ -2771,6 +3048,7 @@ export const VERSES = [
       YLT: "how beautiful the feet of those proclaiming good tidings of peace,",
       BBE: "How beautiful are the feet of those who give the good news of peace.",
       RVA: "¡Cuán hermosos son los pies de los que anuncian el evangelio de la paz!",
+      ALM1911: "E como prégarão, se não forem enviados? como está escripto: Quão formosos são os pés dos que annunciam a paz, dos que annunciam coisas boas!",
     },
   },
   {
@@ -2782,6 +3060,7 @@ export const VERSES = [
       YLT: "The love is long-suffering, it is kind, the love doth not envy,",
       BBE: "Love waits long and is kind. Love has no envy.",
       RVA: "La caridad es sufrida, es benigna; la caridad no tiene envidia.",
+      ALM1911: "A caridade é soffredora, é benigna: a caridade não é invejosa: a caridade não trata com leviandade, não se ensoberbece,",
     },
   },
   {
@@ -2793,6 +3072,7 @@ export const VERSES = [
       YLT: "all things it beareth, all it believeth, all it hopeth, all it endureth.",
       BBE: "Love has the strength to put up with all things, to have faith in all things, to keep hope through all things, to go on to the end whatever comes.",
       RVA: "Todo lo sufre, todo lo cree, todo lo espera, todo lo soporta.",
+      ALM1911: "Tudo soffre, tudo crê, tudo espera, tudo supporta.",
     },
   },
   {
@@ -2804,6 +3084,7 @@ export const VERSES = [
       YLT: "and now there doth remain faith, hope, love -- these three; and the greatest of these is love.",
       BBE: "And now we still have faith, hope, and love, these three; but the greatest of these is love.",
       RVA: "Y ahora permanecen la fe, la esperanza, y la caridad, estas tres; empero la mayor de ellas es la caridad.",
+      ALM1911: "Agora, pois, permanecem estas tres: a fé, a esperança e a caridade; porém a maior d'estas é a caridade.",
     },
   },
   {
@@ -2815,6 +3096,7 @@ export const VERSES = [
       YLT: "and God is faithful, who will not suffer you to be tempted above what ye are able,",
       BBE: "God is faithful. He will not let you be tested more than you are able to bear.",
       RVA: "Fiel es Dios, que no os dejará ser tentados más de lo que podéis llevar.",
+      ALM1911: "Não vos tomou tentação, senão humana; porém fiel é Deus, que vos não deixará tentar acima do que podeis, antes com a tentação dará tambem saida, para que a possaes supportar.",
     },
   },
   {
@@ -2826,6 +3108,7 @@ export const VERSES = [
       YLT: "that which eye did not see, and ear did not hear... that God did prepare for those loving Him.",
       BBE: "No eye has seen, and no ear has heard, the things which God has made ready for those who have love for him.",
       RVA: "Cosas que ojo no vio, ni oreja oyó... son las que Dios ha preparado para aquellos que le aman.",
+      ALM1911: "Mas, como está escripto: As coisas que o olho não viu, e o ouvido não ouviu, e não subiram ao coração do homem, são as que Deus preparou para os que o amam",
     },
   },
   {
@@ -2837,6 +3120,7 @@ export const VERSES = [
       YLT: "so that, my brethren beloved, become ye stedfast, unmovable, abounding in the work of the Lord at all times,",
       BBE: "So then, my dear brothers, be strong in heart, not moved from your place, giving yourselves completely to the work of the Lord.",
       RVA: "Así que, hermanos míos amados, estad firmes y constantes, creciendo en la obra del Señor siempre.",
+      ALM1911: "Portanto, meus amados irmãos, sêde firmes e constantes, sempre abundantes na obra do Senhor, sabendo que o vosso trabalho não é vão no Senhor.",
     },
   },
   {
@@ -2848,6 +3132,7 @@ export const VERSES = [
       YLT: "where, O Death, thy sting? where, O Hades, thy victory?",
       BBE: "O death, where is your sting? O grave, where is your victory?",
       RVA: "¿Dónde está, oh muerte, tu aguijón? ¿Dónde, oh sepulcro, tu victoria?",
+      ALM1911: "Onde está, ó morte, o teu aguilhão? Onde está, ó inferno, a tua victoria?",
     },
   },
   {
@@ -2859,6 +3144,7 @@ export const VERSES = [
       YLT: "watch ye, stand in the faith; be men, be strong;",
       BBE: "Keep watch, be firm in the faith, be strong, have no fear.",
       RVA: "Velad, estad firmes en la fe; portaos varonilmente, y esforzaos.",
+      ALM1911: "Vigiae, estae firmes na fé: portae-vos varonilmente, e fortalecei-vos.",
     },
   },
   {
@@ -2870,6 +3156,7 @@ export const VERSES = [
       YLT: "have ye not known that ye are a sanctuary of God, and the Spirit of God doth dwell in you?",
       BBE: "Do you not see that you are a house of God, and that the Spirit of God has his place in you?",
       RVA: "¿No sabéis que sois templo de Dios, y que el Espíritu de Dios mora en vosotros?",
+      ALM1911: "Não sabeis vós que sois o templo de Deus, e que o Espirito de Deus habita em vós?",
     },
   },
   {
@@ -2881,6 +3168,7 @@ export const VERSES = [
       YLT: "let all your things be done in love.",
       BBE: "Let all you do be done in love.",
       RVA: "Todas vuestras cosas sean hechas con caridad.",
+      ALM1911: "Todas as vossas coisas sejam feitas com caridade.",
     },
   },
   {
@@ -2892,6 +3180,7 @@ export const VERSES = [
       YLT: "for through faith we walk, not through sight --",
       BBE: "For we go through life by faith, not by what we see.",
       RVA: "Porque por fe andamos, no por vista.",
+      ALM1911: "(Porque andamos por fé, e não por vista.)",
     },
   },
   {
@@ -2903,6 +3192,7 @@ export const VERSES = [
       YLT: "and to God thanks, who at all times is leading us in triumph in the Christ,",
       BBE: "Now let us give praise to God, who at all times makes us overcome in Christ.",
       RVA: "Mas a Dios gracias, el cual hace que siempre triunfemos en Cristo Jesús.",
+      ALM1911: "E graças a Deus, que sempre nos faz triumphar em Christo, e por nós manifesta em todo o logar o cheiro do seu conhecimento.",
     },
   },
   {
@@ -2914,6 +3204,7 @@ export const VERSES = [
       YLT: "Blessed is God... the Father of the mercies, and God of all comfort, who is comforting us in all our tribulation,",
       BBE: "Praise be to God, the Father who has pity on us, and the God of all comfort, who gives us comfort in all our troubles.",
       RVA: "Bendito el Dios y Padre... Padre de misericordias, y Dios de toda consolación, el cual nos consuela en toda nuestra tribulación.",
+      ALM1911: "Bemdito seja o Deus e Pae de nosso Senhor Jesus Christo, o Pae das misericordias e o Deus de toda a consolação; Que nos consola em toda a nossa tribulação, para que tambem possamos consolar os que estiverem em alguma tribulação, com a consolação com que nós mesmos somos consolados de Deus.",
     },
   },
   {
@@ -2925,6 +3216,7 @@ export const VERSES = [
       YLT: "for the momentary light matter of our tribulation, more exceedingly unto an age-during weight of glory doth work for us --",
       BBE: "Our troubles are small and do not last long, and they are working out for us a much greater glory which will go on for ever.",
       RVA: "Porque esto que es al presente momentáneo y leve de nuestra tribulación, nos obra un sobremanera alto y eterno peso de gloria.",
+      ALM1911: "Porque a nossa leve e momentanea tribulação produz-nos um peso eterno de gloria mui excellente;",
     },
   },
   {
@@ -2936,6 +3228,7 @@ export const VERSES = [
       YLT: "on every side being in tribulation, but not straitened; perplexed, but not in despair;",
       BBE: "We are troubled on every side, but not crushed. We are without an answer, but not without hope.",
       RVA: "Estamos atribulados en todo, mas no angustiados; en apuros, mas no desesperamos.",
+      ALM1911: "Em tudo somos attribulados, porém não angustiados: perplexos, porém não desesperados:",
     },
   },
   {
@@ -2947,6 +3240,7 @@ export const VERSES = [
       YLT: "so that if any one is in Christ -- he is a new creature; the old things did pass away, lo, become new have the all things.",
       BBE: "So if any man is in Christ, he is a new person. The old life has gone; see, all things have become new.",
       RVA: "De modo que si alguno está en Cristo, nueva criatura es; las cosas viejas pasaron; he aquí todas son hechas nuevas.",
+      ALM1911: "Assim que, se alguem está em Christo, nova creatura é: as coisas velhas já passaram; eis que tudo está feito novo.",
     },
   },
   {
@@ -2958,6 +3252,7 @@ export const VERSES = [
       YLT: "in an acceptable time I did hear thee, and in a day of salvation I did help thee; lo, now is a well-accepted time; lo, now, a day of salvation.",
       BBE: "For he says, I gave ear to you at a time of grace; see, now is the day of salvation.",
       RVA: "Porque dice: En tiempo aceptable te he oído... he aquí ahora el día de salud.",
+      ALM1911: "(Porque diz: Ouvi-te em tempo acceitavel e soccorri-te no dia da salvação: Eis aqui agora o tempo acceitavel, eis aqui agora o dia da salvação.)",
     },
   },
   {
@@ -2969,6 +3264,7 @@ export const VERSES = [
       YLT: "for a cheerful giver doth God love;",
       BBE: "God takes pleasure in a giver who gives with a glad heart.",
       RVA: "Porque Dios ama al que da con alegría.",
+      ALM1911: "Cada um contribua segundo propoz no seu coração; não com tristeza, ou por necessidade; porque Deus ama ao que dá com alegria.",
     },
   },
   {
@@ -2980,6 +3276,7 @@ export const VERSES = [
       YLT: "sufficient for thee is My grace, for My power in weakness is perfected;",
       BBE: "My grace is enough for you, for my strength is made complete when you are weak.",
       RVA: "Bástate mi gracia; porque mi potencia en la flaqueza se perfecciona.",
+      ALM1911: "E disse-me: A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza. De boa vontade pois me gloriarei nas minhas fraquezas, para que em mim habite o poder de Christo.",
     },
   },
   {
@@ -2991,6 +3288,7 @@ export const VERSES = [
       YLT: "for when I am weak, then I am powerful;",
       BBE: "For when I am weak, then I am strong.",
       RVA: "Cuando soy flaco, entonces soy poderoso.",
+      ALM1911: "Pelo que sinto prazer nas fraquezas, nas injurias, nas necessidades, nas perseguições, nas angustias por amor de Christo. Porque quando estou fraco então sou forte.",
     },
   },
   {
@@ -3002,6 +3300,7 @@ export const VERSES = [
       YLT: "and the Lord shall free me from every evil work, and shall save me -- to his heavenly kingdom;",
       BBE: "The Lord will keep me safe from every evil work, and will take me into his kingdom in heaven.",
       RVA: "Y el Señor me librará de toda obra mala, y me preservará para su reino celestial.",
+      ALM1911: "E o Senhor me livrará de toda a má obra, e guardar-me-ha para o seu reino celestial; a quem seja gloria para todo o sempre. Amen.",
     },
   },
   {
@@ -3013,6 +3312,7 @@ export const VERSES = [
       YLT: "and the Lord is the Spirit; and where the Spirit of the Lord is, there is liberty;",
       BBE: "Now the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.",
       RVA: "Porque el Señor es el Espíritu; y donde está el Espíritu del Señor, allí hay libertad.",
+      ALM1911: "Ora o Senhor é o Espirito; e onde está o Espirito do Senhor ahi ha liberdade.",
     },
   },
   {
@@ -3024,6 +3324,7 @@ export const VERSES = [
       YLT: "and the fruit of the Spirit is: love, joy, peace, long-suffering, kindness, goodness, faith,",
       BBE: "But the fruit of the Spirit is love, joy, peace, a readiness to wait for others, kind acts, a good and true heart, faith.",
       RVA: "Mas el fruto del Espíritu es caridad, gozo, paz, tolerancia, benignidad, bondad, fe.",
+      ALM1911: "Mas o fructo do Espirito é caridade, gozo, paz, longanimidade, benignidade, bondade, fé, mansidão, temperança.",
     },
   },
   {
@@ -3035,6 +3336,7 @@ export const VERSES = [
       YLT: "and in the doing good we may not be faint, for at the proper time we shall reap -- not desponding;",
       BBE: "Let us not become tired of doing good, for at the right time we will gather a good harvest, if we do not give up.",
       RVA: "No nos cansemos, pues, de hacer bien, que a su tiempo segaremos, si no hubiéremos desmayado.",
+      ALM1911: "E não nos cancemos de fazer bem, porque a seu tempo ceifaremos, se não houvermos desfallecido.",
     },
   },
   {
@@ -3046,6 +3348,7 @@ export const VERSES = [
       YLT: "of one another the burdens bear ye, and so fill up the law of the Christ,",
       BBE: "Take on yourselves one another's troubles, and so keep the law of Christ.",
       RVA: "Sobrellevad los unos las cargas de los otros, y cumplid así la ley de Cristo.",
+      ALM1911: "Levae as cargas um dos outros, e assim cumprireis a lei de Christo.",
     },
   },
   {
@@ -3057,6 +3360,7 @@ export const VERSES = [
       YLT: "with Christ I have been crucified, and live no more do I, and Christ doth live in me;",
       BBE: "I have been put to death on the cross with Christ, but I am still living; not I, but Christ is living in me.",
       RVA: "Con Cristo estoy juntamente crucificado, y vivo, no ya yo, mas vive Cristo en mí.",
+      ALM1911: "Já estou crucificado com Christo; e vivo, não mais eu, mas Christo vive em mim; e a vida que agora vivo na carne vivo a na fé do Filho de Deus, o qual me amou, e se entregou a si mesmo por mim.",
     },
   },
   {
@@ -3068,6 +3372,7 @@ export const VERSES = [
       YLT: "for ye are all sons of God through the faith in Christ Jesus,",
       BBE: "For you are all sons of God through faith in Christ Jesus.",
       RVA: "Porque todos sois hijos de Dios por la fe en Cristo Jesús.",
+      ALM1911: "Porque todos sois filhos de Deus pela fé em Christo Jesus.",
     },
   },
   {
@@ -3079,6 +3384,7 @@ export const VERSES = [
       YLT: "In the freedom, then, with which Christ did make you free -- stand ye, and be not held fast again by a yoke of servitude;",
       BBE: "So take your stand and keep the freedom which Christ has made us free with.",
       RVA: "Estad, pues, firmes en la libertad con que Cristo nos hizo libres.",
+      ALM1911: "Estae pois firmes na liberdade com que Christo nos libertou, e não torneis a metter-vos debaixo do jugo da servidão.",
     },
   },
   {
@@ -3090,6 +3396,7 @@ export const VERSES = [
       YLT: "for by grace ye are having been saved, through faith, and this not of you -- of God the gift,",
       BBE: "For it is by grace that you have salvation, through faith; and this is not from yourselves, it is the gift of God.",
       RVA: "Porque por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios.",
+      ALM1911: "Porque pela graça sois salvos, por meio da fé; e isto não vem de vós; é dom de Deus",
     },
   },
   {
@@ -3101,6 +3408,7 @@ export const VERSES = [
       YLT: "for of Him we are workmanship, created in Christ Jesus to good works,",
       BBE: "For we are God's work, made new in Christ Jesus so that we may do good works.",
       RVA: "Porque somos hechura suya, criados en Cristo Jesús para buenas obras.",
+      ALM1911: "Porque somos feitura sua, creados em Christo Jesus para as boas obras, as quaes Deus preparou para que andassemos n'ellas.",
     },
   },
   {
@@ -3112,6 +3420,7 @@ export const VERSES = [
       YLT: "that ye, having been rooted and founded in love, may be in strength to comprehend... the love of the Christ,",
       BBE: "That you, having your roots and base in love, may have the power to take in... the love of Christ.",
       RVA: "Que habite Cristo por la fe en vuestros corazones; para que, arraigados y fundados en amor, podáis comprender con todos los santos cuál sea la anchura, la longura, la profundidad y la altura, y conocer el amor de Cristo, que excede a todo conocimiento.",
+      ALM1911: "Para que Christo habite pela fé nos vossos corações; para que, estando arraigados e fundados em amor, Possaes perfeitamente comprehender, com todos os sanctos, qual seja a largura, e o comprimento, e a altura, e a profundidade,",
     },
   },
   {
@@ -3123,6 +3432,7 @@ export const VERSES = [
       YLT: "and to Him who is able above all things to do exceeding abundantly what we ask or think,",
       BBE: "Now to him who is able to do far more than all we ask or even think.",
       RVA: "Y a Aquel que es poderoso para hacer todas las cosas mucho más abundantemente de lo que pedimos o entendemos, según la potencia que obra en nosotros.",
+      ALM1911: "Ora, áquelle que é poderoso para fazer tudo muito mais abundantemente do que pedimos ou pensamos, segundo o poder que em nós opéra,",
     },
   },
   {
@@ -3134,6 +3444,7 @@ export const VERSES = [
       YLT: "and become kind one to another, tender-hearted, forgiving one another, according as also God in Christ did forgive you.",
       BBE: "Be kind to one another, with hearts full of pity, forgiving one another, even as God in Christ has forgiven you.",
       RVA: "Antes sed los unos con los otros benignos, misericordiosos, perdonándoos los unos a los otros, como también Dios os perdonó en Cristo.",
+      ALM1911: "Antes sêde uns para com os outros benignos, misericordiosos, perdoando-*vos uns aos outros, como tambem Deus vos perdoou em Christo.",
     },
   },
   {
@@ -3145,6 +3456,7 @@ export const VERSES = [
       YLT: "no corrupt word out of your mouth let proceed, but what is good, to the use of building up, that it may give grace to those hearing;",
       BBE: "Let no bad word come out of your mouth, but only words that are good, to help others grow.",
       RVA: "Ninguna palabra corrompida salga de vuestra boca, sino la que sea buena para edificación.",
+      ALM1911: "Não saia da vossa bocca nenhuma palavra torpe, mas só a que fôr boa para utilidade da edificação, para que dê graça aos que a ouvem.",
     },
   },
   {
@@ -3156,6 +3468,7 @@ export const VERSES = [
       YLT: "As to the rest, my brethren, be strong in the Lord, and in the power of His might;",
       BBE: "Last of all, my brothers, be strong in the Lord and in the power of his strength.",
       RVA: "Por lo demás, hermanos míos, confortaos en el Señor, y en la potencia de su fortaleza.",
+      ALM1911: "No demais, irmãos meus, fortalecei-*vos no Senhor e na força do seu poder.",
     },
   },
   {
@@ -3167,6 +3480,7 @@ export const VERSES = [
       YLT: "for all things I have strength, in Christ's strengthening me;",
       BBE: "I am able to do all things through Christ who gives me strength.",
       RVA: "Todo lo puedo en Cristo que me fortalece.",
+      ALM1911: "Posso todas as coisas n'aquelle que me fortalece.",
     },
   },
   {
@@ -3178,6 +3492,7 @@ export const VERSES = [
       YLT: "for nothing be anxious, but in everything, by prayer, and by supplication, with thanksgiving, let your requests be made known unto God;",
       BBE: "Have no worry about anything; but in everything, by prayer and requests, with thanks, let your needs be made known to God.",
       RVA: "Por nada estéis afanosos; sino sean notorias vuestras peticiones delante de Dios en toda oración y ruego, con hacimiento de gracias.",
+      ALM1911: "De nada estejaes solicitos: antes as vossas petições sejam em tudo conhecidas diante de Deus pela oração e supplicas com acção de graças.",
     },
   },
   {
@@ -3189,6 +3504,7 @@ export const VERSES = [
       YLT: "and the peace of God, that is surpassing all understanding, shall guard your hearts and your thoughts, in Christ Jesus.",
       BBE: "And the peace of God, which is greater than the mind can understand, will keep your hearts and thoughts safe in Christ Jesus.",
       RVA: "Y la paz de Dios, que sobrepuja todo entendimiento, guardará vuestros corazones y vuestros entendimientos en Cristo Jesús.",
+      ALM1911: "E a paz de Deus, que excede todo o entendimento, guardará os vossos corações e os vossos sentimentos em Christo Jesus.",
     },
   },
   {
@@ -3200,6 +3516,7 @@ export const VERSES = [
       YLT: "Rejoice in the Lord always; again I will say, rejoice.",
       BBE: "Have joy in the Lord at all times; again I say, have joy.",
       RVA: "Gozaos en el Señor siempre: otra vez digo: que os gocéis.",
+      ALM1911: "Regozijae-vos sempre no Senhor; outra vez digo, regozijae-vos.",
     },
   },
   {
@@ -3211,6 +3528,7 @@ export const VERSES = [
       YLT: "I did learn in the things in which I am -- to be content;",
       BBE: "I have learned, whatever my condition may be, to be content with it.",
       RVA: "He aprendido a contentarme, cualquiera que sea el estado en que me halle.",
+      ALM1911: "Não o digo como por necessidade, porque já aprendi a contentar-me com o que tenho.",
     },
   },
   {
@@ -3222,6 +3540,7 @@ export const VERSES = [
       YLT: "and my God shall supply all your need, according to His riches in glory, in Christ Jesus;",
       BBE: "And my God will give you everything you need, from his rich store in glory, through Christ Jesus.",
       RVA: "Mi Dios, pues, suplirá todo lo que os falta conforme a sus riquezas en gloria en Cristo Jesús.",
+      ALM1911: "Porém o meu Deus, segundo as suas riquezas, supprirá todas as vossas necessidades em gloria, por Christo Jesus.",
     },
   },
   {
@@ -3233,6 +3552,7 @@ export const VERSES = [
       YLT: "having been confident of this very thing, that He who did begin in you a good work, will perform it till the day of Jesus Christ,",
       BBE: "Being sure of this, that he who has started a good work in you will make it complete.",
       RVA: "Estando confiado de esto, que el que comenzó en vosotros la buena obra, la perfeccionará hasta el día de Jesucristo.",
+      ALM1911: "Tendo por certo isto mesmo, que aquelle que em vós começou a boa obra, a aperfeiçoará até ao dia de Jesus Christo;",
     },
   },
   {
@@ -3244,6 +3564,7 @@ export const VERSES = [
       YLT: "and let the peace of God rule in your hearts, to which also ye were called in one body, and become thankful.",
       BBE: "And let the peace of God rule in your hearts; you were given a call to this peace as one body. And be thankful.",
       RVA: "Y la paz de Dios gobierne en vuestros corazones, a la cual asimismo sois llamados en un cuerpo; y sed agradecidos.",
+      ALM1911: "E a paz de Deus domine em vossos corações para a qual tambem fostes chamados em um corpo, e sêde agradecidos.",
     },
   },
   {
@@ -3255,6 +3576,7 @@ export const VERSES = [
       YLT: "put on, therefore, as choice ones of God, holy and beloved, bowels of mercies, kindness, humble-mindedness, meekness, long-suffering,",
       BBE: "So then, as God's chosen ones, holy and loved, put on hearts of pity, kindness, freedom from pride, gentleness, and a readiness to wait long for others.",
       RVA: "Vestíos, pues, como escogidos de Dios, santos y amados, de entrañas de misericordia, de benignidad, de humildad, de mansedumbre, de tolerancia.",
+      ALM1911: "Revesti-vos pois, como eleitos de Deus, sanctos, e amados, de entranhas de misericordia, da benignidade, humildade, mansidão, longanimidade:",
     },
   },
   {
@@ -3266,6 +3588,7 @@ export const VERSES = [
       YLT: "and above all these things -- the love, which is a bond of the perfection.",
       BBE: "And more than all these things, put on love, which ties everything together in perfect unity.",
       RVA: "Y sobre todas estas cosas vestíos de caridad, la cual es el vínculo de la perfección.",
+      ALM1911: "E, sobre tudo isto, revesti-vos de caridade, que é o vinculo da perfeição.",
     },
   },
   {
@@ -3277,6 +3600,7 @@ export const VERSES = [
       YLT: "the things above mind ye, not the things upon the earth,",
       BBE: "Let your minds be fixed on the things of heaven, not on the things of the earth.",
       RVA: "Poned la mira en las cosas de arriba, no en las de la tierra.",
+      ALM1911: "Pensae nas coisas que são de cima, e não nas que são da terra;",
     },
   },
   {
@@ -3288,6 +3612,7 @@ export const VERSES = [
       YLT: "which is Christ in you, the hope of the glory,",
       BBE: "Christ in you, the hope of glory.",
       RVA: "Cristo en vosotros, la esperanza de gloria.",
+      ALM1911: "Aos quaes Deus quiz fazer conhecer quaes são as riquezas da gloria d'este mysterio entre os gentios, que é Christo em vós, esperança da gloria:",
     },
   },
   {
@@ -3299,6 +3624,7 @@ export const VERSES = [
       YLT: "so, then, comfort ye one another with these words.",
       BBE: "So give comfort to one another with these words.",
       RVA: "Por tanto, consolaos los unos a los otros en estas palabras.",
+      ALM1911: "Portanto, consolae-vos uns aos outros com estas palavras.",
     },
   },
   {
@@ -3310,6 +3636,7 @@ export const VERSES = [
       YLT: "wherefore comfort one another, and build ye up one the one, as also ye do.",
       BBE: "So give comfort to one another, and make each other stronger.",
       RVA: "Por lo cual consolaos los unos a los otros, y edificaos los unos a los otros.",
+      ALM1911: "Pelo que exhortae-vos uns aos outros, e edificae-vos uns aos outros, como tambem o fazeis.",
     },
   },
   {
@@ -3321,6 +3648,7 @@ export const VERSES = [
       YLT: "Always rejoice. Without ceasing pray ye. In every thing give thanks,",
       BBE: "Have joy at all times. Keep on praying without stopping. In everything give thanks.",
       RVA: "Estad siempre gozosos. Orad sin cesar. Dad gracias en todo.",
+      ALM1911: "Regozijae-vos sempre. Orae sem cessar. Em tudo dae graças; porque esta é a vontade de Deus em Christo Jesus para comvosco.",
     },
   },
   {
@@ -3332,6 +3660,7 @@ export const VERSES = [
       YLT: "and the God of the peace Himself sanctify you wholly,",
       BBE: "And may the God of peace make you completely holy.",
       RVA: "Y el Dios de paz os santifique en todo.",
+      ALM1911: "E o mesmo Deus de paz vos sanctifique em tudo; e todo o vosso sincero espirito, e alma, e corpo, sejam conservados irreprehensiveis para a vinda de nosso Senhor Jesus Christo.",
     },
   },
   {
@@ -3343,6 +3672,7 @@ export const VERSES = [
       YLT: "stedfast is He who is calling you, who also will do it.",
       BBE: "He who calls you is faithful, and he will do it.",
       RVA: "Fiel es el que os ha llamado, el cual también lo hará.",
+      ALM1911: "Fiel é o que vos chama, o qual tambem o fará.",
     },
   },
   {
@@ -3354,6 +3684,7 @@ export const VERSES = [
       YLT: "And our Lord Jesus Christ himself, and God even our Father... comfort your hearts, and establish you in every good word and work.",
       BBE: "Now may our Lord Jesus Christ himself, and God our Father... give comfort to your hearts, and make you strong in every good word and work.",
       RVA: "Y el mismo Jesucristo Señor nuestro, y Dios y Padre nuestro... consuele vuestros corazones, y os confirme en toda buena palabra y obra.",
+      ALM1911: "E nosso Senhor Jesus Christo mesmo, o nosso Deus e Pae, que nos amou, e em graça nos deu uma eterna consolação, e boa esperança, Console os vossos corações, e vos conforte em toda a boa palavra e obra.",
     },
   },
   {
@@ -3365,6 +3696,7 @@ export const VERSES = [
       YLT: "for God did not give us a spirit of fear, but of power, and of love, and of a sound mind;",
       BBE: "For God has not given us a spirit of fear, but of power, and of love, and of a clear mind.",
       RVA: "Porque no nos ha dado Dios el espíritu de temor, sino el de fortaleza, y de amor, y de templanza.",
+      ALM1911: "Porque Deus não nos deu o espirito de temor, mas de fortaleza, e de amor, e de moderação.",
     },
   },
   {
@@ -3376,6 +3708,7 @@ export const VERSES = [
       YLT: "the good fight I have fought, the course I have finished, the faith I have kept,",
       BBE: "I have fought a good fight, I have come to the end of my race, I have kept the faith.",
       RVA: "He peleado la buena batalla, he acabado la carrera, he guardado la fe.",
+      ALM1911: "Combati o bom combate, acabei a carreira, guardei a fé.",
     },
   },
   {
@@ -3387,6 +3720,7 @@ export const VERSES = [
       YLT: "be diligent to present thyself approved to God -- a workman irreproachable, rightly dividing the word of the truth;",
       BBE: "Do your best to be a workman who has God's approval, one who has no cause for shame.",
       RVA: "Procura con diligencia presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse.",
+      ALM1911: "Procura apresentar-te a Deus approvado, como obreiro que não tem de que se envergonhar, que maneja bem a palavra da verdade.",
     },
   },
   {
@@ -3398,6 +3732,7 @@ export const VERSES = [
       YLT: "let no one despise thy youth, but a pattern become thou of those believing,",
       BBE: "Let no one look down on you because you are young; be an example to the believers.",
       RVA: "Ninguno tenga en poco tu juventud; pero sé ejemplo de los fieles.",
+      ALM1911: "Ninguem despreze a tua mocidade: mas sê o exemplo dos fieis, na palavra, no trato, na caridade, no espirito, na fé, na pureza.",
     },
   },
   {
@@ -3409,6 +3744,7 @@ export const VERSES = [
       YLT: "But it is great gain -- the piety with contentment;",
       BBE: "A God-fearing life, with a heart at peace, is of great value.",
       RVA: "Pero gran ganancia es la piedad con contentamiento.",
+      ALM1911: "Grande ganho é, porém, a piedade com contentamento.",
     },
   },
   {
@@ -3420,6 +3756,7 @@ export const VERSES = [
       YLT: "waiting for the blessed hope and manifestation of the glory of our great God and Saviour Jesus Christ,",
       BBE: "Waiting for that blessed hope, the glorious coming of our great God.",
       RVA: "Esperando aquella esperanza bienaventurada, y la manifestación gloriosa del gran Dios.",
+      ALM1911: "Aguardando a bemaventurada esperança e o apparecimento da gloria do grande Deus e nosso Senhor Jesus Christo;",
     },
   },
   {
@@ -3431,6 +3768,7 @@ export const VERSES = [
       YLT: "he did save us, through the bathing of regeneration, and renewing of the Holy Spirit,",
       BBE: "Because of his mercy he gave us salvation, through the washing of new birth and the making new of the Holy Spirit.",
       RVA: "Conforme a su misericordia nos salvó, por el lavacro de la regeneración, y de la renovación del Espíritu Santo.",
+      ALM1911: "Não pelas obras de justiça que houvessemos feito, mas segundo a sua misericordia, nos salvou pela lavagem da regeneração e da renovação do Espirito Sancto;",
     },
   },
   {
@@ -3442,6 +3780,7 @@ export const VERSES = [
       YLT: "for perhaps because of this he did depart for an hour, that age-duringly thou mayest have him,",
       BBE: "It may be that he went from you for a time so that you might have him back for ever.",
       RVA: "Porque acaso por esto se apartó de ti por algún tiempo, para que le recibieses para siempre.",
+      ALM1911: "Porque bem pode ser que elle se tenha por isso apartado de ti por algum tempo, para que o retivesses para sempre:",
     },
   },
   {
@@ -3453,6 +3792,7 @@ export const VERSES = [
       YLT: "And faith is of things hoped for a confidence, of matters not seen a conviction,",
       BBE: "Now faith is the strong belief in what we hope for, the being certain of what we do not see.",
       RVA: "Es, pues, la fe la sustancia de las cosas que se esperan, la demostración de las cosas que no se ven.",
+      ALM1911: "Ora, a fé é o firme fundamento das coisas que se esperam, e a prova das coisas que se não vêem.",
     },
   },
   {
@@ -3464,6 +3804,7 @@ export const VERSES = [
       YLT: "with patience we may run the contest that is set before us,",
       BBE: "Let us run, not giving up, the race that is set before us.",
       RVA: "Corramos con paciencia la carrera que nos es propuesta.",
+      ALM1911: "Portanto nós tambem, pois que estamos rodeados de uma tão grande nuvem de testemunhas, deixemos toda a carga, e o peccado que tão commodamente nos rodeia, e corramos com paciencia a carreira que nos está proposta:",
     },
   },
   {
@@ -3475,6 +3816,7 @@ export const VERSES = [
       YLT: "looking to the author and perfecter of faith -- Jesus,",
       BBE: "Let us keep our eyes on Jesus, the giver and completer of our faith.",
       RVA: "Puestos los ojos en Jesús, el autor y consumador de la fe.",
+      ALM1911: "Olhando para Jesus, auctor e consummador da fé, o qual pelo gozo que lhe estava proposto supportou a cruz, desprezando a affronta, e assentou-se á dextra do throno de Deus.",
     },
   },
   {
@@ -3486,6 +3828,7 @@ export const VERSES = [
       YLT: "may we hold fast the unwavering profession of the hope, for faithful is He who did promise;",
       BBE: "Let us hold firm to the hope we say we have, without doubting; for he who made the promise is faithful.",
       RVA: "Mantengamos firme la profesión de nuestra fe sin fluctuar; que fiel es el que prometió.",
+      ALM1911: "Retenhamos firmes a confissão da nossa esperança; porque fiel é o que prometteu.",
     },
   },
   {
@@ -3497,6 +3840,7 @@ export const VERSES = [
       YLT: "and may we consider one another, to provoke to love and to good works,",
       BBE: "And let us give thought to one another, so as to move each other on to love and good works.",
       RVA: "Y considerémonos los unos a los otros para provocarnos al amor y a las buenas obras.",
+      ALM1911: "E consideremo-nos uns aos outros, para nos estimularmos á caridade e boas obras:",
     },
   },
   {
@@ -3508,6 +3852,7 @@ export const VERSES = [
       YLT: "we may come near, then, with freedom, to the throne of the grace, that we may receive kindness, and find grace -- for seasonable help.",
       BBE: "Let us come with no fear to the throne of grace, so that mercy may be given to us, and we may find grace to help us in time of need.",
       RVA: "Lleguémonos, pues, confiadamente al trono de la gracia, para alcanzar misericordia, y hallar gracia para el oportuno socorro.",
+      ALM1911: "Cheguemos pois com confiança ao throno da graça, para que possamos alcançar misericordia e achar graça, para sermos ajudados em tempo opportuno.",
     },
   },
   {
@@ -3519,6 +3864,7 @@ export const VERSES = [
       YLT: "Jesus Christ -- yesterday, and to-day, the same, and to the ages;",
       BBE: "Jesus Christ is the same yesterday, and today, and for ever.",
       RVA: "Jesucristo es el mismo ayer, y hoy, y por los siglos.",
+      ALM1911: "Jesus Christo é o mesmo hontem, e hoje, e eternamente.",
     },
   },
   {
@@ -3530,6 +3876,7 @@ export const VERSES = [
       YLT: "Let brotherly love remain;",
       BBE: "Let your love for the brothers go on.",
       RVA: "Permanezca el amor fraternal.",
+      ALM1911: "Permaneça a caridade fraternal.",
     },
   },
   {
@@ -3541,6 +3888,7 @@ export const VERSES = [
       YLT: "of the hospitality be not forgetful, for by this some did entertain messengers unawares;",
       BBE: "Do not forget to be kind to strangers, for in this way some have had angels as guests, without knowing it.",
       RVA: "No olvidéis la hospitalidad, porque por ésta algunos, sin saberlo, hospedaron ángeles.",
+      ALM1911: "Não vos esqueçaes da hospitalidade, porque por ella alguns, não o sabendo, hospedaram anjos.",
     },
   },
   {
@@ -3552,6 +3900,7 @@ export const VERSES = [
       YLT: "and of doing good, and of fellowship, be not forgetful, for with such sacrifices God is well pleased.",
       BBE: "Do not forget to do good and to share with others, for God is well pleased with such offerings.",
       RVA: "Y de hacer bien y de la comunicación no os olvidéis: porque de tales sacrificios se agrada Dios.",
+      ALM1911: "E não vos esqueçaes da beneficencia e communicação, porque com taes sacrificios Deus se agrada.",
     },
   },
   {
@@ -3563,6 +3912,7 @@ export const VERSES = [
       YLT: "All joy count it, my brethren, when ye may fall into temptations manifold;",
       BBE: "My brothers, be full of joy when you go through all kinds of trials.",
       RVA: "Hermanos míos, tened por sumo gozo cuando cayereis en diversas tentaciones.",
+      ALM1911: "Meus irmãos, tende grande gozo quando cairdes em varias tentações:",
     },
   },
   {
@@ -3574,6 +3924,7 @@ export const VERSES = [
       YLT: "knowing that the proof of your faith doth work endurance,",
       BBE: "Because you know that when your faith is tested, it produces the power to keep on.",
       RVA: "Sabiendo que la prueba de vuestra fe obra paciencia.",
+      ALM1911: "Sabendo que a prova da vossa fé obra a paciencia:",
     },
   },
   {
@@ -3585,6 +3936,7 @@ export const VERSES = [
       YLT: "and if any of you do lack wisdom, let him ask from God, who is giving to all liberally, and not reproaching, and it shall be given to him;",
       BBE: "If any of you is without wisdom, let him make his request to God, who gives freely to all men.",
       RVA: "Y si alguno de vosotros tiene falta de sabiduría, demándela a Dios, el cual da a todos abundantemente y sin vituperio.",
+      ALM1911: "E, se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente, e o não lança em rosto, e ser-lhe-ha dada",
     },
   },
   {
@@ -3596,6 +3948,7 @@ export const VERSES = [
       YLT: "every good giving, and every perfect gift is from above, coming down from the Father of the lights,",
       BBE: "Every good and every perfect gift comes down from above, from the Father of lights.",
       RVA: "Toda buena dádiva y todo don perfecto es de lo alto, que desciende del Padre de las luces.",
+      ALM1911: "Toda a boa dadiva e todo o dom perfeito é do alto, e desce do Pae das luzes, em quem não ha mudança nem sombra de variação,",
     },
   },
   {
@@ -3607,6 +3960,7 @@ export const VERSES = [
       YLT: "draw near to God, and He will draw near to you;",
       BBE: "Come near to God, and he will come near to you.",
       RVA: "Allegaos a Dios, y él se allegará a vosotros.",
+      ALM1911: "Chegae-vos a Deus, e elle se chegará a vós. Alimpae as mãos, peccadores; e, vós de duplo animo, purificae os corações.",
     },
   },
   {
@@ -3618,6 +3972,7 @@ export const VERSES = [
       YLT: "very strong is a working supplication of a righteous man.",
       BBE: "The heartfelt prayer of a good man has great power.",
       RVA: "La oración eficaz del justo puede mucho.",
+      ALM1911: "Confessae as vossas culpas uns aos outros, e orae uns pelos outros para que sareis: a oração efficaz do justo pode muito.",
     },
   },
   {
@@ -3629,6 +3984,7 @@ export const VERSES = [
       YLT: "all your care having cast upon Him, because He careth for you,",
       BBE: "Put all your cares on him, for he takes care of you.",
       RVA: "Echando toda vuestra solicitud en él, porque él tiene cuidado de vosotros.",
+      ALM1911: "Lançando sobre elle toda a vossa solicitude, porque elle tem cuidado de vós.",
     },
   },
   {
@@ -3640,6 +3996,7 @@ export const VERSES = [
       YLT: "Blessed is the God and Father of our Lord Jesus Christ, who... did beget us again to a living hope,",
       BBE: "Praise be to the God and Father of our Lord Jesus Christ, who... has given us new birth into a living hope.",
       RVA: "Bendito el Dios y Padre de nuestro Señor Jesucristo, que... nos ha regenerado en esperanza viva.",
+      ALM1911: "Bemdito seja o Deus e Pae de nosso Senhor Jesus Christo, que, segundo a sua grande misericordia, nos gerou de novo para uma viva esperança, pela resurreição de Jesus Christo d'entre os mortos,",
     },
   },
   {
@@ -3651,6 +4008,7 @@ export const VERSES = [
       YLT: "in this ye are glad, a little now, if it be necessary, being made to sorrow in manifold trials,",
       BBE: "In this you have great joy, though now for a little while... you are made sad by all kinds of trials.",
       RVA: "En lo cual vosotros os alegráis, estando al presente por un poco de tiempo afligidos... en diversas tentaciones.",
+      ALM1911: "Em que vós vos alegraes, estando agora (se é que assim importa) por um pouco contristados com varias tentações.",
     },
   },
   {
@@ -3662,6 +4020,7 @@ export const VERSES = [
       YLT: "and, before all things, having your love fervent to one another, because love shall cover a multitude of sins;",
       BBE: "And more than all things, have deep love for one another, for love covers a great number of sins.",
       RVA: "Y sobre todo, tened entre vosotros ferviente caridad; porque la caridad cubrirá multitud de pecados.",
+      ALM1911: "Mas, sobretudo, tende ardente caridade uns para com os outros; porque a caridade cobrirá a multidão de peccados.",
     },
   },
   {
@@ -3673,6 +4032,7 @@ export const VERSES = [
       YLT: "each, according as he received a gift, ministering it to one another,",
       BBE: "As each one has received a gift, use it to serve one another.",
       RVA: "Cada uno según el don que ha recibido, adminístrelo a los otros.",
+      ALM1911: "Cada um administre aos outros o dom como o recebeu, como bons dispenseiros da multiforme graça de Deus.",
     },
   },
   {
@@ -3684,6 +4044,7 @@ export const VERSES = [
       YLT: "Be humbled, then, under the powerful hand of God, that you He may exalt in good time,",
       BBE: "So make yourselves low under the powerful hand of God, so that he may lift you up at the right time.",
       RVA: "Humillaos, pues, bajo la poderosa mano de Dios, para que él os ensalce cuando fuere tiempo.",
+      ALM1911: "Humilhae-vos pois debaixo da potente mão de Deus, para que a seu tempo vos exalte:",
     },
   },
   {
@@ -3695,6 +4056,7 @@ export const VERSES = [
       YLT: "Be sober, vigilant, because your opponent the devil, as a roaring lion, doth walk about, seeking whom he may swallow up,",
       BBE: "Keep your minds clear and be on watch, for your enemy the Devil goes about like a roaring lion, looking for someone to attack.",
       RVA: "Sed templados, y velad; porque vuestro adversario el diablo, como león rugiente, anda alrededor.",
+      ALM1911: "Sêde sobrios; vigiae; porque o diabo, vosso adversario, anda em derredor, bramando como leão, buscando a quem possa tragar.",
     },
   },
   {
@@ -3706,6 +4068,7 @@ export const VERSES = [
       YLT: "and the God of all grace... a little having suffered, Himself make you perfect, establish, strengthen, settle you;",
       BBE: "But the God of all grace... after you have suffered for a little while, will make you complete, and give you strength and a firm footing.",
       RVA: "Mas el Dios de toda gracia... después que hubiereis padecido un poco de tiempo, él mismo os perfeccione, confirme, corrobore y establezca.",
+      ALM1911: "Ora o Deus de toda a graça, que em Christo Jesus nos chamou á sua eterna gloria, depois de haverdes padecido um pouco, o mesmo vos aperfeiçoe, confirme, fortifique e estabeleça.",
     },
   },
   {
@@ -3717,6 +4080,7 @@ export const VERSES = [
       YLT: "As all things to us His divine power hath granted, that pertain unto life and piety,",
       BBE: "His divine power has given us everything we need for life and for a God-loving heart.",
       RVA: "Como todas las cosas que pertenecen a la vida y a la piedad nos son dadas de su divina potencia.",
+      ALM1911: "Como o seu divino poder nos deu tudo o que diz respeito á vida e piedade, pelo conhecimento d'aquelle que nos chamou por sua gloria e virtude;",
     },
   },
   {
@@ -3728,6 +4092,7 @@ export const VERSES = [
       YLT: "the Lord is not slow in regard to the promise... but is long-suffering to us,",
       BBE: "The Lord is not slow in keeping his promise... but is patient with us.",
       RVA: "El Señor no tarda su promesa... sino que es paciente para con nosotros.",
+      ALM1911: "O Senhor não retarda a sua promessa, como alguns a teem por tardia; mas é longanimo para comnosco, não querendo que alguns se percam, senão que todos venham a arrepender-se.",
     },
   },
   {
@@ -3739,6 +4104,7 @@ export const VERSES = [
       YLT: "God is love, and he who is remaining in the love, in God he doth remain, and God in him.",
       BBE: "God is love; and he who lives in love lives in God, and God lives in him.",
       RVA: "Dios es amor; y el que vive en amor, vive en Dios, y Dios en él.",
+      ALM1911: "E nós conhecemos, e cremos o amor que Deus nos tem. Deus é caridade; e quem está em caridade está em Deus, e Deus n'elle.",
     },
   },
   {
@@ -3750,6 +4116,7 @@ export const VERSES = [
       YLT: "fear is not in the love, but perfect love doth cast out the fear,",
       BBE: "There is no fear in love; but perfect love drives out fear.",
       RVA: "En amor no hay temor; mas el perfecto amor echa fuera el temor.",
+      ALM1911: "Na caridade não ha temor, antes a perfeita caridade lança fóra o temor; porque o temor tem a pena, e o que teme não está perfeito em caridade.",
     },
   },
   {
@@ -3761,6 +4128,7 @@ export const VERSES = [
       YLT: "we -- we love him, because He first loved us;",
       BBE: "We love him, because he first had love for us.",
       RVA: "Nosotros le amamos a él, porque él nos amó primero.",
+      ALM1911: "Nós o amamos a elle porque elle nos amou primeiro.",
     },
   },
   {
@@ -3772,6 +4140,7 @@ export const VERSES = [
       YLT: "if we may confess our sins, stedfast He is and righteous that He may forgive us the sins, and may cleanse us from every unrighteousness;",
       BBE: "If we say openly that we have done wrong, he is faithful and true to his word, and will forgive us our sins, making us clean from all evil.",
       RVA: "Si confesamos nuestros pecados, él es fiel y justo para que nos perdone nuestros pecados, y nos limpie de toda maldad.",
+      ALM1911: "Se confessarmos os nossos peccados, elle é fiel e justo, para nos perdoar os peccados, e purificar-nos de toda a injustiça.",
     },
   },
   {
@@ -3783,6 +4152,7 @@ export const VERSES = [
       YLT: "beloved, may we love one another, because the love is of God,",
       BBE: "My loved ones, let us have love for one another, for love comes from God.",
       RVA: "Carísimos, amémonos unos a otros; porque el amor es de Dios.",
+      ALM1911: "Amados, amemo-nos uns aos outros; porque a caridade é de Deus; e qualquer que ama é nascido de Deus e conhece a Deus.",
     },
   },
   {
@@ -3794,6 +4164,7 @@ export const VERSES = [
       YLT: "and this is the boldness that we have toward Him, that if anything we may ask according to his will, He doth hear us,",
       BBE: "And this is the trust we have in him, that if we ask anything in keeping with his will, he hears us.",
       RVA: "Y ésta es la confianza que tenemos en él, que si demandáremos alguna cosa conforme a su voluntad, él nos oye.",
+      ALM1911: "E esta é a confiança que temos para com elle, que, se pedirmos alguma coisa, segundo a sua vontade, elle nos ouve.",
     },
   },
   {
@@ -3805,6 +4176,7 @@ export const VERSES = [
       YLT: "beloved, concerning all things I desire thee to prosper, and to be in health, even as thy soul doth prosper,",
       BBE: "My loved one, more than anything I pray that all is going well for you, and that you are in good health, even as your soul is doing well.",
       RVA: "Amado, yo deseo que tú seas prosperado en todas las cosas, y que tengas salud, así como tu alma está en prosperidad.",
+      ALM1911: "Amado, antes de tudo desejo que te vá bem, e que tenhas saude, assim como bem vae á tua alma.",
     },
   },
   {
@@ -3816,6 +4188,7 @@ export const VERSES = [
       YLT: "greater than these things I have no joy, that I may hear of my children in truth walking.",
       BBE: "I have no greater joy than to hear that my children are living in the truth.",
       RVA: "No tengo yo mayor gozo que éste, el oír que mis hijos andan en la verdad.",
+      ALM1911: "Não tenho maior gozo do que n'isto, de ouvir que os meus filhos andam na verdade.",
     },
   },
   {
@@ -3827,6 +4200,7 @@ export const VERSES = [
       YLT: "And to Him who is able to guard you not stumbling, and to set you in the presence of His glory unblemished, in gladness,",
       BBE: "Now to him who is able to keep you from falling, and to bring you before his glory without a fault... with great joy.",
       RVA: "Y a aquel que es poderoso para guardaros sin caída, y presentaros delante de su gloria irreprensibles... con grande alegría.",
+      ALM1911: "Ora, áquelle que é poderoso para vos guardar de tropeçar, e apresentar-vos irreprehensiveis, com alegria, perante a sua gloria,",
     },
   },
   {
@@ -3838,6 +4212,7 @@ export const VERSES = [
       YLT: "grace, kindness, peace, be with you, from God the Father, and from the Lord Jesus Christ, the Son of the Father, in truth and love.",
       BBE: "Grace, mercy, and peace will be with us from God the Father, and from Jesus Christ, the Son of the Father, in truth and love.",
       RVA: "Sea con vosotros gracia, misericordia, y paz de Dios Padre, y del Señor Jesucristo, Hijo del Padre, en verdad y en amor.",
+      ALM1911: "Graça, misericordia, paz, da parte de Deus Pae e da do Senhor Jesus Christo, o Filho do Pae, seja comvosco na verdade e caridade.",
     },
   },
   {
@@ -3849,6 +4224,7 @@ export const VERSES = [
       YLT: "and God shall wipe away every tear from their eyes, and the death shall not be any more,",
       BBE: "And God will take away all tears from their eyes; there will be no more death.",
       RVA: "Y limpiará Dios toda lágrima de los ojos de ellos; y la muerte no será más.",
+      ALM1911: "E Deus alimpará de seus olhos toda a lagrima; e não haverá mais morte, nem pranto, nem clamor, nem dôr; porque já as primeiras coisas são passadas.",
     },
   },
   {
@@ -3860,6 +4236,7 @@ export const VERSES = [
       YLT: "Lo, new I make all things.",
       BBE: "See, I make all things new.",
       RVA: "He aquí, yo hago nuevas todas las cosas.",
+      ALM1911: "E o que estava assentado sobre o throno disse: Eis que faço novas todas as coisas. E disse-me: Escreve: porque estas palavras são verdadeiras e fieis.",
     },
   },
   {
@@ -3871,6 +4248,7 @@ export const VERSES = [
       YLT: "lo, I have stood at the door, and I knock; if any one may hear my voice, and may open the door, I will come in unto him, and will sup with him, and he with me.",
       BBE: "See, I am at the door, and I am knocking; if any man hears my voice and opens the door, I will come in to him.",
       RVA: "He aquí, yo estoy a la puerta y llamo: si alguno oyere mi voz y abriere la puerta, entraré a él.",
+      ALM1911: "Eis que estou á porta, e bato: se alguem ouvir a minha voz, e abrir a porta, entrarei em sua casa, e com elle cearei, e elle comigo.",
     },
   },
   {
@@ -3882,6 +4260,7 @@ export const VERSES = [
       YLT: "I am the Alpha and the Omega -- beginning and end -- saith the Lord,",
       BBE: "I am the First and the Last, the start and the end, says the Lord.",
       RVA: "Yo soy el Alpha y la Omega, principio y fin, dice el Señor.",
+      ALM1911: "Eu sou o Alpha e o Omega, o principio e o fim, diz o Senhor, que é, e que era, e que ha de vir, o Todo-poderoso.",
     },
   },
   {
@@ -3893,6 +4272,7 @@ export const VERSES = [
       YLT: "and night shall not be there, and they have no need of a lamp and light of a sun, because the Lord God doth give them light,",
       BBE: "And there will be no night there; they will have no need of a lamp or of the sun, for the Lord God will give them light.",
       RVA: "Y allí no habrá más noche; y no tienen necesidad de lumbre de antorcha ni de lumbre de sol: porque el Señor Dios los alumbra.",
+      ALM1911: "E ali não haverá mais noite, e não necessitarão de lampada nem de luz do sol, porque o Senhor Deus os alumia; e reinarão para todo o sempre.",
     },
   },
   {
@@ -3904,6 +4284,7 @@ export const VERSES = [
       YLT: "O the happiness of that one, who hath not walked in the counsel of the wicked... but in the law of Jehovah is his delight,",
       BBE: "Happy is the man who does not walk in the ways of sinners... but whose delight is in the law of the Lord.",
       RVA: "Bienaventurado el varón que no anduvo en consejo de malos... sino que en la ley de Jehová está su delicia.",
+      ALM1911: "Bemaventurado o varão que não anda no conselho dos impios, nem está no caminho dos peccadores, nem se assenta no assento dos escarnecedores. Antes tem o seu prazer na lei do Senhor, e na sua lei medita de dia e de noite.",
     },
   },
   {
@@ -3915,6 +4296,7 @@ export const VERSES = [
       YLT: "And he hath been as a tree, planted by streams of water, that giveth its fruit in its season,",
       BBE: "He will be like a tree planted by the rivers of water, giving its fruit at the right time.",
       RVA: "Y será como el árbol plantado junto a arroyos de aguas, que da su fruto en su tiempo.",
+      ALM1911: "Pois será como a arvore plantada junto a ribeiros de aguas, que dá o seu fructo no seu tempo; as suas folhas não cairão, e tudo quanto fizer prosperará.",
     },
   },
   {
@@ -3926,6 +4308,7 @@ export const VERSES = [
       YLT: "And Jehovah is a tower for the oppressed, A tower for times of adversity.",
       BBE: "The Lord will be a safe place for those who are troubled, a safe place in times of trouble.",
       RVA: "Y será Jehová refugio al pobre, refugio para el tiempo de angustia.",
+      ALM1911: "O Senhor será tambem um alto refugio para o opprimido; um alto refugio em tempos de angustia.",
     },
   },
   {
@@ -3937,6 +4320,7 @@ export const VERSES = [
       YLT: "Jehovah is in His holy palace, Jehovah -- in the heavens His throne,",
       BBE: "The Lord is in his holy house, the Lord's throne is in heaven.",
       RVA: "Jehová está en el templo de su santidad: la silla de Jehová está en el cielo.",
+      ALM1911: "O Senhor está no seu sancto templo: o throno do Senhor está nos céus; os seus olhos attendem, e as suas palpebras provam os filhos dos homens.",
     },
   },
   {
@@ -3948,6 +4332,7 @@ export const VERSES = [
       YLT: "Till when, O Jehovah, dost Thou forget me for ever?... And I in Thy kindness did trust, My heart rejoiceth in Thy salvation.",
       BBE: "How long will you keep me out of your memory, O Lord? For ever?... But I have put my faith in your mercy; my heart will be glad in your salvation.",
       RVA: "¿Hasta cuándo, Jehová, me olvidarás para siempre?... Mas yo en tu misericordia he confiado: mi corazón se alegrará en tu salud.",
+      ALM1911: "Até quando te esquecerás de mim, Senhor? para sempre?...Mas eu confio na tua benignidade: na tua salvação se alegrará o meu coração.",
     },
   },
   {
@@ -3959,6 +4344,7 @@ export const VERSES = [
       YLT: "Thou art a hiding place for me, From distress Thou keepest me, With songs of deliverance dost compass me. Selah.",
       BBE: "You are my hiding place; you will keep me safe from trouble; you will put songs of deliverance all around me.",
       RVA: "Tú eres mi escondedero; me guardarás de angustia; con cánticos de liberación me rodearás.",
+      ALM1911: "Tu és o logar em que me escondo, tu me preservas da angustia: tu me cinges d'alegres cantos de livramento (Selah).",
     },
   },
   {
@@ -3970,6 +4356,7 @@ export const VERSES = [
       YLT: "I sought Jehovah, and He answered me, And from all my fears He delivered me.",
       BBE: "I made my prayer to the Lord, and he gave me an answer, and made me free from all my fears.",
       RVA: "Busqué a Jehová, y él me oyó, y librome de todos mis temores.",
+      ALM1911: "Busquei ao Senhor, e elle me respondeu: livrou-me de todos os meus temores.",
     },
   },
   {
@@ -3981,6 +4368,7 @@ export const VERSES = [
       YLT: "A messenger of Jehovah is encamping Round about those fearing Him, And He armeth them.",
       BBE: "The angel of the Lord keeps watch around those who fear him, and takes them out of danger.",
       RVA: "El ángel de Jehová acampa alrededor de los que le temen, y los defiende.",
+      ALM1911: "O anjo do Senhor acampa-se em redor dos que o temem, e os livra.",
     },
   },
   {
@@ -3992,6 +4380,7 @@ export const VERSES = [
       YLT: "Many are the evils of the righteous, And out of all them doth Jehovah deliver him.",
       BBE: "Many are the troubles of the good man; but the Lord takes him safely out of them all.",
       RVA: "Muchas son las aflicciones del justo; mas de todas ellas le librará Jehová.",
+      ALM1911: "Muitas são as afflicções do justo, mas o Senhor o livra de todas.",
     },
   },
   {
@@ -4003,6 +4392,7 @@ export const VERSES = [
       YLT: "And the salvation of the righteous is from Jehovah, Their strong place in time of adversity.",
       BBE: "But the salvation of the good man is from the Lord; he is their strength in the time of trouble.",
       RVA: "Y la salud de los justos es de Jehová, y él es su fortaleza en el tiempo de angustia.",
+      ALM1911: "Mas a salvação dos justos vem do Senhor; elle é a sua fortaleza no tempo da angustia.",
     },
   },
   {
@@ -4014,6 +4404,7 @@ export const VERSES = [
       YLT: "Roll on Jehovah thy way, and trust upon Him, And He doth work,",
       BBE: "Put your way into the Lord's hands; have faith in him, and he will make it come right.",
       RVA: "Encomienda a Jehová tu camino, y espera en él; y él lo hará.",
+      ALM1911: "Entrega o teu caminho ao Senhor; confia n'elle, e elle o fará.",
     },
   },
   {
@@ -4025,6 +4416,7 @@ export const VERSES = [
       YLT: "Observe the perfect, and behold the upright, For the latter end of each is peace.",
       BBE: "Take note of the good man, and see the upright, for the end of that man is peace.",
       RVA: "Considera al íntegro, y mira al recto; que la postrimería de tal varón es paz.",
+      ALM1911: "Nota o homem sincero, e considera o recto, porque o fim d'esse homem é a paz.",
     },
   },
   {
@@ -4036,6 +4428,7 @@ export const VERSES = [
       YLT: "O the happiness of him -- Considering the poor, In a day of evil Jehovah delivereth him.",
       BBE: "Happy is he who has thought for the poor; the Lord will keep him safe in the time of trouble.",
       RVA: "Bienaventurado el que piensa en el pobre: en el día malo lo librará Jehová.",
+      ALM1911: "Bemaventurado é aquelle que attende ao pobre; o Senhor o livrará no dia do mal.",
     },
   },
   {
@@ -4047,6 +4440,7 @@ export const VERSES = [
       YLT: "God is to us a refuge and strength, A help in adversities found most surely. Therefore we fear not in the changing of earth,",
       BBE: "God is our safe place and our strength, a very present help in trouble. So we will have no fear.",
       RVA: "Dios es nuestro amparo y fortaleza, nuestro pronto auxilio en las tribulaciones. Por tanto no temeremos.",
+      ALM1911: "Deus é o nosso refugio e fortaleza, soccorro bem presente na angustia. Pelo que não temeremos, ainda que a terra se mude, e ainda que os montes se transportem para o meio dos mares.",
     },
   },
   {
@@ -4058,6 +4452,7 @@ export const VERSES = [
       YLT: "Jehovah of Hosts is with us, A tower for us is the God of Jacob. Selah.",
       BBE: "The Lord of armies is with us; the God of Jacob is our safe place.",
       RVA: "Jehová de los ejércitos está con nosotros; nuestro refugio es el Dios de Jacob.",
+      ALM1911: "O Senhor dos Exercitos está comnosco: o Deus de Jacob é o nosso refugio (Selah).",
     },
   },
 ];

@@ -14,7 +14,11 @@ import * as Localization from "expo-localization";
 import en from "./locales/en.json";
 import es from "./locales/es.json";
 
-const SUPPORTED_LANGUAGES = ["en", "es"];
+// "pt" is plumbed through for language detection so a Portuguese-locale
+// device gets Portuguese scripture (see storage.js's defaultSettings) even
+// though there's no locales/pt.json yet -- UI chrome strings fall back to
+// English via fallbackLng until that translation lands separately.
+const SUPPORTED_LANGUAGES = ["en", "es", "pt"];
 
 function detectDeviceLanguage() {
   const locales = Localization.getLocales();
