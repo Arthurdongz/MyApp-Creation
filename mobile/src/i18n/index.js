@@ -1,9 +1,8 @@
-// UI-chrome localization (buttons, labels, screen titles) — NOT the 366-day
-// content banks (verses, moments, encouragements, wisdom, stories), which
-// are a much larger, separate translation effort left for later. This
-// covers the app shell (App.js) and the onboarding screen as a proof of
-// concept; other screens still use hardcoded English strings and can follow
-// the same t("namespace.key") pattern when translated.
+// UI-chrome localization (buttons, labels, screen titles) for English,
+// Spanish, and Portuguese, plus language-aware selection of the 366-day
+// content banks (verses, moments, encouragements, wisdom, stories) done
+// separately at the point of use (see TodayScreen.js, FactScreen.js,
+// StoryScreen.js).
 //
 // Falls back to the device's language via expo-localization when a
 // translation exists, otherwise falls back to English.
@@ -13,11 +12,8 @@ import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import en from "./locales/en.json";
 import es from "./locales/es.json";
+import pt from "./locales/pt.json";
 
-// "pt" is plumbed through for language detection so a Portuguese-locale
-// device gets Portuguese scripture (see storage.js's defaultSettings) even
-// though there's no locales/pt.json yet -- UI chrome strings fall back to
-// English via fallbackLng until that translation lands separately.
 const SUPPORTED_LANGUAGES = ["en", "es", "pt"];
 
 function detectDeviceLanguage() {
@@ -30,6 +26,7 @@ i18n.use(initReactI18next).init({
   resources: {
     en: { translation: en },
     es: { translation: es },
+    pt: { translation: pt },
   },
   lng: detectDeviceLanguage(),
   fallbackLng: "en",

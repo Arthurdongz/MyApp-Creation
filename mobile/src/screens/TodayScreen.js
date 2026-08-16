@@ -10,10 +10,13 @@ import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
+import { ENCOURAGEMENTS_PT } from "../data/encouragements.pt";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
+import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
 import { WISDOM } from "../data/wisdom";
 import { QUOTES_ES } from "../data/quotes.es";
+import { QUOTES_PT } from "../data/quotes.pt";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 
@@ -44,10 +47,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const isSpanish = i18n.language === "es";
-  const encouragementsBank = isSpanish ? ENCOURAGEMENTS_ES : ENCOURAGEMENTS;
-  const momentsBank = isSpanish ? BARNABAS_MOMENTS_ES : BARNABAS_MOMENTS;
-  const quotesBank = isSpanish ? QUOTES_ES : QUOTES;
+  const encouragementsBank =
+    i18n.language === "es" ? ENCOURAGEMENTS_ES : i18n.language === "pt" ? ENCOURAGEMENTS_PT : ENCOURAGEMENTS;
+  const momentsBank =
+    i18n.language === "es" ? BARNABAS_MOMENTS_ES : i18n.language === "pt" ? BARNABAS_MOMENTS_PT : BARNABAS_MOMENTS;
+  const quotesBank = i18n.language === "es" ? QUOTES_ES : i18n.language === "pt" ? QUOTES_PT : QUOTES;
 
   const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
