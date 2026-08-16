@@ -10,7 +10,10 @@ import {
 } from "react-native";
 import { useTheme } from "../theme";
 import { sendChatMessage } from "../chat";
+import { getCrisisResource, getDeviceRegionCode } from "../crisisResources";
 import { hapticTap } from "../haptics";
+
+const crisisResource = getCrisisResource(getDeviceRegionCode());
 
 function ChatPaywall({ styles, onSubscribe }) {
   return (
@@ -130,9 +133,7 @@ export default function ChatScreen({ store }) {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.disclaimer}>
-            If you're in crisis, please reach real help: in the US call or text 988, or text HOME to 741741.
-          </Text>
+          <Text style={styles.disclaimer}>If you're in crisis, please reach real help: {crisisResource.sentence}</Text>
         </>
       )}
     </View>

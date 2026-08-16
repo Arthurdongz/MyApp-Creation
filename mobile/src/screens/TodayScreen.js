@@ -5,6 +5,7 @@ import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
+import { getCrisisResource, getDeviceRegionCode } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
@@ -260,6 +261,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
 
   const supportBlocks = [];
   if (showCrisisNudge) {
+    const crisisResource = getCrisisResource(getDeviceRegionCode());
     supportBlocks.push({
       key: "crisis",
       content: (
@@ -269,19 +271,17 @@ export default function TodayScreen({ store, scrollViewRef }) {
             It looks like the last little while has been heavy for you. That matters, and you don't have to
             carry it by yourself.
           </Text>
-          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
-            If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or
-            night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line.
-            Outside the US, searching "crisis line" with your country's name will find a local number.
-          </Text>
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={() => Linking.openURL("tel:988")}
-            accessibilityRole="button"
-            accessibilityLabel="Call 988"
-          >
-            <Text style={styles.secondaryButtonText}>📞 Call 988</Text>
-          </TouchableOpacity>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>{crisisResource.sentence}</Text>
+          {crisisResource.callUrl ? (
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={() => Linking.openURL(crisisResource.callUrl)}
+              accessibilityRole="button"
+              accessibilityLabel={crisisResource.callLabel}
+            >
+              <Text style={styles.secondaryButtonText}>📞 {crisisResource.callLabel}</Text>
+            </TouchableOpacity>
+          ) : null}
         </>
       ),
     });

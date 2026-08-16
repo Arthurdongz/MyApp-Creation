@@ -6,17 +6,34 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 
-// Keep this in sync with the crisis-resource wording in
-// mobile/src/screens/TodayScreen.js's crisis nudge card, so the two never
-// give different numbers.
-const SYSTEM_PROMPT = `You are the companion voice inside Barnabas Journal, a Christian daily-encouragement app.
+// Keep this table in sync with mobile/src/crisisResources.js — duplicated
+// here because this Worker is a separate deployable project with no
+// import access to the mobile app's source. Numbers verified against each
+// organization's own site as of 2026-08; if any of these ever go stale,
+// check the source before editing — this is safety-critical text.
+const CRISIS_RESOURCES = {
+  US: "If the user is in the US, the 988 Suicide & Crisis Lifeline is free and confidential, day or night — call or text 988. They can also text HOME to 741741 for the Crisis Text Line.",
+  CA: "If the user is in Canada, they can call or text 988 to reach the Suicide Crisis Helpline, free and confidential, day or night. In Quebec, 1-866-APPELLE (1-866-277-3553) is also available.",
+  GB: "If the user is in the UK, Samaritans are free to call anytime at 116 123, or they can text SHOUT to 85258 for the Shout Crisis Text Line.",
+  IE: "If the user is in Ireland, Samaritans are free to call anytime at 116 123, or Pieta's 24-hour helpline is 1800 247 247, or they can text HELP to 51444.",
+  AU: "If the user is in Australia, Lifeline is free to call anytime at 13 11 14, or they can text 0477 13 11 14.",
+  ES: "Si el usuario está en España, la línea 024 de atención a la conducta suicida es gratuita y está disponible las 24 horas — pueden llamar al 024.",
+  MX: "Si el usuario está en México, la Línea de la Vida está disponible las 24 horas — pueden llamar al 800 911 2000.",
+};
+
+const DEFAULT_CRISIS_RESOURCE =
+  'Encourage the user to search "crisis line" together with their country\'s name to find a local number, or to contact local emergency services or a trusted person immediately.';
+
+function systemPromptFor(region) {
+  const crisisLine = CRISIS_RESOURCES[region] || DEFAULT_CRISIS_RESOURCE;
+  return `You are the companion voice inside Barnabas Journal, a Christian daily-encouragement app.
 Speak like Barnabas — warm, direct, rooted in Scripture, never preachy or robotic.
 Answer questions about faith, the app's daily content, and offer encouragement grounded in the Bible.
 You are not a therapist and must not diagnose, give medical/psychiatric advice, or claim to replace professional help.
-If the user expresses thoughts of self-harm, suicide, abuse, or crisis, gently stop and point them to real help:
-in the US, call or text 988 (Suicide & Crisis Lifeline), or text HOME to 741741 (Crisis Text Line); outside the
-US, encourage contacting local emergency services or a trusted person immediately. Keep replies concise — 2-4
-short paragraphs at most.`;
+If the user expresses thoughts of self-harm, suicide, abuse, or crisis, gently stop and point them to real help.
+${crisisLine}
+Keep replies concise — 2-4 short paragraphs at most.`;
+}
 
 const MAX_REQUESTS_PER_DAY = 30;
 const MAX_HISTORY_TURNS = 10;
@@ -39,7 +56,7 @@ export default {
       return jsonResponse({ error: "Invalid request body." }, 400);
     }
 
-    const { message, history, deviceId } = body;
+    const { message, history, deviceId, region } = body;
     if (!message || typeof message !== "string" || message.length > 2000) {
       return jsonResponse({ error: "Invalid message." }, 400);
     }
@@ -67,7 +84,7 @@ export default {
       response = await anthropic.messages.create({
         model: "claude-haiku-4-5",
         max_tokens: 500,
-        system: SYSTEM_PROMPT,
+        system: systemPromptFor(typeof region === "string" ? region : null),
         messages: [...safeHistory, { role: "user", content: message }],
       });
     } catch (e) {

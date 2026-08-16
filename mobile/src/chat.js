@@ -9,6 +9,7 @@
 export const CHAT_WORKER_URL = "https://REPLACE-ME.workers.dev";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getDeviceRegionCode } from "./crisisResources";
 
 const DEVICE_ID_KEY = "barnabasJournalChatDeviceIdV1";
 
@@ -24,12 +25,16 @@ export async function getOrCreateChatDeviceId() {
 
 export async function sendChatMessage(message, history) {
   const deviceId = await getOrCreateChatDeviceId();
+  // Device region only (e.g. "US", "ES") — read from system locale, not
+  // GPS — so the Worker's system prompt can cite the right crisis line
+  // instead of always defaulting to US resources. See crisisResources.js.
+  const region = getDeviceRegionCode();
   let res;
   try {
     res = await fetch(CHAT_WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, history, deviceId }),
+      body: JSON.stringify({ message, history, deviceId, region }),
     });
   } catch (e) {
     throw new Error("Couldn't reach the chat server. Check your connection and try again.");
