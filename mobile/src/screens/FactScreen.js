@@ -8,15 +8,17 @@ import { pickForDay } from "../content";
 import { HIGHLIGHTS } from "../data/highlights";
 import { HIGHLIGHTS_ES } from "../data/highlights.es";
 import { HIGHLIGHTS_PT } from "../data/highlights.pt";
+import { HIGHLIGHTS_FR } from "../data/highlights.fr";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
+
+const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
 
 export default function FactScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const highlightsBank =
-    i18n.language === "es" ? HIGHLIGHTS_ES : i18n.language === "pt" ? HIGHLIGHTS_PT : HIGHLIGHTS;
+  const highlightsBank = HIGHLIGHTS_BY_LANG[i18n.language] || HIGHLIGHTS;
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
   const fact = pickForDay(highlightsBank, viewingDay, order);

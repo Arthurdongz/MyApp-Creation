@@ -11,12 +11,15 @@ import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
 import { ENCOURAGEMENTS_PT } from "../data/encouragements.pt";
+import { ENCOURAGEMENTS_FR } from "../data/encouragements.fr";
 import { BARNABAS_MOMENTS } from "../data/moments";
 import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
 import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
+import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
 import { WISDOM } from "../data/wisdom";
 import { QUOTES_ES } from "../data/quotes.es";
 import { QUOTES_PT } from "../data/quotes.pt";
+import { QUOTES_FR } from "../data/quotes.fr";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 
@@ -43,15 +46,17 @@ function truncateForPreview(text) {
   return trimmed.length > 90 ? `${trimmed.slice(0, 90).trimEnd()}…` : trimmed;
 }
 
+const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, fr: ENCOURAGEMENTS_FR };
+const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
+const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
+
 export default function TodayScreen({ store, scrollViewRef }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const encouragementsBank =
-    i18n.language === "es" ? ENCOURAGEMENTS_ES : i18n.language === "pt" ? ENCOURAGEMENTS_PT : ENCOURAGEMENTS;
-  const momentsBank =
-    i18n.language === "es" ? BARNABAS_MOMENTS_ES : i18n.language === "pt" ? BARNABAS_MOMENTS_PT : BARNABAS_MOMENTS;
-  const quotesBank = i18n.language === "es" ? QUOTES_ES : i18n.language === "pt" ? QUOTES_PT : QUOTES;
+  const encouragementsBank = ENCOURAGEMENTS_BY_LANG[i18n.language] || ENCOURAGEMENTS;
+  const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
+  const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
 
   const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({

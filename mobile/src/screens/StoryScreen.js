@@ -8,14 +8,17 @@ import { pickForDaySmallBank } from "../content";
 import { STORIES } from "../data/stories";
 import { STORIES_ES } from "../data/stories.es";
 import { STORIES_PT } from "../data/stories.pt";
+import { STORIES_FR } from "../data/stories.fr";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
+
+const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const storiesBank = i18n.language === "es" ? STORIES_ES : i18n.language === "pt" ? STORIES_PT : STORIES;
+  const storiesBank = STORIES_BY_LANG[i18n.language] || STORIES;
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
   const story = useMemo(() => pickForDaySmallBank(storiesBank, viewingDay, order), [storiesBank, viewingDay, order]);
