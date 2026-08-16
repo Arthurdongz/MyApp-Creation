@@ -465,14 +465,17 @@ export default function TodayScreen({ store, scrollViewRef }) {
             <Text style={styles.accordionPreview}>{truncateForPreview(encouragement)}</Text>
           ) : (
             <View style={styles.accordionRowBody}>
-              <TouchableOpacity
-                style={styles.accordionActionBtn}
-                onPress={() => speak(encouragement, settings)}
-                accessibilityRole="button"
-                accessibilityLabel="Listen to today's word for you"
-              >
-                <Text style={styles.favoriteBtn}>🔊 Listen</Text>
-              </TouchableOpacity>
+              <View style={styles.accordionActionRow}>
+                <ActionMenu
+                  actions={[
+                    { label: "🔊 Listen", onPress: () => speak(encouragement, settings) },
+                    {
+                      label: "↗ Share",
+                      onPress: () => setSharePreview({ text: encouragement, sourceLine: "A Word for You" }),
+                    },
+                  ]}
+                />
+              </View>
               <Text style={styles.bodyText}>{encouragement}</Text>
 
               {!today.reflection ? (
