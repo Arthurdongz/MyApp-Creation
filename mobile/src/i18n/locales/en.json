@@ -5,14 +5,15 @@
     "menu": "Menu",
     "loading": "Loading...",
     "footer": "Be still. Be kind. Be someone's encouragement today.",
+    "chatFab": "Chat with Barnabas",
+    "closeChat": "Close chat",
     "tabs": {
       "today": "Today",
       "story": "Story",
       "facts": "Facts",
       "journal": "Journal",
       "favorites": "Favorites",
-      "rewards": "Rewards",
-      "chat": "Chat"
+      "rewards": "Rewards"
     }
   },
   "onboarding": {

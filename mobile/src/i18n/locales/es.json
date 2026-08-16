@@ -5,14 +5,15 @@
     "menu": "Menú",
     "loading": "Cargando...",
     "footer": "Quédate quieto. Sé bondadoso. Sé el aliento de alguien hoy.",
+    "chatFab": "Chatear con Bernabé",
+    "closeChat": "Cerrar chat",
     "tabs": {
       "today": "Hoy",
       "story": "Historia",
       "facts": "Datos",
       "journal": "Diario",
       "favorites": "Favoritos",
-      "rewards": "Logros",
-      "chat": "Chat"
+      "rewards": "Logros"
     }
   },
   "onboarding": {

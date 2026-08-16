@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Linking,
+  Modal,
   Platform,
   ScrollView,
   Share,
@@ -68,7 +69,6 @@ const TAB_KEYS = [
   { key: "history", i18nKey: "app.tabs.journal" },
   { key: "favorites", i18nKey: "app.tabs.favorites" },
   { key: "rewards", i18nKey: "app.tabs.rewards" },
-  { key: "chat", i18nKey: "app.tabs.chat" },
 ];
 
 function App() {
@@ -92,13 +92,14 @@ function App() {
 export default Sentry.wrap(App);
 
 function AppContent({ store }) {
-  const { colors, mode } = useTheme();
+  const { colors, mode, shadow } = useTheme();
   const { t } = useTranslation();
   const [tab, setTab] = useState("today");
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-  const styles = getStyles(colors);
+  const [showChat, setShowChat] = useState(false);
+  const styles = getStyles(colors, shadow);
 
   const shortcutHandledRef = useRef(false);
   const scrollViewRef = useRef(null);
@@ -230,7 +231,6 @@ function AppContent({ store }) {
             {tab === "history" && <HistoryScreen store={store} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}
-            {tab === "chat" && <ChatScreen store={store} />}
 
             <Text style={styles.footer}>{t("app.footer")}</Text>
           </ScrollView>
@@ -245,12 +245,41 @@ function AppContent({ store }) {
           visible={store.ready && store.settings.onboarded && !store.settings.tourShown && !showSettings && !showAbout}
           onFinish={() => store.updateSettings({ tourShown: true })}
         />
+
+        {store.ready && store.settings.onboarded && !showSettings && !showAbout && !showChat ? (
+          <TouchableOpacity
+            style={styles.chatFab}
+            onPress={() => setShowChat(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t("app.chatFab")}
+          >
+            <Text style={styles.chatFabIcon}>💬</Text>
+          </TouchableOpacity>
+        ) : null}
+
+        <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
+          <SafeAreaView style={styles.safeArea}>
+            <View style={styles.chatModalTopBar}>
+              <TouchableOpacity
+                onPress={() => setShowChat(false)}
+                style={styles.chatModalCloseBtn}
+                accessibilityRole="button"
+                accessibilityLabel={t("app.closeChat")}
+              >
+                <Text style={styles.chatModalCloseText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+              <ChatScreen store={store} />
+            </ScrollView>
+          </SafeAreaView>
+        </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
   );
 }
 
-function getStyles(colors) {
+function getStyles(colors, shadow) {
   return StyleSheet.create({
     safeArea: { flex: 1, backgroundColor: colors.bg },
     loading: { flex: 1, alignItems: "center", justifyContent: "center" },
@@ -316,5 +345,35 @@ function getStyles(colors) {
       fontSize: 13,
       fontStyle: "italic",
     },
+    chatFab: {
+      position: "absolute",
+      bottom: 24,
+      right: 20,
+      width: 56,
+      height: 56,
+      borderRadius: 28,
+      backgroundColor: colors.buttonBg,
+      alignItems: "center",
+      justifyContent: "center",
+      ...shadow,
+    },
+    chatFabIcon: { fontSize: 24 },
+    chatModalTopBar: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingHorizontal: 18,
+      paddingTop: 8,
+    },
+    chatModalCloseBtn: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    chatModalCloseText: { fontSize: 14, color: colors.textSoft },
   });
 }
