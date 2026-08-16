@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -15,18 +15,18 @@ import { hapticTap } from "../haptics";
 function ChatPaywall({ styles, onSubscribe }) {
   return (
     <View style={styles.paywallCard}>
-      <Text style={styles.paywallTitle}>Your free week with Barnabas is up</Text>
+      <Text style={styles.paywallTitle}>You've used this month's free messages</Text>
       <Text style={styles.paywallText}>
-        You've had 7 days to talk things through, ask questions, or just be heard. Keeping this going costs a
-        little to run — subscribing helps cover that and keeps it going for you.
+        Your free messages renew next month, or subscribe now for unlimited chatting. Keeping this going costs
+        a little to run — subscribing helps cover that.
       </Text>
       <TouchableOpacity
         style={styles.subscribeBtn}
         onPress={onSubscribe}
         accessibilityRole="button"
-        accessibilityLabel="Subscribe to keep chatting"
+        accessibilityLabel="Subscribe for unlimited chat"
       >
-        <Text style={styles.subscribeBtnText}>Subscribe to Keep Chatting</Text>
+        <Text style={styles.subscribeBtnText}>Subscribe for Unlimited Chat</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,16 +35,11 @@ function ChatPaywall({ styles, onSubscribe }) {
 export default function ChatScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
-  const { chatAccess, startChatTrial } = store;
+  const { chatAccess, recordChatMessageSent } = store;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
-  useEffect(() => {
-    startChatTrial();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSend = async () => {
     const text = input.trim();
@@ -58,6 +53,7 @@ export default function ChatScreen({ store }) {
     try {
       const reply = await sendChatMessage(text, history);
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      recordChatMessageSent();
     } catch (e) {
       setErrorMsg(e.message || "Something went wrong. Please try again.");
     } finally {
@@ -85,11 +81,13 @@ export default function ChatScreen({ store }) {
         <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
       ) : (
         <>
-          {chatAccess.trialActive ? (
-            <Text style={styles.trialBanner}>
-              {chatAccess.daysLeft} {chatAccess.daysLeft === 1 ? "day" : "days"} left in your free trial
+          {!chatAccess.unlimited ? (
+            <Text style={styles.quotaBanner}>
+              {chatAccess.messagesLeft} of {chatAccess.limit} free messages left this month
             </Text>
-          ) : null}
+          ) : (
+            <Text style={styles.quotaBanner}>Unlimited chatting — thank you for subscribing ✨</Text>
+          )}
 
           <View style={styles.messagesWrap}>
             {messages.length === 0 ? (
@@ -145,7 +143,7 @@ function getStyles(colors, shadow) {
   return StyleSheet.create({
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18, lineHeight: 20 },
-    trialBanner: {
+    quotaBanner: {
       fontSize: 12,
       fontWeight: "700",
       color: colors.goldText,

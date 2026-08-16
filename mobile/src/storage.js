@@ -84,7 +84,8 @@ function defaultSettings() {
     verseFavoriteVersion: isSpanish ? "RVA" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
-    chatTrialStartedAt: null,
+    chatQuotaMonthKey: null,
+    chatMessagesUsed: 0,
     chatSubscribed: false,
   };
 }
@@ -188,19 +189,29 @@ function daysSinceKey(key) {
   return Math.round((to - from) / 86400000);
 }
 
-// The chatbot's free trial starts the first time the Chat tab is opened
-// (chatTrialStartedAt is null until then, set by startChatTrial), runs for
-// CHAT_TRIAL_DAYS, and after that requires chatSubscribed — set by a real
-// purchase flow once one exists; there is no such flow yet, so subscribing
-// is currently a no-op stub in ChatScreen.
-const CHAT_TRIAL_DAYS = 7;
+// The chatbot gives CHAT_FREE_MESSAGES_PER_MONTH free messages every
+// calendar month, forever — not a one-time trial. chatQuotaMonthKey +
+// chatMessagesUsed track usage for whichever month they last refer to;
+// once the current month doesn't match chatQuotaMonthKey, the count is
+// stale and the month's full quota is available again (see
+// recordChatMessageSent, which does the actual rollover). chatSubscribed
+// — set by a real purchase flow once one exists; there is no such flow
+// yet, so subscribing is currently a no-op stub in ChatScreen — grants
+// unlimited messages regardless of the monthly count.
+const CHAT_FREE_MESSAGES_PER_MONTH = 20;
+
+function currentMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
 
 export function computeChatAccess(settings) {
-  if (settings.chatSubscribed) return { granted: true, trialActive: false, daysLeft: 0 };
-  if (!settings.chatTrialStartedAt) return { granted: true, trialActive: true, daysLeft: CHAT_TRIAL_DAYS };
-  const elapsed = daysSinceKey(settings.chatTrialStartedAt);
-  const daysLeft = Math.max(0, CHAT_TRIAL_DAYS - elapsed);
-  return { granted: daysLeft > 0, trialActive: daysLeft > 0, daysLeft };
+  if (settings.chatSubscribed) {
+    return { granted: true, unlimited: true, messagesUsed: 0, messagesLeft: null, limit: null };
+  }
+  const messagesUsed = settings.chatQuotaMonthKey === currentMonthKey() ? settings.chatMessagesUsed : 0;
+  const messagesLeft = Math.max(0, CHAT_FREE_MESSAGES_PER_MONTH - messagesUsed);
+  return { granted: messagesLeft > 0, unlimited: false, messagesUsed, messagesLeft, limit: CHAT_FREE_MESSAGES_PER_MONTH };
 }
 
 // A gentle, rate-limited nudge toward real crisis resources when someone's
@@ -610,10 +621,18 @@ export function useJournalStore() {
     [persist]
   );
 
-  const startChatTrial = useCallback(() => {
+  // Called after a chat message successfully round-trips (not before —
+  // network failures and Worker errors shouldn't burn quota). Rolls the
+  // count over to 1 if the current month doesn't match chatQuotaMonthKey
+  // yet, otherwise just increments it.
+  const recordChatMessageSent = useCallback(() => {
     setState((prev) => {
-      if (prev.settings.chatTrialStartedAt) return prev;
-      const next = { ...prev, settings: { ...prev.settings, chatTrialStartedAt: todayKey() } };
+      const monthKey = currentMonthKey();
+      const messagesUsed = prev.settings.chatQuotaMonthKey === monthKey ? prev.settings.chatMessagesUsed + 1 : 1;
+      const next = {
+        ...prev,
+        settings: { ...prev.settings, chatQuotaMonthKey: monthKey, chatMessagesUsed: messagesUsed },
+      };
       persist(next);
       return next;
     });
@@ -730,7 +749,7 @@ export function useJournalStore() {
     weeklyRecap,
     yearInReview,
     chatAccess,
-    startChatTrial,
+    recordChatMessageSent,
     showCrisisNudge,
     showCheckInNudge,
     checkInNudgeVariant,

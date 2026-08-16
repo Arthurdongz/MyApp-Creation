@@ -64,10 +64,16 @@ volume with room to spare.
 
 ## What's NOT done yet
 
-This Worker and the app's ChatScreen give every user a 7-day free trial
-(tracked locally on-device — see `computeChatAccess` in
-`mobile/src/storage.js`). After the trial, the app shows a paywall with a
-"Subscribe" button that's currently a stub (just shows an alert) — there's
-no App Store/Play Console subscription product or RevenueCat project wired
-up yet. That's a separate setup step in your own developer accounts before
-real payments can flow.
+This Worker and the app's ChatScreen give every user 20 free messages a
+month, forever (tracked locally on-device — see `computeChatAccess` in
+`mobile/src/storage.js`, which rolls the count over each calendar month).
+Once that month's messages are used up, the app shows a paywall with a
+"Subscribe for Unlimited Chat" button that's currently a stub (just shows
+an alert) — there's no App Store/Play Console subscription product or
+RevenueCat project wired up yet. That's a separate setup step in your own
+developer accounts before real payments can flow.
+
+Note: since this quota lives in local device storage rather than an
+account, uninstalling and reinstalling the app resets it — there's no way
+to close that loophole without real accounts or store-receipt-based
+eligibility checks, which is a bigger lift than the quota itself.
