@@ -84,6 +84,8 @@ function defaultSettings() {
     verseFavoriteVersion: isSpanish ? "RVA" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
+    chatTrialStartedAt: null,
+    chatSubscribed: false,
   };
 }
 
@@ -184,6 +186,21 @@ function daysSinceKey(key) {
   to.setHours(0, 0, 0, 0);
   from.setHours(0, 0, 0, 0);
   return Math.round((to - from) / 86400000);
+}
+
+// The chatbot's free trial starts the first time the Chat tab is opened
+// (chatTrialStartedAt is null until then, set by startChatTrial), runs for
+// CHAT_TRIAL_DAYS, and after that requires chatSubscribed — set by a real
+// purchase flow once one exists; there is no such flow yet, so subscribing
+// is currently a no-op stub in ChatScreen.
+const CHAT_TRIAL_DAYS = 7;
+
+export function computeChatAccess(settings) {
+  if (settings.chatSubscribed) return { granted: true, trialActive: false, daysLeft: 0 };
+  if (!settings.chatTrialStartedAt) return { granted: true, trialActive: true, daysLeft: CHAT_TRIAL_DAYS };
+  const elapsed = daysSinceKey(settings.chatTrialStartedAt);
+  const daysLeft = Math.max(0, CHAT_TRIAL_DAYS - elapsed);
+  return { granted: daysLeft > 0, trialActive: daysLeft > 0, daysLeft };
 }
 
 // A gentle, rate-limited nudge toward real crisis resources when someone's
@@ -593,6 +610,15 @@ export function useJournalStore() {
     [persist]
   );
 
+  const startChatTrial = useCallback(() => {
+    setState((prev) => {
+      if (prev.settings.chatTrialStartedAt) return prev;
+      const next = { ...prev, settings: { ...prev.settings, chatTrialStartedAt: todayKey() } };
+      persist(next);
+      return next;
+    });
+  }, [persist]);
+
   const updateSettings = useCallback(
     (patch) => {
       setState((prev) => {
@@ -672,6 +698,7 @@ export function useJournalStore() {
   const momentsDone = countMomentsDone(state.entries);
   const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
   const yearInReview = computeYearInReview(state.entries, state.favorites, latestDay);
+  const chatAccess = computeChatAccess(state.settings);
 
   // Ask for a store review once a person has shown real, sustained
   // engagement (a 7-day streak — the same threshold as the "Week of Hope"
@@ -702,6 +729,8 @@ export function useJournalStore() {
     momentsDone,
     weeklyRecap,
     yearInReview,
+    chatAccess,
+    startChatTrial,
     showCrisisNudge,
     showCheckInNudge,
     checkInNudgeVariant,

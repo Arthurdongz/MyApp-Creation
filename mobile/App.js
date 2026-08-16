@@ -27,6 +27,7 @@ import FactScreen from "./src/screens/FactScreen";
 import HistoryScreen from "./src/screens/HistoryScreen";
 import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
+import ChatScreen from "./src/screens/ChatScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
@@ -67,6 +68,7 @@ const TAB_KEYS = [
   { key: "history", i18nKey: "app.tabs.journal" },
   { key: "favorites", i18nKey: "app.tabs.favorites" },
   { key: "rewards", i18nKey: "app.tabs.rewards" },
+  { key: "chat", i18nKey: "app.tabs.chat" },
 ];
 
 function App() {
@@ -228,6 +230,7 @@ function AppContent({ store }) {
             {tab === "history" && <HistoryScreen store={store} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}
+            {tab === "chat" && <ChatScreen store={store} />}
 
             <Text style={styles.footer}>{t("app.footer")}</Text>
           </ScrollView>
