@@ -23,25 +23,15 @@ import { hapticSuccess, hapticTap } from "../haptics";
 // "story"-type entries alongside quotes; filter down to just quotes.
 const QUOTES = WISDOM.filter((w) => w.type === "quote");
 
-const MOODS = [
-  { key: "joyful", emoji: "😊", label: "Joyful" },
-  { key: "peaceful", emoji: "🙂", label: "Peaceful" },
-  { key: "hopeful", emoji: "🌱", label: "Hopeful" },
-  { key: "tired", emoji: "😔", label: "Tired" },
-  { key: "struggling", emoji: "😢", label: "Struggling" },
+const MOOD_KEYS = [
+  { key: "joyful", emoji: "😊" },
+  { key: "peaceful", emoji: "🙂" },
+  { key: "hopeful", emoji: "🌱" },
+  { key: "tired", emoji: "😔" },
+  { key: "struggling", emoji: "😢" },
 ];
 
-const MOMENT_INTENTIONS = [
-  { key: "today", label: "Today" },
-  { key: "tonight", label: "Tonight" },
-  { key: "tomorrow", label: "Tomorrow morning" },
-];
-
-const MOMENT_INTENTION_LABELS = {
-  today: "Today",
-  tonight: "Tonight",
-  tomorrow: "Tomorrow morning",
-};
+const MOMENT_INTENTION_KEYS = ["today", "tonight", "tomorrow"];
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 
@@ -53,11 +43,20 @@ function truncateForPreview(text) {
 export default function TodayScreen({ store, scrollViewRef }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isSpanish = i18n.language === "es";
   const encouragementsBank = isSpanish ? ENCOURAGEMENTS_ES : ENCOURAGEMENTS;
   const momentsBank = isSpanish ? BARNABAS_MOMENTS_ES : BARNABAS_MOMENTS;
   const quotesBank = isSpanish ? QUOTES_ES : QUOTES;
+
+  const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
+  const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
+    key,
+    label: t(`today.momentIntentions.${key}`),
+  }));
+  const MOMENT_INTENTION_LABELS = Object.fromEntries(
+    MOMENT_INTENTION_KEYS.map((key) => [key, t(`today.momentIntentions.${key}`)])
+  );
 
   const {
     viewingDay,
@@ -215,7 +214,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const [sharePreview, setSharePreview] = useState(null);
 
   const shareMomentText = async () => {
-    const message = `A little encouragement from me to you today: ${moment}\n\n— sent from Barnabas Journal`;
+    const message = t("today.shareMoment", { moment, brand: t("app.brand") });
     try {
       await Share.share({ message });
     } catch (e) {
@@ -224,7 +223,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   };
 
   const reachOutToSomeone = async () => {
-    const message = "Hey, I wanted to reach out today — just thinking of you. How are you doing?";
+    const message = t("today.reachOut.message");
     try {
       await Share.share({ message });
     } catch (e) {
@@ -233,7 +232,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   };
 
   const talkToSomeone = async () => {
-    const message = "Hey, do you have a few minutes to talk? I could use a listening ear lately.";
+    const message = t("today.reachOut.talkMessage");
     try {
       await Share.share({ message });
     } catch (e) {
@@ -266,11 +265,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
       key: "crisis",
       content: (
         <>
-          <Text style={styles.cardLabel}>A Resource, If You Need It</Text>
-          <Text style={[styles.bodyText, { marginBottom: 10 }]}>
-            It looks like the last little while has been heavy for you. That matters, and you don't have to
-            carry it by yourself.
-          </Text>
+          <Text style={styles.cardLabel}>{t("today.support.crisis.title")}</Text>
+          <Text style={[styles.bodyText, { marginBottom: 10 }]}>{t("today.support.crisis.body")}</Text>
           <Text style={[styles.bodyText, { marginBottom: 14 }]}>{crisisResource.sentence}</Text>
           {crisisResource.callUrl ? (
             <TouchableOpacity
@@ -292,28 +288,21 @@ export default function TodayScreen({ store, scrollViewRef }) {
       content:
         store.checkInNudgeVariant === "talk" ? (
           <>
-            <Text style={styles.cardLabel}>Since It's Been Heavy Lately</Text>
-            <Text style={[styles.bodyText, { marginBottom: 14 }]}>
-              This past week has felt like a lot. A problem shared is a problem halved — is there
-              someone you trust that you could talk to about how you're really doing?
-            </Text>
+            <Text style={styles.cardLabel}>{t("today.support.checkinTalk.title")}</Text>
+            <Text style={[styles.bodyText, { marginBottom: 14 }]}>{t("today.support.checkinTalk.body")}</Text>
             <TouchableOpacity
               style={styles.secondaryButton}
               onPress={talkToSomeone}
               accessibilityRole="button"
-              accessibilityLabel="Talk to someone"
+              accessibilityLabel={t("today.support.checkinTalk.talkLabel")}
             >
-              <Text style={styles.secondaryButtonText}>💬 Talk to Someone</Text>
+              <Text style={styles.secondaryButtonText}>{t("today.support.checkinTalk.talkButton")}</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
-            <Text style={styles.cardLabel}>A Moment to Pause</Text>
-            <Text style={styles.bodyText}>
-              In this heavy season, pause for a moment: what's one small thing you're grateful for
-              right now, even if it's tiny? And think back — is there something that once felt
-              impossible to get through, that you made it through anyway? You can again.
-            </Text>
+            <Text style={styles.cardLabel}>{t("today.support.checkinPause.title")}</Text>
+            <Text style={styles.bodyText}>{t("today.support.checkinPause.body")}</Text>
           </>
         ),
     });
@@ -323,18 +312,15 @@ export default function TodayScreen({ store, scrollViewRef }) {
       key: "call",
       content: (
         <>
-          <Text style={styles.cardLabel}>A Little Further This Week</Text>
-          <Text style={[styles.bodyText, { marginBottom: 14 }]}>
-            A text is easy to send, and just as easy to scroll past. Is there someone you could actually
-            call, or see face to face, instead of just texting today?
-          </Text>
+          <Text style={styles.cardLabel}>{t("today.support.call.title")}</Text>
+          <Text style={[styles.bodyText, { marginBottom: 14 }]}>{t("today.support.call.body")}</Text>
           <TouchableOpacity
             style={styles.secondaryButton}
             onPress={() => Linking.openURL("tel:")}
             accessibilityRole="button"
-            accessibilityLabel="Call someone"
+            accessibilityLabel={t("today.support.call.callLabel")}
           >
-            <Text style={styles.secondaryButtonText}>📞 Call Someone</Text>
+            <Text style={styles.secondaryButtonText}>{t("today.support.call.callButton")}</Text>
           </TouchableOpacity>
         </>
       ),
@@ -349,25 +335,29 @@ export default function TodayScreen({ store, scrollViewRef }) {
             style={[styles.dayNavBtn, viewingDay <= 1 && styles.dayNavBtnDisabled]}
             onPress={goToPrevDay}
             disabled={viewingDay <= 1}
-            accessibilityLabel="Previous day"
+            accessibilityLabel={t("today.dayNav.previous")}
             accessibilityRole="button"
           >
             <Text style={styles.dayNavBtnText} maxFontSizeMultiplier={1.3}>‹</Text>
           </TouchableOpacity>
-          <Text style={styles.dayNavLabel}>{isToday ? `Today · Day ${viewingDay}` : `Day ${viewingDay}`}</Text>
+          <Text style={styles.dayNavLabel}>
+            {isToday
+              ? t("today.dayNav.todayLabel", { day: viewingDay })
+              : t("today.dayNav.dayLabel", { day: viewingDay })}
+          </Text>
           <TouchableOpacity
             style={[styles.dayNavBtn, viewingDay >= latestDay && styles.dayNavBtnDisabled]}
             onPress={goToNextDay}
             disabled={viewingDay >= latestDay}
-            accessibilityLabel="Next day"
+            accessibilityLabel={t("today.dayNav.next")}
             accessibilityRole="button"
           >
             <Text style={styles.dayNavBtnText} maxFontSizeMultiplier={1.3}>›</Text>
           </TouchableOpacity>
         </View>
         {!isToday ? (
-          <TouchableOpacity onPress={jumpToToday} accessibilityRole="button" accessibilityLabel="Back to today">
-            <Text style={styles.dayNavJump}>Back to today</Text>
+          <TouchableOpacity onPress={jumpToToday} accessibilityRole="button" accessibilityLabel={t("today.dayNav.backToToday")}>
+            <Text style={styles.dayNavJump}>{t("today.dayNav.backToToday")}</Text>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -376,9 +366,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
         <TouchableOpacity
           onPress={() => scrollToRef(verseRef)}
           accessibilityRole="button"
-          accessibilityLabel="Jump to Verse"
+          accessibilityLabel={t("today.jump.verseLabel")}
         >
-          <Text style={styles.jumpLink}>Verse</Text>
+          <Text style={styles.jumpLink}>{t("today.jump.verse")}</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
         <TouchableOpacity
@@ -387,25 +377,25 @@ export default function TodayScreen({ store, scrollViewRef }) {
             scrollToRef(wordRef);
           }}
           accessibilityRole="button"
-          accessibilityLabel="Jump to A Word for You"
+          accessibilityLabel={t("today.jump.wordLabel")}
         >
-          <Text style={styles.jumpLink}>Word</Text>
+          <Text style={styles.jumpLink}>{t("today.jump.word")}</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
         <TouchableOpacity
           onPress={() => scrollToRef(momentSectionRef)}
           accessibilityRole="button"
-          accessibilityLabel="Jump to Your Barnabas Moment"
+          accessibilityLabel={t("today.jump.momentLabel")}
         >
-          <Text style={styles.jumpLink}>Moment</Text>
+          <Text style={styles.jumpLink}>{t("today.jump.moment")}</Text>
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
         <TouchableOpacity
           onPress={() => scrollToRef(reflectRef)}
           accessibilityRole="button"
-          accessibilityLabel="Jump to Today's Reflection"
+          accessibilityLabel={t("today.jump.reflectLabel")}
         >
-          <Text style={styles.jumpLink}>Reflect</Text>
+          <Text style={styles.jumpLink}>{t("today.jump.reflect")}</Text>
         </TouchableOpacity>
       </View>
 
@@ -415,23 +405,23 @@ export default function TodayScreen({ store, scrollViewRef }) {
       <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
           <Text style={styles.sectionGroupIcon}>📖</Text>
-          <Text style={styles.sectionGroupTitle}>Today's Reading</Text>
+          <Text style={styles.sectionGroupTitle}>{t("today.reading.sectionTitle")}</Text>
         </View>
 
         <View ref={verseRef} collapsable={false} style={[styles.unifiedCard, styles.readingCard]}>
           <View style={styles.unifiedBlock}>
             <View style={styles.cardLabelRow}>
-              <Text style={styles.cardLabel}>Verse</Text>
+              <Text style={styles.cardLabel}>{t("today.labels.verse")}</Text>
               <ActionMenu
                 actions={[
-                  { label: "🔊 Listen", onPress: () => speak(`${verse.text} — ${verse.ref}`, settings) },
+                  { label: t("common.listen"), onPress: () => speak(`${verse.text} — ${verse.ref}`, settings) },
                   {
-                    label: "↗ Share",
+                    label: t("common.share"),
                     onPress: () =>
                       setSharePreview({ text: verse.text, sourceLine: `${verse.ref} (${verse.version})` }),
                   },
                   {
-                    label: verseSaved ? "★ Saved (tap to remove)" : "☆ Save",
+                    label: verseSaved ? t("common.savedTapRemove") : t("common.save"),
                     active: verseSaved,
                     onPress: () =>
                       toggleFavorite("verse", viewingDay, { text: verse.text, ref: `${verse.ref} (${verse.version})` }),
@@ -452,12 +442,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
               setWordOpen((v) => !v);
             }}
             accessibilityRole="button"
-            accessibilityLabel="A Word for You"
+            accessibilityLabel={t("today.word.title")}
             accessibilityState={{ expanded: wordOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
               <Text style={styles.accordionEmoji}>💛</Text>
-              <Text style={styles.accordionRowTitle}>A Word for You</Text>
+              <Text style={styles.accordionRowTitle}>{t("today.word.title")}</Text>
             </View>
             <Text style={[styles.accordionChevron, wordOpen && styles.accordionChevronOpen]}>›</Text>
           </TouchableOpacity>
@@ -468,10 +458,10 @@ export default function TodayScreen({ store, scrollViewRef }) {
               <View style={styles.accordionActionRow}>
                 <ActionMenu
                   actions={[
-                    { label: "🔊 Listen", onPress: () => speak(encouragement, settings) },
+                    { label: t("common.listen"), onPress: () => speak(encouragement, settings) },
                     {
-                      label: "↗ Share",
-                      onPress: () => setSharePreview({ text: encouragement, sourceLine: "A Word for You" }),
+                      label: t("common.share"),
+                      onPress: () => setSharePreview({ text: encouragement, sourceLine: t("today.word.title") }),
                     },
                   ]}
                 />
@@ -485,7 +475,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       style={[styles.textArea, { marginTop: 12 }]}
                       multiline
                       numberOfLines={2}
-                      placeholder="What does this stir in you?"
+                      placeholder={t("today.word.reflectPlaceholder")}
                       placeholderTextColor={colors.textSoft}
                       value={reflection}
                       onChangeText={setReflection}
@@ -495,16 +485,16 @@ export default function TodayScreen({ store, scrollViewRef }) {
                         style={styles.momentReflectSaveBtn}
                         onPress={handleWordReflectSave}
                         accessibilityRole="button"
-                        accessibilityLabel="Save reflection"
+                        accessibilityLabel={t("today.reflect.saveLabel")}
                       >
-                        <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                        <Text style={styles.momentReflectSaveBtnText}>{t("common.saveShort")}</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => setShowWordReflectPrompt(false)}
                         accessibilityRole="button"
-                        accessibilityLabel="Cancel"
+                        accessibilityLabel={t("common.cancel")}
                       >
-                        <Text style={styles.intentionChange}>Cancel</Text>
+                        <Text style={styles.intentionChange}>{t("common.cancel")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -516,16 +506,14 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       setShowWordReflectPrompt(true);
                     }}
                     accessibilityRole="button"
-                    accessibilityLabel="Let this sit for a moment — what does it stir in you?"
+                    accessibilityLabel={t("today.word.reflectPrompt")}
                   >
-                    <Text style={styles.customMomentLink}>Let this sit for a moment — what does it stir in you?</Text>
+                    <Text style={styles.customMomentLink}>{t("today.word.reflectPrompt")}</Text>
                   </TouchableOpacity>
                 )
               ) : null}
               {showWordReflectSaved ? (
-                <Text style={[styles.momentReflectSavedMsg, { marginTop: 12 }]}>
-                  Saved. Thank you for sitting with that. ⭐⭐
-                </Text>
+                <Text style={[styles.momentReflectSavedMsg, { marginTop: 12 }]}>{t("today.word.reflectSaved")}</Text>
               ) : null}
             </View>
           )}
@@ -539,12 +527,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
               setThoughtOpen((v) => !v);
             }}
             accessibilityRole="button"
-            accessibilityLabel="Encouraging Thought"
+            accessibilityLabel={t("today.thought.title")}
             accessibilityState={{ expanded: thoughtOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
               <Text style={styles.accordionEmoji}>✨</Text>
-              <Text style={styles.accordionRowTitle}>Encouraging Thought</Text>
+              <Text style={styles.accordionRowTitle}>{t("today.thought.title")}</Text>
             </View>
             <Text style={[styles.accordionChevron, thoughtOpen && styles.accordionChevronOpen]}>›</Text>
           </TouchableOpacity>
@@ -556,11 +544,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 <ActionMenu
                   actions={[
                     {
-                      label: "↗ Share",
+                      label: t("common.share"),
                       onPress: () => setSharePreview({ text: quote.text, sourceLine: `— ${quote.source || ""}` }),
                     },
                     {
-                      label: quoteSaved ? "★ Saved (tap to remove)" : "☆ Save",
+                      label: quoteSaved ? t("common.savedTapRemove") : t("common.save"),
                       active: quoteSaved,
                       onPress: () =>
                         toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" }),
@@ -580,7 +568,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
       <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
           <Text style={styles.sectionGroupIcon}>🤝</Text>
-          <Text style={styles.sectionGroupTitle}>Your Barnabas Moment</Text>
+          <Text style={styles.sectionGroupTitle}>{t("today.moment.sectionTitle")}</Text>
         </View>
         <View ref={momentSectionRef} collapsable={false}>
           {canCollapseMoment && !momentOpen ? (
@@ -591,42 +579,42 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 setMomentOpen(true);
               }}
               accessibilityRole="button"
-              accessibilityLabel="Today's Barnabas moment, done — tap to view"
+              accessibilityLabel={t("today.moment.summaryLabel")}
             >
-              <Text style={styles.momentSummaryText}>✓ You did today's moment</Text>
+              <Text style={styles.momentSummaryText}>{t("today.moment.summaryText")}</Text>
               <Text style={styles.accordionChevron}>›</Text>
             </TouchableOpacity>
           ) : (
             <Card style={styles.momentCard}>
               {showMomentFollowUp ? (
                 <View style={styles.followUpStrip}>
-                  <Text style={styles.followUpStripLabel}>Yesterday, you planned to:</Text>
+                  <Text style={styles.followUpStripLabel}>{t("today.moment.followUp.label")}</Text>
                   <Text style={[styles.followUpStripText, { marginBottom: 12 }]}>{prevMoment}</Text>
-                  <Text style={styles.followUpQuestion}>Did you get to it?</Text>
+                  <Text style={styles.followUpQuestion}>{t("today.moment.followUp.question")}</Text>
                   <View style={styles.followUpActions}>
                     <TouchableOpacity
                       style={styles.followUpBtn}
                       onPress={() => handleFollowUp("done")}
                       accessibilityRole="button"
-                      accessibilityLabel="Yes, I did it"
+                      accessibilityLabel={t("today.moment.followUp.yesLabel")}
                     >
-                      <Text style={styles.followUpBtnText}>Yes, I did it 🎉</Text>
+                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.yesButton")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.followUpBtn}
                       onPress={() => handleFollowUp("not_yet")}
                       accessibilityRole="button"
-                      accessibilityLabel="Not yet, but I still might"
+                      accessibilityLabel={t("today.moment.followUp.notYet")}
                     >
-                      <Text style={styles.followUpBtnText}>Not yet, but I still might</Text>
+                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.notYet")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={styles.followUpBtn}
                       onPress={() => handleFollowUp("no")}
                       accessibilityRole="button"
-                      accessibilityLabel="No, not this time"
+                      accessibilityLabel={t("today.moment.followUp.no")}
                     >
-                      <Text style={styles.followUpBtnText}>No, not this time</Text>
+                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.no")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -640,9 +628,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
                     setMomentOpen(false);
                   }}
                   accessibilityRole="button"
-                  accessibilityLabel="Collapse today's Barnabas moment"
+                  accessibilityLabel={t("today.moment.collapseLabel")}
                 >
-                  <Text style={styles.collapseLink}>‹ Collapse</Text>
+                  <Text style={styles.collapseLink}>{t("today.moment.collapseText")}</Text>
                 </TouchableOpacity>
               ) : null}
 
@@ -651,13 +639,13 @@ export default function TodayScreen({ store, scrollViewRef }) {
               {!today.momentDone ? (
                 today.customMoment ? (
                   <View style={styles.customMomentRow}>
-                    <Text style={styles.customMomentNote}>This is your own idea for today.</Text>
+                    <Text style={styles.customMomentNote}>{t("today.moment.customNote")}</Text>
                     <TouchableOpacity
                       onPress={handleUseSuggestion}
                       accessibilityRole="button"
-                      accessibilityLabel="Use today's suggestion instead"
+                      accessibilityLabel={t("today.moment.useSuggestion")}
                     >
-                      <Text style={styles.intentionChange}>Use today's suggestion instead</Text>
+                      <Text style={styles.intentionChange}>{t("today.moment.useSuggestion")}</Text>
                     </TouchableOpacity>
                   </View>
                 ) : showCustomMomentInput ? (
@@ -666,7 +654,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       style={styles.textArea}
                       multiline
                       numberOfLines={2}
-                      placeholder="What's your own act of kindness today?"
+                      placeholder={t("today.moment.customPlaceholder")}
                       placeholderTextColor={colors.textSoft}
                       value={customMomentInput}
                       onChangeText={setCustomMomentInput}
@@ -676,16 +664,16 @@ export default function TodayScreen({ store, scrollViewRef }) {
                         style={styles.momentReflectSaveBtn}
                         onPress={handleUseCustomMoment}
                         accessibilityRole="button"
-                        accessibilityLabel="Use this instead"
+                        accessibilityLabel={t("today.moment.useCustom")}
                       >
-                        <Text style={styles.momentReflectSaveBtnText}>Use this instead</Text>
+                        <Text style={styles.momentReflectSaveBtnText}>{t("today.moment.useCustom")}</Text>
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => setShowCustomMomentInput(false)}
                         accessibilityRole="button"
-                        accessibilityLabel="Cancel"
+                        accessibilityLabel={t("common.cancel")}
                       >
-                        <Text style={styles.intentionChange}>Cancel</Text>
+                        <Text style={styles.intentionChange}>{t("common.cancel")}</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -697,9 +685,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
                       setShowCustomMomentInput(true);
                     }}
                     accessibilityRole="button"
-                    accessibilityLabel="Or, write your own kindness for today"
+                    accessibilityLabel={t("today.moment.writeOwn")}
                   >
-                    <Text style={styles.customMomentLink}>Or, write your own kindness for today</Text>
+                    <Text style={styles.customMomentLink}>{t("today.moment.writeOwn")}</Text>
                   </TouchableOpacity>
                 )
               ) : null}
@@ -708,19 +696,19 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 today.momentIntention ? (
                   <View style={styles.intentionRow}>
                     <Text style={styles.intentionText}>
-                      Planned for: {MOMENT_INTENTION_LABELS[today.momentIntention]}
+                      {t("today.moment.plannedFor", { when: MOMENT_INTENTION_LABELS[today.momentIntention] })}
                     </Text>
                     <TouchableOpacity
                       onPress={() => setMomentIntention(null)}
                       accessibilityRole="button"
-                      accessibilityLabel="Change when you'll do this"
+                      accessibilityLabel={t("today.moment.changeWhenLabel")}
                     >
-                      <Text style={styles.intentionChange}>Change</Text>
+                      <Text style={styles.intentionChange}>{t("common.change")}</Text>
                     </TouchableOpacity>
                   </View>
                 ) : (
                   <View style={styles.intentionPrompt}>
-                    <Text style={styles.intentionPromptLabel}>When will you do this?</Text>
+                    <Text style={styles.intentionPromptLabel}>{t("today.moment.whenPrompt")}</Text>
                     <View style={styles.intentionOptions}>
                       {MOMENT_INTENTIONS.map((opt) => (
                         <TouchableOpacity
@@ -750,33 +738,43 @@ export default function TodayScreen({ store, scrollViewRef }) {
                   }}
                   disabled={today.momentDone}
                   accessibilityRole="button"
-                  accessibilityLabel={today.momentDone ? "Done" : isToday ? "I did this today" : "I did this"}
+                  accessibilityLabel={
+                    today.momentDone
+                      ? t("today.moment.doneLabel")
+                      : isToday
+                      ? t("today.moment.doTodayLabel")
+                      : t("today.moment.doLabel")
+                  }
                   accessibilityState={{ disabled: today.momentDone }}
                 >
                   <Text style={styles.buttonText}>
-                    {today.momentDone ? "Done ✓" : isToday ? "I did this today ✓" : "I did this ✓"}
+                    {today.momentDone
+                      ? t("today.moment.doneText")
+                      : isToday
+                      ? t("today.moment.doTodayText")
+                      : t("today.moment.doText")}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.secondaryButton}
                   onPress={shareMomentText}
                   accessibilityRole="button"
-                  accessibilityLabel="Send to someone"
+                  accessibilityLabel={t("today.moment.sendToSomeone")}
                 >
-                  <Text style={styles.secondaryButtonText}>Send to someone</Text>
+                  <Text style={styles.secondaryButtonText}>{t("today.moment.sendToSomeone")}</Text>
                 </TouchableOpacity>
               </View>
               {today.momentDone ? (
                 <>
-                  <Text style={styles.doneMsg}>Well done — that kindness mattered. ⭐⭐</Text>
+                  <Text style={styles.doneMsg}>{t("today.moment.doneMsg")}</Text>
                   {!today.barnabasNote ? (
                     <View style={styles.momentReflectPrompt}>
-                      <Text style={styles.momentReflectLabel}>What happened? (optional)</Text>
+                      <Text style={styles.momentReflectLabel}>{t("today.moment.whatHappenedLabel")}</Text>
                       <TextInput
                         style={styles.textArea}
                         multiline
                         numberOfLines={2}
-                        placeholder="What happened when you did it?"
+                        placeholder={t("today.moment.whatHappenedPlaceholder")}
                         placeholderTextColor={colors.textSoft}
                         value={barnabasNote}
                         onChangeText={setBarnabasNote}
@@ -785,26 +783,26 @@ export default function TodayScreen({ store, scrollViewRef }) {
                         style={styles.momentReflectSaveBtn}
                         onPress={handleMomentReflectSave}
                         accessibilityRole="button"
-                        accessibilityLabel="Save"
+                        accessibilityLabel={t("common.saveShort")}
                       >
-                        <Text style={styles.momentReflectSaveBtnText}>Save</Text>
+                        <Text style={styles.momentReflectSaveBtnText}>{t("common.saveShort")}</Text>
                       </TouchableOpacity>
                     </View>
                   ) : null}
                   {showMomentReflectSaved ? (
-                    <Text style={styles.momentReflectSavedMsg}>Saved. Thank you for sharing that. ⭐⭐</Text>
+                    <Text style={styles.momentReflectSavedMsg}>{t("today.moment.reflectSaved")}</Text>
                   ) : null}
                 </>
               ) : null}
 
               <View style={styles.reachOutInline}>
-                <Text style={styles.reachOutInlineText}>💛 If today feels heavy —</Text>
+                <Text style={styles.reachOutInlineText}>{t("today.moment.reachOutPrefix")}</Text>
                 <TouchableOpacity
                   onPress={reachOutToSomeone}
                   accessibilityRole="button"
-                  accessibilityLabel="Reach out to someone who cares"
+                  accessibilityLabel={t("today.moment.reachOutLink")}
                 >
-                  <Text style={styles.reachOutInlineLink}>reach out to someone who cares</Text>
+                  <Text style={styles.reachOutInlineLink}>{t("today.moment.reachOutLink")}</Text>
                 </TouchableOpacity>
               </View>
             </Card>
@@ -817,7 +815,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
         <View style={styles.sectionGroup}>
           <View style={styles.sectionGroupHeader}>
             <Text style={styles.sectionGroupIcon}>💬</Text>
-            <Text style={styles.sectionGroupTitle}>A Little Extra Support</Text>
+            <Text style={styles.sectionGroupTitle}>{t("today.support.sectionTitle")}</Text>
           </View>
           <View style={[styles.unifiedCard, styles.supportCard]}>
             {supportBlocks.map((block, i) => (
@@ -843,7 +841,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
         <View style={styles.sectionGroupHeader}>
           <Text style={styles.sectionGroupIcon}>📝</Text>
           <Text style={styles.sectionGroupTitle}>
-            {isToday ? "Today's Reflection" : `Day ${viewingDay}'s Reflection`}
+            {isToday
+              ? t("today.reflect.sectionTitleToday")
+              : t("today.reflect.sectionTitleDay", { day: viewingDay })}
           </Text>
         </View>
         <Card>
@@ -855,12 +855,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 setHeartOpen((v) => !v);
               }}
               accessibilityRole="button"
-              accessibilityLabel="What's on your heart today?"
+              accessibilityLabel={t("today.reflect.heartTitle")}
               accessibilityState={{ expanded: heartOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>💭</Text>
-                <Text style={styles.accordionRowTitle}>What's on your heart today?</Text>
+                <Text style={styles.accordionRowTitle}>{t("today.reflect.heartTitle")}</Text>
               </View>
               <Text style={[styles.accordionChevron, heartOpen && styles.accordionChevronOpen]}>›</Text>
             </TouchableOpacity>
@@ -873,7 +873,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
                   style={styles.textArea}
                   multiline
                   numberOfLines={3}
-                  placeholder="Write freely — this is just for you..."
+                  placeholder={t("today.reflect.heartPlaceholder")}
                   placeholderTextColor={colors.textSoft}
                   value={reflection}
                   onChangeText={setReflection}
@@ -890,14 +890,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 setBarnabasOpen((v) => !v);
               }}
               accessibilityRole="button"
-              accessibilityLabel="Your Barnabas moment — what did you do, and how did it feel?"
+              accessibilityLabel={t("today.reflect.momentTitle")}
               accessibilityState={{ expanded: barnabasOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>🤝</Text>
-                <Text style={styles.accordionRowTitle}>
-                  Your Barnabas moment — what did you do, and how did it feel?
-                </Text>
+                <Text style={styles.accordionRowTitle}>{t("today.reflect.momentTitle")}</Text>
               </View>
               <Text style={[styles.accordionChevron, barnabasOpen && styles.accordionChevronOpen]}>›</Text>
             </TouchableOpacity>
@@ -910,7 +908,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
                   style={styles.textArea}
                   multiline
                   numberOfLines={3}
-                  placeholder="What did you do for someone today, and how did it feel?"
+                  placeholder={t("today.reflect.momentPlaceholder")}
                   placeholderTextColor={colors.textSoft}
                   value={barnabasNote}
                   onChangeText={setBarnabasNote}
@@ -927,14 +925,12 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 setKindnessOpen((v) => !v);
               }}
               accessibilityRole="button"
-              accessibilityLabel="Someone watered me today — did anyone show you kindness?"
+              accessibilityLabel={t("today.reflect.kindnessTitle")}
               accessibilityState={{ expanded: kindnessOpen }}
             >
               <View style={styles.accordionRowTitleWrap}>
                 <Text style={styles.accordionEmoji}>💛</Text>
-                <Text style={styles.accordionRowTitle}>
-                  Someone watered me today — did anyone show you kindness?
-                </Text>
+                <Text style={styles.accordionRowTitle}>{t("today.reflect.kindnessTitle")}</Text>
               </View>
               <Text style={[styles.accordionChevron, kindnessOpen && styles.accordionChevronOpen]}>›</Text>
             </TouchableOpacity>
@@ -947,7 +943,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
                   style={styles.textArea}
                   multiline
                   numberOfLines={3}
-                  placeholder="What did someone do for you today, and how did it feel?"
+                  placeholder={t("today.reflect.kindnessPlaceholder")}
                   placeholderTextColor={colors.textSoft}
                   value={receivedKindness}
                   onChangeText={setReceivedKindness}
@@ -956,7 +952,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
             ) : null}
           </View>
 
-          <Text style={styles.fieldLabel}>How are you feeling?</Text>
+          <Text style={styles.fieldLabel}>{t("today.reflect.moodLabel")}</Text>
           <View style={styles.moodRow}>
             {MOODS.map((m) => (
               <TouchableOpacity
@@ -979,15 +975,13 @@ export default function TodayScreen({ store, scrollViewRef }) {
             style={[styles.button, { marginTop: 16 }]}
             onPress={handleSave}
             accessibilityRole="button"
-            accessibilityLabel="Save reflection"
+            accessibilityLabel={t("today.reflect.saveLabel")}
           >
-            <Text style={styles.buttonText}>Save Reflection</Text>
+            <Text style={styles.buttonText}>{t("today.reflect.saveButton")}</Text>
           </TouchableOpacity>
           {showSaved ? (
             <Text style={styles.doneMsg}>
-              {isToday
-                ? "Saved gently. Thank you for showing up today. ⭐⭐"
-                : "Saved gently. Thank you for going back to this day. ⭐⭐"}
+              {isToday ? t("today.reflect.savedToday") : t("today.reflect.savedPastDay")}
             </Text>
           ) : null}
         </Card>
