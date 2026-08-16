@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
+import SharePreviewModal from "../components/SharePreviewModal";
+import YearReviewCard from "../components/YearReviewCard";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -33,10 +36,40 @@ function WeeklyRecapCard({ recap, styles }) {
   );
 }
 
+function YearInReviewCard({ recap, styles, onShare }) {
+  if (recap.totalDays < 14) return null;
+  const title = recap.isFullYear ? "Your Year in Review" : "Your Journey So Far";
+  return (
+    <View style={styles.recapCard}>
+      <View style={styles.recapHeaderRow}>
+        <Text style={styles.sectionTitle}>{title}</Text>
+        <TouchableOpacity
+          onPress={onShare}
+          accessibilityRole="button"
+          accessibilityLabel="Share your year in review"
+        >
+          <Text style={styles.recapShareBtn}>↗ Share</Text>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.recapText}>
+        Over {pluralize(recap.totalDays, "day")}, you showed up {pluralize(recap.daysShownUp, "day")}, did{" "}
+        {pluralize(recap.momentsDone, "Barnabas Moment")}, and reached a best streak of{" "}
+        {pluralize(recap.longestStreak, "day")} in a row.
+      </Text>
+      {recap.favoritesSaved > 0 ? (
+        <Text style={[styles.recapText, { marginTop: 8 }]}>
+          You saved {pluralize(recap.favoritesSaved, "favorite")} along the way to come back to.
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
 export default function RewardsScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
-  const { totalStars, streak, momentsDone, weeklyRecap } = store;
+  const { totalStars, streak, momentsDone, weeklyRecap, yearInReview, settings, updateSettings } = store;
+  const [showYearShare, setShowYearShare] = useState(false);
 
   return (
     <View>
@@ -44,6 +77,7 @@ export default function RewardsScreen({ store }) {
       <Text style={styles.subtitle}>A small way to notice how far you've come.</Text>
 
       <WeeklyRecapCard recap={weeklyRecap} styles={styles} />
+      <YearInReviewCard recap={yearInReview} styles={styles} onShare={() => setShowYearShare(true)} />
 
       <View style={styles.summaryRow}>
         <View style={styles.tile}>
@@ -83,6 +117,15 @@ export default function RewardsScreen({ store }) {
       <Text style={styles.sectionTitle}>Mood Calendar</Text>
       <Text style={styles.subtitle}>How you've been feeling, day by day.</Text>
       <MoodCalendar store={store} styles={styles} />
+
+      <SharePreviewModal
+        visible={showYearShare}
+        CardComponent={YearReviewCard}
+        cardProps={{ stats: yearInReview }}
+        initialThemeId={settings.shareTheme}
+        onThemeChange={(id) => updateSettings({ shareTheme: id })}
+        onClose={() => setShowYearShare(false)}
+      />
     </View>
   );
 }
@@ -139,6 +182,23 @@ function getStyles(colors, shadow) {
       ...shadow,
     },
     recapText: { fontSize: 14, lineHeight: 20, color: colors.text },
+    recapHeaderRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 8,
+    },
+    recapShareBtn: {
+      fontSize: 12,
+      fontWeight: "700",
+      color: colors.textSoft,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 999,
+      paddingVertical: 3,
+      paddingHorizontal: 9,
+      overflow: "hidden",
+    },
     summaryRow: { flexDirection: "row", gap: 10, marginBottom: 24 },
     tile: {
       flex: 1,

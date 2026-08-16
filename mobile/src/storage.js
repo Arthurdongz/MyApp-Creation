@@ -245,6 +245,49 @@ export function computeWeeklyRecap(entries, latestDay) {
   return { daysShownUp, momentsDone, journalEntries, kindnessReceived, totalDays: latestDay - start + 1 };
 }
 
+// A look back across the whole journey (or the trailing 365 days, whichever
+// is shorter) for a "year in review" style recap. longestStreak here is a
+// simple longest-consecutive-days-shown-up count within the window — it
+// intentionally doesn't apply the grace-day rule computeStreak uses, since
+// this is a retrospective highlight ("your best run"), not the live streak
+// number that determines badges.
+export function computeYearInReview(entries, favorites, latestDay) {
+  const start = Math.max(1, latestDay - 364);
+  let daysShownUp = 0;
+  let momentsDone = 0;
+  let journalEntries = 0;
+  let kindnessReceived = 0;
+  let longestStreak = 0;
+  let currentRun = 0;
+  for (let day = start; day <= latestDay; day++) {
+    const entry = entries[`day-${day}`];
+    const hasActivity =
+      entry && (entry.starsAwarded.daily || entry.starsAwarded.moment || entry.starsAwarded.journal);
+    if (hasActivity) {
+      daysShownUp += 1;
+      currentRun += 1;
+      longestStreak = Math.max(longestStreak, currentRun);
+    } else {
+      currentRun = 0;
+    }
+    if (entry && entry.momentDone) momentsDone += 1;
+    if (entry && (entry.reflection || entry.barnabasNote)) journalEntries += 1;
+    if (entry && entry.receivedKindness) kindnessReceived += 1;
+  }
+  const favoritesSaved = favorites.filter((f) => f.dayNumber >= start && f.dayNumber <= latestDay).length;
+  const totalDays = latestDay - start + 1;
+  return {
+    totalDays,
+    daysShownUp,
+    momentsDone,
+    journalEntries,
+    kindnessReceived,
+    longestStreak,
+    favoritesSaved,
+    isFullYear: totalDays >= 365,
+  };
+}
+
 function ensureDayEntryWithStar(state, dayNumber) {
   const key = `day-${dayNumber}`;
   const existing = state.entries[key];
@@ -628,6 +671,7 @@ export function useJournalStore() {
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
   const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
+  const yearInReview = computeYearInReview(state.entries, state.favorites, latestDay);
 
   // Ask for a store review once a person has shown real, sustained
   // engagement (a 7-day streak — the same threshold as the "Week of Hope"
@@ -657,6 +701,7 @@ export function useJournalStore() {
     streak,
     momentsDone,
     weeklyRecap,
+    yearInReview,
     showCrisisNudge,
     showCheckInNudge,
     checkInNudgeVariant,

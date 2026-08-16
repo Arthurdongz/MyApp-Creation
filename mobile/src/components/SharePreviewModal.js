@@ -10,8 +10,21 @@ import { hapticTap } from "../haptics";
 
 // Shown when the user taps Share on a verse, quote, or story — lets them
 // preview the actual card with different background colors before sending
-// it, rather than picking a color ahead of time in Settings.
-export default function SharePreviewModal({ visible, mainText, sourceLine, initialThemeId, onThemeChange, onClose }) {
+// it, rather than picking a color ahead of time in Settings. CardComponent
+// defaults to the single-quote layout (mainText/sourceLine); pass a
+// different CardComponent + cardProps (e.g. YearReviewCard + { stats }) for
+// a differently-shaped card that still wants the same theme picker and
+// capture/share flow.
+export default function SharePreviewModal({
+  visible,
+  mainText,
+  sourceLine,
+  initialThemeId,
+  onThemeChange,
+  onClose,
+  CardComponent = ShareQuoteCard,
+  cardProps,
+}) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const [selectedId, setSelectedId] = useState(initialThemeId || "classic");
@@ -59,7 +72,11 @@ export default function SharePreviewModal({ visible, mainText, sourceLine, initi
           </View>
 
           <View style={styles.previewWrap}>
-            <ShareQuoteCard ref={cardRef} text={mainText} sourceLine={sourceLine} colors={selectedTheme.colors} />
+            <CardComponent
+              ref={cardRef}
+              colors={selectedTheme.colors}
+              {...(cardProps || { text: mainText, sourceLine })}
+            />
           </View>
 
           <View style={styles.swatchRow}>
