@@ -61,9 +61,11 @@ export const BADGE_DEFS = [
 // unaffected: their already-saved verseVersionMode/verseFavoriteVersion
 // values always win over this default (see normalizeLoaded's merge).
 // Portuguese-locale devices get the same treatment, pinned to ALM1911.
+// French-locale devices get the same treatment, pinned to LSG.
 function defaultSettings() {
   const isSpanish = i18n.language === "es";
   const isPortuguese = i18n.language === "pt";
+  const isFrench = i18n.language === "fr";
   return {
     onboarded: false,
     theme: "system",
@@ -82,8 +84,8 @@ function defaultSettings() {
     speechRate: 0.95,
     lastCrisisNudgeShownAt: null,
     lastCheckInNudgeShownAt: null,
-    verseVersionMode: isSpanish || isPortuguese ? "favorite" : "alternate",
-    verseFavoriteVersion: isSpanish ? "RVA" : isPortuguese ? "ALM1911" : "KJV",
+    verseVersionMode: isSpanish || isPortuguese || isFrench ? "favorite" : "alternate",
+    verseFavoriteVersion: isSpanish ? "RVA" : isPortuguese ? "ALM1911" : isFrench ? "LSG" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
     chatQuotaMonthKey: null,
