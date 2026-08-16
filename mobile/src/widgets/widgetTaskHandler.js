@@ -15,15 +15,15 @@ import { unlockedDayFor, pickForDay, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { HIGHLIGHTS } from "../data/highlights";
 import { HIGHLIGHTS_ES } from "../data/highlights.es";
+import { HIGHLIGHTS_PT } from "../data/highlights.pt";
 import { TodayVerseWidget } from "./TodayVerseWidget";
 import { TodayFactWidget } from "./TodayFactWidget";
 
 // This headless task runs outside the app's React tree, so it can't read
 // react-i18next's language state — check the device locale directly
 // instead, the same signal i18n/index.js uses to pick the UI language.
-function isSpanishDevice() {
-  const code = Localization.getLocales()[0]?.languageCode;
-  return code === "es";
+function deviceLanguageCode() {
+  return Localization.getLocales()[0]?.languageCode;
 }
 
 const STORAGE_KEY = "barnabasJournalStateV2";
@@ -82,7 +82,8 @@ async function resolveTodayFact() {
     }
 
     const dayNumber = unlockedDayFor(journeyStartDate);
-    const bank = isSpanishDevice() ? HIGHLIGHTS_ES : HIGHLIGHTS;
+    const lang = deviceLanguageCode();
+    const bank = lang === "es" ? HIGHLIGHTS_ES : lang === "pt" ? HIGHLIGHTS_PT : HIGHLIGHTS;
     const text = pickForDay(bank, dayNumber, order);
     return { text };
   } catch {
