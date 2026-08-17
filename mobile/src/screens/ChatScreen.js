@@ -37,7 +37,7 @@ function ChatPaywall({ styles, onSubscribe }) {
 export default function ChatScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { chatAccess, recordChatMessageSent } = store;
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -54,7 +54,7 @@ export default function ChatScreen({ store }) {
     setSending(true);
     setErrorMsg("");
     try {
-      const reply = await sendChatMessage(text, history);
+      const reply = await sendChatMessage(text, history, i18n.language);
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
       recordChatMessageSent();
     } catch (e) {

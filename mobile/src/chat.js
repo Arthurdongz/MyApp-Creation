@@ -23,7 +23,7 @@ export async function getOrCreateChatDeviceId() {
   return id;
 }
 
-export async function sendChatMessage(message, history) {
+export async function sendChatMessage(message, history, language) {
   const deviceId = await getOrCreateChatDeviceId();
   // Device region only (e.g. "US", "ES") — read from system locale, not
   // GPS — so the Worker's system prompt can cite the right crisis line
@@ -34,7 +34,7 @@ export async function sendChatMessage(message, history) {
     res = await fetch(CHAT_WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, history, deviceId, region }),
+      body: JSON.stringify({ message, history, deviceId, region, language }),
     });
   } catch (e) {
     throw new Error("Couldn't reach the chat server. Check your connection and try again.");

@@ -53,6 +53,17 @@ replacing the `https://REPLACE-ME.workers.dev` placeholder. Rebuild/republish
 the app (or push an EAS OTA update, since this is a JS-only change) for the
 chat feature to start working.
 
+## Language
+
+The app now ships in English, Spanish, Portuguese, and French. The client
+sends its current UI language (`i18n.language`) with every message, and
+`systemPromptFor()` in `worker.js` instructs Claude to always reply in
+that language — regardless of what language the user actually types in —
+so the conversation never drifts away from the app's display language.
+Add new entries to `LANGUAGE_NAMES` in `worker.js` (kept in sync with
+`mobile/src/i18n/index.js`'s `SUPPORTED_LANGUAGES`) when a new language is
+added to the app.
+
 ## Cost
 
 At the current pricing for `claude-haiku-4-5` ($1/$5 per million input/output

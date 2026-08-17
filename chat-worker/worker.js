@@ -24,15 +24,25 @@ const CRISIS_RESOURCES = {
 const DEFAULT_CRISIS_RESOURCE =
   'Encourage the user to search "crisis line" together with their country\'s name to find a local number, or to contact local emergency services or a trusted person immediately.';
 
-function systemPromptFor(region) {
+// Keep in sync with mobile/src/i18n/index.js's SUPPORTED_LANGUAGES.
+const LANGUAGE_NAMES = {
+  en: "English",
+  es: "Spanish",
+  pt: "Portuguese",
+  fr: "French",
+};
+
+function systemPromptFor(region, language) {
   const crisisLine = CRISIS_RESOURCES[region] || DEFAULT_CRISIS_RESOURCE;
+  const languageName = LANGUAGE_NAMES[language] || "English";
   return `You are the companion voice inside Barnabas Journal, a Christian daily-encouragement app.
 Speak like Barnabas — warm, direct, rooted in Scripture, never preachy or robotic.
 Answer questions about faith, the app's daily content, and offer encouragement grounded in the Bible.
 You are not a therapist and must not diagnose, give medical/psychiatric advice, or claim to replace professional help.
 If the user expresses thoughts of self-harm, suicide, abuse, or crisis, gently stop and point them to real help.
 ${crisisLine}
-Keep replies concise — 2-4 short paragraphs at most.`;
+Keep replies concise — 2-4 short paragraphs at most.
+Always reply in ${languageName}, regardless of what language the user writes in — that's the app's current display language, and switching away from it would be jarring even if they type in a different one.`;
 }
 
 const MAX_REQUESTS_PER_DAY = 30;
@@ -56,7 +66,7 @@ export default {
       return jsonResponse({ error: "Invalid request body." }, 400);
     }
 
-    const { message, history, deviceId, region } = body;
+    const { message, history, deviceId, region, language } = body;
     if (!message || typeof message !== "string" || message.length > 2000) {
       return jsonResponse({ error: "Invalid message." }, 400);
     }
@@ -84,7 +94,7 @@ export default {
       response = await anthropic.messages.create({
         model: "claude-haiku-4-5",
         max_tokens: 500,
-        system: systemPromptFor(typeof region === "string" ? region : null),
+        system: systemPromptFor(typeof region === "string" ? region : null, typeof language === "string" ? language : null),
         messages: [...safeHistory, { role: "user", content: message }],
       });
     } catch (e) {
