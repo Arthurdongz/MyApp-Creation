@@ -282,6 +282,10 @@
   "settings": {
     "title": "Settings",
     "closeLabel": "Close settings",
+    "backLabel": "Back to Settings",
+    "subtitleDark": "Dark",
+    "subtitleLight": "Light",
+    "remindersSummary": "{{count}} of {{total}} on",
     "appearanceTitle": "Appearance",
     "darkMode": "Dark Mode",
     "switchToLight": "Switch to light mode",

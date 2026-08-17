@@ -282,6 +282,10 @@
   "settings": {
     "title": "Configuración",
     "closeLabel": "Cerrar configuración",
+    "backLabel": "Volver a Configuración",
+    "subtitleDark": "Oscuro",
+    "subtitleLight": "Claro",
+    "remindersSummary": "{{count}} de {{total}} activados",
     "appearanceTitle": "Apariencia",
     "darkMode": "Modo Oscuro",
     "switchToLight": "Cambiar a modo claro",

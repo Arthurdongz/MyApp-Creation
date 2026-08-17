@@ -34,6 +34,15 @@ function daysSince(key) {
   return Math.round((to - from) / 86400000);
 }
 
+// A-Z by display label, matching how a phone's country/region picker sorts
+// — "Auto-detect" and "Other" aren't real countries, so they're pinned
+// outside this list rather than sorted in among the real ones.
+function sortedCrisisRegionCodes() {
+  return Object.keys(CRISIS_REGION_LABELS).sort((a, b) =>
+    CRISIS_REGION_LABELS[a].localeCompare(CRISIS_REGION_LABELS[b])
+  );
+}
+
 const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";
 
 const PITCH_PRESET_VALUES = [
@@ -75,6 +84,7 @@ export default function SettingsScreen({ store, onClose }) {
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
   const { settings, updateSettings } = store;
+  const [section, setSection] = useState(null);
   const [backupMsg, setBackupMsg] = useState("");
   const [voices, setVoices] = useState([]);
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
@@ -194,256 +204,364 @@ export default function SettingsScreen({ store, onClose }) {
     }
   };
 
+  const backupSubtitle = settings.lastBackupAt
+    ? daysSince(settings.lastBackupAt) >= 30
+      ? t("settings.backupNote.overdue", {
+          days: daysSince(settings.lastBackupAt),
+          date: formatDate(settings.lastBackupAt),
+        })
+      : t("settings.backupNote.recent", { date: formatDate(settings.lastBackupAt) })
+    : t("settings.backupNote.never");
+
+  const favoriteVersion = BIBLE_VERSIONS.find((v) => v.id === (settings.verseFavoriteVersion || "KJV"));
+  const bibleVersionSubtitle =
+    settings.verseVersionMode === "favorite" && favoriteVersion
+      ? `${favoriteVersion.name} (${favoriteVersion.id})`
+      : t("settings.verseModeAlternate");
+
+  const crisisRegionSubtitle = !settings.crisisRegionOverride
+    ? t("settings.crisisRegionAuto")
+    : settings.crisisRegionOverride === OTHER_REGION
+    ? t("settings.crisisRegionOther")
+    : CRISIS_REGION_LABELS[settings.crisisRegionOverride] || t("settings.crisisRegionAuto");
+
+  const remindersOnCount = [
+    settings.morningReminderEnabled,
+    settings.highlightReminderEnabled,
+    settings.eveningReminderEnabled,
+  ].filter(Boolean).length;
+
+  const MENU_ITEMS = [
+    {
+      key: "appearance",
+      emoji: "🎨",
+      title: t("settings.appearanceTitle"),
+      subtitle: mode === "dark" ? t("settings.subtitleDark") : t("settings.subtitleLight"),
+    },
+    { key: "bibleVersion", emoji: "📖", title: t("settings.bibleVersionTitle"), subtitle: bibleVersionSubtitle },
+    { key: "crisisRegion", emoji: "🌍", title: t("settings.crisisRegionTitle"), subtitle: crisisRegionSubtitle },
+    { key: "voiceSpeech", emoji: "🔊", title: t("settings.voiceSpeechTitle"), subtitle: selectedVoiceName },
+    ...(notificationsSupported
+      ? [
+          {
+            key: "reminders",
+            emoji: "⏰",
+            title: t("settings.remindersTitle"),
+            subtitle: t("settings.remindersSummary", { count: remindersOnCount, total: 3 }),
+          },
+        ]
+      : []),
+    { key: "backup", emoji: "💾", title: t("settings.backupTitle"), subtitle: backupSubtitle },
+  ];
+
+  const headerTitle = section ? MENU_ITEMS.find((item) => item.key === section)?.title : t("settings.title");
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>{t("settings.title")}</Text>
+        <View style={styles.headerLeft}>
+          {section ? (
+            <TouchableOpacity
+              onPress={() => setSection(null)}
+              style={styles.backBtn}
+              accessibilityLabel={t("settings.backLabel")}
+              accessibilityRole="button"
+            >
+              <Text style={styles.backBtnText}>‹</Text>
+            </TouchableOpacity>
+          ) : null}
+          <Text style={styles.title} numberOfLines={1}>
+            {headerTitle}
+          </Text>
+        </View>
         <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("settings.closeLabel")} accessibilityRole="button">
           <Text style={styles.closeBtnText}>✕</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.sectionTitle}>{t("settings.appearanceTitle")}</Text>
-      <View style={styles.settingsRow}>
-        <Text style={styles.settingsLabel}>{t("settings.darkMode")}</Text>
-        <TouchableOpacity
-          style={styles.themeBtn}
-          onPress={toggleTheme}
-          accessibilityLabel={mode === "dark" ? t("settings.switchToLight") : t("settings.switchToDark")}
-          accessibilityRole="button"
-        >
-          <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.sectionTitle}>{t("settings.bibleVersionTitle")}</Text>
-      <Text style={styles.subtitle}>{t("settings.bibleVersionSubtitle")}</Text>
-      <View style={styles.presetRow}>
-        <TouchableOpacity
-          style={[styles.presetBtn, settings.verseVersionMode !== "favorite" && styles.presetBtnActive]}
-          onPress={() => {
-            hapticTap();
-            updateSettings({ verseVersionMode: "alternate" });
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ selected: settings.verseVersionMode !== "favorite" }}
-        >
-          <Text style={[styles.presetText, settings.verseVersionMode !== "favorite" && styles.presetTextActive]}>
-            {t("settings.verseModeAlternate")}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.presetBtn, settings.verseVersionMode === "favorite" && styles.presetBtnActive]}
-          onPress={() => {
-            hapticTap();
-            updateSettings({ verseVersionMode: "favorite" });
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ selected: settings.verseVersionMode === "favorite" }}
-        >
-          <Text style={[styles.presetText, settings.verseVersionMode === "favorite" && styles.presetTextActive]}>
-            {t("settings.verseModeFavorite")}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {settings.verseVersionMode === "favorite" ? (
-        <View style={[styles.presetRow, { marginTop: 12, marginBottom: 20 }]}>
-          {BIBLE_VERSIONS.map((v) => {
-            const active = (settings.verseFavoriteVersion || "KJV") === v.id;
-            return (
-              <TouchableOpacity
-                key={v.id}
-                style={[styles.presetBtn, active && styles.presetBtnActive]}
-                onPress={() => {
-                  hapticTap();
-                  updateSettings({ verseFavoriteVersion: v.id });
-                }}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-              >
-                <Text style={[styles.presetText, active && styles.presetTextActive]}>
-                  {v.name} ({v.id})
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      ) : (
-        <View style={{ marginBottom: 6 }} />
-      )}
-
-      <Text style={styles.sectionTitle}>{t("settings.crisisRegionTitle")}</Text>
-      <Text style={styles.subtitle}>{t("settings.crisisRegionSubtitle")}</Text>
-      <View style={[styles.presetRow, { marginBottom: 20 }]}>
-        <TouchableOpacity
-          style={[styles.presetBtn, !settings.crisisRegionOverride && styles.presetBtnActive]}
-          onPress={() => {
-            hapticTap();
-            updateSettings({ crisisRegionOverride: null });
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ selected: !settings.crisisRegionOverride }}
-        >
-          <Text style={[styles.presetText, !settings.crisisRegionOverride && styles.presetTextActive]}>
-            {t("settings.crisisRegionAuto")}
-          </Text>
-        </TouchableOpacity>
-        {Object.keys(CRISIS_REGION_LABELS).map((code) => {
-          const active = settings.crisisRegionOverride === code;
-          return (
+      {section === null ? (
+        <View>
+          {MENU_ITEMS.map((item) => (
             <TouchableOpacity
-              key={code}
-              style={[styles.presetBtn, active && styles.presetBtnActive]}
+              key={item.key}
+              style={styles.menuRow}
               onPress={() => {
                 hapticTap();
-                updateSettings({ crisisRegionOverride: code });
+                setSection(item.key);
               }}
               accessibilityRole="button"
-              accessibilityState={{ selected: active }}
+              accessibilityLabel={`${item.title}. ${item.subtitle}`}
             >
-              <Text style={[styles.presetText, active && styles.presetTextActive]}>
-                {CRISIS_REGION_LABELS[code]}
+              <Text style={styles.menuEmoji}>{item.emoji}</Text>
+              <View style={styles.menuTextWrap}>
+                <Text style={styles.menuTitle}>{item.title}</Text>
+                {item.subtitle ? (
+                  <Text style={styles.menuSubtitle} numberOfLines={1}>
+                    {item.subtitle}
+                  </Text>
+                ) : null}
+              </View>
+              <Text style={styles.menuChevron}>›</Text>
+            </TouchableOpacity>
+          ))}
+
+          <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
+            <Text style={styles.footerLink}>{t("common.privacyPolicy")}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+
+      {section === "appearance" ? (
+        <View style={styles.settingsRow}>
+          <Text style={styles.settingsLabel}>{t("settings.darkMode")}</Text>
+          <TouchableOpacity
+            style={styles.themeBtn}
+            onPress={toggleTheme}
+            accessibilityLabel={mode === "dark" ? t("settings.switchToLight") : t("settings.switchToDark")}
+            accessibilityRole="button"
+          >
+            <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+
+      {section === "bibleVersion" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.bibleVersionSubtitle")}</Text>
+          <View style={styles.presetRow}>
+            <TouchableOpacity
+              style={[styles.presetBtn, settings.verseVersionMode !== "favorite" && styles.presetBtnActive]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ verseVersionMode: "alternate" });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: settings.verseVersionMode !== "favorite" }}
+            >
+              <Text style={[styles.presetText, settings.verseVersionMode !== "favorite" && styles.presetTextActive]}>
+                {t("settings.verseModeAlternate")}
               </Text>
             </TouchableOpacity>
-          );
-        })}
-        <TouchableOpacity
-          style={[styles.presetBtn, settings.crisisRegionOverride === OTHER_REGION && styles.presetBtnActive]}
-          onPress={() => {
-            hapticTap();
-            updateSettings({ crisisRegionOverride: OTHER_REGION });
-          }}
-          accessibilityRole="button"
-          accessibilityState={{ selected: settings.crisisRegionOverride === OTHER_REGION }}
-        >
-          <Text
-            style={[
-              styles.presetText,
-              settings.crisisRegionOverride === OTHER_REGION && styles.presetTextActive,
-            ]}
-          >
-            {t("settings.crisisRegionOther")}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.sectionTitle}>{t("settings.voiceSpeechTitle")}</Text>
-      <Text style={styles.subtitle}>{t("settings.voiceSpeechSubtitle", { listenLabel: t("common.listen") })}</Text>
-
-      <View style={styles.settingsRow}>
-        <Text style={styles.settingsLabel}>{t("settings.voiceLabel")}</Text>
-        <TouchableOpacity
-          style={styles.voiceValueBtn}
-          onPress={() => setVoicePickerOpen(true)}
-          accessibilityLabel={t("settings.voiceValueLabel", { voice: selectedVoiceName })}
-          accessibilityRole="button"
-        >
-          <Text style={styles.voiceValueText} numberOfLines={1}>
-            {selectedVoiceName} ›
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.settingsLabel}>{t("settings.pitchLabel")}</Text>
-      <View style={styles.presetRow}>
-        {PITCH_PRESETS.map((preset) => {
-          const active = settings.speechPitch === preset.value;
-          return (
             <TouchableOpacity
-              key={preset.key}
-              style={[styles.presetBtn, active && styles.presetBtnActive]}
-              onPress={() => updateSettings({ speechPitch: preset.value })}
+              style={[styles.presetBtn, settings.verseVersionMode === "favorite" && styles.presetBtnActive]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ verseVersionMode: "favorite" });
+              }}
               accessibilityRole="button"
-              accessibilityState={{ selected: active }}
+              accessibilityState={{ selected: settings.verseVersionMode === "favorite" }}
             >
-              <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+              <Text style={[styles.presetText, settings.verseVersionMode === "favorite" && styles.presetTextActive]}>
+                {t("settings.verseModeFavorite")}
+              </Text>
             </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      <Text style={[styles.settingsLabel, { marginTop: 14 }]}>{t("settings.speedLabel")}</Text>
-      <View style={styles.presetRow}>
-        {RATE_PRESETS.map((preset) => {
-          const active = settings.speechRate === preset.value;
-          return (
-            <TouchableOpacity
-              key={preset.key}
-              style={[styles.presetBtn, active && styles.presetBtnActive]}
-              onPress={() => updateSettings({ speechRate: preset.value })}
-              accessibilityRole="button"
-              accessibilityState={{ selected: active }}
-            >
-              <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-
-      <TouchableOpacity
-        style={styles.testVoiceBtn}
-        onPress={() => speak(t("settings.testVoiceSpeech"), settings)}
-      >
-        <Text style={styles.testVoiceBtnText}>{t("settings.testVoiceButton")}</Text>
-      </TouchableOpacity>
-
-      <Modal visible={voicePickerOpen} animationType="slide" transparent onRequestClose={() => setVoicePickerOpen(false)}>
-        <View style={styles.modalBackdrop}>
-          <View style={styles.modalCard}>
-            <View style={styles.header}>
-              <Text style={styles.title}>{t("settings.voicePickerTitle")}</Text>
-              <TouchableOpacity
-                onPress={() => setVoicePickerOpen(false)}
-                style={styles.closeBtn}
-                accessibilityLabel={t("settings.closeVoicePickerLabel")}
-                accessibilityRole="button"
-              >
-                <Text style={styles.closeBtnText}>✕</Text>
-              </TouchableOpacity>
+          </View>
+          {settings.verseVersionMode === "favorite" ? (
+            <View style={[styles.presetRow, { marginTop: 12 }]}>
+              {BIBLE_VERSIONS.map((v) => {
+                const active = (settings.verseFavoriteVersion || "KJV") === v.id;
+                return (
+                  <TouchableOpacity
+                    key={v.id}
+                    style={[styles.presetBtn, active && styles.presetBtnActive]}
+                    onPress={() => {
+                      hapticTap();
+                      updateSettings({ verseFavoriteVersion: v.id });
+                    }}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
+                  >
+                    <Text style={[styles.presetText, active && styles.presetTextActive]}>
+                      {v.name} ({v.id})
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-            <ScrollView style={styles.voiceList}>
-              <TouchableOpacity
-                style={styles.voiceRow}
-                onPress={() => {
-                  updateSettings({ speechVoiceURI: "" });
-                  setVoicePickerOpen(false);
-                }}
-                accessibilityRole="button"
-                accessibilityState={{ selected: !settings.speechVoiceURI }}
-              >
-                <Text style={[styles.voiceRowText, !settings.speechVoiceURI && styles.voiceRowTextActive]}>
-                  {t("settings.defaultVoiceName")}
-                </Text>
-              </TouchableOpacity>
-              {voices.map((v) => (
+          ) : null}
+        </View>
+      ) : null}
+
+      {section === "crisisRegion" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.crisisRegionSubtitle")}</Text>
+          <View style={styles.listCard}>
+            <TouchableOpacity
+              style={styles.listRow}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ crisisRegionOverride: null });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: !settings.crisisRegionOverride }}
+            >
+              <Text style={[styles.listRowText, !settings.crisisRegionOverride && styles.listRowTextActive]}>
+                {t("settings.crisisRegionAuto")}
+              </Text>
+              {!settings.crisisRegionOverride ? <Text style={styles.listRowCheck}>✓</Text> : null}
+            </TouchableOpacity>
+            {sortedCrisisRegionCodes().map((code) => {
+              const active = settings.crisisRegionOverride === code;
+              return (
                 <TouchableOpacity
-                  key={v.identifier}
-                  style={styles.voiceRow}
+                  key={code}
+                  style={styles.listRow}
                   onPress={() => {
-                    updateSettings({ speechVoiceURI: v.identifier });
-                    setVoicePickerOpen(false);
+                    hapticTap();
+                    updateSettings({ crisisRegionOverride: code });
                   }}
                   accessibilityRole="button"
-                  accessibilityState={{ selected: settings.speechVoiceURI === v.identifier }}
+                  accessibilityState={{ selected: active }}
                 >
-                  <Text
-                    style={[
-                      styles.voiceRowText,
-                      settings.speechVoiceURI === v.identifier && styles.voiceRowTextActive,
-                    ]}
-                  >
-                    {v.name} ({v.language})
+                  <Text style={[styles.listRowText, active && styles.listRowTextActive]}>
+                    {CRISIS_REGION_LABELS[code]}
                   </Text>
+                  {active ? <Text style={styles.listRowCheck}>✓</Text> : null}
                 </TouchableOpacity>
-              ))}
-            </ScrollView>
+              );
+            })}
+            <TouchableOpacity
+              style={[styles.listRow, styles.listRowLast]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ crisisRegionOverride: OTHER_REGION });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: settings.crisisRegionOverride === OTHER_REGION }}
+            >
+              <Text
+                style={[
+                  styles.listRowText,
+                  settings.crisisRegionOverride === OTHER_REGION && styles.listRowTextActive,
+                ]}
+              >
+                {t("settings.crisisRegionOther")}
+              </Text>
+              {settings.crisisRegionOverride === OTHER_REGION ? <Text style={styles.listRowCheck}>✓</Text> : null}
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      ) : null}
 
-      {notificationsSupported ? (
-        <>
-          <Text style={styles.sectionTitle}>{t("settings.remindersTitle")}</Text>
+      {section === "voiceSpeech" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.voiceSpeechSubtitle", { listenLabel: t("common.listen") })}</Text>
+
+          <View style={styles.settingsRow}>
+            <Text style={styles.settingsLabel}>{t("settings.voiceLabel")}</Text>
+            <TouchableOpacity
+              style={styles.voiceValueBtn}
+              onPress={() => setVoicePickerOpen(true)}
+              accessibilityLabel={t("settings.voiceValueLabel", { voice: selectedVoiceName })}
+              accessibilityRole="button"
+            >
+              <Text style={styles.voiceValueText} numberOfLines={1}>
+                {selectedVoiceName} ›
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.settingsLabel}>{t("settings.pitchLabel")}</Text>
+          <View style={styles.presetRow}>
+            {PITCH_PRESETS.map((preset) => {
+              const active = settings.speechPitch === preset.value;
+              return (
+                <TouchableOpacity
+                  key={preset.key}
+                  style={[styles.presetBtn, active && styles.presetBtnActive]}
+                  onPress={() => updateSettings({ speechPitch: preset.value })}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                >
+                  <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <Text style={[styles.settingsLabel, { marginTop: 14 }]}>{t("settings.speedLabel")}</Text>
+          <View style={styles.presetRow}>
+            {RATE_PRESETS.map((preset) => {
+              const active = settings.speechRate === preset.value;
+              return (
+                <TouchableOpacity
+                  key={preset.key}
+                  style={[styles.presetBtn, active && styles.presetBtnActive]}
+                  onPress={() => updateSettings({ speechRate: preset.value })}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: active }}
+                >
+                  <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <TouchableOpacity
+            style={styles.testVoiceBtn}
+            onPress={() => speak(t("settings.testVoiceSpeech"), settings)}
+          >
+            <Text style={styles.testVoiceBtnText}>{t("settings.testVoiceButton")}</Text>
+          </TouchableOpacity>
+
+          <Modal visible={voicePickerOpen} animationType="slide" transparent onRequestClose={() => setVoicePickerOpen(false)}>
+            <View style={styles.modalBackdrop}>
+              <View style={styles.modalCard}>
+                <View style={styles.header}>
+                  <Text style={styles.title}>{t("settings.voicePickerTitle")}</Text>
+                  <TouchableOpacity
+                    onPress={() => setVoicePickerOpen(false)}
+                    style={styles.closeBtn}
+                    accessibilityLabel={t("settings.closeVoicePickerLabel")}
+                    accessibilityRole="button"
+                  >
+                    <Text style={styles.closeBtnText}>✕</Text>
+                  </TouchableOpacity>
+                </View>
+                <ScrollView style={styles.voiceList}>
+                  <TouchableOpacity
+                    style={styles.voiceRow}
+                    onPress={() => {
+                      updateSettings({ speechVoiceURI: "" });
+                      setVoicePickerOpen(false);
+                    }}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: !settings.speechVoiceURI }}
+                  >
+                    <Text style={[styles.voiceRowText, !settings.speechVoiceURI && styles.voiceRowTextActive]}>
+                      {t("settings.defaultVoiceName")}
+                    </Text>
+                  </TouchableOpacity>
+                  {voices.map((v) => (
+                    <TouchableOpacity
+                      key={v.identifier}
+                      style={styles.voiceRow}
+                      onPress={() => {
+                        updateSettings({ speechVoiceURI: v.identifier });
+                        setVoicePickerOpen(false);
+                      }}
+                      accessibilityRole="button"
+                      accessibilityState={{ selected: settings.speechVoiceURI === v.identifier }}
+                    >
+                      <Text
+                        style={[
+                          styles.voiceRowText,
+                          settings.speechVoiceURI === v.identifier && styles.voiceRowTextActive,
+                        ]}
+                      >
+                        {v.name} ({v.language})
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      ) : null}
+
+      {section === "reminders" && notificationsSupported ? (
+        <View>
           <Text style={styles.subtitle}>{t("settings.remindersSubtitle")}</Text>
 
           <View style={styles.settingsCard}>
@@ -542,34 +660,24 @@ export default function SettingsScreen({ store, onClose }) {
               })}
             </View>
           </View>
-        </>
+        </View>
       ) : null}
 
-      <Text style={styles.sectionTitle}>{t("settings.backupTitle")}</Text>
-      <Text style={styles.subtitle}>{t("settings.backupSubtitle")}</Text>
-      <Text style={styles.backupNote}>
-        {settings.lastBackupAt
-          ? daysSince(settings.lastBackupAt) >= 30
-            ? t("settings.backupNote.overdue", {
-                days: daysSince(settings.lastBackupAt),
-                date: formatDate(settings.lastBackupAt),
-              })
-            : t("settings.backupNote.recent", { date: formatDate(settings.lastBackupAt) })
-          : t("settings.backupNote.never")}
-      </Text>
-      <View style={styles.backupRow}>
-        <TouchableOpacity style={styles.secondaryBtn} onPress={handleExport}>
-          <Text style={styles.secondaryBtnText}>{t("settings.exportBackup")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.secondaryBtn} onPress={handleImport}>
-          <Text style={styles.secondaryBtnText}>{t("settings.restoreBackup")}</Text>
-        </TouchableOpacity>
-      </View>
-      {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
-
-      <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
-        <Text style={styles.footerLink}>{t("common.privacyPolicy")}</Text>
-      </TouchableOpacity>
+      {section === "backup" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.backupSubtitle")}</Text>
+          <Text style={styles.backupNote}>{backupSubtitle}</Text>
+          <View style={styles.backupRow}>
+            <TouchableOpacity style={styles.secondaryBtn} onPress={handleExport}>
+              <Text style={styles.secondaryBtnText}>{t("settings.exportBackup")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.secondaryBtn} onPress={handleImport}>
+              <Text style={styles.secondaryBtnText}>{t("settings.restoreBackup")}</Text>
+            </TouchableOpacity>
+          </View>
+          {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
+        </View>
+      ) : null}
     </ScrollView>
   );
 }
@@ -583,7 +691,19 @@ function getStyles(colors, shadow) {
       justifyContent: "space-between",
       marginBottom: 20,
     },
-    title: { fontSize: 22, fontWeight: "700", color: colors.sageDark },
+    headerLeft: { flexDirection: "row", alignItems: "center", flex: 1, marginRight: 12, gap: 10 },
+    title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, flexShrink: 1 },
+    backBtn: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    backBtnText: { fontSize: 20, fontWeight: "700", color: colors.sageDark, marginTop: -2 },
     closeBtn: {
       width: 32,
       height: 32,
@@ -597,6 +717,18 @@ function getStyles(colors, shadow) {
     closeBtnText: { fontSize: 14, color: colors.textSoft },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 16 },
     sectionTitle: { fontSize: 15, fontWeight: "700", color: colors.sageDark, marginBottom: 12, marginTop: 4 },
+    menuRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingVertical: 14,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    menuEmoji: { fontSize: 20, width: 32 },
+    menuTextWrap: { flex: 1 },
+    menuTitle: { fontSize: 15, fontWeight: "600", color: colors.text },
+    menuSubtitle: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
+    menuChevron: { fontSize: 20, color: colors.textSoft, marginLeft: 8 },
     settingsRow: {
       flexDirection: "row",
       alignItems: "center",
@@ -651,6 +783,27 @@ function getStyles(colors, shadow) {
     presetBtnActive: { backgroundColor: colors.buttonBg, borderColor: colors.buttonBg },
     presetText: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
     presetTextActive: { color: colors.buttonOnText },
+    listCard: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      overflow: "hidden",
+      marginTop: 4,
+    },
+    listRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: 13,
+      paddingHorizontal: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+      backgroundColor: colors.card,
+    },
+    listRowLast: { borderBottomWidth: 0 },
+    listRowText: { fontSize: 14, color: colors.text },
+    listRowTextActive: { color: colors.sageDark, fontWeight: "700" },
+    listRowCheck: { fontSize: 16, color: colors.sageDark, fontWeight: "700" },
     voiceValueBtn: {
       borderWidth: 1,
       borderColor: colors.border,
@@ -705,7 +858,7 @@ function getStyles(colors, shadow) {
     secondaryBtnText: { color: colors.sageDark, fontWeight: "700", fontSize: 13 },
     backupMsg: { marginTop: 10, fontSize: 13, fontWeight: "600", color: colors.sageDark },
     backupNote: { fontSize: 13, color: colors.textSoft, marginBottom: 12 },
-    footerLinkWrap: { marginTop: 24, alignItems: "center" },
+    footerLinkWrap: { marginTop: 8, alignItems: "center" },
     footerLink: { fontSize: 13, color: colors.textSoft, textDecorationLine: "underline" },
   });
 }

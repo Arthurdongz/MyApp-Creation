@@ -282,6 +282,10 @@
   "settings": {
     "title": "Paramètres",
     "closeLabel": "Fermer les paramètres",
+    "backLabel": "Retour aux Paramètres",
+    "subtitleDark": "Sombre",
+    "subtitleLight": "Clair",
+    "remindersSummary": "{{count}} sur {{total}} activés",
     "appearanceTitle": "Apparence",
     "darkMode": "Mode Sombre",
     "switchToLight": "Passer au mode clair",
