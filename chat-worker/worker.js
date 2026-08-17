@@ -23,6 +23,9 @@ const CRISIS_RESOURCES = {
   AU: "Lifeline is free to call anytime at 13 11 14, or they can text 0477 13 11 14.",
   ES: "La línea 024 de atención a la conducta suicida es gratuita y está disponible las 24 horas — pueden llamar al 024.",
   MX: "La Línea de la Vida está disponible las 24 horas — pueden llamar al 800 911 2000.",
+  ZW: "Friendship Bench's National Mental Health and Suicide Prevention Helpline is free at 0808 4116, Monday–Friday 8am–5pm — WhatsApp and SMS are also available.",
+  ZA: "SADAG's Suicide Crisis Helpline is toll-free and available 24/7 at 0800 567 567.",
+  KE: "Befrienders Kenya offers free, confidential support by phone, SMS, or WhatsApp at 0722 178 177, Monday–Friday 9am–5pm.",
 };
 
 const DEFAULT_CRISIS_RESOURCE =

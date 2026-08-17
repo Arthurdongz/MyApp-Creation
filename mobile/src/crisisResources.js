@@ -33,6 +33,9 @@ export const CRISIS_REGION_LABELS = {
   AU: "Australia",
   ES: "España (Spain)",
   MX: "México (Mexico)",
+  ZW: "Zimbabwe",
+  ZA: "South Africa",
+  KE: "Kenya",
 };
 
 export const CRISIS_RESOURCES = {
@@ -76,6 +79,24 @@ export const CRISIS_RESOURCES = {
       "La Línea de la Vida está disponible las 24 horas, los 365 días del año — llama al 800 911 2000.",
     callLabel: "Llamar a la Línea de la Vida",
     callUrl: "tel:8009112000",
+  },
+  ZW: {
+    sentence:
+      "Friendship Bench's National Mental Health and Suicide Prevention Helpline is free to call at 0808 4116, Monday–Friday 8am–5pm — WhatsApp and SMS are also available.",
+    callLabel: "Call 0808 4116",
+    callUrl: "tel:08084116",
+  },
+  ZA: {
+    sentence:
+      "SADAG's Suicide Crisis Helpline is toll-free and available 24/7 — call 0800 567 567 for free, confidential counselling.",
+    callLabel: "Call 0800 567 567",
+    callUrl: "tel:0800567567",
+  },
+  KE: {
+    sentence:
+      "Befrienders Kenya offers free, confidential support by phone, SMS, or WhatsApp at 0722 178 177, Monday–Friday 9am–5pm.",
+    callLabel: "Call 0722 178 177",
+    callUrl: "tel:0722178177",
   },
 };
 
