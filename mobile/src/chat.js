@@ -2,11 +2,7 @@
 // directory's README for deploy steps. The Worker holds the Anthropic API
 // key server-side (it can't safely live in the app bundle) and forwards
 // messages to Claude.
-//
-// IMPORTANT: replace this with the URL wrangler prints after `wrangler
-// deploy` (looks like https://barnabas-chat.<your-subdomain>.workers.dev).
-// The chat screen will show a clear error until this is set.
-export const CHAT_WORKER_URL = "https://REPLACE-ME.workers.dev";
+export const CHAT_WORKER_URL = "https://barnabas-chat.barnabas-journal.workers.dev";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getDeviceRegionCode } from "./crisisResources";
