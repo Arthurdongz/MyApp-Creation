@@ -11,10 +11,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { sendChatMessage } from "../chat";
-import { getCrisisResource, getDeviceRegionCode } from "../crisisResources";
+import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
-
-const crisisResource = getCrisisResource(getDeviceRegionCode());
 
 function ChatPaywall({ styles, onSubscribe }) {
   const { t } = useTranslation();
@@ -38,7 +36,8 @@ export default function ChatScreen({ store }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t, i18n } = useTranslation();
-  const { chatAccess, recordChatMessageSent } = store;
+  const { chatAccess, recordChatMessageSent, settings } = store;
+  const crisisResource = getCrisisResource(resolveCrisisRegion(settings));
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
@@ -54,7 +53,7 @@ export default function ChatScreen({ store }) {
     setSending(true);
     setErrorMsg("");
     try {
-      const reply = await sendChatMessage(text, history, i18n.language);
+      const reply = await sendChatMessage(text, history, i18n.language, resolveCrisisRegion(settings));
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
       recordChatMessageSent();
     } catch (e) {

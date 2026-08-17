@@ -5,7 +5,6 @@
 export const CHAT_WORKER_URL = "https://barnabas-chat.barnabas-journal.workers.dev";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getDeviceRegionCode } from "./crisisResources";
 
 const DEVICE_ID_KEY = "barnabasJournalChatDeviceIdV1";
 
@@ -19,12 +18,12 @@ export async function getOrCreateChatDeviceId() {
   return id;
 }
 
-export async function sendChatMessage(message, history, language) {
+// region is the resolved crisis region (see crisisResources.resolveCrisisRegion)
+// so the Worker's system prompt can cite the right crisis line instead of
+// always defaulting to US resources — the caller resolves it since only it
+// knows about a user's Settings override.
+export async function sendChatMessage(message, history, language, region) {
   const deviceId = await getOrCreateChatDeviceId();
-  // Device region only (e.g. "US", "ES") — read from system locale, not
-  // GPS — so the Worker's system prompt can cite the right crisis line
-  // instead of always defaulting to US resources. See crisisResources.js.
-  const region = getDeviceRegionCode();
   let res;
   try {
     res = await fetch(CHAT_WORKER_URL, {

@@ -91,6 +91,10 @@ function defaultSettings() {
     chatQuotaMonthKey: null,
     chatMessagesUsed: 0,
     chatSubscribed: false,
+    // null = trust the device locale guess (see crisisResources.js);
+    // a region code or "OTHER" means the user corrected it by hand in
+    // Settings because the device guessed wrong.
+    crisisRegionOverride: null,
   };
 }
 

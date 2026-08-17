@@ -6,10 +6,34 @@
 // and it's the same signal src/i18n/index.js already reads for language
 // detection.
 //
+// Device locale is only ever a guess, though — plenty of phones (common
+// outside the US) report "en-US" as the locale/region regardless of the
+// owner's actual country, since region often just follows a language
+// preference nobody ever changed from the factory default. settings.
+// crisisRegionOverride (see SettingsScreen's "Crisis Support Region"
+// picker) lets a user correct that guess by hand — see
+// resolveCrisisRegion, which is what every call site should actually use
+// instead of calling getDeviceRegionCode() directly.
+//
 // Numbers verified against each organization's own site/official source
 // as of 2026-08; if any of these ever go stale, check the source before
 // editing — this is safety-critical text.
 import * as Localization from "expo-localization";
+
+// Sentinel for "I looked, my country isn't in this list" — deliberately
+// not a real region code, so it always misses CRISIS_RESOURCES and falls
+// through to DEFAULT_CRISIS_RESOURCE, same as any other unmatched code.
+export const OTHER_REGION = "OTHER";
+
+export const CRISIS_REGION_LABELS = {
+  US: "United States",
+  CA: "Canada",
+  GB: "United Kingdom",
+  IE: "Ireland",
+  AU: "Australia",
+  ES: "España (Spain)",
+  MX: "México (Mexico)",
+};
 
 export const CRISIS_RESOURCES = {
   US: {
@@ -20,7 +44,7 @@ export const CRISIS_RESOURCES = {
   },
   CA: {
     sentence:
-      "Call or text 988 to reach the Suicide Crisis Helpline, free and confidential, day or night. In Quebec, you can also call 1-866-APPELLE (1-866-277-3553).",
+      "Call or text 988 to reach the Suicide Crisis Helpline, free and confidential, day or night — the Crisis Text Line (text HOME to 741741) also operates in Canada. In Quebec, you can also call 1-866-APPELLE (1-866-277-3553).",
     callLabel: "Call 988",
     callUrl: "tel:988",
   },
@@ -68,4 +92,11 @@ export function getDeviceRegionCode() {
 
 export function getCrisisResource(regionCode) {
   return (regionCode && CRISIS_RESOURCES[regionCode]) || DEFAULT_CRISIS_RESOURCE;
+}
+
+// The region every call site should actually resolve against: a user's
+// explicit Settings choice wins if they've made one, otherwise fall back
+// to the (possibly wrong) device-locale guess.
+export function resolveCrisisRegion(settings) {
+  return settings?.crisisRegionOverride || getDeviceRegionCode();
 }

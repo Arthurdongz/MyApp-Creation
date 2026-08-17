@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
-import { getCrisisResource, getDeviceRegionCode } from "../crisisResources";
+import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { ENCOURAGEMENTS } from "../data/encouragements";
@@ -269,7 +269,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
 
   const supportBlocks = [];
   if (showCrisisNudge) {
-    const crisisResource = getCrisisResource(getDeviceRegionCode());
+    const crisisResource = getCrisisResource(resolveCrisisRegion(settings));
     supportBlocks.push({
       key: "crisis",
       content: (

@@ -8,6 +8,7 @@ import { speak } from "../speech";
 import { hapticTap } from "../haptics";
 import { todayKey } from "../content";
 import { BIBLE_VERSIONS } from "../data/verses";
+import { CRISIS_REGION_LABELS, OTHER_REGION } from "../crisisResources";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
@@ -270,6 +271,61 @@ export default function SettingsScreen({ store, onClose }) {
       ) : (
         <View style={{ marginBottom: 6 }} />
       )}
+
+      <Text style={styles.sectionTitle}>{t("settings.crisisRegionTitle")}</Text>
+      <Text style={styles.subtitle}>{t("settings.crisisRegionSubtitle")}</Text>
+      <View style={[styles.presetRow, { marginBottom: 20 }]}>
+        <TouchableOpacity
+          style={[styles.presetBtn, !settings.crisisRegionOverride && styles.presetBtnActive]}
+          onPress={() => {
+            hapticTap();
+            updateSettings({ crisisRegionOverride: null });
+          }}
+          accessibilityRole="button"
+          accessibilityState={{ selected: !settings.crisisRegionOverride }}
+        >
+          <Text style={[styles.presetText, !settings.crisisRegionOverride && styles.presetTextActive]}>
+            {t("settings.crisisRegionAuto")}
+          </Text>
+        </TouchableOpacity>
+        {Object.keys(CRISIS_REGION_LABELS).map((code) => {
+          const active = settings.crisisRegionOverride === code;
+          return (
+            <TouchableOpacity
+              key={code}
+              style={[styles.presetBtn, active && styles.presetBtnActive]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ crisisRegionOverride: code });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: active }}
+            >
+              <Text style={[styles.presetText, active && styles.presetTextActive]}>
+                {CRISIS_REGION_LABELS[code]}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+        <TouchableOpacity
+          style={[styles.presetBtn, settings.crisisRegionOverride === OTHER_REGION && styles.presetBtnActive]}
+          onPress={() => {
+            hapticTap();
+            updateSettings({ crisisRegionOverride: OTHER_REGION });
+          }}
+          accessibilityRole="button"
+          accessibilityState={{ selected: settings.crisisRegionOverride === OTHER_REGION }}
+        >
+          <Text
+            style={[
+              styles.presetText,
+              settings.crisisRegionOverride === OTHER_REGION && styles.presetTextActive,
+            ]}
+          >
+            {t("settings.crisisRegionOther")}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <Text style={styles.sectionTitle}>{t("settings.voiceSpeechTitle")}</Text>
       <Text style={styles.subtitle}>{t("settings.voiceSpeechSubtitle", { listenLabel: t("common.listen") })}</Text>
