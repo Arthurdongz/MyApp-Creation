@@ -206,7 +206,7 @@ function daysSinceKey(key) {
 // — set by a real purchase flow once one exists; there is no such flow
 // yet, so subscribing is currently a no-op stub in ChatScreen — grants
 // unlimited messages regardless of the monthly count.
-const CHAT_FREE_MESSAGES_PER_MONTH = 20;
+const CHAT_FREE_MESSAGES_PER_MONTH = 100;
 
 function currentMonthKey() {
   const d = new Date();
