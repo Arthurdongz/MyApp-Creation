@@ -6,4 +6,4 @@ compatibility_date = "2026-08-01"
 # id below with the one it prints. See README.md.
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+id = "01335b7ed00748b49d04c41a096da98c"
