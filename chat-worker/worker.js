@@ -11,14 +11,18 @@ import Anthropic from "@anthropic-ai/sdk";
 // import access to the mobile app's source. Numbers verified against each
 // organization's own site as of 2026-08; if any of these ever go stale,
 // check the source before editing — this is safety-critical text.
+// The region is already known (from the device locale the client sent) by
+// the time these get used, so state the resource directly rather than
+// hedging with "if the user is in X" — that phrasing was appropriate for
+// the old single-message-for-everyone fallback, not a matched region.
 const CRISIS_RESOURCES = {
-  US: "If the user is in the US, the 988 Suicide & Crisis Lifeline is free and confidential, day or night — call or text 988. They can also text HOME to 741741 for the Crisis Text Line.",
-  CA: "If the user is in Canada, they can call or text 988 to reach the Suicide Crisis Helpline, free and confidential, day or night. In Quebec, 1-866-APPELLE (1-866-277-3553) is also available.",
-  GB: "If the user is in the UK, Samaritans are free to call anytime at 116 123, or they can text SHOUT to 85258 for the Shout Crisis Text Line.",
-  IE: "If the user is in Ireland, Samaritans are free to call anytime at 116 123, or Pieta's 24-hour helpline is 1800 247 247, or they can text HELP to 51444.",
-  AU: "If the user is in Australia, Lifeline is free to call anytime at 13 11 14, or they can text 0477 13 11 14.",
-  ES: "Si el usuario está en España, la línea 024 de atención a la conducta suicida es gratuita y está disponible las 24 horas — pueden llamar al 024.",
-  MX: "Si el usuario está en México, la Línea de la Vida está disponible las 24 horas — pueden llamar al 800 911 2000.",
+  US: "The 988 Suicide & Crisis Lifeline is free and confidential, day or night — call or text 988. They can also text HOME to 741741 for the Crisis Text Line.",
+  CA: "They can call or text 988 to reach the Suicide Crisis Helpline, free and confidential, day or night. In Quebec, 1-866-APPELLE (1-866-277-3553) is also available.",
+  GB: "Samaritans are free to call anytime at 116 123, or they can text SHOUT to 85258 for the Shout Crisis Text Line.",
+  IE: "Samaritans are free to call anytime at 116 123, or Pieta's 24-hour helpline is 1800 247 247, or they can text HELP to 51444.",
+  AU: "Lifeline is free to call anytime at 13 11 14, or they can text 0477 13 11 14.",
+  ES: "La línea 024 de atención a la conducta suicida es gratuita y está disponible las 24 horas — pueden llamar al 024.",
+  MX: "La Línea de la Vida está disponible las 24 horas — pueden llamar al 800 911 2000.",
 };
 
 const DEFAULT_CRISIS_RESOURCE =
