@@ -367,6 +367,10 @@
       "saveWhatMoves": {
         "title": "Save what moves you",
         "text": "Tap Save — or ☆ Save in a card's ••• menu — on any verse, quote, story, or fact to keep it in Favorites for later."
+      },
+      "crisisRegion": {
+        "title": "Get the right crisis line",
+        "text": "We guess your country from your device to show the right crisis helpline. If it's ever wrong, go to Settings → Crisis Support Region and pick your country by hand."
       }
     }
   },

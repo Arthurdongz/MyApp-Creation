@@ -367,6 +367,10 @@
       "saveWhatMoves": {
         "title": "Enregistre ce qui te touche",
         "text": "Touche Enregistrer — ou ☆ Enregistrer dans le menu ••• d'une carte — sur n'importe quel verset, citation, histoire ou anecdote pour le garder dans Favoris."
+      },
+      "crisisRegion": {
+        "title": "Obtiens la bonne ligne d'écoute",
+        "text": "Nous devinons ton pays à partir de ton appareil pour afficher la bonne ligne d'écoute. Si jamais c'est faux, va dans Réglages → Région d'assistance en cas de crise et choisis ton pays toi-même."
       }
     }
   },

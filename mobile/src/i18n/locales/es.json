@@ -367,6 +367,10 @@
       "saveWhatMoves": {
         "title": "Guarda lo que te conmueve",
         "text": "Toca Guardar — o ☆ Guardar en el menú ••• de una tarjeta — en cualquier versículo, cita, historia o dato para conservarlo en Favoritos."
+      },
+      "crisisRegion": {
+        "title": "Obtén la línea de crisis correcta",
+        "text": "Calculamos tu país según tu dispositivo para mostrar la línea de crisis correcta. Si alguna vez es incorrecta, ve a Ajustes → Región de apoyo en crisis y elige tu país manualmente."
       }
     }
   },

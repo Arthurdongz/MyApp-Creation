@@ -14,6 +14,7 @@ const STEP_KEYS = [
   { emoji: "🔗", key: "jumpLinks" },
   { emoji: "🗂️", key: "moreToExplore" },
   { emoji: "☆", key: "saveWhatMoves" },
+  { emoji: "🌍", key: "crisisRegion" },
 ];
 
 export default function OnboardingTour({ visible, onFinish }) {
