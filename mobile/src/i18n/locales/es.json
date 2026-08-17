@@ -238,7 +238,14 @@
     "inputPlaceholder": "Escribe un mensaje...",
     "sendLabel": "Enviar mensaje",
     "sendButton": "Enviar",
-    "disclaimer": "Si estás en crisis, por favor busca ayuda real: {{resource}}"
+    "disclaimer": "Si estás en crisis, por favor busca ayuda real: {{resource}}",
+    "historyLabel": "Ver conversaciones anteriores",
+    "historyTitle": "Conversaciones Anteriores",
+    "backToChatLabel": "Volver al chat",
+    "historyEmpty": "Todavía no has empezado ninguna conversación.",
+    "historyRowMeta_one": "{{count}} mensaje · {{date}}",
+    "historyRowMeta_other": "{{count}} mensajes · {{date}}",
+    "historyPreviewFallback": "Nueva conversación"
   },
   "history": {
     "title": "Mi Diario",

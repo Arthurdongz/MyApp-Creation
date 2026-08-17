@@ -23,6 +23,12 @@ export const lightColors = {
   // instead of reusing the decorative sage/border color.
   buttonBg: "#56705f",
   buttonOnText: "#ffffff",
+  // A cool, slightly desaturated tint distinct from the warm cream `bg` used
+  // everywhere else — gives the chat screen its own identity as a dedicated
+  // messaging surface rather than another card floating on the app's usual
+  // background.
+  chatBg: "#e9eef2",
+  chatHeaderBg: "#fbfdfe",
 };
 
 export const darkColors = {
@@ -44,6 +50,8 @@ export const darkColors = {
   input: "#1f241f",
   buttonBg: "#8fae97",
   buttonOnText: "#1b201c",
+  chatBg: "#141a1e",
+  chatHeaderBg: "#1c2328",
 };
 
 export function shadowFor(mode) {

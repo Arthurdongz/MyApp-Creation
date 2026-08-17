@@ -238,7 +238,14 @@
     "inputPlaceholder": "Écris un message...",
     "sendLabel": "Envoyer le message",
     "sendButton": "Envoyer",
-    "disclaimer": "Si tu traverses une crise, trouve une aide réelle : {{resource}}"
+    "disclaimer": "Si tu traverses une crise, trouve une aide réelle : {{resource}}",
+    "historyLabel": "Voir les conversations précédentes",
+    "historyTitle": "Conversations Précédentes",
+    "backToChatLabel": "Retour au chat",
+    "historyEmpty": "Tu n'as pas encore commencé de conversation.",
+    "historyRowMeta_one": "{{count}} message · {{date}}",
+    "historyRowMeta_other": "{{count}} messages · {{date}}",
+    "historyPreviewFallback": "Nouvelle conversation"
   },
   "history": {
     "title": "Mon Journal",

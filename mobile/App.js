@@ -262,21 +262,7 @@ function AppContent({ store }) {
         ) : null}
 
         <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
-          <SafeAreaView style={styles.safeArea}>
-            <View style={styles.chatModalTopBar}>
-              <TouchableOpacity
-                onPress={() => setShowChat(false)}
-                style={styles.chatModalCloseBtn}
-                accessibilityRole="button"
-                accessibilityLabel={t("app.closeChat")}
-              >
-                <Text style={styles.chatModalCloseText}>✕</Text>
-              </TouchableOpacity>
-            </View>
-            <ScrollView contentContainerStyle={styles.scrollContent}>
-              <ChatScreen store={store} />
-            </ScrollView>
-          </SafeAreaView>
+          {showChat ? <ChatScreen store={store} onClose={() => setShowChat(false)} /> : null}
         </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -362,22 +348,5 @@ function getStyles(colors, shadow) {
       ...shadow,
     },
     chatFabIcon: { fontSize: 24 },
-    chatModalTopBar: {
-      flexDirection: "row",
-      justifyContent: "flex-end",
-      paddingHorizontal: 18,
-      paddingTop: 8,
-    },
-    chatModalCloseBtn: {
-      width: 32,
-      height: 32,
-      borderRadius: 16,
-      borderWidth: 1,
-      borderColor: colors.border,
-      backgroundColor: colors.card,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    chatModalCloseText: { fontSize: 14, color: colors.textSoft },
   });
 }

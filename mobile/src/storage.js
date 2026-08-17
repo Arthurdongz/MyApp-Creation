@@ -95,6 +95,12 @@ function defaultSettings() {
     // a region code or "OTHER" means the user corrected it by hand in
     // Settings because the device guessed wrong.
     crisisRegionOverride: null,
+    // Which chatConversations entry "Talk to Barnabas" resumes into, and
+    // when it was last touched — see openChatConversation's session-timeout
+    // logic below. Both null until the first message of the first ever
+    // conversation is sent.
+    activeChatConversationId: null,
+    chatLastActiveAt: null,
   };
 }
 
@@ -105,6 +111,7 @@ function freshJourney() {
     entries: {},
     totalStars: 0,
     favorites: [],
+    chatConversations: [],
     settings: defaultSettings(),
   };
 }
@@ -147,6 +154,7 @@ function normalizeLoaded(parsed) {
     entries: parsed.entries || {},
     totalStars: parsed.totalStars || 0,
     favorites: parsed.favorites || [],
+    chatConversations: parsed.chatConversations || [],
     settings: { ...defaultSettings(), ...migrateSettings(parsed.settings || {}) },
   };
 }
@@ -220,6 +228,21 @@ export function computeChatAccess(settings) {
   const messagesUsed = settings.chatQuotaMonthKey === currentMonthKey() ? settings.chatMessagesUsed : 0;
   const messagesLeft = Math.max(0, CHAT_FREE_MESSAGES_PER_MONTH - messagesUsed);
   return { granted: messagesLeft > 0, unlimited: false, messagesUsed, messagesLeft, limit: CHAT_FREE_MESSAGES_PER_MONTH };
+}
+
+// How long "Talk to Barnabas" stays on the same conversation with no
+// activity before the next open starts a fresh one instead. Backed by a
+// persisted timestamp (chatLastActiveAt) rather than any in-memory
+// session flag, so it works the same whether the gap was spent idling in
+// the app, backgrounded, or the app was fully closed and relaunched —
+// there's no reliable "was it actually killed" signal in Expo, and a hard
+// reset on every brief backgrounding (e.g. checking a notification) would
+// feel broken, so wall-clock time since the last message is the signal.
+const CHAT_SESSION_TIMEOUT_MS = 30 * 60 * 1000;
+
+function newChatConversation() {
+  const now = Date.now();
+  return { id: `chat-${now}-${Math.random().toString(36).slice(2, 8)}`, startedAt: now, updatedAt: now, messages: [] };
 }
 
 // A gentle, rate-limited nudge toward real crisis resources when someone's
@@ -657,6 +680,68 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Resolves which conversation "Talk to Barnabas" should open into: the
+  // existing active one if it's still within the session window (see
+  // CHAT_SESSION_TIMEOUT_MS) and actually has messages, otherwise a brand
+  // new, not-yet-persisted one — nothing is written to chatConversations
+  // here (a pure read), so opening chat and never typing anything leaves
+  // no empty entry behind in History. Call once per chat screen open.
+  const openChatConversation = useCallback(() => {
+    const { activeChatConversationId, chatLastActiveAt } = state.settings;
+    const withinWindow =
+      activeChatConversationId &&
+      chatLastActiveAt &&
+      Date.now() - chatLastActiveAt <= CHAT_SESSION_TIMEOUT_MS;
+    const existing = withinWindow
+      ? state.chatConversations.find((c) => c.id === activeChatConversationId && c.messages.length > 0)
+      : null;
+    return existing || newChatConversation();
+  }, [state.settings, state.chatConversations]);
+
+  // Appends a message to `conversation` (the object openChatConversation or
+  // a History row handed back), inserting it into chatConversations for the
+  // first time if this is its first message. Also marks it the active
+  // conversation, so the next chat open resumes it instead of starting over.
+  const appendChatMessage = useCallback(
+    (conversation, message) => {
+      setState((prev) => {
+        const now = Date.now();
+        const exists = prev.chatConversations.some((c) => c.id === conversation.id);
+        const chatConversations = exists
+          ? prev.chatConversations.map((c) =>
+              c.id === conversation.id ? { ...c, messages: [...c.messages, message], updatedAt: now } : c
+            )
+          : [{ ...conversation, messages: [message], updatedAt: now }, ...prev.chatConversations];
+        const next = {
+          ...prev,
+          chatConversations,
+          settings: { ...prev.settings, activeChatConversationId: conversation.id, chatLastActiveAt: now },
+        };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  // Explicitly reopening a past conversation from History always resumes
+  // it, regardless of how long ago it was last touched — the 30-minute
+  // timeout only governs which conversation a plain chat open lands on,
+  // not a deliberate pick from the list.
+  const resumeChatConversation = useCallback(
+    (conversationId) => {
+      setState((prev) => {
+        const next = {
+          ...prev,
+          settings: { ...prev.settings, activeChatConversationId: conversationId, chatLastActiveAt: Date.now() },
+        };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
   const showCrisisNudge = ready
     ? computeShowCrisisNudge(state.entries, latestDay, state.settings.lastCrisisNudgeShownAt)
     : false;
@@ -758,6 +843,10 @@ export function useJournalStore() {
     yearInReview,
     chatAccess,
     recordChatMessageSent,
+    chatConversations: state.chatConversations,
+    openChatConversation,
+    appendChatMessage,
+    resumeChatConversation,
     showCrisisNudge,
     showCheckInNudge,
     checkInNudgeVariant,

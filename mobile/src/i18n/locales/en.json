@@ -238,7 +238,14 @@
     "inputPlaceholder": "Type a message...",
     "sendLabel": "Send message",
     "sendButton": "Send",
-    "disclaimer": "If you're in crisis, please reach real help: {{resource}}"
+    "disclaimer": "If you're in crisis, please reach real help: {{resource}}",
+    "historyLabel": "View past conversations",
+    "historyTitle": "Past Conversations",
+    "backToChatLabel": "Back to chat",
+    "historyEmpty": "You haven't started a conversation yet.",
+    "historyRowMeta_one": "{{count}} message · {{date}}",
+    "historyRowMeta_other": "{{count}} messages · {{date}}",
+    "historyPreviewFallback": "New conversation"
   },
   "history": {
     "title": "My Journal",
