@@ -159,7 +159,11 @@ function AppContent({ store }) {
     return (
       <SafeAreaProvider>
         <SafeAreaView style={styles.safeArea}>
-          <OnboardingScreen onStart={store.completeOnboarding} />
+          <OnboardingScreen
+            onStart={store.completeOnboarding}
+            settings={store.settings}
+            updateSettings={store.updateSettings}
+          />
         </SafeAreaView>
       </SafeAreaProvider>
     );
