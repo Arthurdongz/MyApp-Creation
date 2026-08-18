@@ -135,7 +135,7 @@ export const HIGHLIGHTS = [
   "Most people can tell within seconds whether they have someone's full attention — and it changes what they're willing to share.",
   "Presence doesn't require solving anything — showing up consistently is its own message, said without words.",
   "A single follow-up question — \"how did that turn out?\" — tells someone you actually remembered and cared about their situation.",
-  "Being allowed to finish sharing hard news, without interruption, has been shown to measurably lower a person's stress in the moment.",
+  "Being able to finish sharing hard news, without interruption, has been shown to measurably lower a person's stress in the moment.",
   "Noticing when someone goes quiet, and gently checking in, catches more struggling people early than almost anything else.",
   "Full presence for even five minutes can outweigh an hour of distracted company in how connected someone feels afterward.",
   "Silence shared with someone, rather than filled anxiously, is often exactly what grief or fear needs most.",
