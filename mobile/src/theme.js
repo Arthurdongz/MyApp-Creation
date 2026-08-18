@@ -1,57 +1,67 @@
 import { createContext, useContext } from "react";
 
+// "Dawn Grove" palette — a richer, more saturated evolution of the app's
+// original muted sage-and-cream look, not a departure from it: deeper
+// forest green instead of washed-out sage, warmer marigold gold instead of
+// mustard, and a cooler teal-blue for contrast. Chosen to still feel like a
+// devotional/journaling app (warm, calm, trustworthy) rather than a loud or
+// corporate one, while reading as distinctly its own rather than
+// interchangeable with the sage-green-and-cream look shared by countless
+// wellness/journaling apps. Every text/background pairing below has been
+// checked against WCAG AA (4.5:1 for normal text) — see palette-contrast
+// notes in the PR description if these ever need re-deriving.
 export const lightColors = {
-  bg: "#f4f0e6",
-  card: "#fffdf8",
-  sage: "#7c9885",
-  sageDark: "#56705f",
-  sky: "#8fb3c9",
-  gold: "#e0ab3c",
-  goldText: "#8a5c0d",
-  text: "#3a3a34",
-  textSoft: "#6b6a63",
-  border: "#e7e1d3",
-  verseCard: "#eef4ea",
-  momentCard: "#eaf1f5",
-  storyCard: "#f7ece0",
-  reachOutCard: "#fbe4d8",
-  factCard: "#f9f0d8",
-  input: "#fffefc",
+  bg: "#fbf1e0",
+  card: "#fffdf7",
+  sage: "#4f8d6e",
+  sageDark: "#2d5f45",
+  sky: "#5b9bb0",
+  gold: "#e69138",
+  goldText: "#8f5308",
+  text: "#33302a",
+  textSoft: "#6e6a5f",
+  border: "#eaddc4",
+  verseCard: "#e3f0e6",
+  momentCard: "#e1eef5",
+  storyCard: "#f7e3cf",
+  reachOutCard: "#fbdccb",
+  factCard: "#f9e7bd",
+  input: "#fffdf9",
   // Solid-fill button background + the text color that sits on top of it —
-  // plain colors.sage fails WCAG AA contrast against white text (3.14:1 in
-  // light mode, 2.42:1 in dark), so buttons use dedicated, checked tokens
-  // instead of reusing the decorative sage/border color.
-  buttonBg: "#56705f",
+  // plain colors.sage fails WCAG AA contrast against white text, so buttons
+  // use dedicated, checked tokens instead of reusing the decorative
+  // sage/border color.
+  buttonBg: "#2d5f45",
   buttonOnText: "#ffffff",
   // A cool, slightly desaturated tint distinct from the warm cream `bg` used
   // everywhere else — gives the chat screen its own identity as a dedicated
   // messaging surface rather than another card floating on the app's usual
   // background.
-  chatBg: "#e9eef2",
-  chatHeaderBg: "#fbfdfe",
+  chatBg: "#e5eef0",
+  chatHeaderBg: "#fbfdfc",
 };
 
 export const darkColors = {
-  bg: "#1b201c",
-  card: "#252b25",
-  sage: "#8fae97",
-  sageDark: "#b7cfbd",
-  sky: "#9fc4dc",
-  gold: "#e8bd5a",
-  goldText: "#e8bd5a",
-  text: "#e8e5d9",
-  textSoft: "#a3a296",
-  border: "#3a4139",
-  verseCard: "#24312a",
-  momentCard: "#212d33",
-  storyCard: "#2e271f",
-  reachOutCard: "#33251f",
-  factCard: "#332b1c",
-  input: "#1f241f",
-  buttonBg: "#8fae97",
-  buttonOnText: "#1b201c",
-  chatBg: "#141a1e",
-  chatHeaderBg: "#1c2328",
+  bg: "#161d18",
+  card: "#212922",
+  sage: "#6fbb92",
+  sageDark: "#9fdcb8",
+  sky: "#6fb8d1",
+  gold: "#f0b84f",
+  goldText: "#f0b84f",
+  text: "#f0ece0",
+  textSoft: "#aba795",
+  border: "#3d4a3f",
+  verseCard: "#1f2f25",
+  momentCard: "#1c2c33",
+  storyCard: "#332920",
+  reachOutCard: "#3a2620",
+  factCard: "#332a18",
+  input: "#1a2119",
+  buttonBg: "#6fbb92",
+  buttonOnText: "#12241a",
+  chatBg: "#11171a",
+  chatHeaderBg: "#1a2226",
 };
 
 export function shadowFor(mode) {

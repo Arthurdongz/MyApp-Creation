@@ -1,60 +1,66 @@
+/* "Dawn Grove" palette — a richer, more saturated evolution of the site's
+   original muted sage-and-cream look: deeper forest green instead of
+   washed-out sage, warmer marigold gold instead of mustard, and a cooler
+   teal-blue for contrast. Kept in sync with mobile/src/theme.js — every
+   text/background pairing here has been checked against WCAG AA
+   (4.5:1 for normal text). */
 :root {
-  --bg: #f4f0e6;
-  --bg-gradient-start: #f6f2e9;
-  --bg-gradient-end: #e9eee3;
-  --card: #fffdf8;
-  --sage: #7c9885;
-  --sage-dark: #56705f;
-  --sky: #8fb3c9;
-  --gold: #e0ab3c;
-  --gold-text: #8a5c0d;
-  --text: #3a3a34;
-  --text-soft: #6b6a63;
-  --border: #e7e1d3;
-  --shadow: 0 6px 20px rgba(90, 100, 80, 0.08);
-  --verse-grad-1: #eef4ea;
-  --verse-grad-2: #f7f3e6;
-  --moment-grad-1: #eaf1f5;
-  --moment-grad-2: #fdf8ee;
-  --story-grad-1: #f7ece0;
-  --story-grad-2: #eef2e4;
-  --reachout-grad-1: #fbe4d8;
-  --reachout-grad-2: #f6ecdf;
-  --input-bg: #fffefc;
+  --bg: #fbf1e0;
+  --bg-gradient-start: #fdf4e6;
+  --bg-gradient-end: #eef2e2;
+  --card: #fffdf7;
+  --sage: #4f8d6e;
+  --sage-dark: #2d5f45;
+  --sky: #5b9bb0;
+  --gold: #e69138;
+  --gold-text: #8f5308;
+  --text: #33302a;
+  --text-soft: #6e6a5f;
+  --border: #eaddc4;
+  --shadow: 0 6px 20px rgba(45, 95, 69, 0.1);
+  --verse-grad-1: #e3f0e6;
+  --verse-grad-2: #f8f2df;
+  --moment-grad-1: #e1eef5;
+  --moment-grad-2: #fdf7e8;
+  --story-grad-1: #f7e3cf;
+  --story-grad-2: #f2ecda;
+  --reachout-grad-1: #fbdccb;
+  --reachout-grad-2: #f8ecda;
+  --input-bg: #fffdf9;
   --tabs-bg: rgba(255, 255, 255, 0.5);
   /* Solid-fill button background + its text color — plain --sage fails
-     WCAG AA contrast against white text (3.14:1 light, 2.42:1 dark), so
-     buttons use dedicated, checked tokens instead of the decorative sage. */
-  --button-bg: #56705f;
+     WCAG AA contrast against white text, so buttons use dedicated,
+     checked tokens instead of the decorative sage. */
+  --button-bg: #2d5f45;
   --button-on-text: #ffffff;
 }
 
 :root[data-theme="dark"] {
-  --bg: #1b201c;
-  --bg-gradient-start: #1e2420;
-  --bg-gradient-end: #161a16;
-  --card: #252b25;
-  --sage: #8fae97;
-  --sage-dark: #b7cfbd;
-  --sky: #9fc4dc;
-  --gold: #e8bd5a;
-  --gold-text: #e8bd5a;
-  --text: #e8e5d9;
-  --text-soft: #a3a296;
-  --border: #3a4139;
+  --bg: #161d18;
+  --bg-gradient-start: #1a221c;
+  --bg-gradient-end: #11160f;
+  --card: #212922;
+  --sage: #6fbb92;
+  --sage-dark: #9fdcb8;
+  --sky: #6fb8d1;
+  --gold: #f0b84f;
+  --gold-text: #f0b84f;
+  --text: #f0ece0;
+  --text-soft: #aba795;
+  --border: #3d4a3f;
   --shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  --verse-grad-1: #24312a;
-  --verse-grad-2: #2b2c22;
-  --moment-grad-1: #212d33;
-  --moment-grad-2: #2e2c22;
-  --story-grad-1: #2e271f;
-  --story-grad-2: #262d22;
-  --reachout-grad-1: #33251f;
-  --reachout-grad-2: #2c2820;
-  --input-bg: #1f241f;
+  --verse-grad-1: #1f2f25;
+  --verse-grad-2: #26291d;
+  --moment-grad-1: #1c2c33;
+  --moment-grad-2: #2b2a1e;
+  --story-grad-1: #332920;
+  --story-grad-2: #292f1e;
+  --reachout-grad-1: #3a2620;
+  --reachout-grad-2: #302a1c;
+  --input-bg: #1a2119;
   --tabs-bg: rgba(0, 0, 0, 0.2);
-  --button-bg: #8fae97;
-  --button-on-text: #1b201c;
+  --button-bg: #6fbb92;
+  --button-on-text: #12241a;
 }
 
 * { box-sizing: border-box; }
