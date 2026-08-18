@@ -283,7 +283,7 @@ export const CONFESSIONS = [
   { text: "The Lord gives me strength and blesses me with peace.", ref: "Psalm 29:11" },
   { text: "The God of hope fills me with all joy and peace as I believe, so I overflow with hope by the power of the Holy Spirit.", ref: "Romans 15:13" },
   { text: "I commit my works to the Lord, and my thoughts and plans are established.", ref: "Proverbs 16:3" },
-  { text: "I plan my way, but the Lord directs my steps.", ref: "Proverbs 16:9" },
+  { text: "My steps are directed by the Lord — I never go where there is trouble, and I do not take a wrong step.", ref: "Proverbs 16:9" },
   { text: "My steps are ordered by the Lord, and He delights in my way.", ref: "Psalm 37:23" },
   { text: "The word I speak does not return to me void — it accomplishes what pleases God and prospers where He sends it.", ref: "Isaiah 55:11" },
   { text: "The words I speak fitly are like apples of gold in settings of silver, bringing beauty wherever I go.", ref: "Proverbs 25:11" },
