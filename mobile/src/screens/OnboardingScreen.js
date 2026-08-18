@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
-import { CRISIS_REGION_LABELS, OTHER_REGION } from "../crisisResources";
+import { CRISIS_REGION_LABELS, OTHER_REGION, sortedCrisisRegionCodes } from "../crisisResources";
 import { hapticTap } from "../haptics";
 
 export default function OnboardingScreen({ onStart, settings, updateSettings }) {
@@ -35,7 +35,7 @@ export default function OnboardingScreen({ onStart, settings, updateSettings }) 
               {t("settings.crisisRegionAuto")}
             </Text>
           </TouchableOpacity>
-          {Object.keys(CRISIS_REGION_LABELS).map((code) => {
+          {sortedCrisisRegionCodes().map((code) => {
             const active = settings.crisisRegionOverride === code;
             return (
               <TouchableOpacity

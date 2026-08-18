@@ -8,7 +8,7 @@ import { speak } from "../speech";
 import { hapticTap } from "../haptics";
 import { todayKey } from "../content";
 import { BIBLE_VERSIONS } from "../data/verses";
-import { CRISIS_REGION_LABELS, OTHER_REGION } from "../crisisResources";
+import { CRISIS_REGION_LABELS, OTHER_REGION, sortedCrisisRegionCodes } from "../crisisResources";
 import {
   scheduleMorningReminder,
   cancelMorningReminder,
@@ -32,15 +32,6 @@ function daysSince(key) {
   to.setHours(0, 0, 0, 0);
   from.setHours(0, 0, 0, 0);
   return Math.round((to - from) / 86400000);
-}
-
-// A-Z by display label, matching how a phone's country/region picker sorts
-// — "Auto-detect" and "Other" aren't real countries, so they're pinned
-// outside this list rather than sorted in among the real ones.
-function sortedCrisisRegionCodes() {
-  return Object.keys(CRISIS_REGION_LABELS).sort((a, b) =>
-    CRISIS_REGION_LABELS[a].localeCompare(CRISIS_REGION_LABELS[b])
-  );
 }
 
 const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";

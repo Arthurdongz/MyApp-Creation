@@ -207,10 +207,6 @@ export default function ChatScreen({ store, onClose }) {
               })
             )}
           </ScrollView>
-        ) : !chatAccess.granted ? (
-          <ScrollView style={styles.flexFill} contentContainerStyle={styles.bodyContent}>
-            <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
-          </ScrollView>
         ) : (
           <>
             <ScrollView
@@ -246,28 +242,42 @@ export default function ChatScreen({ store, onClose }) {
 
             {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
 
-            <View style={styles.inputRow}>
-              <TextInput
-                style={styles.input}
-                value={input}
-                onChangeText={setInput}
-                placeholder={t("chat.inputPlaceholder")}
-                placeholderTextColor={colors.textSoft}
-                multiline
-                editable={!sending}
-              />
-              <TouchableOpacity
-                style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]}
-                onPress={handleSend}
-                disabled={!input.trim() || sending}
-                accessibilityRole="button"
-                accessibilityLabel={t("chat.sendLabel")}
-              >
-                <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
-              </TouchableOpacity>
-            </View>
+            {/*
+              Reading an old conversation from History should always work,
+              even after the monthly quota runs out — only sending a new
+              message needs to be gated, so the paywall replaces just the
+              composer instead of the whole screen.
+            */}
+            {chatAccess.granted ? (
+              <>
+                <View style={styles.inputRow}>
+                  <TextInput
+                    style={styles.input}
+                    value={input}
+                    onChangeText={setInput}
+                    placeholder={t("chat.inputPlaceholder")}
+                    placeholderTextColor={colors.textSoft}
+                    multiline
+                    editable={!sending}
+                  />
+                  <TouchableOpacity
+                    style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]}
+                    onPress={handleSend}
+                    disabled={!input.trim() || sending}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("chat.sendLabel")}
+                  >
+                    <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
+                  </TouchableOpacity>
+                </View>
 
-            <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
+                <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
+              </>
+            ) : (
+              <View style={styles.paywallDock}>
+                <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
+              </View>
+            )}
           </>
         )}
       </KeyboardAvoidingView>
@@ -380,6 +390,12 @@ function getStyles(colors, shadow) {
       paddingHorizontal: 16,
       paddingBottom: 10,
       backgroundColor: colors.chatHeaderBg,
+    },
+    paywallDock: {
+      padding: 16,
+      backgroundColor: colors.chatHeaderBg,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
     },
     paywallCard: {
       backgroundColor: colors.card,

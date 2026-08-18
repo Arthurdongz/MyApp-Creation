@@ -100,6 +100,16 @@ export const CRISIS_RESOURCES = {
   },
 };
 
+// A-Z by display label, matching how a phone's country/region picker sorts.
+// Shared by SettingsScreen and OnboardingScreen so both region pickers stay
+// in the same order — "Auto-detect" and "Other" aren't real countries, so
+// they're pinned outside this list by each screen rather than sorted in.
+export function sortedCrisisRegionCodes() {
+  return Object.keys(CRISIS_REGION_LABELS).sort((a, b) =>
+    CRISIS_REGION_LABELS[a].localeCompare(CRISIS_REGION_LABELS[b])
+  );
+}
+
 export const DEFAULT_CRISIS_RESOURCE = {
   sentence:
     "Searching \"crisis line\" together with your country's name will help you find a local number — please reach out to real, trained help.",
