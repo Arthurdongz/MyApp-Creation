@@ -61,6 +61,8 @@
     "jump": {
       "verse": "Versículo",
       "verseLabel": "Ir al versículo",
+      "confession": "Confesión",
+      "confessionLabel": "Ir a la Confesión de Hoy",
       "word": "Palabra",
       "wordLabel": "Ir a Una Palabra para Ti",
       "moment": "Momento",
@@ -73,6 +75,10 @@
     },
     "reading": {
       "sectionTitle": "Lectura de Hoy"
+    },
+    "confession": {
+      "title": "Confesión de Hoy",
+      "speakPrompt": "Una lengua sana es árbol de vida — declara esto en voz alta hoy."
     },
     "word": {
       "title": "Una Palabra para Ti",
@@ -280,6 +286,7 @@
     "removeLabel": "Quitar {{kind}} de favoritos",
     "kind": {
       "verse": "Versículo",
+      "confession": "Confesión",
       "trueStory": "Historia Real",
       "fact": "Dato",
       "story": "Historia",
@@ -319,7 +326,9 @@
     "voicePickerTitle": "Elegir una Voz",
     "closeVoicePickerLabel": "Cerrar selector de voz",
     "remindersTitle": "Recordatorios Diarios",
-    "remindersSubtitle": "Tres avisos suaves — un versículo para empezar el día, un dato para animarte en el camino, y un momento para reflexionar al cerrarlo.",
+    "remindersSubtitle": "Cuatro avisos suaves — una confesión para declarar sobre tu día, un versículo para empezar el día, un dato para animarte en el camino, y un momento para reflexionar al cerrarlo.",
+    "confessionLabel": "Confesión · Decláralo en voz alta",
+    "confessionSwitchLabel": "Recordatorio de confesión",
     "morningLabel": "Mañana · Palabra del día",
     "morningSwitchLabel": "Recordatorio matutino",
     "highlightLabel": "Dato · Aliento en el camino",

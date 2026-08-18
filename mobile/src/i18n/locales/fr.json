@@ -61,6 +61,8 @@
     "jump": {
       "verse": "Verset",
       "verseLabel": "Aller au verset",
+      "confession": "Confession",
+      "confessionLabel": "Aller à la Confession du Jour",
       "word": "Parole",
       "wordLabel": "Aller à Une Parole pour Toi",
       "moment": "Moment",
@@ -73,6 +75,10 @@
     },
     "reading": {
       "sectionTitle": "Lecture du Jour"
+    },
+    "confession": {
+      "title": "Confession du Jour",
+      "speakPrompt": "Une langue posée est un arbre de vie — déclare ceci à voix haute aujourd'hui."
     },
     "word": {
       "title": "Une Parole pour Toi",
@@ -280,6 +286,7 @@
     "removeLabel": "Retirer {{kind}} des favoris",
     "kind": {
       "verse": "Verset",
+      "confession": "Confession",
       "trueStory": "Histoire Vraie",
       "fact": "Anecdote",
       "story": "Histoire",
@@ -319,7 +326,9 @@
     "voicePickerTitle": "Choisir une Voix",
     "closeVoicePickerLabel": "Fermer le sélecteur de voix",
     "remindersTitle": "Rappels Quotidiens",
-    "remindersSubtitle": "Trois rappels tout en douceur — un verset pour commencer la journée, un point fort pour t'encourager en chemin, et un moment pour réfléchir en la terminant.",
+    "remindersSubtitle": "Quatre rappels tout en douceur — une confession à déclarer sur ta journée, un verset pour commencer la journée, un point fort pour t'encourager en chemin, et un moment pour réfléchir en la terminant.",
+    "confessionLabel": "Confession · Déclare-la à voix haute",
+    "confessionSwitchLabel": "Rappel de confession",
     "morningLabel": "Matin · Parole du jour",
     "morningSwitchLabel": "Rappel du matin",
     "highlightLabel": "Point fort · Encouragement en chemin",

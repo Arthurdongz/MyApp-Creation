@@ -676,6 +676,11 @@ function renderToday() {
   document.getElementById("verseRef").textContent = `${verse.ref} (${verse.version})`;
   updateFavoriteBtn("verseFavoriteBtn", "verse", day);
 
+  const confession = pickForDay(CONFESSIONS, day, state.order);
+  document.getElementById("confessionText").textContent = confession.text;
+  document.getElementById("confessionRef").textContent = `— ${confession.ref}`;
+  updateFavoriteBtn("confessionFavoriteBtn", "confession", day);
+
   document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
 
   const quote = pickForDaySmallBank(QUOTES, day, state.order);
@@ -887,6 +892,7 @@ function renderHistory() {
 // "Story" so previously-saved favorites don't look wrong.
 function favoriteKindLabel(f) {
   if (f.type === "verse") return "Verse";
+  if (f.type === "confession") return "Confession";
   if (f.type === "truestory") return "True Story";
   if (f.type === "wisdom" && f.title) return "Story";
   return "Quote";
@@ -894,6 +900,7 @@ function favoriteKindLabel(f) {
 
 function favoriteSourceLine(f) {
   if (f.type === "verse") return f.ref;
+  if (f.type === "confession") return f.ref;
   if (f.type === "truestory") return f.title;
   if (f.type === "wisdom" && f.title) return f.title;
   return `— ${f.source || ""}`;
@@ -1285,6 +1292,11 @@ function setupFavoriteButtons() {
     toggleFavorite("verse", viewingDay, { text: verse.text, ref: `${verse.ref} (${verse.version})` });
     updateFavoriteBtn("verseFavoriteBtn", "verse", viewingDay);
   });
+  document.getElementById("confessionFavoriteBtn").addEventListener("click", () => {
+    const confession = pickForDay(CONFESSIONS, viewingDay, state.order);
+    toggleFavorite("confession", viewingDay, { text: confession.text, ref: confession.ref });
+    updateFavoriteBtn("confessionFavoriteBtn", "confession", viewingDay);
+  });
   document.getElementById("wisdomFavoriteBtn").addEventListener("click", () => {
     const quote = pickForDaySmallBank(QUOTES, viewingDay, state.order);
     toggleFavorite("wisdom", viewingDay, { text: quote.text, source: quote.source || "" });
@@ -1301,6 +1313,10 @@ function setupShareButtons() {
   document.getElementById("verseShareBtn").addEventListener("click", () => {
     const verse = getVerseForDay(viewingDay);
     openSharePreview(verse.text, `${verse.ref} (${verse.version})`, "verse", "verseShareMsg", viewingDay);
+  });
+  document.getElementById("confessionShareBtn").addEventListener("click", () => {
+    const confession = pickForDay(CONFESSIONS, viewingDay, state.order);
+    openSharePreview(confession.text, confession.ref, "confession", "confessionShareMsg", viewingDay);
   });
   document.getElementById("wisdomShareBtn").addEventListener("click", () => {
     const quote = pickForDaySmallBank(QUOTES, viewingDay, state.order);
@@ -1377,7 +1393,7 @@ function setupVoiceSettings() {
 }
 
 function setupListenButtons() {
-  const ids = ["verseListenBtn", "encouragementListenBtn", "storyListenBtn"];
+  const ids = ["verseListenBtn", "confessionListenBtn", "encouragementListenBtn", "storyListenBtn"];
   if (!window.speechSynthesis) {
     ids.forEach((id) => {
       const btn = document.getElementById(id);
@@ -1388,6 +1404,10 @@ function setupListenButtons() {
   document.getElementById("verseListenBtn").addEventListener("click", () => {
     const verse = getVerseForDay(viewingDay);
     speak(`${verse.text} — ${verse.ref}`);
+  });
+  document.getElementById("confessionListenBtn").addEventListener("click", () => {
+    const confession = pickForDay(CONFESSIONS, viewingDay, state.order);
+    speak(`${confession.text} — ${confession.ref}`);
   });
   document.getElementById("encouragementListenBtn").addEventListener("click", () => {
     speak(pickForDay(ENCOURAGEMENTS, viewingDay, state.order));

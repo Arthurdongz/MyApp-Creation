@@ -61,6 +61,8 @@
     "jump": {
       "verse": "Verse",
       "verseLabel": "Jump to Verse",
+      "confession": "Confession",
+      "confessionLabel": "Jump to Today's Confession",
       "word": "Word",
       "wordLabel": "Jump to A Word for You",
       "moment": "Moment",
@@ -73,6 +75,10 @@
     },
     "reading": {
       "sectionTitle": "Today's Reading"
+    },
+    "confession": {
+      "title": "Today's Confession",
+      "speakPrompt": "A wholesome tongue is a tree of life — speak this aloud today."
     },
     "word": {
       "title": "A Word for You",
@@ -280,6 +286,7 @@
     "removeLabel": "Remove this {{kind}} from favorites",
     "kind": {
       "verse": "Verse",
+      "confession": "Confession",
       "trueStory": "True Story",
       "fact": "Fact",
       "story": "Story",
@@ -319,7 +326,9 @@
     "voicePickerTitle": "Choose a Voice",
     "closeVoicePickerLabel": "Close voice picker",
     "remindersTitle": "Daily Reminders",
-    "remindersSubtitle": "Three gentle nudges — a verse to start the day, a highlight to encourage you along the way, and a moment to reflect as it closes.",
+    "remindersSubtitle": "Four gentle nudges — a confession to speak over your day, a verse to start the day, a highlight to encourage you along the way, and a moment to reflect as it closes.",
+    "confessionLabel": "Confession · Speak it aloud",
+    "confessionSwitchLabel": "Confession reminder",
     "morningLabel": "Morning · Word for the day",
     "morningSwitchLabel": "Morning reminder",
     "highlightLabel": "Highlight · Encouragement along the way",

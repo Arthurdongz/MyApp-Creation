@@ -205,6 +205,18 @@ console.log("\n=== WISDOM ===");
   checkMirrorIdentical("WISDOM", web, mobile);
 }
 
+console.log("\n=== CONFESSIONS ===");
+{
+  const web = load("data-confessions.js", "CONFESSIONS");
+  const mobile = load("mobile/src/data/confessions.js", "CONFESSIONS");
+  if (web.length !== 366) fail(`CONFESSIONS (web): expected 366 entries, found ${web.length}`);
+  else ok(`CONFESSIONS (web): ${web.length} entries`);
+  checkObjectFieldDuplicates("CONFESSIONS", web, "text");
+  checkObjectFieldDuplicates("CONFESSIONS", web, "ref");
+  checkObjectFieldCollisions("CONFESSIONS", web, ["text"]);
+  checkMirrorIdentical("CONFESSIONS", web, mobile);
+}
+
 console.log("\n=== STORIES ===");
 {
   const web = load("data-stories.js", "STORIES");

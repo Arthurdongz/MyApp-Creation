@@ -16,6 +16,8 @@ import {
   cancelHighlightReminder,
   scheduleEveningReminder,
   cancelEveningReminder,
+  scheduleConfessionReminder,
+  cancelConfessionReminder,
   notificationsSupported,
 } from "../notifications";
 
@@ -68,6 +70,13 @@ const HIGHLIGHT_PRESETS = [
   { label: "1:00 PM", hour: 13, minute: 0 },
   { label: "3:00 PM", hour: 15, minute: 0 },
   { label: "5:00 PM", hour: 17, minute: 0 },
+];
+
+const CONFESSION_PRESETS = [
+  { label: "6:00 AM", hour: 6, minute: 0 },
+  { label: "7:00 AM", hour: 7, minute: 0 },
+  { label: "8:00 AM", hour: 8, minute: 0 },
+  { label: "9:00 AM", hour: 9, minute: 0 },
 ];
 
 export default function SettingsScreen({ store, onClose }) {
@@ -195,6 +204,33 @@ export default function SettingsScreen({ store, onClose }) {
     }
   };
 
+  const handleConfessionToggle = async () => {
+    hapticTap();
+    if (settings.confessionReminderEnabled) {
+      await cancelConfessionReminder();
+      updateSettings({ confessionReminderEnabled: false });
+      return;
+    }
+    const ok = await scheduleConfessionReminder(
+      settings.confessionReminderHour,
+      settings.confessionReminderMinute,
+      store.state.journeyStartDate,
+      store.order
+    );
+    if (ok) {
+      updateSettings({ confessionReminderEnabled: true });
+    } else {
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
+    }
+  };
+
+  const handleConfessionPreset = async (preset) => {
+    updateSettings({ confessionReminderHour: preset.hour, confessionReminderMinute: preset.minute });
+    if (settings.confessionReminderEnabled) {
+      await scheduleConfessionReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    }
+  };
+
   const backupSubtitle = settings.lastBackupAt
     ? daysSince(settings.lastBackupAt) >= 30
       ? t("settings.backupNote.overdue", {
@@ -220,6 +256,7 @@ export default function SettingsScreen({ store, onClose }) {
     settings.morningReminderEnabled,
     settings.highlightReminderEnabled,
     settings.eveningReminderEnabled,
+    settings.confessionReminderEnabled,
   ].filter(Boolean).length;
 
   const MENU_ITEMS = [
@@ -238,7 +275,7 @@ export default function SettingsScreen({ store, onClose }) {
             key: "reminders",
             emoji: "⏰",
             title: t("settings.remindersTitle"),
-            subtitle: t("settings.remindersSummary", { count: remindersOnCount, total: 3 }),
+            subtitle: t("settings.remindersSummary", { count: remindersOnCount, total: 4 }),
           },
         ]
       : []),
@@ -554,6 +591,39 @@ export default function SettingsScreen({ store, onClose }) {
       {section === "reminders" && notificationsSupported ? (
         <View>
           <Text style={styles.subtitle}>{t("settings.remindersSubtitle")}</Text>
+
+          <View style={styles.settingsCard}>
+            <View style={styles.settingsRow}>
+              <Text style={styles.settingsLabel}>{t("settings.confessionLabel")}</Text>
+              <TouchableOpacity
+                style={[styles.switchTrack, settings.confessionReminderEnabled && styles.switchTrackOn]}
+                onPress={handleConfessionToggle}
+                accessibilityRole="switch"
+                accessibilityLabel={t("settings.confessionSwitchLabel")}
+                accessibilityState={{ checked: !!settings.confessionReminderEnabled }}
+              >
+                <View style={[styles.switchThumb, settings.confessionReminderEnabled && styles.switchThumbOn]} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.presetRow}>
+              {CONFESSION_PRESETS.map((preset) => {
+                const active =
+                  settings.confessionReminderHour === preset.hour &&
+                  settings.confessionReminderMinute === preset.minute;
+                return (
+                  <TouchableOpacity
+                    key={preset.label}
+                    style={[styles.presetBtn, active && styles.presetBtnActive]}
+                    onPress={() => handleConfessionPreset(preset)}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: active }}
+                  >
+                    <Text style={[styles.presetText, active && styles.presetTextActive]}>{preset.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
 
           <View style={styles.settingsCard}>
             <View style={styles.settingsRow}>

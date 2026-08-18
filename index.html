@@ -112,6 +112,21 @@
 
           <div class="unified-block">
             <div class="mini-label-row">
+              <p class="mini-label">Today's Confession</p>
+              <div class="mini-actions">
+                <button id="confessionListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+                <button id="confessionShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="confessionFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="verse-text" id="confessionText"></p>
+            <p class="verse-ref" id="confessionRef"></p>
+            <p class="confession-speak-prompt">A wholesome tongue is a tree of life — speak this aloud today.</p>
+            <p class="share-msg" id="confessionShareMsg" hidden></p>
+          </div>
+
+          <div class="unified-block">
+            <div class="mini-label-row">
               <p class="mini-label">A Word for You</p>
               <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
             </div>
@@ -518,6 +533,7 @@
 </div>
 
 <script src="data-verses.js"></script>
+<script src="data-confessions.js"></script>
 <script src="data-encouragements.js"></script>
 <script src="data-moments.js"></script>
 <script src="data-wisdom.js"></script>

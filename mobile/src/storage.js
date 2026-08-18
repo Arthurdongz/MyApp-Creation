@@ -14,6 +14,7 @@ import {
   scheduleMorningReminder,
   scheduleHighlightReminder,
   scheduleEveningReminder,
+  scheduleConfessionReminder,
   cleanupLegacyNotifications,
 } from "./notifications";
 
@@ -79,6 +80,9 @@ function defaultSettings() {
     eveningReminderEnabled: false,
     eveningReminderHour: 20,
     eveningReminderMinute: 0,
+    confessionReminderEnabled: false,
+    confessionReminderHour: 7,
+    confessionReminderMinute: 0,
     speechVoiceURI: "",
     speechPitch: 1,
     speechRate: 0.95,
@@ -462,6 +466,14 @@ export function useJournalStore() {
     }
     if (state.settings.eveningReminderEnabled) {
       scheduleEveningReminder(state.settings.eveningReminderHour, state.settings.eveningReminderMinute);
+    }
+    if (state.settings.confessionReminderEnabled) {
+      scheduleConfessionReminder(
+        state.settings.confessionReminderHour,
+        state.settings.confessionReminderMinute,
+        state.journeyStartDate,
+        state.order
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);

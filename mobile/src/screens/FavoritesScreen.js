@@ -9,6 +9,7 @@ import { useTheme } from "../theme";
 // "Story" so previously-saved favorites don't look wrong.
 function favoriteKindLabel(t, f) {
   if (f.type === "verse") return t("favorites.kind.verse");
+  if (f.type === "confession") return t("favorites.kind.confession");
   if (f.type === "truestory") return t("favorites.kind.trueStory");
   if (f.type === "highlight") return t("favorites.kind.fact");
   if (f.type === "wisdom" && f.title) return t("favorites.kind.story");
@@ -17,6 +18,7 @@ function favoriteKindLabel(t, f) {
 
 function favoriteSourceLine(f) {
   if (f.type === "verse") return f.ref;
+  if (f.type === "confession") return f.ref;
   if (f.type === "truestory") return f.title;
   if (f.type === "highlight") return `— ${f.source || ""}`;
   if (f.type === "wisdom" && f.title) return f.title;

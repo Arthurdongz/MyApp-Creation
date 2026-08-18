@@ -17,12 +17,14 @@ import * as Notifications from "expo-notifications";
 import { dateKeyForOffset, dayNumberForDate, pickForDay, pickVerseVersion } from "./content";
 import { BIBLE_VERSIONS, VERSES } from "./data/verses";
 import { HIGHLIGHTS } from "./data/highlights";
+import { CONFESSIONS } from "./data/confessions";
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 
 const MORNING_PREFIX = "barnabas-morning-reminder";
 const HIGHLIGHT_PREFIX = "barnabas-highlight-reminder";
 const EVENING_PREFIX = "barnabas-evening-reminder";
+const CONFESSION_PREFIX = "barnabas-confession-reminder";
 const LOOKAHEAD_DAYS = 21;
 
 // Identifiers used by reminder schemes this app shipped in the past, before
@@ -111,6 +113,17 @@ function highlightContentFor(journeyStartDate, order, offsetDays) {
   };
 }
 
+function confessionContentFor(journeyStartDate, order, offsetDays) {
+  const targetKey = dateKeyForOffset(offsetDays);
+  const dayNumber = dayNumberForDate(journeyStartDate, targetKey);
+  const confession = pickForDay(CONFESSIONS, dayNumber, order);
+  return {
+    title: "Barnabas Journal",
+    body: `“${confession.text}” — ${confession.ref}. Speak it aloud today.`,
+    data: { screen: "today", section: "confession", dayNumber },
+  };
+}
+
 function eveningContentFor(offsetDays) {
   const prompt = EVENING_PROMPTS[offsetDays % EVENING_PROMPTS.length];
   return { title: "Barnabas Journal", body: prompt };
@@ -186,6 +199,25 @@ export async function scheduleHighlightReminder(hour, minute, journeyStartDate, 
 
 export async function cancelHighlightReminder() {
   await cancelWindow(HIGHLIGHT_PREFIX);
+}
+
+export async function scheduleConfessionReminder(hour, minute, journeyStartDate, order) {
+  if (!SUPPORTED) return false;
+  const granted = await requestNotificationPermission();
+  if (!granted) return false;
+  try {
+    await cancelWindow(CONFESSION_PREFIX);
+    await scheduleWindow(CONFESSION_PREFIX, hour, minute, (offset) =>
+      confessionContentFor(journeyStartDate, order, offset)
+    );
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+export async function cancelConfessionReminder() {
+  await cancelWindow(CONFESSION_PREFIX);
 }
 
 export async function scheduleEveningReminder(hour, minute) {

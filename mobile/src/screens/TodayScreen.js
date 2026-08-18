@@ -8,6 +8,7 @@ import { useTheme } from "../theme";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
+import { CONFESSIONS } from "../data/confessions";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
 import { ENCOURAGEMENTS_PT } from "../data/encouragements.pt";
@@ -93,6 +94,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
     const version = pickVerseVersion(viewingDay, settings, VERSE_VERSION_IDS);
     return { ref: entry.ref, version, text: entry.versions[version] || entry.versions.KJV };
   }, [viewingDay, order, settings.verseVersionMode, settings.verseFavoriteVersion]);
+  const confession = useMemo(() => pickForDay(CONFESSIONS, viewingDay, order), [viewingDay, order]);
   const encouragement = useMemo(
     () => pickForDay(encouragementsBank, viewingDay, order),
     [encouragementsBank, viewingDay, order]
@@ -171,6 +173,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const [heartOpen, setHeartOpen] = useState(Boolean(today.reflection));
   const [barnabasOpen, setBarnabasOpen] = useState(Boolean(today.barnabasNote));
   const [kindnessOpen, setKindnessOpen] = useState(Boolean(today.receivedKindness));
+  const [confessionOpen, setConfessionOpen] = useState(false);
   const [wordOpen, setWordOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
   const [momentOpen, setMomentOpen] = useState(!today.momentDone);
@@ -189,6 +192,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
     setHeartOpen(Boolean(today.reflection));
     setBarnabasOpen(Boolean(today.barnabasNote));
     setKindnessOpen(Boolean(today.receivedKindness));
+    setConfessionOpen(false);
     setWordOpen(false);
     setThoughtOpen(false);
     setMomentOpen(!today.momentDone);
@@ -218,6 +222,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   };
 
   const verseSaved = isFavorited("verse", viewingDay);
+  const confessionSaved = isFavorited("confession", viewingDay);
   const quoteSaved = isFavorited("wisdom", viewingDay);
 
   const [sharePreview, setSharePreview] = useState(null);
@@ -254,6 +259,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   // its accordion row on jump, since landing on a collapsed one-liner
   // wouldn't be useful.
   const verseRef = useRef(null);
+  const confessionRef = useRef(null);
   const wordRef = useRef(null);
   const momentSectionRef = useRef(null);
   const reflectRef = useRef(null);
@@ -382,6 +388,17 @@ export default function TodayScreen({ store, scrollViewRef }) {
         <Text style={styles.jumpDot}>·</Text>
         <TouchableOpacity
           onPress={() => {
+            setConfessionOpen(true);
+            scrollToRef(confessionRef);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={t("today.jump.confessionLabel")}
+        >
+          <Text style={styles.jumpLink}>{t("today.jump.confession")}</Text>
+        </TouchableOpacity>
+        <Text style={styles.jumpDot}>·</Text>
+        <TouchableOpacity
+          onPress={() => {
             setWordOpen(true);
             scrollToRef(wordRef);
           }}
@@ -441,6 +458,54 @@ export default function TodayScreen({ store, scrollViewRef }) {
             <Text style={styles.verseText}>“{verse.text}”</Text>
             <Text style={styles.verseRef}>{verse.ref} ({verse.version})</Text>
           </View>
+        </View>
+
+        <View ref={confessionRef} collapsable={false} style={styles.accordionRow}>
+          <TouchableOpacity
+            style={styles.accordionRowHead}
+            onPress={() => {
+              hapticTap();
+              setConfessionOpen((v) => !v);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t("today.confession.title")}
+            accessibilityState={{ expanded: confessionOpen }}
+          >
+            <View style={styles.accordionRowTitleWrap}>
+              <Text style={styles.accordionEmoji}>🗣️</Text>
+              <Text style={styles.accordionRowTitle}>{t("today.confession.title")}</Text>
+            </View>
+            <Text style={[styles.accordionChevron, confessionOpen && styles.accordionChevronOpen]}>›</Text>
+          </TouchableOpacity>
+          {!confessionOpen ? (
+            <Text style={styles.accordionPreview}>{truncateForPreview(confession.text)}</Text>
+          ) : (
+            <View style={styles.accordionRowBody}>
+              <View style={styles.accordionActionRow}>
+                <ActionMenu
+                  actions={[
+                    {
+                      label: t("common.listen"),
+                      onPress: () => speak(`${confession.text} — ${confession.ref}`, settings),
+                    },
+                    {
+                      label: t("common.share"),
+                      onPress: () => setSharePreview({ text: confession.text, sourceLine: confession.ref }),
+                    },
+                    {
+                      label: confessionSaved ? t("common.savedTapRemove") : t("common.save"),
+                      active: confessionSaved,
+                      onPress: () =>
+                        toggleFavorite("confession", viewingDay, { text: confession.text, ref: confession.ref }),
+                    },
+                  ]}
+                />
+              </View>
+              <Text style={styles.bodyText}>{confession.text}</Text>
+              <Text style={styles.wisdomSource}>— {confession.ref}</Text>
+              <Text style={styles.accordionPreview}>{t("today.confession.speakPrompt")}</Text>
+            </View>
+          )}
         </View>
 
         <View ref={wordRef} collapsable={false} style={styles.accordionRow}>

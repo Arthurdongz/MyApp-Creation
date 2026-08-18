@@ -61,6 +61,8 @@
     "jump": {
       "verse": "Versículo",
       "verseLabel": "Ir para o Versículo",
+      "confession": "Confissão",
+      "confessionLabel": "Ir para a Confissão de Hoje",
       "word": "Palavra",
       "wordLabel": "Ir para Uma Palavra para Você",
       "moment": "Momento",
@@ -73,6 +75,10 @@
     },
     "reading": {
       "sectionTitle": "Leitura de Hoje"
+    },
+    "confession": {
+      "title": "Confissão de Hoje",
+      "speakPrompt": "Uma língua sã é árvore de vida — declare isto em voz alta hoje."
     },
     "word": {
       "title": "Uma Palavra para Você",
@@ -280,6 +286,7 @@
     "removeLabel": "Remover {{kind}} dos favoritos",
     "kind": {
       "verse": "Versículo",
+      "confession": "Confissão",
       "trueStory": "História Real",
       "fact": "Curiosidade",
       "story": "História",
@@ -319,7 +326,9 @@
     "voicePickerTitle": "Escolha uma Voz",
     "closeVoicePickerLabel": "Fechar seletor de voz",
     "remindersTitle": "Lembretes Diários",
-    "remindersSubtitle": "Três avisos suaves — um versículo para começar o dia, um destaque para te encorajar ao longo do caminho, e um momento para refletir ao encerrá-lo.",
+    "remindersSubtitle": "Quatro avisos suaves — uma confissão para declarar sobre o seu dia, um versículo para começar o dia, um destaque para te encorajar ao longo do caminho, e um momento para refletir ao encerrá-lo.",
+    "confessionLabel": "Confissão · Declare em voz alta",
+    "confessionSwitchLabel": "Lembrete de confissão",
     "morningLabel": "Manhã · Palavra do dia",
     "morningSwitchLabel": "Lembrete matinal",
     "highlightLabel": "Destaque · Encorajamento ao longo do dia",
