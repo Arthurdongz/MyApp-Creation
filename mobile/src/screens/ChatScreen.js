@@ -119,10 +119,16 @@ export default function ChatScreen({ store, onClose }) {
 
   return (
     <SafeAreaView style={styles.screen} edges={["top", "left", "right", "bottom"]}>
+      {/*
+        Android's Modal renders in its own native window, which doesn't
+        resize with the keyboard the way a normal screen does — so this
+        can't rely on native window resizing and needs behavior="height"
+        (not the default no-op of leaving behavior unset) to actually push
+        the input above the keyboard there. iOS uses "padding" as usual.
+      */}
       <KeyboardAvoidingView
         style={styles.flexFill}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <View style={styles.header}>
           <View style={styles.headerLeft}>
