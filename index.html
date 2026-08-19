@@ -120,7 +120,7 @@
               </div>
             </div>
             <p class="verse-text" id="confessionText"></p>
-            <p class="verse-ref" id="confessionRef"></p>
+            <button type="button" class="verse-ref confession-ref-link" id="confessionRef"></button>
             <p class="confession-speak-prompt">Speak this aloud today.</p>
             <p class="share-msg" id="confessionShareMsg" hidden></p>
           </div>
@@ -532,8 +532,36 @@
   </div>
 </div>
 
+<!-- VERSE POPUP: opened by tapping a confession's scripture reference -->
+<div id="versePopupOverlay" class="settings-overlay" hidden>
+  <div class="settings-card verse-popup-card">
+    <div class="settings-card-header">
+      <h2 id="versePopupTitle"></h2>
+      <button id="versePopupCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <div id="versePopupBody"></div>
+  </div>
+</div>
+
+<!-- BIBLE CHAPTER READER: reached via "Read the full chapter" in the verse popup -->
+<div id="bibleChapterOverlay" class="bible-chapter-overlay" hidden>
+  <div class="bible-chapter-screen">
+    <div class="bible-chapter-header">
+      <h2 id="bibleChapterTitle"></h2>
+      <button id="bibleChapterCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <div id="bibleChapterBody" class="bible-chapter-body"></div>
+    <div class="bible-chapter-nav">
+      <button id="bibleChapterPrevBtn" class="bible-chapter-nav-btn" type="button">‹ Previous chapter</button>
+      <button id="bibleChapterNextBtn" class="bible-chapter-nav-btn" type="button">Next chapter ›</button>
+    </div>
+  </div>
+</div>
+
 <script src="data-verses.js"></script>
 <script src="data-confessions.js"></script>
+<script src="data-bible-books.js"></script>
+<script src="data-bible-kjv.js"></script>
 <script src="data-encouragements.js"></script>
 <script src="data-moments.js"></script>
 <script src="data-wisdom.js"></script>

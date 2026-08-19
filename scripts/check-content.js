@@ -217,6 +217,81 @@ console.log("\n=== CONFESSIONS ===");
   checkMirrorIdentical("CONFESSIONS", web, mobile);
 }
 
+console.log("\n=== BIBLE (KJV) ===");
+{
+  const webBooks = load("data-bible-books.js", "BIBLE_BOOKS");
+  const mobileBooks = load("mobile/src/data/bible-books.js", "BIBLE_BOOKS");
+  if (webBooks.length !== 66) fail(`BIBLE_BOOKS (web): expected 66 books, found ${webBooks.length}`);
+  else ok(`BIBLE_BOOKS (web): ${webBooks.length} books`);
+  checkMirrorIdentical("BIBLE_BOOKS", webBooks, mobileBooks);
+
+  const webKjv = load("data-bible-kjv.js", "KJV_TEXT");
+  const mobileKjv = JSON.parse(fs.readFileSync(path.join(ROOT, "mobile/src/data/bible-kjv.json"), "utf8"));
+  if (webKjv.length !== 66) fail(`KJV_TEXT (web): expected 66 books, found ${webKjv.length}`);
+  else ok(`KJV_TEXT (web): ${webKjv.length} books`);
+  checkMirrorIdentical("KJV_TEXT", webKjv, mobileKjv);
+
+  // Every CONFESSIONS ref must actually resolve against the bundled KJV
+  // text — the confession card links straight to this data, so a bad
+  // reference here would be a broken link in the app, not just a typo.
+  const bookIndex = new Map(webBooks.map((name, i) => [name, i]));
+  const sortedBooks = [...webBooks].sort((a, b) => b.length - a.length);
+  function matchBookPrefix(segment) {
+    for (const name of sortedBooks) {
+      if (segment.startsWith(name + " ")) return { book: name, rest: segment.slice(name.length + 1).trim() };
+    }
+    return null;
+  }
+  function parseRef(ref) {
+    const segments = ref.split(",").map((s) => s.trim()).filter(Boolean);
+    const pieces = [];
+    let book = null;
+    let chapter = null;
+    for (const seg of segments) {
+      const bookMatch = matchBookPrefix(seg);
+      if (bookMatch) {
+        book = bookMatch.book;
+        const m = bookMatch.rest.match(/^(\d+):(\d+)(?:-(\d+))?$/);
+        if (!m) return null;
+        chapter = parseInt(m[1], 10);
+        pieces.push({ book, chapter, verseStart: parseInt(m[2], 10), verseEnd: m[3] ? parseInt(m[3], 10) : parseInt(m[2], 10) });
+        continue;
+      }
+      const withChapter = seg.match(/^(\d+):(\d+)(?:-(\d+))?$/);
+      if (withChapter) {
+        if (!book) return null;
+        chapter = parseInt(withChapter[1], 10);
+        pieces.push({ book, chapter, verseStart: parseInt(withChapter[2], 10), verseEnd: withChapter[3] ? parseInt(withChapter[3], 10) : parseInt(withChapter[2], 10) });
+        continue;
+      }
+      const bareVerse = seg.match(/^(\d+)(?:-(\d+))?$/);
+      if (bareVerse) {
+        if (!book || chapter == null) return null;
+        pieces.push({ book, chapter, verseStart: parseInt(bareVerse[1], 10), verseEnd: bareVerse[2] ? parseInt(bareVerse[2], 10) : parseInt(bareVerse[1], 10) });
+        continue;
+      }
+      return null;
+    }
+    return pieces.length ? pieces : null;
+  }
+
+  const confessions = load("data-confessions.js", "CONFESSIONS");
+  let badRefs = 0;
+  for (const c of confessions) {
+    const pieces = parseRef(c.ref);
+    if (!pieces) { fail(`BIBLE: CONFESSIONS ref "${c.ref}" could not be parsed`); badRefs++; continue; }
+    for (const p of pieces) {
+      const bi = bookIndex.get(p.book);
+      const chapterArr = bi != null ? webKjv[bi][p.chapter - 1] : null;
+      if (!chapterArr) { fail(`BIBLE: CONFESSIONS ref "${c.ref}" — ${p.book} ${p.chapter} not found`); badRefs++; continue; }
+      for (let v = p.verseStart; v <= p.verseEnd; v++) {
+        if (!chapterArr[v - 1]) { fail(`BIBLE: CONFESSIONS ref "${c.ref}" — ${p.book} ${p.chapter}:${v} not found`); badRefs++; }
+      }
+    }
+  }
+  if (badRefs === 0) ok(`BIBLE: all ${confessions.length} CONFESSIONS refs resolve to real verses`);
+}
+
 console.log("\n=== STORIES ===");
 {
   const web = load("data-stories.js", "STORIES");

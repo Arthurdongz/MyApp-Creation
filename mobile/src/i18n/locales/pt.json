@@ -78,7 +78,12 @@
     },
     "confession": {
       "title": "Confissão de Hoje",
-      "speakPrompt": "Declare isto em voz alta hoje."
+      "speakPrompt": "Declare isto em voz alta hoje.",
+      "viewVerseLabel": "Ver {{ref}}",
+      "readChapter": "Ler o capítulo completo →",
+      "verseUnavailable": "Este versículo ainda não está disponível para leitura no aplicativo.",
+      "prevChapter": "Capítulo anterior",
+      "nextChapter": "Próximo capítulo"
     },
     "word": {
       "title": "Uma Palavra para Você",

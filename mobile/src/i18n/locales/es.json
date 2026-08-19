@@ -78,7 +78,12 @@
     },
     "confession": {
       "title": "Confesión de Hoy",
-      "speakPrompt": "Declara esto en voz alta hoy."
+      "speakPrompt": "Declara esto en voz alta hoy.",
+      "viewVerseLabel": "Ver {{ref}}",
+      "readChapter": "Leer el capítulo completo →",
+      "verseUnavailable": "Este versículo aún no está disponible para leer en la app.",
+      "prevChapter": "Capítulo anterior",
+      "nextChapter": "Capítulo siguiente"
     },
     "word": {
       "title": "Una Palabra para Ti",

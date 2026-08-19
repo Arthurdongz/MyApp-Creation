@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
+import VersePopup from "../components/VersePopup";
 import { useTheme } from "../theme";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
@@ -174,6 +175,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const [barnabasOpen, setBarnabasOpen] = useState(Boolean(today.barnabasNote));
   const [kindnessOpen, setKindnessOpen] = useState(Boolean(today.receivedKindness));
   const [confessionOpen, setConfessionOpen] = useState(false);
+  const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [wordOpen, setWordOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
   const [momentOpen, setMomentOpen] = useState(!today.momentDone);
@@ -502,7 +504,16 @@ export default function TodayScreen({ store, scrollViewRef }) {
                 />
               </View>
               <Text style={styles.bodyText}>{confession.text}</Text>
-              <Text style={styles.wisdomSource}>— {confession.ref}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  hapticTap();
+                  setVersePopupOpen(true);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={t("today.confession.viewVerseLabel", { ref: confession.ref })}
+              >
+                <Text style={[styles.wisdomSource, styles.confessionRefLink]}>— {confession.ref}</Text>
+              </TouchableOpacity>
               <Text style={styles.accordionPreview}>{t("today.confession.speakPrompt")}</Text>
             </View>
           )}
@@ -910,6 +921,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
         onClose={() => setSharePreview(null)}
       />
 
+      <VersePopup visible={versePopupOpen} scriptureRef={confession.ref} onClose={() => setVersePopupOpen(false)} />
+
       {/* Reflect on Today: three journal fields as accordion rows */}
       <View style={styles.sectionGroup} ref={reflectRef} collapsable={false}>
         <View style={styles.sectionGroupHeader}>
@@ -1259,6 +1272,11 @@ function getStyles(colors) {
       fontSize: 13,
       color: colors.textSoft,
       textAlign: "right",
+    },
+    confessionRefLink: {
+      color: colors.sageDark,
+      fontWeight: "700",
+      textDecorationLine: "underline",
     },
     button: {
       backgroundColor: colors.buttonBg,

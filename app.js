@@ -17,6 +17,93 @@ const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 
+// Resolves a confession's scripture `ref` string into actual KJV verse
+// text, backed by the bundled full-Bible data (data-bible-books.js +
+// data-bible-kjv.js) — see bibleLookup.js in the mobile app for the
+// original version of this parser; kept in sync by hand since this file
+// has no module system to share it through.
+const BIBLE_BOOK_INDEX = new Map(BIBLE_BOOKS.map((name, i) => [name, i]));
+const SORTED_BIBLE_BOOKS = [...BIBLE_BOOKS].sort((a, b) => b.length - a.length);
+
+function matchBookPrefix(segment) {
+  for (const name of SORTED_BIBLE_BOOKS) {
+    if (segment.startsWith(name + " ")) {
+      return { book: name, rest: segment.slice(name.length + 1).trim() };
+    }
+  }
+  return null;
+}
+
+function parseScriptureRef(ref) {
+  const segments = ref.split(",").map((s) => s.trim()).filter(Boolean);
+  const pieces = [];
+  let book = null;
+  let chapter = null;
+
+  for (const seg of segments) {
+    const bookMatch = matchBookPrefix(seg);
+    if (bookMatch) {
+      book = bookMatch.book;
+      const m = bookMatch.rest.match(/^(\d+):(\d+)(?:-(\d+))?$/);
+      if (!m) return null;
+      chapter = parseInt(m[1], 10);
+      pieces.push({ book, chapter, verseStart: parseInt(m[2], 10), verseEnd: m[3] ? parseInt(m[3], 10) : parseInt(m[2], 10) });
+      continue;
+    }
+    const withChapter = seg.match(/^(\d+):(\d+)(?:-(\d+))?$/);
+    if (withChapter) {
+      if (!book) return null;
+      chapter = parseInt(withChapter[1], 10);
+      pieces.push({ book, chapter, verseStart: parseInt(withChapter[2], 10), verseEnd: withChapter[3] ? parseInt(withChapter[3], 10) : parseInt(withChapter[2], 10) });
+      continue;
+    }
+    const bareVerse = seg.match(/^(\d+)(?:-(\d+))?$/);
+    if (bareVerse) {
+      if (!book || chapter == null) return null;
+      pieces.push({ book, chapter, verseStart: parseInt(bareVerse[1], 10), verseEnd: bareVerse[2] ? parseInt(bareVerse[2], 10) : parseInt(bareVerse[1], 10) });
+      continue;
+    }
+    return null;
+  }
+  return pieces.length ? pieces : null;
+}
+
+function chapterVerses(book, chapter) {
+  const bi = BIBLE_BOOK_INDEX.get(book);
+  if (bi == null) return null;
+  return KJV_TEXT[bi]?.[chapter - 1] || null;
+}
+
+function lookupScriptureRef(ref) {
+  const pieces = parseScriptureRef(ref);
+  if (!pieces) return null;
+  const blocks = [];
+  for (const p of pieces) {
+    const verses = chapterVerses(p.book, p.chapter);
+    if (!verses) return null;
+    const parts = [];
+    for (let v = p.verseStart; v <= p.verseEnd; v++) {
+      const text = verses[v - 1];
+      if (!text) return null;
+      parts.push({ verse: v, text });
+    }
+    blocks.push({ book: p.book, chapter: p.chapter, verseStart: p.verseStart, verseEnd: p.verseEnd, verses: parts });
+  }
+  return blocks;
+}
+
+function getBibleChapter(book, chapter) {
+  const verses = chapterVerses(book, chapter);
+  if (!verses) return null;
+  return verses.map((text, i) => ({ verse: i + 1, text }));
+}
+
+function bibleChapterCount(book) {
+  const bi = BIBLE_BOOK_INDEX.get(book);
+  if (bi == null) return 0;
+  return KJV_TEXT[bi].length;
+}
+
 // Resolves a day's verse entry down to the actual translation text to show,
 // based on the user's alternate/favorite setting.
 function getVerseForDay(day) {
@@ -542,6 +629,127 @@ function setupSharePreview() {
   });
 }
 
+// Verse popup (tap a confession's reference) + Bible chapter reader
+// ("Read the full chapter" inside the popup) — see VersePopup.js /
+// BibleChapterModal.js in the mobile app for the equivalent components.
+let bibleChapterState = null; // { book, chapter, targetChapter, highlightStart, highlightEnd }
+
+function openVersePopup(ref) {
+  const blocks = lookupScriptureRef(ref);
+  document.getElementById("versePopupTitle").textContent = ref;
+  const body = document.getElementById("versePopupBody");
+  body.innerHTML = "";
+  if (!blocks) {
+    const p = document.createElement("p");
+    p.className = "verse-popup-text";
+    p.textContent = "This verse isn't available to read here yet.";
+    body.appendChild(p);
+  } else {
+    blocks.forEach((block) => {
+      const wrap = document.createElement("div");
+      wrap.className = "verse-popup-block";
+
+      const textEl = document.createElement("p");
+      textEl.className = "verse-popup-text";
+      textEl.textContent = block.verses
+        .map((v) => (block.verses.length > 1 ? `${v.verse} ${v.text}` : v.text))
+        .join(" ");
+      wrap.appendChild(textEl);
+
+      const footer = document.createElement("div");
+      footer.className = "verse-popup-footer";
+      const refEl = document.createElement("p");
+      refEl.className = "verse-popup-ref";
+      const rangeLabel = block.verseStart === block.verseEnd ? `${block.verseStart}` : `${block.verseStart}-${block.verseEnd}`;
+      refEl.textContent = `${block.book} ${block.chapter}:${rangeLabel} (KJV)`;
+      footer.appendChild(refEl);
+
+      const moreBtn = document.createElement("button");
+      moreBtn.type = "button";
+      moreBtn.className = "verse-popup-more";
+      moreBtn.textContent = "Read the full chapter →";
+      moreBtn.addEventListener("click", () => openBibleChapter(block.book, block.chapter, block.verseStart, block.verseEnd));
+      footer.appendChild(moreBtn);
+
+      wrap.appendChild(footer);
+      body.appendChild(wrap);
+    });
+  }
+  document.getElementById("versePopupOverlay").hidden = false;
+}
+
+function closeVersePopup() {
+  document.getElementById("versePopupOverlay").hidden = true;
+}
+
+function openBibleChapter(book, chapter, highlightStart, highlightEnd) {
+  bibleChapterState = { book, targetChapter: chapter, chapter, highlightStart, highlightEnd };
+  renderBibleChapter();
+  document.getElementById("bibleChapterOverlay").hidden = false;
+}
+
+function closeBibleChapter() {
+  document.getElementById("bibleChapterOverlay").hidden = true;
+  bibleChapterState = null;
+}
+
+function renderBibleChapter() {
+  if (!bibleChapterState) return;
+  const { book, chapter, targetChapter, highlightStart, highlightEnd } = bibleChapterState;
+  document.getElementById("bibleChapterTitle").textContent = `${book} ${chapter}`;
+
+  const body = document.getElementById("bibleChapterBody");
+  body.innerHTML = "";
+  const verses = getBibleChapter(book, chapter);
+  if (!verses) {
+    const p = document.createElement("p");
+    p.className = "bible-chapter-verse";
+    p.textContent = "This chapter isn't available to read here yet.";
+    body.appendChild(p);
+  } else {
+    verses.forEach((v) => {
+      const p = document.createElement("p");
+      const isHighlighted = chapter === targetChapter && highlightStart != null && v.verse >= highlightStart && v.verse <= highlightEnd;
+      p.className = "bible-chapter-verse" + (isHighlighted ? " highlighted" : "");
+      const numSpan = document.createElement("span");
+      numSpan.className = "bible-chapter-verse-num";
+      numSpan.textContent = v.verse;
+      p.appendChild(numSpan);
+      p.appendChild(document.createTextNode(v.text));
+      body.appendChild(p);
+    });
+  }
+  body.scrollTop = 0;
+
+  const total = bibleChapterCount(book);
+  document.getElementById("bibleChapterPrevBtn").disabled = chapter <= 1;
+  document.getElementById("bibleChapterNextBtn").disabled = chapter >= total;
+}
+
+function setupVersePopupAndBibleChapter() {
+  document.getElementById("confessionRef").addEventListener("click", () => {
+    openVersePopup(document.getElementById("confessionRef").dataset.ref || "");
+  });
+  document.getElementById("versePopupCloseBtn").addEventListener("click", closeVersePopup);
+  document.getElementById("versePopupOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "versePopupOverlay") closeVersePopup();
+  });
+
+  document.getElementById("bibleChapterCloseBtn").addEventListener("click", closeBibleChapter);
+  document.getElementById("bibleChapterPrevBtn").addEventListener("click", () => {
+    if (!bibleChapterState || bibleChapterState.chapter <= 1) return;
+    bibleChapterState.chapter -= 1;
+    renderBibleChapter();
+  });
+  document.getElementById("bibleChapterNextBtn").addEventListener("click", () => {
+    if (!bibleChapterState) return;
+    const total = bibleChapterCount(bibleChapterState.book);
+    if (bibleChapterState.chapter >= total) return;
+    bibleChapterState.chapter += 1;
+    renderBibleChapter();
+  });
+}
+
 async function shareMoment(day) {
   const entry = ensureDayEntry(day);
   const moment = entry.customMoment || pickForDay(BARNABAS_MOMENTS, day, state.order);
@@ -678,7 +886,9 @@ function renderToday() {
 
   const confession = pickForDay(CONFESSIONS, day, state.order);
   document.getElementById("confessionText").textContent = confession.text;
-  document.getElementById("confessionRef").textContent = `— ${confession.ref}`;
+  const confessionRefBtn = document.getElementById("confessionRef");
+  confessionRefBtn.textContent = `— ${confession.ref}`;
+  confessionRefBtn.dataset.ref = confession.ref;
   updateFavoriteBtn("confessionFavoriteBtn", "confession", day);
 
   document.getElementById("encouragementText").textContent = pickForDay(ENCOURAGEMENTS, day, state.order);
@@ -1611,6 +1821,7 @@ function init() {
   setupSaveReflection();
   setupFavoriteButtons();
   setupShareButtons();
+  setupVersePopupAndBibleChapter();
   setupListenButtons();
   setupVoiceSettings();
   setupThemeToggle();

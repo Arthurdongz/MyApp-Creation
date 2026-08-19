@@ -78,7 +78,12 @@
     },
     "confession": {
       "title": "Today's Confession",
-      "speakPrompt": "Speak this aloud today."
+      "speakPrompt": "Speak this aloud today.",
+      "viewVerseLabel": "View {{ref}}",
+      "readChapter": "Read the full chapter →",
+      "verseUnavailable": "This verse isn't available to read in-app yet.",
+      "prevChapter": "Previous chapter",
+      "nextChapter": "Next chapter"
     },
     "word": {
       "title": "A Word for You",
