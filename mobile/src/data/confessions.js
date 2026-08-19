@@ -170,7 +170,7 @@ export const CONFESSIONS = [
   { text: "The Lord is God — He made me, and I did not make myself; I am His people, and the sheep of His pasture.", ref: "Psalm 100:3" },
   { text: "I am engraved on the palms of God's hands; He never forgets me.", ref: "Isaiah 49:16" },
   { text: "I was once not His people, but now He calls me His people, and I say to Him, You are my God.", ref: "Hosea 2:23" },
-  { text: "I am part of God's little flock, and it is my Father's good pleasure to give me the kingdom.", ref: "Luke 12:32" },
+  { text: "I am part of God's flock, and it is my Father's pleasure to give me the kingdom — I am a kingdom person.", ref: "Luke 12:32" },
   { text: "I am a dear child of God, and I follow Him.", ref: "Ephesians 5:1" },
   { text: "By His stripes I am healed — sickness and disease have no right to my body.", ref: "Isaiah 53:5" },
   { text: "The Lord is the God who heals me so I will always be healthy.", ref: "Exodus 15:26" },
