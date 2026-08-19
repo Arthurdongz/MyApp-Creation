@@ -1520,26 +1520,18 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   white-space: nowrap;
 }
 
-.bible-chapter-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 110;
-  display: flex;
-  flex-direction: column;
-}
-
-.bible-chapter-overlay[hidden] { display: none; }
-
-.bible-chapter-screen { display: flex; flex-direction: column; height: 100%; }
+/* A contained popup card, same footprint as the verse popup — not a
+   full-screen page — so opening the full chapter doesn't push the home
+   screen's layout around. The chapter text scrolls inside the card. */
+.bible-chapter-card { max-width: 460px; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
 
 .bible-chapter-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
-  background: var(--card);
+  padding: 20px 20px 14px;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .bible-chapter-header h2 {
@@ -1552,9 +1544,6 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
-  max-width: 640px;
-  margin: 0 auto;
-  width: 100%;
   box-sizing: border-box;
 }
 
@@ -1572,9 +1561,9 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 .bible-chapter-nav {
   display: flex;
   justify-content: space-between;
-  padding: 16px 20px;
-  background: var(--card);
+  padding: 14px 20px;
   border-top: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .bible-chapter-nav-btn {

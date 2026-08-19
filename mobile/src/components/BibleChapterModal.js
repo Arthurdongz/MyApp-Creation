@@ -6,9 +6,11 @@ import { getChapter, chapterCount } from "../bibleLookup";
 import { hapticTap } from "../haptics";
 
 // Full-chapter reader, reached from VersePopup's "Read the full chapter"
-// link — turns a single confession reference into a small devotional
-// reading session: the cited verse(s) stay highlighted, and Prev/Next lets
-// the reader keep going through the book from there.
+// link — a contained popup card (same footprint as VersePopup, not a
+// full-screen page) so it reads as "still on this screen" rather than
+// navigating away; the chapter itself scrolls inside the card. The cited
+// verse(s) stay highlighted, and Prev/Next lets the reader keep going
+// through the book from there.
 export default function BibleChapterModal({ visible, book, chapter, highlightStart, highlightEnd, onClose }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
@@ -43,49 +45,51 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   };
 
   return (
-    <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-      <View style={styles.screen}>
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            {book} {currentChapter}
-          </Text>
-          <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("common.close")} accessibilityRole="button">
-            <Text style={styles.closeBtnText}>✕</Text>
-          </TouchableOpacity>
-        </View>
+    <Modal visible={visible} animationType="fade" transparent onRequestClose={onClose}>
+      <View style={styles.backdrop}>
+        <View style={styles.card}>
+          <View style={styles.header}>
+            <Text style={styles.title}>
+              {book} {currentChapter}
+            </Text>
+            <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("common.close")} accessibilityRole="button">
+              <Text style={styles.closeBtnText}>✕</Text>
+            </TouchableOpacity>
+          </View>
 
-        <ScrollView ref={scrollRef} style={styles.body} contentContainerStyle={styles.bodyContent}>
-          {verses ? (
-            verses.map((v) => (
-              <Text key={v.verse} style={[styles.verseLine, isHighlighted(v.verse) && styles.verseLineHighlighted]}>
-                <Text style={styles.verseNum}>{v.verse} </Text>
-                {v.text}
-              </Text>
-            ))
-          ) : (
-            <Text style={styles.verseLine}>{t("today.confession.verseUnavailable")}</Text>
-          )}
-        </ScrollView>
+          <ScrollView ref={scrollRef} style={styles.body} contentContainerStyle={styles.bodyContent}>
+            {verses ? (
+              verses.map((v) => (
+                <Text key={v.verse} style={[styles.verseLine, isHighlighted(v.verse) && styles.verseLineHighlighted]}>
+                  <Text style={styles.verseNum}>{v.verse} </Text>
+                  {v.text}
+                </Text>
+              ))
+            ) : (
+              <Text style={styles.verseLine}>{t("today.confession.verseUnavailable")}</Text>
+            )}
+          </ScrollView>
 
-        <View style={styles.navRow}>
-          <TouchableOpacity
-            onPress={goPrev}
-            disabled={currentChapter <= 1}
-            style={[styles.navBtn, currentChapter <= 1 && styles.navBtnDisabled]}
-            accessibilityRole="button"
-            accessibilityLabel={t("today.confession.prevChapter")}
-          >
-            <Text style={[styles.navBtnText, currentChapter <= 1 && styles.navBtnTextDisabled]}>‹ {t("today.confession.prevChapter")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={goNext}
-            disabled={currentChapter >= total}
-            style={[styles.navBtn, currentChapter >= total && styles.navBtnDisabled]}
-            accessibilityRole="button"
-            accessibilityLabel={t("today.confession.nextChapter")}
-          >
-            <Text style={[styles.navBtnText, currentChapter >= total && styles.navBtnTextDisabled]}>{t("today.confession.nextChapter")} ›</Text>
-          </TouchableOpacity>
+          <View style={styles.navRow}>
+            <TouchableOpacity
+              onPress={goPrev}
+              disabled={currentChapter <= 1}
+              style={[styles.navBtn, currentChapter <= 1 && styles.navBtnDisabled]}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.confession.prevChapter")}
+            >
+              <Text style={[styles.navBtnText, currentChapter <= 1 && styles.navBtnTextDisabled]}>‹ {t("today.confession.prevChapter")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={goNext}
+              disabled={currentChapter >= total}
+              style={[styles.navBtn, currentChapter >= total && styles.navBtnDisabled]}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.confession.nextChapter")}
+            >
+              <Text style={[styles.navBtnText, currentChapter >= total && styles.navBtnTextDisabled]}>{t("today.confession.nextChapter")} ›</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
@@ -94,19 +98,33 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
 function getStyles(colors, shadow) {
   return StyleSheet.create({
-    screen: { flex: 1, backgroundColor: colors.bg },
+    backdrop: {
+      flex: 1,
+      backgroundColor: "rgba(20, 24, 18, 0.55)",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20,
+    },
+    card: {
+      backgroundColor: colors.card,
+      borderRadius: 20,
+      width: "100%",
+      maxWidth: 420,
+      maxHeight: "80%",
+      overflow: "hidden",
+      ...shadow,
+    },
     header: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      paddingHorizontal: 18,
-      paddingTop: 54,
+      paddingHorizontal: 20,
+      paddingTop: 20,
       paddingBottom: 14,
-      backgroundColor: colors.card,
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
-    title: { fontSize: 19, fontWeight: "700", color: colors.sageDark },
+    title: { fontSize: 18, fontWeight: "700", color: colors.sageDark },
     closeBtn: {
       width: 30,
       height: 30,
@@ -117,8 +135,8 @@ function getStyles(colors, shadow) {
       justifyContent: "center",
     },
     closeBtnText: { fontSize: 13, color: colors.textSoft },
-    body: { flex: 1 },
-    bodyContent: { padding: 20, paddingBottom: 32 },
+    body: {},
+    bodyContent: { padding: 20 },
     verseLine: { fontSize: 16, lineHeight: 26, color: colors.text, marginBottom: 8 },
     verseLineHighlighted: {
       backgroundColor: colors.verseCard,
@@ -132,10 +150,8 @@ function getStyles(colors, shadow) {
       flexDirection: "row",
       justifyContent: "space-between",
       padding: 16,
-      backgroundColor: colors.card,
       borderTopWidth: 1,
       borderTopColor: colors.border,
-      ...shadow,
     },
     navBtn: { paddingVertical: 10, paddingHorizontal: 16 },
     navBtnDisabled: { opacity: 0.35 },
