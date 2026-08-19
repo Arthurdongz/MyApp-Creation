@@ -56,9 +56,32 @@ export function unlockedDayFor(journeyStartKey) {
   return Math.min(TOTAL_DAYS, Math.max(1, elapsed + 1));
 }
 
+// A user's shuffled day-order must be exactly TOTAL_DAYS integer indices
+// (0..TOTAL_DAYS-1) for pickForDay/pickForDaySmallBank's indexing to be
+// safe. Used to reject a corrupted or malformed `order` — from a bad
+// backup file, a hand-edited storage blob, or any other source — before
+// it's ever accepted into state, rather than letting it crash the app the
+// first time a content lookup runs against it.
+export function isValidOrder(order) {
+  return (
+    Array.isArray(order) &&
+    order.length === TOTAL_DAYS &&
+    order.every((n) => Number.isInteger(n) && n >= 0 && n < TOTAL_DAYS)
+  );
+}
+
+// Defensive fallback for when `order` is well-formed as an array but the
+// computed index still can't be trusted (e.g. a mismatched content bank
+// length) — wraps into range instead of indexing out of bounds and
+// returning `undefined` to a caller that assumes real content.
+function safeIndex(idx, length) {
+  if (!Number.isFinite(idx) || length <= 0) return 0;
+  return ((idx % length) + length) % length;
+}
+
 export function pickForDay(arr, dayNumber, order) {
-  const idx = order[(dayNumber - 1) % order.length];
-  return arr[idx];
+  const rawIdx = order[(dayNumber - 1) % order.length];
+  return arr[safeIndex(rawIdx, arr.length)];
 }
 
 // For banks smaller than the full 366 (like the true-stories bank, which
@@ -66,8 +89,8 @@ export function pickForDay(arr, dayNumber, order) {
 // so the sequence doesn't feel like a flat repeating loop, but wrap it down
 // to the bank's actual size.
 export function pickForDaySmallBank(arr, dayNumber, order) {
-  const idx = order[(dayNumber - 1) % order.length] % arr.length;
-  return arr[idx];
+  const rawIdx = order[(dayNumber - 1) % order.length];
+  return arr[safeIndex(rawIdx, arr.length)];
 }
 
 // Which Bible translation to show for a given day: either a pinned favorite

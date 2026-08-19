@@ -1523,6 +1523,11 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 /* A contained popup card, same footprint as the verse popup — not a
    full-screen page — so opening the full chapter doesn't push the home
    screen's layout around. The chapter text scrolls inside the card. */
+/* Explicit stacking guarantee — the chapter reader can open on top of the
+   verse popup, so it must never depend on DOM order (both overlays share
+   the base .settings-overlay z-index) to render above it. */
+#bibleChapterOverlay { z-index: 110; }
+
 .bible-chapter-card { max-width: 460px; display: flex; flex-direction: column; padding: 0; overflow: hidden; }
 
 .bible-chapter-header {

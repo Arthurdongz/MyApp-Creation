@@ -133,6 +133,11 @@ function AppContent({ store }) {
   const handleNotificationResponse = (response) => {
     const data = response?.notification?.request?.content?.data;
     if (!data || data.screen !== "today" || !Number.isFinite(data.dayNumber)) return;
+    // Clear any overlay that would otherwise sit on top of Today and hide
+    // the jump the user just tapped a notification to make.
+    setShowSettings(false);
+    setShowAbout(false);
+    setShowChat(false);
     setTab("today");
     store.jumpToDay(data.dayNumber);
   };

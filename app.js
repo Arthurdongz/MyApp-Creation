@@ -736,6 +736,9 @@ function setupVersePopupAndBibleChapter() {
   });
 
   document.getElementById("bibleChapterCloseBtn").addEventListener("click", closeBibleChapter);
+  document.getElementById("bibleChapterOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "bibleChapterOverlay") closeBibleChapter();
+  });
   document.getElementById("bibleChapterPrevBtn").addEventListener("click", () => {
     if (!bibleChapterState || bibleChapterState.chapter <= 1) return;
     bibleChapterState.chapter -= 1;

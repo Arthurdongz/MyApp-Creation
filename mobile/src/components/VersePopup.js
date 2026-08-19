@@ -69,6 +69,7 @@ export default function VersePopup({ visible, scriptureRef: reference, onClose }
       </Modal>
 
       <BibleChapterModal
+        key={chapterTarget ? `${chapterTarget.book}-${chapterTarget.chapter}` : "closed"}
         visible={!!chapterTarget}
         book={chapterTarget?.book}
         chapter={chapterTarget?.chapter}

@@ -25,7 +25,12 @@ const MORNING_PREFIX = "barnabas-morning-reminder";
 const HIGHLIGHT_PREFIX = "barnabas-highlight-reminder";
 const EVENING_PREFIX = "barnabas-evening-reminder";
 const CONFESSION_PREFIX = "barnabas-confession-reminder";
-const LOOKAHEAD_DAYS = 21;
+// Four independent reminder types each schedule a window of
+// LOOKAHEAD_DAYS + 1 notifications, so the worst case (all four enabled)
+// schedules 4 * (LOOKAHEAD_DAYS + 1) local notifications at once. Kept
+// comfortably under iOS's ~64 pending-local-notification cap — at 13 that's
+// 56, leaving headroom rather than sitting right at the edge.
+const LOOKAHEAD_DAYS = 13;
 
 // Identifiers used by reminder schemes this app shipped in the past, before
 // settling on the current morning/highlight/evening split:
@@ -124,9 +129,15 @@ function confessionContentFor(journeyStartDate, order, offsetDays) {
   };
 }
 
-function eveningContentFor(offsetDays) {
+function eveningContentFor(journeyStartDate, order, offsetDays) {
   const prompt = EVENING_PROMPTS[offsetDays % EVENING_PROMPTS.length];
-  return { title: "Barnabas Journal", body: prompt };
+  const targetKey = dateKeyForOffset(offsetDays);
+  const dayNumber = dayNumberForDate(journeyStartDate, targetKey);
+  return {
+    title: "Barnabas Journal",
+    body: prompt,
+    data: { screen: "today", section: "reflect", dayNumber },
+  };
 }
 
 // Starts at offset 0 (today), not 1 (tomorrow) — the "top up" call in
@@ -163,78 +174,101 @@ async function cancelWindow(prefix) {
   }
 }
 
+// Serializes every cancel/schedule call for a given reminder prefix onto
+// one promise chain per prefix, so e.g. the app-launch "top up" and a
+// user toggling that same reminder in Settings moments later can never
+// interleave — one full cancelWindow+scheduleWindow (or a bare
+// cancelWindow) always finishes before the next one for that prefix
+// starts, instead of racing and potentially leaving stale notifications
+// behind that neither call meant to leave scheduled.
+const prefixQueues = new Map();
+function withPrefixQueue(prefix, fn) {
+  const prior = prefixQueues.get(prefix) || Promise.resolve();
+  const next = prior.catch(() => {}).then(fn);
+  prefixQueues.set(prefix, next);
+  return next;
+}
+
 export async function scheduleMorningReminder(hour, minute, journeyStartDate, order, settings) {
   if (!SUPPORTED) return false;
   const granted = await requestNotificationPermission();
   if (!granted) return false;
-  try {
-    await cancelWindow(MORNING_PREFIX);
-    await scheduleWindow(MORNING_PREFIX, hour, minute, (offset) =>
-      morningContentFor(journeyStartDate, order, settings, offset)
-    );
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return withPrefixQueue(MORNING_PREFIX, async () => {
+    try {
+      await cancelWindow(MORNING_PREFIX);
+      await scheduleWindow(MORNING_PREFIX, hour, minute, (offset) =>
+        morningContentFor(journeyStartDate, order, settings, offset)
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  });
 }
 
 export async function cancelMorningReminder() {
-  await cancelWindow(MORNING_PREFIX);
+  await withPrefixQueue(MORNING_PREFIX, () => cancelWindow(MORNING_PREFIX));
 }
 
 export async function scheduleHighlightReminder(hour, minute, journeyStartDate, order) {
   if (!SUPPORTED) return false;
   const granted = await requestNotificationPermission();
   if (!granted) return false;
-  try {
-    await cancelWindow(HIGHLIGHT_PREFIX);
-    await scheduleWindow(HIGHLIGHT_PREFIX, hour, minute, (offset) =>
-      highlightContentFor(journeyStartDate, order, offset)
-    );
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return withPrefixQueue(HIGHLIGHT_PREFIX, async () => {
+    try {
+      await cancelWindow(HIGHLIGHT_PREFIX);
+      await scheduleWindow(HIGHLIGHT_PREFIX, hour, minute, (offset) =>
+        highlightContentFor(journeyStartDate, order, offset)
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  });
 }
 
 export async function cancelHighlightReminder() {
-  await cancelWindow(HIGHLIGHT_PREFIX);
+  await withPrefixQueue(HIGHLIGHT_PREFIX, () => cancelWindow(HIGHLIGHT_PREFIX));
 }
 
 export async function scheduleConfessionReminder(hour, minute, journeyStartDate, order) {
   if (!SUPPORTED) return false;
   const granted = await requestNotificationPermission();
   if (!granted) return false;
-  try {
-    await cancelWindow(CONFESSION_PREFIX);
-    await scheduleWindow(CONFESSION_PREFIX, hour, minute, (offset) =>
-      confessionContentFor(journeyStartDate, order, offset)
-    );
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return withPrefixQueue(CONFESSION_PREFIX, async () => {
+    try {
+      await cancelWindow(CONFESSION_PREFIX);
+      await scheduleWindow(CONFESSION_PREFIX, hour, minute, (offset) =>
+        confessionContentFor(journeyStartDate, order, offset)
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  });
 }
 
 export async function cancelConfessionReminder() {
-  await cancelWindow(CONFESSION_PREFIX);
+  await withPrefixQueue(CONFESSION_PREFIX, () => cancelWindow(CONFESSION_PREFIX));
 }
 
-export async function scheduleEveningReminder(hour, minute) {
+export async function scheduleEveningReminder(hour, minute, journeyStartDate, order) {
   if (!SUPPORTED) return false;
   const granted = await requestNotificationPermission();
   if (!granted) return false;
-  try {
-    await cancelWindow(EVENING_PREFIX);
-    await scheduleWindow(EVENING_PREFIX, hour, minute, (offset) => eveningContentFor(offset));
-    return true;
-  } catch (e) {
-    return false;
-  }
+  return withPrefixQueue(EVENING_PREFIX, async () => {
+    try {
+      await cancelWindow(EVENING_PREFIX);
+      await scheduleWindow(EVENING_PREFIX, hour, minute, (offset) => eveningContentFor(journeyStartDate, order, offset));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  });
 }
 
 export async function cancelEveningReminder() {
-  await cancelWindow(EVENING_PREFIX);
+  await withPrefixQueue(EVENING_PREFIX, () => cancelWindow(EVENING_PREFIX));
 }
 
 export const notificationsSupported = SUPPORTED;

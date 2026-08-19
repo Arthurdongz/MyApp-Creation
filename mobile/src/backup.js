@@ -5,7 +5,7 @@
 import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import * as DocumentPicker from "expo-document-picker";
-import { todayKey } from "./content";
+import { todayKey, isValidOrder } from "./content";
 
 export async function exportBackup(state) {
   const payload = { app: "barnabas-journal", schema: 2, exportedAt: new Date().toISOString(), state };
@@ -48,7 +48,7 @@ export async function pickAndReadBackup() {
 
   const parsed = JSON.parse(content);
   const incoming = parsed.state || parsed;
-  if (!incoming.journeyStartDate || !Array.isArray(incoming.order)) {
+  if (!incoming.journeyStartDate || !isValidOrder(incoming.order)) {
     throw new Error("That file doesn't look like a valid Barnabas Journal backup.");
   }
   return incoming;

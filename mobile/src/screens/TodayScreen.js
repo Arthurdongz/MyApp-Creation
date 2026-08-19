@@ -118,8 +118,8 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const prevMoment = useMemo(() => {
     if (prevDayNumber < 1) return "";
     if (prevEntry && prevEntry.customMoment) return prevEntry.customMoment;
-    return pickForDay(BARNABAS_MOMENTS, prevDayNumber, order);
-  }, [prevDayNumber, prevEntry, order]);
+    return pickForDay(momentsBank, prevDayNumber, order);
+  }, [prevDayNumber, prevEntry, order, momentsBank]);
   const showMomentFollowUp =
     isToday &&
     prevDayNumber >= 1 &&
@@ -160,6 +160,26 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
   const [receivedKindness, setReceivedKindness] = useState(today.receivedKindness || "");
+
+  // Kept in sync every render (not via an effect) so the unmount cleanup
+  // below can always read the latest typed-but-not-yet-saved text, instead
+  // of the stale values it would see from an empty-dependency closure.
+  const unsavedFieldsRef = useRef({ reflection, barnabasNote, receivedKindness });
+  unsavedFieldsRef.current = { reflection, barnabasNote, receivedKindness };
+
+  // Switching tabs unmounts this screen entirely (see App.js), which would
+  // otherwise silently discard anything typed into the three reflection
+  // fields but never explicitly saved. viewingDay itself never changes on a
+  // tab switch, so saving here always lands on the correct day.
+  useEffect(() => {
+    return () => {
+      const { reflection, barnabasNote, receivedKindness } = unsavedFieldsRef.current;
+      if (reflection.trim() || barnabasNote.trim() || receivedKindness.trim()) {
+        saveReflection(reflection, barnabasNote, receivedKindness);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [showSaved, setShowSaved] = useState(false);
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
   const [showWordReflectPrompt, setShowWordReflectPrompt] = useState(false);
@@ -200,6 +220,22 @@ export default function TodayScreen({ store, scrollViewRef }) {
     setMomentOpen(!today.momentDone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewingDay]);
+
+  // Autosave whatever's currently typed before the viewed day changes out
+  // from under it — otherwise the [viewingDay] effect above overwrites the
+  // text boxes with the new day's content before the user ever taps Save.
+  const handleGoToPrevDay = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness);
+    goToPrevDay();
+  };
+  const handleGoToNextDay = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness);
+    goToNextDay();
+  };
+  const handleJumpToToday = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness);
+    jumpToToday();
+  };
 
   const handleSave = () => {
     saveReflection(reflection, barnabasNote, receivedKindness);
@@ -350,7 +386,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
         <View style={styles.dayNavRow}>
           <TouchableOpacity
             style={[styles.dayNavBtn, viewingDay <= 1 && styles.dayNavBtnDisabled]}
-            onPress={goToPrevDay}
+            onPress={handleGoToPrevDay}
             disabled={viewingDay <= 1}
             accessibilityLabel={t("today.dayNav.previous")}
             accessibilityRole="button"
@@ -364,7 +400,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
           </Text>
           <TouchableOpacity
             style={[styles.dayNavBtn, viewingDay >= latestDay && styles.dayNavBtnDisabled]}
-            onPress={goToNextDay}
+            onPress={handleGoToNextDay}
             disabled={viewingDay >= latestDay}
             accessibilityLabel={t("today.dayNav.next")}
             accessibilityRole="button"
@@ -373,7 +409,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
           </TouchableOpacity>
         </View>
         {!isToday ? (
-          <TouchableOpacity onPress={jumpToToday} accessibilityRole="button" accessibilityLabel={t("today.dayNav.backToToday")}>
+          <TouchableOpacity onPress={handleJumpToToday} accessibilityRole="button" accessibilityLabel={t("today.dayNav.backToToday")}>
             <Text style={styles.dayNavJump}>{t("today.dayNav.backToToday")}</Text>
           </TouchableOpacity>
         ) : null}

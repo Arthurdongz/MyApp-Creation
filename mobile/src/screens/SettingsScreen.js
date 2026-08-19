@@ -149,9 +149,15 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleMorningPreset = async (preset) => {
-    updateSettings({ morningReminderHour: preset.hour, morningReminderMinute: preset.minute });
-    if (settings.morningReminderEnabled) {
-      await scheduleMorningReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (!settings.morningReminderEnabled) {
+      updateSettings({ morningReminderHour: preset.hour, morningReminderMinute: preset.minute });
+      return;
+    }
+    const ok = await scheduleMorningReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order, settings);
+    if (ok) {
+      updateSettings({ morningReminderHour: preset.hour, morningReminderMinute: preset.minute });
+    } else {
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -176,9 +182,15 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleHighlightPreset = async (preset) => {
-    updateSettings({ highlightReminderHour: preset.hour, highlightReminderMinute: preset.minute });
-    if (settings.highlightReminderEnabled) {
-      await scheduleHighlightReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (!settings.highlightReminderEnabled) {
+      updateSettings({ highlightReminderHour: preset.hour, highlightReminderMinute: preset.minute });
+      return;
+    }
+    const ok = await scheduleHighlightReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (ok) {
+      updateSettings({ highlightReminderHour: preset.hour, highlightReminderMinute: preset.minute });
+    } else {
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -189,7 +201,12 @@ export default function SettingsScreen({ store, onClose }) {
       updateSettings({ eveningReminderEnabled: false });
       return;
     }
-    const ok = await scheduleEveningReminder(settings.eveningReminderHour, settings.eveningReminderMinute);
+    const ok = await scheduleEveningReminder(
+      settings.eveningReminderHour,
+      settings.eveningReminderMinute,
+      store.state.journeyStartDate,
+      store.order
+    );
     if (ok) {
       updateSettings({ eveningReminderEnabled: true });
     } else {
@@ -198,9 +215,15 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleEveningPreset = async (preset) => {
-    updateSettings({ eveningReminderHour: preset.hour, eveningReminderMinute: preset.minute });
-    if (settings.eveningReminderEnabled) {
-      await scheduleEveningReminder(preset.hour, preset.minute);
+    if (!settings.eveningReminderEnabled) {
+      updateSettings({ eveningReminderHour: preset.hour, eveningReminderMinute: preset.minute });
+      return;
+    }
+    const ok = await scheduleEveningReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (ok) {
+      updateSettings({ eveningReminderHour: preset.hour, eveningReminderMinute: preset.minute });
+    } else {
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 
@@ -225,9 +248,15 @@ export default function SettingsScreen({ store, onClose }) {
   };
 
   const handleConfessionPreset = async (preset) => {
-    updateSettings({ confessionReminderHour: preset.hour, confessionReminderMinute: preset.minute });
-    if (settings.confessionReminderEnabled) {
-      await scheduleConfessionReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (!settings.confessionReminderEnabled) {
+      updateSettings({ confessionReminderHour: preset.hour, confessionReminderMinute: preset.minute });
+      return;
+    }
+    const ok = await scheduleConfessionReminder(preset.hour, preset.minute, store.state.journeyStartDate, store.order);
+    if (ok) {
+      updateSettings({ confessionReminderHour: preset.hour, confessionReminderMinute: preset.minute });
+    } else {
+      Alert.alert(t("settings.notifDisabledTitle"), t("settings.notifDisabledMessage"));
     }
   };
 

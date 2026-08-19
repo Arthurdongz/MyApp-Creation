@@ -4,11 +4,11 @@
 // shuffled order of the 366 content slots on first use, and a new day
 // unlocks once per real calendar day since then.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as StoreReview from "expo-store-review";
 import i18n from "./i18n";
-import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, TOTAL_DAYS } from "./content";
+import { todayKey, shuffledOrder, unlockedDayFor, dateKeyForDayNumber, isValidOrder, TOTAL_DAYS } from "./content";
 import {
   requestNotificationPermission,
   scheduleMorningReminder,
@@ -373,20 +373,84 @@ function favoriteId(type, dayNumber) {
   return `${type}-${dayNumber}`;
 }
 
+// (Re-)schedules every enabled reminder against the given state's
+// journeyStartDate/order/settings. Called on every app launch (the "top
+// up" effect below) and also directly after a backup restore — a restore
+// can swap in a different journeyStartDate/order/settings than whatever
+// was last scheduled, and without an explicit re-arm here any
+// already-enabled reminders would keep firing with stale, pre-restore
+// content until the next full app launch.
+function topUpReminders(targetState) {
+  // Cancels notifications left behind by reminder schemes this app used
+  // to have, unconditionally — independent of the user's current
+  // reminder settings, since a stale one can outlive the feature that
+  // scheduled it (see notifications.js for the full story).
+  cleanupLegacyNotifications();
+  if (targetState.settings.morningReminderEnabled) {
+    scheduleMorningReminder(
+      targetState.settings.morningReminderHour,
+      targetState.settings.morningReminderMinute,
+      targetState.journeyStartDate,
+      targetState.order,
+      targetState.settings
+    );
+  }
+  if (targetState.settings.highlightReminderEnabled) {
+    scheduleHighlightReminder(
+      targetState.settings.highlightReminderHour,
+      targetState.settings.highlightReminderMinute,
+      targetState.journeyStartDate,
+      targetState.order
+    );
+  }
+  if (targetState.settings.eveningReminderEnabled) {
+    scheduleEveningReminder(
+      targetState.settings.eveningReminderHour,
+      targetState.settings.eveningReminderMinute,
+      targetState.journeyStartDate,
+      targetState.order
+    );
+  }
+  if (targetState.settings.confessionReminderEnabled) {
+    scheduleConfessionReminder(
+      targetState.settings.confessionReminderHour,
+      targetState.settings.confessionReminderMinute,
+      targetState.journeyStartDate,
+      targetState.order
+    );
+  }
+}
+
 export function useJournalStore() {
   const [state, setState] = useState(freshJourney());
   const [ready, setReady] = useState(false);
   const [viewingDay, setViewingDay] = useState(1);
 
+  // Chains every persist() call onto the previous one instead of firing
+  // AsyncStorage.setItem calls concurrently — mutators (toggleFavorite,
+  // saveReflection, etc.) can call persist() in quick succession, and
+  // without an explicit queue there's no guarantee two overlapping writes
+  // to the same key complete in call order, which could leave a later
+  // change reverted by an earlier write that happened to finish last.
+  const persistQueueRef = useRef(Promise.resolve());
+
   const persist = useCallback((next) => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)).catch(() => {});
-    // The identity pair never changes after journey creation, so this is a
-    // cheap, small, low-risk write to keep the resilient anchor current —
-    // in practice it writes the same bytes every time after the first save.
-    AsyncStorage.setItem(
-      IDENTITY_KEY,
-      JSON.stringify({ journeyStartDate: next.journeyStartDate, order: next.order })
-    ).catch(() => {});
+    persistQueueRef.current = persistQueueRef.current
+      .catch(() => {})
+      .then(() =>
+        Promise.all([
+          AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next)),
+          // The identity pair never changes after journey creation, so this
+          // is a cheap, small, low-risk write to keep the resilient anchor
+          // current — in practice it writes the same bytes every time
+          // after the first save.
+          AsyncStorage.setItem(
+            IDENTITY_KEY,
+            JSON.stringify({ journeyStartDate: next.journeyStartDate, order: next.order })
+          ),
+        ])
+      )
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -407,7 +471,7 @@ export function useJournalStore() {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (parsed.journeyStartDate && Array.isArray(parsed.order)) {
+          if (parsed.journeyStartDate && isValidOrder(parsed.order)) {
             loaded = normalizeLoaded(parsed);
           }
         }
@@ -442,39 +506,7 @@ export function useJournalStore() {
   // window notifications.js schedules).
   useEffect(() => {
     if (!ready) return;
-    // Cancels notifications left behind by reminder schemes this app used
-    // to have, unconditionally — independent of the user's current
-    // reminder settings, since a stale one can outlive the feature that
-    // scheduled it (see notifications.js for the full story).
-    cleanupLegacyNotifications();
-    if (state.settings.morningReminderEnabled) {
-      scheduleMorningReminder(
-        state.settings.morningReminderHour,
-        state.settings.morningReminderMinute,
-        state.journeyStartDate,
-        state.order,
-        state.settings
-      );
-    }
-    if (state.settings.highlightReminderEnabled) {
-      scheduleHighlightReminder(
-        state.settings.highlightReminderHour,
-        state.settings.highlightReminderMinute,
-        state.journeyStartDate,
-        state.order
-      );
-    }
-    if (state.settings.eveningReminderEnabled) {
-      scheduleEveningReminder(state.settings.eveningReminderHour, state.settings.eveningReminderMinute);
-    }
-    if (state.settings.confessionReminderEnabled) {
-      scheduleConfessionReminder(
-        state.settings.confessionReminderHour,
-        state.settings.confessionReminderMinute,
-        state.journeyStartDate,
-        state.order
-      );
-    }
+    topUpReminders(state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
@@ -670,6 +702,12 @@ export function useJournalStore() {
   // yet, otherwise just increments it.
   const recordChatMessageSent = useCallback(() => {
     setState((prev) => {
+      // Subscribed users have unlimited messages (see computeChatAccess) —
+      // don't keep accumulating chatMessagesUsed while subscribed, or a
+      // later cancellation would find the quota already exhausted for
+      // whatever's left of that month even though none of it was actually
+      // used against the free allowance.
+      if (prev.settings.chatSubscribed) return prev;
       const monthKey = currentMonthKey();
       const messagesUsed = prev.settings.chatQuotaMonthKey === monthKey ? prev.settings.chatMessagesUsed + 1 : 1;
       const next = {
@@ -789,7 +827,7 @@ export function useJournalStore() {
     if (granted) {
       morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order, state.settings);
       highlightOk = await scheduleHighlightReminder(13, 0, state.journeyStartDate, state.order);
-      eveningOk = await scheduleEveningReminder(20, 0);
+      eveningOk = await scheduleEveningReminder(20, 0, state.journeyStartDate, state.order);
     }
     updateSettings({
       onboarded: true,
@@ -812,6 +850,11 @@ export function useJournalStore() {
       setState(next);
       setViewingDay(unlockedDayFor(next.journeyStartDate));
       persist(next);
+      // The "top up" effect only runs once per app launch (keyed on
+      // `ready`), so a restore needs its own explicit re-arm — otherwise
+      // any reminder already enabled keeps firing with pre-restore content
+      // until the app is fully relaunched.
+      topUpReminders(next);
       return next;
     },
     [persist]
