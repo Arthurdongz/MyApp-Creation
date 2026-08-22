@@ -290,6 +290,25 @@ console.log("\n=== BIBLE (KJV) ===");
     }
   }
   if (badRefs === 0) ok(`BIBLE: all ${confessions.length} CONFESSIONS refs resolve to real verses`);
+
+  // The verse-of-the-day reference is tappable too (opens the same
+  // popup/chapter-reader as the confession card), so it needs the same
+  // guarantee.
+  const verses = load("data-verses.js", "VERSES");
+  let badVerseRefs = 0;
+  for (const v of verses) {
+    const pieces = parseRef(v.ref);
+    if (!pieces) { fail(`BIBLE: VERSES ref "${v.ref}" could not be parsed`); badVerseRefs++; continue; }
+    for (const p of pieces) {
+      const bi = bookIndex.get(p.book);
+      const chapterArr = bi != null ? webKjv[bi][p.chapter - 1] : null;
+      if (!chapterArr) { fail(`BIBLE: VERSES ref "${v.ref}" — ${p.book} ${p.chapter} not found`); badVerseRefs++; continue; }
+      for (let vs = p.verseStart; vs <= p.verseEnd; vs++) {
+        if (!chapterArr[vs - 1]) { fail(`BIBLE: VERSES ref "${v.ref}" — ${p.book} ${p.chapter}:${vs} not found`); badVerseRefs++; }
+      }
+    }
+  }
+  if (badVerseRefs === 0) ok(`BIBLE: all ${verses.length} VERSES refs resolve to real verses`);
 }
 
 console.log("\n=== STORIES ===");

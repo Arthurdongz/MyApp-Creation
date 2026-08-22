@@ -196,6 +196,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const [kindnessOpen, setKindnessOpen] = useState(Boolean(today.receivedKindness));
   const [confessionOpen, setConfessionOpen] = useState(false);
   const [versePopupOpen, setVersePopupOpen] = useState(false);
+  const [versePopupRef, setVersePopupRef] = useState(null);
   const [wordOpen, setWordOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
   const [momentOpen, setMomentOpen] = useState(!today.momentDone);
@@ -494,7 +495,17 @@ export default function TodayScreen({ store, scrollViewRef }) {
               />
             </View>
             <Text style={styles.verseText}>“{verse.text}”</Text>
-            <Text style={styles.verseRef}>{verse.ref} ({verse.version})</Text>
+            <TouchableOpacity
+              onPress={() => {
+                hapticTap();
+                setVersePopupRef(verse.ref);
+                setVersePopupOpen(true);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.confession.viewVerseLabel", { ref: verse.ref })}
+            >
+              <Text style={[styles.verseRef, styles.confessionRefLink]}>{verse.ref} ({verse.version})</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -543,6 +554,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
               <TouchableOpacity
                 onPress={() => {
                   hapticTap();
+                  setVersePopupRef(confession.ref);
                   setVersePopupOpen(true);
                 }}
                 accessibilityRole="button"
@@ -957,7 +969,7 @@ export default function TodayScreen({ store, scrollViewRef }) {
         onClose={() => setSharePreview(null)}
       />
 
-      <VersePopup visible={versePopupOpen} scriptureRef={confession.ref} onClose={() => setVersePopupOpen(false)} />
+      <VersePopup visible={versePopupOpen} scriptureRef={versePopupRef} onClose={() => setVersePopupOpen(false)} />
 
       {/* Reflect on Today: three journal fields as accordion rows */}
       <View style={styles.sectionGroup} ref={reflectRef} collapsable={false}>

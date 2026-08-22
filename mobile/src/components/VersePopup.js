@@ -7,10 +7,11 @@ import { hapticTap } from "../haptics";
 import BibleChapterModal from "./BibleChapterModal";
 
 // A compact "tap the reference, see the verse" popup — opened from the
-// Confession card's scripture reference. Shows the resolved KJV text for
-// every piece of the ref (a ref can name more than one book/chapter, e.g.
-// "Isaiah 43:25, Jeremiah 31:34"), and offers a way into the full chapter
-// via BibleChapterModal for whichever piece the reader taps "Read more" on.
+// Verse-of-the-day and Confession cards' scripture references. Shows the
+// resolved KJV text for every piece of the ref (a ref can name more than
+// one book/chapter, e.g. "Isaiah 43:25, Jeremiah 31:34"), and offers a way
+// into the full chapter via BibleChapterModal for whichever piece the
+// reader taps "Read more" on.
 export default function VersePopup({ visible, scriptureRef: reference, onClose }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);

@@ -629,7 +629,7 @@ function setupSharePreview() {
   });
 }
 
-// Verse popup (tap a confession's reference) + Bible chapter reader
+// Verse popup (tap the verse-of-the-day or confession's reference) + Bible chapter reader
 // ("Read the full chapter" inside the popup) — see VersePopup.js /
 // BibleChapterModal.js in the mobile app for the equivalent components.
 let bibleChapterState = null; // { book, chapter, targetChapter, highlightStart, highlightEnd }
@@ -729,6 +729,9 @@ function renderBibleChapter() {
 function setupVersePopupAndBibleChapter() {
   document.getElementById("confessionRef").addEventListener("click", () => {
     openVersePopup(document.getElementById("confessionRef").dataset.ref || "");
+  });
+  document.getElementById("verseRef").addEventListener("click", () => {
+    openVersePopup(document.getElementById("verseRef").dataset.ref || "");
   });
   document.getElementById("versePopupCloseBtn").addEventListener("click", closeVersePopup);
   document.getElementById("versePopupOverlay").addEventListener("click", (e) => {
@@ -884,7 +887,9 @@ function renderToday() {
 
   const verse = getVerseForDay(day);
   document.getElementById("verseText").textContent = `“${verse.text}”`;
-  document.getElementById("verseRef").textContent = `${verse.ref} (${verse.version})`;
+  const verseRefBtn = document.getElementById("verseRef");
+  verseRefBtn.textContent = `${verse.ref} (${verse.version})`;
+  verseRefBtn.dataset.ref = verse.ref;
   updateFavoriteBtn("verseFavoriteBtn", "verse", day);
 
   const confession = pickForDay(CONFESSIONS, day, state.order);
