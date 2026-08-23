@@ -32,6 +32,10 @@
 </head>
 <body>
 
+<div id="pullRefreshIndicator" class="pull-refresh-indicator" aria-live="polite">
+  <span id="pullRefreshText">↓ Pull to refresh</span>
+</div>
+
 <div class="app">
 
   <div id="androidDownloadBanner" class="android-download-banner" hidden>
@@ -505,6 +509,13 @@
 
       <button id="testVoiceBtn" class="btn btn-secondary voice-test-btn" type="button">🔊 Test Voice</button>
     </div>
+
+    <h3 class="badges-title">Refresh</h3>
+    <p class="section-sub">Get the latest version without closing and reopening the app — you can also pull down from the top of the screen to refresh.</p>
+    <div class="backup-actions">
+      <button id="refreshAppBtn" class="btn btn-secondary" type="button">🔄 Check for Updates</button>
+    </div>
+    <p id="refreshMsg" class="backup-msg" hidden></p>
 
     <h3 class="badges-title">Backup</h3>
     <p class="section-sub">Your journal lives only in this browser. Export a backup now and then, or restore one here.</p>

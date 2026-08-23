@@ -7,6 +7,12 @@
     "footer": "Reste calme. Sois bienveillant. Sois l'encouragement de quelqu'un aujourd'hui.",
     "chatFab": "Discuter avec Barnabas",
     "closeChat": "Fermer le chat",
+    "upToDateTitle": "Vous êtes à jour",
+    "upToDateMessage": "Vous avez déjà la dernière version de Barnabas Journal.",
+    "updateCheckErrorTitle": "Impossible de vérifier les mises à jour",
+    "updateCheckErrorMessage": "Vérifiez votre connexion et réessayez.",
+    "updateCheckUnsupportedTitle": "Indisponible ici",
+    "updateCheckUnsupportedMessage": "La vérification des mises à jour ne fonctionne que dans l'application installée, pas en mode développement.",
     "tabs": {
       "today": "Aujourd'hui",
       "story": "Histoire",
@@ -348,6 +354,9 @@
     "eveningSwitchLabel": "Rappel du soir",
     "notifDisabledTitle": "Notifications non activées",
     "notifDisabledMessage": "Nous n'avons pas pu programmer de rappel — vérifie que les notifications sont autorisées pour cette application dans les paramètres de ton appareil.",
+    "checkUpdatesTitle": "Rechercher des mises à jour",
+    "checkUpdatesSubtitle": "Obtenez la dernière version sans fermer et rouvrir l'application.",
+    "checkingUpdates": "Recherche…",
     "backupTitle": "Sauvegarde",
     "backupSubtitle": "Ton journal vit sur cet appareil (Android peut aussi le sauvegarder automatiquement sur ton compte Google comme filet de sécurité). Exporte une sauvegarde de temps en temps, ou restaures-en une ici.",
     "backupNote": {

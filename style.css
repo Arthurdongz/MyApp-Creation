@@ -81,6 +81,33 @@ body {
   padding: 24px 18px 60px;
 }
 
+/* Pull-to-refresh — a custom gesture since an installed/standalone PWA
+   often has no browser chrome to supply the OS's native pull-to-refresh.
+   Sits fixed above the page content and translates down as the user pulls;
+   JS toggles the "ready"/"refreshing" classes and swaps the label text. */
+.pull-refresh-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  margin-top: -56px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sage-dark);
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  z-index: 200;
+  transition: transform 0.15s ease;
+  pointer-events: none;
+}
+
+.pull-refresh-indicator.ready { color: var(--sage-dark); }
+.pull-refresh-indicator.refreshing { transition: none; }
+
 /* Header */
 .app-header {
   display: flex;

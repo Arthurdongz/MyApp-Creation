@@ -7,6 +7,12 @@
     "footer": "Quédate quieto. Sé bondadoso. Sé el aliento de alguien hoy.",
     "chatFab": "Chatear con Bernabé",
     "closeChat": "Cerrar chat",
+    "upToDateTitle": "Ya tienes la última versión",
+    "upToDateMessage": "Ya tienes la versión más reciente de Barnabas Journal.",
+    "updateCheckErrorTitle": "No se pudo comprobar si hay actualizaciones",
+    "updateCheckErrorMessage": "Comprueba tu conexión e inténtalo de nuevo.",
+    "updateCheckUnsupportedTitle": "No disponible aquí",
+    "updateCheckUnsupportedMessage": "Comprobar actualizaciones solo funciona en la app instalada, no en modo de desarrollo.",
     "tabs": {
       "today": "Hoy",
       "story": "Historia",
@@ -348,6 +354,9 @@
     "eveningSwitchLabel": "Recordatorio nocturno",
     "notifDisabledTitle": "Notificaciones no habilitadas",
     "notifDisabledMessage": "No pudimos programar un recordatorio — verifica que las notificaciones estén permitidas para esta app en la configuración de tu dispositivo.",
+    "checkUpdatesTitle": "Buscar actualizaciones",
+    "checkUpdatesSubtitle": "Obtén la última versión sin cerrar y volver a abrir la app.",
+    "checkingUpdates": "Buscando…",
     "backupTitle": "Copia de Seguridad",
     "backupSubtitle": "Tu diario vive en este dispositivo (Android también puede respaldarlo automáticamente en tu cuenta de Google como red de seguridad). Exporta una copia de seguridad de vez en cuando, o restaura una aquí.",
     "backupNote": {

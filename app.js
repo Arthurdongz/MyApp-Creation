@@ -1916,6 +1916,110 @@ function registerServiceWorker() {
   });
 }
 
+// sw.js serves stale-while-revalidate: a plain reload still gets the
+// cached (possibly outdated) copy instantly, and only the NEXT load would
+// pick up whatever the background revalidation just fetched — the same
+// "needs two tries" problem expo-updates has on mobile, just caused by the
+// cache instead of the OTA bundle. Clearing every cache first forces the
+// reload itself to hit the network.
+async function hardRefreshApp() {
+  try {
+    if ("serviceWorker" in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((reg) => reg.update().catch(() => {})));
+    }
+    if ("caches" in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+    }
+  } catch (e) {
+    // best-effort — fall through to reload regardless
+  }
+  location.reload();
+}
+
+// Settings > Check for Updates, plus pulling down from the top of the
+// screen — see hardRefreshApp() above for why a plain reload isn't enough
+// on its own. Pull-to-refresh matters here specifically because an
+// installed/standalone PWA often has no browser chrome left to supply the
+// OS's native pull-to-refresh gesture.
+function setupAppRefresh() {
+  const btn = document.getElementById("refreshAppBtn");
+  const msg = document.getElementById("refreshMsg");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      btn.disabled = true;
+      if (msg) {
+        msg.hidden = false;
+        msg.textContent = "Refreshing…";
+      }
+      hardRefreshApp();
+    });
+  }
+
+  const indicator = document.getElementById("pullRefreshIndicator");
+  const indicatorText = document.getElementById("pullRefreshText");
+  if (!indicator || !indicatorText) return;
+  const PULL_THRESHOLD = 56;
+  const MAX_PULL = 110;
+  let startY = null;
+  let pulling = false;
+  let refreshing = false;
+
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (refreshing || window.scrollY > 0 || e.touches.length !== 1) {
+        startY = null;
+        return;
+      }
+      startY = e.touches[0].clientY;
+      pulling = false;
+    },
+    { passive: true }
+  );
+
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (startY == null || refreshing) return;
+      const delta = e.touches[0].clientY - startY;
+      if (delta <= 0 || window.scrollY > 0) {
+        pulling = false;
+        indicator.style.transform = "";
+        return;
+      }
+      pulling = true;
+      const pull = Math.min(delta, MAX_PULL);
+      indicator.style.transform = `translateY(${pull}px)`;
+      const ready = pull >= PULL_THRESHOLD;
+      indicator.classList.toggle("ready", ready);
+      indicatorText.textContent = ready ? "↑ Release to refresh" : "↓ Pull to refresh";
+    },
+    { passive: true }
+  );
+
+  document.addEventListener("touchend", () => {
+    if (!pulling || startY == null) {
+      startY = null;
+      return;
+    }
+    const wasReady = indicator.classList.contains("ready");
+    pulling = false;
+    startY = null;
+    if (wasReady) {
+      refreshing = true;
+      indicator.classList.add("refreshing");
+      indicator.style.transform = `translateY(${PULL_THRESHOLD}px)`;
+      indicatorText.textContent = "Refreshing…";
+      hardRefreshApp();
+    } else {
+      indicator.style.transform = "";
+      indicator.classList.remove("ready");
+    }
+  });
+}
+
 function init() {
   applyTheme();
   setupAndroidDownloadBanner();
@@ -1945,6 +2049,7 @@ function init() {
   setupBackup();
   setupOnboarding();
   setupSearch();
+  setupAppRefresh();
   registerServiceWorker();
   initReflectAccordionForDay(ensureDayEntry(viewingDay));
   renderToday();

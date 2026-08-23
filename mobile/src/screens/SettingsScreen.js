@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Speech from "expo-speech";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
+import { checkForUpdateManually } from "../updates";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
 import { todayKey } from "../content";
@@ -88,6 +89,24 @@ export default function SettingsScreen({ store, onClose }) {
   const [backupMsg, setBackupMsg] = useState("");
   const [voices, setVoices] = useState([]);
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+
+  const handleCheckForUpdates = async () => {
+    if (checkingUpdate) return;
+    hapticTap();
+    setCheckingUpdate(true);
+    const result = await checkForUpdateManually();
+    setCheckingUpdate(false);
+    if (result.status === "upToDate") {
+      Alert.alert(t("app.upToDateTitle"), t("app.upToDateMessage"));
+    } else if (result.status === "error") {
+      Alert.alert(t("app.updateCheckErrorTitle"), t("app.updateCheckErrorMessage"));
+    } else if (result.status === "unsupported") {
+      Alert.alert(t("app.updateCheckUnsupportedTitle"), t("app.updateCheckUnsupportedMessage"));
+    }
+    // "reloading" means Updates.reloadAsync() already fired — the app is
+    // restarting, so there's nothing left to show here.
+  };
 
   const pitchPresetLabel = (key) => (key === "normal" ? t("common.normal") : t(`settings.pitchPresets.${key}`));
   const ratePresetLabel = (key) => (key === "normal" ? t("common.normal") : t(`settings.ratePresets.${key}`));
@@ -361,6 +380,23 @@ export default function SettingsScreen({ store, onClose }) {
               <Text style={styles.menuChevron}>›</Text>
             </TouchableOpacity>
           ))}
+
+          <TouchableOpacity
+            style={styles.menuRow}
+            onPress={handleCheckForUpdates}
+            disabled={checkingUpdate}
+            accessibilityRole="button"
+            accessibilityLabel={`${t("settings.checkUpdatesTitle")}. ${t("settings.checkUpdatesSubtitle")}`}
+          >
+            <Text style={styles.menuEmoji}>🔄</Text>
+            <View style={styles.menuTextWrap}>
+              <Text style={styles.menuTitle}>{t("settings.checkUpdatesTitle")}</Text>
+              <Text style={styles.menuSubtitle} numberOfLines={1}>
+                {checkingUpdate ? t("settings.checkingUpdates") : t("settings.checkUpdatesSubtitle")}
+              </Text>
+            </View>
+            {checkingUpdate ? <ActivityIndicator size="small" color={colors.sageDark} /> : <Text style={styles.menuChevron}>›</Text>}
+          </TouchableOpacity>
 
           <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
             <Text style={styles.footerLink}>{t("common.privacyPolicy")}</Text>

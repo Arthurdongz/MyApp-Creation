@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Alert,
   Linking,
   Modal,
   Platform,
+  RefreshControl,
   ScrollView,
   Share,
   StatusBar,
@@ -18,7 +20,7 @@ import * as Notifications from "expo-notifications";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
-import { checkForUpdateAndApply } from "./src/updates";
+import { checkForUpdateAndApply, checkForUpdateManually } from "./src/updates";
 import { pickForDay, pickVerseVersion } from "./src/content";
 import { BIBLE_VERSIONS, VERSES } from "./src/data/verses";
 import "./src/i18n";
@@ -99,10 +101,27 @@ function AppContent({ store }) {
   const [showAbout, setShowAbout] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [refreshingUpdate, setRefreshingUpdate] = useState(false);
   const styles = getStyles(colors, shadow);
 
   const shortcutHandledRef = useRef(false);
   const scrollViewRef = useRef(null);
+
+  // Pulling down from the top of the screen checks for an app update the
+  // same way Settings > Check for Updates does — see src/updates.js for
+  // why a manual path matters alongside the silent launch-time check.
+  const handlePullToRefresh = async () => {
+    setRefreshingUpdate(true);
+    const result = await checkForUpdateManually();
+    setRefreshingUpdate(false);
+    if (result.status === "upToDate") {
+      Alert.alert(t("app.upToDateTitle"), t("app.upToDateMessage"));
+    } else if (result.status === "error") {
+      Alert.alert(t("app.updateCheckErrorTitle"), t("app.updateCheckErrorMessage"));
+    } else if (result.status === "unsupported") {
+      Alert.alert(t("app.updateCheckUnsupportedTitle"), t("app.updateCheckUnsupportedMessage"));
+    }
+  };
 
   useEffect(() => {
     if (!store.ready || shortcutHandledRef.current) return;
@@ -187,7 +206,18 @@ function AppContent({ store }) {
         ) : showAbout ? (
           <AboutScreen onClose={() => setShowAbout(false)} />
         ) : (
-          <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollContent}>
+          <ScrollView
+            ref={scrollViewRef}
+            contentContainerStyle={styles.scrollContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshingUpdate}
+                onRefresh={handlePullToRefresh}
+                tintColor={colors.sageDark}
+                colors={[colors.sageDark]}
+              />
+            }
+          >
             <View style={styles.header}>
               <View style={styles.brandRow}>
                 <Text style={styles.brandMark}>✦</Text>
