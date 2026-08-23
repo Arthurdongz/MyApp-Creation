@@ -95,7 +95,14 @@
       "highlightRed": "Destacar em vermelho",
       "highlightBlue": "Destacar em azul",
       "underline": "Sublinhar",
-      "verseSelected": "Versículo {{n}} selecionado"
+      "selectedCount": "Selecionados: {{count}}",
+      "clearMark": "Remover destaque",
+      "addNote": "Adicionar uma nota",
+      "copyVerse": "Copiar",
+      "copied": "Copiado!",
+      "notePlaceholder": "Escreva uma nota…",
+      "showMarkOptions": "Mostrar opções de destaque",
+      "saveNote": "Salvar"
     },
     "word": {
       "title": "Uma Palavra para Você",

@@ -95,7 +95,14 @@
       "highlightRed": "Surligner en rouge",
       "highlightBlue": "Surligner en bleu",
       "underline": "Souligner",
-      "verseSelected": "Verset {{n}} sélectionné"
+      "selectedCount": "Sélectionnés : {{count}}",
+      "clearMark": "Supprimer le surlignage",
+      "addNote": "Ajouter une note",
+      "copyVerse": "Copier",
+      "copied": "Copié !",
+      "notePlaceholder": "Écrivez une note…",
+      "showMarkOptions": "Afficher les options de surlignage",
+      "saveNote": "Enregistrer"
     },
     "word": {
       "title": "Une Parole pour Toi",

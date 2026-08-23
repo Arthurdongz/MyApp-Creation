@@ -1598,22 +1598,38 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 .bible-chapter-verse-num { font-size: 12px; font-weight: 700; color: var(--sage); margin-right: 4px; }
 
 .bible-chapter-mark-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 10px 20px;
   background: var(--verse-grad-1, var(--card));
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  gap: 10px;
-  flex-wrap: wrap;
 }
 
 .bible-chapter-mark-toolbar[hidden] { display: none; }
 
+.bible-chapter-mark-icon-row,
+.bible-chapter-mark-expanded-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.bible-chapter-mark-icon-row[hidden],
+.bible-chapter-mark-expanded-row[hidden] { display: none; }
+
 .bible-chapter-mark-label { font-size: 13px; font-weight: 700; color: var(--sage-dark); }
 
-.bible-chapter-mark-actions { display: flex; align-items: center; gap: 10px; }
+.bible-chapter-mark-icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+.bible-chapter-mark-actions { display: flex; align-items: center; gap: 8px; }
 
 .bible-chapter-swatch {
   width: 26px;
@@ -1625,6 +1641,19 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 .bible-chapter-swatch.active { border-color: var(--sage-dark); }
+
+.bible-chapter-clear-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
 
 .bible-chapter-underline-btn {
   width: 26px;
@@ -1642,6 +1671,56 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 }
 
 .bible-chapter-underline-btn.active { background: var(--sage-dark); border-color: var(--sage-dark); color: #fff; }
+
+.bible-chapter-icon-btn {
+  background: none;
+  border: none;
+  font-size: 15px;
+  line-height: 1;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.bible-chapter-note-editor[hidden] { display: none; }
+
+.bible-chapter-note-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 60px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.bible-chapter-note-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.bible-chapter-note-cancel-btn,
+.bible-chapter-note-save-btn {
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.bible-chapter-note-cancel-btn { color: var(--text-soft); }
+.bible-chapter-note-save-btn { color: var(--sage-dark); }
+
+.bible-chapter-note-indicator { font-size: 12px; }
 
 .bible-chapter-nav {
   display: flex;

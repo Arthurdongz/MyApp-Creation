@@ -562,13 +562,29 @@
       <button id="bibleChapterCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
     </div>
     <div id="bibleChapterMarkToolbar" class="bible-chapter-mark-toolbar" hidden>
-      <span id="bibleChapterMarkLabel" class="bible-chapter-mark-label"></span>
-      <div class="bible-chapter-mark-actions">
-        <button type="button" class="bible-chapter-swatch" data-color="green" aria-label="Highlight green"></button>
-        <button type="button" class="bible-chapter-swatch" data-color="yellow" aria-label="Highlight yellow"></button>
-        <button type="button" class="bible-chapter-swatch" data-color="red" aria-label="Highlight red"></button>
-        <button type="button" class="bible-chapter-swatch" data-color="blue" aria-label="Highlight blue"></button>
-        <button type="button" id="bibleChapterUnderlineBtn" class="bible-chapter-underline-btn" aria-label="Underline">U</button>
+      <div id="bibleChapterMarkIconRow" class="bible-chapter-mark-icon-row" hidden>
+        <span id="bibleChapterMarkLabel1" class="bible-chapter-mark-label"></span>
+        <button type="button" id="bibleChapterMarkIconBtn" class="bible-chapter-mark-icon-btn" aria-label="Show highlight options">🖍️</button>
+      </div>
+      <div id="bibleChapterMarkExpandedRow" class="bible-chapter-mark-expanded-row" hidden>
+        <span id="bibleChapterMarkLabel2" class="bible-chapter-mark-label"></span>
+        <div class="bible-chapter-mark-actions">
+          <button type="button" class="bible-chapter-swatch" data-color="green" aria-label="Highlight green"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="yellow" aria-label="Highlight yellow"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="red" aria-label="Highlight red"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="blue" aria-label="Highlight blue"></button>
+          <button type="button" id="bibleChapterClearBtn" class="bible-chapter-clear-swatch" aria-label="Remove highlight">✕</button>
+          <button type="button" id="bibleChapterUnderlineBtn" class="bible-chapter-underline-btn" aria-label="Underline">U</button>
+          <button type="button" id="bibleChapterNoteBtn" class="bible-chapter-icon-btn" aria-label="Add a note">✏️</button>
+          <button type="button" id="bibleChapterCopyBtn" class="bible-chapter-icon-btn" aria-label="Copy">📋</button>
+        </div>
+      </div>
+      <div id="bibleChapterNoteEditor" class="bible-chapter-note-editor" hidden>
+        <textarea id="bibleChapterNoteInput" class="bible-chapter-note-input" placeholder="Write a note…"></textarea>
+        <div class="bible-chapter-note-actions">
+          <button type="button" id="bibleChapterNoteCancelBtn" class="bible-chapter-note-cancel-btn">Cancel</button>
+          <button type="button" id="bibleChapterNoteSaveBtn" class="bible-chapter-note-save-btn">Save</button>
+        </div>
       </div>
     </div>
     <div id="bibleChapterBody" class="bible-chapter-body"></div>

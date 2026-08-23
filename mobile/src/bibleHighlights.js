@@ -1,7 +1,10 @@
-// Per-verse highlight (one of 4 colors) and underline marks for the Bible
-// chapter reader — a personal-study feature independent of the app's main
+// Per-verse study marks for the Bible chapter reader — a highlight color,
+// an underline, and/or a free-text note — independent of the app's main
 // journal data. Stored as one flat map keyed by "Book|chapter|verse" so a
 // verse can be found in O(1) regardless of which screen looked it up.
+// Every mutator here is bulk (accepts an array of verse numbers) so the
+// reader can mark a whole selected range in one action instead of one
+// verse at a time.
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORAGE_KEY = "barnabas.bibleHighlights.v1";
@@ -30,7 +33,8 @@ function keyFor(book, chapter, verse) {
 }
 
 // Serializes every write onto one promise chain so rapid taps (switching
-// colors quickly) can't race and leave a stale map persisted.
+// colors quickly, marking several verses in a row) can't race and leave a
+// stale map persisted.
 let queue = Promise.resolve();
 function withQueue(fn) {
   const next = queue.catch(() => {}).then(fn);
@@ -55,33 +59,49 @@ export function getVerseMark(map, book, chapter, verse) {
   return map[keyFor(book, chapter, verse)] || null;
 }
 
-// Returns the new map (caller should setState with it). Tapping the
-// verse's already-active color removes the highlight; tapping a different
-// color replaces it. Underline (if set) is independent and untouched.
-export function setVerseHighlightColor(map, book, chapter, verse, color) {
-  const key = keyFor(book, chapter, verse);
-  const existing = map[key];
+// Shared core for every bulk mutator: runs `updater` against each verse's
+// existing mark (or null) and either stores the result or, if nothing
+// meaningful is left (no color, no underline, no note), removes the key
+// entirely so the map doesn't accumulate empty entries.
+function updateMarks(map, book, chapter, verseNumbers, updater) {
   const next = { ...map };
-  if (existing && existing.color === color) {
-    if (existing.underline) next[key] = { underline: true };
-    else delete next[key];
-  } else {
-    next[key] = { ...(existing || {}), color };
+  for (const verse of verseNumbers) {
+    const key = keyFor(book, chapter, verse);
+    const updated = updater(next[key] || null);
+    if (updated && (updated.color || updated.underline || updated.note)) {
+      next[key] = updated;
+    } else {
+      delete next[key];
+    }
   }
   persist(next);
   return next;
 }
 
-export function toggleVerseUnderline(map, book, chapter, verse) {
-  const key = keyFor(book, chapter, verse);
-  const existing = map[key];
-  const underline = !(existing && existing.underline);
-  const next = { ...map };
-  if (!underline && !(existing && existing.color)) {
-    delete next[key];
-  } else {
-    next[key] = { ...(existing || {}), underline };
-  }
-  persist(next);
-  return next;
+// Always sets/replaces the color (no more toggle-off-by-tapping-the-same-
+// swatch — that's what the dedicated "clear" action is for now).
+export function setVersesColor(map, book, chapter, verseNumbers, color) {
+  return updateMarks(map, book, chapter, verseNumbers, (existing) => ({ ...(existing || {}), color }));
+}
+
+export function setVersesUnderline(map, book, chapter, verseNumbers, value) {
+  return updateMarks(map, book, chapter, verseNumbers, (existing) => ({ ...(existing || {}), underline: value }));
+}
+
+// Removes color + underline but keeps any note — "clear the highlight",
+// not "forget my note too".
+export function clearVersesMarks(map, book, chapter, verseNumbers) {
+  return updateMarks(map, book, chapter, verseNumbers, (existing) => (existing?.note ? { note: existing.note } : null));
+}
+
+export function setVersesNote(map, book, chapter, verseNumbers, noteText) {
+  const trimmed = (noteText || "").trim();
+  return updateMarks(map, book, chapter, verseNumbers, (existing) => {
+    const base = existing || {};
+    if (!trimmed) {
+      const { note, ...rest } = base;
+      return rest;
+    }
+    return { ...base, note: trimmed };
+  });
 }

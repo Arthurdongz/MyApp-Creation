@@ -95,7 +95,14 @@
       "highlightRed": "Highlight red",
       "highlightBlue": "Highlight blue",
       "underline": "Underline",
-      "verseSelected": "Verse {{n}} selected"
+      "selectedCount": "Selected: {{count}}",
+      "clearMark": "Remove highlight",
+      "addNote": "Add a note",
+      "copyVerse": "Copy",
+      "copied": "Copied!",
+      "notePlaceholder": "Write a note…",
+      "showMarkOptions": "Show highlight options",
+      "saveNote": "Save"
     },
     "word": {
       "title": "A Word for You",

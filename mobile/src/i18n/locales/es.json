@@ -95,7 +95,14 @@
       "highlightRed": "Resaltar en rojo",
       "highlightBlue": "Resaltar en azul",
       "underline": "Subrayar",
-      "verseSelected": "Versículo {{n}} seleccionado"
+      "selectedCount": "Seleccionados: {{count}}",
+      "clearMark": "Quitar resaltado",
+      "addNote": "Añadir una nota",
+      "copyVerse": "Copiar",
+      "copied": "¡Copiado!",
+      "notePlaceholder": "Escribe una nota…",
+      "showMarkOptions": "Mostrar opciones de resaltado",
+      "saveNote": "Guardar"
     },
     "word": {
       "title": "Una Palabra para Ti",
