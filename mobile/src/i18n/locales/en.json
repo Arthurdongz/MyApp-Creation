@@ -83,7 +83,13 @@
       "readChapter": "Read the full chapter →",
       "verseUnavailable": "This verse isn't available to read in-app yet.",
       "prevChapter": "Previous chapter",
-      "nextChapter": "Next chapter"
+      "nextChapter": "Next chapter",
+      "highlightGreen": "Highlight green",
+      "highlightYellow": "Highlight yellow",
+      "highlightRed": "Highlight red",
+      "highlightBlue": "Highlight blue",
+      "underline": "Underline",
+      "verseSelected": "Verse {{n}} selected"
     },
     "word": {
       "title": "A Word for You",

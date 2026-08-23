@@ -632,7 +632,63 @@ function setupSharePreview() {
 // Verse popup (tap the verse-of-the-day or confession's reference) + Bible chapter reader
 // ("Read the full chapter" inside the popup) — see VersePopup.js /
 // BibleChapterModal.js in the mobile app for the equivalent components.
-let bibleChapterState = null; // { book, chapter, targetChapter, highlightStart, highlightEnd }
+let bibleChapterState = null; // { book, chapter, targetChapter, highlightStart, highlightEnd, selectedVerse }
+
+// Per-verse highlight (one of 4 colors) + underline marks for the chapter
+// reader — a personal-study feature independent of the app's main journal
+// state. One flat map keyed by "Book|chapter|verse", synchronous
+// localStorage (no race risk the way AsyncStorage has on mobile).
+const BIBLE_HIGHLIGHTS_KEY = "barnabas_bible_highlights_v1";
+const HIGHLIGHT_COLORS = ["green", "yellow", "red", "blue"];
+const HIGHLIGHT_SWATCH_COLORS = { green: "#6FCF7C", yellow: "#FFD93D", red: "#FF6B6B", blue: "#5DADE2" };
+const HIGHLIGHT_OVERLAY_COLORS = {
+  green: "rgba(76, 175, 80, 0.35)",
+  yellow: "rgba(255, 214, 0, 0.4)",
+  red: "rgba(244, 67, 54, 0.3)",
+  blue: "rgba(66, 165, 245, 0.32)",
+};
+
+function loadBibleHighlights() {
+  try {
+    const raw = localStorage.getItem(BIBLE_HIGHLIGHTS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+function saveBibleHighlights(map) {
+  try {
+    localStorage.setItem(BIBLE_HIGHLIGHTS_KEY, JSON.stringify(map));
+  } catch (e) {
+    // storage unavailable/full — marks just won't persist this session
+  }
+}
+let bibleHighlights = loadBibleHighlights();
+function bibleMarkKey(book, chapter, verse) {
+  return `${book}|${chapter}|${verse}`;
+}
+function getBibleVerseMark(book, chapter, verse) {
+  return bibleHighlights[bibleMarkKey(book, chapter, verse)] || null;
+}
+function setBibleVerseColor(book, chapter, verse, color) {
+  const key = bibleMarkKey(book, chapter, verse);
+  const existing = bibleHighlights[key];
+  if (existing && existing.color === color) {
+    if (existing.underline) bibleHighlights[key] = { underline: true };
+    else delete bibleHighlights[key];
+  } else {
+    bibleHighlights[key] = { ...(existing || {}), color };
+  }
+  saveBibleHighlights(bibleHighlights);
+}
+function toggleBibleVerseUnderline(book, chapter, verse) {
+  const key = bibleMarkKey(book, chapter, verse);
+  const existing = bibleHighlights[key];
+  const underline = !(existing && existing.underline);
+  if (!underline && !(existing && existing.color)) delete bibleHighlights[key];
+  else bibleHighlights[key] = { ...(existing || {}), underline };
+  saveBibleHighlights(bibleHighlights);
+}
 
 function openVersePopup(ref) {
   const blocks = lookupScriptureRef(ref);
@@ -683,14 +739,33 @@ function closeVersePopup() {
 }
 
 function openBibleChapter(book, chapter, highlightStart, highlightEnd) {
-  bibleChapterState = { book, targetChapter: chapter, chapter, highlightStart, highlightEnd };
-  renderBibleChapter();
+  bibleChapterState = { book, targetChapter: chapter, chapter, highlightStart, highlightEnd, selectedVerse: null };
+  // Show the overlay before rendering — while it's still `hidden` (display:
+  // none) the body has no layout box, so a scrollTop assigned to jump to
+  // the cited verse would silently no-op instead of taking effect.
   document.getElementById("bibleChapterOverlay").hidden = false;
+  renderBibleChapter();
 }
 
 function closeBibleChapter() {
   document.getElementById("bibleChapterOverlay").hidden = true;
   bibleChapterState = null;
+}
+
+function renderBibleMarkToolbar() {
+  const toolbar = document.getElementById("bibleChapterMarkToolbar");
+  if (!bibleChapterState || bibleChapterState.selectedVerse == null) {
+    toolbar.hidden = true;
+    return;
+  }
+  const { book, chapter, selectedVerse } = bibleChapterState;
+  toolbar.hidden = false;
+  document.getElementById("bibleChapterMarkLabel").textContent = `Verse ${selectedVerse} selected`;
+  const mark = getBibleVerseMark(book, chapter, selectedVerse);
+  toolbar.querySelectorAll(".bible-chapter-swatch").forEach((btn) => {
+    btn.classList.toggle("active", !!mark && mark.color === btn.dataset.color);
+  });
+  document.getElementById("bibleChapterUnderlineBtn").classList.toggle("active", !!(mark && mark.underline));
 }
 
 function renderBibleChapter() {
@@ -701,6 +776,7 @@ function renderBibleChapter() {
   const body = document.getElementById("bibleChapterBody");
   body.innerHTML = "";
   const verses = getBibleChapter(book, chapter);
+  let targetEl = null;
   if (!verses) {
     const p = document.createElement("p");
     p.className = "bible-chapter-verse";
@@ -709,17 +785,29 @@ function renderBibleChapter() {
   } else {
     verses.forEach((v) => {
       const p = document.createElement("p");
-      const isHighlighted = chapter === targetChapter && highlightStart != null && v.verse >= highlightStart && v.verse <= highlightEnd;
-      p.className = "bible-chapter-verse" + (isHighlighted ? " highlighted" : "");
+      const isCited = chapter === targetChapter && highlightStart != null && v.verse >= highlightStart && v.verse <= highlightEnd;
+      const mark = getBibleVerseMark(book, chapter, v.verse);
+      const classes = ["bible-chapter-verse"];
+      if (isCited && !mark?.color) classes.push("highlighted");
+      if (mark?.underline) classes.push("underlined");
+      if (bibleChapterState.selectedVerse === v.verse) classes.push("selected");
+      p.className = classes.join(" ");
+      if (mark?.color) p.style.backgroundColor = HIGHLIGHT_OVERLAY_COLORS[mark.color];
       const numSpan = document.createElement("span");
       numSpan.className = "bible-chapter-verse-num";
       numSpan.textContent = v.verse;
       p.appendChild(numSpan);
       p.appendChild(document.createTextNode(v.text));
+      p.addEventListener("click", () => {
+        bibleChapterState.selectedVerse = bibleChapterState.selectedVerse === v.verse ? null : v.verse;
+        renderBibleChapter();
+      });
       body.appendChild(p);
+      if (isCited && v.verse === highlightStart) targetEl = p;
     });
   }
-  body.scrollTop = 0;
+  body.scrollTop = targetEl ? Math.max(0, targetEl.offsetTop - 12) : 0;
+  renderBibleMarkToolbar();
 
   const total = bibleChapterCount(book);
   document.getElementById("bibleChapterPrevBtn").disabled = chapter <= 1;
@@ -745,6 +833,7 @@ function setupVersePopupAndBibleChapter() {
   document.getElementById("bibleChapterPrevBtn").addEventListener("click", () => {
     if (!bibleChapterState || bibleChapterState.chapter <= 1) return;
     bibleChapterState.chapter -= 1;
+    bibleChapterState.selectedVerse = null;
     renderBibleChapter();
   });
   document.getElementById("bibleChapterNextBtn").addEventListener("click", () => {
@@ -752,6 +841,21 @@ function setupVersePopupAndBibleChapter() {
     const total = bibleChapterCount(bibleChapterState.book);
     if (bibleChapterState.chapter >= total) return;
     bibleChapterState.chapter += 1;
+    bibleChapterState.selectedVerse = null;
+    renderBibleChapter();
+  });
+
+  document.querySelectorAll("#bibleChapterMarkToolbar .bible-chapter-swatch").forEach((btn) => {
+    btn.style.backgroundColor = HIGHLIGHT_SWATCH_COLORS[btn.dataset.color];
+    btn.addEventListener("click", () => {
+      if (!bibleChapterState || bibleChapterState.selectedVerse == null) return;
+      setBibleVerseColor(bibleChapterState.book, bibleChapterState.chapter, bibleChapterState.selectedVerse, btn.dataset.color);
+      renderBibleChapter();
+    });
+  });
+  document.getElementById("bibleChapterUnderlineBtn").addEventListener("click", () => {
+    if (!bibleChapterState || bibleChapterState.selectedVerse == null) return;
+    toggleBibleVerseUnderline(bibleChapterState.book, bibleChapterState.chapter, bibleChapterState.selectedVerse);
     renderBibleChapter();
   });
 }

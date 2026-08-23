@@ -83,7 +83,13 @@
       "readChapter": "Ler o capítulo completo →",
       "verseUnavailable": "Este versículo ainda não está disponível para leitura no aplicativo.",
       "prevChapter": "Capítulo anterior",
-      "nextChapter": "Próximo capítulo"
+      "nextChapter": "Próximo capítulo",
+      "highlightGreen": "Destacar em verde",
+      "highlightYellow": "Destacar em amarelo",
+      "highlightRed": "Destacar em vermelho",
+      "highlightBlue": "Destacar em azul",
+      "underline": "Sublinhar",
+      "verseSelected": "Versículo {{n}} selecionado"
     },
     "word": {
       "title": "Uma Palavra para Você",

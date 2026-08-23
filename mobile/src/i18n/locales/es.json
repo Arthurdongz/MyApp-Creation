@@ -83,7 +83,13 @@
       "readChapter": "Leer el capítulo completo →",
       "verseUnavailable": "Este versículo aún no está disponible para leer en la app.",
       "prevChapter": "Capítulo anterior",
-      "nextChapter": "Capítulo siguiente"
+      "nextChapter": "Capítulo siguiente",
+      "highlightGreen": "Resaltar en verde",
+      "highlightYellow": "Resaltar en amarillo",
+      "highlightRed": "Resaltar en rojo",
+      "highlightBlue": "Resaltar en azul",
+      "underline": "Subrayar",
+      "verseSelected": "Versículo {{n}} seleccionado"
     },
     "word": {
       "title": "Una Palabra para Ti",
