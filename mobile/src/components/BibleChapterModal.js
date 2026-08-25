@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Clipboard, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
-import { getChapter, chapterCount } from "../bibleLookup";
+import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
+import { BIBLE_VERSIONS } from "../data/verses";
+import { getCachedVersionText, isVersionLoaded, loadVersionText } from "../bibleVersions";
 import { hapticTap } from "../haptics";
 import {
   HIGHLIGHT_COLORS,
@@ -60,6 +62,11 @@ function formatVerseRanges(sortedNums) {
 // gone); the note editor and copy stay a step slower on purpose since
 // they're not one-tap actions. Marks persist locally across chapters and
 // sessions.
+// Remembers the last version the reader was showing, so reopening it (or
+// jumping into a different cited verse) keeps the reader's own choice
+// instead of resetting to KJV every time.
+let lastUsedBibleVersion = "KJV";
+
 export default function BibleChapterModal({ visible, book, chapter, highlightStart, highlightEnd, onClose }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
@@ -71,9 +78,15 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   const [noteDraft, setNoteDraft] = useState("");
   const [copiedFlash, setCopiedFlash] = useState(false);
   const [marks, setMarks] = useState({});
+  const [version, setVersion] = useState(lastUsedBibleVersion);
+  const [versionPickerOpen, setVersionPickerOpen] = useState(false);
+  const [versionData, setVersionData] = useState(() => getCachedVersionText(lastUsedBibleVersion));
+  const [versionLoading, setVersionLoading] = useState(false);
+  const [versionError, setVersionError] = useState(false);
   const scrollRef = useRef(null);
   const scrolledToTargetRef = useRef(false);
   const copyFlashTimerRef = useRef(null);
+  const versionRequestRef = useRef(0);
 
   useEffect(() => {
     loadBibleHighlights().then(setMarks);
@@ -89,11 +102,34 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     clearTimeout(copyFlashTimerRef.current);
   };
 
+  const loadVersion = (id) => {
+    const requestId = ++versionRequestRef.current;
+    const cached = getCachedVersionText(id);
+    setVersionData(cached);
+    setVersionError(false);
+    setVersionLoading(!cached);
+    if (cached) return;
+    loadVersionText(id)
+      .then((data) => {
+        if (versionRequestRef.current !== requestId) return;
+        setVersionData(data);
+        setVersionLoading(false);
+      })
+      .catch(() => {
+        if (versionRequestRef.current !== requestId) return;
+        setVersionLoading(false);
+        setVersionError(true);
+      });
+  };
+
   useEffect(() => {
     if (visible) {
       setCurrentChapter(chapter);
       closeSelection();
+      setVersionPickerOpen(false);
       scrolledToTargetRef.current = false;
+      setVersion(lastUsedBibleVersion);
+      loadVersion(lastUsedBibleVersion);
       if (highlightStart == null) {
         requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: 0, animated: false }));
       }
@@ -103,19 +139,29 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
   if (!book) return null;
 
-  const verses = getChapter(book, currentChapter);
-  const total = chapterCount(book);
+  const selectVersion = (id) => {
+    setVersionPickerOpen(false);
+    if (id === version) return;
+    hapticTap();
+    lastUsedBibleVersion = id;
+    setVersion(id);
+    closeSelection();
+    loadVersion(id);
+  };
+
+  const verses = versionData ? getChapterFrom(versionData, book, currentChapter) : null;
+  const total = versionData ? chapterCountFrom(versionData, book) : 0;
   const isCitedVerse = (v) => currentChapter === chapter && highlightStart != null && v >= highlightStart && v <= highlightEnd;
 
   const goPrev = () => {
-    if (currentChapter <= 1) return;
+    if (versionLoading || currentChapter <= 1) return;
     hapticTap();
     closeSelection();
     setCurrentChapter((c) => c - 1);
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   };
   const goNext = () => {
-    if (currentChapter >= total) return;
+    if (versionLoading || currentChapter >= total) return;
     hapticTap();
     closeSelection();
     setCurrentChapter((c) => c + 1);
@@ -192,6 +238,46 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
               <Text style={styles.closeBtnText}>✕</Text>
             </TouchableOpacity>
           </View>
+
+          <View style={styles.versionRow}>
+            <Text style={styles.versionRowLabel}>{t("today.confession.bibleVersion")}</Text>
+            <TouchableOpacity
+              onPress={() => setVersionPickerOpen((o) => !o)}
+              style={styles.versionBtn}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.confession.chooseVersion")}
+            >
+              <Text style={styles.versionBtnText}>{version} ▾</Text>
+            </TouchableOpacity>
+          </View>
+          {versionPickerOpen ? (
+            <View style={styles.versionDropdown}>
+              <ScrollView>
+                {BIBLE_VERSIONS.map((v) => (
+                  <TouchableOpacity
+                    key={v.id}
+                    onPress={() => selectVersion(v.id)}
+                    style={styles.versionDropdownItem}
+                    accessibilityRole="button"
+                    accessibilityState={{ selected: v.id === version }}
+                  >
+                    <Text style={[styles.versionDropdownText, v.id === version && styles.versionDropdownTextActive]}>
+                      {v.name} ({v.id})
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          ) : null}
+          {versionLoading ? (
+            <Text style={styles.versionStatus}>
+              {t("today.confession.downloadingVersion", { version: BIBLE_VERSIONS.find((v) => v.id === version)?.name || version })}
+            </Text>
+          ) : versionError ? (
+            <TouchableOpacity onPress={() => loadVersion(version)} accessibilityRole="button">
+              <Text style={styles.versionStatusError}>{t("today.confession.downloadFailed")}</Text>
+            </TouchableOpacity>
+          ) : null}
 
           {selectedVerses.length > 0 ? (
             <View style={styles.markToolbar}>
@@ -271,8 +357,10 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
           ) : null}
 
           <ScrollView ref={scrollRef} style={styles.body} contentContainerStyle={styles.bodyContent}>
-            {verses ? (
-              verses.map((v) => {
+            {versionLoading ? null : versionError ? null : verses ? (
+              verses
+                .filter((v) => v.text && v.text.trim())
+                .map((v) => {
                 const mark = getVerseMark(marks, book, currentChapter, v.verse);
                 const cited = isCitedVerse(v.verse);
                 const selected = selectedVerses.includes(v.verse);
@@ -311,17 +399,17 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
           <View style={styles.navRow}>
             <TouchableOpacity
               onPress={goPrev}
-              disabled={currentChapter <= 1}
-              style={[styles.navBtn, currentChapter <= 1 && styles.navBtnDisabled]}
+              disabled={versionLoading || currentChapter <= 1}
+              style={[styles.navBtn, (versionLoading || currentChapter <= 1) && styles.navBtnDisabled]}
               accessibilityRole="button"
               accessibilityLabel={t("today.confession.prevChapter")}
             >
-              <Text style={[styles.navBtnText, currentChapter <= 1 && styles.navBtnTextDisabled]}>‹ {t("today.confession.prevChapter")}</Text>
+              <Text style={[styles.navBtnText, (versionLoading || currentChapter <= 1) && styles.navBtnTextDisabled]}>‹ {t("today.confession.prevChapter")}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={goNext}
-              disabled={currentChapter >= total}
-              style={[styles.navBtn, currentChapter >= total && styles.navBtnDisabled]}
+              disabled={versionLoading || currentChapter >= total}
+              style={[styles.navBtn, (versionLoading || currentChapter >= total) && styles.navBtnDisabled]}
               accessibilityRole="button"
               accessibilityLabel={t("today.confession.nextChapter")}
             >
@@ -373,6 +461,64 @@ function getStyles(colors, shadow) {
       justifyContent: "center",
     },
     closeBtnText: { fontSize: 13, color: colors.textSoft },
+    versionRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 20,
+      paddingTop: 10,
+    },
+    versionRowLabel: { fontSize: 13, fontWeight: "600", color: colors.textSoft },
+    versionBtn: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 10,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      backgroundColor: colors.bg,
+    },
+    versionBtnText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    versionDropdown: {
+      position: "absolute",
+      top: 44,
+      right: 20,
+      left: 20,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      maxHeight: 220,
+      zIndex: 30,
+      ...shadow,
+    },
+    versionDropdownItem: {
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    versionDropdownText: { fontSize: 13, color: colors.text },
+    versionDropdownTextActive: { fontWeight: "700", color: colors.sageDark },
+    versionStatus: {
+      marginHorizontal: 20,
+      marginTop: 8,
+      padding: 10,
+      borderRadius: 10,
+      backgroundColor: colors.verseCard,
+      fontSize: 13,
+      color: colors.textSoft,
+    },
+    versionStatusError: {
+      marginHorizontal: 20,
+      marginTop: 8,
+      padding: 10,
+      borderRadius: 10,
+      backgroundColor: colors.verseCard,
+      fontSize: 13,
+      fontWeight: "700",
+      color: colors.sageDark,
+      textDecorationLine: "underline",
+    },
     markToolbar: {
       paddingHorizontal: 20,
       paddingVertical: 10,

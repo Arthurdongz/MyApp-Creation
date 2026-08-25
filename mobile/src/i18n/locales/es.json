@@ -102,7 +102,11 @@
       "copied": "¡Copiado!",
       "notePlaceholder": "Escribe una nota…",
       "showMarkOptions": "Mostrar opciones de resaltado",
-      "saveNote": "Guardar"
+      "saveNote": "Guardar",
+      "bibleVersion": "Versión",
+      "chooseVersion": "Elegir versión de la Biblia",
+      "downloadingVersion": "Descargando {{version}}…",
+      "downloadFailed": "No se pudo descargar — toca para intentarlo de nuevo"
     },
     "word": {
       "title": "Una Palabra para Ti",
@@ -392,6 +396,10 @@
     "shareApp": "Compartir App",
     "about": "Acerca de",
     "shareAppMessage": "He estado usando {{brand}} — un versículo, una cita y una historia real de aliento cada día. Pensé que también te podría gustar."
+  },
+  "bibleBrowser": {
+    "title": "Leer la Biblia",
+    "allBooks": "Todos los libros"
   },
   "tour": {
     "skip": "Omitir",

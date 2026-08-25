@@ -102,7 +102,11 @@
       "copied": "Copied!",
       "notePlaceholder": "Write a note…",
       "showMarkOptions": "Show highlight options",
-      "saveNote": "Save"
+      "saveNote": "Save",
+      "bibleVersion": "Version",
+      "chooseVersion": "Choose Bible version",
+      "downloadingVersion": "Downloading {{version}}…",
+      "downloadFailed": "Couldn't download — tap to try again"
     },
     "word": {
       "title": "A Word for You",
@@ -392,6 +396,10 @@
     "shareApp": "Share App",
     "about": "About",
     "shareAppMessage": "I've been using {{brand}} — a daily verse, quote, and true story of encouragement. Thought you might like it too."
+  },
+  "bibleBrowser": {
+    "title": "Read the Bible",
+    "allBooks": "All books"
   },
   "tour": {
     "skip": "Skip",

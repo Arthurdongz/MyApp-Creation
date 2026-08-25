@@ -102,7 +102,11 @@
       "copied": "Copié !",
       "notePlaceholder": "Écrivez une note…",
       "showMarkOptions": "Afficher les options de surlignage",
-      "saveNote": "Enregistrer"
+      "saveNote": "Enregistrer",
+      "bibleVersion": "Version",
+      "chooseVersion": "Choisir la version de la Bible",
+      "downloadingVersion": "Téléchargement de {{version}}…",
+      "downloadFailed": "Échec du téléchargement — appuyez pour réessayer"
     },
     "word": {
       "title": "Une Parole pour Toi",
@@ -392,6 +396,10 @@
     "shareApp": "Partager l'Application",
     "about": "À propos",
     "shareAppMessage": "J'utilise {{brand}} — un verset, une citation et une histoire vraie d'encouragement chaque jour. J'ai pensé que ça pourrait aussi te plaire."
+  },
+  "bibleBrowser": {
+    "title": "Lire la Bible",
+    "allBooks": "Tous les livres"
   },
   "tour": {
     "skip": "Passer",

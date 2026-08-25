@@ -439,6 +439,10 @@
       <span class="menu-item-icon">⚙️</span>
       <span class="menu-item-label">Settings</span>
     </button>
+    <button id="menuBibleBtn" class="menu-item" type="button">
+      <span class="menu-item-icon">📖</span>
+      <span class="menu-item-label">Read the Bible</span>
+    </button>
     <button id="menuShareAppBtn" class="menu-item" type="button">
       <span class="menu-item-icon">↗</span>
       <span class="menu-item-label">Share App</span>
@@ -561,6 +565,11 @@
       <h2 id="bibleChapterTitle"></h2>
       <button id="bibleChapterCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
     </div>
+    <div class="bible-chapter-version-row">
+      <label class="field-label bible-chapter-version-label" for="bibleChapterVersionSelect">Version</label>
+      <select id="bibleChapterVersionSelect" class="voice-select bible-chapter-version-select"></select>
+    </div>
+    <p id="bibleChapterVersionStatus" class="bible-chapter-version-status" hidden></p>
     <div id="bibleChapterMarkToolbar" class="bible-chapter-mark-toolbar" hidden>
       <div id="bibleChapterMarkIconRow" class="bible-chapter-mark-icon-row" hidden>
         <span id="bibleChapterMarkLabel1" class="bible-chapter-mark-label"></span>
@@ -592,6 +601,20 @@
       <button id="bibleChapterPrevBtn" class="bible-chapter-nav-btn" type="button">‹ Previous chapter</button>
       <button id="bibleChapterNextBtn" class="bible-chapter-nav-btn" type="button">Next chapter ›</button>
     </div>
+  </div>
+</div>
+
+<!-- BIBLE BROWSER: reached via the ☰ menu's "Read the Bible" — pick any
+     book and chapter directly, independent of a cited verse -->
+<div id="bibleBrowserOverlay" class="settings-overlay" hidden>
+  <div class="settings-card bible-browser-card">
+    <div class="settings-card-header">
+      <h2 id="bibleBrowserTitle">Read the Bible</h2>
+      <button id="bibleBrowserCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <button id="bibleBrowserBackBtn" class="bible-browser-back-btn" type="button" hidden>‹ All books</button>
+    <div id="bibleBrowserBookList" class="bible-browser-grid"></div>
+    <div id="bibleBrowserChapterGrid" class="bible-browser-grid" hidden></div>
   </div>
 </div>
 

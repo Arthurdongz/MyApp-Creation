@@ -34,6 +34,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
+import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
 
@@ -99,6 +100,7 @@ function AppContent({ store }) {
   const [tab, setTab] = useState("today");
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const [showBibleBrowser, setShowBibleBrowser] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [refreshingUpdate, setRefreshingUpdate] = useState(false);
@@ -156,6 +158,7 @@ function AppContent({ store }) {
     // the jump the user just tapped a notification to make.
     setShowSettings(false);
     setShowAbout(false);
+    setShowBibleBrowser(false);
     setShowChat(false);
     setTab("today");
     store.jumpToDay(data.dayNumber);
@@ -205,6 +208,8 @@ function AppContent({ store }) {
           <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
         ) : showAbout ? (
           <AboutScreen onClose={() => setShowAbout(false)} />
+        ) : showBibleBrowser ? (
+          <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
         ) : (
           <ScrollView
             ref={scrollViewRef}
@@ -278,14 +283,15 @@ function AppContent({ store }) {
           visible={showMenu}
           onClose={() => setShowMenu(false)}
           onSettings={() => setShowSettings(true)}
+          onBible={() => setShowBibleBrowser(true)}
           onAbout={() => setShowAbout(true)}
         />
         <OnboardingTour
-          visible={store.ready && store.settings.onboarded && !store.settings.tourShown && !showSettings && !showAbout}
+          visible={store.ready && store.settings.onboarded && !store.settings.tourShown && !showSettings && !showAbout && !showBibleBrowser}
           onFinish={() => store.updateSettings({ tourShown: true })}
         />
 
-        {store.ready && store.settings.onboarded && !showSettings && !showAbout && !showChat ? (
+        {store.ready && store.settings.onboarded && !showSettings && !showAbout && !showBibleBrowser && !showChat ? (
           <TouchableOpacity
             style={styles.chatFab}
             onPress={() => setShowChat(true)}

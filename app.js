@@ -104,6 +104,87 @@ function bibleChapterCount(book) {
   return KJV_TEXT[bi].length;
 }
 
+// --- Full-Bible chapter reader: multi-version download & cache ---------
+// Only KJV ships bundled with the app (~4MB). The other 7 translations'
+// full text live as static JSON in this same repo's bible-data/ folder
+// and are fetched on first use from raw.githubusercontent.com, then
+// cached via the Cache Storage API — the same mechanism sw.js already
+// uses for the app shell — so later reads work offline without
+// re-downloading. chapterVerses/getBibleChapter/bibleChapterCount above
+// stay KJV-only on purpose (VersePopup's confession/verse lookups are
+// always KJV); the "*From"/"*Versioned" helpers below take an explicit
+// text array so the chapter reader and Bible browser can read any
+// downloaded version.
+const BIBLE_DATA_BASE_URL =
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/bible-data/";
+const BIBLE_DATA_CACHE_NAME = "barnabas-bible-data-v1";
+const bibleVersionTextCache = { KJV: KJV_TEXT };
+const bibleVersionLoadPromises = {};
+
+function isBibleVersionLoaded(id) {
+  return !!bibleVersionTextCache[id];
+}
+
+async function loadBibleVersionText(id) {
+  if (bibleVersionTextCache[id]) return bibleVersionTextCache[id];
+  if (bibleVersionLoadPromises[id]) return bibleVersionLoadPromises[id];
+
+  const url = `${BIBLE_DATA_BASE_URL}${id}.json`;
+  const promise = (async () => {
+    let response = null;
+    if ("caches" in window) {
+      try {
+        const cache = await caches.open(BIBLE_DATA_CACHE_NAME);
+        response = await cache.match(url);
+      } catch (e) {
+        // Cache Storage unavailable (private browsing, old browser) —
+        // fall through to a plain network fetch below.
+      }
+    }
+    if (!response) {
+      const networkResponse = await fetch(url);
+      if (!networkResponse.ok) throw new Error(`Failed to download ${id}`);
+      if ("caches" in window) {
+        try {
+          const cache = await caches.open(BIBLE_DATA_CACHE_NAME);
+          await cache.put(url, networkResponse.clone());
+        } catch (e) {
+          // Couldn't persist the cache entry — still usable this session.
+        }
+      }
+      response = networkResponse;
+    }
+    const data = await response.json();
+    bibleVersionTextCache[id] = data;
+    return data;
+  })();
+
+  bibleVersionLoadPromises[id] = promise;
+  try {
+    return await promise;
+  } finally {
+    delete bibleVersionLoadPromises[id];
+  }
+}
+
+function chapterVersesFrom(text, book, chapter) {
+  const bi = BIBLE_BOOK_INDEX.get(book);
+  if (bi == null) return null;
+  return text[bi]?.[chapter - 1] || null;
+}
+
+function getBibleChapterFrom(text, book, chapter) {
+  const verses = chapterVersesFrom(text, book, chapter);
+  if (!verses) return null;
+  return verses.map((t, i) => ({ verse: i + 1, text: t }));
+}
+
+function bibleChapterCountFrom(text, book) {
+  const bi = BIBLE_BOOK_INDEX.get(book);
+  if (bi == null) return 0;
+  return text[bi]?.length || 0;
+}
+
 // Resolves a day's verse entry down to the actual translation text to show,
 // based on the user's alternate/favorite setting.
 function getVerseForDay(day) {
@@ -802,6 +883,11 @@ function closeVersePopup() {
   document.getElementById("versePopupOverlay").hidden = true;
 }
 
+// Remembers the last version the reader was showing, so reopening it (or
+// jumping into a different cited verse) keeps the reader's own choice
+// instead of resetting to KJV every time.
+let currentBibleVersion = "KJV";
+
 function openBibleChapter(book, chapter, highlightStart, highlightEnd) {
   bibleChapterState = {
     book,
@@ -813,17 +899,58 @@ function openBibleChapter(book, chapter, highlightStart, highlightEnd) {
     menuOpen: false,
     noteEditorOpen: false,
     copiedFlash: false,
+    version: currentBibleVersion,
+    loading: false,
+    error: null,
   };
   // Show the overlay before rendering — while it's still `hidden` (display:
   // none) the body has no layout box, so a scrollTop assigned to jump to
   // the cited verse would silently no-op instead of taking effect.
   document.getElementById("bibleChapterOverlay").hidden = false;
-  renderBibleChapter();
+  ensureBibleVersionLoadedAndRender();
 }
 
 function closeBibleChapter() {
   document.getElementById("bibleChapterOverlay").hidden = true;
   bibleChapterState = null;
+}
+
+// Loads (or re-uses the cached) text for the reader's current version,
+// showing a loading/error state in the meantime, then renders the
+// chapter. Guards every await against the overlay having been closed or
+// the version having changed again while the fetch was in flight.
+async function ensureBibleVersionLoadedAndRender() {
+  const state = bibleChapterState;
+  if (!state) return;
+  if (isBibleVersionLoaded(state.version)) {
+    state.loading = false;
+    state.error = null;
+    renderBibleChapter();
+    return;
+  }
+  state.loading = true;
+  state.error = null;
+  renderBibleChapter();
+  try {
+    await loadBibleVersionText(state.version);
+  } catch (e) {
+    if (bibleChapterState !== state) return;
+    state.loading = false;
+    state.error = true;
+    renderBibleChapter();
+    return;
+  }
+  if (bibleChapterState !== state) return;
+  state.loading = false;
+  renderBibleChapter();
+}
+
+function changeBibleChapterVersion(newVersion) {
+  if (!bibleChapterState || bibleChapterState.version === newVersion) return;
+  bibleChapterState.version = newVersion;
+  currentBibleVersion = newVersion;
+  closeBibleSelection();
+  ensureBibleVersionLoadedAndRender();
 }
 
 // Ends the current verse selection entirely — used after any mark action
@@ -903,20 +1030,58 @@ function renderBibleMarkToolbar() {
 
 function renderBibleChapter() {
   if (!bibleChapterState) return;
-  const { book, chapter, targetChapter, highlightStart, highlightEnd, selectedVerses } = bibleChapterState;
+  const { book, chapter, targetChapter, highlightStart, highlightEnd, selectedVerses, version, loading, error } = bibleChapterState;
   document.getElementById("bibleChapterTitle").textContent = `${book} ${chapter}`;
+
+  const versionSelect = document.getElementById("bibleChapterVersionSelect");
+  if (!versionSelect.options.length) {
+    versionSelect.innerHTML = BIBLE_VERSIONS.map((v) => `<option value="${v.id}">${v.name} (${v.id})</option>`).join("");
+  }
+  versionSelect.value = version;
+
+  const statusEl = document.getElementById("bibleChapterVersionStatus");
+  const versionName = BIBLE_VERSIONS.find((v) => v.id === version)?.name || version;
+  if (loading) {
+    statusEl.textContent = `Downloading ${versionName}…`;
+    statusEl.hidden = false;
+  } else if (error) {
+    statusEl.textContent = `Couldn't download ${versionName}. Check your connection and try again.`;
+    statusEl.hidden = false;
+  } else {
+    statusEl.hidden = true;
+  }
 
   const body = document.getElementById("bibleChapterBody");
   body.innerHTML = "";
-  const verses = getBibleChapter(book, chapter);
+  const text = bibleVersionTextCache[version];
+  const verses = text ? getBibleChapterFrom(text, book, chapter) : null;
   let targetEl = null;
-  if (!verses) {
+  if (loading) {
+    // Loading indicator already shown via statusEl above — leave the body
+    // empty rather than flashing a stale chapter or an "unavailable"
+    // message while the download is still in flight.
+  } else if (error) {
+    const p = document.createElement("p");
+    p.className = "bible-chapter-verse";
+    const retryBtn = document.createElement("button");
+    retryBtn.type = "button";
+    retryBtn.className = "bible-chapter-retry-btn";
+    retryBtn.textContent = "Try again";
+    retryBtn.addEventListener("click", () => ensureBibleVersionLoadedAndRender());
+    body.appendChild(retryBtn);
+  } else if (!verses) {
     const p = document.createElement("p");
     p.className = "bible-chapter-verse";
     p.textContent = "This chapter isn't available to read here yet.";
     body.appendChild(p);
   } else {
     verses.forEach((v) => {
+      // A small number of verses in some translations (e.g. WEB's Luke
+      // 17:36, Acts 8:37) are intentionally blank — the translation
+      // follows an older/newer manuscript tradition that omits a verse
+      // the KJV numbering reserved a slot for. Skip rendering those
+      // rather than showing a bare verse number with nothing after it.
+      if (!v.text || !v.text.trim()) return;
       const p = document.createElement("p");
       const isCited = chapter === targetChapter && highlightStart != null && v.verse >= highlightStart && v.verse <= highlightEnd;
       const mark = getBibleVerseMark(book, chapter, v.verse);
@@ -945,9 +1110,9 @@ function renderBibleChapter() {
   body.scrollTop = targetEl ? Math.max(0, targetEl.offsetTop - 12) : 0;
   renderBibleMarkToolbar();
 
-  const total = bibleChapterCount(book);
-  document.getElementById("bibleChapterPrevBtn").disabled = chapter <= 1;
-  document.getElementById("bibleChapterNextBtn").disabled = chapter >= total;
+  const total = text ? bibleChapterCountFrom(text, book) : 0;
+  document.getElementById("bibleChapterPrevBtn").disabled = loading || !!error || chapter <= 1;
+  document.getElementById("bibleChapterNextBtn").disabled = loading || !!error || chapter >= total;
 }
 
 function setupVersePopupAndBibleChapter() {
@@ -966,15 +1131,19 @@ function setupVersePopupAndBibleChapter() {
   document.getElementById("bibleChapterOverlay").addEventListener("click", (e) => {
     if (e.target.id === "bibleChapterOverlay") closeBibleChapter();
   });
+  document.getElementById("bibleChapterVersionSelect").addEventListener("change", (e) => {
+    changeBibleChapterVersion(e.target.value);
+  });
   document.getElementById("bibleChapterPrevBtn").addEventListener("click", () => {
-    if (!bibleChapterState || bibleChapterState.chapter <= 1) return;
+    if (!bibleChapterState || bibleChapterState.loading || bibleChapterState.chapter <= 1) return;
     bibleChapterState.chapter -= 1;
     closeBibleSelection();
     renderBibleChapter();
   });
   document.getElementById("bibleChapterNextBtn").addEventListener("click", () => {
-    if (!bibleChapterState) return;
-    const total = bibleChapterCount(bibleChapterState.book);
+    if (!bibleChapterState || bibleChapterState.loading) return;
+    const text = bibleVersionTextCache[bibleChapterState.version];
+    const total = text ? bibleChapterCountFrom(text, bibleChapterState.book) : 0;
     if (bibleChapterState.chapter >= total) return;
     bibleChapterState.chapter += 1;
     closeBibleSelection();
@@ -1032,8 +1201,9 @@ function setupVersePopupAndBibleChapter() {
 
   document.getElementById("bibleChapterCopyBtn").addEventListener("click", async () => {
     if (!bibleChapterState || bibleChapterState.selectedVerses.length === 0) return;
-    const { book, chapter, selectedVerses } = bibleChapterState;
-    const verses = getBibleChapter(book, chapter) || [];
+    const { book, chapter, version, selectedVerses } = bibleChapterState;
+    const versionText = bibleVersionTextCache[version];
+    const verses = (versionText && getBibleChapterFrom(versionText, book, chapter)) || [];
     const sorted = [...selectedVerses].sort((a, b) => a - b);
     const text = sorted
       .map((vNum) => verses.find((v) => v.verse === vNum)?.text)
@@ -1049,6 +1219,83 @@ function setupVersePopupAndBibleChapter() {
       closeBibleSelection();
       renderBibleChapter();
     }, 900);
+  });
+}
+
+// --- Full Bible browser: reached via the ☰ menu, independent of any --
+// cited verse. Book list -> chapter grid -> opens the same chapter
+// reader used everywhere else. Chapter counts are read from the always-
+// bundled KJV data purely to populate the picker (chapter divisions are
+// standard across translations) — no download is needed until the user
+// actually opens a chapter.
+let bibleBrowserState = { book: null };
+
+function openBibleBrowser() {
+  bibleBrowserState = { book: null };
+  renderBibleBrowser();
+  document.getElementById("bibleBrowserOverlay").hidden = false;
+}
+
+function closeBibleBrowser() {
+  document.getElementById("bibleBrowserOverlay").hidden = true;
+}
+
+function renderBibleBrowser() {
+  const { book } = bibleBrowserState;
+  const bookListEl = document.getElementById("bibleBrowserBookList");
+  const chapterGridEl = document.getElementById("bibleBrowserChapterGrid");
+  const backBtn = document.getElementById("bibleBrowserBackBtn");
+  const titleEl = document.getElementById("bibleBrowserTitle");
+
+  if (!book) {
+    titleEl.textContent = "Read the Bible";
+    backBtn.hidden = true;
+    chapterGridEl.hidden = true;
+    bookListEl.hidden = false;
+    if (!bookListEl.childElementCount) {
+      bookListEl.innerHTML = BIBLE_BOOKS.map(
+        (name) => `<button type="button" class="bible-browser-item" data-book="${name}">${name}</button>`
+      ).join("");
+      bookListEl.querySelectorAll(".bible-browser-item").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          bibleBrowserState.book = btn.dataset.book;
+          renderBibleBrowser();
+        });
+      });
+    }
+    return;
+  }
+
+  titleEl.textContent = book;
+  backBtn.hidden = false;
+  bookListEl.hidden = true;
+  chapterGridEl.hidden = false;
+  const total = bibleChapterCount(book);
+  const items = [];
+  for (let c = 1; c <= total; c++) {
+    items.push(`<button type="button" class="bible-browser-item bible-browser-chapter" data-chapter="${c}">${c}</button>`);
+  }
+  chapterGridEl.innerHTML = items.join("");
+  chapterGridEl.querySelectorAll(".bible-browser-chapter").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      closeBibleBrowser();
+      openBibleChapter(book, parseInt(btn.dataset.chapter, 10), null, null);
+    });
+  });
+}
+
+function setupBibleBrowser() {
+  document.getElementById("menuBibleBtn").addEventListener("click", () => {
+    closeMenu();
+    openBibleBrowser();
+  });
+  document.getElementById("bibleBrowserCloseBtn").addEventListener("click", closeBibleBrowser);
+  document.getElementById("bibleBrowserOverlay").addEventListener("click", (e) => {
+    if (e.target.id === "bibleBrowserOverlay") closeBibleBrowser();
+  });
+  document.getElementById("bibleBrowserBackBtn").addEventListener("click", () => {
+    bibleBrowserState.book = null;
+    renderBibleBrowser();
   });
 }
 
@@ -2230,6 +2477,7 @@ function init() {
   setupFavoriteButtons();
   setupShareButtons();
   setupVersePopupAndBibleChapter();
+  setupBibleBrowser();
   setupListenButtons();
   setupVoiceSettings();
   setupThemeToggle();

@@ -102,7 +102,11 @@
       "copied": "Copiado!",
       "notePlaceholder": "Escreva uma nota…",
       "showMarkOptions": "Mostrar opções de destaque",
-      "saveNote": "Salvar"
+      "saveNote": "Salvar",
+      "bibleVersion": "Versão",
+      "chooseVersion": "Escolher versão da Bíblia",
+      "downloadingVersion": "Baixando {{version}}…",
+      "downloadFailed": "Não foi possível baixar — toque para tentar novamente"
     },
     "word": {
       "title": "Uma Palavra para Você",
@@ -392,6 +396,10 @@
     "shareApp": "Compartilhar App",
     "about": "Sobre",
     "shareAppMessage": "Eu tenho usado o {{brand}} — um versículo, uma citação e uma história real de encorajamento todos os dias. Pensei que você também poderia gostar."
+  },
+  "bibleBrowser": {
+    "title": "Ler a Bíblia",
+    "allBooks": "Todos os livros"
   },
   "tour": {
     "skip": "Pular",
