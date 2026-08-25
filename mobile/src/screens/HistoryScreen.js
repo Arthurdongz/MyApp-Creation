@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
+import { hapticTap } from "../haptics";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -9,6 +10,11 @@ function formatDate(key) {
   const [y, m, d] = key.split("-").map(Number);
   const date = new Date(y, m - 1, d);
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+}
+
+function truncateForPreview(text) {
+  const trimmed = text.trim();
+  return trimmed.length > 72 ? `${trimmed.slice(0, 72).trimEnd()}…` : trimmed;
 }
 
 function onThisDaySnippet(t, entries, latestDay) {
@@ -32,7 +38,19 @@ function onThisDaySnippet(t, entries, latestDay) {
   return null;
 }
 
-export default function HistoryScreen({ store }) {
+// Picks which of the three fields to show as an entry row's one-line
+// preview and label, in the same priority order the old full-card view
+// showed them in (reflection, then Barnabas moment, then kindness
+// received) so nothing changes about what counts as "the" summary.
+function entryPreview(t, e) {
+  if (e.reflection) return { label: t("history.blockLabels.reflection"), text: e.reflection };
+  if (e.barnabasNote) return { label: t("history.blockLabels.barnabasMoment"), text: e.barnabasNote };
+  if (e.momentDone) return { label: t("history.blockLabels.barnabasMoment"), text: t("history.markedDone") };
+  if (e.receivedKindness) return { label: t("history.blockLabels.kindnessReceived"), text: e.receivedKindness };
+  return null;
+}
+
+export default function HistoryScreen({ store, onOpenReflection }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
@@ -58,11 +76,36 @@ export default function HistoryScreen({ store }) {
     : allKeys;
 
   const onThisDay = onThisDaySnippet(t, entries, store.latestDay);
+  const todaysEntry = entries[`day-${store.latestDay}`];
+  const todaysPreview = todaysEntry ? entryPreview(t, todaysEntry) : null;
+
+  const openEntry = (dayNumber) => {
+    hapticTap();
+    onOpenReflection(dayNumber);
+  };
 
   return (
     <View>
       <Text style={styles.title}>{t("history.title")}</Text>
       <Text style={styles.subtitle}>{t("history.subtitle")}</Text>
+
+      <TouchableOpacity
+        style={styles.writeTodayCard}
+        onPress={() => openEntry(store.latestDay)}
+        accessibilityRole="button"
+        accessibilityLabel={t("history.writeToday.label")}
+      >
+        <View style={styles.writeTodayLeft}>
+          <Text style={styles.writeTodayEmoji}>📝</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.writeTodayTitle}>{t("history.writeToday.title")}</Text>
+            <Text style={styles.writeTodaySub} numberOfLines={1}>
+              {todaysPreview ? truncateForPreview(todaysPreview.text) : t("history.writeToday.emptyPrompt")}
+            </Text>
+          </View>
+        </View>
+        <Text style={styles.writeTodayArrow}>›</Text>
+      </TouchableOpacity>
 
       {onThisDay ? (
         <View style={styles.onThisDayCard}>
@@ -87,48 +130,40 @@ export default function HistoryScreen({ store }) {
       ) : keys.length === 0 ? (
         <Text style={styles.empty}>{t("history.emptySearch")}</Text>
       ) : (
-        keys.map((key) => {
-          const e = entries[key];
-          return (
-            <View key={key} style={styles.entryCard}>
-              <View style={styles.entryHeader}>
-                <Text style={styles.entryDate}>
-                  {t("history.entryDate", { day: e.dayNumber, date: formatDate(e.dateLogged) })}
-                </Text>
+        <View style={styles.list}>
+          {keys.map((key, index) => {
+            const e = entries[key];
+            const preview = entryPreview(t, e);
+            return (
+              <TouchableOpacity
+                key={key}
+                style={[styles.entryRow, index === keys.length - 1 && styles.entryRowLast]}
+                onPress={() => openEntry(e.dayNumber)}
+                accessibilityRole="button"
+                accessibilityLabel={t("history.openEntryLabel", { day: e.dayNumber })}
+              >
                 <Text
                   style={styles.entryMood}
                   accessibilityLabel={e.mood ? t("history.moodLabel", { mood: t(`common.moods.${e.mood}`) }) : undefined}
                 >
-                  {e.mood ? MOOD_EMOJI[e.mood] : ""}
+                  {e.mood ? MOOD_EMOJI[e.mood] : "🕊️"}
                 </Text>
-              </View>
-              {e.reflection ? (
-                <View style={styles.block}>
-                  <Text style={styles.blockLabel}>{t("history.blockLabels.reflection")}</Text>
-                  <Text style={styles.blockText}>{e.reflection}</Text>
+                <View style={styles.entryRowBody}>
+                  <View style={styles.entryRowTop}>
+                    <Text style={styles.entryDate}>{t("history.entryDate", { day: e.dayNumber, date: formatDate(e.dateLogged) })}</Text>
+                    {preview ? <Text style={styles.entryTag}>{preview.label}</Text> : null}
+                  </View>
+                  {preview ? (
+                    <Text style={styles.entryPreview} numberOfLines={1}>
+                      {truncateForPreview(preview.text)}
+                    </Text>
+                  ) : null}
                 </View>
-              ) : null}
-              {e.barnabasNote ? (
-                <View style={styles.block}>
-                  <Text style={styles.blockLabel}>{t("history.blockLabels.barnabasMoment")}</Text>
-                  <Text style={styles.blockText}>{e.barnabasNote}</Text>
-                </View>
-              ) : null}
-              {e.momentDone && !e.barnabasNote ? (
-                <View style={styles.block}>
-                  <Text style={styles.blockLabel}>{t("history.blockLabels.barnabasMoment")}</Text>
-                  <Text style={styles.blockText}>{t("history.markedDone")}</Text>
-                </View>
-              ) : null}
-              {e.receivedKindness ? (
-                <View style={styles.block}>
-                  <Text style={styles.blockLabel}>{t("history.blockLabels.kindnessReceived")}</Text>
-                  <Text style={styles.blockText}>{e.receivedKindness}</Text>
-                </View>
-              ) : null}
-            </View>
-          );
-        })
+                <Text style={styles.entryChevron}>›</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       )}
     </View>
   );
@@ -139,6 +174,22 @@ function getStyles(colors, shadow) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     empty: { fontSize: 14, color: colors.textSoft, textAlign: "center", paddingVertical: 30 },
+    writeTodayCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 10,
+      backgroundColor: colors.buttonBg,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 18,
+      ...shadow,
+    },
+    writeTodayLeft: { flexDirection: "row", alignItems: "center", gap: 12, flex: 1 },
+    writeTodayEmoji: { fontSize: 20 },
+    writeTodayTitle: { fontSize: 14.5, fontWeight: "700", color: colors.buttonOnText },
+    writeTodaySub: { fontSize: 12, color: colors.buttonOnText, opacity: 0.85, marginTop: 2 },
+    writeTodayArrow: { fontSize: 20, fontWeight: "700", color: colors.buttonOnText },
     searchInput: {
       borderWidth: 1,
       borderColor: colors.border,
@@ -168,31 +219,35 @@ function getStyles(colors, shadow) {
       marginBottom: 8,
     },
     onThisDayText: { fontSize: 14, lineHeight: 20, color: colors.text },
-    entryCard: {
+    list: {
       backgroundColor: colors.card,
       borderWidth: 1,
       borderColor: colors.border,
       borderRadius: 16,
-      padding: 16,
-      marginBottom: 12,
+      paddingHorizontal: 14,
       ...shadow,
     },
-    entryHeader: {
+    entryRow: {
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between",
+      gap: 12,
+      paddingVertical: 13,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
     },
-    entryDate: { fontWeight: "700", fontSize: 13, color: colors.sageDark },
-    entryMood: { fontSize: 18 },
-    block: { marginTop: 8 },
-    blockLabel: {
-      fontSize: 11,
+    entryRowLast: { borderBottomWidth: 0 },
+    entryMood: { fontSize: 17, width: 22, textAlign: "center" },
+    entryRowBody: { flex: 1, minWidth: 0 },
+    entryRowTop: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", gap: 8 },
+    entryDate: { fontWeight: "700", fontSize: 12.5, color: colors.sageDark },
+    entryTag: {
+      fontSize: 9.5,
       textTransform: "uppercase",
-      letterSpacing: 0.6,
+      letterSpacing: 0.5,
       color: colors.textSoft,
       fontWeight: "700",
-      marginBottom: 2,
     },
-    blockText: { fontSize: 14, color: colors.text },
+    entryPreview: { fontSize: 12.5, color: colors.textSoft, marginTop: 2 },
+    entryChevron: { fontSize: 18, color: colors.textSoft },
   });
 }

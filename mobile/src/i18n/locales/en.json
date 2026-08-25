@@ -201,7 +201,9 @@
       "saveLabel": "Save reflection",
       "saveButton": "Save Reflection",
       "savedToday": "Saved gently. Thank you for showing up today. ⭐⭐",
-      "savedPastDay": "Saved gently. Thank you for going back to this day. ⭐⭐"
+      "savedPastDay": "Saved gently. Thank you for going back to this day. ⭐⭐",
+      "teaserEmpty": "Tap to write in your Journal",
+      "teaserLabel": "Open today's reflection in your Journal"
     }
   },
   "fact": {
@@ -295,7 +297,7 @@
       "entry": "{{label}} (Day {{day}}), you wrote: \"{{snippet}}\""
     },
     "searchPlaceholder": "Search your journal...",
-    "emptyNoEntries": "Your journal is still quiet — write your first reflection on the Today tab.",
+    "emptyNoEntries": "Your journal is still quiet — write your first reflection above.",
     "emptySearch": "No entries match your search.",
     "entryDate": "Day {{day}} · {{date}}",
     "moodLabel": "Mood: {{mood}}",
@@ -304,7 +306,13 @@
       "barnabasMoment": "Barnabas Moment",
       "kindnessReceived": "Kindness Received"
     },
-    "markedDone": "Marked as done."
+    "markedDone": "Marked as done.",
+    "writeToday": {
+      "title": "Write Today's Reflection",
+      "emptyPrompt": "You haven't reflected today",
+      "label": "Write today's reflection"
+    },
+    "openEntryLabel": "Open Day {{day}} entry"
   },
   "favorites": {
     "title": "Favorites",

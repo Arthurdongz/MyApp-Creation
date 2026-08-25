@@ -201,7 +201,9 @@
       "saveLabel": "Salvar reflexão",
       "saveButton": "Salvar Reflexão",
       "savedToday": "Salvo com carinho. Obrigado por aparecer hoje. ⭐⭐",
-      "savedPastDay": "Salvo com carinho. Obrigado por voltar a este dia. ⭐⭐"
+      "savedPastDay": "Salvo com carinho. Obrigado por voltar a este dia. ⭐⭐",
+      "teaserEmpty": "Toque para escrever no seu Diário",
+      "teaserLabel": "Abrir a reflexão de hoje no seu Diário"
     }
   },
   "fact": {
@@ -295,7 +297,7 @@
       "entry": "{{label}} (Dia {{day}}), você escreveu: \"{{snippet}}\""
     },
     "searchPlaceholder": "Buscar no seu diário...",
-    "emptyNoEntries": "Seu diário ainda está quieto — escreva sua primeira reflexão na aba Hoje.",
+    "emptyNoEntries": "Seu diário ainda está quieto — escreva sua primeira reflexão acima.",
     "emptySearch": "Nenhuma entrada corresponde à sua busca.",
     "entryDate": "Dia {{day}} · {{date}}",
     "moodLabel": "Humor: {{mood}}",
@@ -304,7 +306,13 @@
       "barnabasMoment": "Momento Barnabé",
       "kindnessReceived": "Bondade Recebida"
     },
-    "markedDone": "Marcado como feito."
+    "markedDone": "Marcado como feito.",
+    "writeToday": {
+      "title": "Escrever a Reflexão de Hoje",
+      "emptyPrompt": "Você ainda não refletiu hoje",
+      "label": "Escrever a reflexão de hoje"
+    },
+    "openEntryLabel": "Abrir a entrada do Dia {{day}}"
   },
   "favorites": {
     "title": "Favoritos",

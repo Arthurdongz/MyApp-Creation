@@ -201,7 +201,9 @@
       "saveLabel": "Enregistrer la réflexion",
       "saveButton": "Enregistrer la Réflexion",
       "savedToday": "Enregistré avec soin. Merci d'être là aujourd'hui. ⭐⭐",
-      "savedPastDay": "Enregistré avec soin. Merci d'être revenu sur ce jour. ⭐⭐"
+      "savedPastDay": "Enregistré avec soin. Merci d'être revenu sur ce jour. ⭐⭐",
+      "teaserEmpty": "Touchez pour écrire dans votre Journal",
+      "teaserLabel": "Ouvrir la réflexion d'aujourd'hui dans votre Journal"
     }
   },
   "fact": {
@@ -295,7 +297,7 @@
       "entry": "{{label}} (Jour {{day}}), tu as écrit : \"{{snippet}}\""
     },
     "searchPlaceholder": "Rechercher dans ton journal...",
-    "emptyNoEntries": "Ton journal est encore silencieux — écris ta première réflexion dans l'onglet Aujourd'hui.",
+    "emptyNoEntries": "Ton journal est encore silencieux — écris ta première réflexion ci-dessus.",
     "emptySearch": "Aucune entrée ne correspond à ta recherche.",
     "entryDate": "Jour {{day}} · {{date}}",
     "moodLabel": "Humeur : {{mood}}",
@@ -304,7 +306,13 @@
       "barnabasMoment": "Moment Barnabas",
       "kindnessReceived": "Bonté Reçue"
     },
-    "markedDone": "Marqué comme fait."
+    "markedDone": "Marqué comme fait.",
+    "writeToday": {
+      "title": "Écrire la Réflexion d'Aujourd'hui",
+      "emptyPrompt": "Tu n'as pas encore réfléchi aujourd'hui",
+      "label": "Écrire la réflexion d'aujourd'hui"
+    },
+    "openEntryLabel": "Ouvrir l'entrée du Jour {{day}}"
   },
   "favorites": {
     "title": "Favoris",

@@ -35,6 +35,7 @@ import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
+import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
 
@@ -101,6 +102,7 @@ function AppContent({ store }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showBibleBrowser, setShowBibleBrowser] = useState(false);
+  const [reflectionEditorDay, setReflectionEditorDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [refreshingUpdate, setRefreshingUpdate] = useState(false);
@@ -159,6 +161,7 @@ function AppContent({ store }) {
     setShowSettings(false);
     setShowAbout(false);
     setShowBibleBrowser(false);
+    setReflectionEditorDay(null);
     setShowChat(false);
     setTab("today");
     store.jumpToDay(data.dayNumber);
@@ -210,6 +213,8 @@ function AppContent({ store }) {
           <AboutScreen onClose={() => setShowAbout(false)} />
         ) : showBibleBrowser ? (
           <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
+        ) : reflectionEditorDay != null ? (
+          <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
         ) : (
           <ScrollView
             ref={scrollViewRef}
@@ -269,10 +274,12 @@ function AppContent({ store }) {
               ))}
             </ScrollView>
 
-            {tab === "today" && <TodayScreen store={store} scrollViewRef={scrollViewRef} />}
+            {tab === "today" && (
+              <TodayScreen store={store} scrollViewRef={scrollViewRef} onOpenReflection={setReflectionEditorDay} />
+            )}
             {tab === "story" && <StoryScreen store={store} />}
             {tab === "facts" && <FactScreen store={store} />}
-            {tab === "history" && <HistoryScreen store={store} />}
+            {tab === "history" && <HistoryScreen store={store} onOpenReflection={setReflectionEditorDay} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
             {tab === "rewards" && <RewardsScreen store={store} />}
 
@@ -287,11 +294,25 @@ function AppContent({ store }) {
           onAbout={() => setShowAbout(true)}
         />
         <OnboardingTour
-          visible={store.ready && store.settings.onboarded && !store.settings.tourShown && !showSettings && !showAbout && !showBibleBrowser}
+          visible={
+            store.ready &&
+            store.settings.onboarded &&
+            !store.settings.tourShown &&
+            !showSettings &&
+            !showAbout &&
+            !showBibleBrowser &&
+            reflectionEditorDay == null
+          }
           onFinish={() => store.updateSettings({ tourShown: true })}
         />
 
-        {store.ready && store.settings.onboarded && !showSettings && !showAbout && !showBibleBrowser && !showChat ? (
+        {store.ready &&
+        store.settings.onboarded &&
+        !showSettings &&
+        !showAbout &&
+        !showBibleBrowser &&
+        reflectionEditorDay == null &&
+        !showChat ? (
           <TouchableOpacity
             style={styles.chatFab}
             onPress={() => setShowChat(true)}

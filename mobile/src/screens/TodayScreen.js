@@ -31,14 +31,6 @@ import { hapticSuccess, hapticTap } from "../haptics";
 // "story"-type entries alongside quotes; filter down to just quotes.
 const QUOTES = WISDOM.filter((w) => w.type === "quote");
 
-const MOOD_KEYS = [
-  { key: "joyful", emoji: "😊" },
-  { key: "peaceful", emoji: "🙂" },
-  { key: "hopeful", emoji: "🌱" },
-  { key: "tired", emoji: "😔" },
-  { key: "struggling", emoji: "😢" },
-];
-
 const MOMENT_INTENTION_KEYS = ["today", "tonight", "tomorrow"];
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
@@ -52,7 +44,7 @@ const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, f
 const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
 const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
 
-export default function TodayScreen({ store, scrollViewRef }) {
+export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
@@ -60,7 +52,6 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
   const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
 
-  const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
     key,
     label: t(`today.momentIntentions.${key}`),
@@ -80,7 +71,6 @@ export default function TodayScreen({ store, scrollViewRef }) {
     goToPrevDay,
     goToNextDay,
     jumpToToday,
-    setMood,
     setMomentIntention,
     setCustomMoment,
     markMomentDone,
@@ -180,20 +170,15 @@ export default function TodayScreen({ store, scrollViewRef }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [showSaved, setShowSaved] = useState(false);
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
   const [showWordReflectPrompt, setShowWordReflectPrompt] = useState(false);
   const [showWordReflectSaved, setShowWordReflectSaved] = useState(false);
 
-  // The three "Reflect on Today" fields, and "A Word for You" / "Encouraging
-  // Thought" in Today's Reading, are all shown as accordion rows. Each one's
-  // open/closed state defaults to whether the viewed day already has
-  // content in it (or, for the moment card, whether it's already done), so
-  // a returning user sees their own words immediately — recomputed only
-  // when the viewed day itself changes.
-  const [heartOpen, setHeartOpen] = useState(Boolean(today.reflection));
-  const [barnabasOpen, setBarnabasOpen] = useState(Boolean(today.barnabasNote));
-  const [kindnessOpen, setKindnessOpen] = useState(Boolean(today.receivedKindness));
+  // "A Word for You" / "Encouraging Thought" in Today's Reading are shown
+  // as accordion rows. Each one's open/closed state defaults to whether the
+  // viewed day already has content in it (or, for the moment card, whether
+  // it's already done), so a returning user sees their own words
+  // immediately — recomputed only when the viewed day itself changes.
   const [confessionOpen, setConfessionOpen] = useState(false);
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
@@ -208,13 +193,9 @@ export default function TodayScreen({ store, scrollViewRef }) {
     setReflection(today.reflection || "");
     setBarnabasNote(today.barnabasNote || "");
     setReceivedKindness(today.receivedKindness || "");
-    setShowSaved(false);
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
     setShowWordReflectPrompt(false);
-    setHeartOpen(Boolean(today.reflection));
-    setBarnabasOpen(Boolean(today.barnabasNote));
-    setKindnessOpen(Boolean(today.receivedKindness));
     setConfessionOpen(false);
     setWordOpen(false);
     setThoughtOpen(false);
@@ -236,13 +217,6 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const handleJumpToToday = () => {
     saveReflection(reflection, barnabasNote, receivedKindness);
     jumpToToday();
-  };
-
-  const handleSave = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
-    hapticSuccess();
-    setShowSaved(true);
-    setTimeout(() => setShowSaved(false), 3000);
   };
 
   const handleWordReflectSave = () => {
@@ -301,7 +275,6 @@ export default function TodayScreen({ store, scrollViewRef }) {
   const confessionRef = useRef(null);
   const wordRef = useRef(null);
   const momentSectionRef = useRef(null);
-  const reflectRef = useRef(null);
 
   const scrollToRef = (ref) => {
     if (!ref.current || !scrollViewRef?.current) return;
@@ -454,19 +427,10 @@ export default function TodayScreen({ store, scrollViewRef }) {
         >
           <Text style={styles.jumpLink}>{t("today.jump.moment")}</Text>
         </TouchableOpacity>
-        <Text style={styles.jumpDot}>·</Text>
-        <TouchableOpacity
-          onPress={() => scrollToRef(reflectRef)}
-          accessibilityRole="button"
-          accessibilityLabel={t("today.jump.reflectLabel")}
-        >
-          <Text style={styles.jumpLink}>{t("today.jump.reflect")}</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Today's Reading: Verse stays open as the anchor; A Word for You and
-          Encouraging Thought collapse to a one-line preview, the same
-          accordion pattern Today's Reflection already uses below. */}
+          Encouraging Thought collapse to a one-line preview. */}
       <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
           <Text style={styles.sectionGroupIcon}>📖</Text>
@@ -971,8 +935,11 @@ export default function TodayScreen({ store, scrollViewRef }) {
 
       <VersePopup visible={versePopupOpen} scriptureRef={versePopupRef} onClose={() => setVersePopupOpen(false)} />
 
-      {/* Reflect on Today: three journal fields as accordion rows */}
-      <View style={styles.sectionGroup} ref={reflectRef} collapsable={false}>
+      {/* Reflection now lives in the Journal tab — this is just a nudge,
+          not the form itself. Tapping it opens the same dedicated editor
+          screen Journal's own entries open, scoped to whichever day this
+          screen is currently viewing. */}
+      <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
           <Text style={styles.sectionGroupIcon}>📝</Text>
           <Text style={styles.sectionGroupTitle}>
@@ -981,145 +948,28 @@ export default function TodayScreen({ store, scrollViewRef }) {
               : t("today.reflect.sectionTitleDay", { day: viewingDay })}
           </Text>
         </View>
-        <Card>
-          <View style={styles.accordionRow}>
-            <TouchableOpacity
-              style={styles.accordionRowHead}
-              onPress={() => {
-                hapticTap();
-                setHeartOpen((v) => !v);
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={t("today.reflect.heartTitle")}
-              accessibilityState={{ expanded: heartOpen }}
-            >
-              <View style={styles.accordionRowTitleWrap}>
-                <Text style={styles.accordionEmoji}>💭</Text>
-                <Text style={styles.accordionRowTitle}>{t("today.reflect.heartTitle")}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            hapticTap();
+            onOpenReflection(viewingDay);
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={t("today.reflect.teaserLabel")}
+        >
+          <Card>
+            <View style={styles.reflectTeaserRow}>
+              <View style={styles.reflectTeaserLeft}>
+                <Text style={styles.reflectTeaserEmoji}>💛</Text>
+                <Text style={styles.reflectTeaserText} numberOfLines={2}>
+                  {today.reflection || today.barnabasNote || today.receivedKindness
+                    ? truncateForPreview(today.reflection || today.barnabasNote || today.receivedKindness)
+                    : t("today.reflect.teaserEmpty")}
+                </Text>
               </View>
-              <Text style={[styles.accordionChevron, heartOpen && styles.accordionChevronOpen]}>›</Text>
-            </TouchableOpacity>
-            {!heartOpen && today.reflection ? (
-              <Text style={styles.accordionPreview}>{truncateForPreview(today.reflection)}</Text>
-            ) : null}
-            {heartOpen ? (
-              <View style={styles.accordionRowBody}>
-                <TextInput
-                  style={styles.textArea}
-                  multiline
-                  numberOfLines={3}
-                  placeholder={t("today.reflect.heartPlaceholder")}
-                  placeholderTextColor={colors.textSoft}
-                  value={reflection}
-                  onChangeText={setReflection}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          <View style={styles.accordionRow}>
-            <TouchableOpacity
-              style={styles.accordionRowHead}
-              onPress={() => {
-                hapticTap();
-                setBarnabasOpen((v) => !v);
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={t("today.reflect.momentTitle")}
-              accessibilityState={{ expanded: barnabasOpen }}
-            >
-              <View style={styles.accordionRowTitleWrap}>
-                <Text style={styles.accordionEmoji}>🤝</Text>
-                <Text style={styles.accordionRowTitle}>{t("today.reflect.momentTitle")}</Text>
-              </View>
-              <Text style={[styles.accordionChevron, barnabasOpen && styles.accordionChevronOpen]}>›</Text>
-            </TouchableOpacity>
-            {!barnabasOpen && today.barnabasNote ? (
-              <Text style={styles.accordionPreview}>{truncateForPreview(today.barnabasNote)}</Text>
-            ) : null}
-            {barnabasOpen ? (
-              <View style={styles.accordionRowBody}>
-                <TextInput
-                  style={styles.textArea}
-                  multiline
-                  numberOfLines={3}
-                  placeholder={t("today.reflect.momentPlaceholder")}
-                  placeholderTextColor={colors.textSoft}
-                  value={barnabasNote}
-                  onChangeText={setBarnabasNote}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          <View style={styles.accordionRow}>
-            <TouchableOpacity
-              style={styles.accordionRowHead}
-              onPress={() => {
-                hapticTap();
-                setKindnessOpen((v) => !v);
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={t("today.reflect.kindnessTitle")}
-              accessibilityState={{ expanded: kindnessOpen }}
-            >
-              <View style={styles.accordionRowTitleWrap}>
-                <Text style={styles.accordionEmoji}>💛</Text>
-                <Text style={styles.accordionRowTitle}>{t("today.reflect.kindnessTitle")}</Text>
-              </View>
-              <Text style={[styles.accordionChevron, kindnessOpen && styles.accordionChevronOpen]}>›</Text>
-            </TouchableOpacity>
-            {!kindnessOpen && today.receivedKindness ? (
-              <Text style={styles.accordionPreview}>{truncateForPreview(today.receivedKindness)}</Text>
-            ) : null}
-            {kindnessOpen ? (
-              <View style={styles.accordionRowBody}>
-                <TextInput
-                  style={styles.textArea}
-                  multiline
-                  numberOfLines={3}
-                  placeholder={t("today.reflect.kindnessPlaceholder")}
-                  placeholderTextColor={colors.textSoft}
-                  value={receivedKindness}
-                  onChangeText={setReceivedKindness}
-                />
-              </View>
-            ) : null}
-          </View>
-
-          <Text style={styles.fieldLabel}>{t("today.reflect.moodLabel")}</Text>
-          <View style={styles.moodRow}>
-            {MOODS.map((m) => (
-              <TouchableOpacity
-                key={m.key}
-                style={[styles.moodBtn, today.mood === m.key && styles.moodBtnSelected]}
-                onPress={() => {
-                  hapticTap();
-                  setMood(m.key);
-                }}
-                accessibilityRole="button"
-                accessibilityState={{ selected: today.mood === m.key }}
-              >
-                <Text style={styles.moodEmoji}>{m.emoji}</Text>
-                <Text style={styles.moodLabel}>{m.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <TouchableOpacity
-            style={[styles.button, { marginTop: 16 }]}
-            onPress={handleSave}
-            accessibilityRole="button"
-            accessibilityLabel={t("today.reflect.saveLabel")}
-          >
-            <Text style={styles.buttonText}>{t("today.reflect.saveButton")}</Text>
-          </TouchableOpacity>
-          {showSaved ? (
-            <Text style={styles.doneMsg}>
-              {isToday ? t("today.reflect.savedToday") : t("today.reflect.savedPastDay")}
-            </Text>
-          ) : null}
-        </Card>
+              <Text style={styles.reflectTeaserArrow}>›</Text>
+            </View>
+          </Card>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -1405,13 +1255,6 @@ function getStyles(colors) {
       color: colors.sageDark,
       fontWeight: "600",
     },
-    fieldLabel: {
-      fontSize: 13,
-      fontWeight: "600",
-      color: colors.textSoft,
-      marginTop: 14,
-      marginBottom: 6,
-    },
     textArea: {
       borderWidth: 1,
       borderColor: colors.border,
@@ -1459,27 +1302,15 @@ function getStyles(colors) {
       paddingBottom: 13,
       marginTop: -6,
     },
-    moodRow: {
+    reflectTeaserRow: {
       flexDirection: "row",
-      flexWrap: "wrap",
-      gap: 8,
-    },
-    moodBtn: {
-      flexGrow: 1,
-      flexBasis: "18%",
       alignItems: "center",
-      borderWidth: 1,
-      borderColor: colors.border,
-      backgroundColor: colors.card,
-      borderRadius: 12,
-      paddingVertical: 10,
-      paddingHorizontal: 2,
+      justifyContent: "space-between",
+      gap: 10,
     },
-    moodBtnSelected: {
-      backgroundColor: colors.verseCard,
-      borderColor: colors.sage,
-    },
-    moodEmoji: { fontSize: 20 },
-    moodLabel: { fontSize: 10, fontWeight: "600", color: colors.textSoft, marginTop: 4 },
+    reflectTeaserLeft: { flexDirection: "row", alignItems: "center", gap: 10, flex: 1 },
+    reflectTeaserEmoji: { fontSize: 20 },
+    reflectTeaserText: { flex: 1, fontSize: 13.5, fontWeight: "600", color: colors.text },
+    reflectTeaserArrow: { fontSize: 20, color: colors.sage, fontWeight: "700" },
   });
 }
