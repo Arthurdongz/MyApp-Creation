@@ -1075,12 +1075,17 @@ function renderBibleChapter() {
     p.textContent = "This chapter isn't available to read here yet.";
     body.appendChild(p);
   } else {
-    // A small number of verses in some translations (e.g. WEB's Luke 17:36,
-    // Acts 8:37) are intentionally blank — the translation follows an
-    // older/newer manuscript tradition that omits a verse the KJV numbering
-    // reserved a slot for. Rather than skip them silently, show a footnote
-    // with the KJV's text for reference (KJV always has full text for
-    // every verse, since it's the always-bundled fallback translation).
+    // A small number of verses in some translations have no text at this
+    // slot — for two different real reasons: (1) the translation follows a
+    // manuscript tradition that omits a verse the KJV numbering reserved a
+    // slot for (e.g. WEB/ASV/BBE's Acts 8:37), or (2) the translation's own
+    // chapter/verse divisions genuinely differ from the KJV's, so this
+    // slot's content is filed under an adjacent verse or chapter instead
+    // (e.g. RVA's Reina-Valera numbering shifts several Job/Numbers/Acts
+    // verses across a chapter boundary). Rather than guess which reason
+    // applies or skip the slot silently, show a neutral footnote with the
+    // KJV's text for reference (KJV always has full text for every verse,
+    // since it's the always-bundled fallback translation).
     const kjvChapterVerses = chapterVerses(book, chapter);
     verses.forEach((v) => {
       if (!v.text || !v.text.trim()) {
@@ -1094,8 +1099,8 @@ function renderBibleChapter() {
         const note = document.createElement("span");
         note.className = "bible-chapter-omitted-note";
         note.textContent = kjvText
-          ? `This verse does not appear in the earliest manuscripts. Other translations include: “${kjvText}”`
-          : "This verse does not appear in the earliest manuscripts.";
+          ? `This translation has no separate text for this verse (it may follow a different manuscript tradition, or number its verses differently). For reference, the King James Version reads: “${kjvText}”`
+          : "This translation has no separate text for this verse.";
         p.appendChild(note);
         body.appendChild(p);
         return;

@@ -107,8 +107,8 @@
       "chooseVersion": "Elegir versión de la Biblia",
       "downloadingVersion": "Descargando {{version}}…",
       "downloadFailed": "No se pudo descargar — toca para intentarlo de nuevo",
-      "verseOmitted": "Este versículo no aparece en los manuscritos más antiguos.",
-      "verseOmittedWithText": "Este versículo no aparece en los manuscritos más antiguos. Otras traducciones incluyen: «{{text}}»"
+      "verseOmitted": "Esta traducción no tiene texto propio para este versículo.",
+      "verseOmittedWithText": "Esta traducción no tiene texto propio para este versículo (puede seguir una tradición de manuscritos distinta, o numerar sus versículos de otra manera). Como referencia, la Versión King James dice: «{{text}}»"
     },
     "word": {
       "title": "Una Palabra para Ti",

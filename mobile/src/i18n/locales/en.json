@@ -107,8 +107,8 @@
       "chooseVersion": "Choose Bible version",
       "downloadingVersion": "Downloading {{version}}…",
       "downloadFailed": "Couldn't download — tap to try again",
-      "verseOmitted": "This verse does not appear in the earliest manuscripts.",
-      "verseOmittedWithText": "This verse does not appear in the earliest manuscripts. Other translations include: “{{text}}”"
+      "verseOmitted": "This translation has no separate text for this verse.",
+      "verseOmittedWithText": "This translation has no separate text for this verse (it may follow a different manuscript tradition, or number its verses differently). For reference, the King James Version reads: “{{text}}”"
     },
     "word": {
       "title": "A Word for You",
