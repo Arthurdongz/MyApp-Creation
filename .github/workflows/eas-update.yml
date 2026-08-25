@@ -44,4 +44,7 @@ jobs:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
           SUBJECT="$(printf '%s' "$COMMIT_MESSAGE" | head -n1)"
+          if [ -z "$SUBJECT" ]; then
+            SUBJECT="Manual update ($(git rev-parse --short HEAD))"
+          fi
           eas update --branch preview --message "$SUBJECT" --non-interactive
