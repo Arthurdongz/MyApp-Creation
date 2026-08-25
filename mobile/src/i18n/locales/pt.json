@@ -106,7 +106,9 @@
       "bibleVersion": "Versão",
       "chooseVersion": "Escolher versão da Bíblia",
       "downloadingVersion": "Baixando {{version}}…",
-      "downloadFailed": "Não foi possível baixar — toque para tentar novamente"
+      "downloadFailed": "Não foi possível baixar — toque para tentar novamente",
+      "verseOmitted": "Este versículo não aparece nos manuscritos mais antigos.",
+      "verseOmittedWithText": "Este versículo não aparece nos manuscritos mais antigos. Outras traduções incluem: “{{text}}”"
     },
     "word": {
       "title": "Uma Palavra para Você",

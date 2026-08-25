@@ -106,7 +106,9 @@
       "bibleVersion": "Versión",
       "chooseVersion": "Elegir versión de la Biblia",
       "downloadingVersion": "Descargando {{version}}…",
-      "downloadFailed": "No se pudo descargar — toca para intentarlo de nuevo"
+      "downloadFailed": "No se pudo descargar — toca para intentarlo de nuevo",
+      "verseOmitted": "Este versículo no aparece en los manuscritos más antiguos.",
+      "verseOmittedWithText": "Este versículo no aparece en los manuscritos más antiguos. Otras traducciones incluyen: «{{text}}»"
     },
     "word": {
       "title": "Una Palabra para Ti",

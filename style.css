@@ -1816,3 +1816,11 @@ textarea:focus, .mood-btn:focus-visible, .btn:focus-visible {
 .bible-browser-item:hover { background: var(--verse-card-bg); }
 
 .bible-browser-item.bible-browser-chapter { grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); }
+
+.bible-chapter-verse-omitted { cursor: default; }
+
+.bible-chapter-omitted-note {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-soft);
+}

@@ -106,7 +106,9 @@
       "bibleVersion": "Version",
       "chooseVersion": "Choisir la version de la Bible",
       "downloadingVersion": "Téléchargement de {{version}}…",
-      "downloadFailed": "Échec du téléchargement — appuyez pour réessayer"
+      "downloadFailed": "Échec du téléchargement — appuyez pour réessayer",
+      "verseOmitted": "Ce verset n'apparaît pas dans les manuscrits les plus anciens.",
+      "verseOmittedWithText": "Ce verset n'apparaît pas dans les manuscrits les plus anciens. D'autres traductions incluent : « {{text}} »"
     },
     "word": {
       "title": "Une Parole pour Toi",

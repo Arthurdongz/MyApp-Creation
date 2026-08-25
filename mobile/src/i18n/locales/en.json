@@ -106,7 +106,9 @@
       "bibleVersion": "Version",
       "chooseVersion": "Choose Bible version",
       "downloadingVersion": "Downloading {{version}}…",
-      "downloadFailed": "Couldn't download — tap to try again"
+      "downloadFailed": "Couldn't download — tap to try again",
+      "verseOmitted": "This verse does not appear in the earliest manuscripts.",
+      "verseOmittedWithText": "This verse does not appear in the earliest manuscripts. Other translations include: “{{text}}”"
     },
     "word": {
       "title": "A Word for You",

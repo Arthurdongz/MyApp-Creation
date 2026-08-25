@@ -3,6 +3,7 @@ import { Clipboard, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpa
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
+import KJV_TEXT from "../data/bible-kjv.json";
 import { BIBLE_VERSIONS } from "../data/verses";
 import { getCachedVersionText, isVersionLoaded, loadVersionText } from "../bibleVersions";
 import { hapticTap } from "../haptics";
@@ -150,6 +151,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   };
 
   const verses = versionData ? getChapterFrom(versionData, book, currentChapter) : null;
+  const kjvVerses = getChapterFrom(KJV_TEXT, book, currentChapter);
   const total = versionData ? chapterCountFrom(versionData, book) : 0;
   const isCitedVerse = (v) => currentChapter === chapter && highlightStart != null && v >= highlightStart && v <= highlightEnd;
 
@@ -358,9 +360,20 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
           <ScrollView ref={scrollRef} style={styles.body} contentContainerStyle={styles.bodyContent}>
             {versionLoading ? null : versionError ? null : verses ? (
-              verses
-                .filter((v) => v.text && v.text.trim())
-                .map((v) => {
+              verses.map((v) => {
+                if (!v.text || !v.text.trim()) {
+                  const kjvText = kjvVerses?.find((kv) => kv.verse === v.verse)?.text;
+                  return (
+                    <View key={v.verse} style={styles.verseRow}>
+                      <Text style={styles.omittedNote}>
+                        <Text style={styles.verseNum}>{v.verse} </Text>
+                        {kjvText
+                          ? t("today.confession.verseOmittedWithText", { text: kjvText })
+                          : t("today.confession.verseOmitted")}
+                      </Text>
+                    </View>
+                  );
+                }
                 const mark = getVerseMark(marks, book, currentChapter, v.verse);
                 const cited = isCitedVerse(v.verse);
                 const selected = selectedVerses.includes(v.verse);
@@ -598,6 +611,7 @@ function getStyles(colors, shadow) {
     verseRowCited: { backgroundColor: colors.verseCard },
     verseRowSelected: { borderWidth: 1, borderColor: colors.sageDark },
     verseLine: { fontSize: 16, lineHeight: 26, color: colors.text },
+    omittedNote: { fontSize: 14, lineHeight: 22, color: colors.textSoft, fontStyle: "italic" },
     verseLineUnderlined: { textDecorationLine: "underline" },
     verseNum: { fontSize: 12, fontWeight: "700", color: colors.sage },
     noteIndicator: { fontSize: 12 },

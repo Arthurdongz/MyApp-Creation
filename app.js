@@ -1075,13 +1075,31 @@ function renderBibleChapter() {
     p.textContent = "This chapter isn't available to read here yet.";
     body.appendChild(p);
   } else {
+    // A small number of verses in some translations (e.g. WEB's Luke 17:36,
+    // Acts 8:37) are intentionally blank — the translation follows an
+    // older/newer manuscript tradition that omits a verse the KJV numbering
+    // reserved a slot for. Rather than skip them silently, show a footnote
+    // with the KJV's text for reference (KJV always has full text for
+    // every verse, since it's the always-bundled fallback translation).
+    const kjvChapterVerses = chapterVerses(book, chapter);
     verses.forEach((v) => {
-      // A small number of verses in some translations (e.g. WEB's Luke
-      // 17:36, Acts 8:37) are intentionally blank — the translation
-      // follows an older/newer manuscript tradition that omits a verse
-      // the KJV numbering reserved a slot for. Skip rendering those
-      // rather than showing a bare verse number with nothing after it.
-      if (!v.text || !v.text.trim()) return;
+      if (!v.text || !v.text.trim()) {
+        const p = document.createElement("p");
+        p.className = "bible-chapter-verse bible-chapter-verse-omitted";
+        const numSpan = document.createElement("span");
+        numSpan.className = "bible-chapter-verse-num";
+        numSpan.textContent = v.verse;
+        p.appendChild(numSpan);
+        const kjvText = kjvChapterVerses?.[v.verse - 1];
+        const note = document.createElement("span");
+        note.className = "bible-chapter-omitted-note";
+        note.textContent = kjvText
+          ? `This verse does not appear in the earliest manuscripts. Other translations include: “${kjvText}”`
+          : "This verse does not appear in the earliest manuscripts.";
+        p.appendChild(note);
+        body.appendChild(p);
+        return;
+      }
       const p = document.createElement("p");
       const isCited = chapter === targetChapter && highlightStart != null && v.verse >= highlightStart && v.verse <= highlightEnd;
       const mark = getBibleVerseMark(book, chapter, v.verse);
