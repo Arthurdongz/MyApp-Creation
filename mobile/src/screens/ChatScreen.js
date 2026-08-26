@@ -269,7 +269,10 @@ export default function ChatScreen({ store, onClose }) {
                     key={i}
                     style={[styles.bubble, m.role === "user" ? styles.bubbleUser : styles.bubbleAssistant]}
                   >
-                    <Text style={[styles.bubbleText, m.role === "user" && styles.bubbleTextUser]}>
+                    <Text
+                      selectable
+                      style={[styles.bubbleText, m.role === "user" && styles.bubbleTextUser]}
+                    >
                       {m.role === "assistant"
                         ? splitScriptureRefs(m.content).map((seg, si) =>
                             seg.type === "ref" ? (
