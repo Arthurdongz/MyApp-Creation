@@ -17,6 +17,36 @@ import { useTheme } from "../theme";
 import { sendChatMessage } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
+import { BIBLE_BOOKS } from "../bibleLookup";
+import VersePopup from "../components/VersePopup";
+
+// Longer book names first, so e.g. "1 John" matches before the bare "John"
+// alternative gets a chance to swallow just the tail of it.
+const BOOK_PATTERN = BIBLE_BOOKS.slice()
+  .sort((a, b) => b.length - a.length)
+  .map((b) => b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+  .join("|");
+const SCRIPTURE_REF_REGEX = new RegExp(`\\b(?:${BOOK_PATTERN})\\s+\\d+:\\d+(?:-\\d+)?`, "g");
+
+// Splits a Barnabas reply into plain-text and scripture-reference segments,
+// so references can render as tappable spans that open the same
+// VersePopup the rest of the app uses — Barnabas's own citations lead
+// straight into the app's own scripture reader instead of staying inert
+// text, and since the chat Worker's lookup_bible_verse tool grounds any
+// verse it quotes, a tapped reference here shows the same verified text.
+function splitScriptureRefs(text) {
+  const segments = [];
+  let lastIndex = 0;
+  let match;
+  SCRIPTURE_REF_REGEX.lastIndex = 0;
+  while ((match = SCRIPTURE_REF_REGEX.exec(text))) {
+    if (match.index > lastIndex) segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+    segments.push({ type: "ref", content: match[0] });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) segments.push({ type: "text", content: text.slice(lastIndex) });
+  return segments;
+}
 
 function ChatPaywall({ styles, onSubscribe }) {
   const { t } = useTranslation();
@@ -64,7 +94,15 @@ export default function ChatScreen({ store, onClose }) {
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [versePopupOpen, setVersePopupOpen] = useState(false);
+  const [versePopupRef, setVersePopupRef] = useState(null);
   const scrollRef = useRef(null);
+
+  const openVerseRef = (ref) => {
+    hapticTap();
+    setVersePopupRef(ref);
+    setVersePopupOpen(true);
+  };
 
   // Resolved once per screen open (this component mounts fresh each time
   // the chat modal opens — see App.js) so the 30-minute-idle / app-was-
@@ -232,7 +270,17 @@ export default function ChatScreen({ store, onClose }) {
                     style={[styles.bubble, m.role === "user" ? styles.bubbleUser : styles.bubbleAssistant]}
                   >
                     <Text style={[styles.bubbleText, m.role === "user" && styles.bubbleTextUser]}>
-                      {m.content}
+                      {m.role === "assistant"
+                        ? splitScriptureRefs(m.content).map((seg, si) =>
+                            seg.type === "ref" ? (
+                              <Text key={si} style={styles.bubbleRef} onPress={() => openVerseRef(seg.content)}>
+                                {seg.content}
+                              </Text>
+                            ) : (
+                              <Text key={si}>{seg.content}</Text>
+                            )
+                          )
+                        : m.content}
                     </Text>
                   </View>
                 ))
@@ -281,6 +329,7 @@ export default function ChatScreen({ store, onClose }) {
           </>
         )}
       </KeyboardAvoidingView>
+      <VersePopup visible={versePopupOpen} scriptureRef={versePopupRef} onClose={() => setVersePopupOpen(false)} />
     </SafeAreaView>
   );
 }
@@ -351,6 +400,7 @@ function getStyles(colors, shadow) {
     },
     bubbleText: { fontSize: 14, lineHeight: 20, color: colors.text },
     bubbleTextUser: { color: colors.buttonOnText },
+    bubbleRef: { color: colors.sageDark, fontWeight: "700", textDecorationLine: "underline" },
     errorText: { fontSize: 13, color: colors.goldText, marginHorizontal: 16, marginBottom: 6 },
     inputRow: {
       flexDirection: "row",

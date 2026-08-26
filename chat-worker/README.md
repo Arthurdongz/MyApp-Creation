@@ -64,14 +64,42 @@ Add new entries to `LANGUAGE_NAMES` in `worker.js` (kept in sync with
 `mobile/src/i18n/index.js`'s `SUPPORTED_LANGUAGES`) when a new language is
 added to the app.
 
+## How a reply gets generated
+
+Every incoming message goes through two Claude calls before the client sees
+anything:
+
+1. **Safety classification** — a small, forced-tool-choice call that only
+   decides whether this message needs an immediate crisis-resource redirect.
+   If so, the Worker returns a **developer-written, non-AI-generated**
+   message (see `CRISIS_REPLY_TEMPLATES`) with the region's real crisis line
+   plugged in, and skips the main call entirely — safety-critical replies
+   don't depend on a general-purpose persona remembering to redirect
+   correctly every time.
+2. **The Barnabas reply** — a normal Claude Haiku 4.5 call with the
+   `lookup_bible_verse` tool available. The system prompt requires Claude to
+   call it before quoting or closely paraphrasing any specific verse, so
+   replies are grounded in this project's own verified KJV text
+   (`mobile/src/data/bible-kjv.json`, fetched once per Worker isolate and
+   cached in memory) instead of the model's own recall. The tool-call
+   exchange stays entirely server-side — the client only ever sees the final
+   text, never tool_use/tool_result blocks.
+
+If the KJV fetch ever fails (e.g. GitHub is unreachable), `lookup_bible_verse`
+returns an error the model is instructed to handle by describing the passage
+in its own words or admitting it can't verify the exact wording, rather than
+quoting anyway.
+
 ## Cost
 
 At the current pricing for `claude-haiku-4-5` ($1/$5 per million input/output
-tokens), a typical exchange costs roughly $0.002. See the in-app discussion
-this was scoped from for fuller monthly-cost projections at scale — even a
-genuinely popular chat feature stays in the tens-to-low-hundreds of dollars a
-month. Cloudflare Workers' free tier (100k requests/day) covers this app's
-volume with room to spare.
+tokens), a typical exchange (safety check + main reply, occasionally with a
+verse lookup) costs roughly $0.004-0.006 — a bit more than the original
+single-call design, since every message now makes at least two model calls.
+See the in-app discussion this was scoped from for fuller monthly-cost
+projections at scale — even a genuinely popular chat feature stays in the
+tens-to-low-hundreds of dollars a month. Cloudflare Workers' free tier (100k
+requests/day) covers this app's volume with room to spare.
 
 ## What's NOT done yet
 

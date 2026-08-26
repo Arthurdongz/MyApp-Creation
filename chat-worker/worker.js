@@ -39,6 +39,25 @@ const LANGUAGE_NAMES = {
   fr: "French",
 };
 
+// The deterministic crisis short-circuit reply (see needsCrisisResponse
+// below) is developer-written, not model-generated, in each supported
+// language — the {crisisLine} slot is filled in with the region-specific
+// resource above, which may itself be in a different language than the
+// wrapper sentence (the resource text is keyed by region, this wrapper by
+// the app's display language — those aren't always the same person's
+// situation, but the actual phone number/text line stays accurate either
+// way, which is what matters most here).
+const CRISIS_REPLY_TEMPLATES = {
+  en: (crisisLine) =>
+    `I'm really glad you told me. ${crisisLine} Please reach out to them, or to someone you trust, right now — you don't have to carry this alone.`,
+  es: (crisisLine) =>
+    `Me alegra mucho que me lo hayas contado. ${crisisLine} Por favor, comunícate con ellos, o con alguien de confianza, ahora mismo — no tienes que cargar con esto tú solo.`,
+  pt: (crisisLine) =>
+    `Fico muito feliz que você tenha me contado isso. ${crisisLine} Por favor, entre em contato com eles, ou com alguém de confiança, agora mesmo — você não precisa carregar isso sozinho.`,
+  fr: (crisisLine) =>
+    `Je suis vraiment content que tu m'en aies parlé. ${crisisLine} Contacte-les, ou quelqu'un en qui tu as confiance, dès maintenant — tu n'as pas à porter ça seul.`,
+};
+
 function systemPromptFor(region, language) {
   const crisisLine = CRISIS_RESOURCES[region] || DEFAULT_CRISIS_RESOURCE;
   const languageName = LANGUAGE_NAMES[language] || "English";
@@ -48,12 +67,198 @@ Answer questions about faith, the app's daily content, and offer encouragement g
 You are not a therapist and must not diagnose, give medical/psychiatric advice, or claim to replace professional help.
 If the user expresses thoughts of self-harm, suicide, abuse, or crisis, gently stop and point them to real help.
 ${crisisLine}
+When you quote or closely paraphrase a specific Bible verse, always call lookup_bible_verse first and use its exact wording — even for verses you're confident you already know correctly. Never present a scripture quotation you have not looked up.
 Keep replies concise — 2-4 short paragraphs at most.
 Always reply in ${languageName}, regardless of what language the user writes in — that's the app's current display language, and switching away from it would be jarring even if they type in a different one.`;
 }
 
 const MAX_REQUESTS_PER_DAY = 30;
 const MAX_HISTORY_TURNS = 10;
+const MAX_TOOL_ROUNDS = 3;
+
+// Book names in canonical order, matching the app's own bundled Bible data
+// (data-bible-books.js) — duplicated here for the same reason as
+// CRISIS_RESOURCES above: this Worker can't import from the mobile app.
+const BIBLE_BOOKS = [
+  "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "Ruth",
+  "1 Samuel", "2 Samuel", "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Ezra", "Nehemiah", "Esther",
+  "Job", "Psalm", "Proverbs", "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah", "Lamentations",
+  "Ezekiel", "Daniel", "Hosea", "Joel", "Amos", "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah",
+  "Haggai", "Zechariah", "Malachi",
+  "Matthew", "Mark", "Luke", "John", "Acts", "Romans", "1 Corinthians", "2 Corinthians", "Galatians",
+  "Ephesians", "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy",
+  "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude", "Revelation",
+];
+
+// The always-bundled KJV text this project already ships and has verified
+// (see the Bible-version-reader work in the app itself) — fetched once per
+// Worker isolate and cached in module scope, not re-fetched per request.
+// Pinned to this branch; update if it's ever renamed or merged to a
+// default branch.
+const KJV_DATA_URL =
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/mobile/src/data/bible-kjv.json";
+
+let kjvTextPromise = null;
+function getKjvText() {
+  if (!kjvTextPromise) {
+    kjvTextPromise = fetch(KJV_DATA_URL)
+      .then((r) => {
+        if (!r.ok) throw new Error(`Failed to fetch KJV data: ${r.status}`);
+        return r.json();
+      })
+      .catch((e) => {
+        kjvTextPromise = null; // let a later request retry instead of caching the failure forever
+        throw e;
+      });
+  }
+  return kjvTextPromise;
+}
+
+// Parses a single reference like "John 3:16" or "1 John 4:8-10" (verse
+// ranges within one chapter only — Claude is asked for one reference at a
+// time, so multi-piece refs like "Psalm 13:1,5" aren't needed here).
+function parseScriptureRef(reference) {
+  if (typeof reference !== "string") return null;
+  const match = reference
+    .trim()
+    .match(/^((?:[123]\s)?[A-Za-z]+(?:\s[A-Za-z]+)*)\s+(\d+):(\d+)(?:-(\d+))?/);
+  if (!match) return null;
+  const book = BIBLE_BOOKS.find((b) => b.toLowerCase() === match[1].trim().toLowerCase());
+  if (!book) return null;
+  const chapter = parseInt(match[2], 10);
+  const verseStart = parseInt(match[3], 10);
+  const verseEnd = match[4] ? parseInt(match[4], 10) : verseStart;
+  if (verseEnd < verseStart) return null;
+  return { book, chapter, verseStart, verseEnd };
+}
+
+async function lookupBibleVerse(reference) {
+  const parsed = parseScriptureRef(reference);
+  if (!parsed) return { error: `Could not parse "${reference}" as a scripture reference.` };
+
+  let kjv;
+  try {
+    kjv = await getKjvText();
+  } catch (e) {
+    return { error: "Could not reach the Bible text source right now — do not quote this passage; describe it in your own words instead, or tell the user you can't verify the exact wording right now." };
+  }
+
+  const bookIndex = BIBLE_BOOKS.indexOf(parsed.book);
+  const chapterVerses = kjv[bookIndex]?.[parsed.chapter - 1];
+  if (!chapterVerses) return { error: `${parsed.book} ${parsed.chapter} was not found.` };
+
+  const verses = [];
+  for (let v = parsed.verseStart; v <= parsed.verseEnd; v++) {
+    const text = chapterVerses[v - 1];
+    if (!text) return { error: `${parsed.book} ${parsed.chapter}:${v} was not found.` };
+    verses.push(`${v} ${text}`);
+  }
+  return { book: parsed.book, chapter: parsed.chapter, translation: "KJV", text: verses.join(" ") };
+}
+
+const BIBLE_LOOKUP_TOOL = {
+  name: "lookup_bible_verse",
+  description:
+    'Look up the exact King James Version (KJV) text of a Bible passage by reference, e.g. "John 3:16" or "Romans 8:28-30". Always call this before quoting or closely paraphrasing specific scripture in your reply, even for very familiar verses — do not rely on memory for exact wording.',
+  input_schema: {
+    type: "object",
+    properties: {
+      reference: {
+        type: "string",
+        description: 'A single scripture reference within one chapter, e.g. "Psalm 23:1" or "1 John 4:8".',
+      },
+    },
+    required: ["reference"],
+  },
+};
+
+// A second, narrowly-scoped model call whose only job is deciding whether
+// this message needs the deterministic crisis reply below instead of a
+// normal Barnabas-voice reply — kept separate from the main persona call
+// so crisis detection doesn't depend on one general-purpose reply also
+// remembering to redirect correctly every time. Runs before the main
+// call, not in parallel, so a flagged message skips that cost entirely.
+const SAFETY_TOOL = {
+  name: "report_safety_assessment",
+  description: "Report whether this message needs an immediate crisis-resource response instead of a normal conversational reply.",
+  input_schema: {
+    type: "object",
+    properties: {
+      needs_crisis_response: {
+        type: "boolean",
+        description:
+          "True only if the message expresses active or serious thoughts of self-harm, suicide, or ongoing abuse — not general sadness, stress, frustration, or a hypothetical/past-tense/third-party mention.",
+      },
+    },
+    required: ["needs_crisis_response"],
+  },
+};
+
+async function needsCrisisResponse(anthropic, message) {
+  try {
+    const response = await anthropic.messages.create({
+      model: "claude-haiku-4-5",
+      max_tokens: 200,
+      system:
+        "You are a safety classifier for one incoming chat message in a Christian encouragement app. Assess only whether it needs an immediate crisis-resource redirect — do not write a reply.",
+      tools: [SAFETY_TOOL],
+      tool_choice: { type: "tool", name: "report_safety_assessment" },
+      messages: [{ role: "user", content: message }],
+    });
+    const block = response.content.find((b) => b.type === "tool_use");
+    return Boolean(block?.input?.needs_crisis_response);
+  } catch (e) {
+    // If the classifier call itself fails, fall through to the normal
+    // reply rather than blocking the whole conversation on it — the main
+    // system prompt still carries its own crisis-redirect instruction as
+    // a fallback.
+    return false;
+  }
+}
+
+// Generates the actual Barnabas reply, letting Claude call
+// lookup_bible_verse as many times as it needs (bounded) before settling
+// on final text. The intermediate tool-call/tool-result exchange never
+// leaves this function — only the final text goes back to the client, so
+// the app's own conversation history stays plain user/assistant text.
+async function generateReply(anthropic, system, initialMessages) {
+  let messages = initialMessages;
+  for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
+    const response = await anthropic.messages.create({
+      model: "claude-haiku-4-5",
+      max_tokens: 800,
+      system,
+      tools: [BIBLE_LOOKUP_TOOL],
+      messages,
+    });
+
+    if (response.stop_reason !== "tool_use") {
+      return response.content.find((b) => b.type === "text")?.text || "";
+    }
+
+    messages = [...messages, { role: "assistant", content: response.content }];
+    const toolUseBlocks = response.content.filter((b) => b.type === "tool_use");
+    const toolResults = [];
+    for (const block of toolUseBlocks) {
+      const result =
+        block.name === "lookup_bible_verse"
+          ? await lookupBibleVerse(block.input?.reference)
+          : { error: "Unknown tool." };
+      toolResults.push({ type: "tool_result", tool_use_id: block.id, content: JSON.stringify(result) });
+    }
+    messages = [...messages, { role: "user", content: toolResults }];
+  }
+
+  // Ran out of tool-call rounds — ask once more without tools so it has to
+  // answer in plain text rather than looping forever.
+  const finalResponse = await anthropic.messages.create({
+    model: "claude-haiku-4-5",
+    max_tokens: 800,
+    system,
+    messages,
+  });
+  return finalResponse.content.find((b) => b.type === "text")?.text || "";
+}
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -93,22 +298,26 @@ export default {
           .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
           .slice(-MAX_HISTORY_TURNS)
       : [];
+    const resolvedRegion = typeof region === "string" ? region : null;
+    const resolvedLanguage = typeof language === "string" ? language : null;
 
     const anthropic = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
 
-    let response;
     try {
-      response = await anthropic.messages.create({
-        model: "claude-haiku-4-5",
-        max_tokens: 500,
-        system: systemPromptFor(typeof region === "string" ? region : null, typeof language === "string" ? language : null),
-        messages: [...safeHistory, { role: "user", content: message }],
-      });
+      if (await needsCrisisResponse(anthropic, message)) {
+        const crisisLine = CRISIS_RESOURCES[resolvedRegion] || DEFAULT_CRISIS_RESOURCE;
+        const template = CRISIS_REPLY_TEMPLATES[resolvedLanguage] || CRISIS_REPLY_TEMPLATES.en;
+        return jsonResponse({ reply: template(crisisLine) });
+      }
+
+      const reply = await generateReply(
+        anthropic,
+        systemPromptFor(resolvedRegion, resolvedLanguage),
+        [...safeHistory, { role: "user", content: message }]
+      );
+      return jsonResponse({ reply });
     } catch (e) {
       return jsonResponse({ error: "Couldn't reach Claude right now. Please try again." }, 502);
     }
-
-    const reply = response.content.find((block) => block.type === "text")?.text || "";
-    return jsonResponse({ reply });
   },
 };
