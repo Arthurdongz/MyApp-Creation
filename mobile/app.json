@@ -57,7 +57,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.barnabasjournal.app"
+      "bundleIdentifier": "com.barnabasjournal.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.barnabasjournal.app",
