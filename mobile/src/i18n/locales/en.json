@@ -421,9 +421,9 @@
     "tabHighlights": "Highlights",
     "tabBookmarks": "Bookmarks",
     "tabNotes": "Notes",
-    "empty_highlights": "No highlighted verses yet — long-press any verse in the Bible reader to highlight it.",
-    "empty_bookmarks": "No bookmarked verses yet — long-press any verse in the Bible reader to bookmark it.",
-    "empty_notes": "No notes yet — long-press any verse in the Bible reader to add one."
+    "empty_highlights": "No highlighted verses yet — tap any verse in the Bible reader to highlight it.",
+    "empty_bookmarks": "No bookmarked verses yet — tap any verse in the Bible reader to bookmark it.",
+    "empty_notes": "No notes yet — tap any verse in the Bible reader to add one."
   },
   "tour": {
     "skip": "Skip",

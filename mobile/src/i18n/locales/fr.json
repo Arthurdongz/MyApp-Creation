@@ -421,9 +421,9 @@
     "tabHighlights": "Surlignages",
     "tabBookmarks": "Signets",
     "tabNotes": "Notes",
-    "empty_highlights": "Aucun verset surligné pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour le surligner.",
-    "empty_bookmarks": "Aucun verset avec un signet pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour y ajouter un signet.",
-    "empty_notes": "Aucune note pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour en ajouter une."
+    "empty_highlights": "Aucun verset surligné pour l'instant — touche un verset dans le lecteur biblique pour le surligner.",
+    "empty_bookmarks": "Aucun verset avec un signet pour l'instant — touche un verset dans le lecteur biblique pour y ajouter un signet.",
+    "empty_notes": "Aucune note pour l'instant — touche un verset dans le lecteur biblique pour en ajouter une."
   },
   "tour": {
     "skip": "Passer",

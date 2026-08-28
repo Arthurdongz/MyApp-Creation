@@ -56,17 +56,15 @@ function formatVerseRanges(sortedNums) {
 // from there.
 //
 // Tapping a verse toggles it into a selection (more than one verse can be
-// selected at once) without showing anything extra — just a border around
-// the selected verse(s), so casual multi-verse selection stays quiet.
-// Long-pressing a verse (adding it to the selection first if it wasn't
-// already) opens the action bar at the bottom of the reader: copy, share,
-// note, bookmark, and a highlight star. The star expands into the 4 color
-// swatches, a "clear" swatch, and an underline toggle; picking a color,
-// clearing, underlining, or bookmarking applies to every selected verse at
-// once and closes everything back down (so a mis-tap is one more tap away
-// from gone). The note editor and copy/share stay a step slower on purpose
-// since they're not one-tap actions. Marks persist locally across chapters
-// and sessions.
+// selected at once, by tapping further verses while the bar is open) and
+// immediately opens the action bar at the bottom of the reader: copy,
+// share, note, bookmark, and a highlight star. The star expands into the
+// 4 color swatches, a "clear" swatch, and an underline toggle; picking a
+// color, clearing, underlining, or bookmarking applies to every selected
+// verse at once and closes everything back down (so a mis-tap is one more
+// tap away from gone). The note editor and copy/share stay a step slower
+// on purpose since they're not one-tap actions. Marks persist locally
+// across chapters and sessions.
 // Remembers the last version the reader was showing, so reopening it (or
 // jumping into a different cited verse) keeps the reader's own choice
 // instead of resetting to KJV every time.
@@ -176,25 +174,22 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   };
 
+  // Tapping a verse toggles it into the selection (more than one verse can
+  // be selected at once) and immediately opens the full bottom action bar
+  // — every icon at once, no long-press needed.
   const onVersePress = (verseNum) => {
     hapticTap();
     setSelectedVerses((prev) => {
       const next = prev.includes(verseNum) ? prev.filter((v) => v !== verseNum) : [...prev, verseNum].sort((a, b) => a - b);
-      if (next.length === 0) closeSelection();
+      if (next.length === 0) {
+        closeSelection();
+      } else {
+        setColorPickerOpen(false);
+        setNoteEditorOpen(false);
+        setActionBarOpen(true);
+      }
       return next;
     });
-  };
-
-  // Long-pressing a verse guarantees it's selected, then immediately opens
-  // the full bottom action bar — the one gesture that reveals every icon
-  // at once, instead of a plain tap building up a quiet multi-verse
-  // selection first.
-  const onVerseLongPress = (verseNum) => {
-    hapticTap();
-    setSelectedVerses((prev) => (prev.includes(verseNum) ? prev : [...prev, verseNum].sort((a, b) => a - b)));
-    setColorPickerOpen(false);
-    setNoteEditorOpen(false);
-    setActionBarOpen(true);
   };
 
   const selectedMarks = selectedVerses.map((v) => getVerseMark(marks, book, currentChapter, v));
@@ -334,7 +329,6 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                     key={v.verse}
                     activeOpacity={0.7}
                     onPress={() => onVersePress(v.verse)}
-                    onLongPress={() => onVerseLongPress(v.verse)}
                     onLayout={(e) => {
                       if (!scrolledToTargetRef.current && cited && v.verse === highlightStart) {
                         scrolledToTargetRef.current = true;
