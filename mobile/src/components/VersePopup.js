@@ -20,8 +20,16 @@ export default function VersePopup({ visible, scriptureRef: reference, onClose }
 
   const blocks = reference ? lookupRef(reference) : null;
 
+  // Closes this popup's own Modal at the same moment the chapter reader
+  // opens its Modal — two RN <Modal>s visible at once is fine on Android
+  // but iOS's native modal presentation can silently fail to show the
+  // second one, so only one of the two is ever visible at a time.
+  // chapterTarget lives in this component's own state (not gated behind
+  // the `visible` prop), so it keeps tracking correctly even once the
+  // parent hides this popup.
   const openChapter = (block) => {
     hapticTap();
+    onClose();
     setChapterTarget(block);
   };
 
