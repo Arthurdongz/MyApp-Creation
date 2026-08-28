@@ -412,7 +412,9 @@
   },
   "bibleBrowser": {
     "title": "Ler a Bíblia",
-    "allBooks": "Todos os livros"
+    "allBooks": "Todos os livros",
+    "allChapters": "Todos os capítulos",
+    "wholeChapter": "Ler o capítulo inteiro"
   },
   "bibleMarks": {
     "title": "Meus destaques e notas",
