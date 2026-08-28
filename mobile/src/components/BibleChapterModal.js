@@ -443,18 +443,18 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                       accessibilityRole="button"
                       accessibilityLabel={t("today.confession.bookmarkVerse")}
                       accessibilityState={{ selected: allBookmarked }}
-                      style={styles.iconBtn}
+                      style={[styles.iconBtn, allBookmarked && styles.iconBtnActive]}
                     >
-                      <Text style={styles.iconBtnText}>{allBookmarked ? "🔖" : "🏷️"}</Text>
+                      <Text style={styles.iconBtnText}>🔖</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => setColorPickerOpen(true)}
                       accessibilityRole="button"
                       accessibilityLabel={t("today.confession.highlightVerse")}
                       accessibilityState={{ selected: !!commonColor || allUnderlined }}
-                      style={styles.iconBtn}
+                      style={[styles.iconBtn, (!!commonColor || allUnderlined) && styles.iconBtnActive]}
                     >
-                      <Text style={styles.iconBtnText}>{commonColor || allUnderlined ? "⭐" : "☆"}</Text>
+                      <Text style={styles.iconBtnText}>⭐</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -633,12 +633,18 @@ function getStyles(colors, shadow) {
     underlineBtnText: { fontSize: 13, fontWeight: "700", color: colors.text, textDecorationLine: "underline" },
     underlineBtnTextActive: { color: "#fff" },
     iconBtn: {
-      width: 26,
-      height: 26,
+      width: 34,
+      height: 34,
+      borderRadius: 17,
       alignItems: "center",
       justifyContent: "center",
     },
-    iconBtnText: { fontSize: 15 },
+    iconBtnActive: {
+      backgroundColor: colors.verseCard,
+      borderWidth: 1,
+      borderColor: colors.sageDark,
+    },
+    iconBtnText: { fontSize: 19, textAlign: "center" },
     noteEditor: { gap: 8 },
     noteInput: {
       backgroundColor: colors.card,
