@@ -99,9 +99,12 @@
       "clearMark": "Supprimer le surlignage",
       "addNote": "Ajouter une note",
       "copyVerse": "Copier",
+      "shareVerse": "Partager",
+      "bookmarkVerse": "Signet",
+      "highlightVerse": "Surligner",
+      "backToOptions": "Retour",
       "copied": "Copié !",
       "notePlaceholder": "Écrivez une note…",
-      "showMarkOptions": "Afficher les options de surlignage",
       "saveNote": "Enregistrer",
       "bibleVersion": "Version",
       "chooseVersion": "Choisir la version de la Bible",
@@ -410,6 +413,15 @@
   "bibleBrowser": {
     "title": "Lire la Bible",
     "allBooks": "Tous les livres"
+  },
+  "bibleMarks": {
+    "title": "Mes surlignages et notes",
+    "tabHighlights": "Surlignages",
+    "tabBookmarks": "Signets",
+    "tabNotes": "Notes",
+    "empty_highlights": "Aucun verset surligné pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour le surligner.",
+    "empty_bookmarks": "Aucun verset avec un signet pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour y ajouter un signet.",
+    "empty_notes": "Aucune note pour l'instant — fais un appui long sur un verset dans le lecteur biblique pour en ajouter une."
   },
   "tour": {
     "skip": "Passer",

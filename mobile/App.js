@@ -35,6 +35,7 @@ import OnboardingScreen from "./src/screens/OnboardingScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
+import BibleMarksScreen from "./src/screens/BibleMarksScreen";
 import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
@@ -102,6 +103,7 @@ function AppContent({ store }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showBibleBrowser, setShowBibleBrowser] = useState(false);
+  const [showBibleMarks, setShowBibleMarks] = useState(false);
   const [reflectionEditorDay, setReflectionEditorDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -161,6 +163,7 @@ function AppContent({ store }) {
     setShowSettings(false);
     setShowAbout(false);
     setShowBibleBrowser(false);
+    setShowBibleMarks(false);
     setReflectionEditorDay(null);
     setShowChat(false);
     setTab("today");
@@ -213,6 +216,8 @@ function AppContent({ store }) {
           <AboutScreen onClose={() => setShowAbout(false)} />
         ) : showBibleBrowser ? (
           <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
+        ) : showBibleMarks ? (
+          <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
         ) : reflectionEditorDay != null ? (
           <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
         ) : (
@@ -291,6 +296,7 @@ function AppContent({ store }) {
           onClose={() => setShowMenu(false)}
           onSettings={() => setShowSettings(true)}
           onBible={() => setShowBibleBrowser(true)}
+          onBibleMarks={() => setShowBibleMarks(true)}
           onAbout={() => setShowAbout(true)}
         />
         <OnboardingTour
@@ -301,6 +307,7 @@ function AppContent({ store }) {
             !showSettings &&
             !showAbout &&
             !showBibleBrowser &&
+            !showBibleMarks &&
             reflectionEditorDay == null
           }
           onFinish={() => store.updateSettings({ tourShown: true })}
@@ -311,6 +318,7 @@ function AppContent({ store }) {
         !showSettings &&
         !showAbout &&
         !showBibleBrowser &&
+        !showBibleMarks &&
         reflectionEditorDay == null &&
         !showChat ? (
           <TouchableOpacity

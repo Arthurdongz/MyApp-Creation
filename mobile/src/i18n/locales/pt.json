@@ -99,9 +99,12 @@
       "clearMark": "Remover destaque",
       "addNote": "Adicionar uma nota",
       "copyVerse": "Copiar",
+      "shareVerse": "Compartilhar",
+      "bookmarkVerse": "Marcador",
+      "highlightVerse": "Destacar",
+      "backToOptions": "Voltar",
       "copied": "Copiado!",
       "notePlaceholder": "Escreva uma nota…",
-      "showMarkOptions": "Mostrar opções de destaque",
       "saveNote": "Salvar",
       "bibleVersion": "Versão",
       "chooseVersion": "Escolher versão da Bíblia",
@@ -410,6 +413,15 @@
   "bibleBrowser": {
     "title": "Ler a Bíblia",
     "allBooks": "Todos os livros"
+  },
+  "bibleMarks": {
+    "title": "Meus destaques e notas",
+    "tabHighlights": "Destaques",
+    "tabBookmarks": "Marcadores",
+    "tabNotes": "Notas",
+    "empty_highlights": "Ainda não há versículos destacados — mantenha pressionado qualquer versículo no leitor da Bíblia para destacá-lo.",
+    "empty_bookmarks": "Ainda não há versículos marcados — mantenha pressionado qualquer versículo no leitor da Bíblia para marcá-lo.",
+    "empty_notes": "Ainda não há notas — mantenha pressionado qualquer versículo no leitor da Bíblia para adicionar uma."
   },
   "tour": {
     "skip": "Pular",

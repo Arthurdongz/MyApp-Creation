@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Clipboard, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Clipboard, Modal, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
@@ -14,6 +14,7 @@ import {
   clearVersesMarks,
   getVerseMark,
   loadBibleHighlights,
+  setVersesBookmark,
   setVersesColor,
   setVersesNote,
   setVersesUnderline,
@@ -55,14 +56,17 @@ function formatVerseRanges(sortedNums) {
 // from there.
 //
 // Tapping a verse toggles it into a selection (more than one verse can be
-// selected at once) and reveals a small marker icon; tapping that icon
-// expands the full action row — 4 highlight colors, a "clear" swatch, an
-// underline toggle, a note editor, and copy-to-clipboard. Picking a color,
-// clearing, or underlining applies to every selected verse at once and
-// then closes everything back down (so a mis-tap is one more tap away from
-// gone); the note editor and copy stay a step slower on purpose since
-// they're not one-tap actions. Marks persist locally across chapters and
-// sessions.
+// selected at once) without showing anything extra — just a border around
+// the selected verse(s), so casual multi-verse selection stays quiet.
+// Long-pressing a verse (adding it to the selection first if it wasn't
+// already) opens the action bar at the bottom of the reader: copy, share,
+// note, bookmark, and a highlight star. The star expands into the 4 color
+// swatches, a "clear" swatch, and an underline toggle; picking a color,
+// clearing, underlining, or bookmarking applies to every selected verse at
+// once and closes everything back down (so a mis-tap is one more tap away
+// from gone). The note editor and copy/share stay a step slower on purpose
+// since they're not one-tap actions. Marks persist locally across chapters
+// and sessions.
 // Remembers the last version the reader was showing, so reopening it (or
 // jumping into a different cited verse) keeps the reader's own choice
 // instead of resetting to KJV every time.
@@ -74,7 +78,8 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   const { t } = useTranslation();
   const [currentChapter, setCurrentChapter] = useState(chapter);
   const [selectedVerses, setSelectedVerses] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [actionBarOpen, setActionBarOpen] = useState(false);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [noteEditorOpen, setNoteEditorOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState("");
   const [copiedFlash, setCopiedFlash] = useState(false);
@@ -97,7 +102,8 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
   const closeSelection = () => {
     setSelectedVerses([]);
-    setMenuOpen(false);
+    setActionBarOpen(false);
+    setColorPickerOpen(false);
     setNoteEditorOpen(false);
     setCopiedFlash(false);
     clearTimeout(copyFlashTimerRef.current);
@@ -174,18 +180,28 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     hapticTap();
     setSelectedVerses((prev) => {
       const next = prev.includes(verseNum) ? prev.filter((v) => v !== verseNum) : [...prev, verseNum].sort((a, b) => a - b);
-      if (next.length === 0) {
-        setMenuOpen(false);
-        setNoteEditorOpen(false);
-      }
+      if (next.length === 0) closeSelection();
       return next;
     });
+  };
+
+  // Long-pressing a verse guarantees it's selected, then immediately opens
+  // the full bottom action bar — the one gesture that reveals every icon
+  // at once, instead of a plain tap building up a quiet multi-verse
+  // selection first.
+  const onVerseLongPress = (verseNum) => {
+    hapticTap();
+    setSelectedVerses((prev) => (prev.includes(verseNum) ? prev : [...prev, verseNum].sort((a, b) => a - b)));
+    setColorPickerOpen(false);
+    setNoteEditorOpen(false);
+    setActionBarOpen(true);
   };
 
   const selectedMarks = selectedVerses.map((v) => getVerseMark(marks, book, currentChapter, v));
   const commonColor =
     selectedVerses.length > 0 && selectedMarks.every((m) => m?.color === selectedMarks[0]?.color) ? selectedMarks[0]?.color : null;
   const allUnderlined = selectedVerses.length > 0 && selectedMarks.every((m) => m?.underline);
+  const allBookmarked = selectedVerses.length > 0 && selectedMarks.every((m) => m?.bookmark);
 
   const applyColor = (color) => {
     hapticTap();
@@ -202,6 +218,11 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     setMarks((prev) => setVersesUnderline(prev, book, currentChapter, selectedVerses, !allUnderlined));
     closeSelection();
   };
+  const applyBookmark = () => {
+    hapticTap();
+    setMarks((prev) => setVersesBookmark(prev, book, currentChapter, selectedVerses, !allBookmarked));
+    closeSelection();
+  };
   const openNoteEditor = () => {
     hapticTap();
     const notes = selectedMarks.map((m) => m?.note || "");
@@ -213,19 +234,27 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     setMarks((prev) => setVersesNote(prev, book, currentChapter, selectedVerses, noteDraft));
     closeSelection();
   };
-  const handleCopy = () => {
-    hapticTap();
+  const selectionText = () => {
     const sorted = [...selectedVerses].sort((a, b) => a - b);
     const text = sorted.map((vNum) => verses?.find((v) => v.verse === vNum)?.text).filter(Boolean).join(" ");
     const ref = `${book} ${currentChapter}:${formatVerseRanges(sorted)}`;
+    return `“${text}” — ${ref}`;
+  };
+  const handleCopy = () => {
+    hapticTap();
     try {
-      Clipboard.setString(`“${text}” — ${ref}`);
+      Clipboard.setString(selectionText());
     } catch (e) {
       // clipboard unavailable — nothing to fall back to here
     }
     setCopiedFlash(true);
     clearTimeout(copyFlashTimerRef.current);
     copyFlashTimerRef.current = setTimeout(closeSelection, 900);
+  };
+  const handleShare = () => {
+    hapticTap();
+    Share.share({ message: selectionText() }).catch(() => {});
+    closeSelection();
   };
 
   return (
@@ -281,83 +310,6 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
             </TouchableOpacity>
           ) : null}
 
-          {selectedVerses.length > 0 ? (
-            <View style={styles.markToolbar}>
-              {noteEditorOpen ? (
-                <View style={styles.noteEditor}>
-                  <TextInput
-                    style={styles.noteInput}
-                    value={noteDraft}
-                    onChangeText={setNoteDraft}
-                    placeholder={t("today.confession.notePlaceholder")}
-                    placeholderTextColor={colors.textSoft}
-                    multiline
-                    autoFocus
-                  />
-                  <View style={styles.noteEditorActions}>
-                    <TouchableOpacity onPress={() => setNoteEditorOpen(false)} style={styles.noteCancelBtn}>
-                      <Text style={styles.noteCancelText}>{t("common.cancel")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={saveNote} style={styles.noteSaveBtn}>
-                      <Text style={styles.noteSaveText}>{t("today.confession.saveNote")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              ) : menuOpen ? (
-                <View style={styles.markToolbarRow}>
-                  <Text style={styles.markToolbarLabel}>
-                    {copiedFlash ? t("today.confession.copied") : t("today.confession.selectedCount", { count: selectedVerses.length })}
-                  </Text>
-                  <View style={styles.markToolbarActions}>
-                    {HIGHLIGHT_COLORS.map((color) => (
-                      <TouchableOpacity
-                        key={color}
-                        onPress={() => applyColor(color)}
-                        accessibilityRole="button"
-                        accessibilityLabel={t(HIGHLIGHT_LABEL_KEYS[color])}
-                        accessibilityState={{ selected: commonColor === color }}
-                        style={[styles.swatch, { backgroundColor: HIGHLIGHT_SWATCH_COLORS[color] }, commonColor === color && styles.swatchActive]}
-                      />
-                    ))}
-                    <TouchableOpacity
-                      onPress={applyClear}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.confession.clearMark")}
-                      style={styles.clearSwatch}
-                    >
-                      <Text style={styles.clearSwatchText}>✕</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={applyUnderline}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.confession.underline")}
-                      accessibilityState={{ selected: allUnderlined }}
-                      style={[styles.underlineBtn, allUnderlined && styles.underlineBtnActive]}
-                    >
-                      <Text style={[styles.underlineBtnText, allUnderlined && styles.underlineBtnTextActive]}>U</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={openNoteEditor} accessibilityRole="button" accessibilityLabel={t("today.confession.addNote")} style={styles.iconBtn}>
-                      <Text style={styles.iconBtnText}>✏️</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleCopy} accessibilityRole="button" accessibilityLabel={t("today.confession.copyVerse")} style={styles.iconBtn}>
-                      <Text style={styles.iconBtnText}>📋</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => setMenuOpen(true)}
-                  style={styles.markIconRow}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("today.confession.showMarkOptions")}
-                >
-                  <Text style={styles.markToolbarLabel}>{t("today.confession.selectedCount", { count: selectedVerses.length })}</Text>
-                  <Text style={styles.markIcon}>🖍️</Text>
-                </TouchableOpacity>
-              )}
-            </View>
-          ) : null}
-
           <ScrollView ref={scrollRef} style={styles.body} contentContainerStyle={styles.bodyContent}>
             {versionLoading ? null : versionError ? null : verses ? (
               verses.map((v) => {
@@ -382,6 +334,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                     key={v.verse}
                     activeOpacity={0.7}
                     onPress={() => onVersePress(v.verse)}
+                    onLongPress={() => onVerseLongPress(v.verse)}
                     onLayout={(e) => {
                       if (!scrolledToTargetRef.current && cited && v.verse === highlightStart) {
                         scrolledToTargetRef.current = true;
@@ -399,6 +352,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                     <Text style={[styles.verseLine, mark?.underline && styles.verseLineUnderlined]}>
                       <Text style={styles.verseNum}>{v.verse} </Text>
                       {v.text}
+                      {mark?.bookmark ? <Text style={styles.noteIndicator}> 🔖</Text> : null}
                       {mark?.note ? <Text style={styles.noteIndicator}> 📝</Text> : null}
                     </Text>
                   </TouchableOpacity>
@@ -408,6 +362,105 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
               <Text style={styles.verseLine}>{t("today.confession.verseUnavailable")}</Text>
             )}
           </ScrollView>
+
+          {selectedVerses.length > 0 && actionBarOpen ? (
+            <View style={styles.actionBar}>
+              {noteEditorOpen ? (
+                <View style={styles.noteEditor}>
+                  <TextInput
+                    style={styles.noteInput}
+                    value={noteDraft}
+                    onChangeText={setNoteDraft}
+                    placeholder={t("today.confession.notePlaceholder")}
+                    placeholderTextColor={colors.textSoft}
+                    multiline
+                    autoFocus
+                  />
+                  <View style={styles.noteEditorActions}>
+                    <TouchableOpacity onPress={() => setNoteEditorOpen(false)} style={styles.noteCancelBtn}>
+                      <Text style={styles.noteCancelText}>{t("common.cancel")}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={saveNote} style={styles.noteSaveBtn}>
+                      <Text style={styles.noteSaveText}>{t("today.confession.saveNote")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : colorPickerOpen ? (
+                <View style={styles.actionBarRow}>
+                  <TouchableOpacity
+                    onPress={() => setColorPickerOpen(false)}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.confession.backToOptions")}
+                    style={styles.iconBtn}
+                  >
+                    <Text style={styles.iconBtnText}>‹</Text>
+                  </TouchableOpacity>
+                  {HIGHLIGHT_COLORS.map((color) => (
+                    <TouchableOpacity
+                      key={color}
+                      onPress={() => applyColor(color)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t(HIGHLIGHT_LABEL_KEYS[color])}
+                      accessibilityState={{ selected: commonColor === color }}
+                      style={[styles.swatch, { backgroundColor: HIGHLIGHT_SWATCH_COLORS[color] }, commonColor === color && styles.swatchActive]}
+                    />
+                  ))}
+                  <TouchableOpacity
+                    onPress={applyClear}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.confession.clearMark")}
+                    style={styles.clearSwatch}
+                  >
+                    <Text style={styles.clearSwatchText}>✕</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={applyUnderline}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.confession.underline")}
+                    accessibilityState={{ selected: allUnderlined }}
+                    style={[styles.underlineBtn, allUnderlined && styles.underlineBtnActive]}
+                  >
+                    <Text style={[styles.underlineBtnText, allUnderlined && styles.underlineBtnTextActive]}>U</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.actionBarRow}>
+                  <Text style={styles.markToolbarLabel}>
+                    {copiedFlash ? t("today.confession.copied") : t("today.confession.selectedCount", { count: selectedVerses.length })}
+                  </Text>
+                  <View style={styles.markToolbarActions}>
+                    <TouchableOpacity onPress={handleCopy} accessibilityRole="button" accessibilityLabel={t("today.confession.copyVerse")} style={styles.iconBtn}>
+                      <Text style={styles.iconBtnText}>📋</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleShare} accessibilityRole="button" accessibilityLabel={t("today.confession.shareVerse")} style={styles.iconBtn}>
+                      <Text style={styles.iconBtnText}>📤</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={openNoteEditor} accessibilityRole="button" accessibilityLabel={t("today.confession.addNote")} style={styles.iconBtn}>
+                      <Text style={styles.iconBtnText}>📝</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={applyBookmark}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("today.confession.bookmarkVerse")}
+                      accessibilityState={{ selected: allBookmarked }}
+                      style={styles.iconBtn}
+                    >
+                      <Text style={styles.iconBtnText}>{allBookmarked ? "🔖" : "🏷️"}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setColorPickerOpen(true)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("today.confession.highlightVerse")}
+                      accessibilityState={{ selected: !!commonColor || allUnderlined }}
+                      style={styles.iconBtn}
+                    >
+                      <Text style={styles.iconBtnText}>{commonColor || allUnderlined ? "⭐" : "☆"}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            </View>
+          ) : null}
 
           <View style={styles.navRow}>
             <TouchableOpacity
@@ -532,16 +585,14 @@ function getStyles(colors, shadow) {
       color: colors.sageDark,
       textDecorationLine: "underline",
     },
-    markToolbar: {
+    actionBar: {
       paddingHorizontal: 20,
       paddingVertical: 10,
       backgroundColor: colors.verseCard,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
     },
-    markIconRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-    markIcon: { fontSize: 20 },
-    markToolbarRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 },
+    actionBarRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 },
     markToolbarLabel: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
     markToolbarActions: { flexDirection: "row", alignItems: "center", gap: 8 },
     swatch: {

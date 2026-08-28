@@ -1,11 +1,14 @@
 // Per-verse study marks for the Bible chapter reader — a highlight color,
-// an underline, and/or a free-text note — independent of the app's main
-// journal data. Stored as one flat map keyed by "Book|chapter|verse" so a
-// verse can be found in O(1) regardless of which screen looked it up.
-// Every mutator here is bulk (accepts an array of verse numbers) so the
-// reader can mark a whole selected range in one action instead of one
-// verse at a time.
+// an underline, a bookmark, and/or a free-text note — independent of the
+// app's main journal data. Stored as one flat map keyed by
+// "Book|chapter|verse" so a verse can be found in O(1) regardless of which
+// screen looked it up. Every mutator here is bulk (accepts an array of
+// verse numbers) so the reader can mark a whole selected range in one
+// action instead of one verse at a time.
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BIBLE_BOOKS } from "./data/bible-books";
+
+const BOOK_ORDER = new Map(BIBLE_BOOKS.map((name, i) => [name, i]));
 
 const STORAGE_KEY = "barnabas.bibleHighlights.v1";
 
@@ -68,7 +71,7 @@ function updateMarks(map, book, chapter, verseNumbers, updater) {
   for (const verse of verseNumbers) {
     const key = keyFor(book, chapter, verse);
     const updated = updater(next[key] || null);
-    if (updated && (updated.color || updated.underline || updated.note)) {
+    if (updated && (updated.color || updated.underline || updated.note || updated.bookmark)) {
       next[key] = updated;
     } else {
       delete next[key];
@@ -104,4 +107,32 @@ export function setVersesNote(map, book, chapter, verseNumbers, noteText) {
     }
     return { ...base, note: trimmed };
   });
+}
+
+export function setVersesBookmark(map, book, chapter, verseNumbers, value) {
+  return updateMarks(map, book, chapter, verseNumbers, (existing) => {
+    const base = existing || {};
+    if (!value) {
+      const { bookmark, ...rest } = base;
+      return rest;
+    }
+    return { ...base, bookmark: true };
+  });
+}
+
+// Flattens the map into a sorted list for the "My Highlights & Notes"
+// browsing screen — canonical Bible book order, then chapter, then verse,
+// so entries read the way a reader would expect a Bible-ordered list to.
+export function getAllMarkedVerses(map) {
+  const entries = Object.keys(map).map((key) => {
+    const [book, chapter, verse] = key.split("|");
+    return { book, chapter: parseInt(chapter, 10), verse: parseInt(verse, 10), ...map[key] };
+  });
+  entries.sort((a, b) => {
+    const bookDiff = (BOOK_ORDER.get(a.book) ?? 0) - (BOOK_ORDER.get(b.book) ?? 0);
+    if (bookDiff) return bookDiff;
+    if (a.chapter !== b.chapter) return a.chapter - b.chapter;
+    return a.verse - b.verse;
+  });
+  return entries;
 }
