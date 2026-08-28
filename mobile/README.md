@@ -49,9 +49,15 @@ Journal entries, moods, stars, and streaks are stored on-device via
 ## Over-the-air updates
 
 Pushes to this branch that touch `mobile/**` automatically publish an EAS Update
-to the `preview` channel via `.github/workflows/eas-update.yml`. Installed builds
-on the `preview` channel pick up JS/asset changes on next launch — no rebuild or
-reinstall needed, as long as the change doesn't require new native code.
+to both the `preview` and `production` channels via `.github/workflows/eas-update.yml`
+— `preview` for internal-testing APKs/builds, `production` for the App Store/Play
+Store build (`eas build --profile production`, e.g. the TestFlight build). Installed
+builds on either channel pick up JS/asset changes on next launch — no rebuild or
+reinstall needed, as long as the change doesn't require new native code. Keep both
+branches in the same `eas update` step (as it is now) rather than splitting them
+across separate workflows/triggers — the two channels drifting out of sync is
+exactly what caused a real bug (a fix that worked on Android preview builds
+silently never reached the iOS TestFlight build) the first time this was missed.
 
 Requires an `EXPO_TOKEN` repo secret (Settings > Secrets and variables > Actions),
 generated from an Expo access token at https://expo.dev/settings/access-tokens.

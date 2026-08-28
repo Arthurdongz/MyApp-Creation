@@ -39,7 +39,7 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Publish update to preview channel
+      - name: Publish update to preview and production channels
         env:
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
@@ -48,3 +48,4 @@ jobs:
             SUBJECT="Manual update ($(git rev-parse --short HEAD))"
           fi
           eas update --branch preview --message "$SUBJECT" --non-interactive
+          eas update --branch production --message "$SUBJECT" --non-interactive
