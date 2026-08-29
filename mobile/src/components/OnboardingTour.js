@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
@@ -10,11 +11,11 @@ import { hapticTap } from "../haptics";
 // glance at Today alone wouldn't surface. Gated by settings.tourShown so it
 // only ever plays once per install, for both brand-new and existing users.
 const STEP_KEYS = [
-  { emoji: "📅", key: "lookBack" },
-  { emoji: "🔗", key: "jumpLinks" },
-  { emoji: "🗂️", key: "moreToExplore" },
-  { emoji: "☆", key: "saveWhatMoves" },
-  { emoji: "🌍", key: "crisisRegion" },
+  { icon: "calendar-outline", key: "lookBack" },
+  { icon: "link-outline", key: "jumpLinks" },
+  { icon: "folder-open-outline", key: "moreToExplore" },
+  { icon: "star-outline", key: "saveWhatMoves" },
+  { icon: "earth-outline", key: "crisisRegion" },
 ];
 
 export default function OnboardingTour({ visible, onFinish }) {
@@ -24,7 +25,7 @@ export default function OnboardingTour({ visible, onFinish }) {
   const [step, setStep] = useState(0);
 
   const STEPS = STEP_KEYS.map((s) => ({
-    emoji: s.emoji,
+    icon: s.icon,
     title: t(`tour.steps.${s.key}.title`),
     text: t(`tour.steps.${s.key}.text`),
   }));
@@ -61,7 +62,7 @@ export default function OnboardingTour({ visible, onFinish }) {
             <Text style={styles.skipBtnText}>{t("tour.skip")}</Text>
           </TouchableOpacity>
 
-          <Text style={styles.emoji}>{current.emoji}</Text>
+          <Ionicons name={current.icon} size={34} color={colors.sageDark} style={styles.emoji} />
           <Text style={styles.title}>{current.title}</Text>
           <Text style={styles.text}>{current.text}</Text>
 
@@ -105,7 +106,7 @@ function getStyles(colors, shadow) {
     },
     skipBtn: { alignSelf: "flex-end", marginBottom: 4 },
     skipBtnText: { fontSize: 13, fontWeight: "600", color: colors.textSoft },
-    emoji: { fontSize: 34, marginBottom: 10 },
+    emoji: { marginBottom: 10 },
     title: {
       fontSize: 18,
       fontWeight: "700",

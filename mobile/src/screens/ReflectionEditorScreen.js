@@ -15,6 +15,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticSuccess, hapticTap } from "../haptics";
 
@@ -108,7 +109,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.field}>
           <View style={styles.fieldHead}>
-            <Text style={styles.fieldEmoji}>💭</Text>
+            <Ionicons name="chatbox-ellipses-outline" size={16} color={colors.sageDark} />
             <Text style={styles.fieldTitle}>{t("today.reflect.heartTitle")}</Text>
           </View>
           <TextInput
@@ -124,7 +125,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
 
         <View style={styles.field}>
           <View style={styles.fieldHead}>
-            <Text style={styles.fieldEmoji}>🤝</Text>
+            <FontAwesome5 name="handshake" size={14} color={colors.sageDark} solid />
             <Text style={styles.fieldTitle}>{t("today.reflect.momentTitle")}</Text>
           </View>
           <TextInput
@@ -140,7 +141,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
 
         <View style={styles.field}>
           <View style={styles.fieldHead}>
-            <Text style={styles.fieldEmoji}>💛</Text>
+            <Ionicons name="heart" size={16} color={colors.goldText} />
             <Text style={styles.fieldTitle}>{t("today.reflect.kindnessTitle")}</Text>
           </View>
           <TextInput
@@ -210,7 +211,6 @@ function getStyles(colors) {
     body: { padding: 18, paddingBottom: 44 },
     field: { marginBottom: 18 },
     fieldHead: { flexDirection: "row", alignItems: "center", gap: 7, marginBottom: 9 },
-    fieldEmoji: { fontSize: 15 },
     fieldTitle: { fontSize: 14, fontWeight: "700", color: colors.text, flex: 1 },
     textArea: {
       backgroundColor: colors.input,

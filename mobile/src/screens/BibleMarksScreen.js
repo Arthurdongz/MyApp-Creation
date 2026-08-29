@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { getChapter } from "../bibleLookup";
 import { hapticTap } from "../haptics";
@@ -88,8 +89,8 @@ export default function BibleMarksScreen({ onClose }) {
                   </Text>
                   <View style={styles.rowBadges}>
                     {item.color ? <View style={[styles.colorDot, { backgroundColor: HIGHLIGHT_SWATCH_COLORS[item.color] }]} /> : null}
-                    {item.bookmark ? <Text style={styles.badgeIcon}>🔖</Text> : null}
-                    {item.note ? <Text style={styles.badgeIcon}>📝</Text> : null}
+                    {item.bookmark ? <Ionicons name="bookmark" size={13} color={colors.sageDark} /> : null}
+                    {item.note ? <Ionicons name="create-outline" size={13} color={colors.sageDark} /> : null}
                   </View>
                 </View>
                 <Text style={styles.rowText} numberOfLines={2}>
@@ -161,7 +162,6 @@ function getStyles(colors) {
     rowRef: { fontSize: 14, fontWeight: "700", color: colors.sageDark },
     rowBadges: { flexDirection: "row", alignItems: "center", gap: 6 },
     colorDot: { width: 12, height: 12, borderRadius: 6 },
-    badgeIcon: { fontSize: 13 },
     rowText: { fontSize: 14, lineHeight: 20, color: colors.text },
   });
 }

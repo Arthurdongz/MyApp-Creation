@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Clipboard, Modal, ScrollView, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
 import KJV_TEXT from "../data/bible-kjv.json";
@@ -346,8 +347,18 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                     <Text style={[styles.verseLine, mark?.underline && styles.verseLineUnderlined]}>
                       <Text style={styles.verseNum}>{v.verse} </Text>
                       {v.text}
-                      {mark?.bookmark ? <Text style={styles.noteIndicator}> 🔖</Text> : null}
-                      {mark?.note ? <Text style={styles.noteIndicator}> 📝</Text> : null}
+                      {mark?.bookmark ? (
+                        <>
+                          {" "}
+                          <Ionicons name="bookmark" size={12} color={colors.sageDark} />
+                        </>
+                      ) : null}
+                      {mark?.note ? (
+                        <>
+                          {" "}
+                          <Ionicons name="create-outline" size={12} color={colors.sageDark} />
+                        </>
+                      ) : null}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -424,13 +435,13 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                   </Text>
                   <View style={styles.markToolbarActions}>
                     <TouchableOpacity onPress={handleCopy} accessibilityRole="button" accessibilityLabel={t("today.confession.copyVerse")} style={styles.iconBtn}>
-                      <Text style={styles.iconBtnText}>📋</Text>
+                      <Ionicons name="copy-outline" size={20} color={colors.sageDark} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleShare} accessibilityRole="button" accessibilityLabel={t("today.confession.shareVerse")} style={styles.iconBtn}>
-                      <Text style={styles.iconBtnText}>📤</Text>
+                      <Ionicons name="share-outline" size={20} color={colors.sageDark} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={openNoteEditor} accessibilityRole="button" accessibilityLabel={t("today.confession.addNote")} style={styles.iconBtn}>
-                      <Text style={styles.iconBtnText}>📝</Text>
+                      <Ionicons name="create-outline" size={20} color={colors.sageDark} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={applyBookmark}
@@ -439,7 +450,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                       accessibilityState={{ selected: allBookmarked }}
                       style={[styles.iconBtn, allBookmarked && styles.iconBtnActive]}
                     >
-                      <Text style={styles.iconBtnText}>🔖</Text>
+                      <Ionicons name={allBookmarked ? "bookmark" : "bookmark-outline"} size={20} color={colors.sageDark} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => setColorPickerOpen(true)}
@@ -448,7 +459,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                       accessibilityState={{ selected: !!commonColor || allUnderlined }}
                       style={[styles.iconBtn, (!!commonColor || allUnderlined) && styles.iconBtnActive]}
                     >
-                      <Text style={styles.iconBtnText}>⭐</Text>
+                      <Ionicons name="color-palette-outline" size={20} color={colors.sageDark} />
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -665,7 +676,6 @@ function getStyles(colors, shadow) {
     omittedNote: { fontSize: 14, lineHeight: 22, color: colors.textSoft, fontStyle: "italic" },
     verseLineUnderlined: { textDecorationLine: "underline" },
     verseNum: { fontSize: 12, fontWeight: "700", color: colors.sage },
-    noteIndicator: { fontSize: 12 },
     navRow: {
       flexDirection: "row",
       justifyContent: "space-between",

@@ -1,5 +1,6 @@
 import { Modal, Share, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
@@ -43,17 +44,17 @@ export default function MenuModal({ visible, onClose, onSettings, onBible, onBib
           </View>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onSettings)} accessibilityRole="button">
-            <Text style={styles.itemIcon}>⚙️</Text>
+            <Ionicons name="settings-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("settings.title")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onBible)} accessibilityRole="button">
-            <Text style={styles.itemIcon}>📖</Text>
+            <Ionicons name="book-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("bibleBrowser.title")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onBibleMarks)} accessibilityRole="button">
-            <Text style={styles.itemIcon}>🔖</Text>
+            <Ionicons name="bookmark-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("bibleMarks.title")}</Text>
           </TouchableOpacity>
 
@@ -62,12 +63,12 @@ export default function MenuModal({ visible, onClose, onSettings, onBible, onBib
             onPress={() => handle(() => shareApp(t))}
             accessibilityRole="button"
           >
-            <Text style={styles.itemIcon}>↗</Text>
+            <Ionicons name="share-social-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("menu.shareApp")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onAbout)} accessibilityRole="button">
-            <Text style={styles.itemIcon}>ℹ️</Text>
+            <Ionicons name="information-circle-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("menu.about")}</Text>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -123,7 +124,6 @@ function getStyles(colors, shadow) {
       paddingHorizontal: 16,
       marginBottom: 10,
     },
-    itemIcon: { fontSize: 18 },
     itemLabel: { fontSize: 15, fontWeight: "600", color: colors.text },
   });
 }

@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { sendChatMessage } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
@@ -202,7 +203,7 @@ export default function ChatScreen({ store, onClose }) {
                 accessibilityLabel={t("chat.historyLabel")}
                 accessibilityRole="button"
               >
-                <Text style={styles.iconBtnText}>🕘</Text>
+                <Ionicons name="time-outline" size={16} color={colors.sageDark} />
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Speech from "expo-speech";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { checkForUpdateManually } from "../updates";
@@ -310,24 +311,24 @@ export default function SettingsScreen({ store, onClose }) {
   const MENU_ITEMS = [
     {
       key: "appearance",
-      emoji: "🎨",
+      icon: "color-palette-outline",
       title: t("settings.appearanceTitle"),
       subtitle: mode === "dark" ? t("settings.subtitleDark") : t("settings.subtitleLight"),
     },
-    { key: "bibleVersion", emoji: "📖", title: t("settings.bibleVersionTitle"), subtitle: bibleVersionSubtitle },
-    { key: "crisisRegion", emoji: "🌍", title: t("settings.crisisRegionTitle"), subtitle: crisisRegionSubtitle },
-    { key: "voiceSpeech", emoji: "🔊", title: t("settings.voiceSpeechTitle"), subtitle: selectedVoiceName },
+    { key: "bibleVersion", icon: "book-outline", title: t("settings.bibleVersionTitle"), subtitle: bibleVersionSubtitle },
+    { key: "crisisRegion", icon: "earth-outline", title: t("settings.crisisRegionTitle"), subtitle: crisisRegionSubtitle },
+    { key: "voiceSpeech", icon: "volume-high-outline", title: t("settings.voiceSpeechTitle"), subtitle: selectedVoiceName },
     ...(notificationsSupported
       ? [
           {
             key: "reminders",
-            emoji: "⏰",
+            icon: "alarm-outline",
             title: t("settings.remindersTitle"),
             subtitle: t("settings.remindersSummary", { count: remindersOnCount, total: 4 }),
           },
         ]
       : []),
-    { key: "backup", emoji: "💾", title: t("settings.backupTitle"), subtitle: backupSubtitle },
+    { key: "backup", icon: "save-outline", title: t("settings.backupTitle"), subtitle: backupSubtitle },
   ];
 
   const headerTitle = section ? MENU_ITEMS.find((item) => item.key === section)?.title : t("settings.title");
@@ -368,7 +369,7 @@ export default function SettingsScreen({ store, onClose }) {
               accessibilityRole="button"
               accessibilityLabel={`${item.title}. ${item.subtitle}`}
             >
-              <Text style={styles.menuEmoji}>{item.emoji}</Text>
+              <Ionicons name={item.icon} size={20} color={colors.sageDark} style={styles.menuEmoji} />
               <View style={styles.menuTextWrap}>
                 <Text style={styles.menuTitle}>{item.title}</Text>
                 {item.subtitle ? (
@@ -388,7 +389,7 @@ export default function SettingsScreen({ store, onClose }) {
             accessibilityRole="button"
             accessibilityLabel={`${t("settings.checkUpdatesTitle")}. ${t("settings.checkUpdatesSubtitle")}`}
           >
-            <Text style={styles.menuEmoji}>🔄</Text>
+            <Ionicons name="refresh-outline" size={20} color={colors.sageDark} style={styles.menuEmoji} />
             <View style={styles.menuTextWrap}>
               <Text style={styles.menuTitle}>{t("settings.checkUpdatesTitle")}</Text>
               <Text style={styles.menuSubtitle} numberOfLines={1}>
@@ -413,7 +414,7 @@ export default function SettingsScreen({ store, onClose }) {
             accessibilityLabel={mode === "dark" ? t("settings.switchToLight") : t("settings.switchToDark")}
             accessibilityRole="button"
           >
-            <Text style={styles.themeBtnText}>{mode === "dark" ? "☀️" : "🌙"}</Text>
+            <Ionicons name={mode === "dark" ? "sunny" : "moon"} size={16} color={colors.sageDark} />
           </TouchableOpacity>
         </View>
       ) : null}
@@ -850,7 +851,7 @@ function getStyles(colors, shadow) {
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
-    menuEmoji: { fontSize: 20, width: 32 },
+    menuEmoji: { width: 32 },
     menuTextWrap: { flex: 1 },
     menuTitle: { fontSize: 15, fontWeight: "600", color: colors.text },
     menuSubtitle: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
@@ -872,7 +873,6 @@ function getStyles(colors, shadow) {
       alignItems: "center",
       justifyContent: "center",
     },
-    themeBtnText: { fontSize: 16 },
     settingsCard: {
       backgroundColor: colors.card,
       borderWidth: 1,

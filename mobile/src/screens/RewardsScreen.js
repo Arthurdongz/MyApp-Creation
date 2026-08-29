@@ -5,6 +5,7 @@ import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
 import SharePreviewModal from "../components/SharePreviewModal";
 import YearReviewCard from "../components/YearReviewCard";
+import AppIcon from "../components/AppIcon";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -118,7 +119,14 @@ export default function RewardsScreen({ store }) {
               accessible
               accessibilityLabel={`${b.name}, ${b.desc}${earned ? "" : t("rewards.badgeLockedSuffix")}`}
             >
-              <Text style={styles.badgeIcon}>{b.icon}</Text>
+              <AppIcon
+                set={b.icon.set}
+                name={b.icon.name}
+                solid={b.icon.solid}
+                size={24}
+                color={colors.goldText}
+                style={styles.badgeIcon}
+              />
               <Text style={styles.badgeName}>{b.name}</Text>
               <Text style={styles.badgeDesc}>{b.desc}</Text>
             </View>
@@ -239,7 +247,7 @@ function getStyles(colors, shadow) {
       ...shadow,
     },
     badgeLocked: { opacity: 0.4 },
-    badgeIcon: { fontSize: 24, marginBottom: 6 },
+    badgeIcon: { marginBottom: 6 },
     badgeName: { fontSize: 13, fontWeight: "700", color: colors.sageDark, textAlign: "center" },
     badgeDesc: { fontSize: 11, color: colors.textSoft, marginTop: 2, textAlign: "center" },
     moodGrid: {

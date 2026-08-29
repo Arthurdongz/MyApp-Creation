@@ -17,6 +17,7 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import * as Notifications from "expo-notifications";
+import { Ionicons } from "@expo/vector-icons";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
@@ -247,13 +248,15 @@ function AppContent({ store }) {
                   onPress={() => setShowMenu(true)}
                   accessibilityLabel={t("app.menu")}
                 >
-                  <Text style={styles.themeToggleText}>☰</Text>
+                  <Ionicons name="menu-outline" size={18} color={colors.sageDark} />
                 </TouchableOpacity>
-                <View style={styles.stat}>
-                  <Text style={styles.statText}>⭐ {store.totalStars}</Text>
+                <View style={[styles.stat, styles.statRow]}>
+                  <Ionicons name="star" size={14} color={colors.goldText} />
+                  <Text style={styles.statText}>{store.totalStars}</Text>
                 </View>
-                <View style={styles.stat}>
-                  <Text style={styles.statText}>🔥 {store.streak}</Text>
+                <View style={[styles.stat, styles.statRow]}>
+                  <Ionicons name="flame" size={14} color={colors.goldText} />
+                  <Text style={styles.statText}>{store.streak}</Text>
                 </View>
               </View>
             </View>
@@ -332,7 +335,7 @@ function AppContent({ store }) {
             accessibilityRole="button"
             accessibilityLabel={t("app.chatFab")}
           >
-            <Text style={styles.chatFabIcon}>💬</Text>
+            <Ionicons name="chatbubble-ellipses" size={26} color={colors.buttonOnText} />
           </TouchableOpacity>
         ) : null}
 
@@ -373,7 +376,6 @@ function getStyles(colors, shadow) {
       alignItems: "center",
       justifyContent: "center",
     },
-    themeToggleText: { fontSize: 14 },
     stat: {
       backgroundColor: colors.card,
       borderWidth: 1,
@@ -382,6 +384,7 @@ function getStyles(colors, shadow) {
       paddingVertical: 6,
       paddingHorizontal: 12,
     },
+    statRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     statText: { fontWeight: "700", fontSize: 13, color: colors.text },
     tabsScroll: { marginBottom: 20 },
     tabs: {
@@ -422,6 +425,5 @@ function getStyles(colors, shadow) {
       justifyContent: "center",
       ...shadow,
     },
-    chatFabIcon: { fontSize: 24 },
   });
 }

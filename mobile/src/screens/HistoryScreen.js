@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 
@@ -96,7 +97,7 @@ export default function HistoryScreen({ store, onOpenReflection }) {
         accessibilityLabel={t("history.writeToday.label")}
       >
         <View style={styles.writeTodayLeft}>
-          <Text style={styles.writeTodayEmoji}>📝</Text>
+          <Ionicons name="create-outline" size={20} color={colors.sageDark} />
           <View style={{ flex: 1 }}>
             <Text style={styles.writeTodayTitle}>{t("history.writeToday.title")}</Text>
             <Text style={styles.writeTodaySub} numberOfLines={1}>
@@ -186,7 +187,6 @@ function getStyles(colors, shadow) {
       ...shadow,
     },
     writeTodayLeft: { flexDirection: "row", alignItems: "center", gap: 12, flex: 1 },
-    writeTodayEmoji: { fontSize: 20 },
     writeTodayTitle: { fontSize: 14.5, fontWeight: "700", color: colors.buttonOnText },
     writeTodaySub: { fontSize: 12, color: colors.buttonOnText, opacity: 0.85, marginTop: 2 },
     writeTodayArrow: { fontSize: 20, fontWeight: "700", color: colors.buttonOnText },

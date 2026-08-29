@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
@@ -345,7 +346,8 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
               accessibilityRole="button"
               accessibilityLabel={crisisResource.callLabel}
             >
-              <Text style={styles.secondaryButtonText}>📞 {crisisResource.callLabel}</Text>
+              <Ionicons name="call-outline" size={15} color={colors.sageDark} />
+              <Text style={styles.secondaryButtonText}>{crisisResource.callLabel}</Text>
             </TouchableOpacity>
           ) : null}
         </>
@@ -474,12 +476,16 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
         </View>
         <View style={styles.heroSectionGroupHeader}>
           <View style={styles.heroTitleWrap}>
-            <Text style={styles.heroIcon}>🤝</Text>
+            <FontAwesome5 name="handshake" size={18} color={colors.sageDark} solid />
             <Text style={styles.heroSectionTitle}>{t("today.moment.sectionTitle")}</Text>
           </View>
           {streak > 1 ? (
-            <View style={styles.streakChip} accessibilityLabel={t("today.moment.streakChipLabel", { count: streak })}>
-              <Text style={styles.streakChipText}>🔥 {streak}</Text>
+            <View
+              style={[styles.streakChip, styles.streakChipRow]}
+              accessibilityLabel={t("today.moment.streakChipLabel", { count: streak })}
+            >
+              <Ionicons name="flame" size={13} color={colors.sageDark} />
+              <Text style={styles.streakChipText}>{streak}</Text>
             </View>
           ) : null}
         </View>
@@ -765,7 +771,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           Encouraging Thought collapse to a one-line preview. */}
       <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
-          <Text style={styles.sectionGroupIcon}>📖</Text>
+          <Ionicons name="book-outline" size={16} color={colors.sageDark} />
           <Text style={styles.sectionGroupTitle}>{t("today.reading.sectionTitle")}</Text>
         </View>
 
@@ -817,7 +823,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             accessibilityState={{ expanded: confessionOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
-              <Text style={styles.accordionEmoji}>🗣️</Text>
+              <Ionicons name="megaphone-outline" size={16} color={colors.text} />
               <Text style={styles.accordionRowTitle}>{t("today.confession.title")}</Text>
             </View>
             <Text style={[styles.accordionChevron, confessionOpen && styles.accordionChevronOpen]}>›</Text>
@@ -875,7 +881,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             accessibilityState={{ expanded: wordOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
-              <Text style={styles.accordionEmoji}>💛</Text>
+              <Ionicons name="heart" size={16} color={colors.goldText} />
               <Text style={styles.accordionRowTitle}>{t("today.word.title")}</Text>
             </View>
             <Text style={[styles.accordionChevron, wordOpen && styles.accordionChevronOpen]}>›</Text>
@@ -960,7 +966,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             accessibilityState={{ expanded: thoughtOpen }}
           >
             <View style={styles.accordionRowTitleWrap}>
-              <Text style={styles.accordionEmoji}>✨</Text>
+              <Ionicons name="sparkles-outline" size={16} color={colors.text} />
               <Text style={styles.accordionRowTitle}>{t("today.thought.title")}</Text>
             </View>
             <Text style={[styles.accordionChevron, thoughtOpen && styles.accordionChevronOpen]}>›</Text>
@@ -996,7 +1002,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
       {showSupportSection ? (
         <View style={styles.sectionGroup}>
           <View style={styles.sectionGroupHeader}>
-            <Text style={styles.sectionGroupIcon}>💬</Text>
+            <Ionicons name="chatbubbles-outline" size={16} color={colors.sageDark} />
             <Text style={styles.sectionGroupTitle}>{t("today.support.sectionTitle")}</Text>
           </View>
           <View style={[styles.unifiedCard, styles.supportCard]}>
@@ -1026,7 +1032,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           screen is currently viewing. */}
       <View style={styles.sectionGroup}>
         <View style={styles.sectionGroupHeader}>
-          <Text style={styles.sectionGroupIcon}>📝</Text>
+          <Ionicons name="create-outline" size={16} color={colors.sageDark} />
           <Text style={styles.sectionGroupTitle}>
             {isToday
               ? t("today.reflect.sectionTitleToday")
@@ -1044,7 +1050,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           <Card>
             <View style={styles.reflectTeaserRow}>
               <View style={styles.reflectTeaserLeft}>
-                <Text style={styles.reflectTeaserEmoji}>💛</Text>
+                <Ionicons name="heart" size={20} color={colors.goldText} />
                 <Text style={styles.reflectTeaserText} numberOfLines={2}>
                   {today.reflection || today.barnabasNote || today.receivedKindness
                     ? truncateForPreview(today.reflection || today.barnabasNote || today.receivedKindness)
@@ -1103,7 +1109,6 @@ function getStyles(colors) {
       marginBottom: 8,
       marginLeft: 2,
     },
-    sectionGroupIcon: { fontSize: 15 },
     sectionGroupTitle: { fontSize: 14, fontWeight: "700", color: colors.sageDark },
     unifiedCard: {
       borderWidth: 1,
@@ -1178,7 +1183,6 @@ function getStyles(colors) {
       marginLeft: 2,
     },
     heroTitleWrap: { flexDirection: "row", alignItems: "center", gap: 8 },
-    heroIcon: { fontSize: 20 },
     heroSectionTitle: { fontSize: 18, fontWeight: "800", color: colors.sageDark },
     heroTallyText: {
       fontSize: 13,
@@ -1194,6 +1198,7 @@ function getStyles(colors) {
       paddingVertical: 4,
       paddingHorizontal: 10,
     },
+    streakChipRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     streakChipText: { fontSize: 12.5, fontWeight: "700", color: colors.sageDark },
     storyTieInRow: {
       flexDirection: "row",
@@ -1402,6 +1407,8 @@ function getStyles(colors) {
     intentionText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
     intentionChange: { fontSize: 12, color: colors.textSoft, textDecorationLine: "underline" },
     secondaryButton: {
+      flexDirection: "row",
+      gap: 6,
       borderWidth: 1,
       borderColor: colors.sage,
       borderRadius: 12,
@@ -1449,7 +1456,6 @@ function getStyles(colors) {
       gap: 9,
       flex: 1,
     },
-    accordionEmoji: { fontSize: 15 },
     accordionRowTitle: { flex: 1, fontSize: 13.5, fontWeight: "600", color: colors.text },
     accordionChevron: { fontSize: 16, color: colors.textSoft },
     accordionChevronOpen: { transform: [{ rotate: "90deg" }] },
@@ -1471,7 +1477,6 @@ function getStyles(colors) {
       gap: 10,
     },
     reflectTeaserLeft: { flexDirection: "row", alignItems: "center", gap: 10, flex: 1 },
-    reflectTeaserEmoji: { fontSize: 20 },
     reflectTeaserText: { flex: 1, fontSize: 13.5, fontWeight: "600", color: colors.text },
     reflectTeaserArrow: { fontSize: 20, color: colors.sage, fontWeight: "700" },
   });
