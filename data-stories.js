@@ -712,4 +712,114 @@ const STORIES = [
     text: "Scott Harrison spent his twenties as a nightclub promoter in New York City before a volunteer trip to Liberia showed him communities where people were drinking from swamps and rivers because they had no other water source. He founded charity: water in 2006 with a rule that every cent of public donations goes directly to water projects, funding overhead separately, and the organization has since funded clean water access for more than seventeen million people across dozens of countries.",
     insight: "Harrison has said he spent his first career profiting off of people's worst nights and wanted his second one to be measured by something he could actually verify — which is part of why charity: water publishes GPS coordinates and photos of nearly every well it funds. Millions of people now have clean water because a nightclub promoter decided the cost of proving it was worth paying.",
   },
+  {
+    title: "Decades to Win One Vote",
+    text: "British politician William Wilberforce first introduced a bill to abolish the British slave trade in 1791 and was defeated. He kept introducing it, year after year, facing ridicule and failure for nearly two decades, until Parliament finally banned the slave trade in 1807, and he spent the rest of his life pushing to abolish slavery itself throughout the British Empire. He died in 1833, just three days after hearing that the bill guaranteeing that final abolition would pass.",
+    insight: "Wilberforce spent most of his adult life on a cause that, for decades, showed no sign of ever succeeding — defeated in Parliament again and again with nothing to show for it but more years spent trying. He got to hear, in his last days, that it had finally worked, which is more than most people who spend a lifetime on a losing cause ever get.",
+  },
+  {
+    title: "The Pastor Who Wouldn't Stay Quiet",
+    text: "German pastor and theologian Dietrich Bonhoeffer publicly opposed the Nazi regime from its earliest days, helped Jewish people escape Germany through an underground network, and eventually joined a resistance plot against Hitler despite his own commitment to nonviolence. He was arrested in 1943, imprisoned for two years, and executed by hanging just weeks before the war in Europe ended, at thirty-nine years old.",
+    insight: "Bonhoeffer could have stayed safely abroad — he was in the United States when the war began and chose to return to Germany specifically to share in what his own people were going through. He was executed so close to the war's end that a delay of even a few weeks would have meant survival, a fact his own prison guards later found hard to reconcile with how calmly he faced it.",
+  },
+  {
+    title: "Six Leaflets and a Trial That Took Days",
+    text: "Sophie Scholl was a 21-year-old German student who, with her brother and a small group of friends, secretly wrote and distributed leaflets denouncing the Nazi regime and calling for resistance, at a time when doing so was punishable by death. She was arrested in February 1943 after being seen dropping leaflets at her university, and was executed by guillotine just four days later after a trial that lasted only a few hours.",
+    insight: "Scholl reportedly stayed calm and unwavering through her interrogation and trial, telling her interrogator that what she had done, someone else needed to do eventually. She never lived to see any result of the resistance she took part in — only the near-certainty, from the moment of her arrest, of exactly how it would end for her.",
+  },
+  {
+    title: "Living Among the People She Served",
+    text: "Dorothy Day co-founded the Catholic Worker Movement in 1933, opening houses of hospitality that fed, clothed, and sheltered the poor and homeless in the middle of the Great Depression. Rather than running the houses from a distance, she chose to live in voluntary poverty alongside the people she served for the rest of her life, and the movement she started has since grown to more than a hundred communities still operating the same way today.",
+    insight: "Day had opportunities throughout her life to live more comfortably than the people she served, and consistently chose not to, on the theory that hospitality meant sharing a life, not just providing a service. Decades after her death, houses she inspired are still run on the same premise: that the best way to help the poor is to actually live among them.",
+  },
+  {
+    title: "The Lamp in the Ward at Night",
+    text: "Florence Nightingale volunteered to lead a team of nurses to army hospitals during the Crimean War in 1854, where wounded soldiers were dying in far greater numbers from infection and unsanitary conditions than from battle wounds. She reorganized the hospitals around basic hygiene and nutrition, personally walked the wards checking on patients by lamplight at night, and within months had dramatically reduced the death rate, later using the data she'd kept to reform nursing and hospital sanitation standards across Britain.",
+    insight: "Nightingale came from a wealthy family that expected her to marry rather than nurse strangers in a war zone, and pushed past that expectation to spend months in conditions that made her seriously ill for the rest of her life. She kept meticulous statistics through it all, understanding that saving future patients would take more than good intentions — it would take proof.",
+  },
+  {
+    title: "Reading to the Women in Newgate",
+    text: "British Quaker Elizabeth Fry visited London's Newgate Prison in 1813 and found women and children held in filthy, overcrowded cells with no separation from violent offenders, no education, and no productive work. She began visiting regularly to read scripture, organize schooling for the children held there, and teach the women sewing skills they could use to earn a living after release, eventually founding a prison-visiting society that helped reshape how Britain treated incarcerated women nationwide.",
+    insight: "Fry started by simply showing up to a place polite society preferred to ignore entirely, at a time when prison reform wasn't yet a cause anyone respectable took seriously. Her sustained, repeated presence in that one prison eventually became the basis for national reform, a reminder that showing up consistently to an overlooked place can outlast a single grand gesture.",
+  },
+  {
+    title: "The Slave Ship Captain Who Wrote \"Amazing Grace\"",
+    text: "John Newton spent years as the captain of ships transporting enslaved people across the Atlantic before a religious conversion during a violent storm at sea led him to eventually leave the slave trade entirely. He became a minister and, decades later, a vocal supporter of the British abolitionist movement, providing firsthand testimony to Parliament about the horrors of the trade he had once been part of, and writing the hymn \"Amazing Grace\" about his own transformation.",
+    insight: "Newton spent the rest of his life reckoning publicly with a past he could never undo, using his own firsthand account of the slave trade's cruelty as testimony against it rather than trying to quietly outlive the shame of it. He remained active supporting the abolition movement into his eighties, living just long enough to see the British slave trade finally abolished in 1807.",
+  },
+  {
+    title: "Never Asking Anyone but God",
+    text: "George Müller, a German-born Christian living in Bristol, England, founded orphanages in the 1830s that would eventually care for over ten thousand orphaned children throughout his lifetime, with a firm personal rule that he would never ask any person directly for money, publicize the orphanages' financial needs, or go into debt — only pray, and record when needs were unexpectedly met. By the time of his death, the orphanages had received the equivalent of millions of dollars in unsolicited donations.",
+    insight: "Müller kept detailed records for decades specifically so people couldn't dismiss the pattern as coincidence — meals arriving with empty pantries, rent paid on the exact day it was due, again and again, across fifty years and thousands of children. Whether or not a reader shares his framework for why it worked, the orphans who were fed and housed were real, and so was however it kept happening.",
+  },
+  {
+    title: "Seventy-Five Men, No Weapon",
+    text: "Desmond Doss was a devout Seventh-day Adventist drafted into the US Army during World War II who refused to carry a weapon on religious grounds but volunteered to serve as a combat medic, facing ridicule and abuse from fellow soldiers who doubted his courage. During the brutal Battle of Okinawa in 1945, he single-handedly rescued an estimated seventy-five wounded soldiers from an exposed ridge under heavy enemy fire, lowering each one down a cliff face by rope, all without ever touching a weapon himself.",
+    insight: "Doss endured harassment from his own unit for refusing to carry a gun long before anyone had reason to see what he'd actually do under fire. He became the first conscientious objector in American history to receive the Medal of Honor, for exactly the kind of courage the people mocking him had assumed he didn't have.",
+  },
+  {
+    title: "The Cyclist Who Trained With Secrets in His Bike",
+    text: "Italian cycling champion Gino Bartali used his ongoing training rides during World War II as cover to secretly transport forged identity documents hidden inside his bicycle's frame and handlebars, helping an estimated several hundred Jewish refugees in Italy obtain false papers and escape deportation. He never spoke publicly about it during his lifetime, and the full extent of what he'd done only became widely known after his death, through the research of historians and his own family's records.",
+    insight: "Bartali reportedly told his son that some good deeds are meant to stay between you and God, and that talking about them would \"take away from the merit.\" He was formally recognized as Righteous Among the Nations by Israel's Holocaust remembrance authority decades after the war — an honor he never lived to receive, having kept the secret all the way to his death in 2000.",
+  },
+  {
+    title: "The Doctor Who Tried to Warn Everyone",
+    text: "Li Wenliang was a Chinese ophthalmologist in Wuhan who, in December 2019, warned colleagues in a private chat group about a cluster of pneumonia cases resembling SARS, urging them to take precautions. Local police reprimanded him for \"spreading rumors\" and forced him to sign a statement admitting wrongdoing, weeks before the outbreak was publicly acknowledged as what became the COVID-19 pandemic. He continued treating patients afterward and contracted the virus himself, dying in February 2020 at thirty-three.",
+    insight: "Li was punished for saying, early and privately, exactly what turned out to be true, and never lived to see himself publicly cleared and hailed as a whistleblower whose warning should have been heeded sooner. His death made him, to many people far beyond Wuhan, the face of what it costs to tell an inconvenient truth before anyone in power is ready to hear it.",
+  },
+  {
+    title: "Building Houses Into His Nineties",
+    text: "After losing his re-election bid in 1980, former US President Jimmy Carter spent much of the next four decades personally swinging a hammer alongside volunteers for Habitat for Humanity, building and renovating homes for low-income families in the United States and abroad well into his nineties. He and his wife Rosalynn also founded the Carter Center, which worked to nearly eliminate Guinea worm disease worldwide and monitored elections in dozens of countries.",
+    insight: "Carter is often remembered for the decades of hands-on humanitarian work that followed his presidency more than for the presidency itself, having chosen to spend his post-political life doing physical labor alongside ordinary volunteers rather than the usual post-presidential circuit. He died in 2024 at one hundred years old, having kept building houses for as long as his health allowed.",
+  },
+  {
+    title: "The Sisters Who Picked Up the Dying",
+    text: "Mother Teresa, an Albanian Catholic nun living in Calcutta, left her position teaching at a convent school in 1948 to work directly among the city's poorest residents, eventually founding the Missionaries of Charity to care for the sick, the dying, and the abandoned that other institutions turned away. Her sisters became known for gathering people dying alone in the streets and bringing them somewhere to be cared for and treated with dignity in their final days, regardless of their ability to recover.",
+    insight: "Mother Teresa's organization didn't focus on curing people — many of those brought in were beyond medical help — but on making sure no one died utterly alone and unwashed on a street corner. She built an institution around the idea that a dignified death mattered even when a cure wasn't possible, a distinction easy to overlook when most charity is measured by outcomes rather than presence.",
+  },
+  {
+    title: "Restoring Sight for the Price of a Meal",
+    text: "Australian ophthalmologist Fred Hollows spent much of his later career developing low-cost cataract surgery techniques and manufacturing affordable intraocular lenses specifically so that blindness caused by treatable cataracts wouldn't remain a life sentence for people too poor to afford Western-priced surgery. He personally performed and trained others to perform the surgery across Nepal, Eritrea, Vietnam, and Indigenous communities in his own country, and the foundation he started has since restored sight to millions of people in developing countries.",
+    insight: "Hollows deliberately worked to make the lenses and surgery cheap enough that a whole country's health system could afford them, rather than treating a smaller number of patients at Western prices. He died of cancer in 1993, but the foundation he built kept scaling the model he insisted was possible, restoring sight for a fraction of what it costs almost anywhere else in the world.",
+  },
+  {
+    title: "Forty Million Trees Later",
+    text: "Kenyan environmentalist Wangari Maathai founded the Green Belt Movement in 1977, organizing rural women to plant trees to combat deforestation, soil erosion, and fuel shortages, while also giving the women involved a source of income and a stronger voice in their communities. The movement grew to plant more than fifty million trees across Kenya over the following decades, and in 2004 Maathai became the first African woman to win the Nobel Peace Prize, for work that had started as a simple response to women telling her their streams were drying up.",
+    insight: "Maathai was arrested and beaten more than once by a government that saw her tree-planting campaign as a political threat, since organizing rural women at all was itself an act the authorities didn't want to see succeed. She kept going anyway, and the movement outlived the political opposition to it, eventually earning international recognition for exactly the work that had once gotten her arrested.",
+  },
+  {
+    title: "Seven People, Ninety-One Days, One Bathroom",
+    text: "Immaculée Ilibagiza was a Rwandan university student in 1994 when a local pastor hid her and seven other Tutsi women in his cramped bathroom for ninety-one days during the Rwandan genocide, while militias searching for them repeatedly passed within feet of where they hid in near silence. Most of her family was killed during the genocide, yet she later sought out and personally forgave the man responsible for murdering members of her family, a decision she has spoken and written about since as the thing that let her keep living rather than being consumed by hatred.",
+    insight: "Ilibagiza had every reason most people would recognize as justified to hate the man who killed her family, and chose forgiveness instead, not because he deserved it but because she decided she couldn't build a life while carrying that weight. The pastor who hid her risked his own life for ninety-one days for women who had no way to repay him beyond simply surviving because of it.",
+  },
+  {
+    title: "The Man Who Gave a Kidney to a Stranger",
+    text: "American real estate investor Zell Kravinsky donated a kidney in 2003 to a complete stranger he found through a transplant waiting list, reasoning that the statistical risk to himself was so small compared to the certain benefit to someone dying of kidney failure that declining felt indefensible. He had already given away most of a multi-million-dollar fortune to charity before the donation, keeping only enough to modestly support his family.",
+    insight: "Kravinsky's decision unsettled even some people who admired it, since it pushed the logic of generosity further than almost anyone is willing to follow it — most people don't treat a spare kidney as something owed to a stranger. He's said he simply couldn't find a principled reason to keep an organ he didn't need while someone else died waiting for one, and acted on that math rather than letting it stay theoretical.",
+  },
+  {
+    title: "Building the World's Largest Aid Organization From Nothing",
+    text: "Bangladeshi former oil company executive Fazle Hasan Abed quit his job in 1972 to help relief and rehabilitation efforts after Bangladesh's war of independence, founding what became BRAC, an organization that grew over the following decades into the largest non-governmental development organization in the world, reaching well over a hundred million people with programs in health care, education, microfinance, and disaster relief.",
+    insight: "Abed built BRAC on the premise that the poorest people needed practical tools and opportunity more than charity handouts, training local health workers and funding small loans rather than simply distributing aid. He remained largely unknown outside development circles for most of his life despite the scale of what he built, dying in 2019 having reached more people than almost any single individual in modern history, quietly.",
+  },
+  {
+    title: "The Teacher Who Wouldn't Give Up on Water",
+    text: "Anne Sullivan, herself visually impaired from childhood illness, was hired in 1887 to teach six-year-old Helen Keller, who had been left both deaf and blind by an illness in infancy and had no way to communicate beyond frustrated tantrums. Sullivan spent weeks patiently spelling words into Keller's hand before the breakthrough moment at a water pump when Keller finally connected the finger-spelled letters to the water running over her hand, and went on to remain Keller's teacher and companion for nearly fifty years as Keller became a renowned author and activist.",
+    insight: "Sullivan spent weeks getting no visible response before that single breakthrough at the pump, with no guarantee the method would ever work at all. She stayed at Keller's side for the rest of her own life, long after the initial teaching job was technically finished, because the relationship had become more than an assignment.",
+  },
+  {
+    title: "One Thousand, One Hundred and Seventy-Three Donations",
+    text: "Australian James Harrison began donating blood in 1954 after receiving transfusions himself as a teenager during major lung surgery, and discovered his blood contained a rare antibody that could be used to develop a treatment preventing a dangerous immune reaction between pregnant women and their unborn babies. He donated plasma every two weeks for sixty-four years, 1,173 times in total, specifically so the treatment made from his blood would always be available.",
+    insight: "Harrison kept up his donation schedule for over six decades, well past the point of it being remarkable to him personally, because he knew specific babies were alive because of the antibody his blood carried. He's credited with contributing to treatments that protected an estimated 2.4 million babies, nearly all of whom will never know his name.",
+  },
+  {
+    title: "Running Toward the Second Explosion",
+    text: "Carlos Arredondo was a spectator at the finish line of the 2013 Boston Marathon, there to support wounded veterans, when two bombs exploded roughly 200 meters apart. Rather than fleeing, he ran toward the wounded, helping pull down security fencing, tearing clothing to make tourniquets, and helping wheel a critically injured man — who had lost both legs — to medical help, an image captured in a widely published photograph that came to symbolize the day's chaos and courage.",
+    insight: "Arredondo had already survived unimaginable personal tragedy — the deaths of both his sons, one in the Iraq War and one to suicide afterward — before he found himself running toward danger to help strangers. He's said the instinct to help was immediate, without time to calculate the risk of a possible second attack, which is often exactly how these moments go for the people who run toward them instead of away.",
+  },
+  {
+    title: "Talking Him Down, One Sentence at a Time",
+    text: "Antoinette Tuff was a school bookkeeper in Georgia in 2013 when a gunman armed with an assault rifle entered her elementary school, and she found herself alone with him in the front office while police surrounded the building. Rather than panicking, she calmly talked with him for nearly half an hour, sharing her own struggles and telling him she loved him and that it wasn't too late to make a different choice, eventually convincing him to put down his weapon and surrender without a single shot fired.",
+    insight: "Tuff later said she was terrified the entire time and simply kept talking because stopping felt more dangerous than continuing. Every child in that school went home that day in large part because one woman decided a frightened, armed young man was still someone worth trying to reach rather than simply someone to fear.",
+  },
 ];
