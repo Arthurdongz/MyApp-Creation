@@ -80,6 +80,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     settings,
     updateSettings,
     streak,
+    momentsDone,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
@@ -482,6 +483,11 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             </View>
           ) : null}
         </View>
+        {momentsDone > 0 ? (
+          <Text style={styles.heroTallyText}>
+            {t("today.moment.tally", { times: t("rewards.units.time", { count: momentsDone }) })}
+          </Text>
+        ) : null}
         {canCollapseMoment && !momentOpen ? (
           <TouchableOpacity
             style={styles.momentSummaryCard}
@@ -1174,6 +1180,13 @@ function getStyles(colors) {
     heroTitleWrap: { flexDirection: "row", alignItems: "center", gap: 8 },
     heroIcon: { fontSize: 20 },
     heroSectionTitle: { fontSize: 18, fontWeight: "800", color: colors.sageDark },
+    heroTallyText: {
+      fontSize: 13,
+      fontWeight: "600",
+      color: colors.sageDark,
+      marginBottom: 10,
+      marginLeft: 2,
+    },
     streakChip: {
       borderWidth: 1,
       borderColor: colors.sage,

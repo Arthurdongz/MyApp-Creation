@@ -129,6 +129,7 @@
       "celebrateMsg": "🎉 Magnifique — cette bonté a compté. +{{stars}} ⭐ et une série de {{streak}} jours.",
       "inspiredByLabel": "Inspiré par l'histoire du jour :",
       "readStoryLink": "Lire son histoire →",
+      "tally": "💛 Tu as été là pour quelqu'un {{times}} jusqu'ici.",
       "sectionTitle": "Ton Moment Barnabas",
       "summaryLabel": "Le moment Barnabas d'aujourd'hui, fait — touche pour voir",
       "summaryText": "✓ Tu as fait le moment d'aujourd'hui",
