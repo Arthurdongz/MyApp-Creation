@@ -6,9 +6,18 @@
 // the biblical entries, so nothing here should raise copyright or privacy
 // concerns.
 //
-// This bank (100+ entries) is smaller than the app's other 366-entry banks
+// This bank (130+ entries) is smaller than the app's other 366-entry banks
 // for now, and cycles through the user's shuffle order modulo its own length
 // (see pickForDaySmallBank in content.js) until it's been expanded further.
+// Grown incrementally over time — new entries should keep following the
+// same rule above (original wording, well-documented facts) rather than
+// summarizing or lightly rephrasing any single existing account (a news
+// article, a book, a social media post, etc.), which is what actually
+// keeps this copyright-safe. A moving/inspiring story with no verifiable,
+// named, dated source behind it (a common shape for viral "kindness"
+// social media posts) doesn't belong here even if the copyright question
+// is set aside — this bank's stories need to actually be true, not just
+// plausible.
 //
 // Each entry also carries an "insight" — a short reflection on how things
 // actually turned out: the impact, the cost, and (often) why the good still
@@ -592,5 +601,80 @@ const STORIES = [
     title: "For Such a Time as This",
     text: "When a plot arose to destroy the Jewish people across the Persian empire, Esther, a queen who had kept her own identity secret, was reminded by her cousin Mordecai that her position might exist for exactly this moment, and that silence now could cost her own life along with everyone else's. Esther asked her people to fast and pray for her, then risked her life by approaching the king unsummoned, eventually exposing the plot and saving her people. It took someone willing to risk everything, spurred on by one relative's blunt encouragement, to change the outcome for an entire nation.\n\n— Esther 4:13-16",
     insight: "Esther had no guarantee that approaching the king unsummoned wouldn't get her killed — Mordecai's challenge to her wasn't a promise of success, just a hard question about whether her position was worth risking for other people's sake. She said yes before knowing how it would end, and an entire people's survival turned out to hinge on that one decision made in genuine uncertainty.",
+  },
+  {
+    title: "Shot for Going to School",
+    text: "Malala Yousafzai was a Pakistani schoolgirl who had spent years publicly advocating for girls' right to education under a regime that had banned it, when Taliban gunmen boarded her school bus in 2012 and shot her in the head for it. She survived after emergency surgery abroad, and rather than retreating from public life, she resumed her advocacy within months, co-founding the Malala Fund to expand girls' education worldwide and becoming, at seventeen, the youngest person ever awarded the Nobel Peace Prize.",
+    insight: "The attack was meant to silence her and instead made her voice reach further than it ever had before — though that was never a trade she asked for, and no honor afterward undoes what she survived to get it. She's said the bullet only made her more certain of what she'd already decided was worth speaking up for, before anyone was aiming at her for it.",
+  },
+  {
+    title: "The Only Doctor for Half a Million People",
+    text: "American surgeon Tom Catena moved to the Nuba Mountains of Sudan in 2008 to run a rural hospital, and stayed on alone as the only doctor for a region of roughly half a million people even after civil war broke out and government forces began bombing the area, including near his own hospital. He continued operating on war wounded, malaria patients, and everyday emergencies throughout the fighting, sometimes performing surgery by flashlight during air raids rather than evacuate.",
+    insight: "Catena had opportunities to leave when the bombing started and chose to stay, reasoning that a hospital with no doctor helps no one. He's treated tens of thousands of patients most of the outside world will never hear about, in a place most of the world had already stopped watching.",
+  },
+  {
+    title: "Bringing the Clinic to the Mountain",
+    text: "Physician Paul Farmer co-founded Partners In Health in the 1980s with a simple, then-radical premise: that people in the world's poorest communities deserved the same standard of medical care as anyone else, not a scaled-down version of it. He spent decades building hospitals and training local health workers across rural Haiti, then Rwanda, Peru, and beyond, personally treating patients others had written off as too poor or too remote to be worth the cost of curing.",
+    insight: "Farmer was repeatedly told that his standard of care was too expensive to be \"realistic\" for the world's poorest patients, and he built it anyway, community by community, until it wasn't theoretical anymore. He died suddenly in 2022 at a hospital site in Rwanda he'd helped build — the work he insisted was possible had, by then, simply become normal in the places he'd fought hardest for it.",
+  },
+  {
+    title: "The Blood He Carried to the Front",
+    text: "Canadian surgeon Norman Bethune developed one of the first mobile blood transfusion units during the Spanish Civil War, driving blood supplies directly to wounded soldiers near the front lines instead of waiting for them to reach distant hospitals. He later brought the same mobile-surgery methods to China during the Second Sino-Japanese War, operating on wounded soldiers often within earshot of gunfire, until a cut on his hand during surgery became infected and, without access to the medicine that could have saved him, he died at his post.",
+    insight: "Bethune had no obligation to either war — he simply went where the wounded had the least, and stayed until it cost him his own life. He's remembered today, decades on, in a country whose language he barely spoke, for treating strangers as worth showing up for.",
+  },
+  {
+    title: "A Passport for People With No Country",
+    text: "Norwegian explorer Fridtjof Nansen was appointed the League of Nations' first High Commissioner for Refugees after the First World War, when hundreds of thousands of stateless people, mostly Russians displaced by revolution and civil war, had no legal documents and nowhere they could legally go. He created the \"Nansen passport,\" an internationally recognized identity document for refugees, and organized famine relief that is credited with saving millions of lives in Russia during the early 1920s.",
+    insight: "Nansen was already a famous polar explorer with nothing left to prove when he took on the refugee crisis, at real cost to his own reputation among governments who resented the pressure he put on them to act. He won the Nobel Peace Prize for it, but the harder measure is that the passport bearing his name kept working, for people he'd never meet, for years after he was gone.",
+  },
+  {
+    title: "The Hospital That Wouldn't Turn Anyone Away",
+    text: "Congolese gynecologist Denis Mukwege founded Panzi Hospital in 1999 to treat women and girls who had survived brutal sexual violence during years of armed conflict in the Democratic Republic of Congo, when almost no other facility in the region had the means or willingness to help them. He has personally treated tens of thousands of survivors since, while publicly speaking out against the violence at real personal risk — surviving an assassination attempt at his own home in 2012.",
+    insight: "Mukwege kept working after the attack that was meant to stop him, and Panzi Hospital has continued treating patients other institutions still turn away. He shared the 2018 Nobel Peace Prize for it, but by his own account the work was never really about the prize — it was about the next woman who showed up at the door needing care no one else would give her.",
+  },
+  {
+    title: "A Friendship Nobody Expected",
+    text: "Ryan White was an Indiana teenager who contracted HIV through a blood treatment for hemophilia in the 1980s and was banned from his school and shunned by much of his hometown, at a time when public fear and misinformation about AIDS ran high. Musician Elton John, moved by White's public fight for AIDS education and against discrimination, became one of his closest friends in his final years, visiting him in the hospital and staying by his side as he died in 1990 at eighteen.",
+    insight: "John has said his friendship with Ryan White changed his own life, pushing him toward the sobriety and AIDS activism that shaped the rest of his career, including the foundation he later built in Ryan's memory. It was Ryan who needed a friend first — the changed life that followed came after, almost as an afterthought to just being present for someone else's hardest years.",
+  },
+  {
+    title: "Clearing By Hand What He Once Helped Bury",
+    text: "Aki Ra was conscripted as a child soldier in Cambodia and forced to lay landmines for the Khmer Rouge before later working with Vietnamese and UN forces during the country's long conflicts. As an adult, he began returning to rural villages to clear landmines by hand, often with nothing more than a knife and a stick, and eventually founded an organized demining operation along with a shelter and school for children injured or orphaned by the mines he and others had once laid.",
+    insight: "Aki Ra has spent more years clearing landmines than he ever spent laying them, working through fields he can't always be certain he didn't help plant himself. He's said plainly that he's trying to fix what he was forced to help break — a debt he never chose, paid back one field at a time regardless.",
+  },
+  {
+    title: "Twenty-Seven Dollars, Lent Without Collateral",
+    text: "Economist Muhammad Yunus was teaching in Bangladesh in the 1970s when he met a group of women trapped in debt to loan sharks over the equivalent of about twenty-seven dollars combined, more than any bank would ever consider lending them without collateral. He lent the money himself, was repaid in full, and went on to found Grameen Bank, pioneering microcredit loans to millions of the poorest borrowers, mostly women, who had never before been considered creditworthy by any bank.",
+    insight: "Every bank Yunus approached told him lending to the poor without collateral was too risky to work, and he built an institution that proved otherwise at a scale of millions of borrowers. He shared the Nobel Peace Prize for it, but the model only mattered because it kept being repeated for the next woman, and the next, long after the first twenty-seven dollars was forgotten.",
+  },
+  {
+    title: "The Man in the Red Bandanna",
+    text: "Welles Crowther was a 24-year-old equities trader working on the 104th floor of the World Trade Center's South Tower on September 11, 2001. After the tower was struck, he spent his final hour alive guiding dazed and injured survivors down through smoke-filled stairwells to safety, at least twice climbing back up into the wreckage to search for more people, a red bandanna tied over his face against the smoke. He carried one woman down on his back before going up again and was killed when the tower collapsed.",
+    insight: "Survivors who owed him their lives didn't learn his name until months later, when his mother recognized the bandanna in their accounts and realized it was her son. He had every reason and every excuse to simply get out — he kept climbing back in instead, for people he'd never met and wouldn't live to be thanked by.",
+  },
+  {
+    title: "Sewing a Way Back",
+    text: "Ugandan nun Sister Rosemary Nyirumbe ran a vocational school in a region where the Lord's Resistance Army had abducted thousands of children, many of them girls forced into slavery and sexual violence for years before escaping or being freed. Rather than turn away the girls other communities were often too afraid or ashamed to accept back, she took them in, taught them to sew, and helped many support themselves and their children born in captivity for the first time in their lives.",
+    insight: "Many of the girls Sister Rosemary took in had been told, in one way or another, that what happened to them made them unwelcome at home. She built a place where that wasn't true, and measured her success not in headlines but in how many of them walked out able to support a child no one else had wanted to acknowledge either.",
+  },
+  {
+    title: "Fifty Years Treating an Injury No One Else Would",
+    text: "Australian obstetrician Catherine Hamlin moved to Ethiopia with her husband in 1959 to treat obstetric fistula, a childbirth injury that left the poorest women incontinent and frequently abandoned by their husbands and communities, and that almost no hospital in the region had the specialized skill to repair. She stayed for the rest of her long life, eventually founding a hospital network that has treated tens of thousands of women for free, training local surgeons to continue the work long after she was gone.",
+    insight: "Hamlin treated an injury that had left many of her patients considered unmarriageable and unclean by their own villages before they ever reached her. She kept operating into her nineties, and the hospital she built kept the door open to exactly the women everyone else's door had already been closed to.",
+  },
+  {
+    title: "The Diver Who Didn't Make It Out",
+    text: "In 2018, twelve boys and their soccer coach were trapped deep inside a flooded cave system in Thailand for over two weeks, reachable only through narrow, pitch-black, flooded passages that took expert divers hours to navigate each way. Former Thai Navy SEAL Saman Kunan volunteered to help ferry oxygen tanks through the flooded tunnels during the rescue effort and died from lack of oxygen on his way back out, the operation's only fatality, days before the full team was successfully rescued.",
+    insight: "Kunan had left the Navy years earlier and had no obligation to return for a mission this dangerous — he came back anyway, for boys he'd never met, and didn't survive the trip. All twelve boys and their coach made it out alive days later, carried in part by tanks he never got the chance to see used.",
+  },
+  {
+    title: "Rowing Out Into the Storm",
+    text: "In 1838, twenty-two-year-old Grace Darling lived with her father, a lighthouse keeper, on a remote island off the coast of northern England when she spotted survivors of a shipwrecked steamer clinging to rocks in a violent storm, too far for any rescue boat to safely reach by the usual route. She and her father rowed a small boat nearly a mile through the storm to reach them, ferrying survivors back to the lighthouse in relays until everyone still alive had been brought to safety.",
+    insight: "Grace Darling had no training as a rescuer and no boat built for the conditions she rowed into — just a small boat, her father, and nine people who would have died in the time it took a proper lifeboat to arrive from the mainland. She became famous almost overnight for it, though by all accounts she was uneasy with the attention and would rather have just been the woman who happened to be close enough to help.",
+  },
+  {
+    title: "The Ten-Year-Old Who Recognized the Warning Signs",
+    text: "Ten-year-old British schoolgirl Tilly Smith was on a beach in Thailand in December 2004 when she noticed the ocean suddenly pulling back and foaming, the exact warning signs of an approaching tsunami she had learned two weeks earlier in a geography class back home. She told her parents, who alerted hotel staff, and the beach was evacuated minutes before the Indian Ocean tsunami struck, an event that killed over 200,000 people across the region but left the roughly 100 people on that particular beach unharmed.",
+    insight: "A geography lesson most classmates probably forgot by lunchtime was the only reason anyone on that beach knew what the pulled-back tide meant. Tilly didn't do anything dramatic — she just said something, to the right people, in the few minutes it actually mattered, and a hundred people got to walk away because of it.",
   },
 ];
