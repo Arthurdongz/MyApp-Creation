@@ -687,4 +687,29 @@ const STORIES = [
     text: "Chen Si is a Nanjing shopkeeper who talked a stranger down from jumping off the Nanjing Yangtze River Bridge in 2000, at a location with one of the highest suicide rates of any single site in the world. Since December 2003, he has spent nearly every weekend patrolling the bridge on foot and by motorbike at his own expense, approaching anyone who looks like they might be in crisis, listening to what's actually wrong, and — when someone is already over the railing — physically pulling them back.",
     insight: "Chen has been credited with stopping more than 450 people from jumping over the past two decades, unpaid and often at real risk to himself in the moments he's had to grab someone already going over. He's said he keeps going back because the bridge doesn't stop being a place people go to die just because he'd rather be doing something else with his weekend.",
   },
+  {
+    title: "Just Mercy",
+    text: "Bryan Stevenson founded the Equal Justice Initiative in 1989 to provide legal representation to prisoners who had been denied fair trials, wrongly convicted, or sentenced as children to die in prison, work most law firms considered too unprofitable and unpopular to take on. He has personally argued and won multiple cases before the United States Supreme Court on behalf of condemned and juvenile clients, and later used the organization's resources to build the National Memorial for Peace and Justice, the first American memorial dedicated to the victims of lynching.",
+    insight: "Stevenson has said that each client he represents forces him to see the whole person behind a crime, not just the worst thing they ever did — a standard he's held to even for clients most of the public had already written off. Decades in, EJI has helped free or resentence more than 140 wrongly condemned or unfairly sentenced people, each one a case most other lawyers had already decided wasn't worth the fight.",
+  },
+  {
+    title: "Mama to the Garbage Slums",
+    text: "Maggie Gobran was a computer science professor in Cairo when she began visiting the city's garbage-collecting slums, known as the Zabaleen, where families lived and worked among mountains of trash with no clean water, electricity, or schools. She left her academic career to found Stephen's Children, which now provides education, medical care, and daily support to tens of thousands of the poorest families in Egypt each year, and she has spent decades personally visiting the slums the rest of the city preferred not to look at.",
+    insight: "Gobran has been nominated for the Nobel Peace Prize more than once for work that began with simply showing up, repeatedly, in a place most people with her qualifications would never have had a reason to go. She's said she doesn't see herself as saving anyone — just choosing to sit with people the rest of the world had already decided to overlook.",
+  },
+  {
+    title: "The Sister Who Opened the Doors",
+    text: "Sister Norma Pimentel is a Catholic nun who, in 2014, began organizing emergency shelter for migrant families arriving at the US-Mexico border in McAllen, Texas, when local authorities had nowhere to put the growing number of exhausted parents and children being processed and released. What started as borrowed space eventually became the Humanitarian Respite Center, which has since provided food, showers, clean clothes, and a place to rest to hundreds of thousands of migrants passing through, regardless of the politics surrounding why they came.",
+    insight: "Sister Norma has run the center through years of shifting immigration policy and public opinion, on the ground with each family rather than in any of the debates happening about them. She's said the people arriving aren't a policy question to her — they're just people who need a shower, a meal, and somewhere safe to sit down for a few hours.",
+  },
+  {
+    title: "The Footballer Who Wouldn't Let It Drop",
+    text: "English footballer Marcus Rashford, who grew up relying on free school meals and a local food bank himself, publicly campaigned in 2020 for the UK government to keep providing free school meals to low-income children during the summer holidays and COVID-19 lockdowns, after the government initially declined. His campaign, backed by hundreds of thousands of public letters and petitions, led the government to reverse its decision twice, securing meals for an estimated 1.3 million children who would otherwise have gone without.",
+    insight: "Rashford was in his early twenties and at the peak of a football career when he chose to spend his public platform on school meal funding rather than anything that would have been safer or more comfortable to weigh in on. He's said he never forgot standing in line at a food bank as a child, and that memory, not strategy, is why he wouldn't let the issue drop when it would have been easier to stay quiet.",
+  },
+  {
+    title: "Trading Nightclubs for Well-Digging",
+    text: "Scott Harrison spent his twenties as a nightclub promoter in New York City before a volunteer trip to Liberia showed him communities where people were drinking from swamps and rivers because they had no other water source. He founded charity: water in 2006 with a rule that every cent of public donations goes directly to water projects, funding overhead separately, and the organization has since funded clean water access for more than seventeen million people across dozens of countries.",
+    insight: "Harrison has said he spent his first career profiting off of people's worst nights and wanted his second one to be measured by something he could actually verify — which is part of why charity: water publishes GPS coordinates and photos of nearly every well it funds. Millions of people now have clean water because a nightclub promoter decided the cost of proving it was worth paying.",
+  },
 ];
