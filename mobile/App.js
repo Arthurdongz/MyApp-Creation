@@ -280,7 +280,12 @@ function AppContent({ store }) {
             </ScrollView>
 
             {tab === "today" && (
-              <TodayScreen store={store} scrollViewRef={scrollViewRef} onOpenReflection={setReflectionEditorDay} />
+              <TodayScreen
+                store={store}
+                scrollViewRef={scrollViewRef}
+                onOpenReflection={setReflectionEditorDay}
+                onOpenStory={() => setTab("story")}
+              />
             )}
             {tab === "story" && <StoryScreen store={store} />}
             {tab === "facts" && <FactScreen store={store} />}

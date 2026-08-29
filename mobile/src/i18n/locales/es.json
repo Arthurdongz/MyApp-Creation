@@ -123,6 +123,12 @@
       "title": "Pensamiento de Aliento"
     },
     "moment": {
+      "featuredTag": "✨ Lo Destacado de Hoy",
+      "streakChipLabel": "Racha de {{count}} días",
+      "rewardHint": "Completa el momento de hoy y gana {{stars}} ⭐",
+      "celebrateMsg": "🎉 Hermoso — esa bondad importó. +{{stars}} ⭐ y una racha de {{streak}} días.",
+      "inspiredByLabel": "Inspirado en la historia de hoy:",
+      "readStoryLink": "Lee su historia →",
       "sectionTitle": "Tu Momento Bernabé",
       "summaryLabel": "El momento Bernabé de hoy, hecho — toca para ver",
       "summaryText": "✓ Hiciste el momento de hoy",

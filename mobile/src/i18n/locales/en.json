@@ -123,6 +123,12 @@
       "title": "Encouraging Thought"
     },
     "moment": {
+      "featuredTag": "✨ Today's Highlight",
+      "streakChipLabel": "{{count}}-day streak",
+      "rewardHint": "Complete today's moment to earn {{stars}} ⭐",
+      "celebrateMsg": "🎉 Beautiful — that kindness mattered. +{{stars}} ⭐ and a {{streak}}-day streak going.",
+      "inspiredByLabel": "Inspired by today's story:",
+      "readStoryLink": "Read their story →",
       "sectionTitle": "Your Barnabas Moment",
       "summaryLabel": "Today's Barnabas moment, done — tap to view",
       "summaryText": "✓ You did today's moment",

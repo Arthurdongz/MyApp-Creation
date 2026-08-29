@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Animated, Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
@@ -22,8 +22,17 @@ import { WISDOM } from "../data/wisdom";
 import { QUOTES_ES } from "../data/quotes.es";
 import { QUOTES_PT } from "../data/quotes.pt";
 import { QUOTES_FR } from "../data/quotes.fr";
+import { STORIES } from "../data/stories";
+import { STORIES_ES } from "../data/stories.es";
+import { STORIES_PT } from "../data/stories.pt";
+import { STORIES_FR } from "../data/stories.fr";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
+
+// The stars a completed Barnabas Moment awards — kept in sync with the "2"
+// literal in storage.js's markMomentDone, since that's the only place the
+// award is actually granted; this is purely for the "+2 ⭐" UI hints below.
+const MOMENT_STAR_REWARD = 2;
 
 // The "Encouraging Thought" card is quotes-only now (true stories moved to
 // their own Story tab, backed by data/stories.js; facts moved to their own
@@ -43,14 +52,16 @@ function truncateForPreview(text) {
 const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, fr: ENCOURAGEMENTS_FR };
 const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
 const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
+const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
 
-export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) {
+export default function TodayScreen({ store, scrollViewRef, onOpenReflection, onOpenStory }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
   const encouragementsBank = ENCOURAGEMENTS_BY_LANG[i18n.language] || ENCOURAGEMENTS;
   const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
   const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
+  const storiesBank = STORIES_BY_LANG[i18n.language] || STORIES;
 
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
     key,
@@ -68,6 +79,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
     today,
     settings,
     updateSettings,
+    streak,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
@@ -99,6 +111,10 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
     [momentsBank, viewingDay, order]
   );
   const moment = today.customMoment || suggestedMoment;
+  const story = useMemo(
+    () => pickForDaySmallBank(storiesBank, viewingDay, order),
+    [storiesBank, viewingDay, order]
+  );
 
   const [showCustomMomentInput, setShowCustomMomentInput] = useState(false);
   const [customMomentInput, setCustomMomentInput] = useState("");
@@ -145,6 +161,32 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
     hapticTap();
     setCustomMoment("");
     setCustomMomentInput("");
+  };
+
+  // Only true for a completion that happened during this screen visit — set
+  // directly by the button's own handler, never inferred from today.momentDone
+  // itself, so revisiting an already-done day (or navigating back to it)
+  // shows the plain, permanent doneMsg rather than replaying the celebration.
+  const [justCompleted, setJustCompleted] = useState(false);
+  const celebrateAnim = useRef(new Animated.Value(0)).current;
+
+  const handleMarkDone = () => {
+    if (today.momentDone) return;
+    hapticSuccess();
+    setJustCompleted(true);
+    markMomentDone();
+  };
+
+  useEffect(() => {
+    if (!justCompleted) return;
+    celebrateAnim.setValue(0);
+    Animated.spring(celebrateAnim, { toValue: 1, friction: 6, tension: 60, useNativeDriver: true }).start();
+  }, [justCompleted, celebrateAnim]);
+
+  const handleReadStory = () => {
+    hapticTap();
+    scrollViewRef?.current?.scrollTo({ y: 0, animated: false });
+    onOpenStory && onOpenStory();
   };
 
   const [reflection, setReflection] = useState(today.reflection || "");
@@ -200,6 +242,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
     setWordOpen(false);
     setThoughtOpen(false);
     setMomentOpen(!today.momentDone);
+    setJustCompleted(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewingDay]);
 
@@ -274,7 +317,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
   const verseRef = useRef(null);
   const confessionRef = useRef(null);
   const wordRef = useRef(null);
-  const momentSectionRef = useRef(null);
 
   const scrollToRef = (ref) => {
     if (!ref.current || !scrollViewRef?.current) return;
@@ -419,14 +461,298 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
         >
           <Text style={styles.jumpLink}>{t("today.jump.word")}</Text>
         </TouchableOpacity>
-        <Text style={styles.jumpDot}>·</Text>
-        <TouchableOpacity
-          onPress={() => scrollToRef(momentSectionRef)}
-          accessibilityRole="button"
-          accessibilityLabel={t("today.jump.momentLabel")}
-        >
-          <Text style={styles.jumpLink}>{t("today.jump.moment")}</Text>
-        </TouchableOpacity>
+      </View>
+
+      {/* Your Barnabas Moment: the app's centerpiece action, so it leads the
+          screen rather than sitting among the reading sections below. It
+          collapses to a one-line summary once it's done, unless yesterday's
+          follow-up question is still pending. */}
+      <View style={styles.sectionGroup}>
+        <View style={styles.featuredTagWrap}>
+          <Text style={styles.featuredTagText}>{t("today.moment.featuredTag")}</Text>
+        </View>
+        <View style={styles.heroSectionGroupHeader}>
+          <View style={styles.heroTitleWrap}>
+            <Text style={styles.heroIcon}>🤝</Text>
+            <Text style={styles.heroSectionTitle}>{t("today.moment.sectionTitle")}</Text>
+          </View>
+          {streak > 1 ? (
+            <View style={styles.streakChip} accessibilityLabel={t("today.moment.streakChipLabel", { count: streak })}>
+              <Text style={styles.streakChipText}>🔥 {streak}</Text>
+            </View>
+          ) : null}
+        </View>
+        {canCollapseMoment && !momentOpen ? (
+          <TouchableOpacity
+            style={styles.momentSummaryCard}
+            onPress={() => {
+              hapticTap();
+              setMomentOpen(true);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t("today.moment.summaryLabel")}
+          >
+            <Text style={styles.momentSummaryText}>{t("today.moment.summaryText")}</Text>
+            <Text style={styles.accordionChevron}>›</Text>
+          </TouchableOpacity>
+        ) : (
+          <Card style={[styles.momentCard, styles.heroMomentCard]}>
+            {showMomentFollowUp ? (
+              <View style={styles.followUpStrip}>
+                <Text style={styles.followUpStripLabel}>{t("today.moment.followUp.label")}</Text>
+                <Text style={[styles.followUpStripText, { marginBottom: 12 }]}>{prevMoment}</Text>
+                <Text style={styles.followUpQuestion}>{t("today.moment.followUp.question")}</Text>
+                <View style={styles.followUpActions}>
+                  <TouchableOpacity
+                    style={styles.followUpBtn}
+                    onPress={() => handleFollowUp("done")}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.moment.followUp.yesLabel")}
+                  >
+                    <Text style={styles.followUpBtnText}>{t("today.moment.followUp.yesButton")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.followUpBtn}
+                    onPress={() => handleFollowUp("not_yet")}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.moment.followUp.notYet")}
+                  >
+                    <Text style={styles.followUpBtnText}>{t("today.moment.followUp.notYet")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.followUpBtn}
+                    onPress={() => handleFollowUp("no")}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.moment.followUp.no")}
+                  >
+                    <Text style={styles.followUpBtnText}>{t("today.moment.followUp.no")}</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : null}
+
+            {canCollapseMoment ? (
+              <TouchableOpacity
+                style={styles.collapseLinkWrap}
+                onPress={() => {
+                  hapticTap();
+                  setMomentOpen(false);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={t("today.moment.collapseLabel")}
+              >
+                <Text style={styles.collapseLink}>{t("today.moment.collapseText")}</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
+
+            {!today.momentDone && story ? (
+              <TouchableOpacity
+                style={styles.storyTieInRow}
+                onPress={handleReadStory}
+                accessibilityRole="button"
+                accessibilityLabel={`${t("today.moment.inspiredByLabel")} ${story.title}`}
+              >
+                <Text style={styles.storyTieInText}>
+                  {t("today.moment.inspiredByLabel")} <Text style={styles.storyTieInTitle}>{story.title}</Text>
+                </Text>
+                <Text style={styles.storyTieInLink}>{t("today.moment.readStoryLink")}</Text>
+              </TouchableOpacity>
+            ) : null}
+
+            {!today.momentDone ? (
+              today.customMoment ? (
+                <View style={styles.customMomentRow}>
+                  <Text style={styles.customMomentNote}>{t("today.moment.customNote")}</Text>
+                  <TouchableOpacity
+                    onPress={handleUseSuggestion}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.moment.useSuggestion")}
+                  >
+                    <Text style={styles.intentionChange}>{t("today.moment.useSuggestion")}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : showCustomMomentInput ? (
+                <View style={styles.customMomentPrompt}>
+                  <TextInput
+                    style={styles.textArea}
+                    multiline
+                    numberOfLines={2}
+                    placeholder={t("today.moment.customPlaceholder")}
+                    placeholderTextColor={colors.textSoft}
+                    value={customMomentInput}
+                    onChangeText={setCustomMomentInput}
+                  />
+                  <View style={styles.customMomentBtnRow}>
+                    <TouchableOpacity
+                      style={styles.momentReflectSaveBtn}
+                      onPress={handleUseCustomMoment}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("today.moment.useCustom")}
+                    >
+                      <Text style={styles.momentReflectSaveBtnText}>{t("today.moment.useCustom")}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setShowCustomMomentInput(false)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("common.cancel")}
+                    >
+                      <Text style={styles.intentionChange}>{t("common.cancel")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.customMomentLinkWrap}
+                  onPress={() => {
+                    hapticTap();
+                    setShowCustomMomentInput(true);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("today.moment.writeOwn")}
+                >
+                  <Text style={styles.customMomentLink}>{t("today.moment.writeOwn")}</Text>
+                </TouchableOpacity>
+              )
+            ) : null}
+
+            {isToday && !today.momentDone ? (
+              today.momentIntention ? (
+                <View style={styles.intentionRow}>
+                  <Text style={styles.intentionText}>
+                    {t("today.moment.plannedFor", { when: MOMENT_INTENTION_LABELS[today.momentIntention] })}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => setMomentIntention(null)}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.moment.changeWhenLabel")}
+                  >
+                    <Text style={styles.intentionChange}>{t("common.change")}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <View style={styles.intentionPrompt}>
+                  <Text style={styles.intentionPromptLabel}>{t("today.moment.whenPrompt")}</Text>
+                  <View style={styles.intentionOptions}>
+                    {MOMENT_INTENTIONS.map((opt) => (
+                      <TouchableOpacity
+                        key={opt.key}
+                        style={styles.intentionBtn}
+                        onPress={() => {
+                          hapticTap();
+                          setMomentIntention(opt.key);
+                        }}
+                        accessibilityRole="button"
+                        accessibilityLabel={opt.label}
+                      >
+                        <Text style={styles.intentionBtnText}>{opt.label}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+              )
+            ) : null}
+
+            {!today.momentDone ? (
+              <Text style={styles.rewardHint}>
+                {t("today.moment.rewardHint", { stars: MOMENT_STAR_REWARD })}
+              </Text>
+            ) : null}
+
+            <View style={styles.momentActions}>
+              <TouchableOpacity
+                style={[styles.button, today.momentDone && styles.buttonDisabled]}
+                onPress={handleMarkDone}
+                disabled={today.momentDone}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  today.momentDone
+                    ? t("today.moment.doneLabel")
+                    : isToday
+                    ? t("today.moment.doTodayLabel")
+                    : t("today.moment.doLabel")
+                }
+                accessibilityState={{ disabled: today.momentDone }}
+              >
+                <Text style={styles.buttonText}>
+                  {today.momentDone
+                    ? t("today.moment.doneText")
+                    : isToday
+                    ? t("today.moment.doTodayText")
+                    : t("today.moment.doText")}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.secondaryButton}
+                onPress={shareMomentText}
+                accessibilityRole="button"
+                accessibilityLabel={t("today.moment.sendToSomeone")}
+              >
+                <Text style={styles.secondaryButtonText}>{t("today.moment.sendToSomeone")}</Text>
+              </TouchableOpacity>
+            </View>
+            {today.momentDone ? (
+              <>
+                {justCompleted ? (
+                  <Animated.View
+                    style={[
+                      styles.celebrateBox,
+                      {
+                        opacity: celebrateAnim,
+                        transform: [
+                          { scale: celebrateAnim.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1] }) },
+                        ],
+                      },
+                    ]}
+                  >
+                    <Text style={styles.celebrateText}>
+                      {t("today.moment.celebrateMsg", { stars: MOMENT_STAR_REWARD, streak })}
+                    </Text>
+                  </Animated.View>
+                ) : (
+                  <Text style={styles.doneMsg}>{t("today.moment.doneMsg")}</Text>
+                )}
+                {!today.barnabasNote ? (
+                  <View style={styles.momentReflectPrompt}>
+                    <Text style={styles.momentReflectLabel}>{t("today.moment.whatHappenedLabel")}</Text>
+                    <TextInput
+                      style={styles.textArea}
+                      multiline
+                      numberOfLines={2}
+                      placeholder={t("today.moment.whatHappenedPlaceholder")}
+                      placeholderTextColor={colors.textSoft}
+                      value={barnabasNote}
+                      onChangeText={setBarnabasNote}
+                    />
+                    <TouchableOpacity
+                      style={styles.momentReflectSaveBtn}
+                      onPress={handleMomentReflectSave}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("common.saveShort")}
+                    >
+                      <Text style={styles.momentReflectSaveBtnText}>{t("common.saveShort")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                ) : null}
+                {showMomentReflectSaved ? (
+                  <Text style={styles.momentReflectSavedMsg}>{t("today.moment.reflectSaved")}</Text>
+                ) : null}
+              </>
+            ) : null}
+
+            <View style={styles.reachOutInline}>
+              <Text style={styles.reachOutInlineText}>{t("today.moment.reachOutPrefix")}</Text>
+              <TouchableOpacity
+                onPress={reachOutToSomeone}
+                accessibilityRole="button"
+                accessibilityLabel={t("today.moment.reachOutLink")}
+              >
+                <Text style={styles.reachOutInlineLink}>{t("today.moment.reachOutLink")}</Text>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        )}
       </View>
 
       {/* Today's Reading: Verse stays open as the anchor; A Word for You and
@@ -660,253 +986,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
         </View>
       </View>
 
-      {/* Your Barnabas Moment: collapses to a one-line summary once it's
-          done, unless yesterday's follow-up question is still pending. */}
-      <View style={styles.sectionGroup}>
-        <View style={styles.sectionGroupHeader}>
-          <Text style={styles.sectionGroupIcon}>🤝</Text>
-          <Text style={styles.sectionGroupTitle}>{t("today.moment.sectionTitle")}</Text>
-        </View>
-        <View ref={momentSectionRef} collapsable={false}>
-          {canCollapseMoment && !momentOpen ? (
-            <TouchableOpacity
-              style={styles.momentSummaryCard}
-              onPress={() => {
-                hapticTap();
-                setMomentOpen(true);
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={t("today.moment.summaryLabel")}
-            >
-              <Text style={styles.momentSummaryText}>{t("today.moment.summaryText")}</Text>
-              <Text style={styles.accordionChevron}>›</Text>
-            </TouchableOpacity>
-          ) : (
-            <Card style={styles.momentCard}>
-              {showMomentFollowUp ? (
-                <View style={styles.followUpStrip}>
-                  <Text style={styles.followUpStripLabel}>{t("today.moment.followUp.label")}</Text>
-                  <Text style={[styles.followUpStripText, { marginBottom: 12 }]}>{prevMoment}</Text>
-                  <Text style={styles.followUpQuestion}>{t("today.moment.followUp.question")}</Text>
-                  <View style={styles.followUpActions}>
-                    <TouchableOpacity
-                      style={styles.followUpBtn}
-                      onPress={() => handleFollowUp("done")}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.moment.followUp.yesLabel")}
-                    >
-                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.yesButton")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.followUpBtn}
-                      onPress={() => handleFollowUp("not_yet")}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.moment.followUp.notYet")}
-                    >
-                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.notYet")}</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.followUpBtn}
-                      onPress={() => handleFollowUp("no")}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.moment.followUp.no")}
-                    >
-                      <Text style={styles.followUpBtnText}>{t("today.moment.followUp.no")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              ) : null}
-
-              {canCollapseMoment ? (
-                <TouchableOpacity
-                  style={styles.collapseLinkWrap}
-                  onPress={() => {
-                    hapticTap();
-                    setMomentOpen(false);
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("today.moment.collapseLabel")}
-                >
-                  <Text style={styles.collapseLink}>{t("today.moment.collapseText")}</Text>
-                </TouchableOpacity>
-              ) : null}
-
-              <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
-
-              {!today.momentDone ? (
-                today.customMoment ? (
-                  <View style={styles.customMomentRow}>
-                    <Text style={styles.customMomentNote}>{t("today.moment.customNote")}</Text>
-                    <TouchableOpacity
-                      onPress={handleUseSuggestion}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.moment.useSuggestion")}
-                    >
-                      <Text style={styles.intentionChange}>{t("today.moment.useSuggestion")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : showCustomMomentInput ? (
-                  <View style={styles.customMomentPrompt}>
-                    <TextInput
-                      style={styles.textArea}
-                      multiline
-                      numberOfLines={2}
-                      placeholder={t("today.moment.customPlaceholder")}
-                      placeholderTextColor={colors.textSoft}
-                      value={customMomentInput}
-                      onChangeText={setCustomMomentInput}
-                    />
-                    <View style={styles.customMomentBtnRow}>
-                      <TouchableOpacity
-                        style={styles.momentReflectSaveBtn}
-                        onPress={handleUseCustomMoment}
-                        accessibilityRole="button"
-                        accessibilityLabel={t("today.moment.useCustom")}
-                      >
-                        <Text style={styles.momentReflectSaveBtnText}>{t("today.moment.useCustom")}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => setShowCustomMomentInput(false)}
-                        accessibilityRole="button"
-                        accessibilityLabel={t("common.cancel")}
-                      >
-                        <Text style={styles.intentionChange}>{t("common.cancel")}</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
-                  <TouchableOpacity
-                    style={styles.customMomentLinkWrap}
-                    onPress={() => {
-                      hapticTap();
-                      setShowCustomMomentInput(true);
-                    }}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("today.moment.writeOwn")}
-                  >
-                    <Text style={styles.customMomentLink}>{t("today.moment.writeOwn")}</Text>
-                  </TouchableOpacity>
-                )
-              ) : null}
-
-              {isToday && !today.momentDone ? (
-                today.momentIntention ? (
-                  <View style={styles.intentionRow}>
-                    <Text style={styles.intentionText}>
-                      {t("today.moment.plannedFor", { when: MOMENT_INTENTION_LABELS[today.momentIntention] })}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => setMomentIntention(null)}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("today.moment.changeWhenLabel")}
-                    >
-                      <Text style={styles.intentionChange}>{t("common.change")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                  <View style={styles.intentionPrompt}>
-                    <Text style={styles.intentionPromptLabel}>{t("today.moment.whenPrompt")}</Text>
-                    <View style={styles.intentionOptions}>
-                      {MOMENT_INTENTIONS.map((opt) => (
-                        <TouchableOpacity
-                          key={opt.key}
-                          style={styles.intentionBtn}
-                          onPress={() => {
-                            hapticTap();
-                            setMomentIntention(opt.key);
-                          }}
-                          accessibilityRole="button"
-                          accessibilityLabel={opt.label}
-                        >
-                          <Text style={styles.intentionBtnText}>{opt.label}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  </View>
-                )
-              ) : null}
-
-              <View style={styles.momentActions}>
-                <TouchableOpacity
-                  style={[styles.button, today.momentDone && styles.buttonDisabled]}
-                  onPress={() => {
-                    hapticSuccess();
-                    markMomentDone();
-                  }}
-                  disabled={today.momentDone}
-                  accessibilityRole="button"
-                  accessibilityLabel={
-                    today.momentDone
-                      ? t("today.moment.doneLabel")
-                      : isToday
-                      ? t("today.moment.doTodayLabel")
-                      : t("today.moment.doLabel")
-                  }
-                  accessibilityState={{ disabled: today.momentDone }}
-                >
-                  <Text style={styles.buttonText}>
-                    {today.momentDone
-                      ? t("today.moment.doneText")
-                      : isToday
-                      ? t("today.moment.doTodayText")
-                      : t("today.moment.doText")}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.secondaryButton}
-                  onPress={shareMomentText}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("today.moment.sendToSomeone")}
-                >
-                  <Text style={styles.secondaryButtonText}>{t("today.moment.sendToSomeone")}</Text>
-                </TouchableOpacity>
-              </View>
-              {today.momentDone ? (
-                <>
-                  <Text style={styles.doneMsg}>{t("today.moment.doneMsg")}</Text>
-                  {!today.barnabasNote ? (
-                    <View style={styles.momentReflectPrompt}>
-                      <Text style={styles.momentReflectLabel}>{t("today.moment.whatHappenedLabel")}</Text>
-                      <TextInput
-                        style={styles.textArea}
-                        multiline
-                        numberOfLines={2}
-                        placeholder={t("today.moment.whatHappenedPlaceholder")}
-                        placeholderTextColor={colors.textSoft}
-                        value={barnabasNote}
-                        onChangeText={setBarnabasNote}
-                      />
-                      <TouchableOpacity
-                        style={styles.momentReflectSaveBtn}
-                        onPress={handleMomentReflectSave}
-                        accessibilityRole="button"
-                        accessibilityLabel={t("common.saveShort")}
-                      >
-                        <Text style={styles.momentReflectSaveBtnText}>{t("common.saveShort")}</Text>
-                      </TouchableOpacity>
-                    </View>
-                  ) : null}
-                  {showMomentReflectSaved ? (
-                    <Text style={styles.momentReflectSavedMsg}>{t("today.moment.reflectSaved")}</Text>
-                  ) : null}
-                </>
-              ) : null}
-
-              <View style={styles.reachOutInline}>
-                <Text style={styles.reachOutInlineText}>{t("today.moment.reachOutPrefix")}</Text>
-                <TouchableOpacity
-                  onPress={reachOutToSomeone}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("today.moment.reachOutLink")}
-                >
-                  <Text style={styles.reachOutInlineLink}>{t("today.moment.reachOutLink")}</Text>
-                </TouchableOpacity>
-              </View>
-            </Card>
-          )}
-        </View>
-      </View>
-
       {/* A Little Extra Support: call nudge / check-in nudge / crisis resource unified into one card */}
       {showSupportSection ? (
         <View style={styles.sectionGroup}>
@@ -1065,6 +1144,76 @@ function getStyles(colors) {
     },
     favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     momentCard: { backgroundColor: colors.momentCard },
+    heroMomentCard: {
+      borderLeftWidth: 5,
+      borderLeftColor: colors.gold,
+    },
+    featuredTagWrap: {
+      alignSelf: "flex-start",
+      borderWidth: 1.5,
+      borderColor: colors.goldText,
+      borderRadius: 999,
+      paddingVertical: 3,
+      paddingHorizontal: 10,
+      marginBottom: 8,
+      marginLeft: 2,
+    },
+    featuredTagText: {
+      fontSize: 10.5,
+      fontWeight: "700",
+      letterSpacing: 0.4,
+      color: colors.goldText,
+    },
+    heroSectionGroupHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 10,
+      marginLeft: 2,
+    },
+    heroTitleWrap: { flexDirection: "row", alignItems: "center", gap: 8 },
+    heroIcon: { fontSize: 20 },
+    heroSectionTitle: { fontSize: 18, fontWeight: "800", color: colors.sageDark },
+    streakChip: {
+      borderWidth: 1,
+      borderColor: colors.sage,
+      borderRadius: 999,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+    },
+    streakChipText: { fontSize: 12.5, fontWeight: "700", color: colors.sageDark },
+    storyTieInRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      gap: 6,
+      marginBottom: 14,
+      paddingBottom: 14,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    storyTieInText: { fontSize: 13, color: colors.textSoft, flexShrink: 1 },
+    storyTieInTitle: { fontWeight: "700", color: colors.text },
+    storyTieInLink: {
+      fontSize: 13,
+      fontWeight: "700",
+      color: colors.goldText,
+    },
+    rewardHint: {
+      fontSize: 12.5,
+      fontWeight: "600",
+      color: colors.goldText,
+      marginBottom: 10,
+    },
+    celebrateBox: {
+      marginTop: 2,
+      marginBottom: 4,
+    },
+    celebrateText: {
+      fontSize: 15,
+      color: colors.goldText,
+      fontWeight: "700",
+    },
     momentSummaryCard: {
       flexDirection: "row",
       alignItems: "center",

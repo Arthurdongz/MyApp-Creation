@@ -123,6 +123,12 @@
       "title": "Pensamento de Encorajamento"
     },
     "moment": {
+      "featuredTag": "✨ O Destaque de Hoje",
+      "streakChipLabel": "Sequência de {{count}} dias",
+      "rewardHint": "Complete o momento de hoje e ganhe {{stars}} ⭐",
+      "celebrateMsg": "🎉 Lindo — essa bondade fez diferença. +{{stars}} ⭐ e uma sequência de {{streak}} dias.",
+      "inspiredByLabel": "Inspirado na história de hoje:",
+      "readStoryLink": "Leia a história →",
       "sectionTitle": "Seu Momento Barnabé",
       "summaryLabel": "O momento Barnabé de hoje, feito — toque para ver",
       "summaryText": "✓ Você fez o momento de hoje",
