@@ -631,102 +631,122 @@ export const STORIES = [
   {
     "title": "The Friendship That Cost Him a Throne",
     "text": "As the son of King Saul, Jonathan stood to inherit his father's kingdom — until Saul grew jealous and murderous toward a young shepherd named David. Jonathan chose friendship over ambition anyway, warning David of his father's plots, defending him before the king, and making a covenant of loyalty that put his own future last. When Saul's rage turned violent at the dinner table, Jonathan risked his own safety to get word to David to flee, sending him off in peace on the strength of a friendship the two of them had sworn before God.\n\n— 1 Samuel 18-20",
-    "insight": "Jonathan died in battle beside his father without ever becoming king himself, having spent his position and his future protecting a friend who would take the throne instead of him. He never lived to see David crowned, or to benefit in any visible way from the loyalty he'd shown — the friendship itself seems to have been its own reward to him."
+    "insight": "Jonathan died in battle beside his father without ever becoming king himself, having spent his position and his future protecting a friend who would take the throne instead of him. He never lived to see David crowned, or to benefit in any visible way from the loyalty he'd shown — the friendship itself seems to have been its own reward to him.",
+    "source": "1 Samuel 18-20"
   },
   {
     "title": "I Will Go Where You Go",
     "text": "After losing her husband and both her sons in a foreign land, Naomi decided to return home to Bethlehem and urged her two widowed daughters-in-law to go back to their own families instead of following her into an uncertain future. One did — but her daughter-in-law Ruth refused to leave, telling Naomi that wherever she went, she would go too, and that Naomi's people and God would become her own. Ruth's steady loyalty carried both women through poverty and grief, and it was this same foreigner, with nothing to offer but faithfulness, who would go on to become an ancestor of King David.\n\n— Ruth 1:16-17",
-    "insight": "Ruth gave up her home country, her people, and any easy security with no promise of what waited for her in Bethlehem, and the text doesn't suggest she knew it would work out. It took her becoming an ancestor of King David, generations later, for the full weight of that loyalty to become visible — long after the choice itself had already been made in the dark."
+    "insight": "Ruth gave up her home country, her people, and any easy security with no promise of what waited for her in Bethlehem, and the text doesn't suggest she knew it would work out. It took her becoming an ancestor of King David, generations later, for the full weight of that loyalty to become visible — long after the choice itself had already been made in the dark.",
+    "source": "Ruth 1:16-17"
   },
   {
     "title": "The Hands That Held His Up",
     "text": "During a battle against the Amalekites, Moses discovered that as long as he held his hands raised, the Israelites prevailed, but when his tired arms dropped, the enemy began to win. Rather than let him fail from sheer exhaustion, Aaron and Hur found him a stone to sit on and each held up one of his arms, keeping them steady until the sun went down and the battle was won. Moses never had to fight alone — he only had to let two friends carry what he could no longer carry by himself.\n\n— Exodus 17:10-13",
-    "insight": "Aaron and Hur don't get their own verses of glory — the victory is remembered as Israel's and Moses's, and their names appear almost in passing. But the battle was only won because two people were willing to do something as unglamorous as literally holding another man's arms up until sundown."
+    "insight": "Aaron and Hur don't get their own verses of glory — the victory is remembered as Israel's and Moses's, and their names appear almost in passing. But the battle was only won because two people were willing to do something as unglamorous as literally holding another man's arms up until sundown.",
+    "source": "Exodus 17:10-13"
   },
   {
     "title": "Enough to Get Him Up Again",
     "text": "After a great victory over the prophets of Baal, the prophet Elijah collapsed into despair, fled into the wilderness, and told God he had had enough and wanted to die. Instead of a rebuke, he was met with rest, a warm meal prepared for him twice, and a quiet voice that later found him in a cave and asked gently what was wrong rather than demanding he simply snap out of it. Elijah wasn't handed a speech to fix everything at once — just food, sleep, and a God willing to meet him exactly where his exhaustion had taken him.\n\n— 1 Kings 19:1-13",
-    "insight": "God's response to Elijah's collapse wasn't a pep talk or a rebuke for his despair — it was food, sleep, and a gentle question, repeated until he was ready to keep going. It's a striking picture for anyone who feels like their exhaustion should be fixed by trying harder rather than simply being met where they are."
+    "insight": "God's response to Elijah's collapse wasn't a pep talk or a rebuke for his despair — it was food, sleep, and a gentle question, repeated until he was ready to keep going. It's a striking picture for anyone who feels like their exhaustion should be fixed by trying harder rather than simply being met where they are.",
+    "source": "1 Kings 19:1-13"
   },
   {
     "title": "Neither Do I Condemn You",
     "text": "A woman caught in adultery was dragged before Jesus by religious leaders demanding she be stoned, testing whether he would contradict the law or his own mercy. Jesus knelt, wrote in the dust, and said that whoever among them was without sin could throw the first stone — and one by one, beginning with the oldest, her accusers walked away until none were left. Alone with her, Jesus asked where they had gone, then told her he did not condemn her either, sending her forward with a second chance rather than the shame she'd braced for.\n\n— John 8:3-11",
-    "insight": "The woman's accusers walked away one by one, starting with the oldest, without a word recorded from any of them — the story never tells us if they reckoned with what they'd almost done. What we do know is that she walked away with a future her accusers hadn't planned to let her have."
+    "insight": "The woman's accusers walked away one by one, starting with the oldest, without a word recorded from any of them — the story never tells us if they reckoned with what they'd almost done. What we do know is that she walked away with a future her accusers hadn't planned to let her have.",
+    "source": "John 8:3-11"
   },
   {
     "title": "The Field He Sold for Others",
     "text": "In the earliest days of the church in Jerusalem, believers pooled what they had so that no one among them would go without, and a Levite from Cyprus named Joseph sold a field he owned and laid the money at the apostles' feet for the community's use. It was this kind of generosity that earned him the nickname the apostles gave him instead — Barnabas, meaning \"son of encouragement\" — a name that stuck because lifting others up was simply who he had become known to be.\n\n— Acts 4:36-37",
-    "insight": "Barnabas didn't sell his field to earn a nickname, but he got one anyway — \"son of encouragement\" is the only name scripture chooses to remember him by. A reputation for kindness isn't usually built by one dramatic act; it's built by being the kind of person whose generosity keeps happening until people notice the pattern."
+    "insight": "Barnabas didn't sell his field to earn a nickname, but he got one anyway — \"son of encouragement\" is the only name scripture chooses to remember him by. A reputation for kindness isn't usually built by one dramatic act; it's built by being the kind of person whose generosity keeps happening until people notice the pattern.",
+    "source": "Acts 4:36-37"
   },
   {
     "title": "No Longer a Slave, But a Brother",
     "text": "Onesimus was a slave who had run away from his master, Philemon, and somewhere along the way met Paul, who came to describe him as like a son during his imprisonment. Rather than simply keeping him, Paul sent Onesimus back to Philemon with a letter, urging him to receive his former slave not as property to be punished but as a beloved brother, and offering to personally repay whatever Onesimus owed. It was a bold ask in a culture with no expectation of such mercy, made because one man believed a broken relationship was still worth restoring.\n\n— Philemon 1:10-18",
-    "insight": "Paul's letter never actually tells us how Philemon responded — the outcome of the appeal is left completely open, which means Paul made the case for Onesimus with no guarantee it would work. He offered to personally cover whatever was owed, risking his own resources on a relationship whose ending he couldn't control."
+    "insight": "Paul's letter never actually tells us how Philemon responded — the outcome of the appeal is left completely open, which means Paul made the case for Onesimus with no guarantee it would work. He offered to personally cover whatever was owed, risking his own resources on a relationship whose ending he couldn't control.",
+    "source": "Philemon 1:10-18"
   },
   {
     "title": "Don't Let Anyone Look Down on You",
     "text": "Timothy was young and apparently anxious, serving in a difficult ministry post, when his mentor Paul wrote to remind him to fan back into flame the gift he'd been given, since God had given him a spirit not of fear but of power, love, and self-discipline. Paul told him plainly not to let anyone look down on him for his youth, but instead to set an example in speech, conduct, love, faith, and purity. It was the kind of steady, repeated encouragement a mentor gives someone who is capable but doesn't yet believe it about himself.\n\n— 2 Timothy 1:6-7; 1 Timothy 4:12",
-    "insight": "Paul wrote this encouragement from difficult, uncertain circumstances of his own, to a young leader who apparently still needed reminding of what was already true about him. Sometimes the most important thing a mentor gives isn't new information — it's the reminder to actually believe what they'd already been told."
+    "insight": "Paul wrote this encouragement from difficult, uncertain circumstances of his own, to a young leader who apparently still needed reminding of what was already true about him. Sometimes the most important thing a mentor gives isn't new information — it's the reminder to actually believe what they'd already been told.",
+    "source": "2 Timothy 1:6-7; 1 Timothy 4:12"
   },
   {
     "title": "They Took Him Aside",
     "text": "Apollos was an eloquent, scripture-literate preacher with a real gift for teaching, but he only knew part of the story, having never learned of anything beyond John's baptism. Rather than correcting him publicly or dismissing his gift, a couple named Priscilla and Aquila took him aside privately and explained the way of God to him more accurately, protecting his dignity while helping him grow. Apollos went on to become a powerful teacher across the region, in part because two people cared enough to help him quietly instead of exposing him publicly.\n\n— Acts 18:24-26",
-    "insight": "Priscilla and Aquila could have let Apollos keep teaching an incomplete message, or corrected him publicly and embarrassed a gifted man in front of a crowd — they chose neither, and the text never records them getting credit for it beyond a single verse. Apollos went on to become a powerful, effective teacher, and scripture lets that outcome speak for a couple most readers barely notice."
+    "insight": "Priscilla and Aquila could have let Apollos keep teaching an incomplete message, or corrected him publicly and embarrassed a gifted man in front of a crowd — they chose neither, and the text never records them getting credit for it beyond a single verse. Apollos went on to become a powerful, effective teacher, and scripture lets that outcome speak for a couple most readers barely notice.",
+    "source": "Acts 18:24-26"
   },
   {
     "title": "While He Was Still a Long Way Off",
     "text": "A younger son demanded his inheritance early, squandered it in a distant country, and returned home rehearsing an apology, expecting at best to be taken back as a hired servant. But his father saw him while he was still far off and, rather than waiting for the apology or extracting a punishment first, ran to him, embraced him, and called for a robe, a ring, and a feast to celebrate that his son who was lost had been found. It remains one of the clearest pictures of a second chance offered before it was even fully asked for.\n\n— Luke 15:11-24",
-    "insight": "The father doesn't wait to hear the full rehearsed apology before running to meet his son — the son barely gets a few words out before the celebration is already underway. It's a story about a welcome extended before it was earned, which is precisely the kind of grace that never quite makes logical sense until you've needed it yourself."
+    "insight": "The father doesn't wait to hear the full rehearsed apology before running to meet his son — the son barely gets a few words out before the celebration is already underway. It's a story about a welcome extended before it was earned, which is precisely the kind of grace that never quite makes logical sense until you've needed it yourself.",
+    "source": "Luke 15:11-24"
   },
   {
     "title": "You Meant It for Evil",
     "text": "Joseph's own brothers had sold him into slavery out of jealousy, and years later, now second-in-command of Egypt, he held complete power to punish them when famine forced them to come begging for grain. Instead, he wept, revealed who he was, and told them not to be afraid or angry with themselves, saying that what they had intended for evil, God had intended for good, to save many lives. He went on to provide for the very family who had betrayed him, choosing reconciliation over the revenge he could easily have taken.\n\n— Genesis 45:4-5; 50:19-21",
-    "insight": "Joseph could have used his power to punish the brothers who sold him into slavery, and no one watching would have called it unjust. Instead he chose to reframe the entire ordeal — the slavery, the false imprisonment, the years apart from his family — as something that had ultimately been used for good, and fed the very people who had betrayed him."
+    "insight": "Joseph could have used his power to punish the brothers who sold him into slavery, and no one watching would have called it unjust. Instead he chose to reframe the entire ordeal — the slavery, the false imprisonment, the years apart from his family — as something that had ultimately been used for good, and fed the very people who had betrayed him.",
+    "source": "Genesis 45:4-5; 50:19-21"
   },
   {
     "title": "The One Who Stopped",
     "text": "A man was beaten, robbed, and left for dead on the road to Jericho, and both a priest and a Levite passed by on the other side rather than get involved. It was a Samaritan — someone from a group typically despised by the wounded man's own people — who stopped, bandaged his wounds, carried him to an inn, and paid for his continued care out of his own pocket. When Jesus asked which of the three had been a neighbor to the wounded man, the answer was obvious: the one who showed mercy, regardless of who the man was to him.\n\n— Luke 10:30-37",
-    "insight": "The priest and the Levite likely had reasons that felt legitimate to them for not stopping, and scripture doesn't bother arguing with those reasons — it simply lets their silence speak for itself next to the Samaritan's action. The story never tells us if the wounded man ever thanked him properly, or if the two crossed paths again — the mercy was complete on its own, without needing a reunion to justify it."
+    "insight": "The priest and the Levite likely had reasons that felt legitimate to them for not stopping, and scripture doesn't bother arguing with those reasons — it simply lets their silence speak for itself next to the Samaritan's action. The story never tells us if the wounded man ever thanked him properly, or if the two crossed paths again — the mercy was complete on its own, without needing a reunion to justify it.",
+    "source": "Luke 10:30-37"
   },
   {
     "title": "He Went to Look for Him",
     "text": "When the young, fast-growing church in Antioch needed someone to help teach and strengthen new believers, the apostles sent Barnabas, who arrived, saw evidence of God's grace at work, and was glad. Rather than trying to do the work alone, he traveled to Tarsus specifically to search for Saul, whom no one had heard from in years, and personally brought him back to Antioch to teach the growing church together. It was there, through their partnership, that believers were first called Christians — the fruit, in part, of one man going out of his way to bring back someone others had lost track of.\n\n— Acts 11:22-26",
-    "insight": "Barnabas had to go looking for a man nobody had heard from in years, on nothing but the hope that he was still worth finding — and it was that overlooked reunion, not a dramatic sermon, that historians credit with helping give rise to the name \"Christian\" in Antioch. Some of the most consequential moments in scripture happen because one person decided a forgotten person was still worth the trip."
+    "insight": "Barnabas had to go looking for a man nobody had heard from in years, on nothing but the hope that he was still worth finding — and it was that overlooked reunion, not a dramatic sermon, that historians credit with helping give rise to the name \"Christian\" in Antioch. Some of the most consequential moments in scripture happen because one person decided a forgotten person was still worth the trip.",
+    "source": "Acts 11:22-26"
   },
   {
     "title": "The Woman Who Hid Them",
     "text": "When two Israelite spies slipped into Jericho, it was Rahab, a woman with a checkered reputation in her own city, who hid them on her roof and misled the king's men to protect their lives, asking only that her own family be spared when the city eventually fell. Her risk paid off — she and her family were the only household spared when Jericho was destroyed, and she went on to be named among the ancestors of King David and, later, of Jesus himself. It is a striking inclusion for someone the rest of her story might have written off, kept in the account precisely because her courage mattered more than her past.\n\n— Joshua 2:1-21; 6:22-25",
-    "insight": "Rahab risked her own life for two strangers from an invading nation, with nothing guaranteed except a promise that hadn't been tested yet. Her reputation before that moment might have made her an unlikely name to survive in scripture at all, let alone to appear generations later in the ancestry of Jesus himself — proof that what she did that day mattered more, in the end, than what anyone already thought of her."
+    "insight": "Rahab risked her own life for two strangers from an invading nation, with nothing guaranteed except a promise that hadn't been tested yet. Her reputation before that moment might have made her an unlikely name to survive in scripture at all, let alone to appear generations later in the ancestry of Jesus himself — proof that what she did that day mattered more, in the end, than what anyone already thought of her.",
+    "source": "Joshua 2:1-21; 6:22-25"
   },
   {
     "title": "For Such a Time as This",
     "text": "When a plot arose to destroy the Jewish people across the Persian empire, Esther, a queen who had kept her own identity secret, was reminded by her cousin Mordecai that her position might exist for exactly this moment, and that silence now could cost her own life along with everyone else's. Esther asked her people to fast and pray for her, then risked her life by approaching the king unsummoned, eventually exposing the plot and saving her people. It took someone willing to risk everything, spurred on by one relative's blunt encouragement, to change the outcome for an entire nation.\n\n— Esther 4:13-16",
-    "insight": "Esther had no guarantee that approaching the king unsummoned wouldn't get her killed — Mordecai's challenge to her wasn't a promise of success, just a hard question about whether her position was worth risking for other people's sake. She said yes before knowing how it would end, and an entire people's survival turned out to hinge on that one decision made in genuine uncertainty."
+    "insight": "Esther had no guarantee that approaching the king unsummoned wouldn't get her killed — Mordecai's challenge to her wasn't a promise of success, just a hard question about whether her position was worth risking for other people's sake. She said yes before knowing how it would end, and an entire people's survival turned out to hinge on that one decision made in genuine uncertainty.",
+    "source": "Esther 4:13-16"
   },
   {
     "title": "Shot for Going to School",
     "text": "Malala Yousafzai was a Pakistani schoolgirl who had spent years publicly advocating for girls' right to education under a regime that had banned it, when Taliban gunmen boarded her school bus in 2012 and shot her in the head for it. She survived after emergency surgery abroad, and rather than retreating from public life, she resumed her advocacy within months, co-founding the Malala Fund to expand girls' education worldwide and becoming, at seventeen, the youngest person ever awarded the Nobel Peace Prize.",
-    "insight": "The attack was meant to silence her and instead made her voice reach further than it ever had before — though that was never a trade she asked for, and no honor afterward undoes what she survived to get it. She's said the bullet only made her more certain of what she'd already decided was worth speaking up for, before anyone was aiming at her for it."
+    "insight": "The attack was meant to silence her and instead made her voice reach further than it ever had before — though that was never a trade she asked for, and no honor afterward undoes what she survived to get it. She's said the bullet only made her more certain of what she'd already decided was worth speaking up for, before anyone was aiming at her for it.",
+    "source": "Malala Yousafzai, I Am Malala (2013); Nobel Prize official biography, nobelprize.org"
   },
   {
     "title": "The Only Doctor for Half a Million People",
     "text": "American surgeon Tom Catena moved to the Nuba Mountains of Sudan in 2008 to run a rural hospital, and stayed on alone as the only doctor for a region of roughly half a million people even after civil war broke out and government forces began bombing the area, including near his own hospital. He continued operating on war wounded, malaria patients, and everyday emergencies throughout the fighting, sometimes performing surgery by flashlight during air raids rather than evacuate.",
-    "insight": "Catena had opportunities to leave when the bombing started and chose to stay, reasoning that a hospital with no doctor helps no one. He's treated tens of thousands of patients most of the outside world will never hear about, in a place most of the world had already stopped watching."
+    "insight": "Catena had opportunities to leave when the bombing started and chose to stay, reasoning that a hospital with no doctor helps no one. He's treated tens of thousands of patients most of the outside world will never hear about, in a place most of the world had already stopped watching.",
+    "source": "Aurora Prize for Awakening Humanity (2017); Catholic Medical Mission Board records"
   },
   {
     "title": "Bringing the Clinic to the Mountain",
     "text": "Physician Paul Farmer co-founded Partners In Health in the 1980s with a simple, then-radical premise: that people in the world's poorest communities deserved the same standard of medical care as anyone else, not a scaled-down version of it. He spent decades building hospitals and training local health workers across rural Haiti, then Rwanda, Peru, and beyond, personally treating patients others had written off as too poor or too remote to be worth the cost of curing.",
-    "insight": "Farmer was repeatedly told that his standard of care was too expensive to be \"realistic\" for the world's poorest patients, and he built it anyway, community by community, until it wasn't theoretical anymore. He died suddenly in 2022 at a hospital site in Rwanda he'd helped build — the work he insisted was possible had, by then, simply become normal in the places he'd fought hardest for it."
+    "insight": "Farmer was repeatedly told that his standard of care was too expensive to be \"realistic\" for the world's poorest patients, and he built it anyway, community by community, until it wasn't theoretical anymore. He died suddenly in 2022 at a hospital site in Rwanda he'd helped build — the work he insisted was possible had, by then, simply become normal in the places he'd fought hardest for it.",
+    "source": "Partners In Health official history; Tracy Kidder, Mountains Beyond Mountains (2003)"
   },
   {
     "title": "The Blood He Carried to the Front",
     "text": "Canadian surgeon Norman Bethune developed one of the first mobile blood transfusion units during the Spanish Civil War, driving blood supplies directly to wounded soldiers near the front lines instead of waiting for them to reach distant hospitals. He later brought the same mobile-surgery methods to China during the Second Sino-Japanese War, operating on wounded soldiers often within earshot of gunfire, until a cut on his hand during surgery became infected and, without access to the medicine that could have saved him, he died at his post.",
-    "insight": "Bethune had no obligation to either war — he simply went where the wounded had the least, and stayed until it cost him his own life. He's remembered today, decades on, in a country whose language he barely spoke, for treating strangers as worth showing up for."
+    "insight": "Bethune had no obligation to either war — he simply went where the wounded had the least, and stayed until it cost him his own life. He's remembered today, decades on, in a country whose language he barely spoke, for treating strangers as worth showing up for.",
+    "source": "Ted Allan and Sydney Gordon, The Scalpel, the Sword: The Story of Dr. Norman Bethune (1952)"
   },
   {
     "title": "A Passport for People With No Country",
     "text": "Norwegian explorer Fridtjof Nansen was appointed the League of Nations' first High Commissioner for Refugees after the First World War, when hundreds of thousands of stateless people, mostly Russians displaced by revolution and civil war, had no legal documents and nowhere they could legally go. He created the \"Nansen passport,\" an internationally recognized identity document for refugees, and organized famine relief that is credited with saving millions of lives in Russia during the early 1920s.",
-    "insight": "Nansen was already a famous polar explorer with nothing left to prove when he took on the refugee crisis, at real cost to his own reputation among governments who resented the pressure he put on them to act. He won the Nobel Peace Prize for it, but the harder measure is that the passport bearing his name kept working, for people he'd never meet, for years after he was gone."
+    "insight": "Nansen was already a famous polar explorer with nothing left to prove when he took on the refugee crisis, at real cost to his own reputation among governments who resented the pressure he put on them to act. He won the Nobel Peace Prize for it, but the harder measure is that the passport bearing his name kept working, for people he'd never meet, for years after he was gone.",
+    "source": "Nobel Prize official biography, nobelprize.org; UNHCR historical records on the Nansen passport"
   },
   {
     "title": "The Hospital That Wouldn't Turn Anyone Away",
