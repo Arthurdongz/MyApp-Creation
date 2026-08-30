@@ -102,6 +102,22 @@ export const BADGE_DEFS = [
     type: "streak",
     threshold: 30,
   },
+  {
+    id: "champion",
+    icon: { set: "Ionicons", name: "trophy" },
+    name: "Encouragement Champion",
+    desc: "100-day streak",
+    type: "streak",
+    threshold: 100,
+  },
+  {
+    id: "fullyear",
+    icon: { set: "Ionicons", name: "ribbon" },
+    name: "A Full Year of Hope",
+    desc: "365-day streak",
+    type: "streak",
+    threshold: 365,
+  },
 ];
 
 // New journeys default to Spanish scripture (RVA, pinned rather than
