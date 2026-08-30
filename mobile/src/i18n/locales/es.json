@@ -130,6 +130,7 @@
       "title": "Una Palabra para Ti",
       "reflectPrompt": "Detente un momento — ¿qué despierta esto en ti?",
       "reflectPlaceholder": "¿Qué despierta esto en ti?",
+      "reflectPlaceholderWithQuote": "¿Qué despertó en ti al leer: “{{quote}}”?",
       "reflectSaved": "Guardado. Gracias por detenerte a pensarlo. ⭐⭐"
     },
     "thought": {
@@ -186,6 +187,7 @@
     },
     "reachOut": {
       "message": "Oye, quería contactarte hoy — solo pensando en ti. ¿Cómo estás?",
+      "messageWithQuote": "Oye, quería contactarte hoy — solo pensando en ti. Algo que leí me llamó la atención: \"{{quote}}\" ¿Cómo estás?",
       "talkMessage": "Oye, ¿tienes unos minutos para hablar? Me vendría bien alguien que me escuche estos días."
     },
     "shareMoment": "Un poco de aliento de mi parte para ti hoy: {{moment}}\n\n— enviado desde {{brand}}",
@@ -511,6 +513,8 @@
     "errorMsg": "No se pudo crear la imagen para compartir en este momento.",
     "dialogTitle": "Compartir desde {{brand}}",
     "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Incluir mi propia reflexión",
+    "myReflectionLabel": "Mi reflexión",
     "yearCard": {
       "titleFull": "Mi Año con {{brand}}",
       "titlePartial": "Mi Camino Hasta Ahora",

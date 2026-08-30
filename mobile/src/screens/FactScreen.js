@@ -71,6 +71,7 @@ export default function FactScreen({ store }) {
         visible={sharePreview}
         mainText={fact}
         sourceLine={t("app.brand")}
+        reflectionText={store.state.entries[`day-${viewingDay}`]?.reflection || ""}
         initialThemeId={settings.shareTheme}
         onThemeChange={(id) => updateSettings({ shareTheme: id })}
         onClose={() => setSharePreview(false)}

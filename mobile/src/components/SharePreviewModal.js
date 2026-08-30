@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 import { captureRef } from "react-native-view-shot";
 import * as Sharing from "expo-sharing";
 import { useTranslation } from "react-i18next";
@@ -25,18 +26,25 @@ export default function SharePreviewModal({
   onClose,
   CardComponent = ShareQuoteCard,
   cardProps,
+  reflectionText,
 }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState(initialThemeId || "classic");
   const [shareMsg, setShareMsg] = useState("");
+  // Defaults off every time the modal opens — a saved reflection is private
+  // journal content, so including it in something you send to someone else
+  // should always be a deliberate opt-in, never a carried-over toggle state.
+  const [includeReflection, setIncludeReflection] = useState(false);
   const cardRef = useRef(null);
+  const hasReflection = !!(reflectionText && reflectionText.trim());
 
   useEffect(() => {
     if (visible) {
       setSelectedId(initialThemeId || "classic");
       setShareMsg("");
+      setIncludeReflection(false);
     }
   }, [visible, initialThemeId]);
 
@@ -78,8 +86,29 @@ export default function SharePreviewModal({
               ref={cardRef}
               colors={selectedTheme.colors}
               {...(cardProps || { text: mainText, sourceLine })}
+              reflectionText={includeReflection ? reflectionText : undefined}
             />
           </View>
+
+          {hasReflection ? (
+            <TouchableOpacity
+              style={styles.reflectionToggleRow}
+              onPress={() => {
+                hapticTap();
+                setIncludeReflection((v) => !v);
+              }}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked: includeReflection }}
+              accessibilityLabel={t("share.includeReflectionLabel")}
+            >
+              <Ionicons
+                name={includeReflection ? "checkbox" : "square-outline"}
+                size={18}
+                color={includeReflection ? colors.sageDark : colors.textSoft}
+              />
+              <Text style={styles.reflectionToggleText}>{t("share.includeReflectionLabel")}</Text>
+            </TouchableOpacity>
+          ) : null}
 
           <View style={styles.swatchRow}>
             {SHARE_THEMES.map((theme) => (
@@ -168,6 +197,14 @@ function getStyles(colors, shadow) {
     },
     swatchWrapSelected: { borderColor: colors.sageDark },
     swatch: { flex: 1, borderRadius: 17 },
+    reflectionToggleRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      alignSelf: "center",
+      marginBottom: 16,
+    },
+    reflectionToggleText: { fontSize: 13, fontWeight: "600", color: colors.text },
     shareBtn: {
       backgroundColor: colors.buttonBg,
       borderRadius: 12,

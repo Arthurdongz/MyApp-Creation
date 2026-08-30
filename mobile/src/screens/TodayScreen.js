@@ -46,9 +46,9 @@ const MOMENT_INTENTION_KEYS = ["today", "tonight", "tomorrow"];
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 
-function truncateForPreview(text) {
+function truncateForPreview(text, maxLen = 90) {
   const trimmed = text.trim();
-  return trimmed.length > 90 ? `${trimmed.slice(0, 90).trimEnd()}…` : trimmed;
+  return trimmed.length > maxLen ? `${trimmed.slice(0, maxLen).trimEnd()}…` : trimmed;
 }
 
 const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, fr: ENCOURAGEMENTS_FR };
@@ -317,7 +317,13 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   };
 
   const reachOutToSomeone = async () => {
-    const message = t("today.reachOut.message");
+    // An icebreaker, not a generic line — quoting today's actual
+    // encouragement gives the person something concrete to respond to
+    // instead of a bare "how are you," which is easy to send but also easy
+    // to leave unsent.
+    const message = encouragement
+      ? t("today.reachOut.messageWithQuote", { quote: truncateForPreview(encouragement, 100) })
+      : t("today.reachOut.message");
     try {
       await Share.share({ message });
     } catch (e) {
@@ -957,7 +963,9 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                       style={[styles.textArea, { marginTop: 12 }]}
                       multiline
                       numberOfLines={2}
-                      placeholder={t("today.word.reflectPlaceholder")}
+                      placeholder={t("today.word.reflectPlaceholderWithQuote", {
+                        quote: truncateForPreview(encouragement, 60),
+                      })}
                       placeholderTextColor={colors.textSoft}
                       value={reflection}
                       onChangeText={setReflection}
@@ -1066,6 +1074,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
         visible={!!sharePreview}
         mainText={sharePreview?.text || ""}
         sourceLine={sharePreview?.sourceLine || ""}
+        reflectionText={today.reflection || ""}
         initialThemeId={settings.shareTheme}
         onThemeChange={(id) => updateSettings({ shareTheme: id })}
         onClose={() => setSharePreview(null)}

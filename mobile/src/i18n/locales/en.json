@@ -130,6 +130,7 @@
       "title": "A Word for You",
       "reflectPrompt": "Let this sit for a moment — what does it stir in you?",
       "reflectPlaceholder": "What does this stir in you?",
+      "reflectPlaceholderWithQuote": "What stirred in you when you read: “{{quote}}”?",
       "reflectSaved": "Saved. Thank you for sitting with that. ⭐⭐"
     },
     "thought": {
@@ -186,6 +187,7 @@
     },
     "reachOut": {
       "message": "Hey, I wanted to reach out today — just thinking of you. How are you doing?",
+      "messageWithQuote": "Hey, I wanted to reach out today — just thinking of you. Something I read stood out to me: \"{{quote}}\" How are you doing?",
       "talkMessage": "Hey, do you have a few minutes to talk? I could use a listening ear lately."
     },
     "shareMoment": "A little encouragement from me to you today: {{moment}}\n\n— sent from {{brand}}",
@@ -511,6 +513,8 @@
     "errorMsg": "Couldn't create the share image right now.",
     "dialogTitle": "Share from {{brand}}",
     "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Include my own reflection",
+    "myReflectionLabel": "My reflection",
     "yearCard": {
       "titleFull": "My Year with {{brand}}",
       "titlePartial": "My Journey So Far",

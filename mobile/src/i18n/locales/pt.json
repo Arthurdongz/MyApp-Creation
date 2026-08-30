@@ -130,6 +130,7 @@
       "title": "Uma Palavra para Você",
       "reflectPrompt": "Deixe isso repousar por um momento — o que isso desperta em você?",
       "reflectPlaceholder": "O que isso desperta em você?",
+      "reflectPlaceholderWithQuote": "O que despertou em você ao ler: “{{quote}}”?",
       "reflectSaved": "Salvo. Obrigado por parar para pensar nisso. ⭐⭐"
     },
     "thought": {
@@ -186,6 +187,7 @@
     },
     "reachOut": {
       "message": "Oi, eu queria entrar em contato hoje — só estava pensando em você. Como você está?",
+      "messageWithQuote": "Oi, eu queria entrar em contato hoje — só estava pensando em você. Algo que eu li me chamou a atenção: \"{{quote}}\" Como você está?",
       "talkMessage": "Oi, você tem alguns minutos para conversar? Eu estou precisando de alguém para me ouvir ultimamente."
     },
     "shareMoment": "Um pouco de encorajamento da minha parte para você hoje: {{moment}}\n\n— enviado por {{brand}}",
@@ -511,6 +513,8 @@
     "errorMsg": "Não foi possível criar a imagem para compartilhar agora.",
     "dialogTitle": "Compartilhar do {{brand}}",
     "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Incluir minha própria reflexão",
+    "myReflectionLabel": "Minha reflexão",
     "yearCard": {
       "titleFull": "Meu Ano com {{brand}}",
       "titlePartial": "Minha Jornada Até Agora",

@@ -104,6 +104,7 @@ export default function StoryScreen({ store }) {
         visible={sharePreview}
         mainText={story.text}
         sourceLine={story.title}
+        reflectionText={store.state.entries[`day-${viewingDay}`]?.reflection || ""}
         initialThemeId={settings.shareTheme}
         onThemeChange={(id) => updateSettings({ shareTheme: id })}
         onClose={() => setSharePreview(false)}

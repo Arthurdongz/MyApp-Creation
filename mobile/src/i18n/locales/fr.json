@@ -130,6 +130,7 @@
       "title": "Une Parole pour Toi",
       "reflectPrompt": "Laisse cela infuser un instant — qu'est-ce que cela éveille en toi ?",
       "reflectPlaceholder": "Qu'est-ce que cela éveille en toi ?",
+      "reflectPlaceholderWithQuote": "Qu'est-ce que ça a éveillé en toi de lire : « {{quote}} » ?",
       "reflectSaved": "Enregistré. Merci d'avoir pris le temps d'y réfléchir. ⭐⭐"
     },
     "thought": {
@@ -186,6 +187,7 @@
     },
     "reachOut": {
       "message": "Salut, je voulais te faire signe aujourd'hui — je pensais à toi. Comment vas-tu ?",
+      "messageWithQuote": "Salut, je voulais te faire signe aujourd'hui — je pensais à toi. Quelque chose que j'ai lu m'a marqué : « {{quote}} » Comment vas-tu ?",
       "talkMessage": "Salut, tu as quelques minutes pour parler ? J'aurais bien besoin d'une oreille attentive ces derniers temps."
     },
     "shareMoment": "Un peu d'encouragement de ma part pour toi aujourd'hui : {{moment}}\n\n— envoyé depuis {{brand}}",
@@ -511,6 +513,8 @@
     "errorMsg": "Impossible de créer l'image à partager pour le moment.",
     "dialogTitle": "Partager depuis {{brand}}",
     "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Inclure ma propre réflexion",
+    "myReflectionLabel": "Ma réflexion",
     "yearCard": {
       "titleFull": "Mon Année avec {{brand}}",
       "titlePartial": "Mon Parcours Jusqu'ici",
