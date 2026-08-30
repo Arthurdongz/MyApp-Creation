@@ -58,10 +58,66 @@ const CRISIS_REPLY_TEMPLATES = {
     `Je suis vraiment content que tu m'en aies parlé. ${crisisLine} Contacte-les, ou quelqu'un en qui tu as confiance, dès maintenant — tu n'as pas à porter ça seul.`,
 };
 
-function systemPromptFor(region, language) {
+// Caps on the untrusted-ish string fields below — this data comes from the
+// client, and while it's meant to mirror the app's own bounded content
+// (today's story/moment, a handful of mood words), a tampered client could
+// send something much larger. These go straight into the system prompt, so
+// keep them generous enough for real content but bounded regardless.
+const CONTEXT_FIELD_MAX_LEN = 3000;
+const MOOD_WORD_MAX_LEN = 40;
+const MAX_RECENT_MOODS = 7;
+
+function truncate(value, maxLen) {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length > maxLen ? trimmed.slice(0, maxLen) : trimmed;
+}
+
+// Validates and narrows the client-sent todayContext to just the fields
+// this prompt actually uses, dropping anything unexpected rather than
+// forwarding an arbitrary object into the system prompt verbatim.
+function sanitizeTodayContext(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const out = {};
+  const verseRef = truncate(raw.verseRef, 60);
+  const storyTitle = truncate(raw.storyTitle, 200);
+  const storyText = truncate(raw.storyText, CONTEXT_FIELD_MAX_LEN);
+  const momentText = truncate(raw.momentText, CONTEXT_FIELD_MAX_LEN);
+  if (verseRef) out.verseRef = verseRef;
+  if (storyTitle && storyText) {
+    out.storyTitle = storyTitle;
+    out.storyText = storyText;
+  }
+  if (momentText) out.momentText = momentText;
+  return Object.keys(out).length ? out : null;
+}
+
+// Same idea for the personalization summary — plain numbers/booleans and a
+// short list of single-word mood labels, nothing free-form like the user's
+// actual reflection text (that stays private to the app; see
+// mobile/src/screens/ChatScreen.js for why only these lightweight signals
+// are sent at all).
+function sanitizePersonalization(raw) {
+  if (!raw || typeof raw !== "object") return null;
+  const out = {};
+  if (Number.isFinite(raw.streak) && raw.streak >= 0) out.streak = Math.floor(raw.streak);
+  if (Number.isFinite(raw.momentsDone) && raw.momentsDone >= 0) out.momentsDone = Math.floor(raw.momentsDone);
+  if (typeof raw.todaysMomentDone === "boolean") out.todaysMomentDone = raw.todaysMomentDone;
+  if (Array.isArray(raw.recentMoods)) {
+    const moods = raw.recentMoods
+      .map((m) => truncate(m, MOOD_WORD_MAX_LEN))
+      .filter(Boolean)
+      .slice(0, MAX_RECENT_MOODS);
+    if (moods.length) out.recentMoods = moods;
+  }
+  return Object.keys(out).length ? out : null;
+}
+
+function systemPromptFor(region, language, todayContext, personalization) {
   const crisisLine = CRISIS_RESOURCES[region] || DEFAULT_CRISIS_RESOURCE;
   const languageName = LANGUAGE_NAMES[language] || "English";
-  return `You are the companion voice inside Barnabas Journal, a Christian daily-encouragement app.
+  let prompt = `You are the companion voice inside Barnabas Journal, a Christian daily-encouragement app.
 Speak like Barnabas — warm, direct, rooted in Scripture, never preachy or robotic.
 Answer questions about faith, the app's daily content, and offer encouragement grounded in the Bible.
 You are not a therapist and must not diagnose, give medical/psychiatric advice, or claim to replace professional help.
@@ -70,6 +126,33 @@ ${crisisLine}
 When you quote or closely paraphrase a specific Bible verse, always call lookup_bible_verse first and use its exact wording — even for verses you're confident you already know correctly. Never present a scripture quotation you have not looked up.
 Keep replies concise — 2-4 short paragraphs at most.
 Always reply in ${languageName}, regardless of what language the user writes in — that's the app's current display language, and switching away from it would be jarring even if they type in a different one.`;
+
+  if (todayContext) {
+    prompt += `\n\nToday's content in the app, in case the user asks about it — reference it accurately rather than guessing from memory, but only bring it up if it's actually relevant to what they're saying:`;
+    if (todayContext.verseRef) {
+      prompt += `\n- Today's verse is ${todayContext.verseRef} (still call lookup_bible_verse for its exact wording before quoting it).`;
+    }
+    if (todayContext.storyTitle) {
+      prompt += `\n- Today's true story, "${todayContext.storyTitle}": ${todayContext.storyText}`;
+    }
+    if (todayContext.momentText) {
+      prompt += `\n- Today's suggested Barnabas moment (a small act of kindness): ${todayContext.momentText}`;
+    }
+  }
+
+  if (personalization) {
+    prompt += `\n\nLightweight context about this specific user, from their own app activity — weave it in naturally if it's relevant, never recite it back as a list of stats:`;
+    if (typeof personalization.streak === "number") prompt += `\n- Current streak: ${personalization.streak} day(s).`;
+    if (typeof personalization.momentsDone === "number") {
+      prompt += `\n- Barnabas moments (small acts of kindness) completed so far: ${personalization.momentsDone}.`;
+    }
+    if (personalization.recentMoods?.length) {
+      prompt += `\n- Their mood the last few days, oldest to most recent: ${personalization.recentMoods.join(", ")}.`;
+    }
+    if (personalization.todaysMomentDone) prompt += `\n- They've already completed today's Barnabas moment.`;
+  }
+
+  return prompt;
 }
 
 const MAX_REQUESTS_PER_DAY = 30;
@@ -267,57 +350,108 @@ function jsonResponse(body, status = 200) {
   });
 }
 
+const FEEDBACK_MESSAGE_MAX_LEN = 4000;
+
+// Stores one thumbs-up/down reaction to a reply, keyed so it never
+// overwrites another and ages out on its own — this is a developer review
+// signal (see mobile/src/screens/ChatScreen.js and this repo's chat-worker
+// README for how to list/read these via wrangler), not a live feature the
+// app reads back, so there's no read path here at all, only a write one.
+// Reuses RATE_LIMIT_KV rather than provisioning a second KV namespace —
+// the key prefix keeps the two purposes from colliding.
+async function handleFeedback(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return jsonResponse({ error: "Invalid request body." }, 400);
+  }
+
+  const { deviceId, feedback, userMessage, assistantMessage } = body;
+  if (!deviceId || typeof deviceId !== "string") {
+    return jsonResponse({ error: "Missing device id." }, 400);
+  }
+  if (feedback !== "up" && feedback !== "down") {
+    return jsonResponse({ error: "Invalid feedback value." }, 400);
+  }
+  const safeUserMessage = truncate(userMessage, FEEDBACK_MESSAGE_MAX_LEN) || "";
+  const safeAssistantMessage = truncate(assistantMessage, FEEDBACK_MESSAGE_MAX_LEN) || "";
+
+  const key = `feedback:${Date.now()}:${Math.random().toString(36).slice(2, 10)}`;
+  const record = {
+    deviceId,
+    feedback,
+    userMessage: safeUserMessage,
+    assistantMessage: safeAssistantMessage,
+    ts: new Date().toISOString(),
+  };
+  // 90 days — long enough for periodic review, short enough not to
+  // accumulate this indefinitely.
+  await env.RATE_LIMIT_KV.put(key, JSON.stringify(record), { expirationTtl: 90 * 86400 });
+
+  return jsonResponse({ ok: true });
+}
+
+async function handleChat(request, env) {
+  let body;
+  try {
+    body = await request.json();
+  } catch (e) {
+    return jsonResponse({ error: "Invalid request body." }, 400);
+  }
+
+  const { message, history, deviceId, region, language, todayContext, personalization } = body;
+  if (!message || typeof message !== "string" || message.length > 2000) {
+    return jsonResponse({ error: "Invalid message." }, 400);
+  }
+  if (!deviceId || typeof deviceId !== "string") {
+    return jsonResponse({ error: "Missing device id." }, 400);
+  }
+
+  const dayKey = `${deviceId}:${new Date().toISOString().slice(0, 10)}`;
+  const count = parseInt((await env.RATE_LIMIT_KV.get(dayKey)) || "0", 10);
+  if (count >= MAX_REQUESTS_PER_DAY) {
+    return jsonResponse({ error: "You've reached today's message limit — try again tomorrow." }, 429);
+  }
+  await env.RATE_LIMIT_KV.put(dayKey, String(count + 1), { expirationTtl: 86400 });
+
+  const safeHistory = Array.isArray(history)
+    ? history
+        .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
+        .slice(-MAX_HISTORY_TURNS)
+    : [];
+  const resolvedRegion = typeof region === "string" ? region : null;
+  const resolvedLanguage = typeof language === "string" ? language : null;
+  const safeTodayContext = sanitizeTodayContext(todayContext);
+  const safePersonalization = sanitizePersonalization(personalization);
+
+  const anthropic = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
+
+  try {
+    if (await needsCrisisResponse(anthropic, message)) {
+      const crisisLine = CRISIS_RESOURCES[resolvedRegion] || DEFAULT_CRISIS_RESOURCE;
+      const template = CRISIS_REPLY_TEMPLATES[resolvedLanguage] || CRISIS_REPLY_TEMPLATES.en;
+      return jsonResponse({ reply: template(crisisLine) });
+    }
+
+    const reply = await generateReply(
+      anthropic,
+      systemPromptFor(resolvedRegion, resolvedLanguage, safeTodayContext, safePersonalization),
+      [...safeHistory, { role: "user", content: message }]
+    );
+    return jsonResponse({ reply });
+  } catch (e) {
+    return jsonResponse({ error: "Couldn't reach Claude right now. Please try again." }, 502);
+  }
+}
+
 export default {
   async fetch(request, env) {
     if (request.method !== "POST") return new Response("Not found", { status: 404 });
 
-    let body;
-    try {
-      body = await request.json();
-    } catch (e) {
-      return jsonResponse({ error: "Invalid request body." }, 400);
-    }
-
-    const { message, history, deviceId, region, language } = body;
-    if (!message || typeof message !== "string" || message.length > 2000) {
-      return jsonResponse({ error: "Invalid message." }, 400);
-    }
-    if (!deviceId || typeof deviceId !== "string") {
-      return jsonResponse({ error: "Missing device id." }, 400);
-    }
-
-    const dayKey = `${deviceId}:${new Date().toISOString().slice(0, 10)}`;
-    const count = parseInt((await env.RATE_LIMIT_KV.get(dayKey)) || "0", 10);
-    if (count >= MAX_REQUESTS_PER_DAY) {
-      return jsonResponse({ error: "You've reached today's message limit — try again tomorrow." }, 429);
-    }
-    await env.RATE_LIMIT_KV.put(dayKey, String(count + 1), { expirationTtl: 86400 });
-
-    const safeHistory = Array.isArray(history)
-      ? history
-          .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
-          .slice(-MAX_HISTORY_TURNS)
-      : [];
-    const resolvedRegion = typeof region === "string" ? region : null;
-    const resolvedLanguage = typeof language === "string" ? language : null;
-
-    const anthropic = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-
-    try {
-      if (await needsCrisisResponse(anthropic, message)) {
-        const crisisLine = CRISIS_RESOURCES[resolvedRegion] || DEFAULT_CRISIS_RESOURCE;
-        const template = CRISIS_REPLY_TEMPLATES[resolvedLanguage] || CRISIS_REPLY_TEMPLATES.en;
-        return jsonResponse({ reply: template(crisisLine) });
-      }
-
-      const reply = await generateReply(
-        anthropic,
-        systemPromptFor(resolvedRegion, resolvedLanguage),
-        [...safeHistory, { role: "user", content: message }]
-      );
-      return jsonResponse({ reply });
-    } catch (e) {
-      return jsonResponse({ error: "Couldn't reach Claude right now. Please try again." }, 502);
-    }
+    const { pathname } = new URL(request.url);
+    if (pathname === "/feedback") return handleFeedback(request, env);
+    if (pathname === "/" || pathname === "") return handleChat(request, env);
+    return new Response("Not found", { status: 404 });
   },
 };

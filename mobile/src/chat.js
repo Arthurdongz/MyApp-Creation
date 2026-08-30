@@ -22,14 +22,21 @@ export async function getOrCreateChatDeviceId() {
 // so the Worker's system prompt can cite the right crisis line instead of
 // always defaulting to US resources — the caller resolves it since only it
 // knows about a user's Settings override.
-export async function sendChatMessage(message, history, language, region) {
+//
+// todayContext and personalization are optional, structured summaries the
+// Worker folds into its system prompt (see chat-worker/worker.js) so
+// Barnabas can reference today's actual story/moment/verse instead of
+// guessing from memory, and lightly personalize using the user's own
+// streak/mood/moments-done — never their raw journal text, which stays on
+// the device unless they choose to type it into the chat themselves.
+export async function sendChatMessage(message, history, language, region, todayContext, personalization) {
   const deviceId = await getOrCreateChatDeviceId();
   let res;
   try {
     res = await fetch(CHAT_WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, history, deviceId, region, language }),
+      body: JSON.stringify({ message, history, deviceId, region, language, todayContext, personalization }),
     });
   } catch (e) {
     throw new Error("Couldn't reach the chat server. Check your connection and try again.");
@@ -48,4 +55,22 @@ export async function sendChatMessage(message, history, language, region) {
 
   const data = await res.json();
   return data.reply;
+}
+
+// Fire-and-forget thumbs up/down on one Barnabas reply, for the developer
+// to review later (see chat-worker/worker.js's /feedback handler and its
+// README for how to read these back via wrangler) — never blocks or
+// surfaces an error to the chat UI, since a failed feedback ping shouldn't
+// interrupt the conversation itself.
+export async function sendChatFeedback(userMessage, assistantMessage, feedback) {
+  try {
+    const deviceId = await getOrCreateChatDeviceId();
+    await fetch(`${CHAT_WORKER_URL}/feedback`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceId, feedback, userMessage, assistantMessage }),
+    });
+  } catch (e) {
+    // best-effort only
+  }
 }

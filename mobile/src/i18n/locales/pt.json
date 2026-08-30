@@ -293,7 +293,13 @@
     "historyEmpty": "Você ainda não começou nenhuma conversa.",
     "historyRowMeta_one": "{{count}} mensagem · {{date}}",
     "historyRowMeta_other": "{{count}} mensagens · {{date}}",
-    "historyPreviewFallback": "Nova conversa"
+    "historyPreviewFallback": "Nova conversa",
+    "personalizationOn": "Personalizado com sua sequência e humor — toque para desativar",
+    "personalizationOff": "Personalização desativada — toque para ativar",
+    "personalizationOnLabel": "Desativar a personalização com sua sequência e humor",
+    "personalizationOffLabel": "Ativar a personalização com sua sequência e humor",
+    "feedbackUpLabel": "Esta resposta foi útil",
+    "feedbackDownLabel": "Esta resposta não foi útil"
   },
   "history": {
     "title": "Meu Diário",

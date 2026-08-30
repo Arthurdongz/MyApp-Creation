@@ -144,6 +144,12 @@ function defaultSettings() {
     chatQuotaMonthKey: null,
     chatMessagesUsed: 0,
     chatSubscribed: false,
+    // Lets Barnabas use lightweight, non-text signals (streak, moments
+    // done, recent mood words) to personalize replies — never the user's
+    // actual reflection text, which never leaves the device unless they
+    // type it into the chat themselves. On by default since it's a core
+    // part of what the chat feature promises; toggleable in ChatScreen.
+    chatPersonalizationEnabled: true,
     // null = trust the device locale guess (see crisisResources.js);
     // a region code or "OTHER" means the user corrected it by hand in
     // Settings because the device guessed wrong.
@@ -823,6 +829,27 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Records a thumbs up/down on one message within `conversation`, purely
+  // for the local chat bubble UI to reflect the choice back (a filled vs
+  // outline icon) — the actual signal reaches the developer separately via
+  // chat.js's sendChatFeedback, which posts to the Worker independently of
+  // this local write.
+  const setChatMessageFeedback = useCallback(
+    (conversation, messageIndex, feedback) => {
+      setState((prev) => {
+        const chatConversations = prev.chatConversations.map((c) =>
+          c.id === conversation.id
+            ? { ...c, messages: c.messages.map((m, i) => (i === messageIndex ? { ...m, feedback } : m)) }
+            : c
+        );
+        const next = { ...prev, chatConversations };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
   // Explicitly reopening a past conversation from History always resumes
   // it, regardless of how long ago it was last touched — the 30-minute
   // timeout only governs which conversation a plain chat open lands on,
@@ -950,6 +977,7 @@ export function useJournalStore() {
     chatConversations: state.chatConversations,
     openChatConversation,
     appendChatMessage,
+    setChatMessageFeedback,
     resumeChatConversation,
     showCrisisNudge,
     showCheckInNudge,

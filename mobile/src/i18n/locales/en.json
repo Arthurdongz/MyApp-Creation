@@ -293,7 +293,13 @@
     "historyEmpty": "You haven't started a conversation yet.",
     "historyRowMeta_one": "{{count}} message · {{date}}",
     "historyRowMeta_other": "{{count}} messages · {{date}}",
-    "historyPreviewFallback": "New conversation"
+    "historyPreviewFallback": "New conversation",
+    "personalizationOn": "Personalized using your streak & mood — tap to turn off",
+    "personalizationOff": "Personalization off — tap to turn on",
+    "personalizationOnLabel": "Turn off personalization using your streak and mood",
+    "personalizationOffLabel": "Turn on personalization using your streak and mood",
+    "feedbackUpLabel": "This reply was helpful",
+    "feedbackDownLabel": "This reply was not helpful"
   },
   "history": {
     "title": "My Journal",

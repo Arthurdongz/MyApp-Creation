@@ -90,6 +90,44 @@ returns an error the model is instructed to handle by describing the passage
 in its own words or admitting it can't verify the exact wording, rather than
 quoting anyway.
 
+## Grounding in today's app content, and light personalization
+
+Every chat request can optionally carry two extra fields, both built
+client-side (see `mobile/src/screens/ChatScreen.js`) and sanitized
+server-side (`sanitizeTodayContext`/`sanitizePersonalization` in
+`worker.js`) before ever reaching the system prompt:
+
+- **`todayContext`** — today's actual verse reference, true story, and
+  suggested Barnabas moment, exactly as the user is seeing them in the app.
+  Lets Barnabas answer "what's today's story?" accurately instead of
+  guessing from training data — the same anti-hallucination idea as the
+  verse lookup, extended to the app's own content banks.
+- **`personalization`** — lightweight, non-text signals only: streak,
+  moments-done count, whether today's moment is done, and a short list of
+  recent mood words. Never the user's actual reflection/journal text, which
+  stays on-device unless they type it into the chat themselves. Toggleable
+  per-user from within ChatScreen (`settings.chatPersonalizationEnabled`,
+  default on).
+
+## Reply feedback (thumbs up/down)
+
+`POST /feedback` (same host, different path) records a thumbs up/down on
+one reply — `{ deviceId, feedback: "up"|"down", userMessage, assistantMessage }`.
+It's a write-only endpoint: there's no in-app read path, no aggregation,
+and no effect on future replies (nothing "learns" from it automatically —
+see the chat-improvement discussion this was scoped from for why). It's
+purely a signal for you, the developer, to review periodically and use to
+manually refine the system prompt or tools over time.
+
+Records are stored in the same `RATE_LIMIT_KV` namespace under a
+`feedback:<timestamp>:<random>` key, with a 90-day TTL so they don't
+accumulate forever unreviewed. To look at what's been logged:
+
+```bash
+npx wrangler kv key list --binding=RATE_LIMIT_KV --prefix="feedback:"
+npx wrangler kv key get --binding=RATE_LIMIT_KV "feedback:<the-key-from-above>"
+```
+
 ## Cost
 
 At the current pricing for `claude-haiku-4-5` ($1/$5 per million input/output

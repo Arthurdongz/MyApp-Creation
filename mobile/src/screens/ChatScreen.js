@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -15,11 +15,30 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
-import { sendChatMessage } from "../chat";
+import { sendChatMessage, sendChatFeedback } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
+import { pickForDay, pickForDaySmallBank } from "../content";
+import { VERSES } from "../data/verses";
+import { STORIES } from "../data/stories";
+import { STORIES_ES } from "../data/stories.es";
+import { STORIES_PT } from "../data/stories.pt";
+import { STORIES_FR } from "../data/stories.fr";
+import { BARNABAS_MOMENTS } from "../data/moments";
+import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
+import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
+import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
 import VersePopup from "../components/VersePopup";
+
+const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
+const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
+
+// How many days of mood history to summarize into the personalization
+// context sent with each message — kept in sync with the Worker's own
+// MAX_RECENT_MOODS cap (chat-worker/worker.js), so nothing gathered here
+// ever gets silently truncated server-side.
+const PERSONALIZATION_MOOD_DAYS = 7;
 
 // Longer book names first, so e.g. "1 John" matches before the bare "John"
 // alternative gets a chance to swallow just the tail of it.
@@ -84,12 +103,48 @@ export default function ChatScreen({ store, onClose }) {
     chatAccess,
     recordChatMessageSent,
     settings,
+    updateSettings,
     chatConversations,
     openChatConversation,
     appendChatMessage,
+    setChatMessageFeedback,
     resumeChatConversation,
+    latestDay,
+    order,
+    streak,
+    momentsDone,
+    state,
   } = store;
   const crisisResource = getCrisisResource(resolveCrisisRegion(settings));
+
+  const storyBank = STORIES_BY_LANG[i18n.language] || STORIES;
+  const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
+  const todayEntry = state.entries[`day-${latestDay}`];
+
+  // Grounds Barnabas in what the user is actually seeing today — the exact
+  // story and moment text, plus which verse is "today's" (still looked up
+  // via the lookup_bible_verse tool for its exact wording) — instead of
+  // letting the model guess or paraphrase from training data.
+  const todayContext = useMemo(() => {
+    const story = pickForDaySmallBank(storyBank, latestDay, order);
+    const moment = todayEntry?.customMoment || pickForDay(momentsBank, latestDay, order);
+    const verseEntry = pickForDay(VERSES, latestDay, order);
+    return { verseRef: verseEntry.ref, storyTitle: story.title, storyText: story.text, momentText: moment };
+  }, [storyBank, momentsBank, latestDay, order, todayEntry]);
+
+  // Only ever lightweight, non-text signals — never the user's actual
+  // reflection/barnabasNote/receivedKindness text, which stays private to
+  // the device unless they choose to paste it into the chat themselves.
+  // Off entirely when the user has turned personalization off in-screen.
+  const personalization = useMemo(() => {
+    if (!settings.chatPersonalizationEnabled) return null;
+    const recentMoods = [];
+    for (let d = Math.max(1, latestDay - (PERSONALIZATION_MOOD_DAYS - 1)); d <= latestDay; d++) {
+      const mood = state.entries[`day-${d}`]?.mood;
+      if (mood) recentMoods.push(mood);
+    }
+    return { streak, momentsDone, recentMoods, todaysMomentDone: !!todayEntry?.momentDone };
+  }, [settings.chatPersonalizationEnabled, latestDay, state.entries, streak, momentsDone, todayEntry]);
   const [view, setView] = useState("chat");
   const [conversation, setConversation] = useState(null);
   const [input, setInput] = useState("");
@@ -129,13 +184,36 @@ export default function ChatScreen({ store, onClose }) {
     setSending(true);
     setErrorMsg("");
     try {
-      const reply = await sendChatMessage(text, history, i18n.language, resolveCrisisRegion(settings));
+      const reply = await sendChatMessage(
+        text,
+        history,
+        i18n.language,
+        resolveCrisisRegion(settings),
+        todayContext,
+        personalization
+      );
       appendChatMessage(conversation, { role: "assistant", content: reply });
       recordChatMessageSent();
     } catch (e) {
       setErrorMsg(e.message || t("chat.genericError"));
     } finally {
       setSending(false);
+    }
+  };
+
+  // Tapping an already-set thumb again clears it, rather than only ever
+  // allowing up->down or down->up — a way to withdraw a reaction, not just
+  // flip it. Only pings the Worker (see sendChatFeedback) when a reaction
+  // is actually being set, not cleared, since there's nothing useful to
+  // log about a withdrawn opinion.
+  const handleFeedback = (messageIndex, message, feedback) => {
+    if (!conversation) return;
+    hapticTap();
+    const next = message.feedback === feedback ? null : feedback;
+    setChatMessageFeedback(conversation, messageIndex, next);
+    if (next) {
+      const precedingUserMessage = messages[messageIndex - 1]?.content || "";
+      sendChatFeedback(precedingUserMessage, message.content, next);
     }
   };
 
@@ -254,13 +332,31 @@ export default function ChatScreen({ store, onClose }) {
               contentContainerStyle={styles.bodyContent}
               onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
             >
-              {!chatAccess.unlimited ? (
-                <Text style={styles.quotaBanner}>
-                  {t("chat.quotaBanner", { left: chatAccess.messagesLeft, limit: chatAccess.limit })}
-                </Text>
-              ) : (
-                <Text style={styles.quotaBanner}>{t("chat.unlimitedBanner")}</Text>
-              )}
+              <View style={styles.bannerRow}>
+                {!chatAccess.unlimited ? (
+                  <Text style={styles.quotaBanner}>
+                    {t("chat.quotaBanner", { left: chatAccess.messagesLeft, limit: chatAccess.limit })}
+                  </Text>
+                ) : (
+                  <Text style={styles.quotaBanner}>{t("chat.unlimitedBanner")}</Text>
+                )}
+                <TouchableOpacity
+                  onPress={() => {
+                    hapticTap();
+                    updateSettings({ chatPersonalizationEnabled: !settings.chatPersonalizationEnabled });
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    settings.chatPersonalizationEnabled
+                      ? t("chat.personalizationOnLabel")
+                      : t("chat.personalizationOffLabel")
+                  }
+                >
+                  <Text style={styles.personalizationToggle}>
+                    {settings.chatPersonalizationEnabled ? t("chat.personalizationOn") : t("chat.personalizationOff")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
               {messages.length === 0 ? (
                 <Text style={styles.emptyState}>{t("chat.emptyState")}</Text>
@@ -286,6 +382,36 @@ export default function ChatScreen({ store, onClose }) {
                           )
                         : m.content}
                     </Text>
+                    {m.role === "assistant" ? (
+                      <View style={styles.feedbackRow}>
+                        <TouchableOpacity
+                          onPress={() => handleFeedback(i, m, "up")}
+                          accessibilityRole="button"
+                          accessibilityLabel={t("chat.feedbackUpLabel")}
+                          accessibilityState={{ selected: m.feedback === "up" }}
+                          hitSlop={6}
+                        >
+                          <Ionicons
+                            name={m.feedback === "up" ? "thumbs-up" : "thumbs-up-outline"}
+                            size={14}
+                            color={colors.sageDark}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => handleFeedback(i, m, "down")}
+                          accessibilityRole="button"
+                          accessibilityLabel={t("chat.feedbackDownLabel")}
+                          accessibilityState={{ selected: m.feedback === "down" }}
+                          hitSlop={6}
+                        >
+                          <Ionicons
+                            name={m.feedback === "down" ? "thumbs-down" : "thumbs-down-outline"}
+                            size={14}
+                            color={colors.sageDark}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
                   </View>
                 ))
               )}
@@ -369,6 +495,14 @@ function getStyles(colors, shadow) {
     },
     iconBtnText: { fontSize: 15, color: colors.sageDark },
     bodyContent: { padding: 16, paddingBottom: 24, flexGrow: 1 },
+    bannerRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 8,
+      marginBottom: 14,
+    },
     quotaBanner: {
       fontSize: 12,
       fontWeight: "700",
@@ -378,7 +512,12 @@ function getStyles(colors, shadow) {
       paddingVertical: 5,
       paddingHorizontal: 12,
       alignSelf: "flex-start",
-      marginBottom: 14,
+    },
+    personalizationToggle: {
+      fontSize: 11,
+      fontWeight: "600",
+      color: colors.textSoft,
+      textDecorationLine: "underline",
     },
     emptyState: { fontSize: 14, color: colors.textSoft, fontStyle: "italic" },
     spinner: { marginTop: 8 },
@@ -405,6 +544,7 @@ function getStyles(colors, shadow) {
     bubbleText: { fontSize: 14, lineHeight: 20, color: colors.text },
     bubbleTextUser: { color: colors.buttonOnText },
     bubbleRef: { color: colors.sageDark, fontWeight: "700", textDecorationLine: "underline" },
+    feedbackRow: { flexDirection: "row", gap: 12, marginTop: 8 },
     errorText: { fontSize: 13, color: colors.goldText, marginHorizontal: 16, marginBottom: 6 },
     inputRow: {
       flexDirection: "row",

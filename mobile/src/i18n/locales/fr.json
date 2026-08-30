@@ -293,7 +293,13 @@
     "historyEmpty": "Tu n'as pas encore commencé de conversation.",
     "historyRowMeta_one": "{{count}} message · {{date}}",
     "historyRowMeta_other": "{{count}} messages · {{date}}",
-    "historyPreviewFallback": "Nouvelle conversation"
+    "historyPreviewFallback": "Nouvelle conversation",
+    "personalizationOn": "Personnalisé avec ta série et ton humeur — touche pour désactiver",
+    "personalizationOff": "Personnalisation désactivée — touche pour activer",
+    "personalizationOnLabel": "Désactiver la personnalisation avec ta série et ton humeur",
+    "personalizationOffLabel": "Activer la personnalisation avec ta série et ton humeur",
+    "feedbackUpLabel": "Cette réponse était utile",
+    "feedbackDownLabel": "Cette réponse n'était pas utile"
   },
   "history": {
     "title": "Mon Journal",
