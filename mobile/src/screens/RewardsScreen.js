@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
+import { TOTAL_DAYS } from "../content";
 import SharePreviewModal from "../components/SharePreviewModal";
 import YearReviewCard from "../components/YearReviewCard";
 import AppIcon from "../components/AppIcon";
@@ -77,7 +78,7 @@ function YearInReviewCard({ recap, styles, onShare }) {
   );
 }
 
-export default function RewardsScreen({ store }) {
+export default function RewardsScreen({ store, onJumpToDay }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
@@ -106,6 +107,10 @@ export default function RewardsScreen({ store }) {
           <Text style={styles.tileLabel}>{t("rewards.barnabasMoments")}</Text>
         </View>
       </View>
+
+      <Text style={styles.sectionTitle}>{t("rewards.journeyTitle")}</Text>
+      <Text style={styles.subtitle}>{t("rewards.journeySubtitle")}</Text>
+      <JourneyCalendar store={store} styles={styles} onJumpToDay={onJumpToDay} />
 
       <Text style={styles.sectionTitle}>{t("rewards.badgesTitle")}</Text>
       <View style={styles.badgesGrid}>
@@ -146,6 +151,66 @@ export default function RewardsScreen({ store }) {
         onThemeChange={(id) => updateSettings({ shareTheme: id })}
         onClose={() => setShowYearShare(false)}
       />
+    </View>
+  );
+}
+
+// Every past day is already reachable one at a time via the Today screen's
+// prev/next day nav (both call the same store.jumpToDay this uses) — this
+// just gives that existing capability a visual, at-a-glance home: how far
+// into the 366-day journey you are, and a tap-to-revisit grid instead of
+// paging backward one day at a time.
+function JourneyCalendar({ store, styles, onJumpToDay }) {
+  const { t } = useTranslation();
+  const entries = store.state.entries;
+  const latest = store.latestDay;
+  const days = [];
+  for (let day = 1; day <= latest; day++) days.push(day);
+  const progressPercent = Math.min(100, Math.round((latest / TOTAL_DAYS) * 100));
+
+  return (
+    <View style={{ marginBottom: 8 }}>
+      <Text style={styles.journeyProgressLabel}>{t("rewards.journey.progress", { day: latest, total: TOTAL_DAYS })}</Text>
+      <View style={styles.journeyProgressTrack}>
+        <View style={[styles.journeyProgressFill, { width: `${progressPercent}%` }]} />
+      </View>
+      <View style={styles.journeyGrid}>
+        {days.map((day) => {
+          const entry = entries[`day-${day}`];
+          const hasContent = !!(
+            entry &&
+            (entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.mood)
+          );
+          const dateLabel = entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day });
+          return (
+            <TouchableOpacity
+              key={day}
+              style={[
+                styles.journeyCell,
+                hasContent && styles.journeyCellLogged,
+                entry?.momentDone && styles.journeyCellMoment,
+              ]}
+              onPress={() => onJumpToDay(day)}
+              accessibilityRole="button"
+              accessibilityLabel={t("rewards.journey.dayLabel", { day, date: dateLabel })}
+            />
+          );
+        })}
+      </View>
+      <View style={styles.journeyLegendRow}>
+        <View style={styles.journeyLegendItem}>
+          <View style={[styles.journeyLegendDot, styles.journeyCellMoment]} />
+          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendMoment")}</Text>
+        </View>
+        <View style={styles.journeyLegendItem}>
+          <View style={[styles.journeyLegendDot, styles.journeyCellLogged]} />
+          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendLogged")}</Text>
+        </View>
+        <View style={styles.journeyLegendItem}>
+          <View style={styles.journeyLegendDot} />
+          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendEmpty")}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -250,6 +315,30 @@ function getStyles(colors, shadow) {
     badgeIcon: { marginBottom: 6 },
     badgeName: { fontSize: 13, fontWeight: "700", color: colors.sageDark, textAlign: "center" },
     badgeDesc: { fontSize: 11, color: colors.textSoft, marginTop: 2, textAlign: "center" },
+    journeyProgressLabel: { fontSize: 13, fontWeight: "700", color: colors.sageDark, marginBottom: 8 },
+    journeyProgressTrack: {
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.border,
+      overflow: "hidden",
+      marginBottom: 14,
+    },
+    journeyProgressFill: { height: "100%", borderRadius: 4, backgroundColor: colors.sage },
+    journeyGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, marginBottom: 12 },
+    journeyCell: {
+      width: 12,
+      height: 12,
+      borderRadius: 3,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    journeyCellLogged: { backgroundColor: colors.sage, borderColor: colors.sage },
+    journeyCellMoment: { backgroundColor: colors.gold, borderColor: colors.gold },
+    journeyLegendRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginBottom: 24 },
+    journeyLegendItem: { flexDirection: "row", alignItems: "center", gap: 6 },
+    journeyLegendDot: { width: 12, height: 12, borderRadius: 3 },
+    journeyLegendText: { fontSize: 12, color: colors.textSoft },
     moodGrid: {
       flexDirection: "row",
       flexWrap: "wrap",

@@ -18,6 +18,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import * as Notifications from "expo-notifications";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
@@ -250,37 +251,58 @@ function AppContent({ store }) {
                 >
                   <Ionicons name="menu-outline" size={18} color={colors.sageDark} />
                 </TouchableOpacity>
-                <View style={[styles.stat, styles.statRow]}>
+                <TouchableOpacity
+                  style={[styles.stat, styles.statRow]}
+                  onPress={() => Alert.alert(t("app.starsTapTitle"), t("app.starsTapMessage"))}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("app.starsAccessibilityLabel", { count: store.totalStars })}
+                >
                   <Ionicons name="star" size={14} color={colors.goldText} />
-                  <Text style={styles.statText}>{store.totalStars}</Text>
-                </View>
-                <View style={[styles.stat, styles.statRow]}>
+                  <Text style={styles.statText}>{t("app.starsLabel", { count: store.totalStars })}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.stat, styles.statRow]}
+                  onPress={() => Alert.alert(t("app.streakTapTitle"), t("app.streakTapMessage", { count: store.streak }))}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("app.streakAccessibilityLabel", { count: store.streak })}
+                >
                   <Ionicons name="flame" size={14} color={colors.goldText} />
-                  <Text style={styles.statText}>{store.streak}</Text>
-                </View>
+                  <Text style={styles.statText}>{t("app.streakLabel", { count: store.streak })}</Text>
+                </TouchableOpacity>
               </View>
             </View>
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={styles.tabsScroll}
-              contentContainerStyle={styles.tabs}
-            >
-              {TAB_KEYS.map((tabDef) => (
-                <TouchableOpacity
-                  key={tabDef.key}
-                  style={[styles.tabBtn, tab === tabDef.key && styles.tabBtnActive]}
-                  onPress={() => setTab(tabDef.key)}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: tab === tabDef.key }}
-                >
-                  <Text style={[styles.tabLabel, tab === tabDef.key && styles.tabLabelActive]}>
-                    {t(tabDef.i18nKey)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            <View style={styles.tabsWrap}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.tabs}
+              >
+                {TAB_KEYS.map((tabDef) => (
+                  <TouchableOpacity
+                    key={tabDef.key}
+                    style={[styles.tabBtn, tab === tabDef.key && styles.tabBtnActive]}
+                    onPress={() => setTab(tabDef.key)}
+                    accessibilityRole="tab"
+                    accessibilityState={{ selected: tab === tabDef.key }}
+                  >
+                    <Text style={[styles.tabLabel, tab === tabDef.key && styles.tabLabelActive]}>
+                      {t(tabDef.i18nKey)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              {/* A hint that the tab strip scrolls — without it, the last
+                  tab just looks visually clipped rather than "more to the
+                  right," which testers didn't pick up on. */}
+              <LinearGradient
+                colors={[`${colors.card}00`, colors.card]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.tabsFade}
+                pointerEvents="none"
+              />
+            </View>
 
             {tab === "today" && (
               <TodayScreen
@@ -294,7 +316,16 @@ function AppContent({ store }) {
             {tab === "facts" && <FactScreen store={store} />}
             {tab === "history" && <HistoryScreen store={store} onOpenReflection={setReflectionEditorDay} />}
             {tab === "favorites" && <FavoritesScreen store={store} />}
-            {tab === "rewards" && <RewardsScreen store={store} />}
+            {tab === "rewards" && (
+              <RewardsScreen
+                store={store}
+                onJumpToDay={(day) => {
+                  store.jumpToDay(day);
+                  scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+                  setTab("today");
+                }}
+              />
+            )}
 
             <Text style={styles.footer}>{t("app.footer")}</Text>
           </ScrollView>
@@ -386,7 +417,8 @@ function getStyles(colors, shadow) {
     },
     statRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     statText: { fontWeight: "700", fontSize: 13, color: colors.text },
-    tabsScroll: { marginBottom: 20 },
+    tabsWrap: { position: "relative", marginBottom: 20 },
+    tabsFade: { position: "absolute", right: 0, top: 0, bottom: 0, width: 28 },
     tabs: {
       flexDirection: "row",
       backgroundColor: colors.card,

@@ -90,6 +90,12 @@ export default function StoryScreen({ store }) {
           <View style={styles.insightPanel}>
             <Text style={styles.insightLabel}>{t("story.insightTitle")}</Text>
             <Text style={styles.insightText}>{story.insight}</Text>
+            {story.source ? (
+              <View style={styles.sourceRow}>
+                <Text style={styles.sourceLabel}>{t("story.sourceTitle")}</Text>
+                <Text style={styles.sourceText}>{story.source}</Text>
+              </View>
+            ) : null}
           </View>
         )}
       </Card>
@@ -194,6 +200,25 @@ function getStyles(colors) {
       lineHeight: 21,
       fontStyle: "italic",
       color: colors.text,
+    },
+    sourceRow: {
+      marginTop: 10,
+      paddingTop: 10,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    sourceLabel: {
+      textTransform: "uppercase",
+      letterSpacing: 0.6,
+      fontSize: 10,
+      fontWeight: "700",
+      color: colors.textSoft,
+      marginBottom: 3,
+    },
+    sourceText: {
+      fontSize: 12.5,
+      lineHeight: 18,
+      color: colors.textSoft,
     },
   });
 }
