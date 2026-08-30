@@ -1,0 +1,84 @@
+name: EAS Build & Submit
+
+# Manual only — unlike eas-update.yml (which auto-publishes JS-only OTA
+# updates on every push under mobile/**), a native build costs real EAS
+# build minutes and, when submitted, kicks off an actual App Store/Play
+# Store review. That should always be a deliberate, on-demand action, never
+# something that fires automatically off a push.
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: "Platform to build"
+        required: true
+        default: "ios"
+        type: choice
+        options:
+          - ios
+          - android
+          - all
+      profile:
+        description: "EAS build profile (see mobile/eas.json)"
+        required: true
+        default: "production"
+        type: choice
+        options:
+          - production
+          - preview
+          - development
+      submit:
+        description: "Submit the finished build to the store (production profile only)"
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: eas-build-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for EXPO_TOKEN
+        run: |
+          if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+            echo "::error::EXPO_TOKEN secret is not set. Add it in GitHub repo Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      # Waits for the remote EAS build to finish (eas-cli's default) so the
+      # submit step below only ever runs against a build that actually
+      # succeeded — never fires against a still-running or failed build.
+      - name: Build
+        run: eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }} --non-interactive
+
+      # eas.json only defines a "production" submit profile today, so this
+      # is gated to that profile regardless of what the submit input says.
+      # Android submission additionally needs a Google Play service-account
+      # key configured via `eas credentials` beforehand — this step will
+      # fail fast if that hasn't been set up, without affecting the build
+      # that already succeeded above.
+      - name: Submit to store
+        if: ${{ inputs.submit && inputs.profile == 'production' }}
+        run: eas submit --platform ${{ inputs.platform }} --profile production --non-interactive --latest
