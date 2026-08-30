@@ -176,7 +176,8 @@
       "whatHappenedPlaceholder": "What happened when you did it?",
       "reflectSaved": "Saved. Thank you for sharing that. ⭐⭐",
       "reachOutPrefix": "💛 If today feels heavy —",
-      "reachOutLink": "reach out to someone who cares"
+      "reachOutLink": "reach out to someone who cares",
+      "reminderOn": "🔔 We'll remind you"
     },
     "momentIntentions": {
       "today": "Today",
@@ -209,7 +210,8 @@
         "body": "A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?",
         "callLabel": "Call someone",
         "callButton": "📞 Call Someone"
-      }
+      },
+      "savedVerseLabel": "From your saved favorites"
     },
     "reflect": {
       "sectionTitleToday": "Today's Reflection",
@@ -225,7 +227,7 @@
       "saveButton": "Save Reflection",
       "savedToday": "Saved gently. Thank you for showing up today. ⭐⭐",
       "savedPastDay": "Saved gently. Thank you for going back to this day. ⭐⭐",
-      "teaserEmpty": "Tap to write in your Journal",
+      "teaserEmpty": "Tap to journal about today's Encouraging Thought — or whatever's on your mind",
       "teaserLabel": "Open today's reflection in your Journal"
     }
   },
@@ -347,6 +349,14 @@
       "kindnessReceived": "Kindness Received"
     },
     "markedDone": "Marked as done.",
+    "calendar": {
+      "showCalendar": "Calendar view",
+      "showList": "List view",
+      "dayLabel": "{{date}} (Day {{day}}) — tap to open",
+      "legendMoment": "Barnabas Moment done",
+      "legendEntry": "Wrote or logged something",
+      "legendEmpty": "Nothing yet"
+    },
     "writeToday": {
       "title": "Write Today's Reflection",
       "emptyPrompt": "You haven't reflected today",

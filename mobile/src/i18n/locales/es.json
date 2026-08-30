@@ -176,7 +176,8 @@
       "whatHappenedPlaceholder": "¿Qué pasó cuando lo hiciste?",
       "reflectSaved": "Guardado. Gracias por compartir eso. ⭐⭐",
       "reachOutPrefix": "💛 Si hoy se siente pesado —",
-      "reachOutLink": "contacta a alguien que te quiere"
+      "reachOutLink": "contacta a alguien que te quiere",
+      "reminderOn": "🔔 Te lo recordaremos"
     },
     "momentIntentions": {
       "today": "Hoy",
@@ -209,7 +210,8 @@
         "body": "Un mensaje de texto es fácil de enviar, y así de fácil de ignorar. ¿Hay alguien a quien realmente puedas llamar, o ver en persona, en lugar de solo enviarle un mensaje hoy?",
         "callLabel": "Llamar a alguien",
         "callButton": "📞 Llamar a Alguien"
-      }
+      },
+      "savedVerseLabel": "De tus favoritos guardados"
     },
     "reflect": {
       "sectionTitleToday": "Reflexión de Hoy",
@@ -225,7 +227,7 @@
       "saveButton": "Guardar Reflexión",
       "savedToday": "Guardado con cariño. Gracias por estar presente hoy. ⭐⭐",
       "savedPastDay": "Guardado con cariño. Gracias por volver a este día. ⭐⭐",
-      "teaserEmpty": "Toca para escribir en tu Diario",
+      "teaserEmpty": "Toca para escribir sobre el Pensamiento de Aliento de hoy — o lo que tengas en mente",
       "teaserLabel": "Abrir la reflexión de hoy en tu Diario"
     }
   },
@@ -347,6 +349,14 @@
       "kindnessReceived": "Bondad Recibida"
     },
     "markedDone": "Marcado como hecho.",
+    "calendar": {
+      "showCalendar": "Vista de calendario",
+      "showList": "Vista de lista",
+      "dayLabel": "{{date}} (Día {{day}}) — toca para abrir",
+      "legendMoment": "Momento Bernabé hecho",
+      "legendEntry": "Escribiste o registraste algo",
+      "legendEmpty": "Nada todavía"
+    },
     "writeToday": {
       "title": "Escribe la Reflexión de Hoy",
       "emptyPrompt": "Todavía no has reflexionado hoy",

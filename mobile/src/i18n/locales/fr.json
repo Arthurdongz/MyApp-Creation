@@ -176,7 +176,8 @@
       "whatHappenedPlaceholder": "Qu'est-ce qui s'est passé quand tu l'as fait ?",
       "reflectSaved": "Enregistré. Merci d'avoir partagé cela. ⭐⭐",
       "reachOutPrefix": "💛 Si aujourd'hui te semble lourd —",
-      "reachOutLink": "contacte quelqu'un qui tient à toi"
+      "reachOutLink": "contacte quelqu'un qui tient à toi",
+      "reminderOn": "🔔 Nous te le rappellerons"
     },
     "momentIntentions": {
       "today": "Aujourd'hui",
@@ -209,7 +210,8 @@
         "body": "Un message texte est facile à envoyer, et tout aussi facile à faire défiler sans y répondre. Y a-t-il quelqu'un que tu pourrais vraiment appeler, ou voir en personne, plutôt que de simplement lui envoyer un message aujourd'hui ?",
         "callLabel": "Appeler quelqu'un",
         "callButton": "📞 Appeler Quelqu'un"
-      }
+      },
+      "savedVerseLabel": "Parmi tes favoris enregistrés"
     },
     "reflect": {
       "sectionTitleToday": "Réflexion du Jour",
@@ -225,7 +227,7 @@
       "saveButton": "Enregistrer la Réflexion",
       "savedToday": "Enregistré avec soin. Merci d'être là aujourd'hui. ⭐⭐",
       "savedPastDay": "Enregistré avec soin. Merci d'être revenu sur ce jour. ⭐⭐",
-      "teaserEmpty": "Touchez pour écrire dans votre Journal",
+      "teaserEmpty": "Touchez pour écrire à propos de la Pensée d'Encouragement du jour — ou de ce qui vous préoccupe",
       "teaserLabel": "Ouvrir la réflexion d'aujourd'hui dans votre Journal"
     }
   },
@@ -347,6 +349,14 @@
       "kindnessReceived": "Bonté Reçue"
     },
     "markedDone": "Marqué comme fait.",
+    "calendar": {
+      "showCalendar": "Vue calendrier",
+      "showList": "Vue liste",
+      "dayLabel": "{{date}} (Jour {{day}}) — toucher pour ouvrir",
+      "legendMoment": "Moment Barnabas fait",
+      "legendEntry": "Écrit ou noté quelque chose",
+      "legendEmpty": "Rien pour l'instant"
+    },
     "writeToday": {
       "title": "Écrire la Réflexion d'Aujourd'hui",
       "emptyPrompt": "Tu n'as pas encore réfléchi aujourd'hui",

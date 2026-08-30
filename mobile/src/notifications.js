@@ -271,4 +271,61 @@ export async function cancelEveningReminder() {
   await withPrefixQueue(EVENING_PREFIX, () => cancelWindow(EVENING_PREFIX));
 }
 
+const MOMENT_REMINDER_ID = "barnabas-moment-reminder";
+
+// A single one-off reminder tied to whichever timing the user just picked
+// for today's Barnabas Moment (Today / Tonight / Tomorrow morning) — unlike
+// the rolling windows above, this only ever needs one pending notification
+// at a time, so picking a new timing (or completing the moment) simply
+// replaces/cancels this one identifier instead of managing a window.
+function momentReminderFireDate(intentionKey) {
+  const now = new Date();
+  if (intentionKey === "tonight") {
+    const fireDate = new Date(now);
+    fireDate.setHours(20, 0, 0, 0);
+    if (fireDate <= now) return new Date(now.getTime() + 60 * 60 * 1000);
+    return fireDate;
+  }
+  if (intentionKey === "tomorrow") {
+    const fireDate = new Date(now);
+    fireDate.setDate(fireDate.getDate() + 1);
+    fireDate.setHours(9, 0, 0, 0);
+    return fireDate;
+  }
+  // "today" — remind in a couple of hours, but never later than 9pm tonight
+  const inTwoHours = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  const cutoff = new Date(now);
+  cutoff.setHours(21, 0, 0, 0);
+  return inTwoHours > cutoff ? cutoff : inTwoHours;
+}
+
+export async function scheduleMomentReminder(intentionKey, momentText) {
+  if (!SUPPORTED) return false;
+  const granted = await requestNotificationPermission();
+  if (!granted) return false;
+  try {
+    await Notifications.cancelScheduledNotificationAsync(MOMENT_REMINDER_ID).catch(() => {});
+    const fireDate = momentReminderFireDate(intentionKey);
+    await Notifications.scheduleNotificationAsync({
+      identifier: MOMENT_REMINDER_ID,
+      content: {
+        title: "Barnabas Journal",
+        body: momentText
+          ? `Time for your Barnabas Moment: ${momentText}`
+          : "Time for your Barnabas Moment today.",
+        data: { screen: "today", section: "moment" },
+      },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: fireDate },
+    });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+export async function cancelMomentReminder() {
+  if (!SUPPORTED) return;
+  await Notifications.cancelScheduledNotificationAsync(MOMENT_REMINDER_ID).catch(() => {});
+}
+
 export const notificationsSupported = SUPPORTED;

@@ -29,6 +29,7 @@ import { STORIES_PT } from "../data/stories.pt";
 import { STORIES_FR } from "../data/stories.fr";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
+import { scheduleMomentReminder, cancelMomentReminder } from "../notifications";
 
 // The stars a completed Barnabas Moment awards — kept in sync with the "2"
 // literal in storage.js's markMomentDone, since that's the only place the
@@ -142,6 +143,20 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const showCrisisNudge = isToday && store.showCrisisNudge;
   const showSupportSection = showCallNudge || showCheckInNudge || showCrisisNudge;
 
+  // When the check-in nudge fires (a sign the last week has felt heavy), pair
+  // it with one of the user's own saved favorite verses rather than a fresh
+  // unfamiliar one — something they already chose to keep, handed back at a
+  // moment it might actually help. Picked deterministically off the day
+  // number so it's stable within a day but varies across occurrences.
+  const favoriteVerses = useMemo(
+    () => (store.favorites || []).filter((f) => f.type === "verse"),
+    [store.favorites]
+  );
+  const nudgeVerse =
+    showCheckInNudge && favoriteVerses.length > 0
+      ? favoriteVerses[viewingDay % favoriteVerses.length]
+      : null;
+
   // The moment card collapses to a one-line summary once it's done, as long
   // as there's nothing else pending on it (yesterday's follow-up question
   // takes priority and keeps the full card open).
@@ -177,6 +192,8 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     hapticSuccess();
     setJustCompleted(true);
     markMomentDone();
+    cancelMomentReminder();
+    setReminderScheduled(false);
   };
 
   useEffect(() => {
@@ -229,6 +246,10 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const [wordOpen, setWordOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
   const [momentOpen, setMomentOpen] = useState(!today.momentDone);
+  // Only true for a reminder scheduled during this screen visit — mirrors
+  // justCompleted below, since we don't persist "was a notification
+  // scheduled" in storage, just confirm the action that was just taken.
+  const [reminderScheduled, setReminderScheduled] = useState(false);
 
   // The viewed day's saved reflection/note only comes through on first
   // mount via useState's initial value — keep the text boxes in sync
@@ -245,6 +266,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     setThoughtOpen(false);
     setMomentOpen(!today.momentDone);
     setJustCompleted(false);
+    setReminderScheduled(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewingDay]);
 
@@ -370,11 +392,25 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             >
               <Text style={styles.secondaryButtonText}>{t("today.support.checkinTalk.talkButton")}</Text>
             </TouchableOpacity>
+            {nudgeVerse ? (
+              <View style={styles.nudgeVerseBox}>
+                <Text style={styles.nudgeVerseLabel}>{t("today.support.savedVerseLabel")}</Text>
+                <Text style={styles.nudgeVerseText}>“{nudgeVerse.text}”</Text>
+                <Text style={styles.nudgeVerseRef}>— {nudgeVerse.ref}</Text>
+              </View>
+            ) : null}
           </>
         ) : (
           <>
             <Text style={styles.cardLabel}>{t("today.support.checkinPause.title")}</Text>
             <Text style={styles.bodyText}>{t("today.support.checkinPause.body")}</Text>
+            {nudgeVerse ? (
+              <View style={styles.nudgeVerseBox}>
+                <Text style={styles.nudgeVerseLabel}>{t("today.support.savedVerseLabel")}</Text>
+                <Text style={styles.nudgeVerseText}>“{nudgeVerse.text}”</Text>
+                <Text style={styles.nudgeVerseRef}>— {nudgeVerse.ref}</Text>
+              </View>
+            ) : null}
           </>
         ),
     });
@@ -631,17 +667,26 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
 
             {isToday && !today.momentDone ? (
               today.momentIntention ? (
-                <View style={styles.intentionRow}>
-                  <Text style={styles.intentionText}>
-                    {t("today.moment.plannedFor", { when: MOMENT_INTENTION_LABELS[today.momentIntention] })}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => setMomentIntention(null)}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("today.moment.changeWhenLabel")}
-                  >
-                    <Text style={styles.intentionChange}>{t("common.change")}</Text>
-                  </TouchableOpacity>
+                <View style={styles.intentionPrompt}>
+                  <View style={[styles.intentionRow, reminderScheduled && { marginBottom: 4 }]}>
+                    <Text style={styles.intentionText}>
+                      {t("today.moment.plannedFor", { when: MOMENT_INTENTION_LABELS[today.momentIntention] })}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setMomentIntention(null);
+                        cancelMomentReminder();
+                        setReminderScheduled(false);
+                      }}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("today.moment.changeWhenLabel")}
+                    >
+                      <Text style={styles.intentionChange}>{t("common.change")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                  {reminderScheduled ? (
+                    <Text style={styles.reminderScheduledText}>{t("today.moment.reminderOn")}</Text>
+                  ) : null}
                 </View>
               ) : (
                 <View style={styles.intentionPrompt}>
@@ -651,9 +696,11 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                       <TouchableOpacity
                         key={opt.key}
                         style={styles.intentionBtn}
-                        onPress={() => {
+                        onPress={async () => {
                           hapticTap();
                           setMomentIntention(opt.key);
+                          const ok = await scheduleMomentReminder(opt.key, moment);
+                          setReminderScheduled(ok);
                         }}
                         accessibilityRole="button"
                         accessibilityLabel={opt.label}
@@ -1405,6 +1452,7 @@ function getStyles(colors) {
       marginBottom: 14,
     },
     intentionText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    reminderScheduledText: { fontSize: 12, color: colors.textSoft },
     intentionChange: { fontSize: 12, color: colors.textSoft, textDecorationLine: "underline" },
     secondaryButton: {
       flexDirection: "row",
@@ -1418,6 +1466,22 @@ function getStyles(colors) {
       justifyContent: "center",
     },
     secondaryButtonText: { color: colors.sageDark, fontWeight: "700", fontSize: 13 },
+    nudgeVerseBox: {
+      marginTop: 14,
+      paddingTop: 14,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    nudgeVerseLabel: {
+      textTransform: "uppercase",
+      letterSpacing: 0.6,
+      fontSize: 10.5,
+      fontWeight: "700",
+      color: colors.sageDark,
+      marginBottom: 6,
+    },
+    nudgeVerseText: { fontSize: 14, lineHeight: 20, color: colors.text, fontStyle: "italic" },
+    nudgeVerseRef: { marginTop: 4, fontSize: 12.5, color: colors.textSoft, textAlign: "right" },
     doneMsg: {
       marginTop: 10,
       fontSize: 14,

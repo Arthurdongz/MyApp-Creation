@@ -42,14 +42,18 @@ function onThisDaySnippet(t, entries, latestDay) {
 // Picks which of the three fields to show as an entry row's one-line
 // preview and label, in the same priority order the old full-card view
 // showed them in (reflection, then Barnabas moment, then kindness
-// received) so nothing changes about what counts as "the" summary.
+// received) so nothing changes about what counts as "the" summary. The
+// "type" is used purely to pick an icon so entries scan faster in the list.
 function entryPreview(t, e) {
-  if (e.reflection) return { label: t("history.blockLabels.reflection"), text: e.reflection };
-  if (e.barnabasNote) return { label: t("history.blockLabels.barnabasMoment"), text: e.barnabasNote };
-  if (e.momentDone) return { label: t("history.blockLabels.barnabasMoment"), text: t("history.markedDone") };
-  if (e.receivedKindness) return { label: t("history.blockLabels.kindnessReceived"), text: e.receivedKindness };
+  if (e.reflection) return { type: "reflection", label: t("history.blockLabels.reflection"), text: e.reflection };
+  if (e.barnabasNote) return { type: "moment", label: t("history.blockLabels.barnabasMoment"), text: e.barnabasNote };
+  if (e.momentDone) return { type: "moment", label: t("history.blockLabels.barnabasMoment"), text: t("history.markedDone") };
+  if (e.receivedKindness)
+    return { type: "kindness", label: t("history.blockLabels.kindnessReceived"), text: e.receivedKindness };
   return null;
 }
+
+const ENTRY_TYPE_ICONS = { reflection: "create-outline", moment: "star", kindness: "gift-outline" };
 
 export default function HistoryScreen({ store, onOpenReflection }) {
   const { colors, shadow } = useTheme();
@@ -57,6 +61,7 @@ export default function HistoryScreen({ store, onOpenReflection }) {
   const { t } = useTranslation();
   const entries = store.state.entries;
   const [query, setQuery] = useState("");
+  const [showCalendar, setShowCalendar] = useState(false);
   const allKeys = Object.keys(entries)
     .filter((k) => {
       const e = entries[k];
@@ -115,57 +120,139 @@ export default function HistoryScreen({ store, onOpenReflection }) {
         </View>
       ) : null}
 
-      {allKeys.length === 0 ? null : (
-        <TextInput
-          style={styles.searchInput}
-          placeholder={t("history.searchPlaceholder")}
-          placeholderTextColor={colors.textSoft}
-          value={query}
-          onChangeText={setQuery}
-          accessibilityLabel={t("history.searchPlaceholder")}
-        />
-      )}
+      <TouchableOpacity
+        style={styles.calendarToggle}
+        onPress={() => {
+          hapticTap();
+          setShowCalendar((v) => !v);
+        }}
+        accessibilityRole="button"
+        accessibilityLabel={showCalendar ? t("history.calendar.showList") : t("history.calendar.showCalendar")}
+      >
+        <Ionicons name={showCalendar ? "list-outline" : "calendar-outline"} size={15} color={colors.sageDark} />
+        <Text style={styles.calendarToggleText}>
+          {showCalendar ? t("history.calendar.showList") : t("history.calendar.showCalendar")}
+        </Text>
+      </TouchableOpacity>
 
-      {allKeys.length === 0 ? (
-        <Text style={styles.empty}>{t("history.emptyNoEntries")}</Text>
-      ) : keys.length === 0 ? (
-        <Text style={styles.empty}>{t("history.emptySearch")}</Text>
+      {showCalendar ? (
+        <EntryCalendar store={store} styles={styles} onOpenDay={openEntry} />
       ) : (
-        <View style={styles.list}>
-          {keys.map((key, index) => {
-            const e = entries[key];
-            const preview = entryPreview(t, e);
-            return (
-              <TouchableOpacity
-                key={key}
-                style={[styles.entryRow, index === keys.length - 1 && styles.entryRowLast]}
-                onPress={() => openEntry(e.dayNumber)}
-                accessibilityRole="button"
-                accessibilityLabel={t("history.openEntryLabel", { day: e.dayNumber })}
-              >
-                <Text
-                  style={styles.entryMood}
-                  accessibilityLabel={e.mood ? t("history.moodLabel", { mood: t(`common.moods.${e.mood}`) }) : undefined}
-                >
-                  {e.mood ? MOOD_EMOJI[e.mood] : "🕊️"}
-                </Text>
-                <View style={styles.entryRowBody}>
-                  <View style={styles.entryRowTop}>
-                    <Text style={styles.entryDate}>{t("history.entryDate", { day: e.dayNumber, date: formatDate(e.dateLogged) })}</Text>
-                    {preview ? <Text style={styles.entryTag}>{preview.label}</Text> : null}
-                  </View>
-                  {preview ? (
-                    <Text style={styles.entryPreview} numberOfLines={1}>
-                      {truncateForPreview(preview.text)}
+        <>
+          {allKeys.length === 0 ? null : (
+            <TextInput
+              style={styles.searchInput}
+              placeholder={t("history.searchPlaceholder")}
+              placeholderTextColor={colors.textSoft}
+              value={query}
+              onChangeText={setQuery}
+              accessibilityLabel={t("history.searchPlaceholder")}
+            />
+          )}
+
+          {allKeys.length === 0 ? (
+            <Text style={styles.empty}>{t("history.emptyNoEntries")}</Text>
+          ) : keys.length === 0 ? (
+            <Text style={styles.empty}>{t("history.emptySearch")}</Text>
+          ) : (
+            <View style={styles.list}>
+              {keys.map((key, index) => {
+                const e = entries[key];
+                const preview = entryPreview(t, e);
+                return (
+                  <TouchableOpacity
+                    key={key}
+                    style={[styles.entryRow, index === keys.length - 1 && styles.entryRowLast]}
+                    onPress={() => openEntry(e.dayNumber)}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("history.openEntryLabel", { day: e.dayNumber })}
+                  >
+                    <Text
+                      style={styles.entryMood}
+                      accessibilityLabel={
+                        e.mood ? t("history.moodLabel", { mood: t(`common.moods.${e.mood}`) }) : undefined
+                      }
+                    >
+                      {e.mood ? MOOD_EMOJI[e.mood] : "🕊️"}
                     </Text>
-                  ) : null}
-                </View>
-                <Text style={styles.entryChevron}>›</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+                    <View style={styles.entryRowBody}>
+                      <View style={styles.entryRowTop}>
+                        <Text style={styles.entryDate}>
+                          {t("history.entryDate", { day: e.dayNumber, date: formatDate(e.dateLogged) })}
+                        </Text>
+                        {preview ? (
+                          <View style={styles.entryTagRow}>
+                            <Ionicons name={ENTRY_TYPE_ICONS[preview.type]} size={11} color={colors.textSoft} />
+                            <Text style={styles.entryTag}>{preview.label}</Text>
+                          </View>
+                        ) : null}
+                      </View>
+                      {preview ? (
+                        <Text style={styles.entryPreview} numberOfLines={1}>
+                          {truncateForPreview(preview.text)}
+                        </Text>
+                      ) : null}
+                    </View>
+                    <Text style={styles.entryChevron}>›</Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+        </>
       )}
+    </View>
+  );
+}
+
+// A tap-to-revisit grid alternative to the list above, for quickly finding
+// a specific day rather than scrolling or searching by text — every day so
+// far, color-coded by what's logged on it. Mirrors the visual pattern of
+// RewardsScreen's JourneyCalendar, but every day (with or without an entry)
+// opens straight into that day's entry editor, matching what tapping a row
+// in the list above already does.
+function EntryCalendar({ store, styles, onOpenDay }) {
+  const { t } = useTranslation();
+  const entries = store.state.entries;
+  const latest = store.latestDay;
+  const days = [];
+  for (let day = 1; day <= latest; day++) days.push(day);
+
+  return (
+    <View style={{ marginBottom: 8 }}>
+      <View style={styles.calGrid}>
+        {days.map((day) => {
+          const entry = entries[`day-${day}`];
+          const hasContent = !!(
+            entry &&
+            (entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.momentDone)
+          );
+          const dateLabel = entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day });
+          return (
+            <TouchableOpacity
+              key={day}
+              style={[styles.calCell, hasContent && styles.calCellLogged, entry?.momentDone && styles.calCellMoment]}
+              onPress={() => onOpenDay(day)}
+              accessibilityRole="button"
+              accessibilityLabel={t("history.calendar.dayLabel", { day, date: dateLabel })}
+            />
+          );
+        })}
+      </View>
+      <View style={styles.calLegendRow}>
+        <View style={styles.calLegendItem}>
+          <View style={[styles.calLegendDot, styles.calCellMoment]} />
+          <Text style={styles.calLegendText}>{t("history.calendar.legendMoment")}</Text>
+        </View>
+        <View style={styles.calLegendItem}>
+          <View style={[styles.calLegendDot, styles.calCellLogged]} />
+          <Text style={styles.calLegendText}>{t("history.calendar.legendEntry")}</Text>
+        </View>
+        <View style={styles.calLegendItem}>
+          <View style={styles.calLegendDot} />
+          <Text style={styles.calLegendText}>{t("history.calendar.legendEmpty")}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -190,6 +277,29 @@ function getStyles(colors, shadow) {
     writeTodayTitle: { fontSize: 14.5, fontWeight: "700", color: colors.buttonOnText },
     writeTodaySub: { fontSize: 12, color: colors.buttonOnText, opacity: 0.85, marginTop: 2 },
     writeTodayArrow: { fontSize: 20, fontWeight: "700", color: colors.buttonOnText },
+    calendarToggle: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 6,
+      alignSelf: "flex-start",
+      marginBottom: 14,
+    },
+    calendarToggleText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
+    calGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, marginBottom: 12 },
+    calCell: {
+      width: 12,
+      height: 12,
+      borderRadius: 3,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    calCellLogged: { backgroundColor: colors.sage, borderColor: colors.sage },
+    calCellMoment: { backgroundColor: colors.gold, borderColor: colors.gold },
+    calLegendRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginBottom: 24 },
+    calLegendItem: { flexDirection: "row", alignItems: "center", gap: 6 },
+    calLegendDot: { width: 12, height: 12, borderRadius: 3 },
+    calLegendText: { fontSize: 12, color: colors.textSoft },
     searchInput: {
       borderWidth: 1,
       borderColor: colors.border,
@@ -240,6 +350,7 @@ function getStyles(colors, shadow) {
     entryRowBody: { flex: 1, minWidth: 0 },
     entryRowTop: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", gap: 8 },
     entryDate: { fontWeight: "700", fontSize: 12.5, color: colors.sageDark },
+    entryTagRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     entryTag: {
       fontSize: 9.5,
       textTransform: "uppercase",
