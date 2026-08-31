@@ -240,7 +240,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   // viewed day already has content in it (or, for the moment card, whether
   // it's already done), so a returning user sees their own words
   // immediately — recomputed only when the viewed day itself changes.
-  const [confessionOpen, setConfessionOpen] = useState(false);
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
   const [wordOpen, setWordOpen] = useState(false);
@@ -261,7 +260,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
     setShowWordReflectPrompt(false);
-    setConfessionOpen(false);
     setWordOpen(false);
     setThoughtOpen(false);
     setMomentOpen(!today.momentDone);
@@ -486,10 +484,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
         </TouchableOpacity>
         <Text style={styles.jumpDot}>·</Text>
         <TouchableOpacity
-          onPress={() => {
-            setConfessionOpen(true);
-            scrollToRef(confessionRef);
-          }}
+          onPress={() => scrollToRef(confessionRef)}
           accessibilityRole="button"
           accessibilityLabel={t("today.jump.confessionLabel")}
         >
@@ -864,62 +859,51 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           </View>
         </View>
 
-        <View ref={confessionRef} collapsable={false} style={styles.accordionRow}>
-          <TouchableOpacity
-            style={styles.accordionRowHead}
-            onPress={() => {
-              hapticTap();
-              setConfessionOpen((v) => !v);
-            }}
-            accessibilityRole="button"
-            accessibilityLabel={t("today.confession.title")}
-            accessibilityState={{ expanded: confessionOpen }}
-          >
-            <View style={styles.accordionRowTitleWrap}>
-              <Ionicons name="megaphone-outline" size={16} color={colors.text} />
-              <Text style={styles.accordionRowTitle}>{t("today.confession.title")}</Text>
-            </View>
-            <Text style={[styles.accordionChevron, confessionOpen && styles.accordionChevronOpen]}>›</Text>
-          </TouchableOpacity>
-          {!confessionOpen ? (
-            <Text style={styles.accordionPreview}>{truncateForPreview(confession.text)}</Text>
-          ) : (
-            <View style={styles.accordionRowBody}>
-              <View style={styles.accordionActionRow}>
-                <ActionMenu
-                  actions={[
-                    {
-                      label: t("common.listen"),
-                      onPress: () => speak(`${confession.text} — ${confession.ref}`, settings),
-                    },
-                    {
-                      label: t("common.share"),
-                      onPress: () => setSharePreview({ text: confession.text, sourceLine: confession.ref }),
-                    },
-                    {
-                      label: confessionSaved ? t("common.savedTapRemove") : t("common.save"),
-                      active: confessionSaved,
-                      onPress: () =>
-                        toggleFavorite("confession", viewingDay, { text: confession.text, ref: confession.ref }),
-                    },
-                  ]}
-                />
+        {/* Shown in full, never collapsed behind a tap — unlike the Word/
+            Thought accordions below. A confession only does its job if it's
+            actually spoken, and a truncated preview behind a chevron is too
+            easy to skim past without ever reaching the "speak it aloud"
+            prompt at the bottom. */}
+        <View ref={confessionRef} collapsable={false} style={[styles.unifiedCard, styles.readingCard]}>
+          <View style={styles.unifiedBlock}>
+            <View style={styles.cardLabelRow}>
+              <View style={[styles.accordionRowTitleWrap, { flex: 0 }]}>
+                <Ionicons name="megaphone-outline" size={16} color={colors.sageDark} />
+                <Text style={[styles.cardLabel, { marginBottom: 0 }]}>{t("today.confession.title")}</Text>
               </View>
-              <Text style={styles.bodyText}>{confession.text}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  hapticTap();
-                  setVersePopupRef(confession.ref);
-                  setVersePopupOpen(true);
-                }}
-                accessibilityRole="button"
-                accessibilityLabel={t("today.confession.viewVerseLabel", { ref: confession.ref })}
-              >
-                <Text style={[styles.wisdomSource, styles.confessionRefLink]}>— {confession.ref}</Text>
-              </TouchableOpacity>
-              <Text style={styles.accordionPreview}>{t("today.confession.speakPrompt")}</Text>
+              <ActionMenu
+                actions={[
+                  {
+                    label: t("common.listen"),
+                    onPress: () => speak(`${confession.text} — ${confession.ref}`, settings),
+                  },
+                  {
+                    label: t("common.share"),
+                    onPress: () => setSharePreview({ text: confession.text, sourceLine: confession.ref }),
+                  },
+                  {
+                    label: confessionSaved ? t("common.savedTapRemove") : t("common.save"),
+                    active: confessionSaved,
+                    onPress: () =>
+                      toggleFavorite("confession", viewingDay, { text: confession.text, ref: confession.ref }),
+                  },
+                ]}
+              />
             </View>
-          )}
+            <Text style={styles.bodyText}>{confession.text}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                hapticTap();
+                setVersePopupRef(confession.ref);
+                setVersePopupOpen(true);
+              }}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.confession.viewVerseLabel", { ref: confession.ref })}
+            >
+              <Text style={[styles.wisdomSource, styles.confessionRefLink]}>— {confession.ref}</Text>
+            </TouchableOpacity>
+            <Text style={styles.confessionSpeakPrompt}>{t("today.confession.speakPrompt")}</Text>
+          </View>
         </View>
 
         <View ref={wordRef} collapsable={false} style={styles.accordionRow}>
@@ -1398,6 +1382,12 @@ function getStyles(colors) {
       color: colors.sageDark,
       fontWeight: "700",
       textDecorationLine: "underline",
+    },
+    confessionSpeakPrompt: {
+      marginTop: 10,
+      fontSize: 12.5,
+      color: colors.textSoft,
+      fontStyle: "italic",
     },
     button: {
       backgroundColor: colors.buttonBg,
