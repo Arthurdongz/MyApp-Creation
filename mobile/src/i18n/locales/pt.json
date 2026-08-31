@@ -233,6 +233,14 @@
       "teaserLabel": "Abrir a reflexão de hoje no seu Diário"
     }
   },
+  "dailyWelcome": {
+    "greetingNamed": "Bem-vindo de volta ao seu Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Bem-vindo de volta ao seu Barnabas Journal.",
+    "dayLine": "Dia {{day}} da sua jornada.",
+    "streakLine": "sequência de {{count}} dias",
+    "factLabel": "Algo para pensar",
+    "continueButton": "Continuar"
+  },
   "fact": {
     "title": "Curiosidade do Dia",
     "subtitle": "Uma descoberta curta e real sobre bondade, conexão ou esperança — pensada para te inspirar rumo ao seu Momento Barnabé.",
@@ -394,6 +402,14 @@
     "darkMode": "Modo Escuro",
     "switchToLight": "Mudar para modo claro",
     "switchToDark": "Mudar para modo escuro",
+    "personalizationTitle": "Personalização",
+    "personalizationSubtitleEmpty": "Adicione seu nome",
+    "personalizationSubtitle": "Faça a boas-vindas diária soar um pouco mais como se estivesse falando com você.",
+    "nameLabel": "Como devemos te chamar?",
+    "namePlaceholder": "Seu nome (opcional)",
+    "dailyWelcomeLabel": "Tela de boas-vindas diária",
+    "dailyWelcomeHint": "Uma saudação curta e algo para esperar, mostrado uma vez quando você abre o app a cada dia.",
+    "dailyWelcomeSwitchLabel": "Ativar ou desativar a tela de boas-vindas diária",
     "bibleVersionTitle": "Versão da Bíblia",
     "bibleVersionSubtitle": "O versículo diário está disponível em oito traduções de domínio público: a King James Version (KJV), a World English Bible em inglês simples (WEB), a American Standard Version (ASV), a Young's Literal Translation (YLT), a Bible in Basic English simplificada (BBE), a Reina-Valera Antigua em espanhol (RVA), a Almeida 1911 em português (ALM1911), e a Louis Segond 1910 em francês (LSG).",
     "verseModeAlternate": "Alternar diariamente",

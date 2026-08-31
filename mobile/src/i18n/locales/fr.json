@@ -233,6 +233,14 @@
       "teaserLabel": "Ouvrir la réflexion d'aujourd'hui dans votre Journal"
     }
   },
+  "dailyWelcome": {
+    "greetingNamed": "Bon retour sur ton Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Bon retour sur ton Barnabas Journal.",
+    "dayLine": "Jour {{day}} de ton parcours.",
+    "streakLine": "série de {{count}} jours",
+    "factLabel": "Une chose à laquelle penser",
+    "continueButton": "Continuer"
+  },
   "fact": {
     "title": "Anecdote du Jour",
     "subtitle": "Une découverte brève et réelle sur la bonté, le lien humain ou l'espoir — pensée pour t'inspirer vers ton Moment Barnabas.",
@@ -394,6 +402,14 @@
     "darkMode": "Mode Sombre",
     "switchToLight": "Passer au mode clair",
     "switchToDark": "Passer au mode sombre",
+    "personalizationTitle": "Personnalisation",
+    "personalizationSubtitleEmpty": "Ajoute ton prénom",
+    "personalizationSubtitle": "Fais en sorte que l'accueil quotidien te parle un peu plus directement.",
+    "nameLabel": "Comment doit-on t'appeler ?",
+    "namePlaceholder": "Ton prénom (facultatif)",
+    "dailyWelcomeLabel": "Écran d'accueil quotidien",
+    "dailyWelcomeHint": "Une courte salutation et quelque chose à attendre avec impatience, affiché une fois par jour à l'ouverture de l'application.",
+    "dailyWelcomeSwitchLabel": "Activer ou désactiver l'écran d'accueil quotidien",
     "bibleVersionTitle": "Version de la Bible",
     "bibleVersionSubtitle": "Le verset du jour est disponible dans huit traductions du domaine public : la King James Version (KJV), la World English Bible en anglais simple (WEB), l'American Standard Version (ASV), la Young's Literal Translation (YLT), la Bible in Basic English simplifiée (BBE), la Reina-Valera Antigua en espagnol (RVA), la Almeida 1911 en portugais (ALM1911), et la Louis Segond 1910 en français (LSG).",
     "verseModeAlternate": "Alterner chaque jour",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, Linking, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as Speech from "expo-speech";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
@@ -315,6 +315,12 @@ export default function SettingsScreen({ store, onClose }) {
       title: t("settings.appearanceTitle"),
       subtitle: mode === "dark" ? t("settings.subtitleDark") : t("settings.subtitleLight"),
     },
+    {
+      key: "personalization",
+      icon: "person-circle-outline",
+      title: t("settings.personalizationTitle"),
+      subtitle: settings.userName ? settings.userName : t("settings.personalizationSubtitleEmpty"),
+    },
     { key: "bibleVersion", icon: "book-outline", title: t("settings.bibleVersionTitle"), subtitle: bibleVersionSubtitle },
     { key: "crisisRegion", icon: "earth-outline", title: t("settings.crisisRegionTitle"), subtitle: crisisRegionSubtitle },
     { key: "voiceSpeech", icon: "volume-high-outline", title: t("settings.voiceSpeechTitle"), subtitle: selectedVoiceName },
@@ -416,6 +422,44 @@ export default function SettingsScreen({ store, onClose }) {
           >
             <Ionicons name={mode === "dark" ? "sunny" : "moon"} size={16} color={colors.sageDark} />
           </TouchableOpacity>
+        </View>
+      ) : null}
+
+      {section === "personalization" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.personalizationSubtitle")}</Text>
+
+          <Text style={styles.settingsLabel}>{t("settings.nameLabel")}</Text>
+          <TextInput
+            style={styles.nameInput}
+            placeholder={t("settings.namePlaceholder")}
+            placeholderTextColor={colors.textSoft}
+            value={settings.userName || ""}
+            onChangeText={(text) => updateSettings({ userName: text })}
+            maxLength={40}
+            accessibilityLabel={t("settings.nameLabel")}
+          />
+
+          <View style={[styles.settingsCard, { marginTop: 18 }]}>
+            <View style={styles.settingsRow}>
+              <View style={{ flex: 1, paddingRight: 12 }}>
+                <Text style={styles.settingsLabel}>{t("settings.dailyWelcomeLabel")}</Text>
+                <Text style={styles.dailyWelcomeHint}>{t("settings.dailyWelcomeHint")}</Text>
+              </View>
+              <TouchableOpacity
+                style={[styles.switchTrack, settings.dailyWelcomeEnabled && styles.switchTrackOn]}
+                onPress={() => {
+                  hapticTap();
+                  updateSettings({ dailyWelcomeEnabled: !settings.dailyWelcomeEnabled });
+                }}
+                accessibilityRole="switch"
+                accessibilityLabel={t("settings.dailyWelcomeSwitchLabel")}
+                accessibilityState={{ checked: !!settings.dailyWelcomeEnabled }}
+              >
+                <View style={[styles.switchThumb, settings.dailyWelcomeEnabled && styles.switchThumbOn]} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       ) : null}
 
@@ -863,6 +907,18 @@ function getStyles(colors, shadow) {
       marginBottom: 14,
     },
     settingsLabel: { fontSize: 14, fontWeight: "600", color: colors.text },
+    nameInput: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      fontSize: 14,
+      color: colors.text,
+      backgroundColor: colors.input,
+      marginTop: 8,
+    },
+    dailyWelcomeHint: { fontSize: 12.5, color: colors.textSoft, marginTop: 3, lineHeight: 17 },
     themeBtn: {
       width: 40,
       height: 40,

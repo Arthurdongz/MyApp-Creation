@@ -233,6 +233,14 @@
       "teaserLabel": "Open today's reflection in your Journal"
     }
   },
+  "dailyWelcome": {
+    "greetingNamed": "Welcome back to your Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Welcome back to your Barnabas Journal.",
+    "dayLine": "Day {{day}} of your journey.",
+    "streakLine": "{{count}}-day streak",
+    "factLabel": "Something to think about",
+    "continueButton": "Continue"
+  },
   "fact": {
     "title": "Fact of the Day",
     "subtitle": "A short, real finding about kindness, connection, or hope — meant to nudge you toward your Barnabas Moment.",
@@ -394,6 +402,14 @@
     "darkMode": "Dark Mode",
     "switchToLight": "Switch to light mode",
     "switchToDark": "Switch to dark mode",
+    "personalizationTitle": "Personalization",
+    "personalizationSubtitleEmpty": "Add your name",
+    "personalizationSubtitle": "Make the daily welcome feel a little more like it's speaking to you.",
+    "nameLabel": "What should we call you?",
+    "namePlaceholder": "Your name (optional)",
+    "dailyWelcomeLabel": "Daily welcome screen",
+    "dailyWelcomeHint": "A short greeting and something to look forward to, shown once when you open the app each day.",
+    "dailyWelcomeSwitchLabel": "Turn the daily welcome screen on or off",
     "bibleVersionTitle": "Bible Version",
     "bibleVersionSubtitle": "The daily verse is available in eight public-domain translations: the King James Version (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV), Young's Literal Translation (YLT), the simplified Bible in Basic English (BBE), the Spanish Reina-Valera Antigua (RVA), the Portuguese Almeida 1911 (ALM1911), and the French Louis Segond 1910 (LSG).",
     "verseModeAlternate": "Alternate daily",

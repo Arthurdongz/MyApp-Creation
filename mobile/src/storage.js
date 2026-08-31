@@ -176,6 +176,12 @@ function defaultSettings() {
     // conversation is sent.
     activeChatConversationId: null,
     chatLastActiveAt: null,
+    // Optional, local-only — never sent anywhere, just used to personalize
+    // the once-a-day welcome screen's greeting. Empty string means "not
+    // set," not "no name."
+    userName: "",
+    dailyWelcomeEnabled: true,
+    lastWelcomeShownAt: null,
   };
 }
 
@@ -952,6 +958,21 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Gates the daily welcome screen — shown once per calendar day, only
+  // after onboarding is already done (a brand-new journey gets the full
+  // OnboardingScreen instead, never this on top of it), and only if the
+  // user hasn't turned it off in Settings.
+  const showDailyWelcome = Boolean(
+    ready &&
+      state.settings.onboarded &&
+      state.settings.dailyWelcomeEnabled &&
+      state.settings.lastWelcomeShownAt !== todayKey()
+  );
+
+  const dismissDailyWelcome = useCallback(() => {
+    updateSettings({ lastWelcomeShownAt: todayKey() });
+  }, [updateSettings]);
+
   const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
@@ -998,6 +1019,8 @@ export function useJournalStore() {
     showCrisisNudge,
     showCheckInNudge,
     checkInNudgeVariant,
+    showDailyWelcome,
+    dismissDailyWelcome,
     totalStars: state.totalStars,
     favorites: state.favorites,
     settings: state.settings,

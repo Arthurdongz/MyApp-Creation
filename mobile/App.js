@@ -34,6 +34,7 @@ import FavoritesScreen from "./src/screens/FavoritesScreen";
 import RewardsScreen from "./src/screens/RewardsScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
+import DailyWelcomeScreen from "./src/screens/DailyWelcomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
@@ -199,6 +200,16 @@ function AppContent({ store }) {
             settings={store.settings}
             updateSettings={store.updateSettings}
           />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
+  }
+
+  if (store.ready && store.settings.onboarded && store.showDailyWelcome) {
+    return (
+      <SafeAreaProvider>
+        <SafeAreaView style={styles.safeArea}>
+          <DailyWelcomeScreen store={store} onContinue={store.dismissDailyWelcome} />
         </SafeAreaView>
       </SafeAreaProvider>
     );
