@@ -10,6 +10,9 @@
       "channel": "development",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_USE_PRECOMPILED_MODULES": "0"
       }
     },
     "preview": {
@@ -17,6 +20,9 @@
       "channel": "preview",
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_USE_PRECOMPILED_MODULES": "0"
       }
     },
     "production": {
@@ -24,6 +30,9 @@
       "channel": "production",
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_USE_PRECOMPILED_MODULES": "0"
       }
     }
   },
