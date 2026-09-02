@@ -14,11 +14,10 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import * as Notifications from "expo-notifications";
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
 import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
@@ -47,6 +46,7 @@ import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
 import BadgeCelebrationModal from "./src/components/BadgeCelebrationModal";
+import BottomNav, { BOTTOM_NAV_BASE_HEIGHT } from "./src/components/BottomNav";
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 // expo-notifications' response-listener APIs aren't implemented on web and
@@ -76,12 +76,12 @@ initCrashReporting();
 checkForUpdateAndApply();
 
 const TAB_KEYS = [
-  { key: "today", i18nKey: "app.tabs.today" },
-  { key: "story", i18nKey: "app.tabs.story" },
-  { key: "facts", i18nKey: "app.tabs.facts" },
-  { key: "history", i18nKey: "app.tabs.journal" },
-  { key: "favorites", i18nKey: "app.tabs.favorites" },
-  { key: "rewards", i18nKey: "app.tabs.rewards" },
+  { key: "today", i18nKey: "app.tabs.today", icon: "home-outline", iconActive: "home" },
+  { key: "story", i18nKey: "app.tabs.story", icon: "book-outline", iconActive: "book" },
+  { key: "facts", i18nKey: "app.tabs.facts", icon: "bulb-outline", iconActive: "bulb" },
+  { key: "history", i18nKey: "app.tabs.journal", icon: "create-outline", iconActive: "create" },
+  { key: "favorites", i18nKey: "app.tabs.favorites", icon: "heart-outline", iconActive: "heart" },
+  { key: "rewards", i18nKey: "app.tabs.rewards", icon: "trophy-outline", iconActive: "trophy" },
 ];
 
 function App() {
@@ -96,9 +96,11 @@ function App() {
   };
 
   return (
-    <ThemeProvider mode={mode} toggleTheme={toggleTheme}>
-      <AppContent store={store} />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider mode={mode} toggleTheme={toggleTheme}>
+        <AppContent store={store} />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
 
@@ -106,6 +108,7 @@ export default Sentry.wrap(App);
 
 function AppContent({ store }) {
   const { colors, mode, shadow } = useTheme();
+  const insets = useSafeAreaInsets();
   const { t, i18n } = useTranslation();
   const principlesBank =
     { es: BARNABAS_PRINCIPLES_ES, pt: BARNABAS_PRINCIPLES_PT, fr: BARNABAS_PRINCIPLES_FR }[i18n.language] ||
@@ -120,10 +123,31 @@ function AppContent({ store }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [refreshingUpdate, setRefreshingUpdate] = useState(false);
+  // True whenever the main tabbed content (Today/Story/Facts/Journal/
+  // Favorites/Rewards) is what's on screen, as opposed to a full-screen
+  // overlay like Settings or the reflection editor — the bottom nav and
+  // chat FAB both key off this instead of duplicating the condition.
+  const showTabContent =
+    store.ready &&
+    store.settings.onboarded &&
+    !showSettings &&
+    !showAbout &&
+    !showBibleBrowser &&
+    !showBibleMarks &&
+    reflectionEditorDay == null;
   const styles = getStyles(colors, shadow);
 
   const shortcutHandledRef = useRef(false);
   const scrollViewRef = useRef(null);
+
+  // The bottom nav is reachable at any scroll depth, unlike the old top
+  // strip that scrolled out of view — so a tap needs to also land the new
+  // tab at its own top, or a long scroll on the previous tab would leave
+  // the next one opening mid-scroll.
+  const handleTabSelect = (key) => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+    setTab(key);
+  };
 
   // Pulling down from the top of the screen checks for an app update the
   // same way Settings > Check for Updates does — see src/updates.js for
@@ -202,201 +226,150 @@ function AppContent({ store }) {
 
   if (store.ready && !store.settings.onboarded) {
     return (
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.safeArea}>
-          <OnboardingScreen
-            onStart={store.completeOnboarding}
-            settings={store.settings}
-            updateSettings={store.updateSettings}
-          />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <OnboardingScreen
+          onStart={store.completeOnboarding}
+          settings={store.settings}
+          updateSettings={store.updateSettings}
+        />
+      </SafeAreaView>
     );
   }
 
   if (store.ready && store.settings.onboarded && store.showDailyWelcome) {
     return (
-      <SafeAreaProvider>
-        <SafeAreaView style={styles.safeArea}>
-          <DailyWelcomeScreen store={store} onContinue={store.dismissDailyWelcome} />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <DailyWelcomeScreen store={store} onContinue={store.dismissDailyWelcome} />
+      </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
-        <StatusBar barStyle={mode === "dark" ? "light-content" : "dark-content"} />
-        {!store.ready ? (
-          <View style={styles.loading}>
-            <Text style={styles.loadingText}>{t("app.loading")}</Text>
-          </View>
-        ) : showSettings ? (
-          <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
-        ) : showAbout ? (
-          <AboutScreen onClose={() => setShowAbout(false)} />
-        ) : showBibleBrowser ? (
-          <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
-        ) : showBibleMarks ? (
-          <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
-        ) : reflectionEditorDay != null ? (
-          <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
-        ) : (
-          <ScrollView
-            ref={scrollViewRef}
-            contentContainerStyle={styles.scrollContent}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshingUpdate}
-                onRefresh={handlePullToRefresh}
-                tintColor={colors.sageDark}
-                colors={[colors.sageDark]}
-              />
-            }
-          >
-            <View style={styles.header}>
-              <View style={styles.brandRow}>
-                <Text style={styles.brandMark}>✦</Text>
-                <View>
-                  <Text style={styles.title}>{t("app.brand")}</Text>
-                  <Text style={styles.tagline}>{t("app.tagline")}</Text>
-                </View>
-              </View>
-              <View style={styles.statsRow}>
-                <TouchableOpacity
-                  style={styles.themeToggle}
-                  onPress={() => setShowMenu(true)}
-                  accessibilityLabel={t("app.menu")}
-                >
-                  <Ionicons name="menu-outline" size={18} color={colors.sageDark} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.stat, styles.statRow]}
-                  onPress={() => Alert.alert(t("app.starsTapTitle"), t("app.starsTapMessage"))}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("app.starsAccessibilityLabel", { count: store.totalStars })}
-                >
-                  <Ionicons name="star" size={14} color={colors.goldText} />
-                  <Text style={styles.statText}>{t("app.starsLabel", { count: store.totalStars })}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.stat, styles.statRow]}
-                  onPress={() => Alert.alert(t("app.streakTapTitle"), t("app.streakTapMessage", { count: store.streak }))}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("app.streakAccessibilityLabel", { count: store.streak })}
-                >
-                  <Ionicons name="flame" size={14} color={colors.goldText} />
-                  <Text style={styles.statText}>{t("app.streakLabel", { count: store.streak })}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={styles.tabsWrap}>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.tabs}
-              >
-                {TAB_KEYS.map((tabDef) => (
-                  <TouchableOpacity
-                    key={tabDef.key}
-                    style={[styles.tabBtn, tab === tabDef.key && styles.tabBtnActive]}
-                    onPress={() => setTab(tabDef.key)}
-                    accessibilityRole="tab"
-                    accessibilityState={{ selected: tab === tabDef.key }}
-                  >
-                    <Text style={[styles.tabLabel, tab === tabDef.key && styles.tabLabelActive]}>
-                      {t(tabDef.i18nKey)}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-              {/* A hint that the tab strip scrolls — without it, the last
-                  tab just looks visually clipped rather than "more to the
-                  right," which testers didn't pick up on. */}
-              <LinearGradient
-                colors={[`${colors.card}00`, colors.card]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={styles.tabsFade}
-                pointerEvents="none"
-              />
-            </View>
-
-            {tab === "today" && (
-              <TodayScreen
-                store={store}
-                scrollViewRef={scrollViewRef}
-                onOpenReflection={setReflectionEditorDay}
-                onOpenStory={() => setTab("story")}
-              />
-            )}
-            {tab === "story" && <StoryScreen store={store} />}
-            {tab === "facts" && <FactScreen store={store} />}
-            {tab === "history" && <HistoryScreen store={store} onOpenReflection={setReflectionEditorDay} />}
-            {tab === "favorites" && <FavoritesScreen store={store} />}
-            {tab === "rewards" && (
-              <RewardsScreen
-                store={store}
-                onJumpToDay={(day) => {
-                  store.jumpToDay(day);
-                  scrollViewRef.current?.scrollTo({ y: 0, animated: false });
-                  setTab("today");
-                }}
-              />
-            )}
-
-            <Text style={styles.footer}>{footerPrinciple}</Text>
-          </ScrollView>
-        )}
-        <MenuModal
-          visible={showMenu}
-          onClose={() => setShowMenu(false)}
-          onSettings={() => setShowSettings(true)}
-          onBible={() => setShowBibleBrowser(true)}
-          onBibleMarks={() => setShowBibleMarks(true)}
-          onAbout={() => setShowAbout(true)}
-        />
-        <OnboardingTour
-          visible={
-            store.ready &&
-            store.settings.onboarded &&
-            !store.settings.tourShown &&
-            !showSettings &&
-            !showAbout &&
-            !showBibleBrowser &&
-            !showBibleMarks &&
-            reflectionEditorDay == null
+    <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
+      <StatusBar barStyle={mode === "dark" ? "light-content" : "dark-content"} />
+      {!store.ready ? (
+        <View style={styles.loading}>
+          <Text style={styles.loadingText}>{t("app.loading")}</Text>
+        </View>
+      ) : showSettings ? (
+        <SettingsScreen store={store} onClose={() => setShowSettings(false)} />
+      ) : showAbout ? (
+        <AboutScreen onClose={() => setShowAbout(false)} />
+      ) : showBibleBrowser ? (
+        <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
+      ) : showBibleMarks ? (
+        <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
+      ) : reflectionEditorDay != null ? (
+        <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
+      ) : (
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshingUpdate}
+              onRefresh={handlePullToRefresh}
+              tintColor={colors.sageDark}
+              colors={[colors.sageDark]}
+            />
           }
-          onFinish={() => store.updateSettings({ tourShown: true })}
-        />
+        >
+          <View style={styles.header}>
+            <View style={styles.brandRow}>
+              <Text style={styles.brandMark}>✦</Text>
+              <View>
+                <Text style={styles.title}>{t("app.brand")}</Text>
+                <Text style={styles.tagline}>{t("app.tagline")}</Text>
+              </View>
+            </View>
+            <View style={styles.statsRow}>
+              <TouchableOpacity
+                style={styles.themeToggle}
+                onPress={() => setShowMenu(true)}
+                accessibilityLabel={t("app.menu")}
+              >
+                <Ionicons name="menu-outline" size={18} color={colors.sageDark} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.stat, styles.statRow]}
+                onPress={() => Alert.alert(t("app.starsTapTitle"), t("app.starsTapMessage"))}
+                accessibilityRole="button"
+                accessibilityLabel={t("app.starsAccessibilityLabel", { count: store.totalStars })}
+              >
+                <Ionicons name="star" size={14} color={colors.goldText} />
+                <Text style={styles.statText}>{t("app.starsLabel", { count: store.totalStars })}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.stat, styles.statRow]}
+                onPress={() => Alert.alert(t("app.streakTapTitle"), t("app.streakTapMessage", { count: store.streak }))}
+                accessibilityRole="button"
+                accessibilityLabel={t("app.streakAccessibilityLabel", { count: store.streak })}
+              >
+                <Ionicons name="flame" size={14} color={colors.goldText} />
+                <Text style={styles.statText}>{t("app.streakLabel", { count: store.streak })}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-        {store.ready &&
-        store.settings.onboarded &&
-        !showSettings &&
-        !showAbout &&
-        !showBibleBrowser &&
-        !showBibleMarks &&
-        reflectionEditorDay == null &&
-        !showChat ? (
-          <TouchableOpacity
-            style={styles.chatFab}
-            onPress={() => setShowChat(true)}
-            accessibilityRole="button"
-            accessibilityLabel={t("app.chatFab")}
-          >
-            <Ionicons name="chatbubble-ellipses" size={26} color={colors.buttonOnText} />
-          </TouchableOpacity>
-        ) : null}
+          {tab === "today" && (
+            <TodayScreen
+              store={store}
+              scrollViewRef={scrollViewRef}
+              onOpenReflection={setReflectionEditorDay}
+              onOpenStory={() => setTab("story")}
+            />
+          )}
+          {tab === "story" && <StoryScreen store={store} />}
+          {tab === "facts" && <FactScreen store={store} />}
+          {tab === "history" && <HistoryScreen store={store} onOpenReflection={setReflectionEditorDay} />}
+          {tab === "favorites" && <FavoritesScreen store={store} />}
+          {tab === "rewards" && (
+            <RewardsScreen
+              store={store}
+              onJumpToDay={(day) => {
+                store.jumpToDay(day);
+                scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+                setTab("today");
+              }}
+            />
+          )}
 
-        <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
-          {showChat ? <ChatScreen store={store} onClose={() => setShowChat(false)} /> : null}
-        </Modal>
+          <Text style={styles.footer}>{footerPrinciple}</Text>
+        </ScrollView>
+      )}
+      <MenuModal
+        visible={showMenu}
+        onClose={() => setShowMenu(false)}
+        onSettings={() => setShowSettings(true)}
+        onBible={() => setShowBibleBrowser(true)}
+        onBibleMarks={() => setShowBibleMarks(true)}
+        onAbout={() => setShowAbout(true)}
+      />
+      <OnboardingTour
+        visible={showTabContent && !store.settings.tourShown}
+        onFinish={() => store.updateSettings({ tourShown: true })}
+      />
 
-        <BadgeCelebrationModal badge={store.newlyEarnedBadge} onClose={store.dismissBadgeCelebration} />
-      </SafeAreaView>
-    </SafeAreaProvider>
+      {showTabContent && !showChat ? (
+        <TouchableOpacity
+          style={[styles.chatFab, { bottom: BOTTOM_NAV_BASE_HEIGHT + insets.bottom + 16 }]}
+          onPress={() => setShowChat(true)}
+          accessibilityRole="button"
+          accessibilityLabel={t("app.chatFab")}
+        >
+          <Ionicons name="chatbubble-ellipses" size={26} color={colors.buttonOnText} />
+        </TouchableOpacity>
+      ) : null}
+
+      <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
+        {showChat ? <ChatScreen store={store} onClose={() => setShowChat(false)} /> : null}
+      </Modal>
+
+      <BadgeCelebrationModal badge={store.newlyEarnedBadge} onClose={store.dismissBadgeCelebration} />
+
+      {showTabContent ? <BottomNav tabs={TAB_KEYS} activeKey={tab} onSelect={handleTabSelect} /> : null}
+    </SafeAreaView>
   );
 }
 
@@ -405,6 +378,7 @@ function getStyles(colors, shadow) {
     safeArea: { flex: 1, backgroundColor: colors.bg },
     loading: { flex: 1, alignItems: "center", justifyContent: "center" },
     loadingText: { color: colors.textSoft },
+    scrollView: { flex: 1 },
     scrollContent: { padding: 18, paddingBottom: 40 },
     header: {
       flexDirection: "row",
@@ -439,27 +413,6 @@ function getStyles(colors, shadow) {
     },
     statRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     statText: { fontWeight: "700", fontSize: 13, color: colors.text },
-    tabsWrap: { position: "relative", marginBottom: 20 },
-    tabsFade: { position: "absolute", right: 0, top: 0, bottom: 0, width: 28 },
-    tabs: {
-      flexDirection: "row",
-      backgroundColor: colors.card,
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 14,
-      padding: 5,
-      gap: 4,
-    },
-    tabBtn: {
-      minWidth: 74,
-      borderRadius: 10,
-      paddingVertical: 10,
-      paddingHorizontal: 12,
-      alignItems: "center",
-    },
-    tabBtnActive: { backgroundColor: colors.buttonBg },
-    tabLabel: { fontSize: 12, fontWeight: "600", color: colors.textSoft },
-    tabLabelActive: { color: colors.buttonOnText },
     footer: {
       textAlign: "center",
       marginTop: 20,
