@@ -193,6 +193,7 @@ function freshJourney() {
     totalStars: 0,
     favorites: [],
     chatConversations: [],
+    earnedBadgeIds: [],
     settings: defaultSettings(),
   };
 }
@@ -211,7 +212,8 @@ function emptyEntry(dayNumber, journeyStartDate) {
     customMoment: null,
     momentFollowUpAsked: false,
     momentFollowUpStatus: null,
-    starsAwarded: { daily: false, moment: false, journal: false },
+    wentFurtherDone: false,
+    starsAwarded: { daily: false, moment: false, journal: false, wentFurther: false },
   };
 }
 
@@ -237,6 +239,7 @@ function normalizeLoaded(parsed) {
     totalStars: parsed.totalStars || 0,
     favorites: parsed.favorites || [],
     chatConversations: parsed.chatConversations || [],
+    earnedBadgeIds: parsed.earnedBadgeIds || [],
     settings: { ...defaultSettings(), ...migrateSettings(parsed.settings || {}) },
   };
 }
@@ -276,6 +279,14 @@ export function computeStreak(entries, latestDay) {
 
 export function countMomentsDone(entries) {
   return Object.values(entries).filter((e) => e.momentDone).length;
+}
+
+// A day counts once its "who were you thinking about?" follow-up has
+// something in it — not a rigorous unique-person count (the same name
+// typed twice still counts twice), just a friendly running tally to pair
+// with the Encouragement Tree.
+export function countPeopleEncouraged(entries) {
+  return Object.values(entries).filter((e) => e.encouragedWho && e.encouragedWho.trim()).length;
 }
 
 function daysSinceKey(key) {
@@ -684,6 +695,25 @@ export function useJournalStore() {
     });
   }, [updateViewedEntry]);
 
+  // Self-reported, same trust-based pattern as markMomentDone — there's no
+  // device API to confirm an actual phone call happened, so tapping "I
+  // reached out" is what marks (and rewards) the day's Go a Little Further
+  // nudge as acted on.
+  const markWentFurtherDone = useCallback(() => {
+    updateViewedEntry((entry) => {
+      if (entry.wentFurtherDone) return { entry, starsGained: 0 };
+      const starsGained = entry.starsAwarded.wentFurther ? 0 : 2;
+      return {
+        entry: {
+          ...entry,
+          wentFurtherDone: true,
+          starsAwarded: { ...entry.starsAwarded, wentFurther: true },
+        },
+        starsGained,
+      };
+    });
+  }, [updateViewedEntry]);
+
   // Answers the "did you get to it?" follow-up for a day other than the one
   // currently being viewed (always the previous day) — separate from
   // updateViewedEntry, which only ever touches viewingDay.
@@ -979,6 +1009,7 @@ export function useJournalStore() {
   const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
   const streak = computeStreak(state.entries, latestDay);
   const momentsDone = countMomentsDone(state.entries);
+  const peopleEncouraged = countPeopleEncouraged(state.entries);
   const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
   const yearInReview = computeYearInReview(state.entries, state.favorites, latestDay);
   const chatAccess = computeChatAccess(state.settings);
@@ -1000,6 +1031,30 @@ export function useJournalStore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, streak]);
 
+  // Watches the same threshold crossings the Rewards badge grid already
+  // renders (streak or totalStars passing a BADGE_DEFS threshold) and
+  // surfaces the highest newly-crossed one as a one-time celebration,
+  // instead of leaving badge unlocks something only ever noticed by
+  // visiting Rewards. earnedBadgeIds is persisted so a badge only ever
+  // celebrates once, even across app restarts.
+  const [newlyEarnedBadge, setNewlyEarnedBadge] = useState(null);
+  useEffect(() => {
+    if (!ready) return;
+    const currentlyEarned = BADGE_DEFS.filter((b) => (b.type === "stars" ? state.totalStars : streak) >= b.threshold);
+    const newlyCrossed = currentlyEarned.filter((b) => !state.earnedBadgeIds.includes(b.id));
+    if (newlyCrossed.length === 0) return;
+    const highest = newlyCrossed.reduce((best, b) => (b.threshold > best.threshold ? b : best));
+    setNewlyEarnedBadge(highest);
+    setState((prev) => {
+      const next = { ...prev, earnedBadgeIds: [...prev.earnedBadgeIds, ...newlyCrossed.map((b) => b.id)] };
+      persist(next);
+      return next;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, streak, state.totalStars]);
+
+  const dismissBadgeCelebration = useCallback(() => setNewlyEarnedBadge(null), []);
+
   return {
     ready,
     state,
@@ -1010,6 +1065,7 @@ export function useJournalStore() {
     today: viewedEntry,
     streak,
     momentsDone,
+    peopleEncouraged,
     weeklyRecap,
     yearInReview,
     chatAccess,
@@ -1035,6 +1091,9 @@ export function useJournalStore() {
     setMomentIntention,
     setCustomMoment,
     markMomentDone,
+    markWentFurtherDone,
+    newlyEarnedBadge,
+    dismissBadgeCelebration,
     answerMomentFollowUp,
     saveReflection,
     isFavorited,

@@ -223,7 +223,10 @@
         "title": "🌿 Va Un Peu Plus Loin",
         "body": "Un message texte est facile à envoyer, et tout aussi facile à faire défiler sans y répondre. Y a-t-il quelqu'un que tu pourrais vraiment appeler, ou voir en personne, plutôt que de simplement lui envoyer un message aujourd'hui ?",
         "callLabel": "Appeler quelqu'un",
-        "callButton": "📞 Appeler Quelqu'un"
+        "callButton": "📞 Appeler Quelqu'un",
+        "didItLabel": "Je l'ai fait",
+        "didItText": "Je l'ai fait ✓",
+        "didItDoneText": "Fait ✓"
       },
       "savedVerseLabel": "Parmi tes favoris enregistrés"
     },
@@ -304,6 +307,21 @@
     "totalStars": "Étoiles Totales",
     "dayStreak": "Série de Jours",
     "barnabasMoments": "Moments Barnabas",
+    "tree": {
+      "title": "Ton Arbre d'Encouragement",
+      "subtitle": "Grandit un peu chaque fois que tu termines un Moment Barnabas.",
+      "stage0": { "name": "Graine", "desc": "Chaque arbre commence par une graine. Ton premier acte de bonté reste à venir." },
+      "stage1": { "name": "Pousse", "desc": "Tes premières racines s'installent." },
+      "stage2": { "name": "Jeune Plant", "desc": "Une croissance petite et régulière — une bonté à la fois." },
+      "stage3": { "name": "Jeune Arbre", "desc": "Ta bonté devient une habitude." },
+      "stage4": { "name": "Arbre", "desc": "Ton encouragement a pris de profondes racines." },
+      "stage5": { "name": "Arbre Florissant", "desc": "Un arbre sous lequel d'autres peuvent maintenant se reposer." },
+      "progressToNext_one": "Encore {{count}} moment avant qu'il grandisse",
+      "progressToNext_other": "Encore {{count}} moments avant qu'il grandisse",
+      "maxedOut": "Pleinement grandi — et toujours porteur de fruits.",
+      "peopleEncouraged_one": "💛 Tu as touché {{count}} personne jusqu'à présent.",
+      "peopleEncouraged_other": "💛 Tu as touché {{count}} personnes jusqu'à présent."
+    },
     "journeyTitle": "Mon Parcours Barnabas",
     "journeySubtitle": "Chaque jour jusqu'ici — touche un carré pour y retourner.",
     "journey": {
@@ -312,6 +330,10 @@
       "legendMoment": "Moment Barnabas fait",
       "legendLogged": "Écrit ou humeur enregistrée",
       "legendEmpty": "Rien d'enregistré"
+    },
+    "badgeCelebration": {
+      "eyebrow": "Nouveau Badge Débloqué",
+      "dismiss": "Super !"
     },
     "badgesTitle": "Badges",
     "badgeLockedSuffix": ", verrouillé",

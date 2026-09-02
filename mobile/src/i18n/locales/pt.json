@@ -223,7 +223,10 @@
         "title": "🌿 Vá Um Pouco Mais Longe",
         "body": "Uma mensagem de texto é fácil de enviar, e igualmente fácil de ignorar. Existe alguém que você poderia realmente ligar, ou ver pessoalmente, em vez de só mandar mensagem hoje?",
         "callLabel": "Ligar para alguém",
-        "callButton": "📞 Ligar para Alguém"
+        "callButton": "📞 Ligar para Alguém",
+        "didItLabel": "Eu entrei em contato",
+        "didItText": "Eu entrei em contato ✓",
+        "didItDoneText": "Contato feito ✓"
       },
       "savedVerseLabel": "Dos seus favoritos salvos"
     },
@@ -304,6 +307,21 @@
     "totalStars": "Estrelas Totais",
     "dayStreak": "Sequência de Dias",
     "barnabasMoments": "Momentos Barnabé",
+    "tree": {
+      "title": "Sua Árvore de Encorajamento",
+      "subtitle": "Cresce um pouco cada vez que você completa um Momento Barnabé.",
+      "stage0": { "name": "Semente", "desc": "Toda árvore começa como uma semente. Seu primeiro ato de bondade ainda está por vir." },
+      "stage1": { "name": "Broto", "desc": "Suas primeiras raízes estão se firmando." },
+      "stage2": { "name": "Muda", "desc": "Um crescimento pequeno e constante — uma bondade de cada vez." },
+      "stage3": { "name": "Árvore Jovem", "desc": "Sua bondade está se tornando um hábito." },
+      "stage4": { "name": "Árvore", "desc": "Seu encorajamento criou raízes profundas." },
+      "stage5": { "name": "Árvore Florescente", "desc": "Uma árvore sob a qual outros podem agora descansar." },
+      "progressToNext_one": "Mais {{count}} momento até ela crescer",
+      "progressToNext_other": "Mais {{count}} momentos até ela crescer",
+      "maxedOut": "Totalmente crescida — e ainda dando frutos.",
+      "peopleEncouraged_one": "💛 Você já alcançou {{count}} pessoa até agora.",
+      "peopleEncouraged_other": "💛 Você já alcançou {{count}} pessoas até agora."
+    },
     "journeyTitle": "Minha Jornada Barnabé",
     "journeySubtitle": "Cada dia até agora — toque em qualquer quadrado para voltar e revisitá-lo.",
     "journey": {
@@ -312,6 +330,10 @@
       "legendMoment": "Momento Barnabé feito",
       "legendLogged": "Escreveu ou registrou um humor",
       "legendEmpty": "Nada registrado"
+    },
+    "badgeCelebration": {
+      "eyebrow": "Novo Emblema Desbloqueado",
+      "dismiss": "Legal!"
     },
     "badgesTitle": "Emblemas",
     "badgeLockedSuffix": ", bloqueado",

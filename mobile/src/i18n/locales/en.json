@@ -223,7 +223,10 @@
         "title": "🌿 Go a Little Further",
         "body": "A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?",
         "callLabel": "Call someone",
-        "callButton": "📞 Call Someone"
+        "callButton": "📞 Call Someone",
+        "didItLabel": "I reached out",
+        "didItText": "I reached out ✓",
+        "didItDoneText": "Reached out ✓"
       },
       "savedVerseLabel": "From your saved favorites"
     },
@@ -304,6 +307,21 @@
     "totalStars": "Total Stars",
     "dayStreak": "Day Streak",
     "barnabasMoments": "Barnabas Moments",
+    "tree": {
+      "title": "Your Encouragement Tree",
+      "subtitle": "Grows a little every time you complete a Barnabas Moment.",
+      "stage0": { "name": "Seed", "desc": "Every tree starts as a seed. Your first act of kindness is still ahead." },
+      "stage1": { "name": "Sprout", "desc": "Your first roots are taking hold." },
+      "stage2": { "name": "Sapling", "desc": "Small, steady growth — one kindness at a time." },
+      "stage3": { "name": "Young Tree", "desc": "Your kindness is becoming a habit." },
+      "stage4": { "name": "Tree", "desc": "Your encouragement has grown deep roots." },
+      "stage5": { "name": "Flourishing Tree", "desc": "A tree others can now rest under." },
+      "progressToNext_one": "{{count}} more moment until it grows",
+      "progressToNext_other": "{{count}} more moments until it grows",
+      "maxedOut": "Fully grown — and still bearing fruit.",
+      "peopleEncouraged_one": "💛 You've reached out to {{count}} person so far.",
+      "peopleEncouraged_other": "💛 You've reached out to {{count}} people so far."
+    },
     "journeyTitle": "My Barnabas Journey",
     "journeySubtitle": "Every day so far — tap any square to go back and revisit it.",
     "journey": {
@@ -312,6 +330,10 @@
       "legendMoment": "Barnabas Moment done",
       "legendLogged": "Wrote or logged a mood",
       "legendEmpty": "Nothing logged"
+    },
+    "badgeCelebration": {
+      "eyebrow": "New Badge Unlocked",
+      "dismiss": "Nice!"
     },
     "badgesTitle": "Badges",
     "badgeLockedSuffix": ", locked",

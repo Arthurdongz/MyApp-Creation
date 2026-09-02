@@ -223,7 +223,10 @@
         "title": "🌿 Ve un Poco Más Allá",
         "body": "Un mensaje de texto es fácil de enviar, y así de fácil de ignorar. ¿Hay alguien a quien realmente puedas llamar, o ver en persona, en lugar de solo enviarle un mensaje hoy?",
         "callLabel": "Llamar a alguien",
-        "callButton": "📞 Llamar a Alguien"
+        "callButton": "📞 Llamar a Alguien",
+        "didItLabel": "Me contacté con alguien",
+        "didItText": "Me contacté con alguien ✓",
+        "didItDoneText": "Contactado ✓"
       },
       "savedVerseLabel": "De tus favoritos guardados"
     },
@@ -304,6 +307,21 @@
     "totalStars": "Estrellas Totales",
     "dayStreak": "Racha de Días",
     "barnabasMoments": "Momentos Bernabé",
+    "tree": {
+      "title": "Tu Árbol de Ánimo",
+      "subtitle": "Crece un poco cada vez que completas un Momento Bernabé.",
+      "stage0": { "name": "Semilla", "desc": "Todo árbol comienza siendo una semilla. Tu primer acto de bondad todavía está por venir." },
+      "stage1": { "name": "Brote", "desc": "Tus primeras raíces están echando." },
+      "stage2": { "name": "Retoño", "desc": "Un crecimiento pequeño y constante — una bondad a la vez." },
+      "stage3": { "name": "Árbol Joven", "desc": "Tu bondad se está convirtiendo en un hábito." },
+      "stage4": { "name": "Árbol", "desc": "Tu ánimo ha echado raíces profundas." },
+      "stage5": { "name": "Árbol Floreciente", "desc": "Un árbol bajo el que otros pueden descansar ahora." },
+      "progressToNext_one": "{{count}} momento más para que crezca",
+      "progressToNext_other": "{{count}} momentos más para que crezca",
+      "maxedOut": "Completamente crecido — y todavía dando fruto.",
+      "peopleEncouraged_one": "💛 Hasta ahora has llegado a {{count}} persona.",
+      "peopleEncouraged_other": "💛 Hasta ahora has llegado a {{count}} personas."
+    },
     "journeyTitle": "Mi Camino Bernabé",
     "journeySubtitle": "Cada día hasta ahora — toca cualquier cuadro para volver y revisarlo.",
     "journey": {
@@ -312,6 +330,10 @@
       "legendMoment": "Momento Bernabé realizado",
       "legendLogged": "Escribiste o registraste un ánimo",
       "legendEmpty": "Nada registrado"
+    },
+    "badgeCelebration": {
+      "eyebrow": "Nueva Insignia Desbloqueada",
+      "dismiss": "¡Genial!"
     },
     "badgesTitle": "Insignias",
     "badgeLockedSuffix": ", bloqueada",

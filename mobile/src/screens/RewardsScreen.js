@@ -45,6 +45,61 @@ function WeeklyRecapCard({ recap, styles }) {
   );
 }
 
+// A tree, growing a little every time a Barnabas Moment gets done — a
+// visual, cumulative counterpart to the streak/star numbers above it. Size
+// alone carries most of the growth feeling; the emoji only changes where a
+// literal shape change reads better (seed -> sprout -> sapling -> tree).
+const TREE_STAGES = [
+  { threshold: 0, emoji: "🌰", size: 34 },
+  { threshold: 1, emoji: "🌱", size: 42 },
+  { threshold: 5, emoji: "🌿", size: 50 },
+  { threshold: 15, emoji: "🌳", size: 56 },
+  { threshold: 30, emoji: "🌳", size: 70 },
+  { threshold: 100, emoji: "🌳", size: 86 },
+];
+
+function EncouragementTreeCard({ momentsDone, peopleEncouraged, styles }) {
+  const { t } = useTranslation();
+  let stageIndex = 0;
+  for (let i = 0; i < TREE_STAGES.length; i++) {
+    if (momentsDone >= TREE_STAGES[i].threshold) stageIndex = i;
+  }
+  const stage = TREE_STAGES[stageIndex];
+  const nextStage = TREE_STAGES[stageIndex + 1];
+  const remaining = nextStage ? nextStage.threshold - momentsDone : 0;
+  const progressPercent = nextStage
+    ? Math.min(
+        100,
+        Math.round(
+          ((momentsDone - stage.threshold) / (nextStage.threshold - stage.threshold)) * 100
+        )
+      )
+    : 100;
+
+  return (
+    <View style={styles.treeCard}>
+      <Text style={styles.sectionTitle}>{t("rewards.tree.title")}</Text>
+      <Text style={styles.subtitle}>{t("rewards.tree.subtitle")}</Text>
+      <Text style={[styles.treeEmoji, { fontSize: stage.size, lineHeight: stage.size * 1.15 }]}>
+        {stage.emoji}
+      </Text>
+      <Text style={styles.treeStageName}>{t(`rewards.tree.stage${stageIndex}.name`)}</Text>
+      <Text style={styles.treeStageDesc}>{t(`rewards.tree.stage${stageIndex}.desc`)}</Text>
+      <View style={styles.treeProgressTrack}>
+        <View style={[styles.treeProgressFill, { width: `${progressPercent}%` }]} />
+      </View>
+      <Text style={styles.treeProgressLabel}>
+        {nextStage ? t("rewards.tree.progressToNext", { count: remaining }) : t("rewards.tree.maxedOut")}
+      </Text>
+      {peopleEncouraged > 0 ? (
+        <Text style={styles.treePeopleText}>
+          {t("rewards.tree.peopleEncouraged", { count: peopleEncouraged })}
+        </Text>
+      ) : null}
+    </View>
+  );
+}
+
 function YearInReviewCard({ recap, styles, onShare }) {
   const { t } = useTranslation();
   if (recap.totalDays < 14) return null;
@@ -82,7 +137,8 @@ export default function RewardsScreen({ store, onJumpToDay }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
-  const { totalStars, streak, momentsDone, weeklyRecap, yearInReview, settings, updateSettings } = store;
+  const { totalStars, streak, momentsDone, peopleEncouraged, weeklyRecap, yearInReview, settings, updateSettings } =
+    store;
   const [showYearShare, setShowYearShare] = useState(false);
 
   return (
@@ -107,6 +163,8 @@ export default function RewardsScreen({ store, onJumpToDay }) {
           <Text style={styles.tileLabel}>{t("rewards.barnabasMoments")}</Text>
         </View>
       </View>
+
+      <EncouragementTreeCard momentsDone={momentsDone} peopleEncouraged={peopleEncouraged} styles={styles} />
 
       <Text style={styles.sectionTitle}>{t("rewards.journeyTitle")}</Text>
       <Text style={styles.subtitle}>{t("rewards.journeySubtitle")}</Text>
@@ -286,6 +344,30 @@ function getStyles(colors, shadow) {
       overflow: "hidden",
     },
     summaryRow: { flexDirection: "row", gap: 10, marginBottom: 24 },
+    treeCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 24,
+      alignItems: "center",
+      ...shadow,
+    },
+    treeEmoji: { marginTop: 8, marginBottom: 10 },
+    treeStageName: { fontSize: 16, fontWeight: "800", color: colors.sageDark, marginBottom: 4 },
+    treeStageDesc: { fontSize: 12.5, color: colors.textSoft, textAlign: "center", marginBottom: 14 },
+    treeProgressTrack: {
+      width: "100%",
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: colors.border,
+      overflow: "hidden",
+      marginBottom: 8,
+    },
+    treeProgressFill: { height: "100%", borderRadius: 3, backgroundColor: colors.sage },
+    treeProgressLabel: { fontSize: 11.5, fontWeight: "600", color: colors.textSoft },
+    treePeopleText: { fontSize: 12.5, fontWeight: "700", color: colors.goldText, marginTop: 12 },
     tile: {
       flex: 1,
       backgroundColor: colors.card,

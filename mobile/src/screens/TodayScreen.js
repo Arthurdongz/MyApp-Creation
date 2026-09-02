@@ -103,6 +103,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     setMomentIntention,
     setCustomMoment,
     markMomentDone,
+    markWentFurtherDone,
     answerMomentFollowUp,
     saveReflection,
     isFavorited,
@@ -243,6 +244,12 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     celebrateAnim.setValue(0);
     Animated.spring(celebrateAnim, { toValue: 1, friction: 6, tension: 60, useNativeDriver: true }).start();
   }, [justCompleted, celebrateAnim]);
+
+  const handleWentFurtherDone = () => {
+    if (today.wentFurtherDone) return;
+    hapticSuccess();
+    markWentFurtherDone();
+  };
 
   const handleReadStory = () => {
     hapticTap();
@@ -482,14 +489,30 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
         <>
           <Text style={styles.cardLabel}>{t("today.support.call.title")}</Text>
           <Text style={[styles.bodyText, { marginBottom: 14 }]}>{t("today.support.call.body")}</Text>
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={() => Linking.openURL("tel:")}
-            accessibilityRole="button"
-            accessibilityLabel={t("today.support.call.callLabel")}
-          >
-            <Text style={styles.secondaryButtonText}>{t("today.support.call.callButton")}</Text>
-          </TouchableOpacity>
+          <View style={styles.momentActions}>
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={() => Linking.openURL("tel:")}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.support.call.callLabel")}
+            >
+              <Text style={styles.secondaryButtonText}>{t("today.support.call.callButton")}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, today.wentFurtherDone && styles.buttonDisabled]}
+              onPress={handleWentFurtherDone}
+              disabled={today.wentFurtherDone}
+              accessibilityRole="button"
+              accessibilityLabel={t("today.support.call.didItLabel")}
+              accessibilityState={{ disabled: today.wentFurtherDone }}
+            >
+              <Text style={styles.buttonText}>
+                {today.wentFurtherDone
+                  ? t("today.support.call.didItDoneText")
+                  : t("today.support.call.didItText")}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </>
       ),
     });

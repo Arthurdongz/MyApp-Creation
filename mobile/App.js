@@ -46,6 +46,7 @@ import BibleMarksScreen from "./src/screens/BibleMarksScreen";
 import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
+import BadgeCelebrationModal from "./src/components/BadgeCelebrationModal";
 
 const VERSE_VERSION_IDS = BIBLE_VERSIONS.map((v) => v.id);
 // expo-notifications' response-listener APIs aren't implemented on web and
@@ -392,6 +393,8 @@ function AppContent({ store }) {
         <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
           {showChat ? <ChatScreen store={store} onClose={() => setShowChat(false)} /> : null}
         </Modal>
+
+        <BadgeCelebrationModal badge={store.newlyEarnedBadge} onClose={store.dismissBadgeCelebration} />
       </SafeAreaView>
     </SafeAreaProvider>
   );
