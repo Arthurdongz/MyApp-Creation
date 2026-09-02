@@ -1,0 +1,578 @@
+{
+  "app": {
+    "brand": "Barnabas Journal",
+    "tagline": "\"Son of Encouragement\" — Acts 4:36",
+    "menu": "Menu",
+    "loading": "Loading...",
+    "footer": "Be still. Be kind. Be someone's encouragement today.",
+    "chatFab": "Chat with Barnabas",
+    "closeChat": "Close chat",
+    "starsLabel_one": "{{count}} pt",
+    "starsLabel_other": "{{count}} pts",
+    "starsAccessibilityLabel_one": "{{count}} Barnabas point",
+    "starsAccessibilityLabel_other": "{{count}} Barnabas points",
+    "starsTapTitle": "Barnabas Points",
+    "starsTapMessage": "Earn points by completing your daily reading and Barnabas Moment — a small way to mark that you showed up.",
+    "streakLabel_one": "{{count}}-day streak",
+    "streakLabel_other": "{{count}}-day streak",
+    "streakAccessibilityLabel_one": "{{count}}-day streak",
+    "streakAccessibilityLabel_other": "{{count}}-day streak",
+    "streakTapTitle": "Your Streak",
+    "streakTapMessage_one": "You've shown up {{count}} day in a row.",
+    "streakTapMessage_other": "You've shown up {{count}} days in a row. Keep it going!",
+    "upToDateTitle": "You're up to date",
+    "upToDateMessage": "You already have the latest version of Barnabas Journal.",
+    "updateCheckErrorTitle": "Couldn't check for updates",
+    "updateCheckErrorMessage": "Check your connection and try again.",
+    "updateCheckUnsupportedTitle": "Not available here",
+    "updateCheckUnsupportedMessage": "Checking for updates only works in the installed app, not in development mode.",
+    "tabs": {
+      "today": "Today",
+      "story": "Story",
+      "facts": "Facts",
+      "journal": "Journal",
+      "favorites": "Favorites",
+      "rewards": "Rewards"
+    }
+  },
+  "onboarding": {
+    "welcomeTitle": "Welcome to Barnabas Journal",
+    "paragraph1": "In the book of Acts, a man named Joseph was given a new name by the apostles: Barnabas — \"son of encouragement.\" He had a gift for lifting others up with a kind word or a well-timed act of generosity.",
+    "paragraph2": "This journal gives you a new verse, a word of encouragement, and a small \"Barnabas moment\" to do for someone else — one day at a time. A new day unlocks every day; you can always look back on days you've already lived, but not skip ahead.",
+    "paragraph3": "Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to notice how far you've come.",
+    "paragraph4": "We'll ask permission to send two gentle reminders each day — a morning verse, and an evening nudge to reflect — you can turn either off anytime from the Rewards tab.",
+    "crisisRegionTitle": "One more thing",
+    "crisisRegionSubtitle": "If you're ever in crisis, we want to show the right helpline for where you are. We'll guess from your device — but if you'd rather set it now, pick your country below. You can always change this later in Settings.",
+    "startButton": "Begin your journey"
+  },
+  "common": {
+    "listen": "🔊 Listen",
+    "share": "↗ Share",
+    "save": "☆ Save",
+    "saved": "★ Saved",
+    "savedTapRemove": "★ Saved (tap to remove)",
+    "saveToFavorites": "Save to favorites",
+    "savedRemoveFromFavorites": "Saved — tap to remove from favorites",
+    "cancel": "Cancel",
+    "change": "Change",
+    "close": "Close",
+    "normal": "Normal",
+    "moreActions": "More actions",
+    "privacyPolicy": "Privacy Policy",
+    "saveShort": "Save",
+    "dayLabel": "Day {{day}}",
+    "moods": {
+      "joyful": "Joyful",
+      "peaceful": "Peaceful",
+      "hopeful": "Hopeful",
+      "tired": "Tired",
+      "struggling": "Struggling"
+    }
+  },
+  "today": {
+    "dayNav": {
+      "todayLabel": "Today · Day {{day}}",
+      "dayLabel": "Day {{day}}",
+      "previous": "Previous day",
+      "next": "Next day",
+      "backToToday": "Back to today",
+      "progress": "{{day}} of {{total}}"
+    },
+    "jump": {
+      "verse": "Verse",
+      "verseLabel": "Jump to Verse",
+      "confession": "Confession",
+      "confessionLabel": "Jump to Today's Confession",
+      "word": "Word",
+      "wordLabel": "Jump to A Word for You",
+      "moment": "Moment",
+      "momentLabel": "Jump to Your Barnabas Moment",
+      "reflect": "Reflect",
+      "reflectLabel": "Jump to Today's Reflection"
+    },
+    "labels": {
+      "verse": "Verse"
+    },
+    "reading": {
+      "sectionTitle": "Today's Reading"
+    },
+    "confession": {
+      "title": "Today's Confession",
+      "speakPrompt": "Speak this aloud today.",
+      "viewVerseLabel": "View {{ref}}",
+      "readChapter": "Read the full chapter →",
+      "verseUnavailable": "This verse isn't available to read in-app yet.",
+      "prevChapter": "Previous chapter",
+      "nextChapter": "Next chapter",
+      "highlightGreen": "Highlight green",
+      "highlightYellow": "Highlight yellow",
+      "highlightRed": "Highlight red",
+      "highlightBlue": "Highlight blue",
+      "underline": "Underline",
+      "selectedCount": "Selected: {{count}}",
+      "clearMark": "Remove highlight",
+      "addNote": "Add a note",
+      "copyVerse": "Copy",
+      "shareVerse": "Share",
+      "bookmarkVerse": "Bookmark",
+      "highlightVerse": "Highlight",
+      "backToOptions": "Back",
+      "copied": "Copied!",
+      "notePlaceholder": "Write a note…",
+      "saveNote": "Save",
+      "bibleVersion": "Version",
+      "chooseVersion": "Choose Bible version",
+      "downloadingVersion": "Downloading {{version}}…",
+      "downloadFailed": "Couldn't download — tap to try again",
+      "verseOmitted": "This translation has no separate text for this verse.",
+      "verseOmittedWithText": "This translation has no separate text for this verse (it may follow a different manuscript tradition, or number its verses differently). For reference, the King James Version reads: “{{text}}”"
+    },
+    "word": {
+      "title": "A Word for You",
+      "reflectPrompt": "Let this sit for a moment — what does it stir in you?",
+      "reflectPlaceholder": "What does this stir in you?",
+      "reflectPlaceholderWithQuote": "What stirred in you when you read: “{{quote}}”?",
+      "reflectSaved": "Saved. Thank you for sitting with that. ⭐⭐"
+    },
+    "thought": {
+      "title": "Encouraging Thought",
+      "reflectPrompt": "Let this sit for a moment — what does it stir in you?",
+      "reflectPlaceholderWithQuote": "What stirred in you when you read: “{{quote}}”?",
+      "reflectSaved": "Saved. Thank you for sitting with that. ⭐⭐"
+    },
+    "fact": {
+      "title": "Did You Know?"
+    },
+    "moment": {
+      "streakChipLabel": "{{count}}-day streak",
+      "milestoneStreak_one": "🎉 {{count}} day until your next milestone!",
+      "milestoneStreak_other": "🎉 {{count}} days until your next milestone!",
+      "milestoneStars_one": "🎉 {{count}} star until your next milestone!",
+      "milestoneStars_other": "🎉 {{count}} stars until your next milestone!",
+      "rewardHint": "Complete today's moment to earn {{stars}} ⭐",
+      "celebrateMsg": "🎉 Someone's day may be a little different because you showed up. +{{stars}} ⭐ and a {{streak}}-day streak going.",
+      "inspiredByLabel": "Inspired by today's story:",
+      "readStoryLink": "Read their story →",
+      "tally": "💛 You've been there for someone {{times}} so far.",
+      "sectionTitle": "Your Barnabas Moment",
+      "summaryLabel": "Today's Barnabas moment, done — tap to view",
+      "summaryText": "✓ You did today's moment",
+      "collapseLabel": "Collapse today's Barnabas moment",
+      "collapseText": "‹ Collapse",
+      "followUp": {
+        "label": "Yesterday, you planned to:",
+        "question": "Did you get to it?",
+        "yesLabel": "Yes, I did it",
+        "yesButton": "Yes, I did it 🎉",
+        "notYet": "Not yet, but I still might",
+        "no": "No, not this time"
+      },
+      "customNote": "This is your own idea for today.",
+      "useSuggestion": "Use today's suggestion instead",
+      "customPlaceholder": "What's your own act of kindness today?",
+      "useCustom": "Use this instead",
+      "writeOwn": "Or, write your own kindness for today",
+      "plannedFor": "Planned for: {{when}}",
+      "changeWhenLabel": "Change when you'll do this",
+      "whenPrompt": "When will you do this?",
+      "doneLabel": "Done",
+      "doneText": "Done ✓",
+      "doTodayLabel": "I did this today",
+      "doTodayText": "I did this today ✓",
+      "doLabel": "I did this",
+      "doText": "I did this ✓",
+      "sendToSomeone": "💌 Share this encouragement",
+      "doneMsg": "Well done — that kindness mattered. ⭐⭐",
+      "whatHappenedLabel": "What happened? (optional)",
+      "whatHappenedPlaceholder": "What happened when you did it?",
+      "whoLabel": "Who were you thinking about? (optional)",
+      "whoPlaceholder": "A name, or just \"a stranger\"",
+      "reflectSaved": "Saved. Thank you for sharing that. ⭐⭐",
+      "reachOutPrefix": "💛 If today feels heavy —",
+      "reachOutLink": "reach out to someone who cares",
+      "reminderOn": "🔔 We'll remind you"
+    },
+    "momentIntentions": {
+      "today": "Today",
+      "tonight": "Tonight",
+      "tomorrow": "Tomorrow morning"
+    },
+    "reachOut": {
+      "message": "Hey, I wanted to reach out today — just thinking of you. How are you doing?",
+      "messageWithQuote": "Hey, I wanted to reach out today — just thinking of you. Something I read stood out to me: \"{{quote}}\" How are you doing?",
+      "talkMessage": "Hey, do you have a few minutes to talk? I could use a listening ear lately."
+    },
+    "shareMoment": "A little encouragement from me to you today: {{moment}}\n\n— sent from {{brand}}",
+    "support": {
+      "sectionTitle": "A Little Extra Support",
+      "crisis": {
+        "title": "A Resource, If You Need It",
+        "body": "It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself."
+      },
+      "checkinTalk": {
+        "title": "Since It's Been Heavy Lately",
+        "body": "This past week has felt like a lot. A problem shared is a problem halved — is there someone you trust that you could talk to about how you're really doing?",
+        "talkLabel": "Talk to someone",
+        "talkButton": "💬 Talk to Someone"
+      },
+      "checkinPause": {
+        "title": "A Moment to Pause",
+        "body": "In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again."
+      },
+      "call": {
+        "title": "🌿 Go a Little Further",
+        "body": "A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?",
+        "callLabel": "Call someone",
+        "callButton": "📞 Call Someone",
+        "didItLabel": "I reached out",
+        "didItText": "I reached out ✓",
+        "didItDoneText": "Reached out ✓"
+      },
+      "savedVerseLabel": "From your saved favorites"
+    },
+    "reflect": {
+      "sectionTitleToday": "Today's Reflection",
+      "sectionTitleDay": "Day {{day}}'s Reflection",
+      "heartTitle": "What's on your heart today?",
+      "heartPlaceholder": "Write freely — this is just for you...",
+      "momentTitle": "Your Barnabas moment — what did you do, and how did it feel?",
+      "momentPlaceholder": "What did you do for someone today, and how did it feel?",
+      "whoTitle": "Who were you thinking about? (optional)",
+      "whoPlaceholder": "A name, or just \"a stranger\"",
+      "kindnessTitle": "Someone watered me today — did anyone show you kindness?",
+      "kindnessPlaceholder": "What did someone do for you today, and how did it feel?",
+      "moodLabel": "How are you feeling?",
+      "saveLabel": "Save reflection",
+      "saveButton": "Save Reflection",
+      "savedToday": "Saved gently. Thank you for showing up today. ⭐⭐",
+      "savedPastDay": "Saved gently. Thank you for going back to this day. ⭐⭐",
+      "teaserEmpty": "Tap to journal about today's Encouraging Thought — or whatever's on your mind",
+      "teaserLabel": "Open today's reflection in your Journal"
+    }
+  },
+  "dailyWelcome": {
+    "greetingNamed": "Welcome back to your Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Welcome back to your Barnabas Journal.",
+    "dayLine": "Day {{day}} of your journey.",
+    "streakLine": "{{count}}-day streak",
+    "factLabel": "Something to think about",
+    "continueButton": "Continue"
+  },
+  "fact": {
+    "title": "Fact of the Day",
+    "subtitle": "A short, real finding about kindness, connection, or hope — meant to nudge you toward your Barnabas Moment.",
+    "cardLabel": "Did You Know?",
+    "listenLabel": "Listen to today's fact",
+    "shareLabel": "Share today's fact"
+  },
+  "story": {
+    "title": "Story of the Day",
+    "subtitle": "A true story of someone showing the good side of humanity — the Barnabas effect, at work in real life.",
+    "cardLabel": "True Story",
+    "listenLabel": "Listen to today's story",
+    "shareLabel": "Share today's story",
+    "insightLabel": "Show the lesson behind this story",
+    "insightTitle": "The Barnabas Lesson",
+    "sourceLabel": "View story source",
+    "sourceTitle": "Source"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "subtitle": "A small way to notice how far you've come.",
+    "units": {
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "barnabasMoment_one": "{{count}} Barnabas Moment",
+      "barnabasMoment_other": "{{count}} Barnabas Moments",
+      "journalEntry_one": "{{count}} journal entry",
+      "journalEntry_other": "{{count}} journal entries",
+      "time_one": "{{count}} time",
+      "time_other": "{{count}} times",
+      "favorite_one": "{{count}} favorite",
+      "favorite_other": "{{count}} favorites"
+    },
+    "weeklyRecap": {
+      "title": "This Week",
+      "summary": "Over the last {{days}}, you showed up {{shownUp}}, did {{moments}}, and wrote {{entries}}.",
+      "kindnessNoticed": "And you noticed kindness coming your way {{times}} — you're being watered too, not just pouring out.",
+      "kindnessDefault": "He who waters others is himself watered — don't forget to notice when kindness comes your way, too."
+    },
+    "yearInReview": {
+      "titleFull": "Your Year in Review",
+      "titlePartial": "Your Journey So Far",
+      "shareLabel": "Share your year in review",
+      "summary": "Over {{days}}, you showed up {{shownUp}}, did {{moments}}, and reached a best streak of {{streak}} in a row.",
+      "favoritesSaved": "You saved {{favorites}} along the way to come back to."
+    },
+    "totalStars": "Total Stars",
+    "dayStreak": "Day Streak",
+    "barnabasMoments": "Barnabas Moments",
+    "tree": {
+      "title": "Your Encouragement Tree",
+      "subtitle": "Grows a little every time you complete a Barnabas Moment.",
+      "stage0": { "name": "Seed", "desc": "Every tree starts as a seed. Your first act of kindness is still ahead." },
+      "stage1": { "name": "Sprout", "desc": "Your first roots are taking hold." },
+      "stage2": { "name": "Sapling", "desc": "Small, steady growth — one kindness at a time." },
+      "stage3": { "name": "Young Tree", "desc": "Your kindness is becoming a habit." },
+      "stage4": { "name": "Tree", "desc": "Your encouragement has grown deep roots." },
+      "stage5": { "name": "Flourishing Tree", "desc": "A tree others can now rest under." },
+      "progressToNext_one": "{{count}} more moment until it grows",
+      "progressToNext_other": "{{count}} more moments until it grows",
+      "maxedOut": "Fully grown — and still bearing fruit.",
+      "peopleEncouraged_one": "💛 You've reached out to {{count}} person so far.",
+      "peopleEncouraged_other": "💛 You've reached out to {{count}} people so far."
+    },
+    "journeyTitle": "My Barnabas Journey",
+    "journeySubtitle": "Every day so far — tap any square to go back and revisit it.",
+    "journey": {
+      "progress": "Day {{day}} of {{total}}",
+      "dayLabel": "{{date}} (Day {{day}}) — tap to revisit",
+      "legendMoment": "Barnabas Moment done",
+      "legendLogged": "Wrote or logged a mood",
+      "legendEmpty": "Nothing logged"
+    },
+    "badgeCelebration": {
+      "eyebrow": "New Badge Unlocked",
+      "dismiss": "Nice!"
+    },
+    "badgesTitle": "Badges",
+    "badgeLockedSuffix": ", locked",
+    "moodCalendarTitle": "Mood Calendar",
+    "moodCalendarSubtitle": "How you've been feeling, day by day."
+  },
+  "chat": {
+    "title": "Talk to Barnabas",
+    "subtitle": "A private, one-on-one conversation — ask questions or talk things through. Not a therapist, but a listening ear grounded in Scripture.",
+    "paywall": {
+      "title": "You've used this month's free messages",
+      "text": "Your free messages renew next month, or subscribe now for unlimited chatting. Keeping this going costs a little to run — subscribing helps cover that.",
+      "subscribeLabel": "Subscribe for unlimited chat",
+      "subscribeButton": "Subscribe for Unlimited Chat"
+    },
+    "subscribeComingSoonTitle": "Coming soon",
+    "subscribeComingSoonMessage": "Subscriptions aren't set up yet — check back soon.",
+    "genericError": "Something went wrong. Please try again.",
+    "quotaBanner": "{{left}} of {{limit}} free messages left this month",
+    "unlimitedBanner": "Unlimited chatting — thank you for subscribing ✨",
+    "emptyState": "Say hello — Barnabas is listening.",
+    "inputPlaceholder": "Type a message...",
+    "sendLabel": "Send message",
+    "sendButton": "Send",
+    "disclaimer": "If you're in crisis, please reach real help: {{resource}}",
+    "historyLabel": "View past conversations",
+    "historyTitle": "Past Conversations",
+    "backToChatLabel": "Back to chat",
+    "historyEmpty": "You haven't started a conversation yet.",
+    "historyRowMeta_one": "{{count}} message · {{date}}",
+    "historyRowMeta_other": "{{count}} messages · {{date}}",
+    "historyPreviewFallback": "New conversation",
+    "personalizationOn": "Personalized using your streak & mood — tap to turn off",
+    "personalizationOff": "Personalization off — tap to turn on",
+    "personalizationOnLabel": "Turn off personalization using your streak and mood",
+    "personalizationOffLabel": "Turn on personalization using your streak and mood",
+    "feedbackUpLabel": "This reply was helpful",
+    "feedbackDownLabel": "This reply was not helpful"
+  },
+  "history": {
+    "title": "My Journal",
+    "subtitle": "Every entry you've written, kept in one quiet place.",
+    "onThisDayLabel": "On This Day",
+    "onThisDay": {
+      "yearAgo": "a year ago",
+      "threeMonthsAgo": "three months ago",
+      "monthAgo": "a month ago",
+      "weekAgo": "a week ago",
+      "entry": "{{label}} (Day {{day}}), you wrote: \"{{snippet}}\""
+    },
+    "searchPlaceholder": "Search your journal...",
+    "emptyNoEntries": "Your journal is still quiet — write your first reflection above.",
+    "emptySearch": "No entries match your search.",
+    "entryDate": "Day {{day}} · {{date}}",
+    "moodLabel": "Mood: {{mood}}",
+    "blockLabels": {
+      "reflection": "Reflection",
+      "barnabasMoment": "Barnabas Moment",
+      "kindnessReceived": "Kindness Received"
+    },
+    "markedDone": "Marked as done.",
+    "calendar": {
+      "showCalendar": "Calendar view",
+      "showList": "List view",
+      "dayLabel": "{{date}} (Day {{day}}) — tap to open",
+      "legendMoment": "Barnabas Moment done",
+      "legendEntry": "Wrote or logged something",
+      "legendEmpty": "Nothing yet"
+    },
+    "writeToday": {
+      "title": "Write Today's Reflection",
+      "emptyPrompt": "You haven't reflected today",
+      "label": "Write today's reflection"
+    },
+    "openEntryLabel": "Open Day {{day}} entry"
+  },
+  "favorites": {
+    "title": "Favorites",
+    "subtitle": "Verses, quotes, and facts you've saved to come back to.",
+    "searchPlaceholder": "Search your favorites...",
+    "emptyNoFavorites": "Nothing saved yet — tap \"Save\" on a verse or quote you want to keep.",
+    "emptySearch": "No favorites match your search.",
+    "entryKind": "{{kind}} · Day {{day}}",
+    "removeLabel": "Remove this {{kind}} from favorites",
+    "kind": {
+      "verse": "Verse",
+      "confession": "Confession",
+      "trueStory": "True Story",
+      "fact": "Fact",
+      "story": "Story",
+      "quote": "Quote"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "closeLabel": "Close settings",
+    "backLabel": "Back to Settings",
+    "subtitleDark": "Dark",
+    "subtitleLight": "Light",
+    "remindersSummary": "{{count}} of {{total}} on",
+    "appearanceTitle": "Appearance",
+    "darkMode": "Dark Mode",
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode",
+    "personalizationTitle": "Personalization",
+    "personalizationSubtitleEmpty": "Add your name",
+    "personalizationSubtitle": "Make the daily welcome feel a little more like it's speaking to you.",
+    "nameLabel": "What should we call you?",
+    "namePlaceholder": "Your name (optional)",
+    "dailyWelcomeLabel": "Daily welcome screen",
+    "dailyWelcomeHint": "A short greeting and something to look forward to, shown once when you open the app each day.",
+    "dailyWelcomeSwitchLabel": "Turn the daily welcome screen on or off",
+    "bibleVersionTitle": "Bible Version",
+    "bibleVersionSubtitle": "The daily verse is available in eight public-domain translations: the King James Version (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV), Young's Literal Translation (YLT), the simplified Bible in Basic English (BBE), the Spanish Reina-Valera Antigua (RVA), the Portuguese Almeida 1911 (ALM1911), and the French Louis Segond 1910 (LSG).",
+    "verseModeAlternate": "Alternate daily",
+    "verseModeFavorite": "Always use my favorite",
+    "crisisRegionTitle": "Crisis Support Region",
+    "crisisRegionSubtitle": "We guess your region from your device settings to show the right crisis helpline. If that guess is wrong, pick your country here.",
+    "crisisRegionAuto": "Auto-detect from device",
+    "crisisRegionOther": "Other / not listed",
+    "voiceSpeechTitle": "Voice & Speech",
+    "voiceSpeechSubtitle": "Choose how the {{listenLabel}} buttons sound.",
+    "voiceLabel": "Voice",
+    "voiceValueLabel": "Voice: {{voice}}. Tap to change.",
+    "defaultVoiceName": "Default",
+    "pitchLabel": "Pitch",
+    "pitchPresets": { "lower": "Lower", "higher": "Higher" },
+    "speedLabel": "Speed",
+    "ratePresets": { "slower": "Slower", "faster": "Faster", "fastest": "Fastest" },
+    "testVoiceButton": "🔊 Test Voice",
+    "testVoiceSpeech": "This is what the voice will sound like when reading your verse or story aloud.",
+    "voicePickerTitle": "Choose a Voice",
+    "closeVoicePickerLabel": "Close voice picker",
+    "remindersTitle": "Daily Reminders",
+    "remindersSubtitle": "Four gentle nudges — a confession to speak over your day, a verse to start the day, a highlight to encourage you along the way, and a moment to reflect as it closes.",
+    "confessionLabel": "Confession · Speak it aloud",
+    "confessionSwitchLabel": "Confession reminder",
+    "morningLabel": "Morning · Word for the day",
+    "morningSwitchLabel": "Morning reminder",
+    "highlightLabel": "Highlight · Encouragement along the way",
+    "highlightSwitchLabel": "Highlight reminder",
+    "eveningLabel": "Evening · Time to reflect",
+    "eveningSwitchLabel": "Evening reminder",
+    "notifDisabledTitle": "Notifications not enabled",
+    "notifDisabledMessage": "We couldn't schedule a reminder — check that notifications are allowed for this app in your device settings.",
+    "checkUpdatesTitle": "Check for Updates",
+    "checkUpdatesSubtitle": "Get the latest version without closing and reopening the app.",
+    "checkingUpdates": "Checking…",
+    "backupTitle": "Backup",
+    "backupSubtitle": "Your journal lives on this device (Android may also auto-back it up to your own Google account as a safety net). Export a backup now and then, or restore one here.",
+    "backupNote": {
+      "overdue": "It's been {{days}} days since your last backup ({{date}}) — consider exporting a fresh one.",
+      "recent": "Last backup: {{date}}.",
+      "never": "You haven't exported a backup yet."
+    },
+    "exportBackup": "Export Backup",
+    "restoreBackup": "Restore Backup",
+    "exportError": "Couldn't export a backup right now.",
+    "importSuccess": "Backup restored. Welcome back!",
+    "importError": "That file doesn't look like a valid backup."
+  },
+  "about": {
+    "title": "About {{brand}}",
+    "closeLabel": "Close about",
+    "paragraph1": "Barnabas Journal exists to put a little encouragement into your day — one verse, one quote, and one true story of someone showing up for another person, each day.",
+    "paragraph2": "It's named for Barnabas, called \"Son of Encouragement\" in Acts 4:36 — a man who introduced the outcast, gave second chances, and stood by people others had given up on.",
+    "paragraph3": "Our hope is simple: that this app helps you carry a little more hope into your day, and gives you an easy way to pass it on to someone else. No matter your background, your faith, or the season of life you're in, there's something here for you.",
+    "version": "Version {{version}}",
+    "emailLabel": "Email us at {{email}}",
+    "emailText": "Questions or feedback: {{email}}"
+  },
+  "menu": {
+    "closeLabel": "Close menu",
+    "shareApp": "Share App",
+    "about": "About",
+    "shareAppMessage": "I've been using {{brand}} — a daily place I come to be encouraged, and leave having encouraged someone else. Thought you might like it too."
+  },
+  "bibleBrowser": {
+    "title": "Read the Bible",
+    "allBooks": "All books",
+    "allChapters": "All chapters",
+    "wholeChapter": "Read the whole chapter"
+  },
+  "bibleMarks": {
+    "title": "My Highlights & Notes",
+    "tabHighlights": "Highlights",
+    "tabBookmarks": "Bookmarks",
+    "tabNotes": "Notes",
+    "empty_highlights": "No highlighted verses yet — tap any verse in the Bible reader to highlight it.",
+    "empty_bookmarks": "No bookmarked verses yet — tap any verse in the Bible reader to bookmark it.",
+    "empty_notes": "No notes yet — tap any verse in the Bible reader to add one."
+  },
+  "tour": {
+    "skip": "Skip",
+    "skipLabel": "Skip tour",
+    "next": "Next",
+    "nextLabel": "Next tip",
+    "finish": "Got it!",
+    "finishLabel": "Got it, finish tour",
+    "steps": {
+      "lookBack": {
+        "title": "Look back anytime",
+        "text": "The day navigator lets you revisit any day you've already lived. You can always look back, but you can't skip ahead of today."
+      },
+      "jumpLinks": {
+        "title": "Jump straight to what you want",
+        "text": "The quick links under the day navigator — Verse · Word · Moment · Reflect — scroll you straight to that part of the page."
+      },
+      "moreToExplore": {
+        "title": "More to explore",
+        "text": "The tabs up top hold a true Story, a Fact of the Day, your Journal of past entries, and everything you've saved to Favorites."
+      },
+      "saveWhatMoves": {
+        "title": "Save what moves you",
+        "text": "Tap Save — or ☆ Save in a card's ••• menu — on any verse, quote, story, or fact to keep it in Favorites for later."
+      },
+      "crisisRegion": {
+        "title": "Get the right crisis line",
+        "text": "We guess your country from your device to show the right crisis helpline. If it's ever wrong, go to Settings → Crisis Support Region and pick your country by hand."
+      }
+    }
+  },
+  "share": {
+    "chooseBackground": "Choose a Background",
+    "themeLabel": "{{name}} background",
+    "themeLabelSelected": "{{name}} background, selected",
+    "shareButton": "Share this",
+    "successMsg": "Shared. Thank you for passing it on!",
+    "errorMsg": "Couldn't create the share image right now.",
+    "dialogTitle": "Share from {{brand}}",
+    "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Include my own reflection",
+    "myReflectionLabel": "My reflection",
+    "yearCard": {
+      "titleFull": "My Year with {{brand}}",
+      "titlePartial": "My Journey So Far",
+      "daysShownUp": "Days Shown Up",
+      "bestStreak": "Best Streak",
+      "favoritesSaved": "Favorites Saved"
+    }
+  }
+}

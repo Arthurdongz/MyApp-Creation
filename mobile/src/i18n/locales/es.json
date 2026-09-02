@@ -1,0 +1,578 @@
+{
+  "app": {
+    "brand": "Barnabas Journal",
+    "tagline": "\"Hijo de consuelo\" — Hechos 4:36",
+    "menu": "Menú",
+    "loading": "Cargando...",
+    "footer": "Quédate quieto. Sé bondadoso. Sé el aliento de alguien hoy.",
+    "chatFab": "Chatear con Bernabé",
+    "starsLabel_one": "{{count}} pto",
+    "starsLabel_other": "{{count}} ptos",
+    "starsAccessibilityLabel_one": "{{count}} punto Bernabé",
+    "starsAccessibilityLabel_other": "{{count}} puntos Bernabé",
+    "starsTapTitle": "Puntos Bernabé",
+    "starsTapMessage": "Gana puntos completando tu lectura diaria y tu Momento Bernabé — una pequeña forma de marcar que estuviste presente.",
+    "streakLabel_one": "Racha de {{count}} día",
+    "streakLabel_other": "Racha de {{count}} días",
+    "streakAccessibilityLabel_one": "Racha de {{count}} día",
+    "streakAccessibilityLabel_other": "Racha de {{count}} días",
+    "streakTapTitle": "Tu Racha",
+    "streakTapMessage_one": "Has estado presente {{count}} día seguido.",
+    "streakTapMessage_other": "Has estado presente {{count}} días seguidos. ¡Sigue así!",
+    "closeChat": "Cerrar chat",
+    "upToDateTitle": "Ya tienes la última versión",
+    "upToDateMessage": "Ya tienes la versión más reciente de Barnabas Journal.",
+    "updateCheckErrorTitle": "No se pudo comprobar si hay actualizaciones",
+    "updateCheckErrorMessage": "Comprueba tu conexión e inténtalo de nuevo.",
+    "updateCheckUnsupportedTitle": "No disponible aquí",
+    "updateCheckUnsupportedMessage": "Comprobar actualizaciones solo funciona en la app instalada, no en modo de desarrollo.",
+    "tabs": {
+      "today": "Hoy",
+      "story": "Historia",
+      "facts": "Datos",
+      "journal": "Diario",
+      "favorites": "Favoritos",
+      "rewards": "Logros"
+    }
+  },
+  "onboarding": {
+    "welcomeTitle": "Bienvenido a Barnabas Journal",
+    "paragraph1": "En el libro de Hechos, los apóstoles le dieron un nuevo nombre a un hombre llamado José: Bernabé, \"hijo de consuelo\". Tenía el don de animar a otros con una palabra amable o un gesto de generosidad en el momento justo.",
+    "paragraph2": "Este diario te ofrece cada día un nuevo versículo, una palabra de aliento y un pequeño \"momento Bernabé\" para hacer por otra persona. Cada día se desbloquea uno nuevo; siempre puedes mirar atrás a los días que ya viviste, pero no puedes adelantarte.",
+    "paragraph3": "Preséntate, sé bondadoso y reflexiona un poco. Las estrellas, las rachas y las insignias solo están ahí para que notes cuánto has avanzado.",
+    "paragraph4": "Te pediremos permiso para enviarte dos recordatorios suaves cada día — un versículo por la mañana y un aviso por la noche para reflexionar — puedes desactivar cualquiera de los dos cuando quieras desde la pestaña de Logros.",
+    "crisisRegionTitle": "Una cosa más",
+    "crisisRegionSubtitle": "Si alguna vez estás en crisis, queremos mostrarte la línea de ayuda correcta según dónde te encuentres. Lo calcularemos desde tu dispositivo — pero si prefieres configurarlo ahora, elige tu país abajo. Siempre puedes cambiarlo después en Ajustes.",
+    "startButton": "Comienza tu camino"
+  },
+  "common": {
+    "listen": "🔊 Escuchar",
+    "share": "↗ Compartir",
+    "save": "☆ Guardar",
+    "saved": "★ Guardado",
+    "savedTapRemove": "★ Guardado (toca para quitar)",
+    "saveToFavorites": "Guardar en favoritos",
+    "savedRemoveFromFavorites": "Guardado — toca para quitar de favoritos",
+    "cancel": "Cancelar",
+    "change": "Cambiar",
+    "close": "Cerrar",
+    "normal": "Normal",
+    "moreActions": "Más acciones",
+    "privacyPolicy": "Política de privacidad",
+    "saveShort": "Guardar",
+    "dayLabel": "Día {{day}}",
+    "moods": {
+      "joyful": "Alegre",
+      "peaceful": "Tranquilo",
+      "hopeful": "Con esperanza",
+      "tired": "Cansado",
+      "struggling": "Agobiado"
+    }
+  },
+  "today": {
+    "dayNav": {
+      "todayLabel": "Hoy · Día {{day}}",
+      "dayLabel": "Día {{day}}",
+      "previous": "Día anterior",
+      "next": "Día siguiente",
+      "backToToday": "Volver a hoy",
+      "progress": "{{day}} de {{total}}"
+    },
+    "jump": {
+      "verse": "Versículo",
+      "verseLabel": "Ir al versículo",
+      "confession": "Confesión",
+      "confessionLabel": "Ir a la Confesión de Hoy",
+      "word": "Palabra",
+      "wordLabel": "Ir a Una Palabra para Ti",
+      "moment": "Momento",
+      "momentLabel": "Ir a Tu Momento Bernabé",
+      "reflect": "Reflexiona",
+      "reflectLabel": "Ir a la Reflexión de Hoy"
+    },
+    "labels": {
+      "verse": "Versículo"
+    },
+    "reading": {
+      "sectionTitle": "Lectura de Hoy"
+    },
+    "confession": {
+      "title": "Confesión de Hoy",
+      "speakPrompt": "Declara esto en voz alta hoy.",
+      "viewVerseLabel": "Ver {{ref}}",
+      "readChapter": "Leer el capítulo completo →",
+      "verseUnavailable": "Este versículo aún no está disponible para leer en la app.",
+      "prevChapter": "Capítulo anterior",
+      "nextChapter": "Capítulo siguiente",
+      "highlightGreen": "Resaltar en verde",
+      "highlightYellow": "Resaltar en amarillo",
+      "highlightRed": "Resaltar en rojo",
+      "highlightBlue": "Resaltar en azul",
+      "underline": "Subrayar",
+      "selectedCount": "Seleccionados: {{count}}",
+      "clearMark": "Quitar resaltado",
+      "addNote": "Añadir una nota",
+      "copyVerse": "Copiar",
+      "shareVerse": "Compartir",
+      "bookmarkVerse": "Marcador",
+      "highlightVerse": "Resaltar",
+      "backToOptions": "Atrás",
+      "copied": "¡Copiado!",
+      "notePlaceholder": "Escribe una nota…",
+      "saveNote": "Guardar",
+      "bibleVersion": "Versión",
+      "chooseVersion": "Elegir versión de la Biblia",
+      "downloadingVersion": "Descargando {{version}}…",
+      "downloadFailed": "No se pudo descargar — toca para intentarlo de nuevo",
+      "verseOmitted": "Esta traducción no tiene texto propio para este versículo.",
+      "verseOmittedWithText": "Esta traducción no tiene texto propio para este versículo (puede seguir una tradición de manuscritos distinta, o numerar sus versículos de otra manera). Como referencia, la Versión King James dice: «{{text}}»"
+    },
+    "word": {
+      "title": "Una Palabra para Ti",
+      "reflectPrompt": "Detente un momento — ¿qué despierta esto en ti?",
+      "reflectPlaceholder": "¿Qué despierta esto en ti?",
+      "reflectPlaceholderWithQuote": "¿Qué despertó en ti al leer: “{{quote}}”?",
+      "reflectSaved": "Guardado. Gracias por detenerte a pensarlo. ⭐⭐"
+    },
+    "thought": {
+      "title": "Pensamiento de Aliento",
+      "reflectPrompt": "Detente un momento — ¿qué despierta esto en ti?",
+      "reflectPlaceholderWithQuote": "¿Qué despertó en ti al leer: “{{quote}}”?",
+      "reflectSaved": "Guardado. Gracias por detenerte a pensarlo. ⭐⭐"
+    },
+    "fact": {
+      "title": "¿Sabías Que...?"
+    },
+    "moment": {
+      "streakChipLabel": "Racha de {{count}} días",
+      "milestoneStreak_one": "🎉 ¡Falta {{count}} día para tu próximo logro!",
+      "milestoneStreak_other": "🎉 ¡Faltan {{count}} días para tu próximo logro!",
+      "milestoneStars_one": "🎉 ¡Falta {{count}} estrella para tu próximo logro!",
+      "milestoneStars_other": "🎉 ¡Faltan {{count}} estrellas para tu próximo logro!",
+      "rewardHint": "Completa el momento de hoy y gana {{stars}} ⭐",
+      "celebrateMsg": "🎉 El día de alguien puede ser un poco diferente porque tú apareciste. +{{stars}} ⭐ y una racha de {{streak}} días.",
+      "inspiredByLabel": "Inspirado en la historia de hoy:",
+      "readStoryLink": "Lee su historia →",
+      "tally": "💛 Ya has estado ahí para alguien {{times}}.",
+      "sectionTitle": "Tu Momento Bernabé",
+      "summaryLabel": "El momento Bernabé de hoy, hecho — toca para ver",
+      "summaryText": "✓ Hiciste el momento de hoy",
+      "collapseLabel": "Colapsar el momento Bernabé de hoy",
+      "collapseText": "‹ Colapsar",
+      "followUp": {
+        "label": "Ayer planeaste:",
+        "question": "¿Lo hiciste?",
+        "yesLabel": "Sí, lo hice",
+        "yesButton": "Sí, lo hice 🎉",
+        "notYet": "Todavía no, pero puede que sí",
+        "no": "No, esta vez no"
+      },
+      "customNote": "Esta es tu propia idea para hoy.",
+      "useSuggestion": "Usar la sugerencia de hoy en su lugar",
+      "customPlaceholder": "¿Cuál es tu propio acto de bondad para hoy?",
+      "useCustom": "Usar esto en su lugar",
+      "writeOwn": "O escribe tu propia bondad para hoy",
+      "plannedFor": "Planeado para: {{when}}",
+      "changeWhenLabel": "Cambiar cuándo lo harás",
+      "whenPrompt": "¿Cuándo lo harás?",
+      "doneLabel": "Hecho",
+      "doneText": "Hecho ✓",
+      "doTodayLabel": "Lo hice hoy",
+      "doTodayText": "Lo hice hoy ✓",
+      "doLabel": "Lo hice",
+      "doText": "Lo hice ✓",
+      "sendToSomeone": "💌 Comparte este ánimo",
+      "doneMsg": "Bien hecho — esa bondad importó. ⭐⭐",
+      "whatHappenedLabel": "¿Qué pasó? (opcional)",
+      "whatHappenedPlaceholder": "¿Qué pasó cuando lo hiciste?",
+      "whoLabel": "¿En quién estabas pensando? (opcional)",
+      "whoPlaceholder": "Un nombre, o solo \"un desconocido\"",
+      "reflectSaved": "Guardado. Gracias por compartir eso. ⭐⭐",
+      "reachOutPrefix": "💛 Si hoy se siente pesado —",
+      "reachOutLink": "contacta a alguien que te quiere",
+      "reminderOn": "🔔 Te lo recordaremos"
+    },
+    "momentIntentions": {
+      "today": "Hoy",
+      "tonight": "Esta noche",
+      "tomorrow": "Mañana por la mañana"
+    },
+    "reachOut": {
+      "message": "Oye, quería contactarte hoy — solo pensando en ti. ¿Cómo estás?",
+      "messageWithQuote": "Oye, quería contactarte hoy — solo pensando en ti. Algo que leí me llamó la atención: \"{{quote}}\" ¿Cómo estás?",
+      "talkMessage": "Oye, ¿tienes unos minutos para hablar? Me vendría bien alguien que me escuche estos días."
+    },
+    "shareMoment": "Un poco de aliento de mi parte para ti hoy: {{moment}}\n\n— enviado desde {{brand}}",
+    "support": {
+      "sectionTitle": "Un Poco de Apoyo Extra",
+      "crisis": {
+        "title": "Un Recurso, Si Lo Necesitas",
+        "body": "Parece que este último tiempo ha sido difícil para ti. Eso importa, y no tienes que cargarlo solo."
+      },
+      "checkinTalk": {
+        "title": "Ya Que Ha Sido un Momento Difícil",
+        "body": "Esta última semana se ha sentido pesada. Un problema compartido es un problema reducido a la mitad — ¿hay alguien de confianza con quien puedas hablar sobre cómo estás en realidad?",
+        "talkLabel": "Hablar con alguien",
+        "talkButton": "💬 Hablar con Alguien"
+      },
+      "checkinPause": {
+        "title": "Un Momento para Pausar",
+        "body": "En esta temporada difícil, tómate un momento: ¿qué es algo pequeño por lo que estás agradecido ahora mismo, aunque sea insignificante? Y piensa: ¿hay algo que alguna vez pareció imposible de superar, y que superaste de todos modos? Puedes lograrlo de nuevo."
+      },
+      "call": {
+        "title": "🌿 Ve un Poco Más Allá",
+        "body": "Un mensaje de texto es fácil de enviar, y así de fácil de ignorar. ¿Hay alguien a quien realmente puedas llamar, o ver en persona, en lugar de solo enviarle un mensaje hoy?",
+        "callLabel": "Llamar a alguien",
+        "callButton": "📞 Llamar a Alguien",
+        "didItLabel": "Me contacté con alguien",
+        "didItText": "Me contacté con alguien ✓",
+        "didItDoneText": "Contactado ✓"
+      },
+      "savedVerseLabel": "De tus favoritos guardados"
+    },
+    "reflect": {
+      "sectionTitleToday": "Reflexión de Hoy",
+      "sectionTitleDay": "Reflexión del Día {{day}}",
+      "heartTitle": "¿Qué tienes en el corazón hoy?",
+      "heartPlaceholder": "Escribe libremente — esto es solo para ti...",
+      "momentTitle": "Tu momento Bernabé — ¿qué hiciste y cómo te sentiste?",
+      "momentPlaceholder": "¿Qué hiciste por alguien hoy, y cómo te sentiste?",
+      "whoTitle": "¿En quién estabas pensando? (opcional)",
+      "whoPlaceholder": "Un nombre, o solo \"un desconocido\"",
+      "kindnessTitle": "Alguien me regó hoy — ¿alguien te mostró bondad?",
+      "kindnessPlaceholder": "¿Qué hizo alguien por ti hoy, y cómo te sentiste?",
+      "moodLabel": "¿Cómo te sientes?",
+      "saveLabel": "Guardar reflexión",
+      "saveButton": "Guardar Reflexión",
+      "savedToday": "Guardado con cariño. Gracias por estar presente hoy. ⭐⭐",
+      "savedPastDay": "Guardado con cariño. Gracias por volver a este día. ⭐⭐",
+      "teaserEmpty": "Toca para escribir sobre el Pensamiento de Aliento de hoy — o lo que tengas en mente",
+      "teaserLabel": "Abrir la reflexión de hoy en tu Diario"
+    }
+  },
+  "dailyWelcome": {
+    "greetingNamed": "Bienvenido de nuevo a tu Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Bienvenido de nuevo a tu Barnabas Journal.",
+    "dayLine": "Día {{day}} de tu camino.",
+    "streakLine": "racha de {{count}} días",
+    "factLabel": "Algo en qué pensar",
+    "continueButton": "Continuar"
+  },
+  "fact": {
+    "title": "Dato del Día",
+    "subtitle": "Un hallazgo breve y real sobre la bondad, la conexión o la esperanza — pensado para inspirar tu Momento Bernabé.",
+    "cardLabel": "¿Sabías Que...?",
+    "listenLabel": "Escuchar el dato de hoy",
+    "shareLabel": "Compartir el dato de hoy"
+  },
+  "story": {
+    "title": "Historia del Día",
+    "subtitle": "Una historia real de alguien mostrando el lado bueno de la humanidad — el efecto Bernabé, en acción en la vida real.",
+    "cardLabel": "Historia Real",
+    "listenLabel": "Escuchar la historia de hoy",
+    "shareLabel": "Compartir la historia de hoy",
+    "insightLabel": "Mostrar la lección detrás de esta historia",
+    "insightTitle": "La Lección Bernabé",
+    "sourceLabel": "Ver la fuente de la historia",
+    "sourceTitle": "Fuente"
+  },
+  "rewards": {
+    "title": "Logros",
+    "subtitle": "Una pequeña forma de notar cuánto has avanzado.",
+    "units": {
+      "day_one": "{{count}} día",
+      "day_other": "{{count}} días",
+      "barnabasMoment_one": "{{count}} Momento Bernabé",
+      "barnabasMoment_other": "{{count}} Momentos Bernabé",
+      "journalEntry_one": "{{count}} entrada de diario",
+      "journalEntry_other": "{{count}} entradas de diario",
+      "time_one": "{{count}} vez",
+      "time_other": "{{count}} veces",
+      "favorite_one": "{{count}} favorito",
+      "favorite_other": "{{count}} favoritos"
+    },
+    "weeklyRecap": {
+      "title": "Esta Semana",
+      "summary": "En los últimos {{days}}, apareciste {{shownUp}}, hiciste {{moments}}, y escribiste {{entries}}.",
+      "kindnessNoticed": "Y notaste bondad llegando a ti {{times}} — a ti también te riegan, no solo derramas.",
+      "kindnessDefault": "El que riega a otros, él mismo será regado — no olvides notar cuando la bondad llega a ti también."
+    },
+    "yearInReview": {
+      "titleFull": "Tu Año en Revisión",
+      "titlePartial": "Tu Camino Hasta Ahora",
+      "shareLabel": "Compartir tu año en revisión",
+      "summary": "En {{days}}, apareciste {{shownUp}}, hiciste {{moments}}, y alcanzaste una racha máxima de {{streak}} seguidos.",
+      "favoritesSaved": "Guardaste {{favorites}} en el camino para volver a ellos."
+    },
+    "totalStars": "Estrellas Totales",
+    "dayStreak": "Racha de Días",
+    "barnabasMoments": "Momentos Bernabé",
+    "tree": {
+      "title": "Tu Árbol de Ánimo",
+      "subtitle": "Crece un poco cada vez que completas un Momento Bernabé.",
+      "stage0": { "name": "Semilla", "desc": "Todo árbol comienza siendo una semilla. Tu primer acto de bondad todavía está por venir." },
+      "stage1": { "name": "Brote", "desc": "Tus primeras raíces están echando." },
+      "stage2": { "name": "Retoño", "desc": "Un crecimiento pequeño y constante — una bondad a la vez." },
+      "stage3": { "name": "Árbol Joven", "desc": "Tu bondad se está convirtiendo en un hábito." },
+      "stage4": { "name": "Árbol", "desc": "Tu ánimo ha echado raíces profundas." },
+      "stage5": { "name": "Árbol Floreciente", "desc": "Un árbol bajo el que otros pueden descansar ahora." },
+      "progressToNext_one": "{{count}} momento más para que crezca",
+      "progressToNext_other": "{{count}} momentos más para que crezca",
+      "maxedOut": "Completamente crecido — y todavía dando fruto.",
+      "peopleEncouraged_one": "💛 Hasta ahora has llegado a {{count}} persona.",
+      "peopleEncouraged_other": "💛 Hasta ahora has llegado a {{count}} personas."
+    },
+    "journeyTitle": "Mi Camino Bernabé",
+    "journeySubtitle": "Cada día hasta ahora — toca cualquier cuadro para volver y revisarlo.",
+    "journey": {
+      "progress": "Día {{day}} de {{total}}",
+      "dayLabel": "{{date}} (Día {{day}}) — toca para revisar",
+      "legendMoment": "Momento Bernabé realizado",
+      "legendLogged": "Escribiste o registraste un ánimo",
+      "legendEmpty": "Nada registrado"
+    },
+    "badgeCelebration": {
+      "eyebrow": "Nueva Insignia Desbloqueada",
+      "dismiss": "¡Genial!"
+    },
+    "badgesTitle": "Insignias",
+    "badgeLockedSuffix": ", bloqueada",
+    "moodCalendarTitle": "Calendario de Ánimo",
+    "moodCalendarSubtitle": "Cómo te has sentido, día a día."
+  },
+  "chat": {
+    "title": "Habla con Bernabé",
+    "subtitle": "Una conversación privada, uno a uno — haz preguntas o habla las cosas con calma. No es un terapeuta, pero sí un oído atento basado en las Escrituras.",
+    "paywall": {
+      "title": "Ya usaste tus mensajes gratis de este mes",
+      "text": "Tus mensajes gratis se renuevan el próximo mes, o suscríbete ahora para chatear sin límites. Mantener esto funcionando cuesta un poco — suscribirte ayuda a cubrir ese costo.",
+      "subscribeLabel": "Suscribirse para chat ilimitado",
+      "subscribeButton": "Suscribirse para Chat Ilimitado"
+    },
+    "subscribeComingSoonTitle": "Muy pronto",
+    "subscribeComingSoonMessage": "Las suscripciones aún no están disponibles — vuelve pronto.",
+    "genericError": "Algo salió mal. Inténtalo de nuevo.",
+    "quotaBanner": "Te quedan {{left}} de {{limit}} mensajes gratis este mes",
+    "unlimitedBanner": "Chat ilimitado — gracias por suscribirte ✨",
+    "emptyState": "Saluda — Bernabé está escuchando.",
+    "inputPlaceholder": "Escribe un mensaje...",
+    "sendLabel": "Enviar mensaje",
+    "sendButton": "Enviar",
+    "disclaimer": "Si estás en crisis, por favor busca ayuda real: {{resource}}",
+    "historyLabel": "Ver conversaciones anteriores",
+    "historyTitle": "Conversaciones Anteriores",
+    "backToChatLabel": "Volver al chat",
+    "historyEmpty": "Todavía no has empezado ninguna conversación.",
+    "historyRowMeta_one": "{{count}} mensaje · {{date}}",
+    "historyRowMeta_other": "{{count}} mensajes · {{date}}",
+    "historyPreviewFallback": "Nueva conversación",
+    "personalizationOn": "Personalizado con tu racha y ánimo — toca para desactivar",
+    "personalizationOff": "Personalización desactivada — toca para activar",
+    "personalizationOnLabel": "Desactivar la personalización con tu racha y ánimo",
+    "personalizationOffLabel": "Activar la personalización con tu racha y ánimo",
+    "feedbackUpLabel": "Esta respuesta fue útil",
+    "feedbackDownLabel": "Esta respuesta no fue útil"
+  },
+  "history": {
+    "title": "Mi Diario",
+    "subtitle": "Cada entrada que has escrito, guardada en un solo lugar tranquilo.",
+    "onThisDayLabel": "En Este Día",
+    "onThisDay": {
+      "yearAgo": "hace un año",
+      "threeMonthsAgo": "hace tres meses",
+      "monthAgo": "hace un mes",
+      "weekAgo": "hace una semana",
+      "entry": "{{label}} (Día {{day}}), escribiste: \"{{snippet}}\""
+    },
+    "searchPlaceholder": "Buscar en tu diario...",
+    "emptyNoEntries": "Tu diario todavía está en silencio — escribe tu primera reflexión arriba.",
+    "emptySearch": "Ninguna entrada coincide con tu búsqueda.",
+    "entryDate": "Día {{day}} · {{date}}",
+    "moodLabel": "Ánimo: {{mood}}",
+    "blockLabels": {
+      "reflection": "Reflexión",
+      "barnabasMoment": "Momento Bernabé",
+      "kindnessReceived": "Bondad Recibida"
+    },
+    "markedDone": "Marcado como hecho.",
+    "calendar": {
+      "showCalendar": "Vista de calendario",
+      "showList": "Vista de lista",
+      "dayLabel": "{{date}} (Día {{day}}) — toca para abrir",
+      "legendMoment": "Momento Bernabé hecho",
+      "legendEntry": "Escribiste o registraste algo",
+      "legendEmpty": "Nada todavía"
+    },
+    "writeToday": {
+      "title": "Escribe la Reflexión de Hoy",
+      "emptyPrompt": "Todavía no has reflexionado hoy",
+      "label": "Escribir la reflexión de hoy"
+    },
+    "openEntryLabel": "Abrir la entrada del Día {{day}}"
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Versículos, citas y datos que has guardado para volver a ellos.",
+    "searchPlaceholder": "Buscar en tus favoritos...",
+    "emptyNoFavorites": "Todavía no has guardado nada — toca \"Guardar\" en un versículo o cita que quieras conservar.",
+    "emptySearch": "Ningún favorito coincide con tu búsqueda.",
+    "entryKind": "{{kind}} · Día {{day}}",
+    "removeLabel": "Quitar {{kind}} de favoritos",
+    "kind": {
+      "verse": "Versículo",
+      "confession": "Confesión",
+      "trueStory": "Historia Real",
+      "fact": "Dato",
+      "story": "Historia",
+      "quote": "Cita"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "closeLabel": "Cerrar configuración",
+    "backLabel": "Volver a Configuración",
+    "subtitleDark": "Oscuro",
+    "subtitleLight": "Claro",
+    "remindersSummary": "{{count}} de {{total}} activados",
+    "appearanceTitle": "Apariencia",
+    "darkMode": "Modo Oscuro",
+    "switchToLight": "Cambiar a modo claro",
+    "switchToDark": "Cambiar a modo oscuro",
+    "personalizationTitle": "Personalización",
+    "personalizationSubtitleEmpty": "Añade tu nombre",
+    "personalizationSubtitle": "Haz que la bienvenida diaria se sienta un poco más como si te hablara a ti.",
+    "nameLabel": "¿Cómo te llamamos?",
+    "namePlaceholder": "Tu nombre (opcional)",
+    "dailyWelcomeLabel": "Pantalla de bienvenida diaria",
+    "dailyWelcomeHint": "Un saludo breve y algo que esperar, mostrado una vez cuando abres la app cada día.",
+    "dailyWelcomeSwitchLabel": "Activar o desactivar la pantalla de bienvenida diaria",
+    "bibleVersionTitle": "Versión de la Biblia",
+    "bibleVersionSubtitle": "El versículo diario está disponible en ocho traducciones de dominio público: la King James Version (KJV), la World English Bible en inglés sencillo (WEB), la American Standard Version (ASV), la Young's Literal Translation (YLT), la Bible in Basic English simplificada (BBE), la Reina-Valera Antigua en español (RVA), la Almeida 1911 en portugués (ALM1911), y la Louis Segond 1910 en francés (LSG).",
+    "verseModeAlternate": "Alternar cada día",
+    "verseModeFavorite": "Usar siempre mi favorita",
+    "crisisRegionTitle": "Región de apoyo en crisis",
+    "crisisRegionSubtitle": "Calculamos tu región según la configuración de tu dispositivo para mostrar la línea de crisis correcta. Si esa suposición es incorrecta, elige tu país aquí.",
+    "crisisRegionAuto": "Detectar automáticamente desde el dispositivo",
+    "crisisRegionOther": "Otro / no aparece en la lista",
+    "voiceSpeechTitle": "Voz y Habla",
+    "voiceSpeechSubtitle": "Elige cómo suenan los botones de {{listenLabel}}.",
+    "voiceLabel": "Voz",
+    "voiceValueLabel": "Voz: {{voice}}. Toca para cambiar.",
+    "defaultVoiceName": "Predeterminada",
+    "pitchLabel": "Tono",
+    "pitchPresets": { "lower": "Más grave", "higher": "Más agudo" },
+    "speedLabel": "Velocidad",
+    "ratePresets": { "slower": "Más lenta", "faster": "Más rápida", "fastest": "La más rápida" },
+    "testVoiceButton": "🔊 Probar Voz",
+    "testVoiceSpeech": "Así sonará la voz al leer en voz alta tu versículo o historia.",
+    "voicePickerTitle": "Elegir una Voz",
+    "closeVoicePickerLabel": "Cerrar selector de voz",
+    "remindersTitle": "Recordatorios Diarios",
+    "remindersSubtitle": "Cuatro avisos suaves — una confesión para declarar sobre tu día, un versículo para empezar el día, un dato para animarte en el camino, y un momento para reflexionar al cerrarlo.",
+    "confessionLabel": "Confesión · Decláralo en voz alta",
+    "confessionSwitchLabel": "Recordatorio de confesión",
+    "morningLabel": "Mañana · Palabra del día",
+    "morningSwitchLabel": "Recordatorio matutino",
+    "highlightLabel": "Dato · Aliento en el camino",
+    "highlightSwitchLabel": "Recordatorio de dato",
+    "eveningLabel": "Noche · Momento de reflexionar",
+    "eveningSwitchLabel": "Recordatorio nocturno",
+    "notifDisabledTitle": "Notificaciones no habilitadas",
+    "notifDisabledMessage": "No pudimos programar un recordatorio — verifica que las notificaciones estén permitidas para esta app en la configuración de tu dispositivo.",
+    "checkUpdatesTitle": "Buscar actualizaciones",
+    "checkUpdatesSubtitle": "Obtén la última versión sin cerrar y volver a abrir la app.",
+    "checkingUpdates": "Buscando…",
+    "backupTitle": "Copia de Seguridad",
+    "backupSubtitle": "Tu diario vive en este dispositivo (Android también puede respaldarlo automáticamente en tu cuenta de Google como red de seguridad). Exporta una copia de seguridad de vez en cuando, o restaura una aquí.",
+    "backupNote": {
+      "overdue": "Han pasado {{days}} días desde tu última copia de seguridad ({{date}}) — considera exportar una nueva.",
+      "recent": "Última copia de seguridad: {{date}}.",
+      "never": "Todavía no has exportado una copia de seguridad."
+    },
+    "exportBackup": "Exportar Copia de Seguridad",
+    "restoreBackup": "Restaurar Copia de Seguridad",
+    "exportError": "No se pudo exportar una copia de seguridad en este momento.",
+    "importSuccess": "Copia de seguridad restaurada. ¡Bienvenido de nuevo!",
+    "importError": "Ese archivo no parece ser una copia de seguridad válida."
+  },
+  "about": {
+    "title": "Acerca de {{brand}}",
+    "closeLabel": "Cerrar acerca de",
+    "paragraph1": "Barnabas Journal existe para poner un poco de aliento en tu día — un versículo, una cita y una historia real de alguien que estuvo presente para otra persona, cada día.",
+    "paragraph2": "Lleva el nombre de Bernabé, llamado \"hijo de consuelo\" en Hechos 4:36 — un hombre que acogió al marginado, dio segundas oportunidades y permaneció junto a personas de las que otros ya se habían rendido.",
+    "paragraph3": "Nuestra esperanza es simple: que esta app te ayude a llevar un poco más de esperanza en tu día, y te dé una forma sencilla de compartirla con alguien más. Sin importar tu trasfondo, tu fe o la etapa de vida en la que estés, aquí hay algo para ti.",
+    "version": "Versión {{version}}",
+    "emailLabel": "Escríbenos a {{email}}",
+    "emailText": "Preguntas o comentarios: {{email}}"
+  },
+  "menu": {
+    "closeLabel": "Cerrar menú",
+    "shareApp": "Compartir App",
+    "about": "Acerca de",
+    "shareAppMessage": "He estado usando {{brand}} — un lugar diario donde vengo a recibir ánimo, y salgo habiendo animado a alguien más. Pensé que también te podría gustar."
+  },
+  "bibleBrowser": {
+    "title": "Leer la Biblia",
+    "allBooks": "Todos los libros",
+    "allChapters": "Todos los capítulos",
+    "wholeChapter": "Leer el capítulo completo"
+  },
+  "bibleMarks": {
+    "title": "Mis resaltados y notas",
+    "tabHighlights": "Resaltados",
+    "tabBookmarks": "Marcadores",
+    "tabNotes": "Notas",
+    "empty_highlights": "Aún no hay versículos resaltados — toca cualquier versículo en el lector de la Biblia para resaltarlo.",
+    "empty_bookmarks": "Aún no hay versículos marcados — toca cualquier versículo en el lector de la Biblia para marcarlo.",
+    "empty_notes": "Aún no hay notas — toca cualquier versículo en el lector de la Biblia para añadir una."
+  },
+  "tour": {
+    "skip": "Omitir",
+    "skipLabel": "Omitir recorrido",
+    "next": "Siguiente",
+    "nextLabel": "Siguiente consejo",
+    "finish": "¡Entendido!",
+    "finishLabel": "Entendido, finalizar recorrido",
+    "steps": {
+      "lookBack": {
+        "title": "Mira atrás cuando quieras",
+        "text": "El navegador de días te permite revisar cualquier día que ya hayas vivido. Siempre puedes mirar atrás, pero no puedes adelantarte a hoy."
+      },
+      "jumpLinks": {
+        "title": "Ve directo a lo que quieres",
+        "text": "Los enlaces rápidos bajo el navegador de días — Versículo · Palabra · Momento · Reflexiona — te llevan directo a esa parte de la página."
+      },
+      "moreToExplore": {
+        "title": "Más por explorar",
+        "text": "Las pestañas de arriba tienen una Historia real, un Dato del Día, tu Diario de entradas pasadas, y todo lo que has guardado en Favoritos."
+      },
+      "saveWhatMoves": {
+        "title": "Guarda lo que te conmueve",
+        "text": "Toca Guardar — o ☆ Guardar en el menú ••• de una tarjeta — en cualquier versículo, cita, historia o dato para conservarlo en Favoritos."
+      },
+      "crisisRegion": {
+        "title": "Obtén la línea de crisis correcta",
+        "text": "Calculamos tu país según tu dispositivo para mostrar la línea de crisis correcta. Si alguna vez es incorrecta, ve a Ajustes → Región de apoyo en crisis y elige tu país manualmente."
+      }
+    }
+  },
+  "share": {
+    "chooseBackground": "Elige un Fondo",
+    "themeLabel": "Fondo {{name}}",
+    "themeLabelSelected": "Fondo {{name}}, seleccionado",
+    "shareButton": "Compartir esto",
+    "successMsg": "Compartido. ¡Gracias por transmitirlo!",
+    "errorMsg": "No se pudo crear la imagen para compartir en este momento.",
+    "dialogTitle": "Compartir desde {{brand}}",
+    "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Incluir mi propia reflexión",
+    "myReflectionLabel": "Mi reflexión",
+    "yearCard": {
+      "titleFull": "Mi Año con {{brand}}",
+      "titlePartial": "Mi Camino Hasta Ahora",
+      "daysShownUp": "Días que Apareciste",
+      "bestStreak": "Mejor Racha",
+      "favoritesSaved": "Favoritos Guardados"
+    }
+  }
+}

@@ -1,0 +1,625 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../theme";
+import { sendChatMessage, sendChatFeedback } from "../chat";
+import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
+import { hapticTap } from "../haptics";
+import { BIBLE_BOOKS } from "../bibleLookup";
+import { pickForDay, pickForDaySmallBank } from "../content";
+import { VERSES } from "../data/verses";
+import { STORIES } from "../data/stories";
+import { STORIES_ES } from "../data/stories.es";
+import { STORIES_PT } from "../data/stories.pt";
+import { STORIES_FR } from "../data/stories.fr";
+import { BARNABAS_MOMENTS } from "../data/moments";
+import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
+import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
+import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
+import VersePopup from "../components/VersePopup";
+
+const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
+const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
+
+// How many days of mood history to summarize into the personalization
+// context sent with each message — kept in sync with the Worker's own
+// MAX_RECENT_MOODS cap (chat-worker/worker.js), so nothing gathered here
+// ever gets silently truncated server-side.
+const PERSONALIZATION_MOOD_DAYS = 7;
+
+// Longer book names first, so e.g. "1 John" matches before the bare "John"
+// alternative gets a chance to swallow just the tail of it.
+const BOOK_PATTERN = BIBLE_BOOKS.slice()
+  .sort((a, b) => b.length - a.length)
+  .map((b) => b.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+  .join("|");
+const SCRIPTURE_REF_REGEX = new RegExp(`\\b(?:${BOOK_PATTERN})\\s+\\d+:\\d+(?:-\\d+)?`, "g");
+
+// Splits a Barnabas reply into plain-text and scripture-reference segments,
+// so references can render as tappable spans that open the same
+// VersePopup the rest of the app uses — Barnabas's own citations lead
+// straight into the app's own scripture reader instead of staying inert
+// text, and since the chat Worker's lookup_bible_verse tool grounds any
+// verse it quotes, a tapped reference here shows the same verified text.
+function splitScriptureRefs(text) {
+  const segments = [];
+  let lastIndex = 0;
+  let match;
+  SCRIPTURE_REF_REGEX.lastIndex = 0;
+  while ((match = SCRIPTURE_REF_REGEX.exec(text))) {
+    if (match.index > lastIndex) segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+    segments.push({ type: "ref", content: match[0] });
+    lastIndex = match.index + match[0].length;
+  }
+  if (lastIndex < text.length) segments.push({ type: "text", content: text.slice(lastIndex) });
+  return segments;
+}
+
+function ChatPaywall({ styles, onSubscribe }) {
+  const { t } = useTranslation();
+  return (
+    <View style={styles.paywallCard}>
+      <Text style={styles.paywallTitle}>{t("chat.paywall.title")}</Text>
+      <Text style={styles.paywallText}>{t("chat.paywall.text")}</Text>
+      <TouchableOpacity
+        style={styles.subscribeBtn}
+        onPress={onSubscribe}
+        accessibilityRole="button"
+        accessibilityLabel={t("chat.paywall.subscribeLabel")}
+      >
+        <Text style={styles.subscribeBtnText}>{t("chat.paywall.subscribeButton")}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function formatConversationTimestamp(ts) {
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) {
+    return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+  }
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+export default function ChatScreen({ store, onClose }) {
+  const { colors, shadow } = useTheme();
+  const styles = getStyles(colors, shadow);
+  const { t, i18n } = useTranslation();
+  const {
+    chatAccess,
+    recordChatMessageSent,
+    settings,
+    updateSettings,
+    chatConversations,
+    openChatConversation,
+    appendChatMessage,
+    setChatMessageFeedback,
+    resumeChatConversation,
+    latestDay,
+    order,
+    streak,
+    momentsDone,
+    state,
+  } = store;
+  const crisisResource = getCrisisResource(resolveCrisisRegion(settings));
+
+  const storyBank = STORIES_BY_LANG[i18n.language] || STORIES;
+  const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
+  const todayEntry = state.entries[`day-${latestDay}`];
+
+  // Grounds Barnabas in what the user is actually seeing today — the exact
+  // story and moment text, plus which verse is "today's" (still looked up
+  // via the lookup_bible_verse tool for its exact wording) — instead of
+  // letting the model guess or paraphrase from training data.
+  const todayContext = useMemo(() => {
+    const story = pickForDaySmallBank(storyBank, latestDay, order);
+    const moment = todayEntry?.customMoment || pickForDay(momentsBank, latestDay, order);
+    const verseEntry = pickForDay(VERSES, latestDay, order);
+    return { verseRef: verseEntry.ref, storyTitle: story.title, storyText: story.text, momentText: moment };
+  }, [storyBank, momentsBank, latestDay, order, todayEntry]);
+
+  // Only ever lightweight, non-text signals — never the user's actual
+  // reflection/barnabasNote/receivedKindness text, which stays private to
+  // the device unless they choose to paste it into the chat themselves.
+  // Off entirely when the user has turned personalization off in-screen.
+  const personalization = useMemo(() => {
+    if (!settings.chatPersonalizationEnabled) return null;
+    const recentMoods = [];
+    for (let d = Math.max(1, latestDay - (PERSONALIZATION_MOOD_DAYS - 1)); d <= latestDay; d++) {
+      const mood = state.entries[`day-${d}`]?.mood;
+      if (mood) recentMoods.push(mood);
+    }
+    return { streak, momentsDone, recentMoods, todaysMomentDone: !!todayEntry?.momentDone };
+  }, [settings.chatPersonalizationEnabled, latestDay, state.entries, streak, momentsDone, todayEntry]);
+  const [view, setView] = useState("chat");
+  const [conversation, setConversation] = useState(null);
+  const [input, setInput] = useState("");
+  const [sending, setSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [versePopupOpen, setVersePopupOpen] = useState(false);
+  const [versePopupRef, setVersePopupRef] = useState(null);
+  const scrollRef = useRef(null);
+
+  const openVerseRef = (ref) => {
+    hapticTap();
+    setVersePopupRef(ref);
+    setVersePopupOpen(true);
+  };
+
+  // Resolved once per screen open (this component mounts fresh each time
+  // the chat modal opens — see App.js) so the 30-minute-idle / app-was-
+  // closed check in openChatConversation runs on every open, not just the
+  // first ever one.
+  useEffect(() => {
+    setConversation(openChatConversation());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const storedConversation = conversation
+    ? chatConversations.find((c) => c.id === conversation.id)
+    : null;
+  const messages = storedConversation ? storedConversation.messages : [];
+
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text || sending || !conversation) return;
+    hapticTap();
+    const history = messages;
+    appendChatMessage(conversation, { role: "user", content: text });
+    setInput("");
+    setSending(true);
+    setErrorMsg("");
+    try {
+      const reply = await sendChatMessage(
+        text,
+        history,
+        i18n.language,
+        resolveCrisisRegion(settings),
+        todayContext,
+        personalization
+      );
+      appendChatMessage(conversation, { role: "assistant", content: reply });
+      recordChatMessageSent();
+    } catch (e) {
+      setErrorMsg(e.message || t("chat.genericError"));
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // Tapping an already-set thumb again clears it, rather than only ever
+  // allowing up->down or down->up — a way to withdraw a reaction, not just
+  // flip it. Only pings the Worker (see sendChatFeedback) when a reaction
+  // is actually being set, not cleared, since there's nothing useful to
+  // log about a withdrawn opinion.
+  const handleFeedback = (messageIndex, message, feedback) => {
+    if (!conversation) return;
+    hapticTap();
+    const next = message.feedback === feedback ? null : feedback;
+    setChatMessageFeedback(conversation, messageIndex, next);
+    if (next) {
+      const precedingUserMessage = messages[messageIndex - 1]?.content || "";
+      sendChatFeedback(precedingUserMessage, message.content, next);
+    }
+  };
+
+  const handleOpenHistoryRow = (conv) => {
+    hapticTap();
+    resumeChatConversation(conv.id);
+    setConversation(conv);
+    setView("chat");
+  };
+
+  // Subscriptions aren't wired up yet — this app has no App Store/Play
+  // Console product or RevenueCat project behind it. Once that exists,
+  // replace this with the real purchase flow and call
+  // store.updateSettings({ chatSubscribed: true }) on success.
+  const handleSubscribe = () => {
+    Alert.alert(t("chat.subscribeComingSoonTitle"), t("chat.subscribeComingSoonMessage"));
+  };
+
+  const sortedHistory = [...chatConversations].sort((a, b) => b.updatedAt - a.updatedAt);
+
+  return (
+    <SafeAreaView style={styles.screen} edges={["top", "left", "right", "bottom"]}>
+      {/*
+        Android's Modal renders in its own native window, which doesn't
+        resize with the keyboard the way a normal screen does — so this
+        can't rely on native window resizing and needs behavior="height"
+        (not the default no-op of leaving behavior unset) to actually push
+        the input above the keyboard there. iOS uses "padding" as usual.
+      */}
+      <KeyboardAvoidingView
+        style={styles.flexFill}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            {view === "history" ? (
+              <TouchableOpacity
+                onPress={() => setView("chat")}
+                style={styles.iconBtn}
+                accessibilityLabel={t("chat.backToChatLabel")}
+                accessibilityRole="button"
+              >
+                <Text style={styles.iconBtnText}>‹</Text>
+              </TouchableOpacity>
+            ) : null}
+            <View style={styles.headerTextWrap}>
+              <Text style={styles.title} numberOfLines={1}>
+                {view === "history" ? t("chat.historyTitle") : t("chat.title")}
+              </Text>
+              {view === "chat" ? (
+                <Text style={styles.subtitle} numberOfLines={2}>
+                  {t("chat.subtitle")}
+                </Text>
+              ) : null}
+            </View>
+          </View>
+          <View style={styles.headerRight}>
+            {view === "chat" ? (
+              <TouchableOpacity
+                onPress={() => {
+                  hapticTap();
+                  setView("history");
+                }}
+                style={styles.iconBtn}
+                accessibilityLabel={t("chat.historyLabel")}
+                accessibilityRole="button"
+              >
+                <Ionicons name="time-outline" size={16} color={colors.sageDark} />
+              </TouchableOpacity>
+            ) : null}
+            <TouchableOpacity
+              onPress={onClose}
+              style={styles.iconBtn}
+              accessibilityLabel={t("app.closeChat")}
+              accessibilityRole="button"
+            >
+              <Text style={styles.iconBtnText}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {view === "history" ? (
+          <ScrollView style={styles.flexFill} contentContainerStyle={styles.historyContent}>
+            {sortedHistory.length === 0 ? (
+              <Text style={styles.emptyState}>{t("chat.historyEmpty")}</Text>
+            ) : (
+              sortedHistory.map((conv) => {
+                const preview =
+                  conv.messages.find((m) => m.role === "user")?.content || t("chat.historyPreviewFallback");
+                return (
+                  <TouchableOpacity
+                    key={conv.id}
+                    style={styles.historyRow}
+                    onPress={() => handleOpenHistoryRow(conv)}
+                    accessibilityRole="button"
+                  >
+                    <Text style={styles.historyPreview} numberOfLines={1}>
+                      {preview}
+                    </Text>
+                    <Text style={styles.historyMeta}>
+                      {t("chat.historyRowMeta", {
+                        count: conv.messages.length,
+                        date: formatConversationTimestamp(conv.updatedAt),
+                      })}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })
+            )}
+          </ScrollView>
+        ) : (
+          <>
+            <ScrollView
+              ref={scrollRef}
+              style={styles.flexFill}
+              contentContainerStyle={styles.bodyContent}
+              onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
+            >
+              <View style={styles.bannerRow}>
+                {!chatAccess.unlimited ? (
+                  <Text style={styles.quotaBanner}>
+                    {t("chat.quotaBanner", { left: chatAccess.messagesLeft, limit: chatAccess.limit })}
+                  </Text>
+                ) : (
+                  <Text style={styles.quotaBanner}>{t("chat.unlimitedBanner")}</Text>
+                )}
+                <TouchableOpacity
+                  onPress={() => {
+                    hapticTap();
+                    updateSettings({ chatPersonalizationEnabled: !settings.chatPersonalizationEnabled });
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    settings.chatPersonalizationEnabled
+                      ? t("chat.personalizationOnLabel")
+                      : t("chat.personalizationOffLabel")
+                  }
+                >
+                  <Text style={styles.personalizationToggle}>
+                    {settings.chatPersonalizationEnabled ? t("chat.personalizationOn") : t("chat.personalizationOff")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              {messages.length === 0 ? (
+                <Text style={styles.emptyState}>{t("chat.emptyState")}</Text>
+              ) : (
+                messages.map((m, i) => (
+                  <View
+                    key={i}
+                    style={[styles.bubble, m.role === "user" ? styles.bubbleUser : styles.bubbleAssistant]}
+                  >
+                    <Text
+                      selectable
+                      style={[styles.bubbleText, m.role === "user" && styles.bubbleTextUser]}
+                    >
+                      {m.role === "assistant"
+                        ? splitScriptureRefs(m.content).map((seg, si) =>
+                            seg.type === "ref" ? (
+                              <Text key={si} style={styles.bubbleRef} onPress={() => openVerseRef(seg.content)}>
+                                {seg.content}
+                              </Text>
+                            ) : (
+                              <Text key={si}>{seg.content}</Text>
+                            )
+                          )
+                        : m.content}
+                    </Text>
+                    {m.role === "assistant" ? (
+                      <View style={styles.feedbackRow}>
+                        <TouchableOpacity
+                          onPress={() => handleFeedback(i, m, "up")}
+                          accessibilityRole="button"
+                          accessibilityLabel={t("chat.feedbackUpLabel")}
+                          accessibilityState={{ selected: m.feedback === "up" }}
+                          hitSlop={6}
+                        >
+                          <Ionicons
+                            name={m.feedback === "up" ? "thumbs-up" : "thumbs-up-outline"}
+                            size={14}
+                            color={colors.sageDark}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => handleFeedback(i, m, "down")}
+                          accessibilityRole="button"
+                          accessibilityLabel={t("chat.feedbackDownLabel")}
+                          accessibilityState={{ selected: m.feedback === "down" }}
+                          hitSlop={6}
+                        >
+                          <Ionicons
+                            name={m.feedback === "down" ? "thumbs-down" : "thumbs-down-outline"}
+                            size={14}
+                            color={colors.sageDark}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ) : null}
+                  </View>
+                ))
+              )}
+              {sending ? <ActivityIndicator color={colors.sageDark} style={styles.spinner} /> : null}
+            </ScrollView>
+
+            {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
+
+            {/*
+              Reading an old conversation from History should always work,
+              even after the monthly quota runs out — only sending a new
+              message needs to be gated, so the paywall replaces just the
+              composer instead of the whole screen.
+            */}
+            {chatAccess.granted ? (
+              <>
+                <View style={styles.inputRow}>
+                  <TextInput
+                    style={styles.input}
+                    value={input}
+                    onChangeText={setInput}
+                    placeholder={t("chat.inputPlaceholder")}
+                    placeholderTextColor={colors.textSoft}
+                    multiline
+                    editable={!sending}
+                  />
+                  <TouchableOpacity
+                    style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]}
+                    onPress={handleSend}
+                    disabled={!input.trim() || sending}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("chat.sendLabel")}
+                  >
+                    <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
+              </>
+            ) : (
+              <View style={styles.paywallDock}>
+                <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
+              </View>
+            )}
+          </>
+        )}
+      </KeyboardAvoidingView>
+      <VersePopup visible={versePopupOpen} scriptureRef={versePopupRef} onClose={() => setVersePopupOpen(false)} />
+    </SafeAreaView>
+  );
+}
+
+function getStyles(colors, shadow) {
+  return StyleSheet.create({
+    screen: { flex: 1, backgroundColor: colors.chatBg },
+    flexFill: { flex: 1 },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+      backgroundColor: colors.chatHeaderBg,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    headerLeft: { flexDirection: "row", alignItems: "center", flex: 1, marginRight: 8, gap: 8 },
+    headerTextWrap: { flex: 1 },
+    headerRight: { flexDirection: "row", alignItems: "center", gap: 8 },
+    title: { fontSize: 17, fontWeight: "700", color: colors.sageDark },
+    subtitle: { fontSize: 11, color: colors.textSoft, lineHeight: 14, marginTop: 1 },
+    iconBtn: {
+      width: 34,
+      height: 34,
+      borderRadius: 17,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    iconBtnText: { fontSize: 15, color: colors.sageDark },
+    bodyContent: { padding: 16, paddingBottom: 24, flexGrow: 1 },
+    bannerRow: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 8,
+      marginBottom: 14,
+    },
+    quotaBanner: {
+      fontSize: 12,
+      fontWeight: "700",
+      color: colors.goldText,
+      backgroundColor: colors.factCard,
+      borderRadius: 999,
+      paddingVertical: 5,
+      paddingHorizontal: 12,
+      alignSelf: "flex-start",
+    },
+    personalizationToggle: {
+      fontSize: 11,
+      fontWeight: "600",
+      color: colors.textSoft,
+      textDecorationLine: "underline",
+    },
+    emptyState: { fontSize: 14, color: colors.textSoft, fontStyle: "italic" },
+    spinner: { marginTop: 8 },
+    bubble: {
+      borderRadius: 16,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
+      marginBottom: 10,
+      maxWidth: "85%",
+    },
+    bubbleUser: {
+      backgroundColor: colors.buttonBg,
+      alignSelf: "flex-end",
+      borderBottomRightRadius: 4,
+    },
+    bubbleAssistant: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      alignSelf: "flex-start",
+      borderBottomLeftRadius: 4,
+      ...shadow,
+    },
+    bubbleText: { fontSize: 14, lineHeight: 20, color: colors.text },
+    bubbleTextUser: { color: colors.buttonOnText },
+    bubbleRef: { color: colors.sageDark, fontWeight: "700", textDecorationLine: "underline" },
+    feedbackRow: { flexDirection: "row", gap: 12, marginTop: 8 },
+    errorText: { fontSize: 13, color: colors.goldText, marginHorizontal: 16, marginBottom: 6 },
+    inputRow: {
+      flexDirection: "row",
+      alignItems: "flex-end",
+      gap: 8,
+      paddingHorizontal: 16,
+      paddingTop: 8,
+      paddingBottom: 10,
+      backgroundColor: colors.chatHeaderBg,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    input: {
+      flex: 1,
+      backgroundColor: colors.input,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 14,
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+      fontSize: 14,
+      color: colors.text,
+      maxHeight: 100,
+    },
+    sendBtn: {
+      backgroundColor: colors.buttonBg,
+      borderRadius: 14,
+      paddingVertical: 11,
+      paddingHorizontal: 16,
+    },
+    sendBtnDisabled: { opacity: 0.4 },
+    sendBtnText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 14 },
+    disclaimer: {
+      fontSize: 11,
+      color: colors.textSoft,
+      lineHeight: 16,
+      paddingHorizontal: 16,
+      paddingBottom: 10,
+      backgroundColor: colors.chatHeaderBg,
+    },
+    paywallDock: {
+      padding: 16,
+      backgroundColor: colors.chatHeaderBg,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    paywallCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 18,
+      alignItems: "flex-start",
+      ...shadow,
+    },
+    paywallTitle: { fontSize: 16, fontWeight: "700", color: colors.sageDark, marginBottom: 10 },
+    paywallText: { fontSize: 14, lineHeight: 20, color: colors.text, marginBottom: 16 },
+    subscribeBtn: {
+      backgroundColor: colors.buttonBg,
+      borderRadius: 12,
+      paddingVertical: 13,
+      paddingHorizontal: 20,
+    },
+    subscribeBtnText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 14 },
+    historyContent: { padding: 16, paddingBottom: 24, flexGrow: 1 },
+    historyRow: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 14,
+      paddingVertical: 12,
+      paddingHorizontal: 14,
+      marginBottom: 10,
+    },
+    historyPreview: { fontSize: 14, fontWeight: "600", color: colors.text, marginBottom: 4 },
+    historyMeta: { fontSize: 12, color: colors.textSoft },
+  });
+}
