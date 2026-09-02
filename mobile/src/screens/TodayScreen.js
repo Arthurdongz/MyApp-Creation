@@ -553,12 +553,12 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                 <Text style={styles.followUpQuestion}>{t("today.moment.followUp.question")}</Text>
                 <View style={styles.followUpActions}>
                   <TouchableOpacity
-                    style={styles.followUpBtn}
+                    style={styles.button}
                     onPress={() => handleFollowUp("done")}
                     accessibilityRole="button"
                     accessibilityLabel={t("today.moment.followUp.yesLabel")}
                   >
-                    <Text style={styles.followUpBtnText}>{t("today.moment.followUp.yesButton")}</Text>
+                    <Text style={styles.buttonText}>{t("today.moment.followUp.yesButton")}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.followUpBtn}
@@ -1122,14 +1122,12 @@ function getStyles(colors) {
       width: 36,
       height: 36,
       borderRadius: 18,
-      borderWidth: 1,
-      borderColor: colors.border,
-      backgroundColor: colors.card,
+      backgroundColor: colors.sage,
       alignItems: "center",
       justifyContent: "center",
     },
     dayNavBtnDisabled: { opacity: 0.35 },
-    dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.sageDark },
+    dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.card },
     dayNavLabel: { fontWeight: "700", fontSize: 14, color: colors.sageDark, minWidth: 110, textAlign: "center" },
     dayNavJump: { fontSize: 12, fontWeight: "700", color: colors.sky, textDecorationLine: "underline" },
     jumpRow: {
