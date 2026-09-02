@@ -135,7 +135,13 @@
       "reflectSaved": "Saved. Thank you for sitting with that. ⭐⭐"
     },
     "thought": {
-      "title": "Encouraging Thought"
+      "title": "Encouraging Thought",
+      "reflectPrompt": "Let this sit for a moment — what does it stir in you?",
+      "reflectPlaceholderWithQuote": "What stirred in you when you read: “{{quote}}”?",
+      "reflectSaved": "Saved. Thank you for sitting with that. ⭐⭐"
+    },
+    "fact": {
+      "title": "Did You Know?"
     },
     "moment": {
       "streakChipLabel": "{{count}}-day streak",
@@ -179,6 +185,8 @@
       "doneMsg": "Well done — that kindness mattered. ⭐⭐",
       "whatHappenedLabel": "What happened? (optional)",
       "whatHappenedPlaceholder": "What happened when you did it?",
+      "whoLabel": "Who were you thinking about? (optional)",
+      "whoPlaceholder": "A name, or just \"a stranger\"",
       "reflectSaved": "Saved. Thank you for sharing that. ⭐⭐",
       "reachOutPrefix": "💛 If today feels heavy —",
       "reachOutLink": "reach out to someone who cares",
@@ -226,6 +234,8 @@
       "heartPlaceholder": "Write freely — this is just for you...",
       "momentTitle": "Your Barnabas moment — what did you do, and how did it feel?",
       "momentPlaceholder": "What did you do for someone today, and how did it feel?",
+      "whoTitle": "Who were you thinking about? (optional)",
+      "whoPlaceholder": "A name, or just \"a stranger\"",
       "kindnessTitle": "Someone watered me today — did anyone show you kindness?",
       "kindnessPlaceholder": "What did someone do for you today, and how did it feel?",
       "moodLabel": "How are you feeling?",

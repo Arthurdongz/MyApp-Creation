@@ -205,6 +205,7 @@ function emptyEntry(dayNumber, journeyStartDate) {
     reflection: "",
     barnabasNote: "",
     receivedKindness: "",
+    encouragedWho: "",
     momentDone: false,
     momentIntention: null,
     customMoment: null,
@@ -715,12 +716,13 @@ export function useJournalStore() {
   );
 
   const saveReflection = useCallback(
-    (reflection, barnabasNote, receivedKindness) => {
+    (reflection, barnabasNote, receivedKindness, encouragedWho) => {
       updateViewedEntry((entry) => {
         const trimmedReflection = reflection.trim();
         const trimmedNote = barnabasNote.trim();
         const trimmedReceived = (receivedKindness || "").trim();
-        const hasContent = trimmedReflection || trimmedNote || trimmedReceived;
+        const trimmedWho = (encouragedWho || "").trim();
+        const hasContent = trimmedReflection || trimmedNote || trimmedReceived || trimmedWho;
         const alreadyAwarded = entry.starsAwarded.journal;
         const starsGained = hasContent && !alreadyAwarded ? 2 : 0;
         return {
@@ -729,6 +731,7 @@ export function useJournalStore() {
             reflection: trimmedReflection,
             barnabasNote: trimmedNote,
             receivedKindness: trimmedReceived,
+            encouragedWho: trimmedWho,
             starsAwarded: {
               ...entry.starsAwarded,
               journal: alreadyAwarded || Boolean(hasContent),

@@ -12,12 +12,19 @@
 // cursor to the day being edited so the existing store functions just
 // work; closing restores whatever it was before, so it never leaks a
 // jump into what the Today tab shows afterward.
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticSuccess, hapticTap } from "../haptics";
+import { pickForDaySmallBank } from "../content";
+import { JOURNAL_PROMPTS } from "../data/journalPrompts";
+import { JOURNAL_PROMPTS_ES } from "../data/journalPrompts.es";
+import { JOURNAL_PROMPTS_PT } from "../data/journalPrompts.pt";
+import { JOURNAL_PROMPTS_FR } from "../data/journalPrompts.fr";
+
+const JOURNAL_PROMPTS_BY_LANG = { es: JOURNAL_PROMPTS_ES, pt: JOURNAL_PROMPTS_PT, fr: JOURNAL_PROMPTS_FR };
 
 const MOOD_KEYS = [
   { key: "joyful", emoji: "😊" },
@@ -37,8 +44,13 @@ function formatDate(key) {
 export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
+  const journalPromptsBank = JOURNAL_PROMPTS_BY_LANG[i18n.language] || JOURNAL_PROMPTS;
+  const journalPrompt = useMemo(
+    () => pickForDaySmallBank(journalPromptsBank, dayNumber, store.order),
+    [journalPromptsBank, dayNumber, store.order]
+  );
 
   const isTodayTarget = dayNumber >= store.latestDay;
   const previousViewingDayRef = useRef(store.viewingDay);
@@ -53,6 +65,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
   const [reflection, setReflection] = useState(store.today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(store.today.barnabasNote || "");
   const [receivedKindness, setReceivedKindness] = useState(store.today.receivedKindness || "");
+  const [encouragedWho, setEncouragedWho] = useState(store.today.encouragedWho || "");
   const [showSaved, setShowSaved] = useState(false);
 
   // store.today only reflects dayNumber once the jump above has actually
@@ -66,22 +79,23 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
     setReflection(store.today.reflection || "");
     setBarnabasNote(store.today.barnabasNote || "");
     setReceivedKindness(store.today.receivedKindness || "");
+    setEncouragedWho(store.today.encouragedWho || "");
   }, [store.viewingDay, store.today, dayNumber]);
 
-  const fieldsRef = useRef({ reflection, barnabasNote, receivedKindness });
-  fieldsRef.current = { reflection, barnabasNote, receivedKindness };
+  const fieldsRef = useRef({ reflection, barnabasNote, receivedKindness, encouragedWho });
+  fieldsRef.current = { reflection, barnabasNote, receivedKindness, encouragedWho };
 
   const handleClose = () => {
-    const { reflection: r, barnabasNote: b, receivedKindness: k } = fieldsRef.current;
-    if (r.trim() || b.trim() || k.trim()) {
-      store.saveReflection(r, b, k);
+    const { reflection: r, barnabasNote: b, receivedKindness: k, encouragedWho: w } = fieldsRef.current;
+    if (r.trim() || b.trim() || k.trim() || w.trim()) {
+      store.saveReflection(r, b, k, w);
     }
     store.jumpToDay(previousViewingDayRef.current);
     onClose();
   };
 
   const handleSave = () => {
-    store.saveReflection(reflection, barnabasNote, receivedKindness);
+    store.saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     hapticSuccess();
     setShowSaved(true);
     setTimeout(() => setShowSaved(false), 3000);
@@ -116,7 +130,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
             style={styles.textArea}
             multiline
             numberOfLines={4}
-            placeholder={t("today.reflect.heartPlaceholder")}
+            placeholder={journalPrompt}
             placeholderTextColor={colors.textSoft}
             value={reflection}
             onChangeText={setReflection}
@@ -136,6 +150,21 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
             placeholderTextColor={colors.textSoft}
             value={barnabasNote}
             onChangeText={setBarnabasNote}
+          />
+        </View>
+
+        <View style={styles.field}>
+          <View style={styles.fieldHead}>
+            <Ionicons name="person-outline" size={16} color={colors.sageDark} />
+            <Text style={styles.fieldTitle}>{t("today.reflect.whoTitle")}</Text>
+          </View>
+          <TextInput
+            style={styles.textArea}
+            numberOfLines={1}
+            placeholder={t("today.reflect.whoPlaceholder")}
+            placeholderTextColor={colors.textSoft}
+            value={encouragedWho}
+            onChangeText={setEncouragedWho}
           />
         </View>
 

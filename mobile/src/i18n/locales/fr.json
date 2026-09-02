@@ -135,7 +135,13 @@
       "reflectSaved": "Enregistré. Merci d'avoir pris le temps d'y réfléchir. ⭐⭐"
     },
     "thought": {
-      "title": "Pensée d'Encouragement"
+      "title": "Pensée d'Encouragement",
+      "reflectPrompt": "Laisse cela infuser un instant — qu'est-ce que cela éveille en toi ?",
+      "reflectPlaceholderWithQuote": "Qu'est-ce que ça a éveillé en toi de lire : « {{quote}} » ?",
+      "reflectSaved": "Enregistré. Merci d'avoir pris le temps d'y réfléchir. ⭐⭐"
+    },
+    "fact": {
+      "title": "Le Savais-Tu ?"
     },
     "moment": {
       "streakChipLabel": "Série de {{count}} jours",
@@ -179,6 +185,8 @@
       "doneMsg": "Bien joué — cette bonté a compté. ⭐⭐",
       "whatHappenedLabel": "Qu'est-ce qui s'est passé ? (facultatif)",
       "whatHappenedPlaceholder": "Qu'est-ce qui s'est passé quand tu l'as fait ?",
+      "whoLabel": "À qui pensais-tu ? (facultatif)",
+      "whoPlaceholder": "Un prénom, ou simplement « un inconnu »",
       "reflectSaved": "Enregistré. Merci d'avoir partagé cela. ⭐⭐",
       "reachOutPrefix": "💛 Si aujourd'hui te semble lourd —",
       "reachOutLink": "contacte quelqu'un qui tient à toi",
@@ -226,6 +234,8 @@
       "heartPlaceholder": "Écris librement — ceci est juste pour toi...",
       "momentTitle": "Ton moment Barnabas — qu'as-tu fait, et qu'as-tu ressenti ?",
       "momentPlaceholder": "Qu'as-tu fait pour quelqu'un aujourd'hui, et qu'as-tu ressenti ?",
+      "whoTitle": "À qui pensais-tu ? (facultatif)",
+      "whoPlaceholder": "Un prénom, ou simplement « un inconnu »",
       "kindnessTitle": "Quelqu'un m'a arrosé aujourd'hui — quelqu'un t'a-t-il montré de la bonté ?",
       "kindnessPlaceholder": "Qu'est-ce que quelqu'un a fait pour toi aujourd'hui, et qu'as-tu ressenti ?",
       "moodLabel": "Comment te sens-tu ?",

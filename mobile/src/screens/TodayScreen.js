@@ -28,6 +28,14 @@ import { STORIES } from "../data/stories";
 import { STORIES_ES } from "../data/stories.es";
 import { STORIES_PT } from "../data/stories.pt";
 import { STORIES_FR } from "../data/stories.fr";
+import { HIGHLIGHTS } from "../data/highlights";
+import { HIGHLIGHTS_ES } from "../data/highlights.es";
+import { HIGHLIGHTS_PT } from "../data/highlights.pt";
+import { HIGHLIGHTS_FR } from "../data/highlights.fr";
+import { JOURNAL_PROMPTS } from "../data/journalPrompts";
+import { JOURNAL_PROMPTS_ES } from "../data/journalPrompts.es";
+import { JOURNAL_PROMPTS_PT } from "../data/journalPrompts.pt";
+import { JOURNAL_PROMPTS_FR } from "../data/journalPrompts.fr";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 import { scheduleMomentReminder, cancelMomentReminder } from "../notifications";
@@ -56,6 +64,8 @@ const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, f
 const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
 const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
 const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
+const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
+const JOURNAL_PROMPTS_BY_LANG = { es: JOURNAL_PROMPTS_ES, pt: JOURNAL_PROMPTS_PT, fr: JOURNAL_PROMPTS_FR };
 
 export default function TodayScreen({ store, scrollViewRef, onOpenReflection, onOpenStory }) {
   const { colors } = useTheme();
@@ -65,6 +75,8 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
   const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
   const storiesBank = STORIES_BY_LANG[i18n.language] || STORIES;
+  const highlightsBank = HIGHLIGHTS_BY_LANG[i18n.language] || HIGHLIGHTS;
+  const journalPromptsBank = JOURNAL_PROMPTS_BY_LANG[i18n.language] || JOURNAL_PROMPTS;
 
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
     key,
@@ -119,6 +131,15 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const story = useMemo(
     () => pickForDaySmallBank(storiesBank, viewingDay, order),
     [storiesBank, viewingDay, order]
+  );
+  const fact = useMemo(
+    () => pickForDay(highlightsBank, viewingDay, order),
+    [highlightsBank, viewingDay, order]
+  );
+  const factSaved = isFavorited("highlight", viewingDay);
+  const journalPrompt = useMemo(
+    () => pickForDaySmallBank(journalPromptsBank, viewingDay, order),
+    [journalPromptsBank, viewingDay, order]
   );
 
   const [showCustomMomentInput, setShowCustomMomentInput] = useState(false);
@@ -232,22 +253,23 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const [reflection, setReflection] = useState(today.reflection || "");
   const [barnabasNote, setBarnabasNote] = useState(today.barnabasNote || "");
   const [receivedKindness, setReceivedKindness] = useState(today.receivedKindness || "");
+  const [encouragedWho, setEncouragedWho] = useState(today.encouragedWho || "");
 
   // Kept in sync every render (not via an effect) so the unmount cleanup
   // below can always read the latest typed-but-not-yet-saved text, instead
   // of the stale values it would see from an empty-dependency closure.
-  const unsavedFieldsRef = useRef({ reflection, barnabasNote, receivedKindness });
-  unsavedFieldsRef.current = { reflection, barnabasNote, receivedKindness };
+  const unsavedFieldsRef = useRef({ reflection, barnabasNote, receivedKindness, encouragedWho });
+  unsavedFieldsRef.current = { reflection, barnabasNote, receivedKindness, encouragedWho };
 
   // Switching tabs unmounts this screen entirely (see App.js), which would
-  // otherwise silently discard anything typed into the three reflection
-  // fields but never explicitly saved. viewingDay itself never changes on a
-  // tab switch, so saving here always lands on the correct day.
+  // otherwise silently discard anything typed into the reflection fields
+  // but never explicitly saved. viewingDay itself never changes on a tab
+  // switch, so saving here always lands on the correct day.
   useEffect(() => {
     return () => {
-      const { reflection, barnabasNote, receivedKindness } = unsavedFieldsRef.current;
-      if (reflection.trim() || barnabasNote.trim() || receivedKindness.trim()) {
-        saveReflection(reflection, barnabasNote, receivedKindness);
+      const { reflection, barnabasNote, receivedKindness, encouragedWho } = unsavedFieldsRef.current;
+      if (reflection.trim() || barnabasNote.trim() || receivedKindness.trim() || encouragedWho.trim()) {
+        saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -255,6 +277,8 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const [showMomentReflectSaved, setShowMomentReflectSaved] = useState(false);
   const [showWordReflectPrompt, setShowWordReflectPrompt] = useState(false);
   const [showWordReflectSaved, setShowWordReflectSaved] = useState(false);
+  const [showThoughtReflectPrompt, setShowThoughtReflectPrompt] = useState(false);
+  const [showThoughtReflectSaved, setShowThoughtReflectSaved] = useState(false);
 
   // "A Word for You" / "Encouraging Thought" in Today's Reading are shown
   // as accordion rows. Each one's open/closed state defaults to whether the
@@ -265,6 +289,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const [versePopupRef, setVersePopupRef] = useState(null);
   const [wordOpen, setWordOpen] = useState(false);
   const [thoughtOpen, setThoughtOpen] = useState(false);
+  const [factOpen, setFactOpen] = useState(false);
   const [momentOpen, setMomentOpen] = useState(!today.momentDone);
   // Only true for a reminder scheduled during this screen visit — mirrors
   // justCompleted below, since we don't persist "was a notification
@@ -278,9 +303,11 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     setReflection(today.reflection || "");
     setBarnabasNote(today.barnabasNote || "");
     setReceivedKindness(today.receivedKindness || "");
+    setEncouragedWho(today.encouragedWho || "");
     setShowCustomMomentInput(false);
     setCustomMomentInput("");
     setShowWordReflectPrompt(false);
+    setShowThoughtReflectPrompt(false);
     setWordOpen(false);
     setThoughtOpen(false);
     setMomentOpen(!today.momentDone);
@@ -293,28 +320,36 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   // from under it — otherwise the [viewingDay] effect above overwrites the
   // text boxes with the new day's content before the user ever taps Save.
   const handleGoToPrevDay = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     goToPrevDay();
   };
   const handleGoToNextDay = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     goToNextDay();
   };
   const handleJumpToToday = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     jumpToToday();
   };
 
   const handleWordReflectSave = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     hapticSuccess();
     setShowWordReflectPrompt(false);
     setShowWordReflectSaved(true);
     setTimeout(() => setShowWordReflectSaved(false), 2500);
   };
 
+  const handleThoughtReflectSave = () => {
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
+    hapticSuccess();
+    setShowThoughtReflectPrompt(false);
+    setShowThoughtReflectSaved(true);
+    setTimeout(() => setShowThoughtReflectSaved(false), 2500);
+  };
+
   const handleMomentReflectSave = () => {
-    saveReflection(reflection, barnabasNote, receivedKindness);
+    saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
     hapticSuccess();
     setShowMomentReflectSaved(true);
     setTimeout(() => setShowMomentReflectSaved(false), 2500);
@@ -823,6 +858,17 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                       value={barnabasNote}
                       onChangeText={setBarnabasNote}
                     />
+                    <Text style={[styles.momentReflectLabel, { marginTop: 10 }]}>
+                      {t("today.moment.whoLabel")}
+                    </Text>
+                    <TextInput
+                      style={styles.textArea}
+                      numberOfLines={1}
+                      placeholder={t("today.moment.whoPlaceholder")}
+                      placeholderTextColor={colors.textSoft}
+                      value={encouragedWho}
+                      onChangeText={setEncouragedWho}
+                    />
                     <TouchableOpacity
                       style={styles.momentReflectSaveBtn}
                       onPress={handleMomentReflectSave}
@@ -1070,6 +1116,101 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
               </View>
               <Text style={styles.bodyText}>“{quote.text}”</Text>
               <Text style={styles.wisdomSource}>— {quote.source}</Text>
+
+              {!today.reflection ? (
+                showThoughtReflectPrompt ? (
+                  <View style={styles.customMomentPrompt}>
+                    <TextInput
+                      style={[styles.textArea, { marginTop: 12 }]}
+                      multiline
+                      numberOfLines={2}
+                      placeholder={t("today.thought.reflectPlaceholderWithQuote", {
+                        quote: truncateForPreview(quote.text, 60),
+                      })}
+                      placeholderTextColor={colors.textSoft}
+                      value={reflection}
+                      onChangeText={setReflection}
+                    />
+                    <View style={styles.customMomentBtnRow}>
+                      <TouchableOpacity
+                        style={styles.momentReflectSaveBtn}
+                        onPress={handleThoughtReflectSave}
+                        accessibilityRole="button"
+                        accessibilityLabel={t("today.reflect.saveLabel")}
+                      >
+                        <Text style={styles.momentReflectSaveBtnText}>{t("common.saveShort")}</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => setShowThoughtReflectPrompt(false)}
+                        accessibilityRole="button"
+                        accessibilityLabel={t("common.cancel")}
+                      >
+                        <Text style={styles.intentionChange}>{t("common.cancel")}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    style={[styles.customMomentLinkWrap, { marginTop: 12, marginBottom: 0 }]}
+                    onPress={() => {
+                      hapticTap();
+                      setShowThoughtReflectPrompt(true);
+                    }}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("today.thought.reflectPrompt")}
+                  >
+                    <Text style={styles.customMomentLink}>{t("today.thought.reflectPrompt")}</Text>
+                  </TouchableOpacity>
+                )
+              ) : null}
+              {showThoughtReflectSaved ? (
+                <Text style={[styles.momentReflectSavedMsg, { marginTop: 12 }]}>
+                  {t("today.thought.reflectSaved")}
+                </Text>
+              ) : null}
+            </View>
+          )}
+        </View>
+
+        <View style={styles.accordionRow}>
+          <TouchableOpacity
+            style={styles.accordionRowHead}
+            onPress={() => {
+              hapticTap();
+              setFactOpen((v) => !v);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t("today.fact.title")}
+            accessibilityState={{ expanded: factOpen }}
+          >
+            <View style={styles.accordionRowTitleWrap}>
+              <Ionicons name="bulb-outline" size={16} color={colors.text} />
+              <Text style={styles.accordionRowTitle}>{t("today.fact.title")}</Text>
+            </View>
+            <Text style={[styles.accordionChevron, factOpen && styles.accordionChevronOpen]}>›</Text>
+          </TouchableOpacity>
+          {!factOpen ? (
+            <Text style={styles.accordionPreview}>{truncateForPreview(fact)}</Text>
+          ) : (
+            <View style={styles.accordionRowBody}>
+              <View style={styles.accordionActionRow}>
+                <ActionMenu
+                  actions={[
+                    { label: t("common.listen"), onPress: () => speak(fact, settings) },
+                    {
+                      label: t("common.share"),
+                      onPress: () => setSharePreview({ text: fact, sourceLine: t("app.brand") }),
+                    },
+                    {
+                      label: factSaved ? t("common.savedTapRemove") : t("common.save"),
+                      active: factSaved,
+                      onPress: () =>
+                        toggleFavorite("highlight", viewingDay, { text: fact, source: t("app.brand") }),
+                    },
+                  ]}
+                />
+              </View>
+              <Text style={styles.bodyText}>{fact}</Text>
             </View>
           )}
         </View>
@@ -1132,7 +1273,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                 <Text style={styles.reflectTeaserText} numberOfLines={2}>
                   {today.reflection || today.barnabasNote || today.receivedKindness
                     ? truncateForPreview(today.reflection || today.barnabasNote || today.receivedKindness)
-                    : t("today.reflect.teaserEmpty")}
+                    : journalPrompt}
                 </Text>
               </View>
               <Text style={styles.reflectTeaserArrow}>›</Text>
@@ -1537,19 +1678,17 @@ function getStyles(colors) {
       minHeight: 70,
     },
     accordionRow: {
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 14,
-      backgroundColor: colors.input,
-      marginBottom: 10,
-      overflow: "hidden",
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+      marginBottom: 2,
     },
     accordionRowHead: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
       gap: 10,
-      padding: 13,
+      paddingVertical: 12,
+      paddingHorizontal: 2,
     },
     accordionRowTitleWrap: {
       flexDirection: "row",
@@ -1560,15 +1699,15 @@ function getStyles(colors) {
     accordionRowTitle: { flex: 1, fontSize: 13.5, fontWeight: "600", color: colors.text },
     accordionChevron: { fontSize: 16, color: colors.textSoft },
     accordionChevronOpen: { transform: [{ rotate: "90deg" }] },
-    accordionRowBody: { paddingHorizontal: 13, paddingBottom: 13 },
+    accordionRowBody: { paddingHorizontal: 2, paddingBottom: 14 },
     accordionActionBtn: { alignSelf: "flex-end", marginBottom: 6 },
     accordionActionRow: { alignItems: "flex-end", marginBottom: 6 },
     accordionPreview: {
       fontSize: 12.5,
       color: colors.textSoft,
       fontStyle: "italic",
-      paddingHorizontal: 13,
-      paddingBottom: 13,
+      paddingHorizontal: 2,
+      paddingBottom: 12,
       marginTop: -6,
     },
     reflectTeaserRow: {

@@ -135,7 +135,13 @@
       "reflectSaved": "Guardado. Gracias por detenerte a pensarlo. ⭐⭐"
     },
     "thought": {
-      "title": "Pensamiento de Aliento"
+      "title": "Pensamiento de Aliento",
+      "reflectPrompt": "Detente un momento — ¿qué despierta esto en ti?",
+      "reflectPlaceholderWithQuote": "¿Qué despertó en ti al leer: “{{quote}}”?",
+      "reflectSaved": "Guardado. Gracias por detenerte a pensarlo. ⭐⭐"
+    },
+    "fact": {
+      "title": "¿Sabías Que...?"
     },
     "moment": {
       "streakChipLabel": "Racha de {{count}} días",
@@ -179,6 +185,8 @@
       "doneMsg": "Bien hecho — esa bondad importó. ⭐⭐",
       "whatHappenedLabel": "¿Qué pasó? (opcional)",
       "whatHappenedPlaceholder": "¿Qué pasó cuando lo hiciste?",
+      "whoLabel": "¿En quién estabas pensando? (opcional)",
+      "whoPlaceholder": "Un nombre, o solo \"un desconocido\"",
       "reflectSaved": "Guardado. Gracias por compartir eso. ⭐⭐",
       "reachOutPrefix": "💛 Si hoy se siente pesado —",
       "reachOutLink": "contacta a alguien que te quiere",
@@ -226,6 +234,8 @@
       "heartPlaceholder": "Escribe libremente — esto es solo para ti...",
       "momentTitle": "Tu momento Bernabé — ¿qué hiciste y cómo te sentiste?",
       "momentPlaceholder": "¿Qué hiciste por alguien hoy, y cómo te sentiste?",
+      "whoTitle": "¿En quién estabas pensando? (opcional)",
+      "whoPlaceholder": "Un nombre, o solo \"un desconocido\"",
       "kindnessTitle": "Alguien me regó hoy — ¿alguien te mostró bondad?",
       "kindnessPlaceholder": "¿Qué hizo alguien por ti hoy, y cómo te sentiste?",
       "moodLabel": "¿Cómo te sientes?",

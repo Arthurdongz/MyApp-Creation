@@ -135,7 +135,13 @@
       "reflectSaved": "Salvo. Obrigado por parar para pensar nisso. ⭐⭐"
     },
     "thought": {
-      "title": "Pensamento de Encorajamento"
+      "title": "Pensamento de Encorajamento",
+      "reflectPrompt": "Deixe isso repousar por um momento — o que isso desperta em você?",
+      "reflectPlaceholderWithQuote": "O que despertou em você ao ler: “{{quote}}”?",
+      "reflectSaved": "Salvo. Obrigado por parar para pensar nisso. ⭐⭐"
+    },
+    "fact": {
+      "title": "Você Sabia?"
     },
     "moment": {
       "streakChipLabel": "Sequência de {{count}} dias",
@@ -179,6 +185,8 @@
       "doneMsg": "Muito bem — essa bondade fez diferença. ⭐⭐",
       "whatHappenedLabel": "O que aconteceu? (opcional)",
       "whatHappenedPlaceholder": "O que aconteceu quando você fez isso?",
+      "whoLabel": "Em quem você estava pensando? (opcional)",
+      "whoPlaceholder": "Um nome, ou apenas \"um desconhecido\"",
       "reflectSaved": "Salvo. Obrigado por compartilhar isso. ⭐⭐",
       "reachOutPrefix": "💛 Se hoje parece pesado —",
       "reachOutLink": "entre em contato com alguém que se importa",
@@ -226,6 +234,8 @@
       "heartPlaceholder": "Escreva livremente — isso é só para você...",
       "momentTitle": "Seu momento Barnabé — o que você fez, e como se sentiu?",
       "momentPlaceholder": "O que você fez por alguém hoje, e como se sentiu?",
+      "whoTitle": "Em quem você estava pensando? (opcional)",
+      "whoPlaceholder": "Um nome, ou apenas \"um desconhecido\"",
       "kindnessTitle": "Alguém me regou hoje — alguém te mostrou bondade?",
       "kindnessPlaceholder": "O que alguém fez por você hoje, e como se sentiu?",
       "moodLabel": "Como você está se sentindo?",
