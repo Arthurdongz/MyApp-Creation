@@ -75,7 +75,8 @@
       "dayLabel": "Dia {{day}}",
       "previous": "Dia anterior",
       "next": "Próximo dia",
-      "backToToday": "Voltar para hoje"
+      "backToToday": "Voltar para hoje",
+      "progress": "{{day}} de {{total}}"
     },
     "jump": {
       "verse": "Versículo",
@@ -137,10 +138,13 @@
       "title": "Pensamento de Encorajamento"
     },
     "moment": {
-      "featuredTag": "✨ O Destaque de Hoje",
       "streakChipLabel": "Sequência de {{count}} dias",
+      "milestoneStreak_one": "🎉 Falta {{count}} dia para sua próxima conquista!",
+      "milestoneStreak_other": "🎉 Faltam {{count}} dias para sua próxima conquista!",
+      "milestoneStars_one": "🎉 Falta {{count}} estrela para sua próxima conquista!",
+      "milestoneStars_other": "🎉 Faltam {{count}} estrelas para sua próxima conquista!",
       "rewardHint": "Complete o momento de hoje e ganhe {{stars}} ⭐",
-      "celebrateMsg": "🎉 Lindo — essa bondade fez diferença. +{{stars}} ⭐ e uma sequência de {{streak}} dias.",
+      "celebrateMsg": "🎉 O dia de alguém pode ser um pouco diferente porque você apareceu. +{{stars}} ⭐ e uma sequência de {{streak}} dias.",
       "inspiredByLabel": "Inspirado na história de hoje:",
       "readStoryLink": "Leia a história →",
       "tally": "💛 Você já esteve ao lado de alguém {{times}} até agora.",
@@ -171,7 +175,7 @@
       "doTodayText": "Fiz isso hoje ✓",
       "doLabel": "Eu fiz isso",
       "doText": "Eu fiz isso ✓",
-      "sendToSomeone": "Enviar para alguém",
+      "sendToSomeone": "💌 Compartilhe este encorajamento",
       "doneMsg": "Muito bem — essa bondade fez diferença. ⭐⭐",
       "whatHappenedLabel": "O que aconteceu? (opcional)",
       "whatHappenedPlaceholder": "O que aconteceu quando você fez isso?",
@@ -208,7 +212,7 @@
         "body": "Nesta temporada pesada, pare por um momento: qual é uma pequena coisa pela qual você é grato agora, mesmo que seja pequena? E pense: existe algo que uma vez pareceu impossível de superar, e que você superou mesmo assim? Você pode de novo."
       },
       "call": {
-        "title": "Um Pouco Mais Esta Semana",
+        "title": "🌿 Vá Um Pouco Mais Longe",
         "body": "Uma mensagem de texto é fácil de enviar, e igualmente fácil de ignorar. Existe alguém que você poderia realmente ligar, ou ver pessoalmente, em vez de só mandar mensagem hoje?",
         "callLabel": "Ligar para alguém",
         "callButton": "📞 Ligar para Alguém"

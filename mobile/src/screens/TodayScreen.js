@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Linking, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Animated, Linking, Platform, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import Card from "../components/Card";
 import ActionMenu from "../components/ActionMenu";
 import SharePreviewModal from "../components/SharePreviewModal";
 import VersePopup from "../components/VersePopup";
 import { useTheme } from "../theme";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
-import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "../content";
+import { pickForDay, pickForDaySmallBank, pickVerseVersion, TOTAL_DAYS } from "../content";
+import { BADGE_DEFS } from "../storage";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { CONFESSIONS } from "../data/confessions";
 import { ENCOURAGEMENTS } from "../data/encouragements";
@@ -83,6 +84,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     updateSettings,
     streak,
     momentsDone,
+    totalStars,
     goToPrevDay,
     goToNextDay,
     jumpToToday,
@@ -156,6 +158,25 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     showCheckInNudge && favoriteVerses.length > 0
       ? favoriteVerses[viewingDay % favoriteVerses.length]
       : null;
+
+  // Whichever badge is numerically closer — a streak day or a star — becomes
+  // the one-line teaser near the moment header. BADGE_DEFS is already
+  // ascending by threshold within each type, sorted again here defensively
+  // rather than relying on definition order.
+  const nextMilestone = useMemo(() => {
+    const nextStreakBadge = BADGE_DEFS.filter((b) => b.type === "streak" && b.threshold > streak).sort(
+      (a, b) => a.threshold - b.threshold
+    )[0];
+    const nextStarBadge = BADGE_DEFS.filter((b) => b.type === "stars" && b.threshold > totalStars).sort(
+      (a, b) => a.threshold - b.threshold
+    )[0];
+    const streakRemaining = nextStreakBadge ? nextStreakBadge.threshold - streak : Infinity;
+    const starRemaining = nextStarBadge ? nextStarBadge.threshold - totalStars : Infinity;
+    if (streakRemaining === Infinity && starRemaining === Infinity) return null;
+    return streakRemaining <= starRemaining
+      ? { type: "streak", remaining: streakRemaining }
+      : { type: "stars", remaining: starRemaining };
+  }, [streak, totalStars]);
 
   // The moment card collapses to a one-line summary once it's done, as long
   // as there's nothing else pending on it (yesterday's follow-up question
@@ -467,6 +488,19 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             <Text style={styles.dayNavBtnText} maxFontSizeMultiplier={1.3}>›</Text>
           </TouchableOpacity>
         </View>
+        <View style={styles.dayProgressWrap}>
+          <Text style={styles.dayProgressLabel}>
+            {t("today.dayNav.progress", { day: latestDay, total: TOTAL_DAYS })}
+          </Text>
+          <View style={styles.dayProgressTrack}>
+            <View
+              style={[
+                styles.dayProgressFill,
+                { width: `${Math.min(100, Math.round((latestDay / TOTAL_DAYS) * 100))}%` },
+              ]}
+            />
+          </View>
+        </View>
         {!isToday ? (
           <TouchableOpacity onPress={handleJumpToToday} accessibilityRole="button" accessibilityLabel={t("today.dayNav.backToToday")}>
             <Text style={styles.dayNavJump}>{t("today.dayNav.backToToday")}</Text>
@@ -508,12 +542,9 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           collapses to a one-line summary once it's done, unless yesterday's
           follow-up question is still pending. */}
       <View style={styles.sectionGroup}>
-        <View style={styles.featuredTagWrap}>
-          <Text style={styles.featuredTagText}>{t("today.moment.featuredTag")}</Text>
-        </View>
         <View style={styles.heroSectionGroupHeader}>
           <View style={styles.heroTitleWrap}>
-            <FontAwesome5 name="handshake" size={18} color={colors.sageDark} solid />
+            <Ionicons name="sparkles" size={18} color={colors.goldText} />
             <Text style={styles.heroSectionTitle}>{t("today.moment.sectionTitle")}</Text>
           </View>
           {streak > 1 ? (
@@ -529,6 +560,13 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
         {momentsDone > 0 ? (
           <Text style={styles.heroTallyText}>
             {t("today.moment.tally", { times: t("rewards.units.time", { count: momentsDone }) })}
+          </Text>
+        ) : null}
+        {nextMilestone ? (
+          <Text style={styles.milestoneTeaser}>
+            {nextMilestone.type === "streak"
+              ? t("today.moment.milestoneStreak", { count: nextMilestone.remaining })
+              : t("today.moment.milestoneStars", { count: nextMilestone.remaining })}
           </Text>
         ) : null}
         {canCollapseMoment && !momentOpen ? (
@@ -1130,6 +1168,16 @@ function getStyles(colors) {
     dayNavBtnText: { fontSize: 18, fontWeight: "700", color: colors.card },
     dayNavLabel: { fontWeight: "700", fontSize: 14, color: colors.sageDark, minWidth: 110, textAlign: "center" },
     dayNavJump: { fontSize: 12, fontWeight: "700", color: colors.sky, textDecorationLine: "underline" },
+    dayProgressWrap: { width: "60%", maxWidth: 220, alignItems: "center" },
+    dayProgressLabel: { fontSize: 11, fontWeight: "600", color: colors.textSoft, marginBottom: 4 },
+    dayProgressTrack: {
+      width: "100%",
+      height: 4,
+      borderRadius: 2,
+      backgroundColor: colors.border,
+      overflow: "hidden",
+    },
+    dayProgressFill: { height: "100%", borderRadius: 2, backgroundColor: colors.sage },
     jumpRow: {
       flexDirection: "row",
       justifyContent: "center",
@@ -1197,22 +1245,6 @@ function getStyles(colors) {
       borderLeftWidth: 5,
       borderLeftColor: colors.gold,
     },
-    featuredTagWrap: {
-      alignSelf: "flex-start",
-      borderWidth: 1.5,
-      borderColor: colors.goldText,
-      borderRadius: 999,
-      paddingVertical: 3,
-      paddingHorizontal: 10,
-      marginBottom: 8,
-      marginLeft: 2,
-    },
-    featuredTagText: {
-      fontSize: 10.5,
-      fontWeight: "700",
-      letterSpacing: 0.4,
-      color: colors.goldText,
-    },
     heroSectionGroupHeader: {
       flexDirection: "row",
       alignItems: "center",
@@ -1226,6 +1258,13 @@ function getStyles(colors) {
       fontSize: 13,
       fontWeight: "600",
       color: colors.sageDark,
+      marginBottom: 10,
+      marginLeft: 2,
+    },
+    milestoneTeaser: {
+      fontSize: 12.5,
+      fontWeight: "600",
+      color: colors.goldText,
       marginBottom: 10,
       marginLeft: 2,
     },
@@ -1359,6 +1398,7 @@ function getStyles(colors) {
       lineHeight: 26,
       color: colors.text,
       marginBottom: 10,
+      fontFamily: Platform.OS === "ios" ? "Georgia" : "serif",
     },
     verseRef: {
       fontSize: 13,

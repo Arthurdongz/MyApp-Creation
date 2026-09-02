@@ -75,7 +75,8 @@
       "dayLabel": "Día {{day}}",
       "previous": "Día anterior",
       "next": "Día siguiente",
-      "backToToday": "Volver a hoy"
+      "backToToday": "Volver a hoy",
+      "progress": "{{day}} de {{total}}"
     },
     "jump": {
       "verse": "Versículo",
@@ -137,10 +138,13 @@
       "title": "Pensamiento de Aliento"
     },
     "moment": {
-      "featuredTag": "✨ Lo Destacado de Hoy",
       "streakChipLabel": "Racha de {{count}} días",
+      "milestoneStreak_one": "🎉 ¡Falta {{count}} día para tu próximo logro!",
+      "milestoneStreak_other": "🎉 ¡Faltan {{count}} días para tu próximo logro!",
+      "milestoneStars_one": "🎉 ¡Falta {{count}} estrella para tu próximo logro!",
+      "milestoneStars_other": "🎉 ¡Faltan {{count}} estrellas para tu próximo logro!",
       "rewardHint": "Completa el momento de hoy y gana {{stars}} ⭐",
-      "celebrateMsg": "🎉 Hermoso — esa bondad importó. +{{stars}} ⭐ y una racha de {{streak}} días.",
+      "celebrateMsg": "🎉 El día de alguien puede ser un poco diferente porque tú apareciste. +{{stars}} ⭐ y una racha de {{streak}} días.",
       "inspiredByLabel": "Inspirado en la historia de hoy:",
       "readStoryLink": "Lee su historia →",
       "tally": "💛 Ya has estado ahí para alguien {{times}}.",
@@ -171,7 +175,7 @@
       "doTodayText": "Lo hice hoy ✓",
       "doLabel": "Lo hice",
       "doText": "Lo hice ✓",
-      "sendToSomeone": "Enviar a alguien",
+      "sendToSomeone": "💌 Comparte este ánimo",
       "doneMsg": "Bien hecho — esa bondad importó. ⭐⭐",
       "whatHappenedLabel": "¿Qué pasó? (opcional)",
       "whatHappenedPlaceholder": "¿Qué pasó cuando lo hiciste?",
@@ -208,7 +212,7 @@
         "body": "En esta temporada difícil, tómate un momento: ¿qué es algo pequeño por lo que estás agradecido ahora mismo, aunque sea insignificante? Y piensa: ¿hay algo que alguna vez pareció imposible de superar, y que superaste de todos modos? Puedes lograrlo de nuevo."
       },
       "call": {
-        "title": "Un Poco Más Esta Semana",
+        "title": "🌿 Ve un Poco Más Allá",
         "body": "Un mensaje de texto es fácil de enviar, y así de fácil de ignorar. ¿Hay alguien a quien realmente puedas llamar, o ver en persona, en lugar de solo enviarle un mensaje hoy?",
         "callLabel": "Llamar a alguien",
         "callButton": "📞 Llamar a Alguien"

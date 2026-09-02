@@ -23,8 +23,12 @@ import { ThemeProvider, useTheme } from "./src/theme";
 import { useJournalStore } from "./src/storage";
 import { initCrashReporting, Sentry } from "./src/crashReporting";
 import { checkForUpdateAndApply, checkForUpdateManually } from "./src/updates";
-import { pickForDay, pickVerseVersion } from "./src/content";
+import { pickForDay, pickForDaySmallBank, pickVerseVersion } from "./src/content";
 import { BIBLE_VERSIONS, VERSES } from "./src/data/verses";
+import { BARNABAS_PRINCIPLES } from "./src/data/barnabasPrinciples";
+import { BARNABAS_PRINCIPLES_ES } from "./src/data/barnabasPrinciples.es";
+import { BARNABAS_PRINCIPLES_PT } from "./src/data/barnabasPrinciples.pt";
+import { BARNABAS_PRINCIPLES_FR } from "./src/data/barnabasPrinciples.fr";
 import "./src/i18n";
 import TodayScreen from "./src/screens/TodayScreen";
 import StoryScreen from "./src/screens/StoryScreen";
@@ -101,7 +105,11 @@ export default Sentry.wrap(App);
 
 function AppContent({ store }) {
   const { colors, mode, shadow } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const principlesBank =
+    { es: BARNABAS_PRINCIPLES_ES, pt: BARNABAS_PRINCIPLES_PT, fr: BARNABAS_PRINCIPLES_FR }[i18n.language] ||
+    BARNABAS_PRINCIPLES;
+  const footerPrinciple = pickForDaySmallBank(principlesBank, store.latestDay, store.order);
   const [tab, setTab] = useState("today");
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -338,7 +346,7 @@ function AppContent({ store }) {
               />
             )}
 
-            <Text style={styles.footer}>{t("app.footer")}</Text>
+            <Text style={styles.footer}>{footerPrinciple}</Text>
           </ScrollView>
         )}
         <MenuModal
@@ -401,7 +409,7 @@ function getStyles(colors, shadow) {
       justifyContent: "space-between",
       marginBottom: 18,
       flexWrap: "wrap",
-      gap: 10,
+      gap: 16,
     },
     brandRow: { flexDirection: "row", alignItems: "center", gap: 10 },
     brandMark: { fontSize: 26, color: colors.gold },

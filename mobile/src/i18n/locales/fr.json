@@ -75,7 +75,8 @@
       "dayLabel": "Jour {{day}}",
       "previous": "Jour précédent",
       "next": "Jour suivant",
-      "backToToday": "Retour à aujourd'hui"
+      "backToToday": "Retour à aujourd'hui",
+      "progress": "{{day}} sur {{total}}"
     },
     "jump": {
       "verse": "Verset",
@@ -137,10 +138,13 @@
       "title": "Pensée d'Encouragement"
     },
     "moment": {
-      "featuredTag": "✨ Le Moment Fort d'Aujourd'hui",
       "streakChipLabel": "Série de {{count}} jours",
+      "milestoneStreak_one": "🎉 Encore {{count}} jour avant ton prochain palier !",
+      "milestoneStreak_other": "🎉 Encore {{count}} jours avant ton prochain palier !",
+      "milestoneStars_one": "🎉 Encore {{count}} étoile avant ton prochain palier !",
+      "milestoneStars_other": "🎉 Encore {{count}} étoiles avant ton prochain palier !",
       "rewardHint": "Termine le moment d'aujourd'hui pour gagner {{stars}} ⭐",
-      "celebrateMsg": "🎉 Magnifique — cette bonté a compté. +{{stars}} ⭐ et une série de {{streak}} jours.",
+      "celebrateMsg": "🎉 La journée de quelqu'un est peut-être un peu différente parce que tu t'es présenté. +{{stars}} ⭐ et une série de {{streak}} jours.",
       "inspiredByLabel": "Inspiré par l'histoire du jour :",
       "readStoryLink": "Lire son histoire →",
       "tally": "💛 Tu as été là pour quelqu'un {{times}} jusqu'ici.",
@@ -171,7 +175,7 @@
       "doTodayText": "Je l'ai fait aujourd'hui ✓",
       "doLabel": "Je l'ai fait",
       "doText": "Je l'ai fait ✓",
-      "sendToSomeone": "Envoyer à quelqu'un",
+      "sendToSomeone": "💌 Partage cet encouragement",
       "doneMsg": "Bien joué — cette bonté a compté. ⭐⭐",
       "whatHappenedLabel": "Qu'est-ce qui s'est passé ? (facultatif)",
       "whatHappenedPlaceholder": "Qu'est-ce qui s'est passé quand tu l'as fait ?",
@@ -208,7 +212,7 @@
         "body": "En cette saison difficile, prends un instant : quelle est une petite chose pour laquelle tu es reconnaissant en ce moment, même minime ? Et repense : y a-t-il quelque chose qui a semblé impossible à surmonter, et que tu as pourtant surmonté ? Tu peux le refaire."
       },
       "call": {
-        "title": "Un Peu Plus Loin Cette Semaine",
+        "title": "🌿 Va Un Peu Plus Loin",
         "body": "Un message texte est facile à envoyer, et tout aussi facile à faire défiler sans y répondre. Y a-t-il quelqu'un que tu pourrais vraiment appeler, ou voir en personne, plutôt que de simplement lui envoyer un message aujourd'hui ?",
         "callLabel": "Appeler quelqu'un",
         "callButton": "📞 Appeler Quelqu'un"

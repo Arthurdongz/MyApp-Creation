@@ -75,7 +75,8 @@
       "dayLabel": "Day {{day}}",
       "previous": "Previous day",
       "next": "Next day",
-      "backToToday": "Back to today"
+      "backToToday": "Back to today",
+      "progress": "{{day}} of {{total}}"
     },
     "jump": {
       "verse": "Verse",
@@ -137,10 +138,13 @@
       "title": "Encouraging Thought"
     },
     "moment": {
-      "featuredTag": "✨ Today's Highlight",
       "streakChipLabel": "{{count}}-day streak",
+      "milestoneStreak_one": "🎉 {{count}} day until your next milestone!",
+      "milestoneStreak_other": "🎉 {{count}} days until your next milestone!",
+      "milestoneStars_one": "🎉 {{count}} star until your next milestone!",
+      "milestoneStars_other": "🎉 {{count}} stars until your next milestone!",
       "rewardHint": "Complete today's moment to earn {{stars}} ⭐",
-      "celebrateMsg": "🎉 Beautiful — that kindness mattered. +{{stars}} ⭐ and a {{streak}}-day streak going.",
+      "celebrateMsg": "🎉 Someone's day may be a little different because you showed up. +{{stars}} ⭐ and a {{streak}}-day streak going.",
       "inspiredByLabel": "Inspired by today's story:",
       "readStoryLink": "Read their story →",
       "tally": "💛 You've been there for someone {{times}} so far.",
@@ -171,7 +175,7 @@
       "doTodayText": "I did this today ✓",
       "doLabel": "I did this",
       "doText": "I did this ✓",
-      "sendToSomeone": "Send to someone",
+      "sendToSomeone": "💌 Share this encouragement",
       "doneMsg": "Well done — that kindness mattered. ⭐⭐",
       "whatHappenedLabel": "What happened? (optional)",
       "whatHappenedPlaceholder": "What happened when you did it?",
@@ -208,7 +212,7 @@
         "body": "In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again."
       },
       "call": {
-        "title": "A Little Further This Week",
+        "title": "🌿 Go a Little Further",
         "body": "A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?",
         "callLabel": "Call someone",
         "callButton": "📞 Call Someone"
