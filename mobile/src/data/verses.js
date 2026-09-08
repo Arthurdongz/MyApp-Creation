@@ -72,32 +72,6 @@ export const BIBLE_VERSIONS = [
 
 export const VERSES = [
   {
-    ref: "Genesis 1:3",
-    versions: {
-      KJV: "And God said, Let there be light: and there was light.",
-      WEB: "God said, “Let there be light,” and there was light.",
-      ASV: "And God said, Let there be light: and there was light.",
-      YLT: "and God saith, `Let light be;' and light is.",
-      BBE: "And God said, Let there be light: and there was light.",
-      RVA: "Y dijo Dios: Sea la luz: y fué la luz.",
-      ALM1911: "E disse Deus: Haja luz: e houve luz.",
-      LSG: "Dieu dit: Que la lumière soit! Et la lumière fut.",
-    },
-  },
-  {
-    ref: "Genesis 1:27",
-    versions: {
-      KJV: "So God created man in his own image, in the image of God created he him; male and female created he them.",
-      WEB: "God created man in his own image. In God’s image he created him; male and female he created them.",
-      ASV: "And God created man in his own image, in the image of God created he him; male and female created he them.",
-      YLT: "And God prepareth the man in His image; in the image of God He prepared him, a male and a female He prepared them.",
-      BBE: "And God made man in his image, in the image of God he made him: male and female he made them.",
-      RVA: "Y crió Dios al hombre á su imagen, á imagen de Dios lo crió; varón y hembra los crió.",
-      ALM1911: "E creou Deus o homem á sua imagem: á imagem de Deus o creou: macho e femea os creou.",
-      LSG: "Dieu créa l'homme à son image, il le créa à l'image de Dieu, il créa l'homme et la femme.",
-    },
-  },
-  {
     ref: "Genesis 50:20",
     versions: {
       KJV: "But as for you, ye thought evil against me; but God meant it unto good, to bring to pass, as it is this day, to save much people alive.",
@@ -134,19 +108,6 @@ export const VERSES = [
       RVA: "Jehová es mi fortaleza, y mi canción, y hame sido por salud: éste es mi Dios, y á éste engrandeceré; Dios de mi padre, y á éste ensalzaré.",
       ALM1911: "O Senhor é a minha força, e o meu cantico; elle me foi por salvação; este é o meu Deus, portanto lhe farei uma habitação; elle é o Deus de meu pae, por isso o exaltarei.",
       LSG: "L'Éternel est ma force et le sujet de mes louanges; C'est lui qui m'a sauvé. Il est mon Dieu: je le célèbrerai; Il est le Dieu de mon père: je l'exalterai.",
-    },
-  },
-  {
-    ref: "Deuteronomy 31:8",
-    versions: {
-      KJV: "And the LORD, he it is that doth go before thee; he will be with thee, he will not fail thee, neither forsake thee: fear not, neither be dismayed.",
-      WEB: "Yahweh himself is who goes before you. He will be with you. He will not fail you nor forsake you. Don’t be afraid. Don’t be discouraged.”",
-      ASV: "And Jehovah, he it is that doth go before thee; he will be with thee, he will not fail thee, neither forsake thee: fear not, neither be dismayed.",
-      YLT: "and Jehovah is He who is going before thee, He himself is with thee; He doth not fail thee nor forsake thee; fear not, nor be affrighted.'",
-      BBE: "It is the Lord who goes before you; he will be with you, he will not take away his help from you or give you up: so have no fear.",
-      RVA: "Y Jehová es el que va delante de ti; él será contigo, no te dejará, ni te desamparará; no temas, ni te intimides.",
-      ALM1911: "O Senhor pois é aquelle que vae diante de ti; elle será comtigo, não te deixará, nem te desamparará; não temas, nem te espantes.",
-      LSG: "L'Éternel marchera lui-même devant toi, il sera lui-même avec toi, il ne te délaissera point, il ne t'abandonnera point; ne crains point, et ne t'effraie point.",
     },
   },
   {
@@ -215,19 +176,6 @@ export const VERSES = [
     },
   },
   {
-    ref: "Joshua 1:5",
-    versions: {
-      KJV: "There shall not any man be able to stand before thee all the days of thy life: as I was with Moses, so I will be with thee: I will not fail thee, nor forsake thee.",
-      WEB: "No man will be able to stand before you all the days of your life. As I was with Moses, so I will be with you. I will not fail you nor forsake you.",
-      ASV: "There shall not any man be able to stand before thee all the days of thy life: as I was with Moses, so I will be with thee; I will not fail thee, nor forsake thee.",
-      YLT: "`No man doth station himself before thee all days of thy life; as I have been with Moses, I am with thee, I do not fail thee, nor forsake thee.",
-      BBE: "While you are living, all will give way before you: as I was with Moses, so I will be with you; I will not take away my help from you or give you up.",
-      RVA: "Nadie te podrá hacer frente en todos los días de tu vida: como yo fuí con Moisés, seré contigo; no te dejaré, ni te desampararé.",
-      ALM1911: "Nenhum se susterá diante de ti, todos os dias da tua vida: como fui com Moysés, assim serei comtigo: não te deixarei nem te desampararei.",
-      LSG: "Nul ne tiendra devant toi, tant que tu vivras. Je serai avec toi, comme j'ai été avec Moïse; je ne te délaisserai point, je ne t'abandonnerai point.",
-    },
-  },
-  {
     ref: "Joshua 24:15",
     versions: {
       KJV: "And if it seem evil unto you to serve the LORD, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the LORD.",
@@ -264,19 +212,6 @@ export const VERSES = [
       RVA: "Y Ruth respondió: No me ruegues que te deje, y me aparte de ti: porque donde quiera que tú fueres, iré yo; y donde quiera que vivieres, viviré. Tu pueblo será mi pueblo, y tu Dios mi Dios.",
       ALM1911: "Disse porém Ruth: Não me instes para que te deixe, e me torne de detraz de ti; porque aonde quer que tu fores irei eu, e onde quer que pousares á noite ali pousarei eu; o teu povo é o meu povo, o teu Deus é o meu Deus",
       LSG: "Ruth répondit: Ne me presse pas de te laisser, de retourner loin de toi! Où tu iras j'irai, où tu demeureras je demeurerai; ton peuple sera mon peuple, et ton Dieu sera mon Dieu;",
-    },
-  },
-  {
-    ref: "1 Samuel 3:9",
-    versions: {
-      KJV: "Therefore Eli said unto Samuel, Go, lie down: and it shall be, if he call thee, that thou shalt say, Speak, LORD; for thy servant heareth. So Samuel went and lay down in his place.",
-      WEB: "Therefore Eli said to Samuel, “Go, lie down. It shall be, if he calls you, that you shall say, ‘Speak, Yahweh; for your servant hears.’ ” So Samuel went and lay down in his place.",
-      ASV: "Therefore Eli said unto Samuel, Go, lie down: and it shall be, if he call thee, that thou shalt say, Speak, Jehovah; for thy servant heareth. So Samuel went and lay down in his place.",
-      YLT: "And Eli saith to Samuel, `Go, lie down, and it hath been, if He doth call unto thee, that thou hast said, Speak, Jehovah, for Thy servant is hearing;' and Samuel goeth and lieth down in his place.",
-      BBE: "So Eli said to Samuel, Go back: and if the voice comes again, let your answer be, Say on, Lord; for the ears of your servant are open. So Samuel went back to his bed.",
-      RVA: "Y dijo Eli á Samuel: Ve, y acuéstate: y si te llamare, dirás: Habla, Jehová, que tu siervo oye. Así se fué Samuel, y acostóse en su lugar.",
-      ALM1911: "Pelo que Eli disse a Samuel: Vae te deitar, e ha de ser que, se te chamar, dirás: Falla, Senhor, porque o teu servo ouve. Então Samuel foi e se deitou no seu logar.",
-      LSG: "et il dit à Samuel: Va, couche-toi; et si l'on t'appelle, tu diras: Parle, Éternel, car ton serviteur écoute. Et Samuel alla se coucher à sa place.",
     },
   },
   {
@@ -329,19 +264,6 @@ export const VERSES = [
       RVA: "Díjoles luego: Id, comed grosuras, y bebed vino dulce, y enviad porciones á los que no tienen prevenido; porque día santo es á nuestro Señor: y no os entristezcáis, porque el gozo de Jehová es vuestra fortaleza.",
       ALM1911: "Disse-lhes mais: Ide, comei as gorduras, e bebei as doçuras, e enviae porções aos que não teem nada preparado para si; porque este dia é consagrado ao nosso Senhor: portanto não vos entristeçaes: porque a alegria do Senhor é a vossa força.",
       LSG: "Ils leur dirent: Allez, mangez des viandes grasses et buvez des liqueurs douces, et envoyez des portions à ceux qui n'ont rien de préparé, car ce jour est consacré à notre Seigneur; ne vous affligez pas, car la joie de l'Éternel sera votre force.",
-    },
-  },
-  {
-    ref: "1 Chronicles 28:20",
-    versions: {
-      KJV: "And David said to Solomon his son, Be strong and of good courage, and do it: fear not, nor be dismayed: for the LORD God, even my God, will be with thee; he will not fail thee, nor forsake thee, until thou hast finished all the work for the service of the house of the LORD.",
-      WEB: "David said to Solomon his son, “Be strong and courageous, and do it. Don’t be afraid, nor be dismayed; for Yahweh God, even my God, is with you. He will not fail you, nor forsake you, until all the work for the service of Yahweh’s house is finished.",
-      ASV: "And David said to Solomon his son, Be strong and of good courage, and do it: fear not, nor be dismayed; for Jehovah God, even my God, is with thee; he will not fail thee, nor forsake thee, until all the work for the service of the house of Jehovah be finished.",
-      YLT: "And David saith to Solomon his son, `Be strong, and courageous, and do; do not fear nor be affrighted, for Jehovah God, my God, is with thee; He doth not fail thee, nor forsake thee, unto the completion of all the work of the service of the house of Jehovah.",
-      BBE: "And David said to his son Solomon, Be strong and of a good heart and do your work; have no fear and do not be troubled, for the Lord God, my God, is with you; he will not give you up, and his face will not be turned away from you, till all the work necessary for the house of the Lord is complete.",
-      RVA: "Dijo más David á Salomón su hijo: Anímate y esfuérzate, y ponlo por obra; no temas, ni desmayes, porque el Dios Jehová, mi Dios, será contigo: él no te dejará, ni te desamparará, hasta que acabes toda la obra para el servicio de la casa de Jehová.",
-      ALM1911: "E disse David a Salomão seu filho: Esforça-te e tem bom animo, e obra; não temas, nem te espavoreças; porque o Senhor Deus, meu Deus, ha de ser comtigo; não te deixará, nem te desamparará, até que acabes toda a obra do serviço da casa do Senhor.",
-      LSG: "David dit à Salomon, son fils: Fortifie-toi, prends courage et agis; ne crains point, et ne t'effraie point. Car l'Éternel Dieu, mon Dieu, sera avec toi; il ne te délaissera point, il ne t'abandonnera point, jusqu'à ce que tout l'ouvrage pour le service de la maison de l'Éternel soit achevé.",
     },
   },
   {
@@ -407,19 +329,6 @@ export const VERSES = [
       RVA: "Yo sé que mi Redentor vive, y al fin se levantará sobre el polvo.",
       ALM1911: "Porque eu sei que o meu Redemptor vive, e que estará em pé no derradeiro dia sobre o pó.",
       LSG: "Mais je sais que mon rédempteur est vivant, Et qu'il se lèvera le dernier sur la terre.",
-    },
-  },
-  {
-    ref: "Job 38:4",
-    versions: {
-      KJV: "Where wast thou when I laid the foundations of the earth? declare, if thou hast understanding.",
-      WEB: "“Where were you when I laid the foundations of the earth? Declare, if you have understanding.",
-      ASV: "Where wast thou when I laid the foundations of the earth? Declare, if thou hast understanding.",
-      YLT: "Where wast thou when I founded earth? Declare, if thou hast known understanding.",
-      BBE: "Where were you when I put the earth on its base? Say, if you have knowledge.",
-      RVA: "¿Dónde estabas cuando yo fundaba la tierra? házme lo saber, si tienes inteligencia.",
-      ALM1911: "Onde estavas tu, quando eu fundava a terra? faze-m'o saber, se tens intelligencia.",
-      LSG: "Où étais-tu quand je fondais la terre? Dis-le, si tu as de l'intelligence.",
     },
   },
   {
@@ -4827,6 +4736,97 @@ export const VERSES = [
       RVA: "Jehová de los ejércitos es con nosotros; nuestro refugio es el Dios de Jacob. (Selah.)",
       ALM1911: "O Senhor dos Exercitos está comnosco: o Deus de Jacob é o nosso refugio (Selah).",
       LSG: "L'Éternel des armées est avec nous, Le Dieu de Jacob est pour nous une haute retraite. -Pause.",
+    },
+  },
+  {
+    ref: "Hebrews 10:25",
+    versions: {
+      KJV: "Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.",
+      WEB: "not forsaking our own assembling together, as the custom of some is, but exhorting one another, and so much the more as you see the Day approaching.",
+      ASV: "not forsaking our own assembling together, as the custom of some is, but exhorting one another; and so much the more, as ye see the day drawing nigh.",
+      YLT: "not forsaking the assembling of ourselves together, as a custom of certain is, but exhorting, and so much the more as ye see the day coming nigh.",
+      BBE: "Not giving up our meetings, as is the way of some, but keeping one another strong in faith; and all the more because you see the day coming near.",
+      RVA: "No dejando nuestra congregación, como algunos tienen por costumbre, mas exhortándonos; y tanto más, cuanto veis que aquel día se acerca.",
+      ALM1911: "Não deixando a nossa reunião, como é o costume de alguns, antes admoestando-nos uns aos outros; e tanto mais, quando virdes que se vae chegando aquelle dia.",
+      LSG: "N'abandonnons pas notre assemblée, comme c'est la coutume de quelques-uns; mais exhortons-nous réciproquement, et cela d'autant plus que vous voyez s'approcher le jour.",
+    },
+  },
+  {
+    ref: "Isaiah 58:11",
+    versions: {
+      KJV: "And the LORD shall guide thee continually, and satisfy thy soul in drought, and make fat thy bones: and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
+      WEB: "and Yahweh will guide you continually, satisfy your soul in dry places, and make your bones strong. You will be like a watered garden, and like a spring of water whose waters don’t fail.",
+      ASV: "and Jehovah will guide thee continually, and satisfy thy soul in dry places, and make strong thy bones; and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
+      YLT: "And Jehovah doth lead thee continually, And hath satisfied in drought thy soul, And thy bones He armeth, And thou hast been as a watered garden, And as an outlet of waters, whose waters lie not.",
+      BBE: "And the Lord will be your guide at all times; in dry places he will give you water in full measure, and will make strong your bones; and you will be like a watered garden, and like an ever-flowing spring.",
+      RVA: "Y Jehová te pastoreará siempre, y en las sequías hartará tu alma, y engordará tus huesos; y serás como huerta de riego, y como manadero de aguas, cuyas aguas nunca faltan.",
+      ALM1911: "E o Senhor te guiará continuamente, e fartará a tua alma em grandes sequidões, e fortificará os teus ossos; e serás como um jardim regado, e como um manancial de aguas, cujas aguas nunca faltam.",
+      LSG: "L'Éternel sera toujours ton guide, Il rassasiera ton âme dans les lieux arides, Et il redonnera de la vigueur à tes membres; Tu seras comme un jardin arrosé, Comme une source dont les eaux ne tarissent pas.",
+    },
+  },
+  {
+    ref: "Proverbs 16:9",
+    versions: {
+      KJV: "A man's heart deviseth his way: but the LORD directeth his steps.",
+      WEB: "A man’s heart plans his course, but Yahweh directs his steps.",
+      ASV: "A man’s heart deviseth his way; But Jehovah directeth his steps.",
+      YLT: "The heart of man deviseth his way, And Jehovah establisheth his step.",
+      BBE: "A man may make designs for his way, but the Lord is the guide of his steps.",
+      RVA: "El corazón del hombre piensa su camino: mas Jehová endereza sus pasos.",
+      ALM1911: "O coração do homem considera o seu caminho, mas o Senhor lhe dirige os passos.",
+      LSG: "Le cœur de l'homme médite sa voie, Mais c'est l'Éternel qui dirige ses pas.",
+    },
+  },
+  {
+    ref: "Proverbs 25:11",
+    versions: {
+      KJV: "A word fitly spoken is like apples of gold in pictures of silver.",
+      WEB: "A word fitly spoken is like apples of gold in settings of silver.",
+      ASV: "A word fitly spoken Is like apples of gold in network of silver.",
+      YLT: "Apples of gold in imagery of silver, Is the word spoken at its fit times.",
+      BBE: "A word at the right time is like apples of gold in a network of silver.",
+      RVA: "Manzana de oro con figuras de plata es la palabra dicha como conviene.",
+      ALM1911: "Como maçãs d'oiro em salvas de prata, assim é a palavra dita a seu tempo.",
+      LSG: "Comme des pommes d'or sur des ciselures d'argent, Ainsi est une parole dite à propos.",
+    },
+  },
+  {
+    ref: "Proverbs 31:25",
+    versions: {
+      KJV: "Strength and honour are her clothing; and she shall rejoice in time to come.",
+      WEB: "Strength and dignity are her clothing. She laughs at the time to come.",
+      ASV: "Strength and dignity are her clothing; And she laugheth at the time to come.",
+      YLT: "Strength and honour are her clothing, And she rejoiceth at a latter day.",
+      BBE: "Strength and self-respect are her clothing; she is facing the future with a smile.",
+      RVA: "Fortaleza y honor son su vestidura; y en el día postrero reirá.",
+      ALM1911: "Ain. A força e a gloria são os seus vestidos, e ri-se do dia futuro.",
+      LSG: "Elle est revêtue de force et de gloire, Et elle se rit de l'avenir.",
+    },
+  },
+  {
+    ref: "Proverbs 4:23",
+    versions: {
+      KJV: "Keep thy heart with all diligence; for out of it are the issues of life.",
+      WEB: "Keep your heart with all diligence, for out of it is the wellspring of life.",
+      ASV: "Keep thy heart with all diligence; For out of it are the issues of life.",
+      YLT: "Above every charge keep thy heart, For out of it are the outgoings of life.",
+      BBE: "And keep watch over your heart with all care; so you will have life.",
+      RVA: "Sobre toda cosa guardada guarda tu corazón; porque de él mana la vida.",
+      ALM1911: "Sobre tudo o que se deve guardar, guarda o teu coração, porque d'elle procedem as saidas da vida.",
+      LSG: "Garde ton cœur plus que toute autre chose, Car de lui viennent les sources de la vie.",
+    },
+  },
+  {
+    ref: "Romans 12:2",
+    versions: {
+      KJV: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.",
+      WEB: "Don’t be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God.",
+      ASV: "And be not fashioned according to this world: but be ye transformed by the renewing of your mind, that ye may prove what is the good and acceptable and perfect will of God.",
+      YLT: "and be not conformed to this age, but be transformed by the renewing of your mind, for your proving what is the will of God--the good, and acceptable, and perfect.",
+      BBE: "And let not your behaviour be like that of this world, but be changed and made new in mind, so that by experience you may have knowledge of the good and pleasing and complete purpose of God.",
+      RVA: "Y no os conforméis á este siglo; mas reformaos por la renovación de vuestro entendimiento, para que experimentéis cuál sea la buena voluntad de Dios, agradable y perfecta.",
+      ALM1911: "E não vos conformeis com este mundo, mas transformae-vos pela renovação do vosso entendimento, para que experimenteis qual seja a boa, agradavel, e perfeita vontade de Deus.",
+      LSG: "Ne vous conformez pas au siècle présent, mais soyez transformés par le renouvellement de l'intelligence, afin que vous discerniez quelle est la volonté de Dieu, ce qui est bon, agréable et parfait.",
     },
   },
 ];
