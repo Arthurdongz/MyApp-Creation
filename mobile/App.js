@@ -124,6 +124,10 @@ function AppContent({ store }) {
   const [reflectionEditorDay, setReflectionEditorDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  // Context carried from "Discuss with Barnabas" in the reading plans screen
+  // into the chat modal — cleared whenever chat closes so the next plain
+  // chat open (via the FAB) starts without it. See openChatWithSeed below.
+  const [chatSeedContext, setChatSeedContext] = useState(null);
   const [refreshingUpdate, setRefreshingUpdate] = useState(false);
   // True whenever the main tabbed content (Today/Story/Facts/Journal/
   // Favorites/Rewards) is what's on screen, as opposed to a full-screen
@@ -150,6 +154,16 @@ function AppContent({ store }) {
   const handleTabSelect = (key) => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: false });
     setTab(key);
+  };
+
+  const openChatWithSeed = (seed) => {
+    setChatSeedContext(seed);
+    setShowChat(true);
+  };
+
+  const closeChat = () => {
+    setShowChat(false);
+    setChatSeedContext(null);
   };
 
   // Pulling down from the top of the screen checks for an app update the
@@ -204,7 +218,7 @@ function AppContent({ store }) {
     setShowBibleBrowser(false);
     setShowBibleMarks(false);
     setReflectionEditorDay(null);
-    setShowChat(false);
+    closeChat();
     setTab("today");
     store.jumpToDay(data.dayNumber);
   };
@@ -261,7 +275,10 @@ function AppContent({ store }) {
       ) : showBibleBrowser ? (
         <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
       ) : showBibleReadingPlans ? (
-        <BibleReadingPlansScreen onClose={() => setShowBibleReadingPlans(false)} />
+        <BibleReadingPlansScreen
+          onClose={() => setShowBibleReadingPlans(false)}
+          onDiscussWithBarnabas={openChatWithSeed}
+        />
       ) : showBibleMarks ? (
         <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
       ) : reflectionEditorDay != null ? (
@@ -368,8 +385,8 @@ function AppContent({ store }) {
         </TouchableOpacity>
       ) : null}
 
-      <Modal visible={showChat} animationType="slide" onRequestClose={() => setShowChat(false)}>
-        {showChat ? <ChatScreen store={store} onClose={() => setShowChat(false)} /> : null}
+      <Modal visible={showChat} animationType="slide" onRequestClose={closeChat}>
+        {showChat ? <ChatScreen store={store} onClose={closeChat} seedContext={chatSeedContext} /> : null}
       </Modal>
 
       <BadgeCelebrationModal badge={store.newlyEarnedBadge} onClose={store.dismissBadgeCelebration} />

@@ -389,7 +389,12 @@
     "personalizationOnLabel": "Désactiver la personnalisation avec ta série et ton humeur",
     "personalizationOffLabel": "Activer la personnalisation avec ta série et ton humeur",
     "feedbackUpLabel": "Cette réponse était utile",
-    "feedbackDownLabel": "Cette réponse n'était pas utile"
+    "feedbackDownLabel": "Cette réponse n'était pas utile",
+    "seedFromReading": {
+      "userMessage": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} ».",
+      "userMessageWithText": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} » : « {{passageText}} »",
+      "assistantPrompt": "As-tu compris ce que tu as lu ? J'aimerais entendre tes pensées — qu'est-ce qui t'a marqué, ou y a-t-il un passage dont tu aimerais parler ensemble ?"
+    }
   },
   "history": {
     "title": "Mon Journal",
@@ -617,6 +622,11 @@
     "progressLine": "{{done}} sur {{total}} lus",
     "markRead": "Marquer comme lu",
     "markUnread": "Marquer comme non lu",
+    "meditationPrompt": {
+      "question": "As-tu compris ce que tu as lu ? Aimerais-tu en discuter avec Barnabas ?",
+      "discussButton": "Discuter avec Barnabas",
+      "dismissButton": "Pas maintenant"
+    },
     "topics": {
       "encouragement": {
         "title": "Encouragement",

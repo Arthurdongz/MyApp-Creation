@@ -389,7 +389,12 @@
     "personalizationOnLabel": "Turn off personalization using your streak and mood",
     "personalizationOffLabel": "Turn on personalization using your streak and mood",
     "feedbackUpLabel": "This reply was helpful",
-    "feedbackDownLabel": "This reply was not helpful"
+    "feedbackDownLabel": "This reply was not helpful",
+    "seedFromReading": {
+      "userMessage": "I just read {{ref}} from the \"{{planTitle}}\" reading plan.",
+      "userMessageWithText": "I just read {{ref}} from the \"{{planTitle}}\" reading plan: \"{{passageText}}\"",
+      "assistantPrompt": "Did you understand what you read? I'd love to hear your thoughts — what stood out to you, or is there a part you'd like to talk through together?"
+    }
   },
   "history": {
     "title": "My Journal",
@@ -617,6 +622,11 @@
     "progressLine": "{{done}} of {{total}} read",
     "markRead": "Mark as read",
     "markUnread": "Mark as unread",
+    "meditationPrompt": {
+      "question": "Did you understand what you read? Would you like to discuss it with Barnabas?",
+      "discussButton": "Discuss with Barnabas",
+      "dismissButton": "Not now"
+    },
     "topics": {
       "encouragement": {
         "title": "Encouragement",

@@ -389,7 +389,12 @@
     "personalizationOnLabel": "Desactivar la personalización con tu racha y ánimo",
     "personalizationOffLabel": "Activar la personalización con tu racha y ánimo",
     "feedbackUpLabel": "Esta respuesta fue útil",
-    "feedbackDownLabel": "Esta respuesta no fue útil"
+    "feedbackDownLabel": "Esta respuesta no fue útil",
+    "seedFromReading": {
+      "userMessage": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\".",
+      "userMessageWithText": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\": \"{{passageText}}\"",
+      "assistantPrompt": "¿Entendiste lo que leíste? Me encantaría escuchar tus pensamientos — ¿qué te llamó la atención, o hay algo que te gustaría conversar juntos?"
+    }
   },
   "history": {
     "title": "Mi Diario",
@@ -617,6 +622,11 @@
     "progressLine": "{{done}} de {{total}} leídos",
     "markRead": "Marcar como leído",
     "markUnread": "Marcar como no leído",
+    "meditationPrompt": {
+      "question": "¿Entendiste lo que leíste? ¿Te gustaría conversarlo con Barnabás?",
+      "discussButton": "Conversar con Barnabás",
+      "dismissButton": "Ahora no"
+    },
     "topics": {
       "encouragement": {
         "title": "Ánimo",

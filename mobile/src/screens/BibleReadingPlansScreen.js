@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
-import { parseRef } from "../bibleLookup";
+import { lookupRef, parseRef } from "../bibleLookup";
 import { YEAR_BIBLE_PLAN } from "../data/bibleReadingPlans";
 import { TOPICAL_PLAN_ORDER, TOPICAL_PLANS } from "../data/topicalReadingPlans";
 import {
@@ -30,7 +30,7 @@ import BibleChapterModal from "../components/BibleChapterModal";
 
 const YEAR_PLAN_ID = "year-bible-plan";
 
-export default function BibleReadingPlansScreen({ onClose }) {
+export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t } = useTranslation();
@@ -38,6 +38,10 @@ export default function BibleReadingPlansScreen({ onClose }) {
   const [progress, setProgress] = useState(null); // null while loading from storage
   const [activePlanId, setActivePlanId] = useState(null);
   const [reading, setReading] = useState(null);
+  // What was just read, once the chapter reader is closed — powers the
+  // Philip-and-the-eunuch "did you understand what you read?" prompt
+  // (Acts 8:30-31) inviting a discussion with Barnabas about it.
+  const [justRead, setJustRead] = useState(null);
 
   useEffect(() => {
     loadReadingPlanProgress().then(setProgress);
@@ -47,11 +51,13 @@ export default function BibleReadingPlansScreen({ onClose }) {
     hapticTap();
     setProgress((prev) => (prev ? startPlan(prev, planId) : prev));
     setActivePlanId(planId);
+    setJustRead(null);
   };
 
   const closePlan = () => {
     hapticTap();
     setActivePlanId(null);
+    setJustRead(null);
   };
 
   const toggleDay = (planId, day, isDone) => {
@@ -59,21 +65,48 @@ export default function BibleReadingPlansScreen({ onClose }) {
     setProgress((prev) => (prev ? (isDone ? markDayIncomplete(prev, planId, day) : markDayComplete(prev, planId, day)) : prev));
   };
 
-  const openReading = (book, chapter, verseStart, verseEnd) => {
+  const openReading = (book, chapter, verseStart, verseEnd, meta) => {
     hapticTap();
-    setReading({ book, chapter, verseStart: verseStart ?? null, verseEnd: verseEnd ?? null });
+    setReading({ book, chapter, verseStart: verseStart ?? null, verseEnd: verseEnd ?? null, meta: meta ?? null });
   };
 
   const openYearDay = (dayEntry) => {
     const first = dayEntry.ranges[0];
-    openReading(first.book, first.from, null, null);
+    openReading(first.book, first.from, null, null, {
+      ref: dayEntry.ref,
+      planTitle: t("bibleReadingPlans.yearPlan.title"),
+    });
   };
 
-  const openTopicalDay = (ref) => {
+  const openTopicalDay = (ref, planTitle) => {
     const pieces = parseRef(ref);
     if (!pieces || !pieces.length) return;
     const piece = pieces[0];
-    openReading(piece.book, piece.chapter, piece.verseStart, piece.verseEnd);
+    openReading(piece.book, piece.chapter, piece.verseStart, piece.verseEnd, { ref, planTitle });
+  };
+
+  // Only topical refs are plain "Book chapter:verse[-verse]" strings that
+  // lookupRef can resolve — the year plan's refs (e.g. "Genesis 1-3") span
+  // whole chapters and aren't parseable, so passageText stays null for
+  // those and the seed message names the reference instead of quoting it.
+  const closeReading = () => {
+    const meta = reading?.meta;
+    setReading(null);
+    if (!meta) return;
+    const blocks = lookupRef(meta.ref);
+    const passageText = blocks ? blocks.map((b) => b.verses.map((v) => v.text).join(" ")).join(" ") : null;
+    setJustRead({ ref: meta.ref, planTitle: meta.planTitle, passageText });
+  };
+
+  const dismissJustRead = () => {
+    hapticTap();
+    setJustRead(null);
+  };
+
+  const discussJustRead = () => {
+    hapticTap();
+    onDiscussWithBarnabas?.(justRead);
+    setJustRead(null);
   };
 
   if (progress == null) {
@@ -113,7 +146,7 @@ export default function BibleReadingPlansScreen({ onClose }) {
               <View style={[styles.dayRow, isNext && styles.dayRowNext]}>
                 <TouchableOpacity
                   style={styles.dayMain}
-                  onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref))}
+                  onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref, title))}
                   accessibilityRole="button"
                 >
                   <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>
@@ -135,13 +168,26 @@ export default function BibleReadingPlansScreen({ onClose }) {
             );
           }}
         />
+        {justRead ? (
+          <View style={styles.meditationCard}>
+            <Text style={styles.meditationText}>{t("bibleReadingPlans.meditationPrompt.question")}</Text>
+            <View style={styles.meditationActions}>
+              <TouchableOpacity onPress={dismissJustRead} style={styles.meditationDismissBtn} accessibilityRole="button">
+                <Text style={styles.meditationDismissText}>{t("bibleReadingPlans.meditationPrompt.dismissButton")}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={discussJustRead} style={styles.meditationDiscussBtn} accessibilityRole="button">
+                <Text style={styles.meditationDiscussText}>{t("bibleReadingPlans.meditationPrompt.discussButton")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : null}
         <BibleChapterModal
           visible={!!reading}
           book={reading?.book}
           chapter={reading?.chapter}
           highlightStart={reading?.verseStart ?? null}
           highlightEnd={reading?.verseEnd ?? null}
-          onClose={() => setReading(null)}
+          onClose={closeReading}
         />
       </View>
     );
@@ -274,5 +320,25 @@ function getStyles(colors) {
     dayNumber: { fontSize: 12, fontWeight: "700", color: colors.sageDark, marginBottom: 2 },
     dayRef: { fontSize: 15, fontWeight: "600", color: colors.text },
     checkBtn: { padding: 4 },
+    meditationCard: {
+      borderWidth: 1,
+      borderColor: colors.sageDark,
+      backgroundColor: colors.verseCard,
+      borderRadius: 14,
+      padding: 14,
+      marginTop: 4,
+      marginBottom: 12,
+    },
+    meditationText: { fontSize: 14, lineHeight: 20, color: colors.text, marginBottom: 12 },
+    meditationActions: { flexDirection: "row", justifyContent: "flex-end", gap: 10 },
+    meditationDismissBtn: { paddingVertical: 8, paddingHorizontal: 12 },
+    meditationDismissText: { fontSize: 13, fontWeight: "600", color: colors.textSoft },
+    meditationDiscussBtn: {
+      backgroundColor: colors.buttonBg,
+      borderRadius: 10,
+      paddingVertical: 8,
+      paddingHorizontal: 14,
+    },
+    meditationDiscussText: { fontSize: 13, fontWeight: "700", color: colors.buttonOnText },
   });
 }

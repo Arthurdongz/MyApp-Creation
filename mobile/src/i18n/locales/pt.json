@@ -389,7 +389,12 @@
     "personalizationOnLabel": "Desativar a personalização com sua sequência e humor",
     "personalizationOffLabel": "Ativar a personalização com sua sequência e humor",
     "feedbackUpLabel": "Esta resposta foi útil",
-    "feedbackDownLabel": "Esta resposta não foi útil"
+    "feedbackDownLabel": "Esta resposta não foi útil",
+    "seedFromReading": {
+      "userMessage": "Acabei de ler {{ref}} do plano de leitura \"{{planTitle}}\".",
+      "userMessageWithText": "Acabei de ler {{ref}} do plano de leitura \"{{planTitle}}\": \"{{passageText}}\"",
+      "assistantPrompt": "Você entendeu o que leu? Eu adoraria ouvir seus pensamentos — o que chamou sua atenção, ou há algo que gostaria de conversar juntos?"
+    }
   },
   "history": {
     "title": "Meu Diário",
@@ -617,6 +622,11 @@
     "progressLine": "{{done}} de {{total}} lidos",
     "markRead": "Marcar como lido",
     "markUnread": "Marcar como não lido",
+    "meditationPrompt": {
+      "question": "Você entendeu o que leu? Gostaria de discutir isso com Barnabás?",
+      "discussButton": "Conversar com Barnabás",
+      "dismissButton": "Agora não"
+    },
     "topics": {
       "encouragement": {
         "title": "Encorajamento",

@@ -95,7 +95,7 @@ function formatConversationTimestamp(ts) {
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
 
-export default function ChatScreen({ store, onClose }) {
+export default function ChatScreen({ store, onClose, seedContext }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t, i18n } = useTranslation();
@@ -164,8 +164,30 @@ export default function ChatScreen({ store, onClose }) {
   // the chat modal opens — see App.js) so the 30-minute-idle / app-was-
   // closed check in openChatConversation runs on every open, not just the
   // first ever one.
+  //
+  // When arriving with seedContext (from "Discuss with Barnabas" on a
+  // reading plan day — see BibleReadingPlansScreen/App.js), and only if the
+  // resolved conversation is brand new, locally seed two messages before
+  // any API call: a first-person "I just read..." message (role "user")
+  // and a hardcoded, Philip-style opening question (role "assistant"),
+  // echoing Acts 8:30's "Understandest thou what thou readest?". Seeding
+  // locally rather than via the Worker keeps the very first stored message
+  // role "user", which the Anthropic Messages API requires once real
+  // turns start appending after it (see chat-worker/worker.js's
+  // handleChat, which sends [...history, {role:"user",...}]).
   useEffect(() => {
-    setConversation(openChatConversation());
+    const conv = openChatConversation();
+    setConversation(conv);
+    if (seedContext) {
+      const isFreshConversation = !chatConversations.some((c) => c.id === conv.id);
+      if (isFreshConversation) {
+        const userText = seedContext.passageText
+          ? t("chat.seedFromReading.userMessageWithText", seedContext)
+          : t("chat.seedFromReading.userMessage", seedContext);
+        appendChatMessage(conv, { role: "user", content: userText });
+        appendChatMessage(conv, { role: "assistant", content: t("chat.seedFromReading.assistantPrompt") });
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
