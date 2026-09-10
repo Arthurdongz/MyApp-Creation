@@ -614,7 +614,7 @@
     },
     "crossReferencePlan": {
       "title": "La Bible Explique la Bible",
-      "description": "Prophétie et accomplissement, promesse et réponse — des passages reliés qui ouvrent ce que tu lis, de la même façon que Philippe a ouvert les Écritures à l'eunuque éthiopien. Un plan qui continue de grandir — de nouveaux jours sont ajoutés au fil du temps, jusqu'à ce que chaque livre de la Bible y ait sa place.",
+      "description": "Prophétie et accomplissement, promesse et réponse — des passages reliés qui ouvrent ce que tu lis, de la même façon que Philippe a ouvert les Écritures à l'eunuque éthiopien. Un plan qui continue de grandir — chaque livre de la Bible y a déjà sa place, et de nouveaux jours sont ajoutés au fil du temps jusqu'à ce que chaque chapitre y ait la sienne aussi.",
       "days": {
         "1": {
           "theme": "La Création Renouvelée",
@@ -735,6 +735,122 @@
         "30": {
           "theme": "Toutes Choses Nouvelles",
           "connection": "Ésaïe décrit de nouveaux cieux et une nouvelle terre où il n'y a plus de pleurs. L'Apocalypse referme toute la Bible avec cette même image accomplie — plus de mort, plus de larmes, et la lumière de Dieu lui-même éclairant la ville."
+        },
+        "31": {
+          "theme": "Le Dieu du Territoire ?",
+          "connection": "Quand l'Assyrie a repeuplé Samarie avec des peuples étrangers qui ne l'adoraient pas, des lions ont attaqué jusqu'à ce qu'un prêtre soit envoyé pour leur enseigner « la manière du Dieu du pays » — l'ancienne supposition que chaque territoire avait sa propre divinité protectrice. Des générations plus tôt, les officiers syriens eux-mêmes avaient fait la même erreur, appelant l'Éternel simplement « Dieu des montagnes » — et furent vaincus dans la vallée pour prouver le contraire."
+        },
+        "32": {
+          "theme": "Toute la Terre Lui Appartient",
+          "connection": "L'Éternel n'a pas seulement surpassé les dieux de l'Égypte sur leur propre terrain — il a exécuté un jugement contre eux tous, sur leur propre sol, la nuit de la Pâque. La terre n'a jamais été un territoire partagé entre divinités rivales ; elle est, et a toujours été, à lui seul."
+        },
+        "33": {
+          "theme": "De Vrais Pouvoirs, Un Vrai Combat",
+          "connection": "Dieu a fixé les limites des nations, mais a gardé son propre peuple comme sa portion personnelle. Le messager angélique de Daniel a été retardé trois semaines par quelque chose appelé « le chef du royaume de Perse » — une opposition réelle, bien qu'invisible. Paul nomme exactement ce qu'est cette opposition, et où se situe vraiment le combat."
+        },
+        "34": {
+          "theme": "Transférés Dans Son Royaume",
+          "connection": "Le Christ a reçu les nations et les extrémités de la terre comme héritage — et quiconque est uni à lui a déjà été transféré d'un domaine à l'autre, dans le sien. Le territoire en question n'est plus une colline ou une vallée ; c'est à quel royaume tu appartiens."
+        },
+        "35": {
+          "theme": "Vous Êtes Son Temple",
+          "connection": "Le Dieu qui possède toute la terre et a brisé toute prétention rivale sur elle ne se contente pas de régner à distance — il vient habiter en toi. Ton corps, dit Paul, est maintenant la demeure même qu'il a choisi d'habiter — pas un sanctuaire visité de temps en temps, mais un temple habité."
+        },
+        "36": {
+          "theme": "Aucune Autre Prétention Ne Peut Tenir",
+          "connection": "C'est là que tout ce parcours aboutit : aucun autre nom, aucun autre prince, aucun pouvoir rival d'aucun territoire n'a d'autorité là où Dieu lui-même habite désormais. Celui qui vit en toi est plus grand que tout ce qui est dans le monde autour de toi — et rien ne peut arracher cela."
+        },
+        "37": {
+          "theme": "Vanité des Vanités, et la Fin du Discours",
+          "connection": "L'Ecclésiaste met à l'épreuve chaque plaisir, chaque projet, chaque possession sous le soleil et appelle tout cela une vapeur — et arrive, après tout, à une conclusion stable : crains Dieu et observe ses commandements. Jésus indique la même sortie d'une vie agitée et inquiète : un trésor amassé là où la teigne et la rouille ne peuvent l'atteindre."
+        },
+        "38": {
+          "theme": "Un Chant d'Amour, Un Plus Grand Amour",
+          "connection": "Longtemps lu simplement comme un chant de noces, le Cantique des Cantiques a aussi été lu pendant des siècles comme l'image d'une romance plus grande — un époux qui s'est entièrement livré pour celle qu'il aime, afin de la rendre entière et sans tache."
+        },
+        "39": {
+          "theme": "Ce Qui Était Bon à Leurs Propres Yeux",
+          "connection": "Les Juges répètent sans cesse le même schéma — péché, oppression, cri de détresse, libérateur — parce que, comme le dit son dernier verset, il n'y avait pas de roi, et chacun faisait ce qui lui semblait bon à ses propres yeux. Les Proverbes nomment exactement pourquoi c'est dangereux : une voie peut sembler droite et pourtant mener à la mort."
+        },
+        "40": {
+          "theme": "Un Rédempteur Pour l'Étrangère",
+          "connection": "Une veuve moabite sans aucun droit sur Israël s'attache pourtant au Dieu de Naomi — et est rachetée par Boaz, devient l'arrière-grand-mère du roi David, et est nommée ouvertement dans la généalogie de Jésus chez Matthieu. La lignée familiale du Messie passe directement par une étrangère qui a été accueillie."
+        },
+        "41": {
+          "theme": "Un Royaume Pour Toujours",
+          "connection": "Dieu promet à David que sa maison, son royaume et son trône seront affermis pour toujours. Mille ans plus tard, un ange dit à une jeune femme de Nazareth que son fils s'assiéra sur ce même trône — et que son règne n'aura pas de fin."
+        },
+        "42": {
+          "theme": "Établis Pour Rendre Grâce",
+          "connection": "Au moment où l'arche arrive à Jérusalem, David ne se contente pas de célébrer — il désigne des personnes dont la tâche est simplement de rendre grâce, continuellement. L'auteur d'Hébreux appelle cette même action de grâce continuelle un sacrifice que les croyants peuvent encore offrir."
+        },
+        "43": {
+          "theme": "Si Mon Peuple S'Humilie",
+          "connection": "La réponse de Dieu à Salomon lors de la dédicace du temple a une condition en son centre : non la performance, mais l'humilité. Jacques dit la même chose à l'Église des siècles plus tard — Dieu résiste aux orgueilleux, mais fait grâce, généreusement, à qui s'humilie devant lui."
+        },
+        "44": {
+          "theme": "Nouvelles Chaque Matin",
+          "connection": "Écrites dans les cendres de la destruction de Jérusalem, les Lamentations trouvent malgré tout un point d'appui : les compassions de l'Éternel sont nouvelles chaque matin, quelle qu'ait été l'obscurité de la nuit précédente. Un psaume de David le dit en moins de mots — les pleurs peuvent durer la nuit, mais la joie vient au matin."
+        },
+        "45": {
+          "theme": "Aimé Même Dans l'Infidélité",
+          "connection": "Dieu dit à Osée d'aller aimer à nouveau sa femme infidèle — comme une image vivante de la façon dont l'Éternel a aimé Israël même dans son infidélité. Paul dit que ce même amour est allé encore plus loin : Christ est mort pour nous pendant que nous étions encore pécheurs, pas après que nous nous soyons corrigés."
+        },
+        "46": {
+          "theme": "Je Répandrai Mon Esprit",
+          "connection": "Des siècles avant que cela n'arrive, Joël a promis un jour où l'Esprit de Dieu serait répandu sur toute personne, et non sur quelques élus seulement. Debout devant une foule à la Pentecôte, Pierre renvoie directement aux paroles de Joël et dit : c'est cela même."
+        },
+        "47": {
+          "theme": "Que le Jugement Coule Comme des Eaux",
+          "connection": "Amos délivre une parole dure à une nation religieuse : Dieu n'a aucun intérêt pour les jours de fête et les sacrifices offerts à côté de l'injustice — que la justice coule plutôt comme un fleuve. Michée, prophétisant à la même époque, réduit la vraie religion aux trois mêmes choses : la justice, la miséricorde, et l'humilité devant Dieu."
+        },
+        "48": {
+          "theme": "L'Orgueil Avant la Chute",
+          "connection": "Édom, en sécurité dans sa forteresse de falaise, se vante que personne ne pourra jamais le faire tomber — et Dieu répond directement à cette vantardise. Les Proverbes énoncent le principe comme une simple règle de vie : l'orgueil précède la ruine, et l'esprit hautain précède la chute."
+        },
+        "49": {
+          "theme": "Lent à la Colère, Bon au Jour de la Détresse",
+          "connection": "Des générations après que Ninive se soit repentie à l'avertissement de Jonas et ait été épargnée, Nahum annonce que le jugement de cette même ville est enfin arrivé — preuve que la patience de Dieu a un but, et non qu'elle n'a pas de limite. Pierre explique ensuite exactement pourquoi Dieu attend aussi longtemps : non par lenteur, mais par patience, ne voulant qu'aucun ne périsse."
+        },
+        "50": {
+          "theme": "Le Juste Vivra Par la Foi",
+          "connection": "Une ligne d'un prophète mineur, écrite à un homme aux prises avec la question de savoir pourquoi Dieu tolère l'injustice, devient le pivot de tout l'évangile du Nouveau Testament — Paul la cite comme le thème de Romains, et la cite de nouveau aux Galates : le juste vivra, non par ce qu'il accomplit, mais par la foi."
+        },
+        "51": {
+          "theme": "Il Se Réjouira à Cause de Toi Avec Chants d'Allégresse",
+          "connection": "Sophonie décrit Dieu non seulement tolérant son peuple mais chantant à son sujet, se délectant en lui comme un parent incapable de contenir sa joie. Jésus dit que le ciel organise ce même genre de célébration pour un seul pécheur qui revient."
+        },
+        "52": {
+          "theme": "Considérez Vos Voies",
+          "connection": "Aggée confronte un peuple qui a trouvé le temps et l'argent pour finir ses propres maisons pendant que la maison de Dieu restait en ruines, et leur dit clairement de considérer leurs voies. Jésus formule la correction comme une promesse, pas seulement un reproche : cherchez premièrement le royaume, et tout le reste que vous poursuiviez vous sera donné par-dessus."
+        },
+        "53": {
+          "theme": "Aussitôt, Ils Le Suivirent",
+          "connection": "L'Évangile de Marc avance à toute allure — des filets lâchés « aussitôt », un Sauveur venu non pour être servi mais pour servir, et donner sa vie en rançon pour plusieurs, exactement ce qu'Ésaïe avait décrit sept cents ans plus tôt qu'un serviteur souffrant ferait."
+        },
+        "54": {
+          "theme": "Pour Moi, Vivre C'est Christ",
+          "connection": "Écrivant depuis une cellule de prison avec sa vie réellement incertaine, Paul peut dire que vivre c'est Christ et mourir est un gain — et qu'il a appris à être content en toute circonstance. Il dit à une autre église exactement comment : la grâce de Dieu suffit, et sa puissance se manifeste le mieux dans la faiblesse."
+        },
+        "55": {
+          "theme": "Consolez-Vous les Uns les Autres Par Ces Paroles",
+          "connection": "Paul ne dit pas aux Thessaloniciens que leur chagrin pour les croyants décédés est mauvais — il leur donne plutôt une raison d'espérer : le Seigneur lui-même reviendra, et la mort n'aura pas le dernier mot. Jésus avait déjà promis la même chose à ses propres disciples : je reviendrai, et je vous prendrai avec moi."
+        },
+        "56": {
+          "theme": "Ne Vous Lassez Pas de Faire le Bien",
+          "connection": "Deux lettres à la même église en difficulté, écrites à peu d'intervalle, arrivent au même encouragement : ne vous lassez pas de faire ce qui est juste, car la moisson vient à ceux qui ne renoncent pas."
+        },
+        "57": {
+          "theme": "Un Bon Combat, Une Bonne Fin",
+          "connection": "Paul charge le jeune Timothée, au début de son ministère, de combattre le bon combat et de saisir la vie éternelle — puis, vers la fin de sa propre vie, dans sa dernière lettre, dit avoir fait exactement cela : il a combattu le bon combat, achevé la course, gardé la foi."
+        },
+        "58": {
+          "theme": "Bonnes Œuvres, Grâce Coûteuse",
+          "connection": "Il est dit clairement à Tite que le salut vient par la miséricorde, non par ce que nous avons fait — puis il lui est dit tout aussi clairement de veiller à pratiquer les bonnes œuvres malgré tout. Philémon montre à quoi ressemble cette grâce appliquée à une relation réelle : un esclave en fuite accueilli de retour non comme un bien, mais comme un frère."
+        },
+        "59": {
+          "theme": "Combattez Pour la Foi, Marchez Dans la Lumière",
+          "connection": "Cinq courtes lettres, certaines d'un seul chapitre, tournent toutes autour du même appel : tenez ferme à ce qui est vrai, aimez en actes et non seulement en paroles, et gardez-vous dans l'amour de Dieu pendant que d'autres s'éloignent. Pierre, Jean (deux fois) et Jude finissent tous par dire une version de la même chose — restez dans la lumière, et ne vous arrêtez pas."
         }
       }
     },

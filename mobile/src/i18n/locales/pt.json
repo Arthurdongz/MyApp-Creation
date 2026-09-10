@@ -614,7 +614,7 @@
     },
     "crossReferencePlan": {
       "title": "A Bíblia Explica a Bíblia",
-      "description": "Profecia e cumprimento, promessa e resposta — passagens conectadas que abrem o que você está lendo, da mesma forma que Filipe abriu as Escrituras ao eunuco etíope. Um plano que continua crescendo — novos dias são adicionados com o tempo, até que cada livro da Bíblia tenha seu lugar nele.",
+      "description": "Profecia e cumprimento, promessa e resposta — passagens conectadas que abrem o que você está lendo, da mesma forma que Filipe abriu as Escrituras ao eunuco etíope. Um plano que continua crescendo — cada livro da Bíblia já tem seu lugar nele, e novos dias são adicionados com o tempo até que cada capítulo também tenha.",
       "days": {
         "1": {
           "theme": "A Criação Renovada",
@@ -735,6 +735,122 @@
         "30": {
           "theme": "Todas as Coisas Feitas Novas",
           "connection": "Isaías retrata novos céus e uma nova terra onde não há mais choro. Apocalipse encerra toda a Bíblia com essa mesma imagem completada — não mais morte, não mais lágrimas, e a própria luz de Deus iluminando a cidade."
+        },
+        "31": {
+          "theme": "Deus do Território?",
+          "connection": "Quando a Assíria repovoou Samaria com povos estrangeiros que não o adoravam, leões atacaram até que um sacerdote foi enviado para ensiná-los 'o costume do Deus da terra' — a antiga suposição de que cada território tinha sua própria divindade protetora. Gerações antes, os próprios oficiais da Síria cometeram o mesmo erro, chamando o SENHOR apenas de 'Deus dos montes' — e foram derrotados no vale para provar que estavam errados."
+        },
+        "32": {
+          "theme": "Toda a Terra É Dele",
+          "connection": "O SENHOR não apenas superou os deuses do Egito em seu próprio território — executou juízo contra todos eles, em seu próprio solo, na noite da Páscoa. A terra nunca foi um território dividido entre divindades rivais; ela é, e sempre foi, somente dele."
+        },
+        "33": {
+          "theme": "Poderes Reais, Uma Batalha Real",
+          "connection": "Deus demarcou as fronteiras das nações, mas guardou seu próprio povo como sua porção pessoal. O mensageiro angelical de Daniel foi atrasado três semanas por algo chamado 'o príncipe do reino da Pérsia' — uma oposição real, ainda que invisível. Paulo nomeia exatamente o que é essa oposição, e onde realmente acontece a batalha."
+        },
+        "34": {
+          "theme": "Transferidos Para o Seu Reino",
+          "connection": "Cristo recebeu as nações e os confins da terra como herança — e todo aquele unido a ele já foi transferido de um domínio para o outro, para o dele. O território em questão não é mais uma colina ou um vale; é a qual reino você pertence."
+        },
+        "35": {
+          "theme": "Vocês São o Templo Dele",
+          "connection": "O Deus que possui toda a terra e quebrou toda pretensão rival sobre ela não se contenta em governar à distância — ele vem morar dentro de você. Seu corpo, diz Paulo, é agora a própria morada que ele escolheu habitar — não um santuário visitado ocasionalmente, mas um templo habitado."
+        },
+        "36": {
+          "theme": "Nenhuma Outra Pretensão Pode Prevalecer",
+          "connection": "É aqui que todo esse percurso chega: nenhum outro nome, nenhum outro príncipe, nenhum poder rival de qualquer território tem autoridade onde o próprio Deus agora habita. Aquele que vive dentro de você é maior do que qualquer coisa no mundo fora de você — e nada pode arrancar isso."
+        },
+        "37": {
+          "theme": "Vaidade de Vaidades, e o Fim do Assunto",
+          "connection": "O Pregador testa todo prazer, todo projeto, toda posse debaixo do sol e chama tudo de vapor — e chega, depois de tudo, a uma conclusão firme: teme a Deus e guarda os seus mandamentos. Jesus aponta a mesma saída de uma vida agitada e inquieta: um tesouro guardado onde a traça e a ferrugem não podem alcançar."
+        },
+        "38": {
+          "theme": "Um Cântico de Amor, Um Amor Maior",
+          "connection": "Lido por séculos simplesmente como um canto de casamento, o Cântico dos Cânticos também tem sido lido como uma imagem de um romance maior — um noivo que se entregou completamente por aquela que ama, para torná-la íntegra e sem mancha."
+        },
+        "39": {
+          "theme": "O Que Era Reto aos Seus Próprios Olhos",
+          "connection": "Juízes repete o mesmo padrão vez após vez — pecado, opressão, um clamor por socorro, um libertador — porque, como diz seu versículo final, não havia rei, e cada um fazia o que era reto aos seus próprios olhos. Provérbios nomeia exatamente por que isso é perigoso: um caminho pode parecer certo e ainda assim terminar em morte."
+        },
+        "40": {
+          "theme": "Um Redentor Para a Estrangeira",
+          "connection": "Uma viúva moabita sem nenhum direito sobre Israel se apega mesmo assim ao Deus de Noemi — e é redimida por Boaz, torna-se bisavó do rei Davi, e é mencionada abertamente na genealogia de Jesus em Mateus. A linhagem familiar do Messias passa diretamente por uma estrangeira que foi acolhida."
+        },
+        "41": {
+          "theme": "Um Reino Para Sempre",
+          "connection": "Deus promete a Davi que sua casa, seu reino e seu trono serão estabelecidos para sempre. Mil anos depois, um anjo diz a uma jovem em Nazaré que seu filho se assentará nesse mesmo trono — e que seu reino não terá fim."
+        },
+        "42": {
+          "theme": "Designados Para Dar Graças",
+          "connection": "No momento em que a arca chega a Jerusalém, Davi não apenas celebra — ele designa pessoas cujo trabalho é simplesmente dar graças, continuamente. O autor de Hebreus chama essa mesma ação de graças contínua de um sacrifício que os crentes ainda podem oferecer."
+        },
+        "43": {
+          "theme": "Se o Meu Povo Se Humilhar",
+          "connection": "A resposta de Deus a Salomão na dedicação do templo tem uma condição em seu centro: não desempenho, mas humildade. Tiago diz a mesma coisa à igreja séculos depois — Deus resiste aos soberbos, mas dá graça, generosamente, a quem se humilhar diante dele."
+        },
+        "44": {
+          "theme": "Novas a Cada Manhã",
+          "connection": "Escrito nas cinzas da destruição de Jerusalém, Lamentações ainda encontra um ponto de apoio: as misericórdias do SENHOR são novas a cada manhã, por mais escura que tenha sido a noite anterior. Um salmo de Davi diz isso em menos palavras — o choro pode durar a noite, mas a alegria vem pela manhã."
+        },
+        "45": {
+          "theme": "Amado Mesmo na Infidelidade",
+          "connection": "Deus diz a Oseias para ir e amar novamente sua esposa infiel — como uma imagem viva de como o SENHOR amou Israel mesmo em sua infidelidade. Paulo diz que esse mesmo amor foi ainda mais longe: Cristo morreu por nós quando ainda éramos pecadores, não depois que nos endireitamos."
+        },
+        "46": {
+          "theme": "Derramarei o Meu Espírito",
+          "connection": "Séculos antes de acontecer, Joel prometeu um dia em que o Espírito de Deus seria derramado sobre toda pessoa, não apenas alguns escolhidos. De pé diante de uma multidão no Pentecostes, Pedro aponta diretamente para as palavras de Joel e diz: isto é aquilo."
+        },
+        "47": {
+          "theme": "Corra o Juízo Como as Águas",
+          "connection": "Amós entrega uma palavra dura a uma nação religiosa: Deus não tem interesse em dias de festa e sacrifícios oferecidos ao lado da injustiça — corra a justiça como um rio em vez disso. Miqueias, profetizando na mesma época, reduz a verdadeira religião às mesmas três coisas: justiça, misericórdia e humildade diante de Deus."
+        },
+        "48": {
+          "theme": "O Orgulho Antes da Queda",
+          "connection": "Edom, seguro em sua fortaleza nos penhascos, se gaba de que ninguém jamais poderia derrubá-lo — e Deus responde diretamente a essa jactância. Provérbios declara o princípio como uma simples regra de vida: o orgulho vem antes da destruição, e a altivez de espírito antes da queda."
+        },
+        "49": {
+          "theme": "Tardio Para a Ira, Bom no Dia da Angústia",
+          "connection": "Gerações depois de Nínive se arrepender do aviso de Jonas e ser poupada, Naum anuncia que o julgamento dessa mesma cidade finalmente chegou — prova de que a paciência de Deus tem um propósito, não que não tem limite. Pedro explica depois exatamente por que Deus espera tanto tempo: não por demora, mas por paciência, não querendo que ninguém pereça."
+        },
+        "50": {
+          "theme": "O Justo Viverá Pela Fé",
+          "connection": "Uma linha de um profeta menor, escrita a um homem lutando com a questão de por que Deus tolera a injustiça, torna-se o eixo de todo o evangelho do Novo Testamento — Paulo a cita como o tema de Romanos, e a cita novamente aos Gálatas: o justo viverá, não pelo que realiza, mas pela fé."
+        },
+        "51": {
+          "theme": "Ele Se Alegrará Sobre Ti Com Cânticos",
+          "connection": "Sofonias descreve Deus não apenas tolerando seu povo, mas cantando sobre eles, deleitando-se neles como um pai incapaz de conter sua alegria. Jesus diz que o céu faz esse mesmo tipo de celebração por um único pecador que volta para casa."
+        },
+        "52": {
+          "theme": "Considerai os Vossos Caminhos",
+          "connection": "Ageu confronta um povo que encontrou tempo e dinheiro para terminar suas próprias casas enquanto a casa de Deus permanecia em ruínas, e diz claramente para considerarem seus caminhos. Jesus formula a correção como uma promessa, não apenas uma repreensão: buscai primeiro o reino, e todo o resto que vocês perseguiam lhes será acrescentado."
+        },
+        "53": {
+          "theme": "Imediatamente, O Seguiram",
+          "connection": "O Evangelho de Marcos avança em ritmo acelerado — redes largadas 'imediatamente', um Salvador que veio não para ser servido, mas para servir, e dar sua vida em resgate por muitos, exatamente o que Isaías havia descrito setecentos anos antes que um servo sofredor faria."
+        },
+        "54": {
+          "theme": "Para Mim o Viver É Cristo",
+          "connection": "Escrevendo de uma cela de prisão com sua vida genuinamente incerta, Paulo pode dizer que viver é Cristo e morrer é lucro — e que aprendeu a se contentar em qualquer circunstância. Ele diz a outra igreja exatamente como: a graça de Deus basta, e seu poder se manifesta melhor na fraqueza."
+        },
+        "55": {
+          "theme": "Consolai-Vos Uns aos Outros Com Estas Palavras",
+          "connection": "Paulo não diz aos tessalonicenses que a tristeza deles pelos crentes que morreram está errada — em vez disso, dá a eles um motivo para esperança: o próprio Senhor voltará, e a morte não terá a última palavra. Jesus já havia prometido a mesma coisa aos seus próprios discípulos: voltarei, e vos tomarei comigo."
+        },
+        "56": {
+          "theme": "Não Vos Canseis de Fazer o Bem",
+          "connection": "Duas cartas para a mesma igreja em dificuldades, escritas com pouco tempo de diferença, chegam ao mesmo encorajamento: não vos canseis de fazer o que é certo, porque a colheita vem para os que não desistem."
+        },
+        "57": {
+          "theme": "Uma Boa Batalha, Um Bom Final",
+          "connection": "Paulo encarrega o jovem Timóteo, no início de seu ministério, a batalhar a boa batalha e agarrar a vida eterna — e depois, perto do fim de sua própria vida, em sua última carta, diz que fez exatamente isso: batalhou a boa batalha, terminou a carreira, guardou a fé."
+        },
+        "58": {
+          "theme": "Boas Obras, Graça Custosa",
+          "connection": "A Tito é dito claramente que a salvação vem pela misericórdia, não por nada que tenhamos feito — e depois é dito igualmente claro para ter cuidado em manter boas obras mesmo assim. Filemom mostra como essa graça se parece aplicada a um relacionamento real: um escravo fugitivo recebido de volta não como propriedade, mas como irmão."
+        },
+        "59": {
+          "theme": "Batalhai Pela Fé, Andai na Luz",
+          "connection": "Cinco cartas curtas, algumas com apenas um capítulo, giram todas em torno do mesmo apelo: apeguem-se ao que é verdadeiro, amem em ação e não apenas em palavras, e permaneçam no amor de Deus enquanto outros se afastam. Pedro, João (duas vezes) e Judas terminam dizendo alguma versão da mesma coisa — permaneçam na luz, e não parem."
         }
       }
     },
