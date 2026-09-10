@@ -612,6 +612,132 @@
       "title": "Toute la Bible en un an",
       "description": "Lis d'un bout à l'autre, de la Genèse à l'Apocalypse — chaque chapitre, une fois, en 365 jours."
     },
+    "crossReferencePlan": {
+      "title": "La Bible Explique la Bible",
+      "description": "Prophétie et accomplissement, promesse et réponse — des passages reliés qui ouvrent ce que tu lis, de la même façon que Philippe a ouvert les Écritures à l'eunuque éthiopien. Un plan qui continue de grandir — de nouveaux jours sont ajoutés au fil du temps, jusqu'à ce que chaque livre de la Bible y ait sa place.",
+      "days": {
+        "1": {
+          "theme": "La Création Renouvelée",
+          "connection": "La Genèse commence par Dieu créant les cieux et la terre ; Jean commence par cette même Parole qui les a faits, devenue chair ; l'Apocalypse referme l'histoire avec cette Parole qui fait toutes choses nouvelles."
+        },
+        "2": {
+          "theme": "L'Agneau de la Pâque",
+          "connection": "L'agneau dont le sang a épargné Israël en Égypte, et dont aucun os ne devait être brisé, pointe droit vers Christ, notre Pâque, sacrifié une fois pour toutes."
+        },
+        "3": {
+          "theme": "La Malédiction Sur Jéricho, Accomplie",
+          "connection": "Josué a maudit celui qui rebâtirait Jéricho, nommant comme prix le fils premier-né et le plus jeune fils du bâtisseur. Cinq siècles plus tard, Hiel de Béthel l'a rebâtie — et a perdu les deux."
+        },
+        "4": {
+          "theme": "Le Fils d'Abraham, le Fils de Dieu",
+          "connection": "Abraham n'a pas refusé son fils unique à Dieu ; Dieu n'a pas refusé le sien. La montagne où Isaac a été épargné se trouve à peu de distance de la colline où Jésus ne l'a pas été."
+        },
+        "5": {
+          "theme": "Le Serpent d'Airain",
+          "connection": "Quiconque regardait le serpent d'airain élevé par Moïse vivait. Jésus a dit que le Fils de l'homme serait élevé de la même manière, afin que quiconque le regarde ait la vie éternelle."
+        },
+        "6": {
+          "theme": "Un Sacrificateur Selon l'Ordre de Melchisédek",
+          "connection": "Un mystérieux roi-sacrificateur bénit Abraham des siècles avant que le sacerdoce lévitique n'existe. Un psaume de David déclare ensuite que le Roi à venir est sacrificateur selon ce même ordre — et Hébreux montre que c'est Jésus."
+        },
+        "7": {
+          "theme": "La Manne et le Pain de Vie",
+          "connection": "Le pain tombait du ciel pour garder Israël en vie un jour à la fois dans le désert. Jésus s'est appelé lui-même le vrai pain venu du ciel, donné pour que quiconque en mange n'ait plus jamais faim."
+        },
+        "8": {
+          "theme": "Le Berger Qui Restaure",
+          "connection": "David chante un Berger qui restaure son âme. Ézéchiel condamne les mauvais bergers d'Israël et promet que Dieu lui-même fera paître son troupeau. Jésus dit clairement : « Je suis le bon berger. »"
+        },
+        "9": {
+          "theme": "La Sagesse Avant le Monde",
+          "connection": "Les Proverbes montrent la sagesse présente auprès de Dieu à la création, se réjouissant sans cesse devant lui. Paul dit que Christ est cette sagesse en personne — avant toutes choses, et en lui toutes choses subsistent."
+        },
+        "10": {
+          "theme": "Le Chant d'Anne, le Chant de Marie",
+          "connection": "Deux femmes, à des siècles d'écart, toutes deux surprises par Dieu de façons très différentes, entonnent presque le même chant : les orgueilleux abaissés, les humbles élevés, les affamés rassasiés."
+        },
+        "11": {
+          "theme": "Un Signe Pour Cette Génération",
+          "connection": "Jonas a passé trois jours et trois nuits dans le poisson avant d'aller prêcher à Ninive. Jésus a dit que ce serait le seul signe donné à cette génération — trois jours avant qu'il ne ressuscite pour prêcher la vie au monde."
+        },
+        "12": {
+          "theme": "Le Serviteur Souffrant Guérit",
+          "connection": "Ésaïe a décrit un serviteur meurtri pour nos transgressions sept cents ans à l'avance. Un haut fonctionnaire éthiopien lisait ces mêmes mots sans les comprendre, jusqu'à ce que Philippe lui explique qu'ils parlaient de Jésus."
+        },
+        "13": {
+          "theme": "Annoncé par Son Nom",
+          "connection": "Ésaïe nomme Cyrus comme le roi qui laisserait le peuple exilé de Dieu rentrer chez lui — plus d'un siècle avant la naissance de Cyrus. Esdras rapporte que Cyrus a fait exactement cela."
+        },
+        "14": {
+          "theme": "Une Vierge Concevra",
+          "connection": "Ésaïe a promis un enfant appelé Emmanuel, « Dieu avec nous ». Matthieu rapporte que l'ange dit à Joseph que c'est exactement ce qui se passait avec Marie."
+        },
+        "15": {
+          "theme": "Un Chef Venu de Bethléhem",
+          "connection": "Michée nomme la petite ville de Bethléhem comme le lieu de naissance du chef d'Israël, dont les origines remontent à l'éternité. Un recensement romain, entre toutes choses, est ce qui amène Marie là-bas pour accoucher."
+        },
+        "16": {
+          "theme": "Le Roi Vient avec Humilité",
+          "connection": "Zacharie décrit le roi de Jérusalem arrivant non pas sur un cheval de guerre mais sur le poulain d'une ânesse. Matthieu rapporte les foules reconnaissant exactement ce roi quand Jésus entre dans la ville."
+        },
+        "17": {
+          "theme": "Vendu pour de l'Argent",
+          "connection": "Zacharie nomme le prix exact — trente pièces d'argent — et ce qu'il en advient. Matthieu rapporte que Judas a reçu ce prix, et le sort de l'argent correspond à la prophétie presque mot pour mot."
+        },
+        "18": {
+          "theme": "Abandonné et Justifié",
+          "connection": "Un psaume de David décrit la moquerie, les mains et les pieds percés, et les vêtements partagés, des siècles avant que la crucifixion n'existe comme châtiment. L'Évangile rapporte la mort de Jésus correspondant en détail, jusqu'à ses premières paroles sur la croix."
+        },
+        "19": {
+          "theme": "Retenu dans le Séjour des Morts",
+          "connection": "David a écrit que Dieu ne laisserait pas son Saint voir la corruption. Pierre, prêchant à la Pentecôte, soutient que David ne pouvait parler que d'un autre que lui-même — car le corps de David s'est corrompu, et celui de Jésus non."
+        },
+        "20": {
+          "theme": "Une Nouvelle Alliance Promise, Une Nouvelle Alliance Répandue",
+          "connection": "Jérémie a promis une alliance écrite sur le cœur, non sur la pierre. Lors de son dernier repas, Jésus nomme la coupe qu'il partage « la nouvelle alliance en mon sang » — exactement ce que Jérémie avait annoncé, maintenant sur la table."
+        },
+        "21": {
+          "theme": "Un Seul Sacrifice, Une Fois Pour Toutes",
+          "connection": "Une fois par an, le souverain sacrificateur d'Israël entrait dans le lieu très saint avec un sang qui ne pouvait jamais régler pleinement le péché. Hébreux montre Christ entrant dans le ciel même avec son propre sang, achevant ce que ce rituel annuel ne pouvait que préfigurer."
+        },
+        "22": {
+          "theme": "Le Feu d'Élie, l'Esprit d'Élie",
+          "connection": "Élie fait descendre le feu pour ramener le cœur d'Israël vers Dieu. Malachie promet un autre Élie avant le jour de l'Éternel. Gabriel dit à Zacharie que son fils Jean marchera devant le Seigneur « avec l'esprit et la puissance d'Élie »."
+        },
+        "23": {
+          "theme": "La Providence Derrière le Rideau",
+          "connection": "Le nom de Dieu n'apparaît jamais dans le livre d'Esther, et pourtant chaque « coïncidence » — un roi qui ne peut dormir, un vieux registre lu à voix haute, une reine placée « pour un temps comme celui-ci » — concourt au bien de son peuple."
+        },
+        "24": {
+          "theme": "Les Cendres de Job, la Réponse de Job",
+          "connection": "Job perd tout en un seul jour et n'accuse pourtant pas Dieu d'injustice. Jacques rappelle la persévérance de Job comme preuve que le Seigneur est « plein de compassion et de miséricorde » envers ceux qui l'attendent."
+        },
+        "25": {
+          "theme": "Le Feu Qui N'a Pas Brûlé",
+          "connection": "Ésaïe promet que lorsqu'Israël traversera le feu, il ne sera pas brûlé, car Dieu est avec lui. Trois jeunes gens à Babylone entrent dans une fournaise bien réelle et le prouvent."
+        },
+        "26": {
+          "theme": "Une Maison Non Faite de Main d'Homme",
+          "connection": "Néhémie rebâtit des murs abattus, pierre par pierre, de nuit. Paul décrit une construction différente — Juifs et non-Juifs ensemble, bâtis pour former une habitation de Dieu, avec Christ comme pierre angulaire."
+        },
+        "27": {
+          "theme": "Le Fils Prodigue et la Compassion du Père",
+          "connection": "Le psaume chante que l'Éternel ne nous traite pas selon nos péchés, mais a compassion de nous comme un père a compassion de ses enfants. La parabole donne un visage à cette compassion — un père qui court à la rencontre d'un fils encore loin."
+        },
+        "28": {
+          "theme": "Le Plus Grand de Tous",
+          "connection": "Moïse ordonne à Israël d'aimer l'Éternel de tout son cœur, de toute son âme et de toute sa force. Jésus nomme ce commandement le plus grand de tous. Paul montre à quoi ressemble vraiment une vie bâtie sur cet amour."
+        },
+        "29": {
+          "theme": "Une Bonne Nouvelle Lue à Voix Haute",
+          "connection": "Ésaïe promet une bonne nouvelle aux pauvres et la liberté aux captifs. Dans la synagogue de sa ville natale, Jésus lit ces mêmes mots et dit à l'assemblée : « Aujourd'hui cette parole de l'Écriture, que vous venez d'entendre, est accomplie. »"
+        },
+        "30": {
+          "theme": "Toutes Choses Nouvelles",
+          "connection": "Ésaïe décrit de nouveaux cieux et une nouvelle terre où il n'y a plus de pleurs. L'Apocalypse referme toute la Bible avec cette même image accomplie — plus de mort, plus de larmes, et la lumière de Dieu lui-même éclairant la ville."
+        }
+      }
+    },
     "qualitySection": "Le cœur de Barnabas : des qualités semblables à celles du Christ",
     "qualitySectionIntro": "De courts plans de 5 jours sur les qualités qui ont façonné Barnabas. Choisis-en un, à tout moment.",
     "lifeSection": "Pour ce que tu traverses",

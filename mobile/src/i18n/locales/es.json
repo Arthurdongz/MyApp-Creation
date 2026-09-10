@@ -612,6 +612,132 @@
       "title": "Toda la Biblia en un año",
       "description": "Lee de principio a fin, de Génesis a Apocalipsis: cada capítulo, una vez, en 365 días."
     },
+    "crossReferencePlan": {
+      "title": "La Biblia Explica la Biblia",
+      "description": "Profecía y cumplimiento, promesa y respuesta — pasajes conectados que abren lo que estás leyendo, tal como Felipe abrió las Escrituras al eunuco etíope. Un plan que sigue creciendo — se añaden nuevos días con el tiempo, hasta que cada libro de la Biblia tenga su lugar en él.",
+      "days": {
+        "1": {
+          "theme": "La Creación Renovada",
+          "connection": "Génesis comienza con Dios creando los cielos y la tierra; Juan comienza con esa misma Palabra que los hizo, hecha carne; Apocalipsis cierra la historia con esa Palabra haciendo nuevas todas las cosas."
+        },
+        "2": {
+          "theme": "El Cordero de la Pascua",
+          "connection": "El cordero cuya sangre libró a Israel en Egipto, y a quien no se le quebró ningún hueso, apunta directamente a Cristo, nuestra Pascua, sacrificado de una vez para siempre."
+        },
+        "3": {
+          "theme": "La Maldición Sobre Jericó, Cumplida",
+          "connection": "Josué maldijo a quien reconstruyera Jericó, nombrando como precio al primogénito y al hijo menor del constructor. Cinco siglos después, Hiel de Bet-el la reconstruyó — y perdió a ambos."
+        },
+        "4": {
+          "theme": "El Hijo de Abraham, el Hijo de Dios",
+          "connection": "Abraham no negó a su único hijo a Dios; Dios no negó al suyo. El monte donde Isaac fue librado está a poca distancia de la colina donde Jesús no lo fue."
+        },
+        "5": {
+          "theme": "La Serpiente de Bronce",
+          "connection": "Quien miraba la serpiente de bronce que Moisés levantó, vivía. Jesús dijo que el Hijo del Hombre sería levantado de la misma manera, para que todo el que mire a Él tenga vida eterna."
+        },
+        "6": {
+          "theme": "Un Sacerdote Como Melquisedec",
+          "connection": "Un misterioso rey-sacerdote bendice a Abraham siglos antes de que exista el sacerdocio levítico. Un salmo de David declara después que el Rey que viene es sacerdote según ese mismo orden — y Hebreos muestra que es Jesús."
+        },
+        "7": {
+          "theme": "El Maná y el Pan de Vida",
+          "connection": "El pan caía del cielo para mantener a Israel con vida un día a la vez en el desierto. Jesús se llamó a sí mismo el verdadero pan del cielo, dado para que quien coma nunca vuelva a tener hambre."
+        },
+        "8": {
+          "theme": "El Pastor Que Restaura",
+          "connection": "David canta de un Pastor que restaura su alma. Ezequiel condena a los pastores fallidos de Israel y promete que Dios mismo pastoreará su rebaño. Jesús dice claramente: 'Yo soy el buen pastor.'"
+        },
+        "9": {
+          "theme": "La Sabiduría Antes del Mundo",
+          "connection": "Proverbios describe a la sabiduría presente con Dios en la creación, regocijándose siempre delante de Él. Pablo dice que Cristo es esa sabiduría en persona — antes de todas las cosas, y en Él todas las cosas subsisten."
+        },
+        "10": {
+          "theme": "El Cántico de Ana, el Cántico de María",
+          "connection": "Dos mujeres, siglos aparte, ambas sorprendidas por Dios de maneras muy distintas, entonan casi el mismo cántico: los soberbios derribados, los humildes exaltados, los hambrientos saciados."
+        },
+        "11": {
+          "theme": "Una Señal Para Esta Generación",
+          "connection": "Jonás pasó tres días y tres noches en el pez antes de ir a predicar a Nínive. Jesús dijo que esa sería la única señal dada a esta generación — tres días antes de resucitar para predicar vida al mundo."
+        },
+        "12": {
+          "theme": "El Siervo Sufriente Sana",
+          "connection": "Isaías describió a un siervo herido por nuestras rebeliones setecientos años antes. Un oficial etíope leía esas mismas palabras sin entenderlas, hasta que Felipe le explicó que hablaban de Jesús."
+        },
+        "13": {
+          "theme": "Anunciado por Nombre",
+          "connection": "Isaías nombra a Ciro como el rey que dejaría ir a casa al pueblo exiliado de Dios — más de un siglo antes de que Ciro naciera. Esdras registra a Ciro haciendo exactamente eso."
+        },
+        "14": {
+          "theme": "Una Virgen Concebirá",
+          "connection": "Isaías prometió un hijo llamado Emanuel, 'Dios con nosotros'. Mateo registra al ángel diciéndole a José que esto es exactamente lo que estaba sucediendo con María."
+        },
+        "15": {
+          "theme": "Gobernante Desde Belén",
+          "connection": "Miqueas nombra al pequeño pueblo de Belén como el lugar de nacimiento del gobernante de Israel, cuyas salidas son desde la eternidad. Un censo romano, de todas las cosas, es lo que pone a María allí para dar a luz."
+        },
+        "16": {
+          "theme": "El Rey Llega Humilde",
+          "connection": "Zacarías describe al rey de Jerusalén llegando no en un caballo de guerra sino en un pollino de asna. Mateo registra a las multitudes reconociendo exactamente a ese rey cuando Jesús entra en la ciudad."
+        },
+        "17": {
+          "theme": "Vendido por Plata",
+          "connection": "Zacarías nombra el precio exacto — treinta piezas de plata — y lo que sucede con él. Mateo registra que Judas recibió ese precio, y el destino del dinero coincide con la profecía casi palabra por palabra."
+        },
+        "18": {
+          "theme": "Desamparado y Vindicado",
+          "connection": "Un salmo de David describe burla, manos y pies traspasados, y vestiduras repartidas siglos antes de que la crucifixión existiera como castigo. El Evangelio registra la muerte de Jesús coincidiendo en detalle, hasta sus primeras palabras en la cruz."
+        },
+        "19": {
+          "theme": "Retenido en el Seol",
+          "connection": "David escribió que Dios no dejaría a su Santo ver corrupción. Pedro, predicando en Pentecostés, argumenta que David solo pudo haberse referido a otro que no fuera él mismo — porque el cuerpo de David sí se corrompió, y el de Jesús no."
+        },
+        "20": {
+          "theme": "Un Nuevo Pacto Prometido, Un Nuevo Pacto Derramado",
+          "connection": "Jeremías prometió un pacto escrito en el corazón, no en piedra. En su última cena, Jesús llama a la copa que comparte 'el nuevo pacto en mi sangre' — exactamente lo que Jeremías había previsto, ahora sobre la mesa."
+        },
+        "21": {
+          "theme": "Un Solo Sacrificio, Una Vez Para Siempre",
+          "connection": "Una vez al año, el sumo sacerdote de Israel entraba al Lugar Santísimo con sangre que nunca podía tratar completamente el pecado. Hebreos muestra a Cristo entrando al cielo mismo con su propia sangre, terminando lo que aquel ritual anual solo podía figurar."
+        },
+        "22": {
+          "theme": "El Fuego de Elías, el Espíritu de Elías",
+          "connection": "Elías hace descender fuego para volver el corazón de Israel a Dios. Malaquías promete otro Elías antes del día del Señor. Gabriel le dice a Zacarías que su hijo Juan irá delante del Señor 'con el espíritu y el poder de Elías'."
+        },
+        "23": {
+          "theme": "Providencia Detrás del Telón",
+          "connection": "El nombre de Dios nunca aparece en el libro de Ester, y sin embargo cada 'coincidencia' — un rey que no puede dormir, un antiguo registro leído en voz alta, una reina puesta 'para esta hora' — obra para el bien de su pueblo."
+        },
+        "24": {
+          "theme": "Las Cenizas de Job, la Respuesta de Job",
+          "connection": "Job lo pierde todo en un solo día y aun así no acusa a Dios de nada malo. Santiago señala la perseverancia de Job como prueba de que el Señor es 'muy misericordioso y compasivo' con los que esperan en Él."
+        },
+        "25": {
+          "theme": "El Fuego Que No Quemó",
+          "connection": "Isaías promete que cuando Israel pase por el fuego, no será quemado, porque Dios está con ellos. Tres jóvenes en Babilonia entran a un horno literal y lo comprueban."
+        },
+        "26": {
+          "theme": "Una Casa No Hecha Con Manos",
+          "connection": "Nehemías reconstruye muros derribados piedra por piedra, de noche. Pablo describe una construcción distinta — judíos y gentiles por igual, edificados juntos como morada de Dios, con Cristo como la piedra angular."
+        },
+        "27": {
+          "theme": "El Pródigo y la Compasión del Padre",
+          "connection": "El salmo canta que el Señor no nos trata según nuestros pecados, sino que se compadece de nosotros como un padre se compadece de sus hijos. La parábola le pone rostro a esa compasión — un padre que corre al encuentro de un hijo que todavía estaba lejos."
+        },
+        "28": {
+          "theme": "El Mayor de Todos",
+          "connection": "Moisés manda a Israel amar al Señor con todo su corazón, alma y fuerzas. Jesús llama a ese mandamiento el más grande de todos. Pablo muestra cómo se ve realmente una vida edificada sobre ese amor."
+        },
+        "29": {
+          "theme": "Buenas Nuevas Leídas en Voz Alta",
+          "connection": "Isaías promete buenas nuevas a los pobres y libertad a los cautivos. En la sinagoga de su pueblo, Jesús lee esas mismas palabras y le dice a la sala: 'Hoy se ha cumplido esta Escritura en vuestros oídos.'"
+        },
+        "30": {
+          "theme": "Todas las Cosas Nuevas",
+          "connection": "Isaías describe cielos nuevos y una tierra nueva donde ya no hay llanto. Apocalipsis cierra toda la Biblia con esa misma imagen completada — no más muerte, no más lágrimas, y la luz de Dios mismo alumbrando la ciudad."
+        }
+      }
+    },
     "qualitySection": "Corazón de Bernabé: cualidades semejantes a Cristo",
     "qualitySectionIntro": "Planes cortos de 5 días sobre las cualidades que formaron a Bernabé. Elige cualquiera, en cualquier momento.",
     "lifeSection": "Para lo que estás viviendo",

@@ -612,6 +612,132 @@
       "title": "Whole Bible in a Year",
       "description": "Read straight through Genesis to Revelation — every chapter, once, in 365 days."
     },
+    "crossReferencePlan": {
+      "title": "The Bible Explains the Bible",
+      "description": "Prophecy and fulfillment, promise and answer — connected passages that open up what you're reading, the way Philip opened the Scriptures to the Ethiopian eunuch. A growing plan — new days are added over time until every book of the Bible has a place in it.",
+      "days": {
+        "1": {
+          "theme": "Creation Renewed",
+          "connection": "Genesis opens with God creating the heavens and the earth; John opens with that same Word who made them putting on flesh; Revelation closes the story with that Word making all things new."
+        },
+        "2": {
+          "theme": "The Passover Lamb",
+          "connection": "The lamb whose blood spared Israel in Egypt, and whose bones were not to be broken, points straight to Christ, our Passover, sacrificed once for all."
+        },
+        "3": {
+          "theme": "The Curse on Jericho, Fulfilled",
+          "connection": "Joshua cursed whoever would rebuild Jericho, naming the cost as the builder's firstborn and youngest son. Five centuries later, Hiel of Bethel rebuilt it — and lost both."
+        },
+        "4": {
+          "theme": "Abraham's Son, God's Son",
+          "connection": "Abraham did not withhold his only son from God; God did not withhold His. The mountain where Isaac was spared sits a short distance from the hill where Jesus was not."
+        },
+        "5": {
+          "theme": "The Bronze Serpent",
+          "connection": "Whoever looked at the bronze serpent Moses lifted up lived. Jesus said the Son of Man would be lifted up the same way, so that whoever looks to Him would have eternal life."
+        },
+        "6": {
+          "theme": "A Priest Like Melchizedek",
+          "connection": "A mysterious king-priest blesses Abraham centuries before the Levitical priesthood exists. A psalm of David later declares the coming King a priest in that same order — and Hebrews shows it is Jesus."
+        },
+        "7": {
+          "theme": "Manna and the Bread of Life",
+          "connection": "Bread fell from heaven to keep Israel alive one day at a time in the wilderness. Jesus called Himself the true bread from heaven, given so that whoever eats would never hunger again."
+        },
+        "8": {
+          "theme": "The Shepherd Who Restores",
+          "connection": "David sings of a Shepherd who restores his soul. Ezekiel condemns Israel's failed shepherds and promises God Himself will shepherd His flock. Jesus says plainly, 'I am the good shepherd.'"
+        },
+        "9": {
+          "theme": "Wisdom Before the World",
+          "connection": "Proverbs pictures wisdom present with God at creation, rejoicing before Him always. Paul says Christ is that wisdom in person — before all things, and in Him all things hold together."
+        },
+        "10": {
+          "theme": "Hannah's Song, Mary's Song",
+          "connection": "Two women, centuries apart, both surprised by God in very different ways, pour out nearly the same song: the proud brought down, the humble lifted up, the hungry filled."
+        },
+        "11": {
+          "theme": "A Sign for This Generation",
+          "connection": "Jonah spent three days and three nights in the fish before going to preach to Nineveh. Jesus said that would be the only sign given to His generation — three days before He rose to preach life to the world."
+        },
+        "12": {
+          "theme": "The Suffering Servant Heals",
+          "connection": "Isaiah described a servant crushed for our iniquities seven hundred years early. An Ethiopian official was reading those very words without understanding them, until Philip explained they were about Jesus."
+        },
+        "13": {
+          "theme": "Announced by Name",
+          "connection": "Isaiah names Cyrus as the king who would let God's exiled people go home — over a century before Cyrus was born. Ezra records Cyrus doing exactly that."
+        },
+        "14": {
+          "theme": "A Virgin Shall Conceive",
+          "connection": "Isaiah promised a child called Immanuel, 'God with us.' Matthew records the angel telling Joseph this is exactly what was happening in Mary."
+        },
+        "15": {
+          "theme": "Ruler From Bethlehem",
+          "connection": "Micah names the small town of Bethlehem as the birthplace of Israel's ruler, whose goings forth are from everlasting. A Roman census, of all things, is what puts Mary there to give birth."
+        },
+        "16": {
+          "theme": "The King Comes Lowly",
+          "connection": "Zechariah pictures Jerusalem's king arriving not on a warhorse but on a donkey's colt. Matthew records the crowds recognizing exactly that king as Jesus enters the city."
+        },
+        "17": {
+          "theme": "Sold for Silver",
+          "connection": "Zechariah names the exact price — thirty pieces of silver — and what becomes of it. Matthew records Judas paid that price, and the money's fate matching the prophecy almost word for word."
+        },
+        "18": {
+          "theme": "Forsaken and Vindicated",
+          "connection": "A psalm of David describes mockery, pierced hands and feet, and divided garments centuries before crucifixion existed as a punishment. The Gospel records Jesus's death matching it in detail, down to His opening words on the cross."
+        },
+        "19": {
+          "theme": "Held in Hades",
+          "connection": "David wrote that God would not leave His Holy One to see corruption. Peter, preaching at Pentecost, argues David could only have meant someone other than himself — because David's body did decay, and Jesus's did not."
+        },
+        "20": {
+          "theme": "A New Covenant Promised, A New Covenant Poured Out",
+          "connection": "Jeremiah promised a covenant written on the heart, not on stone. At His last supper, Jesus names the cup He shares 'the new covenant in my blood' — the very thing Jeremiah foresaw, now on the table."
+        },
+        "21": {
+          "theme": "One Sacrifice, Once for All",
+          "connection": "Once a year, Israel's high priest entered the Most Holy Place with blood that could never fully deal with sin. Hebrews shows Christ entering heaven itself with His own blood, finishing what that yearly ritual could only picture."
+        },
+        "22": {
+          "theme": "Elijah's Fire, Elijah's Kind",
+          "connection": "Elijah calls down fire to turn Israel's heart back to God. Malachi promises another Elijah before the day of the Lord. Gabriel tells Zechariah that his son John will go before the Lord 'in the spirit and power of Elias.'"
+        },
+        "23": {
+          "theme": "Providence Behind the Curtain",
+          "connection": "God's name never appears in the book of Esther, yet every 'coincidence' in it — a sleepless king, an old record read aloud, a queen positioned 'for such a time as this' — works together for the good of His people."
+        },
+        "24": {
+          "theme": "Job's Ashes, Job's Answer",
+          "connection": "Job loses everything in a single day and still does not charge God with wrong. James points back to Job's endurance as proof that the Lord is 'very pitiful, and of tender mercy' to those who wait on Him."
+        },
+        "25": {
+          "theme": "The Fire That Did Not Burn",
+          "connection": "Isaiah promises that when Israel walks through fire, they will not be burned, because God is with them. Three young men in Babylon walk into a literal furnace and prove it true."
+        },
+        "26": {
+          "theme": "A House Not Made With Hands",
+          "connection": "Nehemiah rebuilds broken walls stone by stone by night. Paul describes a different kind of building — Jew and Gentile alike, built together into a dwelling place for God, with Christ as the cornerstone."
+        },
+        "27": {
+          "theme": "The Prodigal and the Father's Compassion",
+          "connection": "The psalm sings that the Lord does not deal with us after our sins, but pities us as a father pities his children. The parable puts a face on that pity — a father running to meet a son who was still far off."
+        },
+        "28": {
+          "theme": "The Greatest of These",
+          "connection": "Moses commands Israel to love the Lord with all their heart, soul, and might. Jesus names that command the greatest of all. Paul shows what a life built on that love actually looks like."
+        },
+        "29": {
+          "theme": "Good News Read Aloud",
+          "connection": "Isaiah promises good news to the poor and freedom to the captives. In His hometown synagogue, Jesus reads those very words and tells the room, 'This day is this scripture fulfilled in your ears.'"
+        },
+        "30": {
+          "theme": "All Things Made New",
+          "connection": "Isaiah pictures new heavens and a new earth where weeping is no more. Revelation closes the whole Bible with that same picture completed — no more death, no more tears, and the light of God Himself lighting the city."
+        }
+      }
+    },
     "qualitySection": "Barnabas Heart: Christlike Qualities",
     "qualitySectionIntro": "Short 5-day plans on the qualities that made Barnabas who he was — pick any one, any time.",
     "lifeSection": "For What You're Going Through",

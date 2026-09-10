@@ -1,9 +1,16 @@
 // Bible reading plans, reached from the same ☰ menu group as the full
 // Bible browser and saved highlights — not the bottom tab bar — since
-// these are all "ways into the Bible," not daily journal content. Two
+// these are all "ways into the Bible," not daily journal content. Three
 // kinds of plan:
-//   - one "Whole Bible in a Year" plan (365 days, every chapter once, see
-//     ../data/bibleReadingPlans.js for how it was generated)
+//   - "Whole Bible in a Year" (365 days, every chapter once, straight
+//     through in canonical order — see ../data/bibleReadingPlans.js)
+//   - "The Bible Explains the Bible" (a cross-reference plan — each day
+//     groups passages that interpret each other: prophecy/fulfillment,
+//     type/antitype, or a theme traced across both Testaments — see
+//     ../data/crossReferenceReadingPlan.js. A hand-curated pilot, not yet
+//     whole-Bible coverage; its day rows render as an expand/collapse
+//     accordion instead of a single ref, since a day can hold several
+//     passages from different books)
 //   - a library of short "Barnabas Heart" topical mini-plans (5 days each,
 //     see ../data/topicalReadingPlans.js), split into the Christlike
 //     qualities that defined Barnabas himself and everyday life topics
@@ -19,6 +26,7 @@ import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
 import { lookupRef, parseRef } from "../bibleLookup";
 import { YEAR_BIBLE_PLAN } from "../data/bibleReadingPlans";
+import { CROSS_REFERENCE_PLAN } from "../data/crossReferenceReadingPlan";
 import { TOPICAL_PLAN_ORDER, TOPICAL_PLANS } from "../data/topicalReadingPlans";
 import {
   loadReadingPlanProgress,
@@ -29,6 +37,7 @@ import {
 import BibleChapterModal from "../components/BibleChapterModal";
 
 const YEAR_PLAN_ID = "year-bible-plan";
+const CROSS_REF_PLAN_ID = "cross-reference-year-plan";
 
 export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas }) {
   const { colors } = useTheme();
@@ -42,6 +51,10 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   // Philip-and-the-eunuch "did you understand what you read?" prompt
   // (Acts 8:30-31) inviting a discussion with Barnabas about it.
   const [justRead, setJustRead] = useState(null);
+  // Which cross-reference plan day is expanded to show its connection blurb
+  // and passage list — an accordion, since each day can hold 2-3 passages
+  // from different books rather than one single reference.
+  const [expandedCrossRefDay, setExpandedCrossRefDay] = useState(null);
 
   useEffect(() => {
     loadReadingPlanProgress().then(setProgress);
@@ -52,12 +65,14 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
     setProgress((prev) => (prev ? startPlan(prev, planId) : prev));
     setActivePlanId(planId);
     setJustRead(null);
+    setExpandedCrossRefDay(null);
   };
 
   const closePlan = () => {
     hapticTap();
     setActivePlanId(null);
     setJustRead(null);
+    setExpandedCrossRefDay(null);
   };
 
   const toggleDay = (planId, day, isDone) => {
@@ -83,6 +98,15 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
     if (!pieces || !pieces.length) return;
     const piece = pieces[0];
     openReading(piece.book, piece.chapter, piece.verseStart, piece.verseEnd, { ref, planTitle });
+  };
+
+  // A cross-reference day's individual passages already carry book/chapter/
+  // verse fields directly (see ../data/crossReferenceReadingPlan.js), so no
+  // ref-parsing is needed here — theme is passed as planTitle, matching how
+  // topical plans use their topic title, so the "discuss with Barnabas" seed
+  // message reads the same way across all three plan types.
+  const openCrossRefPassage = (passage, theme) => {
+    openReading(passage.book, passage.chapter, passage.verseStart, passage.verseEnd, { ref: passage.ref, planTitle: theme });
   };
 
   // Only topical refs are plain "Book chapter:verse[-verse]" strings that
@@ -119,12 +143,21 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
 
   if (activePlanId) {
     const isYear = activePlanId === YEAR_PLAN_ID;
-    const topical = isYear ? null : TOPICAL_PLANS[activePlanId];
-    const days = isYear ? YEAR_BIBLE_PLAN : topical.refs.map((ref, i) => ({ day: i + 1, ref }));
+    const isCrossRef = activePlanId === CROSS_REF_PLAN_ID;
+    const topical = isYear || isCrossRef ? null : TOPICAL_PLANS[activePlanId];
+    const days = isYear
+      ? YEAR_BIBLE_PLAN
+      : isCrossRef
+      ? CROSS_REFERENCE_PLAN
+      : topical.refs.map((ref, i) => ({ day: i + 1, ref }));
     const planProgress = progress.plans[activePlanId] || { completedDays: [] };
     const completedSet = new Set(planProgress.completedDays);
     const firstUnfinished = days.find((d) => !completedSet.has(d.day));
-    const title = isYear ? t("bibleReadingPlans.yearPlan.title") : t(`bibleReadingPlans.topics.${activePlanId}.title`);
+    const title = isYear
+      ? t("bibleReadingPlans.yearPlan.title")
+      : isCrossRef
+      ? t("bibleReadingPlans.crossReferencePlan.title")
+      : t(`bibleReadingPlans.topics.${activePlanId}.title`);
 
     return (
       <View style={styles.container}>
@@ -142,6 +175,61 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
           renderItem={({ item }) => {
             const done = completedSet.has(item.day);
             const isNext = firstUnfinished && item.day === firstUnfinished.day;
+
+            if (isCrossRef) {
+              const expanded = expandedCrossRefDay === item.day;
+              const theme = t(`bibleReadingPlans.crossReferencePlan.days.${item.day}.theme`);
+              const connection = t(`bibleReadingPlans.crossReferencePlan.days.${item.day}.connection`);
+              const refsLine = item.passages.map((p) => p.ref).join(" · ");
+              return (
+                <View style={[styles.dayRow, styles.crossRefRow, isNext && styles.dayRowNext]}>
+                  <View style={styles.crossRefHeaderRow}>
+                    <TouchableOpacity
+                      style={styles.dayMain}
+                      onPress={() => {
+                        hapticTap();
+                        setExpandedCrossRefDay(expanded ? null : item.day);
+                      }}
+                      accessibilityRole="button"
+                    >
+                      <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>
+                      <Text style={styles.dayRef}>{theme}</Text>
+                      <Text style={styles.crossRefRefsLine}>{refsLine}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.checkBtn}
+                      onPress={() => toggleDay(activePlanId, item.day, done)}
+                      accessibilityRole="button"
+                      accessibilityLabel={t(done ? "bibleReadingPlans.markUnread" : "bibleReadingPlans.markRead")}
+                    >
+                      <Ionicons
+                        name={done ? "checkmark-circle" : "ellipse-outline"}
+                        size={26}
+                        color={done ? colors.sageDark : colors.border}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {expanded ? (
+                    <View style={styles.crossRefExpanded}>
+                      <Text style={styles.crossRefConnection}>{connection}</Text>
+                      {item.passages.map((p, i) => (
+                        <TouchableOpacity
+                          key={i}
+                          style={styles.crossRefPassageRow}
+                          onPress={() => openCrossRefPassage(p, theme)}
+                          accessibilityRole="button"
+                        >
+                          <Ionicons name="book-outline" size={14} color={colors.sageDark} />
+                          <Text style={styles.crossRefPassageText}>{p.ref}</Text>
+                          <Ionicons name="chevron-forward" size={14} color={colors.textSoft} />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  ) : null}
+                </View>
+              );
+            }
+
             return (
               <View style={[styles.dayRow, isNext && styles.dayRowNext]}>
                 <TouchableOpacity
@@ -196,6 +284,7 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   const qualityTopics = TOPICAL_PLAN_ORDER.filter((id) => TOPICAL_PLANS[id].category === "quality");
   const lifeTopics = TOPICAL_PLAN_ORDER.filter((id) => TOPICAL_PLANS[id].category === "life");
   const yearProgress = progress.plans[YEAR_PLAN_ID];
+  const crossRefProgress = progress.plans[CROSS_REF_PLAN_ID];
 
   return (
     <View style={styles.container}>
@@ -211,6 +300,20 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
               {yearProgress
                 ? t("bibleReadingPlans.progressLine", { done: yearProgress.completedDays.length, total: YEAR_BIBLE_PLAN.length })
                 : t("bibleReadingPlans.dayCount", { count: YEAR_BIBLE_PLAN.length })}
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.planCard} onPress={() => openPlan(CROSS_REF_PLAN_ID)} accessibilityRole="button">
+          <Ionicons name="git-network-outline" size={22} color={colors.sageDark} />
+          <View style={styles.planCardBody}>
+            <Text style={styles.planCardTitle}>{t("bibleReadingPlans.crossReferencePlan.title")}</Text>
+            <Text style={styles.planCardDesc}>{t("bibleReadingPlans.crossReferencePlan.description")}</Text>
+            <Text style={styles.planCardProgress}>
+              {crossRefProgress
+                ? t("bibleReadingPlans.progressLine", { done: crossRefProgress.completedDays.length, total: CROSS_REFERENCE_PLAN.length })
+                : t("bibleReadingPlans.dayCount", { count: CROSS_REFERENCE_PLAN.length })}
             </Text>
           </View>
           <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
@@ -320,6 +423,23 @@ function getStyles(colors) {
     dayNumber: { fontSize: 12, fontWeight: "700", color: colors.sageDark, marginBottom: 2 },
     dayRef: { fontSize: 15, fontWeight: "600", color: colors.text },
     checkBtn: { padding: 4 },
+    crossRefRow: { flexDirection: "column", alignItems: "stretch" },
+    crossRefHeaderRow: { flexDirection: "row", alignItems: "center" },
+    crossRefRefsLine: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
+    crossRefExpanded: {
+      marginTop: 10,
+      paddingTop: 10,
+      borderTopWidth: 1,
+      borderTopColor: colors.border,
+    },
+    crossRefConnection: { fontSize: 13, color: colors.text, lineHeight: 19, marginBottom: 10 },
+    crossRefPassageRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 8,
+      paddingVertical: 8,
+    },
+    crossRefPassageText: { flex: 1, fontSize: 14, fontWeight: "600", color: colors.sageDark },
     meditationCard: {
       borderWidth: 1,
       borderColor: colors.sageDark,
