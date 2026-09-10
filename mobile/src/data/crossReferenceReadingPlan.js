@@ -11,11 +11,19 @@
 //
 // This is a hand-curated, growing plan, not yet whole-Bible coverage at the
 // chapter level — see the crossReferencePlan.description i18n string, which
-// says so plainly in the app. As of day 59, every one of the 66 books has
-// at least one passage somewhere in the plan (days 37-59 were built as a
-// breadth pass specifically to close that gap), but most chapters within
-// each book still aren't represented — more days get added over time until
-// they are; nothing here claims chapter-level completeness yet.
+// says so plainly in the app. Every one of the 66 books has had at least
+// one passage since day 59 (days 37-59 were a breadth pass built to close
+// that gap); days 60-82 began the much longer chapter-level push, one new
+// (mostly whole) chapter per day. As of day 82, 44 of the Bible's 1,189
+// chapters are read in full somewhere in this plan — real progress, but a
+// small fraction; more days get added over time until they all are.
+//
+// Above chapter coverage, the plan's real commitment is the one stated in
+// the description: every day should point a reader to Christ before and
+// above anything else (Luke 24:27, John 5:39) — not just an interesting
+// literary or thematic echo. When revising or adding days, that comes
+// first; a day that doesn't clearly lead there needs a stronger passage
+// pairing, not a weaker one.
 //
 // Every book/chapter/verse reference below has been checked against
 // src/data/bible-kjv.json (see the validation script used while building
@@ -31,7 +39,7 @@ export const CROSS_REFERENCE_PLAN = [
     day: 1,
     passages: [
       { ref: "Genesis 1", book: "Genesis", chapter: 1, verseStart: null, verseEnd: null },
-      { ref: "John 1:1-14", book: "John", chapter: 1, verseStart: 1, verseEnd: 14 },
+      { ref: "John 1:1-18", book: "John", chapter: 1, verseStart: 1, verseEnd: 18 },
       { ref: "Revelation 21:1-5", book: "Revelation", chapter: 21, verseStart: 1, verseEnd: 5 },
     ],
   },
@@ -48,6 +56,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Joshua 6:20-27", book: "Joshua", chapter: 6, verseStart: 20, verseEnd: 27 },
       { ref: "1 Kings 16:29-34", book: "1 Kings", chapter: 16, verseStart: 29, verseEnd: 34 },
+      { ref: "Galatians 3:13-14", book: "Galatians", chapter: 3, verseStart: 13, verseEnd: 14 },
     ],
   },
   {
@@ -135,7 +144,7 @@ export const CROSS_REFERENCE_PLAN = [
     day: 15,
     passages: [
       { ref: "Micah 5:2", book: "Micah", chapter: 5, verseStart: 2, verseEnd: 2 },
-      { ref: "Luke 2:1-7", book: "Luke", chapter: 2, verseStart: 1, verseEnd: 7 },
+      { ref: "Luke 2:1-11", book: "Luke", chapter: 2, verseStart: 1, verseEnd: 11 },
     ],
   },
   {
@@ -149,7 +158,7 @@ export const CROSS_REFERENCE_PLAN = [
     day: 17,
     passages: [
       { ref: "Zechariah 11:12-13", book: "Zechariah", chapter: 11, verseStart: 12, verseEnd: 13 },
-      { ref: "Matthew 27:3-10", book: "Matthew", chapter: 27, verseStart: 3, verseEnd: 10 },
+      { ref: "Matthew 27:1-10", book: "Matthew", chapter: 27, verseStart: 1, verseEnd: 10 },
     ],
   },
   {
@@ -194,6 +203,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Esther 4", book: "Esther", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Romans 8:28", book: "Romans", chapter: 8, verseStart: 28, verseEnd: 28 },
+      { ref: "Acts 4:27-28", book: "Acts", chapter: 4, verseStart: 27, verseEnd: 28 },
     ],
   },
   {
@@ -201,6 +211,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Job 1", book: "Job", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "James 5:7-11", book: "James", chapter: 5, verseStart: 7, verseEnd: 11 },
+      { ref: "Hebrews 12:1-2", book: "Hebrews", chapter: 12, verseStart: 1, verseEnd: 2 },
     ],
   },
   {
@@ -323,6 +334,7 @@ export const CROSS_REFERENCE_PLAN = [
       { ref: "Judges 2:11-19", book: "Judges", chapter: 2, verseStart: 11, verseEnd: 19 },
       { ref: "Judges 21:25", book: "Judges", chapter: 21, verseStart: 25, verseEnd: 25 },
       { ref: "Proverbs 14:12", book: "Proverbs", chapter: 14, verseStart: 12, verseEnd: 12 },
+      { ref: "Revelation 19:16", book: "Revelation", chapter: 19, verseStart: 16, verseEnd: 16 },
     ],
   },
   {
@@ -337,14 +349,14 @@ export const CROSS_REFERENCE_PLAN = [
     day: 41,
     passages: [
       { ref: "2 Samuel 7:12-16", book: "2 Samuel", chapter: 7, verseStart: 12, verseEnd: 16 },
-      { ref: "Luke 1:32-33", book: "Luke", chapter: 1, verseStart: 32, verseEnd: 33 },
+      { ref: "Luke 1:31-33", book: "Luke", chapter: 1, verseStart: 31, verseEnd: 33 },
     ],
   },
   {
     day: 42,
     passages: [
       { ref: "1 Chronicles 16:8-36", book: "1 Chronicles", chapter: 16, verseStart: 8, verseEnd: 36 },
-      { ref: "Hebrews 13:15", book: "Hebrews", chapter: 13, verseStart: 15, verseEnd: 15 },
+      { ref: "Hebrews 13:12-15", book: "Hebrews", chapter: 13, verseStart: 12, verseEnd: 15 },
     ],
   },
   {
@@ -352,6 +364,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "2 Chronicles 7:12-16", book: "2 Chronicles", chapter: 7, verseStart: 12, verseEnd: 16 },
       { ref: "James 4:6-10", book: "James", chapter: 4, verseStart: 6, verseEnd: 10 },
+      { ref: "Philippians 2:5-9", book: "Philippians", chapter: 2, verseStart: 5, verseEnd: 9 },
     ],
   },
   {
@@ -359,6 +372,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Lamentations 3:19-26", book: "Lamentations", chapter: 3, verseStart: 19, verseEnd: 26 },
       { ref: "Psalm 30:5", book: "Psalm", chapter: 30, verseStart: 5, verseEnd: 5 },
+      { ref: "Luke 24:1-6", book: "Luke", chapter: 24, verseStart: 1, verseEnd: 6 },
     ],
   },
   {
@@ -372,7 +386,7 @@ export const CROSS_REFERENCE_PLAN = [
     day: 46,
     passages: [
       { ref: "Joel 2:28-29", book: "Joel", chapter: 2, verseStart: 28, verseEnd: 29 },
-      { ref: "Acts 2:14-21", book: "Acts", chapter: 2, verseStart: 14, verseEnd: 21 },
+      { ref: "Acts 2:14-36", book: "Acts", chapter: 2, verseStart: 14, verseEnd: 36 },
     ],
   },
   {
@@ -380,6 +394,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Amos 5:21-24", book: "Amos", chapter: 5, verseStart: 21, verseEnd: 24 },
       { ref: "Micah 6:6-8", book: "Micah", chapter: 6, verseStart: 6, verseEnd: 8 },
+      { ref: "Matthew 23:23", book: "Matthew", chapter: 23, verseStart: 23, verseEnd: 23 },
     ],
   },
   {
@@ -387,6 +402,7 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Obadiah 1:3-4", book: "Obadiah", chapter: 1, verseStart: 3, verseEnd: 4 },
       { ref: "Proverbs 16:18", book: "Proverbs", chapter: 16, verseStart: 18, verseEnd: 18 },
+      { ref: "Luke 14:11", book: "Luke", chapter: 14, verseStart: 11, verseEnd: 11 },
     ],
   },
   {
@@ -443,7 +459,7 @@ export const CROSS_REFERENCE_PLAN = [
   {
     day: 56,
     passages: [
-      { ref: "2 Thessalonians 3:10-13", book: "2 Thessalonians", chapter: 3, verseStart: 10, verseEnd: 13 },
+      { ref: "2 Thessalonians 3:10-18", book: "2 Thessalonians", chapter: 3, verseStart: 10, verseEnd: 18 },
       { ref: "Galatians 6:9", book: "Galatians", chapter: 6, verseStart: 9, verseEnd: 9 },
     ],
   },
@@ -464,11 +480,179 @@ export const CROSS_REFERENCE_PLAN = [
   {
     day: 59,
     passages: [
-      { ref: "2 Peter 1:3-4", book: "2 Peter", chapter: 1, verseStart: 3, verseEnd: 4 },
-      { ref: "1 John 1:5-7", book: "1 John", chapter: 1, verseStart: 5, verseEnd: 7 },
+      { ref: "2 Peter 1:1-4", book: "2 Peter", chapter: 1, verseStart: 1, verseEnd: 4 },
+      { ref: "1 John 1:1-7", book: "1 John", chapter: 1, verseStart: 1, verseEnd: 7 },
       { ref: "2 John 1:6", book: "2 John", chapter: 1, verseStart: 6, verseEnd: 6 },
       { ref: "3 John 1:11", book: "3 John", chapter: 1, verseStart: 11, verseEnd: 11 },
       { ref: "Jude 1:20-21", book: "Jude", chapter: 1, verseStart: 20, verseEnd: 21 },
+    ],
+  },
+
+  // Days 60-82: growing toward full chapter coverage, one new (mostly
+  // whole) OT chapter per day paired with the NT passage that shows most
+  // directly how that chapter points to Christ — per the plan's central
+  // commitment (see the crossReferencePlan.description i18n string): a
+  // reader should see Christ in these pages before and above anything
+  // else (Luke 24:27, John 5:39).
+  {
+    day: 60,
+    passages: [
+      { ref: "Genesis 3", book: "Genesis", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Romans 5:12-21", book: "Romans", chapter: 5, verseStart: 12, verseEnd: 21 },
+    ],
+  },
+  {
+    day: 61,
+    passages: [
+      { ref: "Genesis 12", book: "Genesis", chapter: 12, verseStart: null, verseEnd: null },
+      { ref: "Galatians 3:6-9", book: "Galatians", chapter: 3, verseStart: 6, verseEnd: 9 },
+    ],
+  },
+  {
+    day: 62,
+    passages: [
+      { ref: "Genesis 37", book: "Genesis", chapter: 37, verseStart: null, verseEnd: null },
+      { ref: "Genesis 50:15-21", book: "Genesis", chapter: 50, verseStart: 15, verseEnd: 21 },
+    ],
+  },
+  {
+    day: 63,
+    passages: [
+      { ref: "Exodus 3", book: "Exodus", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "John 8:54-59", book: "John", chapter: 8, verseStart: 54, verseEnd: 59 },
+    ],
+  },
+  {
+    day: 64,
+    passages: [
+      { ref: "Exodus 17", book: "Exodus", chapter: 17, verseStart: null, verseEnd: null },
+      { ref: "1 Corinthians 10:1-4", book: "1 Corinthians", chapter: 10, verseStart: 1, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 65,
+    passages: [
+      { ref: "Leviticus 1", book: "Leviticus", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Ephesians 5:1-2", book: "Ephesians", chapter: 5, verseStart: 1, verseEnd: 2 },
+    ],
+  },
+  {
+    day: 66,
+    passages: [
+      { ref: "Numbers 24", book: "Numbers", chapter: 24, verseStart: null, verseEnd: null },
+      { ref: "Matthew 2:1-11", book: "Matthew", chapter: 2, verseStart: 1, verseEnd: 11 },
+    ],
+  },
+  {
+    day: 67,
+    passages: [
+      { ref: "Deuteronomy 18", book: "Deuteronomy", chapter: 18, verseStart: null, verseEnd: null },
+      { ref: "Acts 3:19-23", book: "Acts", chapter: 3, verseStart: 19, verseEnd: 23 },
+    ],
+  },
+  {
+    day: 68,
+    passages: [
+      { ref: "Joshua 1", book: "Joshua", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 13:5-6", book: "Hebrews", chapter: 13, verseStart: 5, verseEnd: 6 },
+    ],
+  },
+  {
+    day: 69,
+    passages: [
+      { ref: "1 Samuel 17", book: "1 Samuel", chapter: 17, verseStart: null, verseEnd: null },
+      { ref: "1 Corinthians 15:54-57", book: "1 Corinthians", chapter: 15, verseStart: 54, verseEnd: 57 },
+    ],
+  },
+  {
+    day: 70,
+    passages: [
+      { ref: "1 Kings 8", book: "1 Kings", chapter: 8, verseStart: null, verseEnd: null },
+      { ref: "John 2:18-21", book: "John", chapter: 2, verseStart: 18, verseEnd: 21 },
+    ],
+  },
+  {
+    day: 71,
+    passages: [
+      { ref: "2 Kings 5", book: "2 Kings", chapter: 5, verseStart: null, verseEnd: null },
+      { ref: "Luke 4:24-27", book: "Luke", chapter: 4, verseStart: 24, verseEnd: 27 },
+    ],
+  },
+  {
+    day: 72,
+    passages: [
+      { ref: "1 Chronicles 29", book: "1 Chronicles", chapter: 29, verseStart: null, verseEnd: null },
+      { ref: "Romans 11:33-36", book: "Romans", chapter: 11, verseStart: 33, verseEnd: 36 },
+    ],
+  },
+  {
+    day: 73,
+    passages: [
+      { ref: "Nehemiah 8", book: "Nehemiah", chapter: 8, verseStart: null, verseEnd: null },
+      { ref: "Luke 24:30-32", book: "Luke", chapter: 24, verseStart: 30, verseEnd: 32 },
+    ],
+  },
+  {
+    day: 74,
+    passages: [
+      { ref: "Job 19", book: "Job", chapter: 19, verseStart: null, verseEnd: null },
+      { ref: "John 11:21-27", book: "John", chapter: 11, verseStart: 21, verseEnd: 27 },
+    ],
+  },
+  {
+    day: 75,
+    passages: [
+      { ref: "Psalm 40", book: "Psalm", chapter: 40, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 10:5-10", book: "Hebrews", chapter: 10, verseStart: 5, verseEnd: 10 },
+    ],
+  },
+  {
+    day: 76,
+    passages: [
+      { ref: "Psalm 118", book: "Psalm", chapter: 118, verseStart: null, verseEnd: null },
+      { ref: "Matthew 21:42-44", book: "Matthew", chapter: 21, verseStart: 42, verseEnd: 44 },
+    ],
+  },
+  {
+    day: 77,
+    passages: [
+      { ref: "Isaiah 9", book: "Isaiah", chapter: 9, verseStart: null, verseEnd: null },
+      { ref: "Luke 2:10-14", book: "Luke", chapter: 2, verseStart: 10, verseEnd: 14 },
+    ],
+  },
+  {
+    day: 78,
+    passages: [
+      { ref: "Ezekiel 37", book: "Ezekiel", chapter: 37, verseStart: null, verseEnd: null },
+      { ref: "Ephesians 2:4-6", book: "Ephesians", chapter: 2, verseStart: 4, verseEnd: 6 },
+    ],
+  },
+  {
+    day: 79,
+    passages: [
+      { ref: "Daniel 7", book: "Daniel", chapter: 7, verseStart: null, verseEnd: null },
+      { ref: "Matthew 26:63-64", book: "Matthew", chapter: 26, verseStart: 63, verseEnd: 64 },
+    ],
+  },
+  {
+    day: 80,
+    passages: [
+      { ref: "Hosea 11", book: "Hosea", chapter: 11, verseStart: null, verseEnd: null },
+      { ref: "Matthew 2:13-15", book: "Matthew", chapter: 2, verseStart: 13, verseEnd: 15 },
+    ],
+  },
+  {
+    day: 81,
+    passages: [
+      { ref: "Zechariah 12", book: "Zechariah", chapter: 12, verseStart: null, verseEnd: null },
+      { ref: "John 19:34-37", book: "John", chapter: 19, verseStart: 34, verseEnd: 37 },
+    ],
+  },
+  {
+    day: 82,
+    passages: [
+      { ref: "Malachi 3", book: "Malachi", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Mark 1:1-4", book: "Mark", chapter: 1, verseStart: 1, verseEnd: 4 },
     ],
   },
 ];
