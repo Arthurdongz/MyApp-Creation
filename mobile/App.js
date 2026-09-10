@@ -41,6 +41,7 @@ import DailyWelcomeScreen from "./src/screens/DailyWelcomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
+import BibleReadingPlansScreen from "./src/screens/BibleReadingPlansScreen";
 import BibleMarksScreen from "./src/screens/BibleMarksScreen";
 import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
@@ -118,6 +119,7 @@ function AppContent({ store }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const [showBibleBrowser, setShowBibleBrowser] = useState(false);
+  const [showBibleReadingPlans, setShowBibleReadingPlans] = useState(false);
   const [showBibleMarks, setShowBibleMarks] = useState(false);
   const [reflectionEditorDay, setReflectionEditorDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -133,6 +135,7 @@ function AppContent({ store }) {
     !showSettings &&
     !showAbout &&
     !showBibleBrowser &&
+    !showBibleReadingPlans &&
     !showBibleMarks &&
     reflectionEditorDay == null;
   const styles = getStyles(colors, shadow);
@@ -257,6 +260,8 @@ function AppContent({ store }) {
         <AboutScreen onClose={() => setShowAbout(false)} />
       ) : showBibleBrowser ? (
         <BibleBrowserScreen onClose={() => setShowBibleBrowser(false)} />
+      ) : showBibleReadingPlans ? (
+        <BibleReadingPlansScreen onClose={() => setShowBibleReadingPlans(false)} />
       ) : showBibleMarks ? (
         <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
       ) : reflectionEditorDay != null ? (
@@ -343,6 +348,7 @@ function AppContent({ store }) {
         onClose={() => setShowMenu(false)}
         onSettings={() => setShowSettings(true)}
         onBible={() => setShowBibleBrowser(true)}
+        onBibleReadingPlans={() => setShowBibleReadingPlans(true)}
         onBibleMarks={() => setShowBibleMarks(true)}
         onAbout={() => setShowAbout(true)}
       />

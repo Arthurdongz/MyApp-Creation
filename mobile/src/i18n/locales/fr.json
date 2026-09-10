@@ -310,12 +310,30 @@
     "tree": {
       "title": "Ton Arbre d'Encouragement",
       "subtitle": "Grandit un peu chaque fois que tu termines un Moment Barnabas.",
-      "stage0": { "name": "Graine", "desc": "Chaque arbre commence par une graine. Ton premier acte de bonté reste à venir." },
-      "stage1": { "name": "Pousse", "desc": "Tes premières racines s'installent." },
-      "stage2": { "name": "Jeune Plant", "desc": "Une croissance petite et régulière — une bonté à la fois." },
-      "stage3": { "name": "Jeune Arbre", "desc": "Ta bonté devient une habitude." },
-      "stage4": { "name": "Arbre", "desc": "Ton encouragement a pris de profondes racines." },
-      "stage5": { "name": "Arbre Florissant", "desc": "Un arbre sous lequel d'autres peuvent maintenant se reposer." },
+      "stage0": {
+        "name": "Graine",
+        "desc": "Chaque arbre commence par une graine. Ton premier acte de bonté reste à venir."
+      },
+      "stage1": {
+        "name": "Pousse",
+        "desc": "Tes premières racines s'installent."
+      },
+      "stage2": {
+        "name": "Jeune Plant",
+        "desc": "Une croissance petite et régulière — une bonté à la fois."
+      },
+      "stage3": {
+        "name": "Jeune Arbre",
+        "desc": "Ta bonté devient une habitude."
+      },
+      "stage4": {
+        "name": "Arbre",
+        "desc": "Ton encouragement a pris de profondes racines."
+      },
+      "stage5": {
+        "name": "Arbre Florissant",
+        "desc": "Un arbre sous lequel d'autres peuvent maintenant se reposer."
+      },
       "progressToNext_one": "Encore {{count}} moment avant qu'il grandisse",
       "progressToNext_other": "Encore {{count}} moments avant qu'il grandisse",
       "maxedOut": "Pleinement grandi — et toujours porteur de fruits.",
@@ -460,9 +478,16 @@
     "voiceValueLabel": "Voix : {{voice}}. Touche pour changer.",
     "defaultVoiceName": "Par défaut",
     "pitchLabel": "Tonalité",
-    "pitchPresets": { "lower": "Plus grave", "higher": "Plus aiguë" },
+    "pitchPresets": {
+      "lower": "Plus grave",
+      "higher": "Plus aiguë"
+    },
     "speedLabel": "Vitesse",
-    "ratePresets": { "slower": "Plus lente", "faster": "Plus rapide", "fastest": "La plus rapide" },
+    "ratePresets": {
+      "slower": "Plus lente",
+      "faster": "Plus rapide",
+      "fastest": "La plus rapide"
+    },
     "testVoiceButton": "🔊 Tester la Voix",
     "testVoiceSpeech": "Voici à quoi ressemblera la voix quand elle lira ton verset ou ton histoire à voix haute.",
     "voicePickerTitle": "Choisir une Voix",
@@ -573,6 +598,86 @@
       "daysShownUp": "Jours de Présence",
       "bestStreak": "Meilleure Série",
       "favoritesSaved": "Favoris Enregistrés"
+    }
+  },
+  "bibleReadingPlans": {
+    "title": "Plans de lecture",
+    "yearSection": "La Bible entière",
+    "yearPlan": {
+      "title": "Toute la Bible en un an",
+      "description": "Lis d'un bout à l'autre, de la Genèse à l'Apocalypse — chaque chapitre, une fois, en 365 jours."
+    },
+    "qualitySection": "Le cœur de Barnabas : des qualités semblables à celles du Christ",
+    "qualitySectionIntro": "De courts plans de 5 jours sur les qualités qui ont façonné Barnabas. Choisis-en un, à tout moment.",
+    "lifeSection": "Pour ce que tu traverses",
+    "lifeSectionIntro": "De courts plans de 5 jours pour les saisons que la vie apporte. Reviens à l'un d'eux chaque fois que tu en as besoin.",
+    "allPlans": "Tous les plans",
+    "dayLabel": "Jour {{day}}",
+    "dayCount": "{{count}} jours",
+    "progressLine": "{{done}} sur {{total}} lus",
+    "markRead": "Marquer comme lu",
+    "markUnread": "Marquer comme non lu",
+    "topics": {
+      "encouragement": {
+        "title": "Encouragement",
+        "description": "La qualité qui a donné son nom à Barnabas — découvre comment l'Écriture nous appelle à nous édifier les uns les autres."
+      },
+      "love": {
+        "title": "Amour",
+        "description": "L'amour qui n'abandonne jamais, au centre de tout ce que Barnabas a vécu."
+      },
+      "peace": {
+        "title": "Paix",
+        "description": "La paix que seul Dieu peut donner, stable quoi qu'il arrive autour de toi."
+      },
+      "forgiveness": {
+        "title": "Pardon",
+        "description": "Lâcher prise comme on te l'a accordé — librement, et autant de fois qu'il le faut."
+      },
+      "hope": {
+        "title": "Espérance",
+        "description": "Une espérance qui tient bon, parce qu'elle est ancrée en qui Dieu est, et non dans l'apparence des choses en ce moment."
+      },
+      "humility": {
+        "title": "Humilité",
+        "description": "Placer les autres en premier — la force discrète qui a fait de la place pour que des gens comme Paul et Marc puissent grandir."
+      },
+      "generosity": {
+        "title": "Générosité",
+        "description": "Barnabas a vendu un champ pour les autres — cinq jours sur ce type de générosité qui coûte quelque chose et rend bien plus encore."
+      },
+      "faithfulness": {
+        "title": "Fidélité",
+        "description": "Se présenter, tenir bon, et faire confiance à un Dieu dont la fidélité ne s'épuise jamais."
+      },
+      "joy": {
+        "title": "Joie",
+        "description": "Une joie qui ne dépend pas des circonstances — celle qui peut traverser une saison difficile."
+      },
+      "courage": {
+        "title": "Courage",
+        "description": "Être fort et sans crainte, parce que Quelqu'un de plus fort est déjà avec toi."
+      },
+      "anxiety": {
+        "title": "Anxiété et inquiétude",
+        "description": "Pour les jours où ton esprit ne s'apaise pas — cinq passages pour porter ton inquiétude au seul endroit où elle a sa place."
+      },
+      "grief": {
+        "title": "Deuil et perte",
+        "description": "Pour quand ça fait mal et que tu ne sais pas quoi en faire — du réconfort pour ceux qui pleurent."
+      },
+      "waiting": {
+        "title": "Attente",
+        "description": "Pour les saisons qui semblent bloquées — sur la confiance dans le calendrier de Dieu quand le tien est épuisé."
+      },
+      "doubt": {
+        "title": "Doute",
+        "description": "Pour les moments où la foi semble vaciller — il est normal de questionner, et normal de continuer à croire."
+      },
+      "weariness": {
+        "title": "Fatigue et épuisement",
+        "description": "Pour quand tu n'as plus rien à donner — sur le repos et la force que seul Dieu peut restaurer."
+      }
     }
   }
 }

@@ -16,7 +16,7 @@ async function shareApp(t) {
   }
 }
 
-export default function MenuModal({ visible, onClose, onSettings, onBible, onBibleMarks, onAbout }) {
+export default function MenuModal({ visible, onClose, onSettings, onBible, onBibleReadingPlans, onBibleMarks, onAbout }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
@@ -51,6 +51,11 @@ export default function MenuModal({ visible, onClose, onSettings, onBible, onBib
           <TouchableOpacity style={styles.item} onPress={() => handle(onBible)} accessibilityRole="button">
             <Ionicons name="book-outline" size={18} color={colors.sageDark} />
             <Text style={styles.itemLabel}>{t("bibleBrowser.title")}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.item} onPress={() => handle(onBibleReadingPlans)} accessibilityRole="button">
+            <Ionicons name="calendar-outline" size={18} color={colors.sageDark} />
+            <Text style={styles.itemLabel}>{t("bibleReadingPlans.title")}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.item} onPress={() => handle(onBibleMarks)} accessibilityRole="button">

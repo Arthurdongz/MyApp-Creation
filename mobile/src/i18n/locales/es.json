@@ -310,12 +310,30 @@
     "tree": {
       "title": "Tu Árbol de Ánimo",
       "subtitle": "Crece un poco cada vez que completas un Momento Bernabé.",
-      "stage0": { "name": "Semilla", "desc": "Todo árbol comienza siendo una semilla. Tu primer acto de bondad todavía está por venir." },
-      "stage1": { "name": "Brote", "desc": "Tus primeras raíces están echando." },
-      "stage2": { "name": "Retoño", "desc": "Un crecimiento pequeño y constante — una bondad a la vez." },
-      "stage3": { "name": "Árbol Joven", "desc": "Tu bondad se está convirtiendo en un hábito." },
-      "stage4": { "name": "Árbol", "desc": "Tu ánimo ha echado raíces profundas." },
-      "stage5": { "name": "Árbol Floreciente", "desc": "Un árbol bajo el que otros pueden descansar ahora." },
+      "stage0": {
+        "name": "Semilla",
+        "desc": "Todo árbol comienza siendo una semilla. Tu primer acto de bondad todavía está por venir."
+      },
+      "stage1": {
+        "name": "Brote",
+        "desc": "Tus primeras raíces están echando."
+      },
+      "stage2": {
+        "name": "Retoño",
+        "desc": "Un crecimiento pequeño y constante — una bondad a la vez."
+      },
+      "stage3": {
+        "name": "Árbol Joven",
+        "desc": "Tu bondad se está convirtiendo en un hábito."
+      },
+      "stage4": {
+        "name": "Árbol",
+        "desc": "Tu ánimo ha echado raíces profundas."
+      },
+      "stage5": {
+        "name": "Árbol Floreciente",
+        "desc": "Un árbol bajo el que otros pueden descansar ahora."
+      },
       "progressToNext_one": "{{count}} momento más para que crezca",
       "progressToNext_other": "{{count}} momentos más para que crezca",
       "maxedOut": "Completamente crecido — y todavía dando fruto.",
@@ -460,9 +478,16 @@
     "voiceValueLabel": "Voz: {{voice}}. Toca para cambiar.",
     "defaultVoiceName": "Predeterminada",
     "pitchLabel": "Tono",
-    "pitchPresets": { "lower": "Más grave", "higher": "Más agudo" },
+    "pitchPresets": {
+      "lower": "Más grave",
+      "higher": "Más agudo"
+    },
     "speedLabel": "Velocidad",
-    "ratePresets": { "slower": "Más lenta", "faster": "Más rápida", "fastest": "La más rápida" },
+    "ratePresets": {
+      "slower": "Más lenta",
+      "faster": "Más rápida",
+      "fastest": "La más rápida"
+    },
     "testVoiceButton": "🔊 Probar Voz",
     "testVoiceSpeech": "Así sonará la voz al leer en voz alta tu versículo o historia.",
     "voicePickerTitle": "Elegir una Voz",
@@ -573,6 +598,86 @@
       "daysShownUp": "Días que Apareciste",
       "bestStreak": "Mejor Racha",
       "favoritesSaved": "Favoritos Guardados"
+    }
+  },
+  "bibleReadingPlans": {
+    "title": "Planes de lectura",
+    "yearSection": "La Biblia completa",
+    "yearPlan": {
+      "title": "Toda la Biblia en un año",
+      "description": "Lee de principio a fin, de Génesis a Apocalipsis: cada capítulo, una vez, en 365 días."
+    },
+    "qualitySection": "Corazón de Bernabé: cualidades semejantes a Cristo",
+    "qualitySectionIntro": "Planes cortos de 5 días sobre las cualidades que formaron a Bernabé. Elige cualquiera, en cualquier momento.",
+    "lifeSection": "Para lo que estás viviendo",
+    "lifeSectionIntro": "Planes cortos de 5 días para las temporadas que trae la vida. Vuelve a cualquiera de ellos cuando lo necesites.",
+    "allPlans": "Todos los planes",
+    "dayLabel": "Día {{day}}",
+    "dayCount": "{{count}} días",
+    "progressLine": "{{done}} de {{total}} leídos",
+    "markRead": "Marcar como leído",
+    "markUnread": "Marcar como no leído",
+    "topics": {
+      "encouragement": {
+        "title": "Ánimo",
+        "description": "La cualidad que le dio su nombre a Bernabé: descubre cómo las Escrituras nos llaman a edificarnos unos a otros."
+      },
+      "love": {
+        "title": "Amor",
+        "description": "El amor que nunca se rinde, el centro de todo lo que vivió Bernabé."
+      },
+      "peace": {
+        "title": "Paz",
+        "description": "La paz que solo Dios puede dar, firme sin importar lo que pase a tu alrededor."
+      },
+      "forgiveness": {
+        "title": "Perdón",
+        "description": "Soltar de la misma forma en que a ti te han soltado: libremente, y las veces que haga falta."
+      },
+      "hope": {
+        "title": "Esperanza",
+        "description": "Una esperanza que se sostiene, porque está anclada en quién es Dios, no en cómo se ven las cosas ahora mismo."
+      },
+      "humility": {
+        "title": "Humildad",
+        "description": "Poner a otros primero: la fuerza silenciosa que le hizo espacio a personas como Pablo y Marcos para crecer."
+      },
+      "generosity": {
+        "title": "Generosidad",
+        "description": "Bernabé vendió un campo por otros: cinco días sobre el tipo de generosidad que cuesta algo y da mucho más a cambio."
+      },
+      "faithfulness": {
+        "title": "Fidelidad",
+        "description": "Presentarte, mantener el rumbo, y confiar en un Dios cuya fidelidad nunca se agota."
+      },
+      "joy": {
+        "title": "Gozo",
+        "description": "Un gozo que no depende de las circunstancias: el tipo que puede sobrevivir una temporada difícil."
+      },
+      "courage": {
+        "title": "Valentía",
+        "description": "Ser fuerte y no tener miedo, porque Alguien más fuerte ya está contigo."
+      },
+      "anxiety": {
+        "title": "Ansiedad y preocupación",
+        "description": "Para los días en que tu mente no se calma: cinco pasajes para llevar tu preocupación al único lugar al que pertenece."
+      },
+      "grief": {
+        "title": "Duelo y pérdida",
+        "description": "Para cuando duele y no sabes qué hacer con eso: consuelo para los que lloran."
+      },
+      "waiting": {
+        "title": "Espera",
+        "description": "Para las temporadas que se sienten estancadas: sobre confiar en el tiempo de Dios cuando el tuyo ya se acabó."
+      },
+      "doubt": {
+        "title": "Duda",
+        "description": "Para los momentos en que la fe se siente inestable: está bien preguntar, y está bien seguir creyendo."
+      },
+      "weariness": {
+        "title": "Cansancio y agotamiento",
+        "description": "Para cuando ya no te queda energía: sobre el descanso y la fuerza que solo Dios puede restaurar."
+      }
     }
   }
 }

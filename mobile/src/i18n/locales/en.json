@@ -310,12 +310,30 @@
     "tree": {
       "title": "Your Encouragement Tree",
       "subtitle": "Grows a little every time you complete a Barnabas Moment.",
-      "stage0": { "name": "Seed", "desc": "Every tree starts as a seed. Your first act of kindness is still ahead." },
-      "stage1": { "name": "Sprout", "desc": "Your first roots are taking hold." },
-      "stage2": { "name": "Sapling", "desc": "Small, steady growth — one kindness at a time." },
-      "stage3": { "name": "Young Tree", "desc": "Your kindness is becoming a habit." },
-      "stage4": { "name": "Tree", "desc": "Your encouragement has grown deep roots." },
-      "stage5": { "name": "Flourishing Tree", "desc": "A tree others can now rest under." },
+      "stage0": {
+        "name": "Seed",
+        "desc": "Every tree starts as a seed. Your first act of kindness is still ahead."
+      },
+      "stage1": {
+        "name": "Sprout",
+        "desc": "Your first roots are taking hold."
+      },
+      "stage2": {
+        "name": "Sapling",
+        "desc": "Small, steady growth — one kindness at a time."
+      },
+      "stage3": {
+        "name": "Young Tree",
+        "desc": "Your kindness is becoming a habit."
+      },
+      "stage4": {
+        "name": "Tree",
+        "desc": "Your encouragement has grown deep roots."
+      },
+      "stage5": {
+        "name": "Flourishing Tree",
+        "desc": "A tree others can now rest under."
+      },
       "progressToNext_one": "{{count}} more moment until it grows",
       "progressToNext_other": "{{count}} more moments until it grows",
       "maxedOut": "Fully grown — and still bearing fruit.",
@@ -460,9 +478,16 @@
     "voiceValueLabel": "Voice: {{voice}}. Tap to change.",
     "defaultVoiceName": "Default",
     "pitchLabel": "Pitch",
-    "pitchPresets": { "lower": "Lower", "higher": "Higher" },
+    "pitchPresets": {
+      "lower": "Lower",
+      "higher": "Higher"
+    },
     "speedLabel": "Speed",
-    "ratePresets": { "slower": "Slower", "faster": "Faster", "fastest": "Fastest" },
+    "ratePresets": {
+      "slower": "Slower",
+      "faster": "Faster",
+      "fastest": "Fastest"
+    },
     "testVoiceButton": "🔊 Test Voice",
     "testVoiceSpeech": "This is what the voice will sound like when reading your verse or story aloud.",
     "voicePickerTitle": "Choose a Voice",
@@ -573,6 +598,86 @@
       "daysShownUp": "Days Shown Up",
       "bestStreak": "Best Streak",
       "favoritesSaved": "Favorites Saved"
+    }
+  },
+  "bibleReadingPlans": {
+    "title": "Reading Plans",
+    "yearSection": "The Whole Bible",
+    "yearPlan": {
+      "title": "Whole Bible in a Year",
+      "description": "Read straight through Genesis to Revelation — every chapter, once, in 365 days."
+    },
+    "qualitySection": "Barnabas Heart: Christlike Qualities",
+    "qualitySectionIntro": "Short 5-day plans on the qualities that made Barnabas who he was — pick any one, any time.",
+    "lifeSection": "For What You're Going Through",
+    "lifeSectionIntro": "Short 5-day plans for the seasons life brings — come back to any of these whenever you need them.",
+    "allPlans": "All plans",
+    "dayLabel": "Day {{day}}",
+    "dayCount": "{{count}} days",
+    "progressLine": "{{done}} of {{total}} read",
+    "markRead": "Mark as read",
+    "markUnread": "Mark as unread",
+    "topics": {
+      "encouragement": {
+        "title": "Encouragement",
+        "description": "The trait that gave Barnabas his name — see how Scripture calls us to build each other up."
+      },
+      "love": {
+        "title": "Love",
+        "description": "The love that never gives up, at the center of everything Barnabas lived out."
+      },
+      "peace": {
+        "title": "Peace",
+        "description": "The peace only God can give, steady no matter what's happening around you."
+      },
+      "forgiveness": {
+        "title": "Forgiveness",
+        "description": "Letting go the way you've been let go of — freely, and as many times as it takes."
+      },
+      "hope": {
+        "title": "Hope",
+        "description": "A hope that holds, because it's anchored in who God is, not in how things look right now."
+      },
+      "humility": {
+        "title": "Humility",
+        "description": "Putting others first, the quiet strength that made room for people like Paul and Mark to grow."
+      },
+      "generosity": {
+        "title": "Generosity",
+        "description": "Barnabas sold a field for others — five days on the kind of giving that costs something and gives back more."
+      },
+      "faithfulness": {
+        "title": "Faithfulness",
+        "description": "Showing up, staying the course, and trusting a God whose faithfulness never runs out."
+      },
+      "joy": {
+        "title": "Joy",
+        "description": "A joy that isn't dependent on circumstances — the kind that can survive a hard season."
+      },
+      "courage": {
+        "title": "Courage",
+        "description": "Being strong and unafraid, because Someone stronger is already with you."
+      },
+      "anxiety": {
+        "title": "Anxiety & Worry",
+        "description": "For the days your mind won't settle down — five passages to carry your worry to the only place it belongs."
+      },
+      "grief": {
+        "title": "Grief & Loss",
+        "description": "For when it hurts and you don't know what to do with it — comfort for those who mourn."
+      },
+      "waiting": {
+        "title": "Waiting",
+        "description": "For seasons that feel stalled — on trusting God's timing when yours has run out."
+      },
+      "doubt": {
+        "title": "Doubt",
+        "description": "For the moments faith feels shaky — it's alright to ask, and alright to still believe."
+      },
+      "weariness": {
+        "title": "Weariness & Burnout",
+        "description": "For when you're running on empty — on the rest and strength only God can restore."
+      }
     }
   }
 }
