@@ -13,8 +13,8 @@
 // chapter level — see the crossReferencePlan.description i18n string, which
 // says so plainly in the app. Every one of the 66 books has had at least
 // one passage since day 59 (days 37-59 were a breadth pass built to close
-// that gap); days 60-82 began the much longer chapter-level push, one new
-// (mostly whole) chapter per day. As of day 82, 44 of the Bible's 1,189
+// that gap); days 60 onward are the much longer chapter-level push, one new
+// (mostly whole) chapter per day. As of day 92, 54 of the Bible's 1,189
 // chapters are read in full somewhere in this plan — real progress, but a
 // small fraction; more days get added over time until they all are.
 //
@@ -653,6 +653,78 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Malachi 3", book: "Malachi", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Mark 1:1-4", book: "Mark", chapter: 1, verseStart: 1, verseEnd: 4 },
+    ],
+  },
+
+  // Days 83-92: continuing the same chapter-by-chapter push.
+  {
+    day: 83,
+    passages: [
+      { ref: "Genesis 15", book: "Genesis", chapter: 15, verseStart: null, verseEnd: null },
+      { ref: "Romans 4:1-5", book: "Romans", chapter: 4, verseStart: 1, verseEnd: 5 },
+    ],
+  },
+  {
+    day: 84,
+    passages: [
+      { ref: "Genesis 28", book: "Genesis", chapter: 28, verseStart: null, verseEnd: null },
+      { ref: "John 1:51", book: "John", chapter: 1, verseStart: 51, verseEnd: 51 },
+    ],
+  },
+  {
+    day: 85,
+    passages: [
+      { ref: "Exodus 24", book: "Exodus", chapter: 24, verseStart: null, verseEnd: null },
+      { ref: "Matthew 26:26-28", book: "Matthew", chapter: 26, verseStart: 26, verseEnd: 28 },
+    ],
+  },
+  {
+    day: 86,
+    passages: [
+      { ref: "Leviticus 23", book: "Leviticus", chapter: 23, verseStart: null, verseEnd: null },
+      { ref: "Colossians 2:16-17", book: "Colossians", chapter: 2, verseStart: 16, verseEnd: 17 },
+    ],
+  },
+  {
+    day: 87,
+    passages: [
+      { ref: "Numbers 6", book: "Numbers", chapter: 6, verseStart: null, verseEnd: null },
+      { ref: "2 Corinthians 13:14", book: "2 Corinthians", chapter: 13, verseStart: 14, verseEnd: 14 },
+    ],
+  },
+  {
+    day: 88,
+    passages: [
+      { ref: "Deuteronomy 34", book: "Deuteronomy", chapter: 34, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 3:1-3", book: "Hebrews", chapter: 3, verseStart: 1, verseEnd: 3 },
+    ],
+  },
+  {
+    day: 89,
+    passages: [
+      { ref: "Joshua 5", book: "Joshua", chapter: 5, verseStart: null, verseEnd: null },
+      { ref: "Revelation 19:11-13", book: "Revelation", chapter: 19, verseStart: 11, verseEnd: 13 },
+    ],
+  },
+  {
+    day: 90,
+    passages: [
+      { ref: "1 Samuel 16", book: "1 Samuel", chapter: 16, verseStart: null, verseEnd: null },
+      { ref: "Acts 13:22-23", book: "Acts", chapter: 13, verseStart: 22, verseEnd: 23 },
+    ],
+  },
+  {
+    day: 91,
+    passages: [
+      { ref: "2 Kings 2", book: "2 Kings", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "John 14:12-16", book: "John", chapter: 14, verseStart: 12, verseEnd: 16 },
+    ],
+  },
+  {
+    day: 92,
+    passages: [
+      { ref: "Psalm 45", book: "Psalm", chapter: 45, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 1:8-9", book: "Hebrews", chapter: 1, verseStart: 8, verseEnd: 9 },
     ],
   },
 ];

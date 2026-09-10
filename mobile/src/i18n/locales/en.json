@@ -943,11 +943,53 @@
         "82": {
           "theme": "The Messenger Who Prepares the Way",
           "connection": "Malachi promises a messenger who will prepare the way before the Lord, who will suddenly come to His own temple. Mark opens his entire Gospel with that exact fulfillment: 'The beginning of the gospel of Jesus Christ, the Son of God,' then names John the Baptist as Malachi's messenger, quoting Malachi and Isaiah together in his first sentence — the whole Gospel starting exactly where prophecy said it would."
+        },
+        "83": {
+          "theme": "Counted for Righteousness",
+          "connection": "Abram believes God's promise long before there's any law to keep or any temple to serve in, and God counts it to him as righteousness. Paul builds his whole argument for salvation by faith on this exact verse: righteousness isn't earned by working, but given to whoever believes, the same way it was given to Abraham — and ultimately through faith in Christ."
+        },
+        "84": {
+          "theme": "A Ladder to Heaven",
+          "connection": "Jacob dreams of a ladder reaching from earth to heaven, with angels going up and down on it. Centuries later, Jesus tells Nathanael he will see that same sight — angels ascending and descending, but now on the Son of man Himself: Christ is the ladder, the one connection between heaven and earth."
+        },
+        "85": {
+          "theme": "The Blood of the Covenant",
+          "connection": "Moses seals Israel's covenant with God by sprinkling the people with blood and calling it 'the blood of the covenant.' At His last supper, Jesus takes a cup and uses almost the same words for Himself: 'this is my blood of the new testament, which is shed for many for the remission of sins' — a new covenant, sealed the same way, at infinitely greater cost."
+        },
+        "86": {
+          "theme": "A Shadow of Things to Come",
+          "connection": "God gives Israel a calendar of appointed feasts — Passover, Firstfruits, Pentecost, Trumpets, Atonement, Tabernacles — each one a rehearsal for something bigger. Paul tells the Colossians plainly not to let anyone judge them by these festivals anymore, because they were only ever 'a shadow of things to come; but the body is of Christ' — the feasts pointed forward, and Christ is what they were pointing to."
+        },
+        "87": {
+          "theme": "The LORD Bless Thee and Keep Thee",
+          "connection": "God gives Israel's priests a specific blessing to speak over the people, putting His own name on them. Paul closes a letter with a blessing of his own, naming all three persons of God at once: 'the grace of the Lord Jesus Christ, and the love of God, and the communion of the Holy Ghost' — the ancient blessing, now traced all the way back to its source."
+        },
+        "88": {
+          "theme": "A Prophet Greater Than Moses",
+          "connection": "Moses dies with the record standing that no prophet like him ever rose again in Israel — he knew God face to face. Hebrews doesn't deny that; it says something bigger: whoever built the house deserves more honor than the house itself, and Jesus, who built everything, deserves more glory than Moses ever could."
+        },
+        "89": {
+          "theme": "Captain of the Host",
+          "connection": "Before Jericho falls, a mysterious figure appears to Joshua holding a drawn sword, and identifies Himself not as taking sides but as 'captain of the host of the LORD' — and Joshua worships Him. John later sees a rider on a white horse leading heaven's armies, whose name is 'The Word of God' — the same title John's Gospel gives Jesus (John 1:1,14) — the same commanding figure, seen in full at last."
+        },
+        "90": {
+          "theme": "A Man After God's Own Heart",
+          "connection": "Samuel passes over David's older, more impressive brothers and anoints the youngest, the shepherd boy, because the LORD looks on the heart. Centuries later, Paul tells a synagogue crowd that God raised up David as king, then adds one more sentence: from David's own line, God raised up the One David was always pointing to — a Saviour, Jesus."
+        },
+        "91": {
+          "theme": "A Double Portion",
+          "connection": "Elisha asks for a double portion of Elijah's spirit before his mentor is taken up to heaven — and goes on to perform roughly twice as many recorded miracles. Jesus tells His own disciples something even larger before He ascends: whoever believes in Him will do the works He did, and greater works still, because He goes to the Father and sends another Comforter to remain with them forever."
+        },
+        "92": {
+          "theme": "Thy Throne, O God",
+          "connection": "A psalm written to celebrate a royal wedding breaks into language no merely human king could carry: 'Thy throne, O God, is for ever and ever.' Hebrews quotes this exact line and applies it directly to Jesus, arguing from the psalm itself that the Son is greater than any angel — a wedding song for Israel's king, prophetically addressed to the true King all along."
         }
       }
     },
     "qualitySection": "Barnabas Heart: Christlike Qualities",
     "qualitySectionIntro": "Short 5-day plans on the qualities that made Barnabas who he was — pick any one, any time.",
+    "studySection": "Topical Studies",
+    "studySectionIntro": "Longer verse collections on subjects people ask real questions about. Not every verse Scripture has on each subject — but a substantial, honest cross-section, with more added over time.",
     "lifeSection": "For What You're Going Through",
     "lifeSectionIntro": "Short 5-day plans for the seasons life brings — come back to any of these whenever you need them.",
     "allPlans": "All plans",
@@ -956,6 +998,8 @@
     "progressLine": "{{done}} of {{total}} read",
     "markRead": "Mark as read",
     "markUnread": "Mark as unread",
+    "dangerSectionLabel": "The Danger",
+    "remedySectionLabel": "The Remedy",
     "meditationPrompt": {
       "question": "Did you understand what you read? Would you like to discuss it with Barnabas?",
       "discussButton": "Discuss with Barnabas",
@@ -1021,6 +1065,42 @@
       "weariness": {
         "title": "Weariness & Burnout",
         "description": "For when you're running on empty — on the rest and strength only God can restore."
+      },
+      "healing": {
+        "title": "Health & Healing",
+        "description": "What Scripture says about the God who heals — body, and the wounds underneath the body."
+      },
+      "longLife": {
+        "title": "Long Life",
+        "description": "The kind of life God promises to those who walk in His ways — length of days, and what actually fills them."
+      },
+      "prayer": {
+        "title": "Prayer",
+        "description": "How to pray, why to pray, and the promise that God actually listens."
+      },
+      "fasting": {
+        "title": "Fasting",
+        "description": "Setting food aside to seek God more — why Scripture's men and women fasted, and what Jesus expected of it."
+      },
+      "faith": {
+        "title": "Faith",
+        "description": "What faith actually is, where it comes from, and what it makes possible."
+      },
+      "righteousness": {
+        "title": "Righteousness",
+        "description": "Right standing with God — not earned by trying harder, but given, and then lived out."
+      },
+      "anger": {
+        "title": "Anger",
+        "description": "What Scripture warns anger can do left unchecked, and God's remedy for it."
+      },
+      "hatred": {
+        "title": "Hatred",
+        "description": "The danger of hatred toward another person, and the harder, better way Scripture calls us to instead."
+      },
+      "sexualPurity": {
+        "title": "Sexual Purity",
+        "description": "What Scripture warns about sexual sin, and the remedy — the way of escape, and a clean conscience."
       }
     }
   }

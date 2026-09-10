@@ -943,11 +943,53 @@
         "82": {
           "theme": "El Mensajero Que Prepara el Camino",
           "connection": "Malaquías promete un mensajero que preparará el camino delante del Señor, quien vendrá de repente a su propio templo. Marcos abre todo su Evangelio con ese cumplimiento exacto: 'Principio del evangelio de Jesucristo, Hijo de Dios', y luego nombra a Juan el Bautista como el mensajero de Malaquías, citando juntos a Malaquías e Isaías en su primera oración — todo el Evangelio comenzando exactamente donde la profecía dijo que comenzaría."
+        },
+        "83": {
+          "theme": "Contado por Justicia",
+          "connection": "Abram cree en la promesa de Dios mucho antes de que exista una ley que guardar o un templo donde servir, y Dios se lo cuenta como justicia. Pablo construye todo su argumento de la salvación por fe sobre este versículo exacto: la justicia no se gana trabajando, sino que se da a quien cree, de la misma manera que se le dio a Abraham — y finalmente por medio de la fe en Cristo."
+        },
+        "84": {
+          "theme": "Una Escalera al Cielo",
+          "connection": "Jacob sueña con una escalera que llega desde la tierra hasta el cielo, con ángeles que suben y bajan por ella. Siglos después, Jesús le dice a Natanael que verá esa misma escena — ángeles subiendo y bajando, pero ahora sobre el Hijo del hombre mismo: Cristo es la escalera, la única conexión entre el cielo y la tierra."
+        },
+        "85": {
+          "theme": "La Sangre del Pacto",
+          "connection": "Moisés sella el pacto de Israel con Dios rociando al pueblo con sangre y llamándola 'la sangre del pacto'. En su última cena, Jesús toma una copa y usa casi las mismas palabras para sí mismo: 'esto es mi sangre del nuevo pacto, que por muchos es derramada para remisión de los pecados' — un nuevo pacto, sellado de la misma manera, a un costo infinitamente mayor."
+        },
+        "86": {
+          "theme": "Sombra de lo que Había de Venir",
+          "connection": "Dios le da a Israel un calendario de fiestas señaladas — Pascua, Primicias, Pentecostés, Trompetas, Expiación, Tabernáculos — cada una un ensayo de algo más grande. Pablo les dice claramente a los colosenses que no dejen que nadie los juzgue ya por estas fiestas, porque siempre fueron solo 'sombra de lo que había de venir; pero el cuerpo es de Cristo' — las fiestas señalaban hacia adelante, y Cristo es hacia donde señalaban."
+        },
+        "87": {
+          "theme": "Jehová Te Bendiga y Te Guarde",
+          "connection": "Dios le da a los sacerdotes de Israel una bendición específica para pronunciar sobre el pueblo, poniendo su propio nombre sobre ellos. Pablo cierra una carta con una bendición propia, nombrando a las tres personas de Dios a la vez: 'la gracia del Señor Jesucristo, el amor de Dios, y la comunión del Espíritu Santo' — la bendición antigua, rastreada ahora hasta su misma fuente."
+        },
+        "88": {
+          "theme": "Un Profeta Mayor Que Moisés",
+          "connection": "Moisés muere con el registro de que nunca más se levantó en Israel un profeta como él — conoció a Dios cara a cara. Hebreos no lo niega; dice algo más grande: quien construyó la casa merece más honor que la casa misma, y Jesús, quien construyó todo, merece más gloria de la que Moisés jamás pudo tener."
+        },
+        "89": {
+          "theme": "Príncipe del Ejército",
+          "connection": "Antes de que caiga Jericó, una figura misteriosa se le aparece a Josué con una espada desenvainada, y se identifica no tomando partido sino como 'príncipe del ejército de Jehová' — y Josué lo adora. Juan ve después a un jinete sobre un caballo blanco dirigiendo los ejércitos del cielo, cuyo nombre es 'EL VERBO DE DIOS' — el mismo título que el Evangelio de Juan le da a Jesús (Juan 1:1,14) — la misma figura de mando, vista al fin en plenitud."
+        },
+        "90": {
+          "theme": "Un Varón Conforme al Corazón de Dios",
+          "connection": "Samuel pasa por alto a los hermanos mayores y más impresionantes de David y unge al más joven, el pastor de ovejas, porque Jehová mira el corazón. Siglos después, Pablo le dice a una multitud en la sinagoga que Dios levantó a David como rey, y luego añade una frase más: de la propia línea de David, Dios levantó a Aquel a quien David siempre estuvo señalando — un Salvador, Jesús."
+        },
+        "91": {
+          "theme": "Doble Porción",
+          "connection": "Eliseo pide una doble porción del espíritu de Elías antes de que su mentor sea llevado al cielo — y termina realizando aproximadamente el doble de milagros registrados. Jesús les dice a sus propios discípulos algo aún más grande antes de ascender: el que cree en Él hará las obras que Él hizo, y aun mayores, porque Él va al Padre y envía a otro Consolador para permanecer con ellos para siempre."
+        },
+        "92": {
+          "theme": "Tu Trono, Oh Dios",
+          "connection": "Un salmo escrito para celebrar una boda real irrumpe en un lenguaje que ningún rey meramente humano podría sostener: 'Tu trono, oh Dios, es eterno y para siempre.' Hebreos cita esta línea exacta y la aplica directamente a Jesús, argumentando desde el mismo salmo que el Hijo es mayor que cualquier ángel — un canto de bodas para el rey de Israel, dirigido proféticamente al verdadero Rey desde siempre."
         }
       }
     },
     "qualitySection": "Corazón de Bernabé: cualidades semejantes a Cristo",
     "qualitySectionIntro": "Planes cortos de 5 días sobre las cualidades que formaron a Bernabé. Elige cualquiera, en cualquier momento.",
+    "studySection": "Estudios por Tema",
+    "studySectionIntro": "Colecciones de versículos más largas sobre temas que la gente realmente se pregunta. No es cada versículo que la Escritura tiene sobre cada tema — pero es una muestra sustancial y honesta, con más añadidos con el tiempo.",
     "lifeSection": "Para lo que estás viviendo",
     "lifeSectionIntro": "Planes cortos de 5 días para las temporadas que trae la vida. Vuelve a cualquiera de ellos cuando lo necesites.",
     "allPlans": "Todos los planes",
@@ -956,6 +998,8 @@
     "progressLine": "{{done}} de {{total}} leídos",
     "markRead": "Marcar como leído",
     "markUnread": "Marcar como no leído",
+    "dangerSectionLabel": "El Peligro",
+    "remedySectionLabel": "El Remedio",
     "meditationPrompt": {
       "question": "¿Entendiste lo que leíste? ¿Te gustaría conversarlo con Barnabás?",
       "discussButton": "Conversar con Barnabás",
@@ -1021,6 +1065,42 @@
       "weariness": {
         "title": "Cansancio y agotamiento",
         "description": "Para cuando ya no te queda energía: sobre el descanso y la fuerza que solo Dios puede restaurar."
+      },
+      "healing": {
+        "title": "Salud y Sanidad",
+        "description": "Lo que dice la Escritura sobre el Dios que sana — el cuerpo, y las heridas debajo del cuerpo."
+      },
+      "longLife": {
+        "title": "Larga Vida",
+        "description": "El tipo de vida que Dios promete a quienes andan en sus caminos — longitud de días, y lo que realmente los llena."
+      },
+      "prayer": {
+        "title": "Oración",
+        "description": "Cómo orar, por qué orar, y la promesa de que Dios realmente escucha."
+      },
+      "fasting": {
+        "title": "Ayuno",
+        "description": "Dejar la comida a un lado para buscar más a Dios — por qué ayunaron los hombres y mujeres de la Escritura, y qué esperaba Jesús de ello."
+      },
+      "faith": {
+        "title": "Fe",
+        "description": "Qué es realmente la fe, de dónde viene, y qué hace posible."
+      },
+      "righteousness": {
+        "title": "Justicia",
+        "description": "Estar en buena relación con Dios — no ganada esforzándose más, sino dada, y luego vivida."
+      },
+      "anger": {
+        "title": "Ira",
+        "description": "Lo que la Escritura advierte que la ira puede hacer sin control, y el remedio de Dios para ella."
+      },
+      "hatred": {
+        "title": "Odio",
+        "description": "El peligro de odiar a otra persona, y el camino más difícil y mejor al que la Escritura nos llama en su lugar."
+      },
+      "sexualPurity": {
+        "title": "Pureza Sexual",
+        "description": "Lo que la Escritura advierte sobre el pecado sexual, y el remedio — la vía de escape, y una conciencia limpia."
       }
     }
   }

@@ -11,9 +11,14 @@
 //     whole-Bible coverage; its day rows render as an expand/collapse
 //     accordion instead of a single ref, since a day can hold several
 //     passages from different books)
-//   - a library of short "Barnabas Heart" topical mini-plans (5 days each,
-//     see ../data/topicalReadingPlans.js), split into the Christlike
-//     qualities that defined Barnabas himself and everyday life topics
+//   - a library of "Barnabas Heart" topical plans (see
+//     ../data/topicalReadingPlans.js): the Christlike qualities that
+//     defined Barnabas himself and everyday life struggles (5 days each),
+//     longer topical verse studies people ask real questions about
+//     (health & healing, prayer, faith, etc.), and a few "life" topics
+//     long enough to split in two via remedyStartsAtDay — the danger
+//     Scripture names first, then God's remedy, with a small header at
+//     the seam
 // List view -> plan detail view (day-by-day, tap to read, tap the circle
 // to mark done) -> opens the same BibleChapterModal used everywhere else.
 // Progress is tracked per plan in bibleReadingPlanProgress.js, entirely
@@ -230,28 +235,42 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
               );
             }
 
+            // A few "life" topics (anger, hatred, sexualPurity) are split
+            // in two via remedyStartsAtDay: the danger Scripture names
+            // first, then God's remedy — show a small header at the seam
+            // (and at day 1) so the shift in tone doesn't read as random.
+            const remedyStartsAtDay = topical?.remedyStartsAtDay;
+            let sectionHeader = null;
+            if (remedyStartsAtDay != null) {
+              if (item.day === 1) sectionHeader = t("bibleReadingPlans.dangerSectionLabel");
+              else if (item.day === remedyStartsAtDay) sectionHeader = t("bibleReadingPlans.remedySectionLabel");
+            }
+
             return (
-              <View style={[styles.dayRow, isNext && styles.dayRowNext]}>
-                <TouchableOpacity
-                  style={styles.dayMain}
-                  onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref, title))}
-                  accessibilityRole="button"
-                >
-                  <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>
-                  <Text style={styles.dayRef}>{item.ref}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.checkBtn}
-                  onPress={() => toggleDay(activePlanId, item.day, done)}
-                  accessibilityRole="button"
-                  accessibilityLabel={t(done ? "bibleReadingPlans.markUnread" : "bibleReadingPlans.markRead")}
-                >
-                  <Ionicons
-                    name={done ? "checkmark-circle" : "ellipse-outline"}
-                    size={26}
-                    color={done ? colors.sageDark : colors.border}
-                  />
-                </TouchableOpacity>
+              <View>
+                {sectionHeader ? <Text style={styles.topicSectionHeader}>{sectionHeader}</Text> : null}
+                <View style={[styles.dayRow, isNext && styles.dayRowNext]}>
+                  <TouchableOpacity
+                    style={styles.dayMain}
+                    onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref, title))}
+                    accessibilityRole="button"
+                  >
+                    <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>
+                    <Text style={styles.dayRef}>{item.ref}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.checkBtn}
+                    onPress={() => toggleDay(activePlanId, item.day, done)}
+                    accessibilityRole="button"
+                    accessibilityLabel={t(done ? "bibleReadingPlans.markUnread" : "bibleReadingPlans.markRead")}
+                  >
+                    <Ionicons
+                      name={done ? "checkmark-circle" : "ellipse-outline"}
+                      size={26}
+                      color={done ? colors.sageDark : colors.border}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
             );
           }}
@@ -282,6 +301,7 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   }
 
   const qualityTopics = TOPICAL_PLAN_ORDER.filter((id) => TOPICAL_PLANS[id].category === "quality");
+  const studyTopics = TOPICAL_PLAN_ORDER.filter((id) => TOPICAL_PLANS[id].category === "study");
   const lifeTopics = TOPICAL_PLAN_ORDER.filter((id) => TOPICAL_PLANS[id].category === "life");
   const yearProgress = progress.plans[YEAR_PLAN_ID];
   const crossRefProgress = progress.plans[CROSS_REF_PLAN_ID];
@@ -322,6 +342,12 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
         <Text style={styles.sectionTitle}>{t("bibleReadingPlans.qualitySection")}</Text>
         <Text style={styles.sectionIntro}>{t("bibleReadingPlans.qualitySectionIntro")}</Text>
         {qualityTopics.map((id) => (
+          <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
+        ))}
+
+        <Text style={styles.sectionTitle}>{t("bibleReadingPlans.studySection")}</Text>
+        <Text style={styles.sectionIntro}>{t("bibleReadingPlans.studySectionIntro")}</Text>
+        {studyTopics.map((id) => (
           <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
         ))}
 
@@ -419,6 +445,15 @@ function getStyles(colors) {
       marginBottom: 8,
     },
     dayRowNext: { borderColor: colors.sageDark, backgroundColor: colors.verseCard },
+    topicSectionHeader: {
+      fontSize: 12,
+      fontWeight: "700",
+      color: colors.textSoft,
+      textTransform: "uppercase",
+      letterSpacing: 0.5,
+      marginTop: 8,
+      marginBottom: 6,
+    },
     dayMain: { flex: 1, marginRight: 10 },
     dayNumber: { fontSize: 12, fontWeight: "700", color: colors.sageDark, marginBottom: 2 },
     dayRef: { fontSize: 15, fontWeight: "600", color: colors.text },
