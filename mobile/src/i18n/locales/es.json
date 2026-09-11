@@ -1005,7 +1005,7 @@
     "qualitySection": "Corazón de Bernabé: cualidades semejantes a Cristo",
     "qualitySectionIntro": "Planes cortos de 5 días sobre las cualidades que formaron a Bernabé. Elige cualquiera, en cualquier momento.",
     "studySection": "Estudios por Tema",
-    "studySectionIntro": "Construidas buscando cada aparición de las palabras clave de cada tema en el texto KJV incluido en la app, y conservando luego cada pasaje de enseñanza distinto — no solo lo que la memoria podía recordar. Para los tres temas más frecuentes aquí (fe, justicia, oración), una lista literal de cada aparición individual llegaría a los cientos y dejaría de ser legible, así que esas se han seleccionado por su amplitud; las demás son tan completas como lo permite una búsqueda cuidadosa de todo el libro.",
+    "studySectionIntro": "Aquí hay dos tipos de estudio. Salud y sanidad, larga vida, oración, ayuno, fe y justicia se construyeron buscando cada aparición de las palabras clave de cada tema en el texto KJV incluido en la app, conservando luego cada pasaje de enseñanza distinto — tan completos como lo permite una búsqueda cuidadosa de todo el libro (fe, justicia y oración se seleccionaron por su amplitud, ya que una lista literal de cada aparición llegaría a los cientos). El resto — propósito, salvación, identidad, matrimonio, trabajo, sabiduría y las demás etapas y preguntas de la vida — no tienen una sola palabra que buscar, así que son una selección amplia y deliberada, no una pretensión de exhaustividad. En ambos casos, el objetivo es el mismo que 2 Timoteo 3:16-17 le da a la Escritura: doctrina, reprensión, corrección e instrucción en justicia.",
     "lifeSection": "Para lo que estás viviendo",
     "lifeSectionIntro": "Planes cortos de 5 días para las temporadas que trae la vida. Vuelve a cualquiera de ellos cuando lo necesites.",
     "allPlans": "Todos los planes",
@@ -1105,6 +1105,98 @@
       "righteousness": {
         "title": "Justicia",
         "description": "Estar en buena relación con Dios — no ganada esforzándose más, sino dada, y luego vivida."
+      },
+      "purposeOfLife": {
+        "title": "Propósito y Sentido de la Vida",
+        "description": "Por qué estás aquí — hecho por Dios, para Dios, y para algo que te trasciende."
+      },
+      "salvation": {
+        "title": "Salvación",
+        "description": "Qué significa ser salvo, y cómo — por gracia, mediante la fe, no por ti mismo."
+      },
+      "lifeAfterDeath": {
+        "title": "La Muerte y Lo Que Sigue",
+        "description": "¿Es la muerte el fin? Lo que la Escritura dice que ocurre después, y por qué eso cambia cómo vives ahora."
+      },
+      "whenBadThingsHappen": {
+        "title": "Cuando Pasan Cosas Malas",
+        "description": "Si Dios es bueno, ¿por qué duele la vida? Respuestas honestas, no fáciles."
+      },
+      "assurance": {
+        "title": "Dios Está Contigo",
+        "description": "Para los momentos en que estás inseguro, sin esperanza, o solo necesitas saber que Él está cerca y que le importas."
+      },
+      "everySeason": {
+        "title": "Un Tiempo para Todo",
+        "description": "Altibajos, celebrar y llorar — cada etapa tiene su lugar, y Dios está en todas ellas."
+      },
+      "wisdom": {
+        "title": "Sabiduría, Entendimiento y Conocimiento",
+        "description": "De dónde viene la verdadera sabiduría, y cómo pedirla."
+      },
+      "walkingWithGod": {
+        "title": "Creciendo en tu Caminar con Dios",
+        "description": "Permanecer, madurar, agradarle — cómo es crecer, no solo creer."
+      },
+      "repentance": {
+        "title": "Arrepentimiento",
+        "description": "Para los errores que quieres corregir — volver atrás, y ser recibido con misericordia, no condenación."
+      },
+      "identity": {
+        "title": "Identidad y Autoestima",
+        "description": "Para cuando dudas de ti mismo — quién dice Dios que eres, y de qué dice que eres capaz."
+      },
+      "marriageAndSingleness": {
+        "title": "Matrimonio y Soltería",
+        "description": "Para quienes quieren casarse y quienes ya lo están — el diseño de Dios para ambas etapas."
+      },
+      "lovingOthers": {
+        "title": "Amar y Relacionarte con los Demás",
+        "description": "Cómo llevarte bien con las personas — los muchos mandatos de 'unos a otros' de la Escritura."
+      },
+      "betrayal": {
+        "title": "Traición",
+        "description": "Para cuando alguien cercano te lastimó — la Escritura es honesta sobre la traición, y sobre la respuesta de Dios ante ella."
+      },
+      "brokennessAndStrength": {
+        "title": "Quebrantado, Pero Fuerte",
+        "description": "Para los momentos en que te sientes roto y los momentos en que te sientes fuerte — la fuerza de Dios responde a ambos."
+      },
+      "fearNot": {
+        "title": "No Temas",
+        "description": "Para los momentos de miedo — el mandato repetido y específico de Dios de no temer, y por qué puedes confiar en él."
+      },
+      "depression": {
+        "title": "Depresión y Desesperación",
+        "description": "Para los días más oscuros — hasta David y Elías llegaron ahí, y Dios los encontró en ese lugar."
+      },
+      "healingFromThePast": {
+        "title": "Sanidad de un Pasado Roto",
+        "description": "Para cuando cosas terribles han marcado cómo ves la vida y a las personas — Dios restaura lo que fue quitado."
+      },
+      "changeAndTransition": {
+        "title": "Cambio y Transición",
+        "description": "Cuando las cosas se unen y cuando se desmoronan — Dios es firme a través de ambos."
+      },
+      "newBeginnings": {
+        "title": "Restauración y Nuevos Comienzos",
+        "description": "Para empezar de nuevo — tras un fracaso, una pérdida o haber tirado la toalla, Dios se especializa en nuevos comienzos."
+      },
+      "perseverance": {
+        "title": "Perseverancia — No Te Rindas",
+        "description": "Para cuando has trabajado duro sin nada que mostrar, y solo necesitas resistir un poco más."
+      },
+      "diligence": {
+        "title": "Pereza y Diligencia",
+        "description": "Lo que la Escritura advierte que cuesta la pereza, y la recompensa que promete por presentarte y trabajar de corazón."
+      },
+      "workAndPlanning": {
+        "title": "Sabiduría para el Trabajo y los Planes",
+        "description": "Para negocios, estudios y proyectos — la estrategia de la Escritura para planificar y trabajar bien."
+      },
+      "blessingAndRiches": {
+        "title": "Bendición, Riquezas y Verdadero Éxito",
+        "description": "La generosidad de Dios, el deseo de ser rico, y la diferencia entre las riquezas terrenales y ser rico para con Dios."
       },
       "anger": {
         "title": "Ira",

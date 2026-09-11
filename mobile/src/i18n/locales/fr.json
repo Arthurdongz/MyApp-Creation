@@ -1005,7 +1005,7 @@
     "qualitySection": "Le cœur de Barnabas : des qualités semblables à celles du Christ",
     "qualitySectionIntro": "De courts plans de 5 jours sur les qualités qui ont façonné Barnabas. Choisis-en un, à tout moment.",
     "studySection": "Études Thématiques",
-    "studySectionIntro": "Construites en recherchant chaque occurrence des mots-clés de chaque sujet dans le texte KJV intégré à l'application, puis en conservant chaque passage d'enseignement distinct — pas seulement ce dont la mémoire pouvait se souvenir. Pour les trois thèmes les plus fréquents ici (la foi, la justice, la prière), une liste littérale de chaque occurrence individuelle atteindrait des centaines d'entrées et deviendrait illisible ; celles-ci sont donc sélectionnées pour leur étendue ; les autres sont aussi complètes qu'une recherche minutieuse dans tout le livre peut le permettre.",
+    "studySectionIntro": "Il y a ici deux types d'étude. Santé et guérison, longue vie, prière, jeûne, foi et justice ont été construits en recherchant chaque occurrence des mots-clés de chaque sujet dans le texte KJV intégré à l'application, puis en conservant chaque passage d'enseignement distinct — aussi complets qu'une recherche minutieuse dans tout le livre peut le permettre (la foi, la justice et la prière sont sélectionnées pour leur étendue, car une liste littérale de chaque occurrence atteindrait des centaines d'entrées). Le reste — le sens de la vie, le salut, l'identité, le mariage, le travail, la sagesse, et les autres saisons et questions de la vie — n'ont pas un seul mot à rechercher ; ce sont donc des sélections substantielles et délibérées, non une prétention à l'exhaustivité. Dans les deux cas, le but reste celui que 2 Timothée 3.16-17 donne à l'Écriture : la doctrine, la réfutation, la correction et l'instruction dans la justice.",
     "lifeSection": "Pour ce que tu traverses",
     "lifeSectionIntro": "De courts plans de 5 jours pour les saisons que la vie apporte. Reviens à l'un d'eux chaque fois que tu en as besoin.",
     "allPlans": "Tous les plans",
@@ -1105,6 +1105,98 @@
       "righteousness": {
         "title": "Justice",
         "description": "Une bonne relation avec Dieu — non méritée en essayant plus fort, mais donnée, puis vécue."
+      },
+      "purposeOfLife": {
+        "title": "But et Sens de la Vie",
+        "description": "Pourquoi tu es ici — fait par Dieu, pour Dieu, et pour quelque chose qui te dépasse."
+      },
+      "salvation": {
+        "title": "Salut",
+        "description": "Ce que signifie être sauvé, et comment — par grâce, par la foi, non de toi-même."
+      },
+      "lifeAfterDeath": {
+        "title": "La Mort et Ce Qui Suit",
+        "description": "La mort est-elle la fin ? Ce que l'Écriture dit qu'il se passe ensuite, et pourquoi cela change ta façon de vivre maintenant."
+      },
+      "whenBadThingsHappen": {
+        "title": "Quand de Mauvaises Choses Arrivent",
+        "description": "Si Dieu est bon, pourquoi la vie fait-elle mal ? Des réponses honnêtes, pas des réponses faciles."
+      },
+      "assurance": {
+        "title": "Dieu Est Avec Toi",
+        "description": "Pour les moments d'incertitude, de désespoir, ou quand tu as juste besoin de savoir qu'Il est proche et qu'Il se soucie de toi."
+      },
+      "everySeason": {
+        "title": "Un Temps Pour Tout",
+        "description": "Hauts et bas, célébrer et pleurer — chaque saison a sa place, et Dieu est présent dans toutes."
+      },
+      "wisdom": {
+        "title": "Sagesse, Intelligence et Connaissance",
+        "description": "D'où vient la vraie sagesse, et comment la demander."
+      },
+      "walkingWithGod": {
+        "title": "Grandir dans ta Marche avec Dieu",
+        "description": "Demeurer, mûrir, Lui plaire — à quoi ressemble le fait de grandir, pas seulement de croire."
+      },
+      "repentance": {
+        "title": "Repentance",
+        "description": "Pour les erreurs que tu veux réparer — revenir en arrière, et être accueilli par la miséricorde, non la condamnation."
+      },
+      "identity": {
+        "title": "Identité et Valeur Personnelle",
+        "description": "Pour quand tu doutes de toi-même — qui Dieu dit que tu es, et ce qu'Il dit que tu es capable de faire."
+      },
+      "marriageAndSingleness": {
+        "title": "Mariage et Célibat",
+        "description": "Pour ceux qui veulent se marier et ceux qui le sont déjà — le dessein de Dieu pour ces deux saisons."
+      },
+      "lovingOthers": {
+        "title": "Aimer et Se Lier aux Autres",
+        "description": "Comment vraiment bien s'entendre avec les gens — les nombreux commandements « les uns les autres » de l'Écriture."
+      },
+      "betrayal": {
+        "title": "Trahison",
+        "description": "Pour quand quelqu'un de proche t'a blessé — l'Écriture est honnête sur la trahison, et sur la réponse de Dieu face à elle."
+      },
+      "brokennessAndStrength": {
+        "title": "Brisé, Mais Fort",
+        "description": "Pour les moments où tu te sens brisé et ceux où tu te sens fort — la force de Dieu répond aux deux."
+      },
+      "fearNot": {
+        "title": "Ne Crains Pas",
+        "description": "Pour les moments de peur — le commandement répété et précis de Dieu de ne pas craindre, et pourquoi tu peux t'y fier."
+      },
+      "depression": {
+        "title": "Dépression et Désespoir",
+        "description": "Pour les jours les plus sombres — même David et Élie sont passés par là, et Dieu les y a rencontrés."
+      },
+      "healingFromThePast": {
+        "title": "Guérison d'un Passé Brisé",
+        "description": "Pour quand des choses terribles ont façonné ta vision de la vie et des gens — Dieu restaure ce qui a été pris."
+      },
+      "changeAndTransition": {
+        "title": "Changement et Transition",
+        "description": "Quand les choses s'assemblent et quand elles s'effondrent — Dieu reste stable à travers les deux."
+      },
+      "newBeginnings": {
+        "title": "Restauration et Nouveaux Départs",
+        "description": "Pour recommencer — après un échec, une perte, ou avoir abandonné, Dieu excelle dans les nouveaux départs."
+      },
+      "perseverance": {
+        "title": "Persévérance — Ne Renonce Pas",
+        "description": "Pour quand tu as travaillé dur sans rien à montrer, et as juste besoin de tenir encore un peu."
+      },
+      "diligence": {
+        "title": "Paresse et Diligence",
+        "description": "Ce que l'Écriture avertit que la paresse coûte, et la récompense promise à qui se présente et travaille de bon cœur."
+      },
+      "workAndPlanning": {
+        "title": "Sagesse pour le Travail et les Projets",
+        "description": "Pour les affaires, les études et les projets — la stratégie de l'Écriture pour bien planifier et bien travailler."
+      },
+      "blessingAndRiches": {
+        "title": "Bénédiction, Richesses et Vrai Succès",
+        "description": "La générosité de Dieu, le désir d'être riche, et la différence entre les richesses terrestres et être riche envers Dieu."
       },
       "anger": {
         "title": "Colère",

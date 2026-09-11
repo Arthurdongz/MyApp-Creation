@@ -1005,7 +1005,7 @@
     "qualitySection": "Barnabas Heart: Christlike Qualities",
     "qualitySectionIntro": "Short 5-day plans on the qualities that made Barnabas who he was — pick any one, any time.",
     "studySection": "Topical Studies",
-    "studySectionIntro": "Built by searching every occurrence of each topic's key words in the KJV text bundled with the app, then keeping every distinct teaching passage — not just what memory could recall. For the three most pervasive themes here (faith, righteousness, prayer), a literal list of every single occurrence would run into the hundreds and stop being readable, so those are curated for breadth; the others are as complete as a careful search of the whole book makes possible.",
+    "studySectionIntro": "Two kinds of study here. Health & healing, long life, prayer, fasting, faith, and righteousness were built by searching every occurrence of each topic's key words in the KJV text bundled with the app, then keeping every distinct teaching passage — as complete as a careful search of the whole book makes possible (faith, righteousness, and prayer are curated for breadth, since a literal list of every occurrence would run into the hundreds). The rest — purpose, salvation, identity, marriage, work, wisdom, and the other seasons and questions life brings — don't have a single word to search for, so they're a deliberately chosen, substantial cross-section rather than a claim of completeness. Either way, the aim is the same one 2 Timothy 3:16-17 gives Scripture: doctrine, reproof, correction, and instruction in righteousness.",
     "lifeSection": "For What You're Going Through",
     "lifeSectionIntro": "Short 5-day plans for the seasons life brings — come back to any of these whenever you need them.",
     "allPlans": "All plans",
@@ -1105,6 +1105,98 @@
       "righteousness": {
         "title": "Righteousness",
         "description": "Right standing with God — not earned by trying harder, but given, and then lived out."
+      },
+      "purposeOfLife": {
+        "title": "Purpose & Meaning of Life",
+        "description": "Why you're here — made by God, for God, and for something that outlasts you."
+      },
+      "salvation": {
+        "title": "Salvation",
+        "description": "What it means to be saved, and how — grace, through faith, not of yourself."
+      },
+      "lifeAfterDeath": {
+        "title": "Death & What Comes After",
+        "description": "Is death the end? What Scripture says happens next, and why it changes how you live now."
+      },
+      "whenBadThingsHappen": {
+        "title": "When Bad Things Happen",
+        "description": "If God is good, why does life hurt? Honest answers, not easy ones."
+      },
+      "assurance": {
+        "title": "God Is With You",
+        "description": "For the times you're unsure, without hope, or just need to know He's near and He cares."
+      },
+      "everySeason": {
+        "title": "A Time for Everything",
+        "description": "Highs and lows, celebrating and weeping — every season has its place, and God is in all of them."
+      },
+      "wisdom": {
+        "title": "Wisdom, Understanding & Knowledge",
+        "description": "Where real wisdom comes from, and how to ask for it."
+      },
+      "walkingWithGod": {
+        "title": "Growing in Your Walk with God",
+        "description": "Abiding, maturing, pleasing Him — what it looks like to grow, not just believe."
+      },
+      "repentance": {
+        "title": "Repentance",
+        "description": "For the mistakes you want to rectify — turning back, and being met with mercy, not condemnation."
+      },
+      "identity": {
+        "title": "Identity & Self-Worth",
+        "description": "For when you doubt yourself — who God says you are, and what He says you're capable of."
+      },
+      "marriageAndSingleness": {
+        "title": "Marriage & Singleness",
+        "description": "For those who want to marry and those who already have — God's design for both seasons."
+      },
+      "lovingOthers": {
+        "title": "Loving & Relating to Others",
+        "description": "How to actually get along with people — Scripture's many 'one another' commands."
+      },
+      "betrayal": {
+        "title": "Betrayal",
+        "description": "For when someone close hurt you — Scripture is honest about betrayal, and about God's response to it."
+      },
+      "brokennessAndStrength": {
+        "title": "Broken, Yet Strong",
+        "description": "For the times you feel broken and the times you feel strong — God's strength meets both."
+      },
+      "fearNot": {
+        "title": "Fear Not",
+        "description": "For the times you're afraid — God's repeated, specific command not to be, and why you can trust it."
+      },
+      "depression": {
+        "title": "Depression & Despair",
+        "description": "For the darkest days — even David and Elijah went there, and God met them in it."
+      },
+      "healingFromThePast": {
+        "title": "Healing from a Broken Past",
+        "description": "For when terrible things have shaped how you see life and people — God restores what was taken."
+      },
+      "changeAndTransition": {
+        "title": "Change & Transition",
+        "description": "When things come together and when they fall apart — God is steady through both."
+      },
+      "newBeginnings": {
+        "title": "Restoration & New Beginnings",
+        "description": "For starting over — after failure, loss, or giving up, God specializes in new beginnings."
+      },
+      "perseverance": {
+        "title": "Perseverance — Don't Give Up",
+        "description": "For when you've worked hard with nothing to show for it, and just need to hold on a little longer."
+      },
+      "diligence": {
+        "title": "Laziness & Diligence",
+        "description": "What Scripture warns laziness costs, and the reward it promises for showing up and working heartily."
+      },
+      "workAndPlanning": {
+        "title": "Wisdom for Work & Plans",
+        "description": "For business, school, and projects — Scripture's strategy for planning and working well."
+      },
+      "blessingAndRiches": {
+        "title": "Blessing, Riches & True Success",
+        "description": "God's generosity, wanting to be rich, and the difference between earthly riches and being rich toward God."
       },
       "anger": {
         "title": "Anger",

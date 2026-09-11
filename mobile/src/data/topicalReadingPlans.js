@@ -41,6 +41,29 @@ export const TOPICAL_PLAN_ORDER = [
   "fasting",
   "faith",
   "righteousness",
+  "purposeOfLife",
+  "salvation",
+  "lifeAfterDeath",
+  "whenBadThingsHappen",
+  "assurance",
+  "everySeason",
+  "wisdom",
+  "walkingWithGod",
+  "repentance",
+  "identity",
+  "marriageAndSingleness",
+  "lovingOthers",
+  "betrayal",
+  "brokennessAndStrength",
+  "fearNot",
+  "depression",
+  "healingFromThePast",
+  "changeAndTransition",
+  "newBeginnings",
+  "perseverance",
+  "diligence",
+  "workAndPlanning",
+  "blessingAndRiches",
   "anxiety",
   "grief",
   "waiting",
@@ -207,6 +230,251 @@ export const TOPICAL_PLANS = {
       "Proverbs 11:18-19", "Proverbs 12:28", "Proverbs 14:34", "Proverbs 21:21", "Isaiah 32:17",
       "Isaiah 61:10", "Isaiah 64:6", "Jeremiah 23:5-6", "2 Timothy 3:16", "1 John 3:7",
       "2 Peter 3:13",
+    ],
+  },
+  // The 23 topics below answer the wider range of questions and seasons a
+  // life actually holds — not just the temptations and doctrines above,
+  // but purpose, doubt, loss, identity, work, marriage, money, and what
+  // happens after death. Unlike the keyword-searched topics above, these
+  // are curated: there's no single word to search for "the meaning of
+  // life" the way there is for "heal" or "pray," so each list is a
+  // substantial, deliberately chosen cross-section rather than a claim of
+  // completeness. Together they're built to do what 2 Timothy 3:16-17
+  // says Scripture itself is for — doctrine, reproof, correction, and
+  // instruction in righteousness — and to leave a reader more hopeful,
+  // not less, for having read them. A few verses recur across two or
+  // three related topics (e.g. Psalm 34:18, 2 Corinthians 5:17) where the
+  // same promise genuinely speaks to more than one situation.
+  purposeOfLife: {
+    id: "purposeOfLife",
+    category: "study",
+    icon: "compass-outline",
+    refs: [
+      "Ecclesiastes 12:13", "Colossians 1:16", "Romans 11:36", "1 Corinthians 10:31", "Isaiah 43:7",
+      "Jeremiah 29:11", "Ephesians 2:10", "Psalm 139:13-16", "Revelation 4:11", "Micah 6:8",
+      "Matthew 22:37-39", "John 10:10",
+    ],
+  },
+  salvation: {
+    id: "salvation",
+    category: "study",
+    icon: "key-outline",
+    refs: [
+      "John 3:16", "Romans 3:23", "Romans 6:23", "Romans 5:8", "Romans 10:9-10",
+      "Romans 10:13", "Ephesians 2:8-9", "Acts 4:12", "Titus 3:5", "1 John 5:11-13",
+      "John 14:6",
+    ],
+  },
+  lifeAfterDeath: {
+    id: "lifeAfterDeath",
+    category: "study",
+    icon: "planet-outline",
+    refs: [
+      "Ecclesiastes 12:7", "2 Corinthians 5:1", "2 Corinthians 5:8", "Philippians 1:21-23", "John 11:25-26",
+      "1 Thessalonians 4:13-14", "1 Thessalonians 4:16-18", "1 Corinthians 15:51-57", "Hebrews 9:27", "Revelation 21:1-4",
+      "Luke 23:43", "Psalm 23:6",
+    ],
+  },
+  whenBadThingsHappen: {
+    id: "whenBadThingsHappen",
+    category: "study",
+    icon: "help-buoy-outline",
+    refs: [
+      "Genesis 50:20", "Romans 8:28", "Job 1:20-22", "Job 42:1-6", "Habakkuk 3:17-19",
+      "John 9:1-3", "2 Corinthians 4:17-18", "1 Peter 1:6-7", "Romans 5:3-5", "Isaiah 55:8-9",
+      "Deuteronomy 29:29", "Nahum 1:7",
+    ],
+  },
+  assurance: {
+    id: "assurance",
+    category: "study",
+    icon: "shield-outline",
+    refs: [
+      "Deuteronomy 31:6", "Isaiah 41:10", "Psalm 34:18", "Psalm 145:18", "Matthew 28:20",
+      "Hebrews 13:5", "Psalm 23:1-4", "Isaiah 43:2", "Zephaniah 3:17", "1 Peter 5:7",
+      "Psalm 46:1", "Romans 8:38-39",
+    ],
+  },
+  everySeason: {
+    id: "everySeason",
+    category: "study",
+    icon: "sync-outline",
+    refs: [
+      "Ecclesiastes 3", "Ecclesiastes 7:14", "Philippians 4:11-13", "Romans 12:15", "Psalm 30:5",
+      "James 1:2-4", "1 Thessalonians 5:16-18", "Lamentations 3:22-23", "Job 2:10", "2 Corinthians 6:10",
+    ],
+  },
+  wisdom: {
+    id: "wisdom",
+    category: "study",
+    icon: "bulb-outline",
+    refs: [
+      "James 1:5", "Proverbs 2:1-6", "Proverbs 3:5-7", "Proverbs 4:7", "Proverbs 9:10",
+      "1 Kings 3:9", "Colossians 2:2-3", "Ephesians 1:17", "Daniel 2:20-22", "Proverbs 1:7",
+      "Ecclesiastes 7:12", "2 Peter 1:5-8",
+    ],
+  },
+  walkingWithGod: {
+    id: "walkingWithGod",
+    category: "study",
+    icon: "walk-outline",
+    refs: [
+      "2 Peter 3:18", "John 15:4-5", "Colossians 2:6-7", "Philippians 1:6", "Hebrews 11:6",
+      "1 Thessalonians 4:1", "Colossians 1:10", "2 Corinthians 5:9", "Romans 12:1-2", "Ephesians 4:15",
+      "Genesis 5:24", "1 John 2:6",
+    ],
+  },
+  repentance: {
+    id: "repentance",
+    category: "study",
+    icon: "arrow-undo-outline",
+    refs: [
+      "1 John 1:9", "Psalm 51:1-4", "Psalm 51:10", "Psalm 51:17", "Proverbs 28:13",
+      "Acts 3:19", "2 Chronicles 7:14", "Isaiah 1:18", "James 5:16", "Luke 15",
+      "2 Corinthians 7:10",
+    ],
+  },
+  identity: {
+    id: "identity",
+    category: "study",
+    icon: "person-outline",
+    refs: [
+      "Psalm 139:13-14", "Jeremiah 1:5", "Genesis 1:27", "2 Corinthians 5:17", "1 Samuel 16:7",
+      "Judges 6:12-16", "Exodus 3:11-12", "Jeremiah 1:6-8", "1 Corinthians 1:27-29", "Galatians 2:20",
+      "Romans 8:37", "1 John 3:1",
+    ],
+  },
+  marriageAndSingleness: {
+    id: "marriageAndSingleness",
+    category: "study",
+    icon: "people-outline",
+    refs: [
+      "Genesis 2:18", "Genesis 2:24", "Proverbs 18:22", "Proverbs 31:10-12", "Proverbs 31:30-31",
+      "Ephesians 5:22-25", "Ephesians 5:31-33", "Colossians 3:18-19", "1 Peter 3:1-2", "1 Peter 3:7",
+      "Hebrews 13:4", "1 Corinthians 7:7-9", "1 Corinthians 7:32-35", "Matthew 19:4-6",
+    ],
+  },
+  lovingOthers: {
+    id: "lovingOthers",
+    category: "study",
+    icon: "people-circle-outline",
+    refs: [
+      "Romans 12:10", "Romans 12:16", "Romans 15:7", "Galatians 6:2", "Ephesians 4:2-3",
+      "Ephesians 4:32", "Colossians 3:12-14", "1 Thessalonians 5:11", "Hebrews 10:24-25", "1 Peter 4:8-10",
+      "1 Peter 3:8", "Proverbs 27:17",
+    ],
+  },
+  betrayal: {
+    id: "betrayal",
+    category: "study",
+    icon: "sad-outline",
+    refs: [
+      "Psalm 41:9", "Psalm 55:12-14", "Genesis 50:15-21", "Luke 22:47-48", "Matthew 26:49-50",
+      "Romans 12:19", "1 Peter 2:23", "Psalm 27:10", "Micah 7:5-7", "Job 19:19",
+      "2 Timothy 4:16-17",
+    ],
+  },
+  brokennessAndStrength: {
+    id: "brokennessAndStrength",
+    category: "study",
+    icon: "construct-outline",
+    refs: [
+      "Psalm 34:18", "Psalm 51:17", "Isaiah 61:1-3", "2 Corinthians 12:9-10", "Isaiah 40:29",
+      "Psalm 73:26", "2 Corinthians 4:7-9", "Philippians 4:13", "Nehemiah 8:10", "Psalm 147:3",
+      "Matthew 5:3-4",
+    ],
+  },
+  fearNot: {
+    id: "fearNot",
+    category: "study",
+    icon: "flash-outline",
+    refs: [
+      "Isaiah 41:10", "Isaiah 41:13", "Isaiah 43:1-3", "Psalm 56:3", "Psalm 118:6",
+      "1 John 4:18", "Matthew 10:28-31", "Proverbs 29:25", "Psalm 34:4", "Mark 5:36",
+      "Luke 12:32",
+    ],
+  },
+  depression: {
+    id: "depression",
+    category: "study",
+    icon: "moon-outline",
+    refs: [
+      "Psalm 42:5", "Psalm 42:11", "Psalm 43:5", "1 Kings 19:3-5", "1 Kings 19:11-12",
+      "Psalm 34:17-18", "Lamentations 3:19-24", "2 Corinthians 1:8-9", "2 Corinthians 4:8-9", "Psalm 40:1-3",
+      "Psalm 30:5",
+    ],
+  },
+  healingFromThePast: {
+    id: "healingFromThePast",
+    category: "study",
+    icon: "bandage-outline",
+    refs: [
+      "Isaiah 61:1-3", "Joel 2:25", "Psalm 147:3", "2 Corinthians 5:17", "Romans 12:2",
+      "Philippians 3:13-14", "Isaiah 43:18-19", "Psalm 34:18", "Genesis 50:20", "Ruth 1:20-21",
+      "Ruth 4:14-15",
+    ],
+  },
+  changeAndTransition: {
+    id: "changeAndTransition",
+    category: "study",
+    icon: "swap-horizontal-outline",
+    refs: [
+      "Genesis 12:1", "Job 1:21", "Genesis 8:22", "Proverbs 16:9", "James 4:13-15",
+      "Hebrews 13:8", "Romans 8:28", "Psalm 31:15", "Daniel 2:21", "Isaiah 40:8",
+    ],
+  },
+  newBeginnings: {
+    id: "newBeginnings",
+    category: "study",
+    icon: "partly-sunny-outline",
+    refs: [
+      "Joel 2:25", "Isaiah 43:18-19", "Philippians 3:13-14", "Lamentations 3:22-23", "2 Corinthians 5:17",
+      "Micah 7:8", "Proverbs 24:16", "Job 42:10-12", "Luke 15:20-24", "Psalm 71:20-21",
+      "Revelation 21:5",
+    ],
+  },
+  perseverance: {
+    id: "perseverance",
+    category: "study",
+    icon: "trending-up-outline",
+    refs: [
+      "Galatians 6:9", "Hebrews 12:1-3", "James 1:12", "1 Corinthians 15:58", "Isaiah 40:31",
+      "Philippians 1:6", "Hebrews 10:35-36", "Luke 18:1", "James 5:7-8", "2 Chronicles 15:7",
+      "Ecclesiastes 11:1", "Psalm 126:5-6",
+    ],
+  },
+  // Danger/remedy split like anger/hatred/sexualPurity below: laziness's
+  // warnings first, then Scripture's call to diligence.
+  diligence: {
+    id: "diligence",
+    category: "study",
+    icon: "hammer-outline",
+    remedyStartsAtDay: 11,
+    refs: [
+      "Proverbs 6:6-11", "Proverbs 10:4", "Proverbs 12:24", "Proverbs 13:4", "Proverbs 15:19",
+      "Proverbs 19:15", "Proverbs 20:4", "Proverbs 24:30-34", "Proverbs 26:13-16", "Ecclesiastes 10:18",
+      "Proverbs 10:5", "Proverbs 12:11", "Proverbs 14:23", "Proverbs 21:5", "Proverbs 22:29",
+      "Proverbs 27:23", "Colossians 3:23-24", "2 Thessalonians 3:10-12", "Romans 12:11", "Ecclesiastes 9:10",
+    ],
+  },
+  workAndPlanning: {
+    id: "workAndPlanning",
+    category: "study",
+    icon: "briefcase-outline",
+    refs: [
+      "Proverbs 16:3", "Proverbs 16:9", "Proverbs 15:22", "Proverbs 21:5", "Proverbs 24:3-4",
+      "Luke 14:28-30", "Ecclesiastes 2:24", "James 4:13-15", "Psalm 90:17", "Proverbs 3:5-6",
+      "1 Corinthians 3:6-9",
+    ],
+  },
+  blessingAndRiches: {
+    id: "blessingAndRiches",
+    category: "study",
+    icon: "diamond-outline",
+    refs: [
+      "Malachi 3:10", "Psalm 23:1", "Philippians 4:19", "Proverbs 10:22", "John 10:10",
+      "Ephesians 3:20", "2 Corinthians 9:8", "Joshua 1:8", "Matthew 6:33", "Luke 6:38",
+      "1 Timothy 6:6-10", "1 Timothy 6:17-19", "Proverbs 30:8-9",
     ],
   },
   anxiety: {

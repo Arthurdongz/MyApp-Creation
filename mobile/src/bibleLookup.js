@@ -34,10 +34,23 @@ export function parseRef(ref) {
     if (bookMatch) {
       book = bookMatch.book;
       const m = bookMatch.rest.match(/^(\d+):(\d+)(?:-(\d+))?$/);
-      if (!m) return null;
-      chapter = parseInt(m[1], 10);
-      pieces.push({ book, chapter, verseStart: parseInt(m[2], 10), verseEnd: m[3] ? parseInt(m[3], 10) : parseInt(m[2], 10) });
-      continue;
+      if (m) {
+        chapter = parseInt(m[1], 10);
+        pieces.push({ book, chapter, verseStart: parseInt(m[2], 10), verseEnd: m[3] ? parseInt(m[3], 10) : parseInt(m[2], 10) });
+        continue;
+      }
+      // A bare "Book chapter" (no verse) is a whole-chapter reference —
+      // used by a few topical-plan days that point at an entire, richly
+      // unified chapter (e.g. "Hebrews 11", "Psalm 1") rather than a verse
+      // range. null verseStart/verseEnd means "no highlight," same as the
+      // year plan's whole-chapter days already handled by openReading.
+      const bareChapter = bookMatch.rest.match(/^(\d+)$/);
+      if (bareChapter) {
+        chapter = parseInt(bareChapter[1], 10);
+        pieces.push({ book, chapter, verseStart: null, verseEnd: null });
+        continue;
+      }
+      return null;
     }
     const withChapter = seg.match(/^(\d+):(\d+)(?:-(\d+))?$/);
     if (withChapter) {
