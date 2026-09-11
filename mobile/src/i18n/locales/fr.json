@@ -258,6 +258,22 @@
     "factLabel": "Une chose à laquelle penser",
     "continueButton": "Continuer"
   },
+  "whatsNew": {
+    "title": "Nouveautés",
+    "subtitle": "Quelques nouveautés ont été ajoutées à ton parcours depuis ta dernière visite.",
+    "continueButton": "Continuer",
+    "releases": {
+      "1": {
+        "heading": "Des plans de lecture biblique plus approfondis",
+        "items": {
+          "0": "Nouveau plan de lecture « La Bible explique la Bible » : chaque jour associe des passages qui s'éclairent mutuellement, suivant des thèmes comme l'alliance, le sacrifice et l'Esprit sur près de 100 jours.",
+          "1": "Études thématiques : des plans ciblés, verset par verset, sur la santé et la guérison, la longévité, la prière, le jeûne, la foi et la justice — construits en parcourant toute la Bible pour couvrir chaque thème aussi complètement que possible.",
+          "2": "Nouveaux thèmes « Vie » sur la colère, la haine et la pureté sexuelle, chacun divisé entre ce que la Bible dit du danger, puis son remède.",
+          "3": "« Discuter avec Barnabas » : après avoir terminé un passage d'un plan de lecture, tu peux maintenant ouvrir une courte réflexion guidée avec Barnabas, comme Philippe a accompagné l'eunuque éthiopien dans ce qu'il venait de lire."
+        }
+      }
+    }
+  },
   "fact": {
     "title": "Anecdote du Jour",
     "subtitle": "Une découverte brève et réelle sur la bonté, le lien humain ou l'espoir — pensée pour t'inspirer vers ton Moment Barnabas.",
@@ -989,7 +1005,7 @@
     "qualitySection": "Le cœur de Barnabas : des qualités semblables à celles du Christ",
     "qualitySectionIntro": "De courts plans de 5 jours sur les qualités qui ont façonné Barnabas. Choisis-en un, à tout moment.",
     "studySection": "Études Thématiques",
-    "studySectionIntro": "Des collections de versets plus longues sur des sujets que les gens se posent vraiment. Pas chaque verset que l'Écriture a sur chaque sujet — mais un échantillon substantiel et honnête, avec d'autres ajoutés au fil du temps.",
+    "studySectionIntro": "Construites en recherchant chaque occurrence des mots-clés de chaque sujet dans le texte KJV intégré à l'application, puis en conservant chaque passage d'enseignement distinct — pas seulement ce dont la mémoire pouvait se souvenir. Pour les trois thèmes les plus fréquents ici (la foi, la justice, la prière), une liste littérale de chaque occurrence individuelle atteindrait des centaines d'entrées et deviendrait illisible ; celles-ci sont donc sélectionnées pour leur étendue ; les autres sont aussi complètes qu'une recherche minutieuse dans tout le livre peut le permettre.",
     "lifeSection": "Pour ce que tu traverses",
     "lifeSectionIntro": "De courts plans de 5 jours pour les saisons que la vie apporte. Reviens à l'un d'eux chaque fois que tu en as besoin.",
     "allPlans": "Tous les plans",

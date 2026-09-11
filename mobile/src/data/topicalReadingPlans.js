@@ -112,14 +112,36 @@ export const TOPICAL_PLANS = {
     icon: "flag-outline",
     refs: ["Joshua 1:9", "Deuteronomy 31:6", "2 Timothy 1:7", "Psalm 27:1", "1 Corinthians 16:13"],
   },
+  // These nine topics were rebuilt by searching every occurrence of each
+  // topic's keyword family (heal*, pray*, fast*, faith/believe*,
+  // righteous*, hate*, adulter*/fornication, etc.) against this project's
+  // own bundled KJV text (src/data/bible-kjv.json), not just recalled from
+  // memory — see the scratchpad search script used while building this —
+  // then kept every distinct teaching/promise/instruction verse. Pure
+  // repeated narrative refrains (e.g. dozens of near-identical "and he
+  // healed them" summaries, or Ezekiel's extended whoredom metaphor for
+  // Israel's idolatry) aren't each listed separately, and a couple of
+  // richly unified chapters are cited whole (Hebrews 11, Psalm 1) rather
+  // than verse-by-verse. For faith, righteousness, and prayer specifically
+  // — three of Scripture's most pervasive themes — a literal list of every
+  // single occurrence would run into the hundreds and stop being
+  // readable; the lists below are deliberately curated for breadth and
+  // teaching value there. See bibleReadingPlans.studySectionIntro for how
+  // this is described in the app itself.
   healing: {
     id: "healing",
     category: "study",
     icon: "medkit-outline",
     refs: [
-      "Exodus 15:26", "Psalm 103:2-3", "Psalm 107:20", "Proverbs 4:20-22", "Proverbs 17:22",
-      "Jeremiah 30:17", "Jeremiah 17:14", "Isaiah 53:5", "Malachi 4:2", "Matthew 4:23",
-      "Matthew 8:16-17", "Mark 5:34", "James 5:14-15", "1 Peter 2:24", "3 John 1:2",
+      "Genesis 20:17", "Exodus 15:26", "Numbers 12:13", "Deuteronomy 32:39", "2 Kings 20:5",
+      "2 Chronicles 7:14", "2 Chronicles 30:20", "Psalm 6:2", "Psalm 30:2", "Psalm 41:4",
+      "Psalm 103:2-3", "Psalm 107:20", "Psalm 147:3", "Proverbs 3:8", "Proverbs 4:20-22",
+      "Proverbs 12:18", "Proverbs 16:24", "Proverbs 17:22", "Isaiah 53:5", "Isaiah 57:18-19",
+      "Isaiah 58:8", "Jeremiah 17:14", "Jeremiah 30:17", "Jeremiah 33:6", "Hosea 6:1",
+      "Hosea 14:4", "Malachi 4:2", "Matthew 4:23-24", "Matthew 8:16-17", "Matthew 9:35",
+      "Mark 5:34", "Luke 4:18", "Luke 5:15", "Luke 6:17-19", "Acts 3:1-11",
+      "Acts 10:38", "Acts 28:8-9", "1 Corinthians 12:9", "James 5:14-16", "1 Peter 2:24",
+      "Revelation 22:1-2", "3 John 1:2",
     ],
   },
   longLife: {
@@ -127,9 +149,12 @@ export const TOPICAL_PLANS = {
     category: "study",
     icon: "infinite-outline",
     refs: [
-      "Exodus 20:12", "Deuteronomy 30:19-20", "Psalm 91:16", "Psalm 34:12-14", "Proverbs 3:1-2",
-      "Proverbs 3:16", "Proverbs 4:10", "Proverbs 9:10-11", "Proverbs 10:27", "Psalm 90:10-12",
-      "Ephesians 6:2-3", "Job 5:26", "1 Kings 3:14",
+      "Genesis 15:15", "Genesis 25:8", "Exodus 20:12", "Deuteronomy 4:40", "Deuteronomy 5:16",
+      "Deuteronomy 5:33", "Deuteronomy 6:2", "Deuteronomy 11:9", "Deuteronomy 30:19-20", "Deuteronomy 32:47",
+      "1 Kings 3:11-14", "1 Chronicles 29:28", "Job 5:26", "Job 12:12", "Psalm 21:4",
+      "Psalm 34:12-14", "Psalm 71:9", "Psalm 90:10-12", "Psalm 91:16", "Psalm 92:14",
+      "Proverbs 3:1-2", "Proverbs 3:16", "Proverbs 4:10", "Proverbs 9:10-11", "Proverbs 10:27",
+      "Ecclesiastes 8:12-13", "Isaiah 46:4", "Isaiah 53:10", "Ephesians 6:2-3",
     ],
   },
   prayer: {
@@ -137,10 +162,12 @@ export const TOPICAL_PLANS = {
     category: "study",
     icon: "hand-right-outline",
     refs: [
-      "Matthew 6:6", "Matthew 6:9-13", "Matthew 7:7-8", "Matthew 21:22", "Mark 11:24-25",
-      "Luke 11:9-10", "Luke 18:1", "John 14:13-14", "John 15:7", "John 16:23-24",
-      "Romans 8:26-27", "Ephesians 6:18", "Philippians 4:6-7", "Colossians 4:2",
-      "1 Thessalonians 5:17", "Hebrews 4:16", "James 5:16", "1 John 5:14-15", "1 Peter 3:12",
+      "Matthew 6:6", "Matthew 6:9-13", "Matthew 7:7-8", "Matthew 18:19-20", "Matthew 21:22",
+      "Mark 11:24-25", "Luke 11:1-13", "Luke 18:1-8", "John 14:13-14", "John 15:7",
+      "John 16:23-24", "Acts 1:14", "Romans 8:26-27", "Ephesians 6:18", "Philippians 4:6-7",
+      "Colossians 4:2", "1 Timothy 2:1-4", "1 Thessalonians 5:17", "Hebrews 4:16", "James 4:2-3",
+      "James 5:13-16", "1 John 5:14-15", "1 Peter 3:12", "Psalm 145:18", "Psalm 86:1-7",
+      "Daniel 9:17-19",
     ],
   },
   fasting: {
@@ -148,9 +175,13 @@ export const TOPICAL_PLANS = {
     category: "study",
     icon: "nutrition-outline",
     refs: [
-      "Matthew 6:16-18", "Matthew 4:1-2", "Matthew 17:21", "Joel 2:12-13", "Isaiah 58:6-7",
-      "Acts 13:2-3", "Acts 14:23", "2 Chronicles 20:3-4", "Ezra 8:21-23", "Esther 4:16",
-      "Daniel 9:3", "Nehemiah 1:4", "Luke 2:37", "1 Corinthians 7:5",
+      "Judges 20:26", "1 Samuel 7:6", "1 Samuel 31:13", "2 Samuel 1:12", "2 Samuel 12:16-23",
+      "1 Kings 21:27", "2 Chronicles 20:3-4", "Ezra 8:21-23", "Nehemiah 1:4", "Nehemiah 9:1",
+      "Esther 4:3", "Esther 4:16", "Psalm 35:13", "Psalm 69:10", "Psalm 109:24",
+      "Isaiah 58:3-7", "Jeremiah 14:12", "Daniel 6:18", "Daniel 9:3", "Joel 1:14",
+      "Joel 2:12-13", "Joel 2:15", "Jonah 3:5", "Zechariah 7:5", "Zechariah 8:19",
+      "Matthew 4:1-2", "Matthew 6:16-18", "Matthew 9:14-15", "Matthew 17:21", "Mark 9:29",
+      "Luke 5:33-35", "Luke 18:12", "Acts 13:2-3", "Acts 14:23", "1 Corinthians 7:5",
     ],
   },
   faith: {
@@ -158,10 +189,11 @@ export const TOPICAL_PLANS = {
     category: "study",
     icon: "telescope-outline",
     refs: [
-      "Hebrews 11:1", "Hebrews 11:6", "Romans 10:17", "Romans 1:17", "Romans 5:1",
-      "Ephesians 2:8-9", "Matthew 17:20", "Matthew 21:21-22", "Mark 11:22-24", "Mark 9:23",
-      "2 Corinthians 5:7", "James 1:5-6", "James 2:17", "1 Peter 1:7", "1 John 5:4",
-      "Galatians 2:20", "Luke 17:5-6", "Habakkuk 2:4",
+      "Hebrews 11", "Romans 4", "Romans 1:16-17", "Romans 5:1", "Romans 10:17",
+      "Romans 14:23", "2 Corinthians 4:18", "2 Corinthians 5:7", "Galatians 2:20", "Galatians 3:6-9",
+      "Ephesians 2:8-9", "Matthew 17:20", "Matthew 21:21-22", "Mark 9:23-24", "Mark 11:22-24",
+      "Luke 17:5-6", "James 1:5-6", "James 2:14-26", "1 Peter 1:7", "1 John 5:4",
+      "Habakkuk 2:4",
     ],
   },
   righteousness: {
@@ -169,9 +201,12 @@ export const TOPICAL_PLANS = {
     category: "study",
     icon: "scale-outline",
     refs: [
-      "Matthew 5:6", "Matthew 6:33", "Romans 3:22", "Romans 3:10", "Romans 4:5",
-      "Romans 5:17", "Romans 6:13", "2 Corinthians 5:21", "Philippians 3:9", "1 Corinthians 1:30",
-      "Psalm 34:15", "Proverbs 11:18-19", "Proverbs 21:21", "Isaiah 61:10", "2 Timothy 3:16", "1 John 3:7",
+      "Psalm 1", "Matthew 5:6", "Matthew 6:33", "Romans 3:10", "Romans 3:21-26",
+      "Romans 4:3-5", "Romans 5:17", "Romans 6:13", "2 Corinthians 5:21", "Philippians 1:11",
+      "Philippians 3:9", "1 Corinthians 1:30", "Psalm 34:15", "Proverbs 4:18", "Proverbs 10:2",
+      "Proverbs 11:18-19", "Proverbs 12:28", "Proverbs 14:34", "Proverbs 21:21", "Isaiah 32:17",
+      "Isaiah 61:10", "Isaiah 64:6", "Jeremiah 23:5-6", "2 Timothy 3:16", "1 John 3:7",
+      "2 Peter 3:13",
     ],
   },
   anxiety: {
@@ -212,22 +247,25 @@ export const TOPICAL_PLANS = {
     id: "anger",
     category: "life",
     icon: "flame-outline",
-    remedyStartsAtDay: 9,
+    remedyStartsAtDay: 14,
     refs: [
-      "Proverbs 14:29", "Proverbs 15:1", "Proverbs 16:32", "Proverbs 22:24-25", "Proverbs 29:22",
+      "Proverbs 14:17", "Proverbs 14:29", "Proverbs 15:18", "Proverbs 20:2", "Proverbs 21:19",
+      "Proverbs 22:24-25", "Proverbs 25:23", "Proverbs 27:4", "Proverbs 29:22", "Ecclesiastes 5:6",
       "Ecclesiastes 7:9", "James 1:19-20", "Galatians 5:19-20",
-      "Ephesians 4:26-27", "Ephesians 4:31-32", "Colossians 3:8", "Psalm 37:8", "Proverbs 19:11",
-      "Matthew 5:22-24", "Romans 12:19-21",
+      "Psalm 37:8", "Proverbs 15:1", "Proverbs 16:32", "Proverbs 19:11", "Matthew 5:22-24",
+      "Ephesians 4:26-27", "Ephesians 4:31-32", "Colossians 3:8", "Colossians 3:21", "Titus 1:7",
+      "Romans 12:19-21",
     ],
   },
   hatred: {
     id: "hatred",
     category: "life",
     icon: "thunderstorm-outline",
-    remedyStartsAtDay: 8,
+    remedyStartsAtDay: 14,
     refs: [
-      "Leviticus 19:17", "1 John 2:9-11", "1 John 3:15", "1 John 4:20", "Proverbs 10:12",
-      "Galatians 5:19-21", "Titus 3:3",
+      "Leviticus 19:17", "Proverbs 10:12", "Proverbs 10:18", "Proverbs 15:17", "Proverbs 26:24",
+      "Proverbs 26:28", "Ecclesiastes 3:8", "Ecclesiastes 9:6", "Galatians 5:19-21", "Titus 3:3",
+      "1 John 2:9-11", "1 John 3:15", "1 John 4:20",
       "Matthew 5:43-44", "Luke 6:27-28", "Romans 12:20-21", "1 John 4:7-8", "1 Peter 4:8",
       "1 Corinthians 13:4-7", "Colossians 3:12-14",
     ],
@@ -236,12 +274,15 @@ export const TOPICAL_PLANS = {
     id: "sexualPurity",
     category: "life",
     icon: "lock-closed-outline",
-    remedyStartsAtDay: 12,
+    remedyStartsAtDay: 22,
     refs: [
-      "Exodus 20:14", "1 Corinthians 6:18", "1 Corinthians 6:9-10", "Galatians 5:19-21", "Ephesians 5:3",
-      "Hebrews 13:4", "Proverbs 6:32", "Proverbs 5:3-5", "1 Thessalonians 4:3-5", "Matthew 5:27-28", "Job 31:1",
-      "1 Corinthians 6:19-20", "1 Corinthians 10:13", "2 Timothy 2:22", "Psalm 119:9-11",
-      "Galatians 5:16", "Romans 13:14", "1 Peter 2:11",
+      "Exodus 20:14", "Proverbs 5:3-5", "Proverbs 6:26", "Proverbs 6:32", "Job 31:1",
+      "Malachi 3:5", "Matthew 5:27-28", "Matthew 15:19", "Acts 15:20", "1 Corinthians 5:1",
+      "1 Corinthians 6:9-10", "1 Corinthians 6:18", "1 Corinthians 7:2", "1 Corinthians 10:8", "Galatians 5:19-21",
+      "Ephesians 5:3", "Colossians 3:5", "1 Thessalonians 4:3-5", "Hebrews 13:4", "James 4:4",
+      "Jude 1:7",
+      "John 8:3-11", "1 Corinthians 6:19-20", "1 Corinthians 6:13", "1 Corinthians 10:13", "2 Timothy 2:22",
+      "Psalm 119:9-11", "Galatians 5:16", "Romans 13:14", "1 Peter 2:11",
     ],
   },
 };

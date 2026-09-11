@@ -17,6 +17,7 @@ import {
   scheduleConfessionReminder,
   cleanupLegacyNotifications,
 } from "./notifications";
+import { LATEST_WHATS_NEW_VERSION } from "./data/whatsNew";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
@@ -182,6 +183,11 @@ function defaultSettings() {
     userName: "",
     dailyWelcomeEnabled: true,
     lastWelcomeShownAt: null,
+    // Which "What's New" release the user has already been shown — see
+    // showWhatsNew/dismissWhatsNew below and ../data/whatsNew.js.
+    // completeOnboarding sets this straight to the latest version, since
+    // a brand-new user has nothing to compare "new" against.
+    lastSeenWhatsNewVersion: 0,
   };
 }
 
@@ -971,6 +977,9 @@ export function useJournalStore() {
       eveningReminderEnabled: eveningOk,
       eveningReminderHour: 20,
       eveningReminderMinute: 0,
+      // A brand-new user has nothing to compare "new" against — everything
+      // in the app is new to them, so skip the What's New screen entirely.
+      lastSeenWhatsNewVersion: LATEST_WHATS_NEW_VERSION,
     });
   }, [state.journeyStartDate, state.order, state.settings, updateSettings]);
 
@@ -1004,6 +1013,20 @@ export function useJournalStore() {
 
   const dismissDailyWelcome = useCallback(() => {
     updateSettings({ lastWelcomeShownAt: todayKey() });
+  }, [updateSettings]);
+
+  // Gates the "What's New" screen — shown once per app-version bump, after
+  // onboarding, so a returning user hears about real changes (a brand-new
+  // user's lastSeenWhatsNewVersion is already set to latest by
+  // completeOnboarding, so this never fires for them).
+  const showWhatsNew = Boolean(
+    ready &&
+      state.settings.onboarded &&
+      state.settings.lastSeenWhatsNewVersion < LATEST_WHATS_NEW_VERSION
+  );
+
+  const dismissWhatsNew = useCallback(() => {
+    updateSettings({ lastSeenWhatsNewVersion: LATEST_WHATS_NEW_VERSION });
   }, [updateSettings]);
 
   const viewedEntry = state.entries[`day-${viewingDay}`] || emptyEntry(viewingDay, state.journeyStartDate);
@@ -1080,6 +1103,8 @@ export function useJournalStore() {
     checkInNudgeVariant,
     showDailyWelcome,
     dismissDailyWelcome,
+    showWhatsNew,
+    dismissWhatsNew,
     totalStars: state.totalStars,
     favorites: state.favorites,
     settings: state.settings,

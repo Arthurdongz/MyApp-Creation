@@ -258,6 +258,22 @@
     "factLabel": "Algo para pensar",
     "continueButton": "Continuar"
   },
+  "whatsNew": {
+    "title": "Novidades",
+    "subtitle": "Algumas coisas foram adicionadas à sua jornada desde a última vez que você abriu o app.",
+    "continueButton": "Continuar",
+    "releases": {
+      "1": {
+        "heading": "Planos de leitura bíblica mais profundos",
+        "items": {
+          "0": "Novo plano de leitura \"A Bíblia explica a Bíblia\": cada dia combina passagens que se esclarecem mutuamente, seguindo temas como aliança, sacrifício e o Espírito ao longo de quase 100 dias.",
+          "1": "Estudos Temáticos: planos focados, verso a verso, sobre saúde e cura, longevidade, oração, jejum, fé e justiça — construídos pesquisando toda a Bíblia para cobrir cada tema com a maior amplitude possível.",
+          "2": "Novos temas de \"Vida\" sobre a ira, o ódio e a pureza sexual, cada um dividido entre o que a Bíblia diz sobre o perigo, seguido do seu remédio.",
+          "3": "\"Conversar com Barnabé\": ao terminar uma passagem de um plano de leitura, agora você pode abrir uma breve reflexão guiada com Barnabé, assim como Filipe acompanhou o oficial etíope a entender o que acabara de ler."
+        }
+      }
+    }
+  },
   "fact": {
     "title": "Curiosidade do Dia",
     "subtitle": "Uma descoberta curta e real sobre bondade, conexão ou esperança — pensada para te inspirar rumo ao seu Momento Barnabé.",
@@ -989,7 +1005,7 @@
     "qualitySection": "Coração de Barnabé: qualidades semelhantes às de Cristo",
     "qualitySectionIntro": "Planos curtos de 5 dias sobre as qualidades que formaram Barnabé. Escolha qualquer um, a qualquer momento.",
     "studySection": "Estudos por Tema",
-    "studySectionIntro": "Coleções de versículos mais longas sobre assuntos que as pessoas realmente se perguntam. Não é cada versículo que a Escritura tem sobre cada assunto — mas é uma amostra substancial e honesta, com mais sendo adicionados com o tempo.",
+    "studySectionIntro": "Construídas pesquisando cada ocorrência das palavras-chave de cada tema no texto KJV incluído no aplicativo, mantendo depois cada passagem de ensino distinta — não apenas o que a memória conseguia lembrar. Para os três temas mais frequentes aqui (fé, justiça, oração), uma lista literal de cada ocorrência individual chegaria às centenas e deixaria de ser legível, então essas foram selecionadas pela amplitude; as demais são tão completas quanto uma busca cuidadosa em todo o livro permite.",
     "lifeSection": "Para o que você está enfrentando",
     "lifeSectionIntro": "Planos curtos de 5 dias para as temporadas que a vida traz. Volte a qualquer um deles sempre que precisar.",
     "allPlans": "Todos os planos",

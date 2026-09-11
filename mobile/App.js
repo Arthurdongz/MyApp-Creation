@@ -38,6 +38,7 @@ import RewardsScreen from "./src/screens/RewardsScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import OnboardingScreen from "./src/screens/OnboardingScreen";
 import DailyWelcomeScreen from "./src/screens/DailyWelcomeScreen";
+import WhatsNewScreen from "./src/screens/WhatsNewScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
@@ -257,6 +258,14 @@ function AppContent({ store }) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <DailyWelcomeScreen store={store} onContinue={store.dismissDailyWelcome} />
+      </SafeAreaView>
+    );
+  }
+
+  if (store.ready && store.settings.onboarded && store.showWhatsNew) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <WhatsNewScreen onContinue={store.dismissWhatsNew} />
       </SafeAreaView>
     );
   }

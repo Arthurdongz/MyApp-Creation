@@ -258,6 +258,22 @@
     "factLabel": "Something to think about",
     "continueButton": "Continue"
   },
+  "whatsNew": {
+    "title": "What's New",
+    "subtitle": "A few things have been added to your journey since you last opened the app.",
+    "continueButton": "Continue",
+    "releases": {
+      "1": {
+        "heading": "Deeper Bible reading plans",
+        "items": {
+          "0": "A new \"The Bible Explains the Bible\" reading plan — each day pairs passages that shed light on each other, tracing themes like covenant, sacrifice, and the Spirit across nearly 100 days.",
+          "1": "Topical Studies: focused, verse-by-verse plans on health & healing, long life, prayer, fasting, faith, and righteousness — built by searching the whole Bible so each topic is covered as completely as possible.",
+          "2": "New \"Life\" topics on anger, hatred, and sexual purity, each split into what the Bible says the danger is, followed by its remedy.",
+          "3": "\"Discuss with Barnabas\": after finishing a reading-plan passage, you can now open a short guided reflection with Barnabas, the way Philip walked the Ethiopian official through what he'd just read."
+        }
+      }
+    }
+  },
   "fact": {
     "title": "Fact of the Day",
     "subtitle": "A short, real finding about kindness, connection, or hope — meant to nudge you toward your Barnabas Moment.",
@@ -989,7 +1005,7 @@
     "qualitySection": "Barnabas Heart: Christlike Qualities",
     "qualitySectionIntro": "Short 5-day plans on the qualities that made Barnabas who he was — pick any one, any time.",
     "studySection": "Topical Studies",
-    "studySectionIntro": "Longer verse collections on subjects people ask real questions about. Not every verse Scripture has on each subject — but a substantial, honest cross-section, with more added over time.",
+    "studySectionIntro": "Built by searching every occurrence of each topic's key words in the KJV text bundled with the app, then keeping every distinct teaching passage — not just what memory could recall. For the three most pervasive themes here (faith, righteousness, prayer), a literal list of every single occurrence would run into the hundreds and stop being readable, so those are curated for breadth; the others are as complete as a careful search of the whole book makes possible.",
     "lifeSection": "For What You're Going Through",
     "lifeSectionIntro": "Short 5-day plans for the seasons life brings — come back to any of these whenever you need them.",
     "allPlans": "All plans",

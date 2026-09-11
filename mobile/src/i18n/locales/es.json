@@ -258,6 +258,22 @@
     "factLabel": "Algo en qué pensar",
     "continueButton": "Continuar"
   },
+  "whatsNew": {
+    "title": "Novedades",
+    "subtitle": "Se han añadido algunas cosas a tu camino desde la última vez que abriste la app.",
+    "continueButton": "Continuar",
+    "releases": {
+      "1": {
+        "heading": "Planes de lectura bíblica más profundos",
+        "items": {
+          "0": "Nuevo plan de lectura \"La Biblia explica la Biblia\": cada día combina pasajes que se iluminan mutuamente, siguiendo temas como el pacto, el sacrificio y el Espíritu a lo largo de casi 100 días.",
+          "1": "Estudios Temáticos: planes enfocados, versículo por versículo, sobre salud y sanidad, larga vida, oración, ayuno, fe y justicia — construidos buscando en toda la Biblia para cubrir cada tema con la mayor amplitud posible.",
+          "2": "Nuevos temas de \"Vida\" sobre la ira, el odio y la pureza sexual, cada uno dividido en lo que la Biblia dice sobre el peligro, seguido de su remedio.",
+          "3": "\"Conversar con Barnabás\": al terminar un pasaje de un plan de lectura, ahora puedes abrir una breve reflexión guiada con Barnabás, tal como Felipe acompañó al oficial etíope a entender lo que acababa de leer."
+        }
+      }
+    }
+  },
   "fact": {
     "title": "Dato del Día",
     "subtitle": "Un hallazgo breve y real sobre la bondad, la conexión o la esperanza — pensado para inspirar tu Momento Bernabé.",
@@ -989,7 +1005,7 @@
     "qualitySection": "Corazón de Bernabé: cualidades semejantes a Cristo",
     "qualitySectionIntro": "Planes cortos de 5 días sobre las cualidades que formaron a Bernabé. Elige cualquiera, en cualquier momento.",
     "studySection": "Estudios por Tema",
-    "studySectionIntro": "Colecciones de versículos más largas sobre temas que la gente realmente se pregunta. No es cada versículo que la Escritura tiene sobre cada tema — pero es una muestra sustancial y honesta, con más añadidos con el tiempo.",
+    "studySectionIntro": "Construidas buscando cada aparición de las palabras clave de cada tema en el texto KJV incluido en la app, y conservando luego cada pasaje de enseñanza distinto — no solo lo que la memoria podía recordar. Para los tres temas más frecuentes aquí (fe, justicia, oración), una lista literal de cada aparición individual llegaría a los cientos y dejaría de ser legible, así que esas se han seleccionado por su amplitud; las demás son tan completas como lo permite una búsqueda cuidadosa de todo el libro.",
     "lifeSection": "Para lo que estás viviendo",
     "lifeSectionIntro": "Planes cortos de 5 días para las temporadas que trae la vida. Vuelve a cualquiera de ellos cuando lo necesites.",
     "allPlans": "Todos los planes",
