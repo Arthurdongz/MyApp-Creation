@@ -1,0 +1,26 @@
+name: Content Integrity Check
+
+on:
+  push:
+    paths:
+      - "data-*.js"
+      - "mobile/src/data/**"
+      - "scripts/check-content.js"
+  pull_request:
+    paths:
+      - "data-*.js"
+      - "mobile/src/data/**"
+      - "scripts/check-content.js"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run content integrity checks
+        run: node scripts/check-content.js

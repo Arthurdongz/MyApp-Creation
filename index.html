@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barnabas Journal — Son of Encouragement</title>
+<meta name="description" content="A daily verse, a word of encouragement, and a small kindness to do for someone else — one day at a time. A free, private Christian daily-encouragement journal.">
+<link rel="canonical" href="https://arthurdongz.github.io/MyApp-Creation/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Barnabas Journal — Son of Encouragement">
+<meta property="og:description" content="A daily verse, a word of encouragement, and a small kindness to do for someone else — one day at a time.">
+<meta property="og:url" content="https://arthurdongz.github.io/MyApp-Creation/">
+<meta property="og:image" content="https://arthurdongz.github.io/MyApp-Creation/pwa-icon-512.png">
+<meta property="og:site_name" content="Barnabas Journal">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Barnabas Journal — Son of Encouragement">
+<meta name="twitter:description" content="A daily verse, a word of encouragement, and a small kindness to do for someone else — one day at a time.">
+<meta name="twitter:image" content="https://arthurdongz.github.io/MyApp-Creation/pwa-icon-512.png">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f8d6e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Barnabas">
+
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="pullRefreshIndicator" class="pull-refresh-indicator" aria-live="polite">
+  <span id="pullRefreshText">↓ Pull to refresh</span>
+</div>
+
+<div class="app">
+
+  <div id="androidDownloadBanner" class="android-download-banner" hidden>
+    <span class="android-download-text">
+      📱 Get the Android app for the full experience — daily reminders, offline access, and a home-screen widget.
+    </span>
+    <div class="android-download-actions">
+      <a id="androidDownloadLink" class="btn btn-primary android-download-btn" href="#" target="_blank" rel="noopener">
+        Download for Android
+      </a>
+      <button id="androidDownloadDismiss" class="android-download-dismiss" type="button" aria-label="Dismiss">✕</button>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">✦</span>
+      <div>
+        <h1>Barnabas Journal</h1>
+        <p class="tagline">"Son of Encouragement" — Acts 4:36</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <button id="menuBtn" class="theme-toggle" aria-label="Menu" type="button">☰</button>
+      <div class="stat" title="Total stars earned">
+        <span class="stat-icon">⭐</span>
+        <span id="statTotalStars">0</span>
+      </div>
+      <div class="stat" title="Current daily streak">
+        <span class="stat-icon">🔥</span>
+        <span id="statStreak">0</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="today">Today</button>
+    <button class="tab-btn" data-tab="story">Story</button>
+    <button class="tab-btn" data-tab="history">Journal</button>
+    <button class="tab-btn" data-tab="favorites">Favorites</button>
+    <button class="tab-btn" data-tab="rewards">Rewards</button>
+  </nav>
+
+  <main>
+
+    <!-- TODAY -->
+    <section id="tab-today" class="tab-panel active">
+
+      <div class="day-nav">
+        <div class="day-nav-row">
+          <button id="dayNavPrev" class="day-nav-btn" aria-label="Previous day">‹</button>
+          <span id="dayLabel" class="day-nav-label">Today</span>
+          <button id="dayNavNext" class="day-nav-btn" aria-label="Next day">›</button>
+        </div>
+        <button id="dayNavJump" class="day-nav-jump" hidden>Back to today</button>
+      </div>
+
+      <!-- Today's Reading: Verse, A Word for You, Encouraging Thought grouped as one card -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">📖</span>
+          <h2 class="section-group-title">Today's Reading</h2>
+        </div>
+        <article class="unified-card reading-card">
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">Verse</p>
+              <div class="mini-actions">
+                <button id="verseListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+                <button id="verseShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="verseFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="verse-text" id="verseText"></p>
+            <button type="button" class="verse-ref confession-ref-link" id="verseRef"></button>
+            <p class="share-msg" id="verseShareMsg" hidden></p>
+          </div>
+
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">Today's Confession</p>
+              <div class="mini-actions">
+                <button id="confessionListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+                <button id="confessionShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="confessionFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="verse-text" id="confessionText"></p>
+            <button type="button" class="verse-ref confession-ref-link" id="confessionRef"></button>
+            <p class="confession-speak-prompt">Speak this aloud today.</p>
+            <p class="share-msg" id="confessionShareMsg" hidden></p>
+          </div>
+
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">A Word for You</p>
+              <button id="encouragementListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+            </div>
+            <p class="encouragement-text" id="encouragementText"></p>
+
+            <button type="button" class="custom-moment-link" id="wordReflectLinkBtn">Let this sit for a moment — what does it stir in you?</button>
+            <div class="custom-moment-prompt" id="wordReflectPrompt" hidden>
+              <textarea id="wordReflectInput" rows="2" placeholder="What does this stir in you?"></textarea>
+              <div class="custom-moment-btn-row">
+                <button type="button" id="wordReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+                <button type="button" id="wordReflectCancelBtn" class="moment-intention-change">Cancel</button>
+              </div>
+            </div>
+            <p class="moment-reflect-saved-msg" id="wordReflectSavedMsg" hidden>Saved. Thank you for sitting with that. ⭐⭐</p>
+          </div>
+
+          <div class="unified-block">
+            <div class="mini-label-row">
+              <p class="mini-label">Encouraging Thought</p>
+              <div class="mini-actions">
+                <button id="wisdomShareBtn" class="favorite-btn" type="button">↗ Share</button>
+                <button id="wisdomFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+              </div>
+            </div>
+            <p class="wisdom-text" id="wisdomText"></p>
+            <p class="wisdom-source" id="wisdomSource"></p>
+            <p class="share-msg" id="wisdomShareMsg" hidden></p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Your Barnabas Moment: yesterday's follow-up folded in as an inset strip, Reach Out folded in as an inline link -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">🤝</span>
+          <h2 class="section-group-title">Your Barnabas Moment</h2>
+        </div>
+        <article class="card moment-card">
+          <div class="followup-strip" id="momentFollowUpCard" hidden>
+            <p class="followup-strip-label">Yesterday, you planned to:</p>
+            <p class="followup-strip-text" id="momentFollowUpText"></p>
+            <p class="follow-up-question">Did you get to it?</p>
+            <div class="follow-up-actions">
+              <button type="button" class="follow-up-btn" data-status="done">Yes, I did it 🎉</button>
+              <button type="button" class="follow-up-btn" data-status="not_yet">Not yet, but I still might</button>
+              <button type="button" class="follow-up-btn" data-status="no">No, not this time</button>
+            </div>
+          </div>
+
+          <p class="moment-text" id="momentText"></p>
+
+          <div class="custom-moment-row" id="customMomentRow" hidden>
+            <p class="moment-intention-text">This is your own idea for today.</p>
+            <button type="button" class="moment-intention-change" id="useSuggestionBtn">Use today's suggestion instead</button>
+          </div>
+          <div class="custom-moment-prompt" id="customMomentPrompt" hidden>
+            <textarea id="customMomentInput" rows="2" placeholder="What's your own act of kindness today?"></textarea>
+            <div class="custom-moment-btn-row">
+              <button type="button" id="useCustomMomentBtn" class="btn btn-secondary moment-reflect-save-btn">Use this instead</button>
+              <button type="button" id="cancelCustomMomentBtn" class="moment-intention-change">Cancel</button>
+            </div>
+          </div>
+          <button type="button" class="custom-moment-link" id="customMomentLinkBtn">Or, write your own kindness for today</button>
+
+          <div class="moment-intention-prompt" id="momentIntentionPrompt" hidden>
+            <p class="moment-intention-label">When will you do this?</p>
+            <div class="moment-intention-options">
+              <button type="button" class="intention-btn" data-intention="today">Today</button>
+              <button type="button" class="intention-btn" data-intention="tonight">Tonight</button>
+              <button type="button" class="intention-btn" data-intention="tomorrow">Tomorrow morning</button>
+            </div>
+          </div>
+          <div class="moment-intention-row" id="momentIntentionRow" hidden>
+            <p class="moment-intention-text" id="momentIntentionText"></p>
+            <button type="button" class="moment-intention-change" id="momentIntentionChangeBtn">Change</button>
+          </div>
+          <div class="moment-actions">
+            <button id="momentBtn" class="btn btn-primary">I did this today ✓</button>
+            <button id="momentShareBtn" class="btn btn-secondary" type="button">Send to someone</button>
+          </div>
+          <p class="moment-done-msg" id="momentDoneMsg" hidden>Well done — that kindness mattered. ⭐⭐</p>
+          <div class="moment-reflect-prompt" id="momentReflectPrompt" hidden>
+            <label class="moment-reflect-label" for="momentReflectInput">What happened? (optional)</label>
+            <textarea id="momentReflectInput" rows="2" placeholder="What happened when you did it?"></textarea>
+            <button type="button" id="momentReflectSaveBtn" class="btn btn-secondary moment-reflect-save-btn">Save</button>
+          </div>
+          <p class="moment-reflect-saved-msg" id="momentReflectSavedMsg" hidden>Saved. Thank you for sharing that. ⭐⭐</p>
+          <p class="moment-share-msg" id="momentShareMsg" hidden></p>
+
+          <div class="reach-out-inline">
+            <span>💛 If today feels heavy —</span>
+            <button type="button" id="reachOutBtn">reach out to someone who cares</button>
+          </div>
+          <p class="share-msg" id="reachOutMsg" hidden></p>
+        </article>
+      </div>
+
+      <!-- A Little Extra Support: call nudge / check-in nudge / crisis resource unified into one card -->
+      <div class="section-group" id="supportSection" hidden>
+        <div class="section-group-header">
+          <span class="section-group-icon">💬</span>
+          <h2 class="section-group-title">A Little Extra Support</h2>
+        </div>
+        <article class="unified-card support-card">
+          <div class="unified-block" id="crisisCard" hidden>
+            <p class="card-label">A Resource, If You Need It</p>
+            <p class="reach-out-text">It looks like the last little while has been heavy for you. That matters, and you don't have to carry it by yourself.</p>
+            <p class="reach-out-text">If you're in the US, the 988 Suicide &amp; Crisis Lifeline is free and confidential, day or night — call or text 988. You can also text HOME to 741741 to reach the Crisis Text Line. Outside the US, searching "crisis line" with your country's name will find a local number.</p>
+            <a href="tel:988" class="btn btn-secondary crisis-call-btn">📞 Call 988</a>
+          </div>
+
+          <div class="unified-block" id="checkInNudgeCard" hidden>
+            <div id="checkInTalkVariant">
+              <p class="card-label">Since It's Been Heavy Lately</p>
+              <p class="reach-out-text">This past week has felt like a lot. A problem shared is a problem halved — is there someone you trust that you could talk to about how you're really doing?</p>
+              <button id="talkToSomeoneBtn" class="btn btn-secondary" type="button">💬 Talk to Someone</button>
+              <p class="share-msg" id="talkToSomeoneMsg" hidden></p>
+            </div>
+            <div id="checkInGratitudeVariant">
+              <p class="card-label">A Moment to Pause</p>
+              <p class="reach-out-text">In this heavy season, pause for a moment: what's one small thing you're grateful for right now, even if it's tiny? And think back — is there something that once felt impossible to get through, that you made it through anyway? You can again.</p>
+            </div>
+          </div>
+
+          <div class="unified-block" id="callNudgeCard" hidden>
+            <p class="card-label">A Little Further This Week</p>
+            <p class="reach-out-text">A text is easy to send, and just as easy to scroll past. Is there someone you could actually call, or see face to face, instead of just texting today?</p>
+            <a href="tel:" class="btn btn-secondary crisis-call-btn">📞 Call Someone</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Reflect on Today: three journal fields as accordion rows -->
+      <div class="section-group">
+        <div class="section-group-header">
+          <span class="section-group-icon">📝</span>
+          <h2 class="section-group-title" id="reflectionCardLabel">Today's Reflection</h2>
+        </div>
+        <article class="card reflection-card">
+
+          <div class="accordion-row" id="reflectHeartRow">
+            <button type="button" class="accordion-row-head" data-accordion="heart">
+              <span class="accordion-row-title"><span class="emoji">💭</span> What's on your heart today?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectHeartPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="reflectionInput" rows="3" placeholder="Write freely — this is just for you..."></textarea>
+            </div>
+          </div>
+
+          <div class="accordion-row" id="reflectBarnabasRow">
+            <button type="button" class="accordion-row-head" data-accordion="barnabas">
+              <span class="accordion-row-title"><span class="emoji">🤝</span> Your Barnabas moment — what did you do, and how did it feel?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectBarnabasPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="barnabasInput" rows="3" placeholder="What did you do for someone today, and how did it feel?"></textarea>
+            </div>
+          </div>
+
+          <div class="accordion-row" id="reflectKindnessRow">
+            <button type="button" class="accordion-row-head" data-accordion="kindness">
+              <span class="accordion-row-title"><span class="emoji">💛</span> Someone watered me today — did anyone show you kindness?</span>
+              <span class="accordion-chevron">›</span>
+            </button>
+            <p class="accordion-row-preview" id="reflectKindnessPreview" hidden></p>
+            <div class="accordion-row-body">
+              <textarea id="receivedKindnessInput" rows="3" placeholder="What did someone do for you today, and how did it feel?"></textarea>
+            </div>
+          </div>
+
+          <p class="field-label" id="moodFieldLabel">How are you feeling?</p>
+          <div class="mood-picker" id="moodPicker">
+            <button type="button" class="mood-btn" data-mood="joyful">😊<span>Joyful</span></button>
+            <button type="button" class="mood-btn" data-mood="peaceful">🙂<span>Peaceful</span></button>
+            <button type="button" class="mood-btn" data-mood="hopeful">🌱<span>Hopeful</span></button>
+            <button type="button" class="mood-btn" data-mood="tired">😔<span>Tired</span></button>
+            <button type="button" class="mood-btn" data-mood="struggling">😢<span>Struggling</span></button>
+          </div>
+
+          <button id="saveReflectionBtn" class="btn btn-primary">Save Reflection</button>
+          <p class="save-msg" id="saveMsg" hidden>Saved gently. Thank you for showing up today. ⭐⭐</p>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- STORY -->
+    <section id="tab-story" class="tab-panel">
+      <h2 class="section-title">Story of the Day</h2>
+      <p class="section-sub">A true story of someone showing the good side of humanity — the Barnabas effect, at work in real life.</p>
+      <article class="card story-card">
+        <div class="card-label-row">
+          <p class="card-label">True Story</p>
+          <div class="card-label-actions">
+            <button id="storyListenBtn" class="favorite-btn" type="button">🔊 Listen</button>
+            <button id="storyShareBtn" class="favorite-btn" type="button">↗ Share</button>
+            <button id="storyFavoriteBtn" class="favorite-btn" type="button">☆ Save</button>
+          </div>
+        </div>
+        <h3 class="story-title" id="storyTitle"></h3>
+        <p class="story-text" id="storyText"></p>
+        <p class="share-msg" id="storyShareMsg" hidden></p>
+        <div class="story-insight-row">
+          <button id="storyInsightBtn" class="story-insight-btn" type="button" aria-label="Show the lesson behind this story" aria-expanded="false">i</button>
+        </div>
+        <div class="story-insight-panel" id="storyInsightPanel" hidden>
+          <p class="story-insight-label">What it meant</p>
+          <p class="story-insight-text" id="storyInsightText"></p>
+        </div>
+      </article>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="tab-history" class="tab-panel">
+      <h2 class="section-title">My Journal</h2>
+      <p class="section-sub">Every entry you've written, kept in one quiet place.</p>
+
+      <article class="card on-this-day-card" id="onThisDayCard" hidden>
+        <p class="card-label">On This Day</p>
+        <p class="on-this-day-text" id="onThisDayText"></p>
+      </article>
+
+      <input type="search" id="historySearch" class="search-input" placeholder="Search your journal...">
+
+      <div id="historyList" class="history-list"></div>
+      <p id="historyEmpty" class="empty-state" hidden>Your journal is still quiet — write your first reflection on the Today tab.</p>
+      <p id="historyNoMatch" class="empty-state" hidden>No entries match your search.</p>
+    </section>
+
+    <!-- FAVORITES -->
+    <section id="tab-favorites" class="tab-panel">
+      <h2 class="section-title">Favorites</h2>
+      <p class="section-sub">Verses and quotes you've saved to come back to.</p>
+      <input type="search" id="favoritesSearch" class="search-input" placeholder="Search your favorites...">
+      <div id="favoritesList" class="favorites-list"></div>
+      <p id="favoritesEmpty" class="empty-state" hidden>Nothing saved yet — tap "Save" on a verse or quote you want to keep.</p>
+      <p id="favoritesNoMatch" class="empty-state" hidden>No favorites match your search.</p>
+    </section>
+
+    <!-- REWARDS -->
+    <section id="tab-rewards" class="tab-panel">
+      <h2 class="section-title">Rewards</h2>
+      <p class="section-sub">A small way to notice how far you've come.</p>
+
+      <article class="card recap-card" id="weeklyRecapCard" hidden>
+        <p class="card-label">This Week</p>
+        <p class="recap-text" id="weeklyRecapText"></p>
+        <p class="recap-text" id="weeklyRecapReceivedText" style="margin-top: 8px;"></p>
+      </article>
+
+      <div class="rewards-summary">
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardStars">0</span>
+          <span class="reward-label">Total Stars</span>
+        </div>
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardStreak">0</span>
+          <span class="reward-label">Day Streak</span>
+        </div>
+        <div class="reward-tile">
+          <span class="reward-number" id="rewardMoments">0</span>
+          <span class="reward-label">Barnabas Moments</span>
+        </div>
+      </div>
+
+      <h3 class="badges-title">Badges</h3>
+      <div id="badgesGrid" class="badges-grid"></div>
+
+      <h3 class="badges-title">Mood Calendar</h3>
+      <p class="section-sub">How you've been feeling, day by day.</p>
+      <div id="moodCalendar" class="mood-calendar"></div>
+      <div class="mood-legend" id="moodLegend"></div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <p>Be still. Be kind. Be someone's encouragement today.</p>
+  </footer>
+
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboardingOverlay" class="onboarding-overlay" hidden>
+  <div class="onboarding-card">
+    <span class="onboarding-mark">✦</span>
+    <h2>Welcome to Barnabas Journal</h2>
+    <p>In the book of Acts, a man named Joseph was given a new name by the apostles: Barnabas — "son of encouragement." He had a gift for lifting others up with a kind word or a well-timed act of generosity.</p>
+    <p>This journal gives you a new verse, a word of encouragement, and a small "Barnabas moment" to do for someone else — one day at a time. A new day unlocks every day; you can always look back on days you've already lived, but not skip ahead.</p>
+    <p>Show up, be kind, and reflect a little. Stars, streaks, and badges are just there to notice how far you've come.</p>
+    <button id="onboardingStartBtn" class="btn btn-primary">Begin your journey</button>
+  </div>
+</div>
+
+<!-- MENU -->
+<div id="menuOverlay" class="settings-overlay" hidden>
+  <div class="settings-card menu-card">
+    <div class="settings-card-header">
+      <h2>Menu</h2>
+      <button id="menuCloseBtn" class="settings-close-btn" aria-label="Close menu" type="button">✕</button>
+    </div>
+    <button id="menuSettingsBtn" class="menu-item" type="button">
+      <span class="menu-item-icon">⚙️</span>
+      <span class="menu-item-label">Settings</span>
+    </button>
+    <button id="menuBibleBtn" class="menu-item" type="button">
+      <span class="menu-item-icon">📖</span>
+      <span class="menu-item-label">Read the Bible</span>
+    </button>
+    <button id="menuShareAppBtn" class="menu-item" type="button">
+      <span class="menu-item-icon">↗</span>
+      <span class="menu-item-label">Share App</span>
+    </button>
+    <button id="menuAboutBtn" class="menu-item" type="button">
+      <span class="menu-item-icon">ℹ️</span>
+      <span class="menu-item-label">About</span>
+    </button>
+    <p class="share-msg" id="menuShareMsg" hidden></p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="aboutOverlay" class="settings-overlay" hidden>
+  <div class="settings-card">
+    <div class="settings-card-header">
+      <h2>About Barnabas Journal</h2>
+      <button id="aboutCloseBtn" class="settings-close-btn" aria-label="Close about" type="button">✕</button>
+    </div>
+    <p class="about-text">Barnabas Journal exists to put a little encouragement into your day — one verse, one quote, and one true story of someone showing up for another person, each day.</p>
+    <p class="about-text">It's named for Barnabas, called "Son of Encouragement" in Acts 4:36 — a man who introduced the outcast, gave second chances, and stood by people others had given up on.</p>
+    <p class="about-text">Our hope is simple: that this app helps you carry a little more hope into your day, and gives you an easy way to pass it on to someone else. No matter your background, your faith, or the season of life you're in, there's something here for you.</p>
+    <p class="about-meta">Version 1.0.0</p>
+    <p class="about-meta">Questions or feedback: <a href="mailto:arthurdongz0711@gmail.com">arthurdongz0711@gmail.com</a></p>
+    <p class="settings-footer-link">
+      <a href="privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a>
+    </p>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settingsOverlay" class="settings-overlay" hidden>
+  <div class="settings-card">
+    <div class="settings-card-header">
+      <h2>Settings</h2>
+      <button id="settingsCloseBtn" class="settings-close-btn" aria-label="Close settings" type="button">✕</button>
+    </div>
+
+    <h3 class="badges-title">Appearance</h3>
+    <div class="settings-row">
+      <p class="settings-row-label">Dark Mode</p>
+      <button id="settingsThemeToggle" class="theme-toggle" aria-label="Toggle dark mode" type="button">🌙</button>
+    </div>
+
+    <h3 class="badges-title">Bible Version</h3>
+    <p class="section-sub">The daily verse is available in eight public-domain translations: the King James Version (KJV), the plain-English World English Bible (WEB), the American Standard Version (ASV), Young's Literal Translation (YLT), the simplified Bible in Basic English (BBE), the Spanish Reina-Valera Antigua (RVA), the Portuguese Almeida 1911 (ALM1911), and the French Louis Segond 1910 (LSG).</p>
+    <div class="version-mode-options">
+      <button id="verseModeAlternateBtn" class="intention-btn version-mode-btn" type="button">Alternate daily</button>
+      <button id="verseModeFavoriteBtn" class="intention-btn version-mode-btn" type="button">Always use my favorite</button>
+    </div>
+    <div id="verseFavoritePickerRow" class="version-favorite-row" hidden>
+      <label class="field-label" for="verseFavoriteSelect">Favorite version</label>
+      <select id="verseFavoriteSelect" class="voice-select"></select>
+    </div>
+
+    <div id="voiceSettingsSection">
+      <h3 class="badges-title">Voice &amp; Speech</h3>
+      <p class="section-sub">Choose how the 🔊 Listen buttons sound.</p>
+
+      <label class="field-label" for="voiceSelect">Voice</label>
+      <select id="voiceSelect" class="voice-select"></select>
+
+      <label class="field-label" for="pitchRange">Pitch</label>
+      <input type="range" id="pitchRange" class="voice-range" min="0" max="2" step="0.1" value="1">
+
+      <label class="field-label" for="rateRange">Speed</label>
+      <input type="range" id="rateRange" class="voice-range" min="0.5" max="2" step="0.1" value="0.95">
+
+      <button id="testVoiceBtn" class="btn btn-secondary voice-test-btn" type="button">🔊 Test Voice</button>
+    </div>
+
+    <h3 class="badges-title">Refresh</h3>
+    <p class="section-sub">Get the latest version without closing and reopening the app — you can also pull down from the top of the screen to refresh.</p>
+    <div class="backup-actions">
+      <button id="refreshAppBtn" class="btn btn-secondary" type="button">🔄 Check for Updates</button>
+    </div>
+    <p id="refreshMsg" class="backup-msg" hidden></p>
+
+    <h3 class="badges-title">Backup</h3>
+    <p class="section-sub">Your journal lives only in this browser. Export a backup now and then, or restore one here.</p>
+    <p id="lastBackupNote" class="backup-note"></p>
+    <div class="backup-actions">
+      <button id="exportBtn" class="btn btn-secondary" type="button">Export Backup</button>
+      <button id="importBtn" class="btn btn-secondary" type="button">Restore Backup</button>
+      <input id="importFile" type="file" accept="application/json" aria-label="Choose a backup file to restore" hidden>
+    </div>
+    <p id="backupMsg" class="backup-msg" hidden></p>
+  </div>
+</div>
+
+<!-- SHARE PREVIEW -->
+<div id="sharePreviewOverlay" class="settings-overlay" hidden>
+  <div class="settings-card share-preview-card">
+    <div class="settings-card-header">
+      <h2>Choose a Background</h2>
+      <button id="sharePreviewCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <img id="sharePreviewImage" class="share-preview-image" alt="Preview of the quote you're about to share">
+    <div id="sharePreviewSwatches" class="share-theme-picker"></div>
+    <button id="sharePreviewShareBtn" class="btn btn-primary share-preview-share-btn" type="button">Share this</button>
+    <p class="share-msg" id="sharePreviewMsg" hidden></p>
+  </div>
+</div>
+
+<!-- VERSE POPUP: opened by tapping a confession's scripture reference -->
+<div id="versePopupOverlay" class="settings-overlay" hidden>
+  <div class="settings-card verse-popup-card">
+    <div class="settings-card-header">
+      <h2 id="versePopupTitle"></h2>
+      <button id="versePopupCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <div id="versePopupBody"></div>
+  </div>
+</div>
+
+<!-- BIBLE CHAPTER READER: reached via "Read the full chapter" in the verse popup -->
+<div id="bibleChapterOverlay" class="settings-overlay" hidden>
+  <div class="settings-card bible-chapter-card">
+    <div class="bible-chapter-header">
+      <h2 id="bibleChapterTitle"></h2>
+      <button id="bibleChapterCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <div class="bible-chapter-version-row">
+      <label class="field-label bible-chapter-version-label" for="bibleChapterVersionSelect">Version</label>
+      <select id="bibleChapterVersionSelect" class="voice-select bible-chapter-version-select"></select>
+    </div>
+    <p id="bibleChapterVersionStatus" class="bible-chapter-version-status" hidden></p>
+    <div id="bibleChapterMarkToolbar" class="bible-chapter-mark-toolbar" hidden>
+      <div id="bibleChapterMarkIconRow" class="bible-chapter-mark-icon-row" hidden>
+        <span id="bibleChapterMarkLabel1" class="bible-chapter-mark-label"></span>
+        <button type="button" id="bibleChapterMarkIconBtn" class="bible-chapter-mark-icon-btn" aria-label="Show highlight options">🖍️</button>
+      </div>
+      <div id="bibleChapterMarkExpandedRow" class="bible-chapter-mark-expanded-row" hidden>
+        <span id="bibleChapterMarkLabel2" class="bible-chapter-mark-label"></span>
+        <div class="bible-chapter-mark-actions">
+          <button type="button" class="bible-chapter-swatch" data-color="green" aria-label="Highlight green"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="yellow" aria-label="Highlight yellow"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="red" aria-label="Highlight red"></button>
+          <button type="button" class="bible-chapter-swatch" data-color="blue" aria-label="Highlight blue"></button>
+          <button type="button" id="bibleChapterClearBtn" class="bible-chapter-clear-swatch" aria-label="Remove highlight">✕</button>
+          <button type="button" id="bibleChapterUnderlineBtn" class="bible-chapter-underline-btn" aria-label="Underline">U</button>
+          <button type="button" id="bibleChapterNoteBtn" class="bible-chapter-icon-btn" aria-label="Add a note">✏️</button>
+          <button type="button" id="bibleChapterCopyBtn" class="bible-chapter-icon-btn" aria-label="Copy">📋</button>
+        </div>
+      </div>
+      <div id="bibleChapterNoteEditor" class="bible-chapter-note-editor" hidden>
+        <textarea id="bibleChapterNoteInput" class="bible-chapter-note-input" placeholder="Write a note…"></textarea>
+        <div class="bible-chapter-note-actions">
+          <button type="button" id="bibleChapterNoteCancelBtn" class="bible-chapter-note-cancel-btn">Cancel</button>
+          <button type="button" id="bibleChapterNoteSaveBtn" class="bible-chapter-note-save-btn">Save</button>
+        </div>
+      </div>
+    </div>
+    <div id="bibleChapterBody" class="bible-chapter-body"></div>
+    <div class="bible-chapter-nav">
+      <button id="bibleChapterPrevBtn" class="bible-chapter-nav-btn" type="button">‹ Previous chapter</button>
+      <button id="bibleChapterNextBtn" class="bible-chapter-nav-btn" type="button">Next chapter ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- BIBLE BROWSER: reached via the ☰ menu's "Read the Bible" — pick any
+     book and chapter directly, independent of a cited verse -->
+<div id="bibleBrowserOverlay" class="settings-overlay" hidden>
+  <div class="settings-card bible-browser-card">
+    <div class="settings-card-header">
+      <h2 id="bibleBrowserTitle">Read the Bible</h2>
+      <button id="bibleBrowserCloseBtn" class="settings-close-btn" aria-label="Close" type="button">✕</button>
+    </div>
+    <button id="bibleBrowserBackBtn" class="bible-browser-back-btn" type="button" hidden>‹ All books</button>
+    <div id="bibleBrowserBookList" class="bible-browser-grid"></div>
+    <div id="bibleBrowserChapterGrid" class="bible-browser-grid" hidden></div>
+  </div>
+</div>
+
+<script src="data-verses.js"></script>
+<script src="data-confessions.js"></script>
+<script src="data-bible-books.js"></script>
+<script src="data-bible-kjv.js"></script>
+<script src="data-encouragements.js"></script>
+<script src="data-moments.js"></script>
+<script src="data-wisdom.js"></script>
+<script src="data-stories.js"></script>
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
