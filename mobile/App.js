@@ -44,6 +44,7 @@ import AboutScreen from "./src/screens/AboutScreen";
 import BibleBrowserScreen from "./src/screens/BibleBrowserScreen";
 import BibleReadingPlansScreen from "./src/screens/BibleReadingPlansScreen";
 import BibleMarksScreen from "./src/screens/BibleMarksScreen";
+import PrayerListScreen from "./src/screens/PrayerListScreen";
 import ReflectionEditorScreen from "./src/screens/ReflectionEditorScreen";
 import MenuModal from "./src/components/MenuModal";
 import OnboardingTour from "./src/components/OnboardingTour";
@@ -122,6 +123,7 @@ function AppContent({ store }) {
   const [showBibleBrowser, setShowBibleBrowser] = useState(false);
   const [showBibleReadingPlans, setShowBibleReadingPlans] = useState(false);
   const [showBibleMarks, setShowBibleMarks] = useState(false);
+  const [showPrayerList, setShowPrayerList] = useState(false);
   const [reflectionEditorDay, setReflectionEditorDay] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
@@ -142,6 +144,7 @@ function AppContent({ store }) {
     !showBibleBrowser &&
     !showBibleReadingPlans &&
     !showBibleMarks &&
+    !showPrayerList &&
     reflectionEditorDay == null;
   const styles = getStyles(colors, shadow);
 
@@ -290,6 +293,8 @@ function AppContent({ store }) {
         />
       ) : showBibleMarks ? (
         <BibleMarksScreen onClose={() => setShowBibleMarks(false)} />
+      ) : showPrayerList ? (
+        <PrayerListScreen store={store} onClose={() => setShowPrayerList(false)} />
       ) : reflectionEditorDay != null ? (
         <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
       ) : (
@@ -376,6 +381,7 @@ function AppContent({ store }) {
         onBible={() => setShowBibleBrowser(true)}
         onBibleReadingPlans={() => setShowBibleReadingPlans(true)}
         onBibleMarks={() => setShowBibleMarks(true)}
+        onPrayerList={() => setShowPrayerList(true)}
         onAbout={() => setShowAbout(true)}
       />
       <OnboardingTour

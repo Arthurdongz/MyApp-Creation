@@ -208,6 +208,7 @@ function freshJourney() {
     favorites: [],
     chatConversations: [],
     earnedBadgeIds: [],
+    prayers: [],
     settings: defaultSettings(),
   };
 }
@@ -254,6 +255,7 @@ function normalizeLoaded(parsed) {
     favorites: parsed.favorites || [],
     chatConversations: parsed.chatConversations || [],
     earnedBadgeIds: parsed.earnedBadgeIds || [],
+    prayers: parsed.prayers || [],
     settings: { ...defaultSettings(), ...migrateSettings(parsed.settings || {}) },
   };
 }
@@ -937,6 +939,90 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Adds a new prayer request in "active" status. dayNumber is recorded for
+  // context only (which day of the journey it was prayed about) — it's
+  // never used for streaks or stars, since answered prayer is its own kind
+  // of milestone, not a daily task to gamify.
+  const addPrayer = useCallback(
+    (text) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      setState((prev) => {
+        const prayer = {
+          id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+          text: trimmed,
+          createdAt: Date.now(),
+          dayNumber: latestDay,
+          status: "active",
+          answeredAt: null,
+          answerNote: "",
+        };
+        const next = { ...prev, prayers: [prayer, ...prev.prayers] };
+        persist(next);
+        return next;
+      });
+    },
+    [persist, latestDay]
+  );
+
+  const markPrayerAnswered = useCallback(
+    (prayerId, answerNote) => {
+      setState((prev) => {
+        const prayers = prev.prayers.map((p) =>
+          p.id === prayerId
+            ? { ...p, status: "answered", answeredAt: Date.now(), answerNote: (answerNote || "").trim() }
+            : p
+        );
+        const next = { ...prev, prayers };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  // Undoes an accidental "mark answered" tap — back to active, with
+  // answeredAt/answerNote cleared rather than left stale for whenever it's
+  // genuinely answered later.
+  const reopenPrayer = useCallback(
+    (prayerId) => {
+      setState((prev) => {
+        const prayers = prev.prayers.map((p) =>
+          p.id === prayerId ? { ...p, status: "active", answeredAt: null, answerNote: "" } : p
+        );
+        const next = { ...prev, prayers };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const editPrayerText = useCallback(
+    (prayerId, text) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      setState((prev) => {
+        const prayers = prev.prayers.map((p) => (p.id === prayerId ? { ...p, text: trimmed } : p));
+        const next = { ...prev, prayers };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  const deletePrayer = useCallback(
+    (prayerId) => {
+      setState((prev) => {
+        const next = { ...prev, prayers: prev.prayers.filter((p) => p.id !== prayerId) };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
   const showCrisisNudge = ready
     ? computeShowCrisisNudge(state.entries, latestDay, state.settings.lastCrisisNudgeShownAt)
     : false;
@@ -1104,6 +1190,12 @@ export function useJournalStore() {
     chatConversations: state.chatConversations,
     openChatConversation,
     appendChatMessage,
+    prayers: state.prayers,
+    addPrayer,
+    markPrayerAnswered,
+    reopenPrayer,
+    editPrayerText,
+    deletePrayer,
     setChatMessageFeedback,
     resumeChatConversation,
     showCrisisNudge,
