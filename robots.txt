@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arthurdongz.github.io/MyApp-Creation/sitemap.xml
