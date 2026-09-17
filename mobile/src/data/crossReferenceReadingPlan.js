@@ -14,7 +14,7 @@
 // says so plainly in the app. Every one of the 66 books has had at least
 // one passage since day 59 (days 37-59 were a breadth pass built to close
 // that gap); days 60 onward are the much longer chapter-level push, one new
-// (mostly whole) chapter per day. As of day 112, 74 of the Bible's 1,189
+// (mostly whole) chapter per day. As of day 132, 94 of the Bible's 1,189
 // chapters are read in full somewhere in this plan — real progress, but a
 // small fraction; more days get added over time until they all are.
 //
@@ -865,6 +865,146 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Psalm 8", book: "Psalm", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "Hebrews 2:6-9", book: "Hebrews", chapter: 2, verseStart: 6, verseEnd: 9 },
+    ],
+  },
+  {
+    day: 113,
+    passages: [
+      { ref: "Obadiah 1", book: "Obadiah", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Revelation 11:15", book: "Revelation", chapter: 11, verseStart: 15, verseEnd: 15 },
+    ],
+  },
+  {
+    day: 114,
+    passages: [
+      { ref: "Joel 1", book: "Joel", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Revelation 9:3-4", book: "Revelation", chapter: 9, verseStart: 3, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 115,
+    passages: [
+      { ref: "Joel 2", book: "Joel", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Acts 2:16-21", book: "Acts", chapter: 2, verseStart: 16, verseEnd: 21 },
+    ],
+  },
+  {
+    day: 116,
+    passages: [
+      { ref: "Joel 3", book: "Joel", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Revelation 14:14-16", book: "Revelation", chapter: 14, verseStart: 14, verseEnd: 16 },
+    ],
+  },
+  {
+    day: 117,
+    passages: [
+      { ref: "Nahum 1", book: "Nahum", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Romans 12:19", book: "Romans", chapter: 12, verseStart: 19, verseEnd: 19 },
+    ],
+  },
+  {
+    day: 118,
+    passages: [
+      { ref: "Nahum 2", book: "Nahum", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Luke 19:41-44", book: "Luke", chapter: 19, verseStart: 41, verseEnd: 44 },
+    ],
+  },
+  {
+    day: 119,
+    passages: [
+      { ref: "Nahum 3", book: "Nahum", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Romans 6:23", book: "Romans", chapter: 6, verseStart: 23, verseEnd: 23 },
+    ],
+  },
+  {
+    day: 120,
+    passages: [
+      { ref: "Habakkuk 1", book: "Habakkuk", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Revelation 6:9-10", book: "Revelation", chapter: 6, verseStart: 9, verseEnd: 10 },
+    ],
+  },
+  {
+    day: 121,
+    passages: [
+      { ref: "Habakkuk 2", book: "Habakkuk", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 10:37-38", book: "Hebrews", chapter: 10, verseStart: 37, verseEnd: 38 },
+    ],
+  },
+  {
+    day: 122,
+    passages: [
+      { ref: "Habakkuk 3", book: "Habakkuk", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Philippians 4:11-13", book: "Philippians", chapter: 4, verseStart: 11, verseEnd: 13 },
+    ],
+  },
+  {
+    day: 123,
+    passages: [
+      { ref: "Zephaniah 1", book: "Zephaniah", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "1 Thessalonians 5:2-4", book: "1 Thessalonians", chapter: 5, verseStart: 2, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 124,
+    passages: [
+      { ref: "Zephaniah 2", book: "Zephaniah", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Matthew 5:5", book: "Matthew", chapter: 5, verseStart: 5, verseEnd: 5 },
+    ],
+  },
+  {
+    day: 125,
+    passages: [
+      { ref: "Zephaniah 3", book: "Zephaniah", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Revelation 21:3-4", book: "Revelation", chapter: 21, verseStart: 3, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 126,
+    passages: [
+      { ref: "Haggai 1", book: "Haggai", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Matthew 6:33", book: "Matthew", chapter: 6, verseStart: 33, verseEnd: 33 },
+    ],
+  },
+  {
+    day: 127,
+    passages: [
+      { ref: "Haggai 2", book: "Haggai", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 12:26-28", book: "Hebrews", chapter: 12, verseStart: 26, verseEnd: 28 },
+    ],
+  },
+  {
+    day: 128,
+    passages: [
+      { ref: "2 Chronicles 20", book: "2 Chronicles", chapter: 20, verseStart: null, verseEnd: null },
+      { ref: "Ephesians 6:10-12", book: "Ephesians", chapter: 6, verseStart: 10, verseEnd: 12 },
+    ],
+  },
+  {
+    day: 129,
+    passages: [
+      { ref: "Lamentations 1", book: "Lamentations", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Matthew 23:37", book: "Matthew", chapter: 23, verseStart: 37, verseEnd: 37 },
+    ],
+  },
+  {
+    day: 130,
+    passages: [
+      { ref: "Genesis 32", book: "Genesis", chapter: 32, verseStart: null, verseEnd: null },
+      { ref: "Luke 18:1", book: "Luke", chapter: 18, verseStart: 1, verseEnd: 1 },
+    ],
+  },
+  {
+    day: 131,
+    passages: [
+      { ref: "Exodus 33", book: "Exodus", chapter: 33, verseStart: null, verseEnd: null },
+      { ref: "John 1:14-18", book: "John", chapter: 1, verseStart: 14, verseEnd: 18 },
+    ],
+  },
+  {
+    day: 132,
+    passages: [
+      { ref: "1 Kings 17", book: "1 Kings", chapter: 17, verseStart: null, verseEnd: null },
+      { ref: "Luke 4:25-26", book: "Luke", chapter: 4, verseStart: 25, verseEnd: 26 },
     ],
   },
 ];
