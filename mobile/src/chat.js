@@ -110,6 +110,12 @@ async function consumeChatStream(body, onDelta, resetStallTimeout) {
 // streak/mood/moments-done — never their raw journal text, which stays on
 // the device unless they choose to type it into the chat themselves.
 //
+// personaPreferences ({ style, note }) is how the user's chosen "vibe" —
+// friend/mentor/coach/etc., plus an optional free-text note — reaches the
+// Worker's system prompt (see ChatPersonaModal and settings.chatPersonaStyle/
+// chatPersonaNote). It's always sent, even at the default "friend" style,
+// so the Worker has one consistent shape to sanitize.
+//
 // `onDelta(chunkText, fullTextSoFar)` fires as the reply streams in, so the
 // caller can render it incrementally; the resolved promise still returns
 // the complete text once the stream ends, same as before. A request is
@@ -125,6 +131,7 @@ export async function sendChatMessage(
   region,
   todayContext,
   personalization,
+  personaPreferences,
   { onDelta, signal: externalSignal } = {}
 ) {
   const deviceId = await getOrCreateChatDeviceId();
@@ -148,7 +155,16 @@ export async function sendChatMessage(
       res = await expoFetch(CHAT_WORKER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, history, deviceId, region, language, todayContext, personalization }),
+        body: JSON.stringify({
+          message,
+          history,
+          deviceId,
+          region,
+          language,
+          todayContext,
+          personalization,
+          personaPreferences,
+        }),
         signal: controller.signal,
       });
     } catch (e) {

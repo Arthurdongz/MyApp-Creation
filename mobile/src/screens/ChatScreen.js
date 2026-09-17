@@ -30,6 +30,7 @@ import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
 import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
 import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
 import VersePopup from "../components/VersePopup";
+import ChatPersonaModal from "../components/ChatPersonaModal";
 
 const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
 const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
@@ -169,6 +170,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const [errorMsg, setErrorMsg] = useState("");
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
+  const [personaModalOpen, setPersonaModalOpen] = useState(false);
   const scrollRef = useRef(null);
 
   const openVerseRef = (ref) => {
@@ -235,6 +237,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         resolveCrisisRegion(settings),
         todayContext,
         personalization,
+        { style: settings.chatPersonaStyle, note: settings.chatPersonaNote },
         { onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar) }
       );
       appendChatMessage(conversation, { role: "assistant", content: reply });
@@ -408,6 +411,20 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                     {settings.chatPersonalizationEnabled ? t("chat.personalizationOn") : t("chat.personalizationOff")}
                   </Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    hapticTap();
+                    setPersonaModalOpen(true);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("chat.persona.openLabel")}
+                >
+                  <Text style={styles.personalizationToggle}>
+                    {t("chat.persona.buttonLabel", {
+                      style: t(`chat.persona.styles.${settings.chatPersonaStyle}.label`),
+                    })}
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               {messages.length === 0 ? (
@@ -512,6 +529,13 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         )}
       </KeyboardAvoidingView>
       <VersePopup visible={versePopupOpen} scriptureRef={versePopupRef} onClose={() => setVersePopupOpen(false)} />
+      <ChatPersonaModal
+        visible={personaModalOpen}
+        style={settings.chatPersonaStyle}
+        note={settings.chatPersonaNote}
+        onClose={() => setPersonaModalOpen(false)}
+        onSave={(style, note) => updateSettings({ chatPersonaStyle: style, chatPersonaNote: note })}
+      />
     </SafeAreaView>
   );
 }

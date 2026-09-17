@@ -167,6 +167,14 @@ function defaultSettings() {
     // type it into the chat themselves. On by default since it's a core
     // part of what the chat feature promises; toggleable in ChatScreen.
     chatPersonalizationEnabled: true,
+    // How Barnabas should talk to this user — a personal tone preference,
+    // not a new instruction (see chat-worker/worker.js's systemPromptFor,
+    // which frames it that way explicitly so it can never override the
+    // safety/crisis rules). "friend" matches the chat's original always-on
+    // voice, so existing conversations don't change tone by default.
+    // Editable via the "Vibe" button in ChatScreen.
+    chatPersonaStyle: "friend",
+    chatPersonaNote: "",
     // null = trust the device locale guess (see crisisResources.js);
     // a region code or "OTHER" means the user corrected it by hand in
     // Settings because the device guessed wrong.

@@ -406,6 +406,24 @@
     "personalizationOffLabel": "Turn on personalization using your streak and mood",
     "feedbackUpLabel": "This reply was helpful",
     "feedbackDownLabel": "This reply was not helpful",
+    "persona": {
+      "buttonLabel": "Vibe: {{style}}",
+      "openLabel": "Personalize how Barnabas talks to you",
+      "title": "How should Barnabas talk to you?",
+      "subtitle": "Pick a vibe — Barnabas stays grounded in Scripture no matter which one you choose.",
+      "styles": {
+        "friend": { "label": "Friend", "description": "Casual and warm, like texting a close friend." },
+        "mentor": { "label": "Mentor", "description": "Thoughtful and wise, offers perspective." },
+        "coach": { "label": "Coach", "description": "Upbeat and motivating, pushes you forward." },
+        "direct": { "label": "Straight to the Point", "description": "Short, clear, no fluff." },
+        "playful": { "label": "Playful", "description": "Fun, lighthearted, a little humor." }
+      },
+      "noteLabel": "Anything else Barnabas should know? (optional)",
+      "notePlaceholder": "e.g. \"call me by name\", \"keep replies short\", \"add some humor\"",
+      "noteHint": "{{count}}/300",
+      "saveButton": "Save",
+      "closeLabel": "Close"
+    },
     "seedFromReading": {
       "userMessage": "I just read {{ref}} from the \"{{planTitle}}\" reading plan.",
       "userMessageWithText": "I just read {{ref}} from the \"{{planTitle}}\" reading plan: \"{{passageText}}\"",

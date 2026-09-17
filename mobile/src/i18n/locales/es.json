@@ -406,6 +406,24 @@
     "personalizationOffLabel": "Activar la personalización con tu racha y ánimo",
     "feedbackUpLabel": "Esta respuesta fue útil",
     "feedbackDownLabel": "Esta respuesta no fue útil",
+    "persona": {
+      "buttonLabel": "Estilo: {{style}}",
+      "openLabel": "Personaliza cómo te habla Bernabé",
+      "title": "¿Cómo quieres que te hable Bernabé?",
+      "subtitle": "Elige un estilo — Bernabé se mantiene fiel a las Escrituras sin importar cuál elijas.",
+      "styles": {
+        "friend": { "label": "Amigo", "description": "Casual y cálido, como hablar con un buen amigo." },
+        "mentor": { "label": "Mentor", "description": "Reflexivo y sabio, ofrece perspectiva." },
+        "coach": { "label": "Entrenador", "description": "Animado y motivador, te impulsa a avanzar." },
+        "direct": { "label": "Directo", "description": "Corto, claro, sin rodeos." },
+        "playful": { "label": "Divertido", "description": "Ligero y con un toque de humor." }
+      },
+      "noteLabel": "¿Algo más que Bernabé deba saber? (opcional)",
+      "notePlaceholder": "ej. \"llámame por mi nombre\", \"respuestas cortas\", \"con humor\"",
+      "noteHint": "{{count}}/300",
+      "saveButton": "Guardar",
+      "closeLabel": "Cerrar"
+    },
     "seedFromReading": {
       "userMessage": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\".",
       "userMessageWithText": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\": \"{{passageText}}\"",

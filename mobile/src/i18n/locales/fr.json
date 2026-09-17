@@ -406,6 +406,24 @@
     "personalizationOffLabel": "Activer la personnalisation avec ta série et ton humeur",
     "feedbackUpLabel": "Cette réponse était utile",
     "feedbackDownLabel": "Cette réponse n'était pas utile",
+    "persona": {
+      "buttonLabel": "Style : {{style}}",
+      "openLabel": "Personnalise la façon dont Barnabas te parle",
+      "title": "Comment veux-tu que Barnabas te parle ?",
+      "subtitle": "Choisis un style — Barnabas reste ancré dans les Écritures quel que soit ton choix.",
+      "styles": {
+        "friend": { "label": "Ami", "description": "Décontracté et chaleureux, comme avec un bon ami." },
+        "mentor": { "label": "Mentor", "description": "Réfléchi et sage, apporte du recul." },
+        "coach": { "label": "Coach", "description": "Énergique et motivant, te pousse à avancer." },
+        "direct": { "label": "Direct", "description": "Court, clair, sans détour." },
+        "playful": { "label": "Enjoué", "description": "Léger, avec une pointe d'humour." }
+      },
+      "noteLabel": "Autre chose que Barnabas devrait savoir ? (facultatif)",
+      "notePlaceholder": "ex. « appelle-moi par mon prénom », « réponses courtes », « avec humour »",
+      "noteHint": "{{count}}/300",
+      "saveButton": "Enregistrer",
+      "closeLabel": "Fermer"
+    },
     "seedFromReading": {
       "userMessage": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} ».",
       "userMessageWithText": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} » : « {{passageText}} »",
