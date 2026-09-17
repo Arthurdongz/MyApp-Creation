@@ -68,6 +68,22 @@ function splitScriptureRefs(text) {
   return segments;
 }
 
+// Shared between a settled assistant bubble and the in-progress streaming
+// bubble below, so a tappable scripture reference behaves identically in
+// both — the streaming case just re-renders this against a growing string
+// as more of it arrives.
+function renderScriptureSegments(content, styles, openVerseRef) {
+  return splitScriptureRefs(content).map((seg, si) =>
+    seg.type === "ref" ? (
+      <Text key={si} style={styles.bubbleRef} onPress={() => openVerseRef(seg.content)}>
+        {seg.content}
+      </Text>
+    ) : (
+      <Text key={si}>{seg.content}</Text>
+    )
+  );
+}
+
 function ChatPaywall({ styles, onSubscribe }) {
   const { t } = useTranslation();
   return (
@@ -149,6 +165,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const [conversation, setConversation] = useState(null);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [streamingText, setStreamingText] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
@@ -205,21 +222,34 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setInput("");
     setSending(true);
     setErrorMsg("");
+    setStreamingText("");
     try {
+      // The streaming bubble below renders `streamingText` directly, not
+      // the store — appendChatMessage persists to AsyncStorage on every
+      // call, which is fine once per message but far too much I/O to do
+      // on every streamed chunk. Only the finished reply gets persisted.
       const reply = await sendChatMessage(
         text,
         history,
         i18n.language,
         resolveCrisisRegion(settings),
         todayContext,
-        personalization
+        personalization,
+        { onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar) }
       );
       appendChatMessage(conversation, { role: "assistant", content: reply });
       recordChatMessageSent();
     } catch (e) {
+      // A failure after some of the reply already streamed in still keeps
+      // that partial text — see chat.js's consumeChatStream — rather than
+      // discarding what the user already saw.
+      if (e.partialText) {
+        appendChatMessage(conversation, { role: "assistant", content: e.partialText });
+      }
       setErrorMsg(e.message || t("chat.genericError"));
     } finally {
       setSending(false);
+      setStreamingText("");
     }
   };
 
@@ -393,15 +423,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                       style={[styles.bubbleText, m.role === "user" && styles.bubbleTextUser]}
                     >
                       {m.role === "assistant"
-                        ? splitScriptureRefs(m.content).map((seg, si) =>
-                            seg.type === "ref" ? (
-                              <Text key={si} style={styles.bubbleRef} onPress={() => openVerseRef(seg.content)}>
-                                {seg.content}
-                              </Text>
-                            ) : (
-                              <Text key={si}>{seg.content}</Text>
-                            )
-                          )
+                        ? renderScriptureSegments(m.content, styles, openVerseRef)
                         : m.content}
                     </Text>
                     {m.role === "assistant" ? (
@@ -437,7 +459,15 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                   </View>
                 ))
               )}
-              {sending ? <ActivityIndicator color={colors.sageDark} style={styles.spinner} /> : null}
+              {streamingText ? (
+                <View style={[styles.bubble, styles.bubbleAssistant]}>
+                  <Text selectable style={styles.bubbleText}>
+                    {renderScriptureSegments(streamingText, styles, openVerseRef)}
+                  </Text>
+                </View>
+              ) : sending ? (
+                <ActivityIndicator color={colors.sageDark} style={styles.spinner} />
+              ) : null}
             </ScrollView>
 
             {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}

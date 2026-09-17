@@ -299,25 +299,52 @@ async function needsCrisisResponse(anthropic, message) {
   }
 }
 
+// Wraps a TransformStream as an NDJSON (newline-delimited JSON) writer —
+// the wire format for streaming a reply back to the client one line at a
+// time: {"type":"delta","text":"..."} per chunk, {"type":"error",...} if
+// something goes wrong after the response has already started (the HTTP
+// status is long since committed by then, so an in-band signal is the only
+// way left to tell the client). write() isn't awaited by every caller, but
+// WritableStreamDefaultWriter queues writes in call order regardless, so
+// chunks never arrive out of sequence even when unawaited.
+function createNdjsonStream() {
+  const { readable, writable } = new TransformStream();
+  const writer = writable.getWriter();
+  const encoder = new TextEncoder();
+  return {
+    readable,
+    write(obj) {
+      return writer.write(encoder.encode(JSON.stringify(obj) + "\n")).catch(() => {});
+    },
+    close() {
+      return writer.close().catch(() => {});
+    },
+  };
+}
+
 // Generates the actual Barnabas reply, letting Claude call
 // lookup_bible_verse as many times as it needs (bounded) before settling
 // on final text. The intermediate tool-call/tool-result exchange never
-// leaves this function — only the final text goes back to the client, so
-// the app's own conversation history stays plain user/assistant text.
-async function generateReply(anthropic, system, initialMessages) {
+// leaves this function — only text deltas are streamed out to the client
+// via `ndjson`, so the app's own conversation history stays plain
+// user/assistant text. Note this streams text from every round, including
+// any brief preamble before a tool_use decision — unlike the old
+// non-streaming version, which discarded a round's text entirely once it
+// saw stop_reason "tool_use".
+async function generateReplyStreaming(anthropic, system, initialMessages, ndjson) {
   let messages = initialMessages;
   for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-    const response = await anthropic.messages.create({
+    const stream = anthropic.messages.stream({
       model: "claude-haiku-4-5",
       max_tokens: 800,
       system,
       tools: [BIBLE_LOOKUP_TOOL],
       messages,
     });
+    stream.on("text", (delta) => ndjson.write({ type: "delta", text: delta }));
+    const response = await stream.finalMessage();
 
-    if (response.stop_reason !== "tool_use") {
-      return response.content.find((b) => b.type === "text")?.text || "";
-    }
+    if (response.stop_reason !== "tool_use") return;
 
     messages = [...messages, { role: "assistant", content: response.content }];
     const toolUseBlocks = response.content.filter((b) => b.type === "tool_use");
@@ -334,13 +361,14 @@ async function generateReply(anthropic, system, initialMessages) {
 
   // Ran out of tool-call rounds — ask once more without tools so it has to
   // answer in plain text rather than looping forever.
-  const finalResponse = await anthropic.messages.create({
+  const finalStream = anthropic.messages.stream({
     model: "claude-haiku-4-5",
     max_tokens: 800,
     system,
     messages,
   });
-  return finalResponse.content.find((b) => b.type === "text")?.text || "";
+  finalStream.on("text", (delta) => ndjson.write({ type: "delta", text: delta }));
+  await finalStream.finalMessage();
 }
 
 function jsonResponse(body, status = 200) {
@@ -392,7 +420,7 @@ async function handleFeedback(request, env) {
   return jsonResponse({ ok: true });
 }
 
-async function handleChat(request, env) {
+async function handleChat(request, env, ctx) {
   let body;
   try {
     body = await request.json();
@@ -427,31 +455,57 @@ async function handleChat(request, env) {
 
   const anthropic = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
 
-  try {
-    if (await needsCrisisResponse(anthropic, message)) {
-      const crisisLine = CRISIS_RESOURCES[resolvedRegion] || DEFAULT_CRISIS_RESOURCE;
-      const template = CRISIS_REPLY_TEMPLATES[resolvedLanguage] || CRISIS_REPLY_TEMPLATES.en;
-      return jsonResponse({ reply: template(crisisLine) });
-    }
+  // needsCrisisResponse swallows its own errors and falls back to `false`
+  // (see its own catch) so a classifier hiccup never blocks the chat — it
+  // stays outside the streaming commitment below, since it can still fail
+  // with a plain error response at this point.
+  const isCrisis = await needsCrisisResponse(anthropic, message);
 
-    const reply = await generateReply(
-      anthropic,
-      systemPromptFor(resolvedRegion, resolvedLanguage, safeTodayContext, safePersonalization),
-      [...safeHistory, { role: "user", content: message }]
+  // From here on the response is committed to streaming NDJSON — no more
+  // synchronous validation, since headers are about to be sent. Any later
+  // failure has to be signaled in-band via an `error` NDJSON line instead
+  // of an HTTP status. The producer isn't awaited before the Response is
+  // returned, so it's handed to ctx.waitUntil to keep the isolate alive
+  // until it finishes.
+  const ndjson = createNdjsonStream();
+
+  if (isCrisis) {
+    const crisisLine = CRISIS_RESOURCES[resolvedRegion] || DEFAULT_CRISIS_RESOURCE;
+    const template = CRISIS_REPLY_TEMPLATES[resolvedLanguage] || CRISIS_REPLY_TEMPLATES.en;
+    ctx.waitUntil(
+      (async () => {
+        await ndjson.write({ type: "delta", text: template(crisisLine) });
+        await ndjson.close();
+      })()
     );
-    return jsonResponse({ reply });
-  } catch (e) {
-    return jsonResponse({ error: "Couldn't reach Claude right now. Please try again." }, 502);
+  } else {
+    const system = systemPromptFor(resolvedRegion, resolvedLanguage, safeTodayContext, safePersonalization);
+    const messages = [...safeHistory, { role: "user", content: message }];
+    ctx.waitUntil(
+      (async () => {
+        try {
+          await generateReplyStreaming(anthropic, system, messages, ndjson);
+        } catch (e) {
+          await ndjson.write({ type: "error", message: "Couldn't reach Claude right now. Please try again." });
+        } finally {
+          await ndjson.close();
+        }
+      })()
+    );
   }
+
+  return new Response(ndjson.readable, {
+    headers: { "Content-Type": "application/x-ndjson; charset=utf-8" },
+  });
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method !== "POST") return new Response("Not found", { status: 404 });
 
     const { pathname } = new URL(request.url);
     if (pathname === "/feedback") return handleFeedback(request, env);
-    if (pathname === "/" || pathname === "") return handleChat(request, env);
+    if (pathname === "/" || pathname === "") return handleChat(request, env, ctx);
     return new Response("Not found", { status: 404 });
   },
 };

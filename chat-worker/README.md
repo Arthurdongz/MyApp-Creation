@@ -82,8 +82,11 @@ anything:
    replies are grounded in this project's own verified KJV text
    (`mobile/src/data/bible-kjv.json`, fetched once per Worker isolate and
    cached in memory) instead of the model's own recall. The tool-call
-   exchange stays entirely server-side — the client only ever sees the final
-   text, never tool_use/tool_result blocks.
+   exchange stays entirely server-side — the client never sees tool_use/
+   tool_result blocks — but text *is* streamed to the client live as the
+   model generates it (NDJSON over the HTTP response body, one
+   `{"type":"delta","text":"..."}` line per chunk), including any brief
+   text a round produces before it decides to call the tool.
 
 If the KJV fetch ever fails (e.g. GitHub is unreachable), `lookup_bible_verse`
 returns an error the model is instructed to handle by describing the passage
