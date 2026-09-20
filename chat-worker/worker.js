@@ -361,6 +361,43 @@ function createNdjsonStream() {
   };
 }
 
+// Runs one streaming Claude call and pushes its text out to `ndjson` as it
+// arrives. Consumes the stream via `for await` over its raw events (the
+// standard async-iterator path, built on the same ReadableStream mechanism
+// Cloudflare Workers natively supports) rather than the SDK's `.on("text",
+// ...)` event-emitter helper — that helper turned out not to deliver events
+// reliably in the Workers runtime, which silently produced an empty reply
+// on every message. If nothing streamed for this round even so, falls back
+// to reading the text straight out of the finished message, so a runtime
+// quirk degrades to "one slower chunk" instead of "no reply at all".
+async function runStreamingRound(anthropic, system, messages, tools, ndjson) {
+  const stream = anthropic.messages.stream({
+    model: "claude-haiku-4-5",
+    max_tokens: 800,
+    system,
+    ...(tools ? { tools } : {}),
+    messages,
+  });
+
+  let wroteText = false;
+  for await (const event of stream) {
+    if (event.type === "content_block_delta" && event.delta?.type === "text_delta") {
+      wroteText = true;
+      ndjson.write({ type: "delta", text: event.delta.text });
+    }
+  }
+
+  const response = await stream.finalMessage();
+  if (!wroteText) {
+    const text = response.content.find((b) => b.type === "text")?.text;
+    if (text) {
+      wroteText = true;
+      ndjson.write({ type: "delta", text });
+    }
+  }
+  return { response, wroteText };
+}
+
 // Generates the actual Barnabas reply, letting Claude call
 // lookup_bible_verse as many times as it needs (bounded) before settling
 // on final text. The intermediate tool-call/tool-result exchange never
@@ -373,17 +410,17 @@ function createNdjsonStream() {
 async function generateReplyStreaming(anthropic, system, initialMessages, ndjson) {
   let messages = initialMessages;
   for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-    const stream = anthropic.messages.stream({
-      model: "claude-haiku-4-5",
-      max_tokens: 800,
-      system,
-      tools: [BIBLE_LOOKUP_TOOL],
-      messages,
-    });
-    stream.on("text", (delta) => ndjson.write({ type: "delta", text: delta }));
-    const response = await stream.finalMessage();
+    const { response, wroteText } = await runStreamingRound(anthropic, system, messages, [BIBLE_LOOKUP_TOOL], ndjson);
 
-    if (response.stop_reason !== "tool_use") return;
+    if (response.stop_reason !== "tool_use") {
+      // Genuinely nothing to send (e.g. a refusal with no text block at
+      // all) — say so explicitly instead of silently closing the stream,
+      // which otherwise leaves the client guessing why it got nothing.
+      if (!wroteText) {
+        ndjson.write({ type: "error", message: "Barnabas didn't have a reply for that — please try again." });
+      }
+      return;
+    }
 
     messages = [...messages, { role: "assistant", content: response.content }];
     const toolUseBlocks = response.content.filter((b) => b.type === "tool_use");
@@ -400,14 +437,10 @@ async function generateReplyStreaming(anthropic, system, initialMessages, ndjson
 
   // Ran out of tool-call rounds — ask once more without tools so it has to
   // answer in plain text rather than looping forever.
-  const finalStream = anthropic.messages.stream({
-    model: "claude-haiku-4-5",
-    max_tokens: 800,
-    system,
-    messages,
-  });
-  finalStream.on("text", (delta) => ndjson.write({ type: "delta", text: delta }));
-  await finalStream.finalMessage();
+  const { wroteText } = await runStreamingRound(anthropic, system, messages, null, ndjson);
+  if (!wroteText) {
+    ndjson.write({ type: "error", message: "Barnabas didn't have a reply for that — please try again." });
+  }
 }
 
 function jsonResponse(body, status = 200) {
