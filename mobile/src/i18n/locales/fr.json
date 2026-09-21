@@ -41,6 +41,8 @@
     "paragraph2": "Ce journal t'offre chaque jour un nouveau verset, une parole d'encouragement et un petit \"moment Barnabas\" à faire pour quelqu'un d'autre — un jour à la fois. Un nouveau jour se débloque chaque jour ; tu peux toujours revenir sur les jours déjà vécus, mais tu ne peux pas avancer plus vite.",
     "paragraph3": "Sois présent, sois bienveillant, et prends un peu de temps pour réfléchir. Les étoiles, les séries et les badges sont juste là pour t'aider à voir le chemin parcouru.",
     "paragraph4": "Nous te demanderons la permission d'envoyer deux rappels tout en douceur chaque jour — un verset le matin, et une invitation à réfléchir le soir — tu peux désactiver l'un ou l'autre à tout moment depuis l'onglet Récompenses.",
+    "nameTitle": "Comment devons-nous t'appeler ?",
+    "nameSubtitle": "Pour que Barnabas puisse te saluer par ton prénom — c'est entièrement facultatif, et cela ne quitte jamais ton appareil.",
     "crisisRegionTitle": "Encore une chose",
     "crisisRegionSubtitle": "Si jamais tu traverses une crise, on veut t'afficher la bonne ligne d'écoute pour l'endroit où tu te trouves. On devinera à partir de ton appareil — mais si tu préfères le régler maintenant, choisis ton pays ci-dessous. Tu pourras toujours changer ça plus tard dans les Réglages.",
     "startButton": "Commence ton parcours"
@@ -500,6 +502,7 @@
     "personalizationTitle": "Personnalisation",
     "personalizationSubtitleEmpty": "Ajoute ton prénom",
     "personalizationSubtitle": "Fais en sorte que l'accueil quotidien te parle un peu plus directement.",
+    "chatPersonalityTitle": "Personnalité du Chat",
     "nameLabel": "Comment doit-on t'appeler ?",
     "namePlaceholder": "Ton prénom (facultatif)",
     "dailyWelcomeLabel": "Écran d'accueil quotidien",
@@ -636,6 +639,10 @@
       "moreToExplore": {
         "title": "Plus à explorer",
         "text": "Les onglets en haut contiennent une Histoire vraie, une Anecdote du Jour, ton Journal des entrées passées, et tout ce que tu as enregistré dans Favoris."
+      },
+      "menuExtras": {
+        "title": "Encore plus dans le menu",
+        "text": "Touche ☰ dans le coin supérieur pour des plans de lecture biblique, une liste de prières pour suivre celles qui sont exaucées, tes surlignages et notes enregistrés, et Parle à Barnabas — un chat privé ancré dans les Écritures."
       },
       "saveWhatMoves": {
         "title": "Enregistre ce qui te touche",

@@ -4,6 +4,7 @@ import * as Speech from "expo-speech";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
+import ChatPersonaModal from "../components/ChatPersonaModal";
 import { exportBackup, pickAndReadBackup } from "../backup";
 import { checkForUpdateManually } from "../updates";
 import { speak } from "../speech";
@@ -91,6 +92,7 @@ export default function SettingsScreen({ store, onClose }) {
   const [voices, setVoices] = useState([]);
   const [voicePickerOpen, setVoicePickerOpen] = useState(false);
   const [checkingUpdate, setCheckingUpdate] = useState(false);
+  const [personaModalOpen, setPersonaModalOpen] = useState(false);
 
   const handleCheckForUpdates = async () => {
     if (checkingUpdate) return;
@@ -387,6 +389,27 @@ export default function SettingsScreen({ store, onClose }) {
               <Text style={styles.menuChevron}>›</Text>
             </TouchableOpacity>
           ))}
+
+          <TouchableOpacity
+            style={styles.menuRow}
+            onPress={() => {
+              hapticTap();
+              setPersonaModalOpen(true);
+            }}
+            accessibilityRole="button"
+            accessibilityLabel={t("chat.persona.openLabel")}
+          >
+            <Ionicons name="happy-outline" size={20} color={colors.sageDark} style={styles.menuEmoji} />
+            <View style={styles.menuTextWrap}>
+              <Text style={styles.menuTitle}>{t("settings.chatPersonalityTitle")}</Text>
+              <Text style={styles.menuSubtitle} numberOfLines={1}>
+                {t("chat.persona.buttonLabel", {
+                  style: t(`chat.persona.styles.${settings.chatPersonaStyle}.label`),
+                })}
+              </Text>
+            </View>
+            <Text style={styles.menuChevron}>›</Text>
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.menuRow}
@@ -849,6 +872,14 @@ export default function SettingsScreen({ store, onClose }) {
           {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
         </View>
       ) : null}
+
+      <ChatPersonaModal
+        visible={personaModalOpen}
+        style={settings.chatPersonaStyle}
+        note={settings.chatPersonaNote}
+        onClose={() => setPersonaModalOpen(false)}
+        onSave={(style, note) => updateSettings({ chatPersonaStyle: style, chatPersonaNote: note })}
+      />
     </ScrollView>
   );
 }

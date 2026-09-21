@@ -14,6 +14,7 @@ const STEP_KEYS = [
   { icon: "calendar-outline", key: "lookBack" },
   { icon: "link-outline", key: "jumpLinks" },
   { icon: "folder-open-outline", key: "moreToExplore" },
+  { icon: "menu-outline", key: "menuExtras" },
   { icon: "star-outline", key: "saveWhatMoves" },
   { icon: "earth-outline", key: "crisisRegion" },
 ];

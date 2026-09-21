@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { CRISIS_REGION_LABELS, OTHER_REGION, sortedCrisisRegionCodes } from "../crisisResources";
@@ -17,6 +17,20 @@ export default function OnboardingScreen({ onStart, settings, updateSettings }) 
       <Text style={styles.paragraph}>{t("onboarding.paragraph2")}</Text>
       <Text style={styles.paragraph}>{t("onboarding.paragraph3")}</Text>
       <Text style={styles.paragraph}>{t("onboarding.paragraph4")}</Text>
+
+      <View style={styles.nameCard}>
+        <Text style={styles.crisisRegionTitle}>{t("onboarding.nameTitle")}</Text>
+        <Text style={styles.crisisRegionSubtitle}>{t("onboarding.nameSubtitle")}</Text>
+        <TextInput
+          style={styles.nameInput}
+          placeholder={t("settings.namePlaceholder")}
+          placeholderTextColor={colors.textSoft}
+          value={settings.userName || ""}
+          onChangeText={(text) => updateSettings({ userName: text })}
+          maxLength={40}
+          accessibilityLabel={t("settings.nameLabel")}
+        />
+      </View>
 
       <View style={styles.crisisRegionCard}>
         <Text style={styles.crisisRegionTitle}>{t("onboarding.crisisRegionTitle")}</Text>
@@ -112,6 +126,26 @@ function getStyles(colors) {
       marginTop: 8,
     },
     buttonText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 15 },
+    nameCard: {
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      width: "100%",
+      marginTop: 4,
+      marginBottom: 14,
+    },
+    nameInput: {
+      backgroundColor: colors.input,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+      fontSize: 14,
+      color: colors.text,
+    },
     crisisRegionCard: {
       backgroundColor: colors.card,
       borderWidth: 1,

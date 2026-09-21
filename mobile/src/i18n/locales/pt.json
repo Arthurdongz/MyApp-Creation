@@ -41,6 +41,8 @@
     "paragraph2": "Este diário te dá, a cada dia, um novo versículo, uma palavra de encorajamento e um pequeno \"momento Barnabé\" para fazer por outra pessoa — um dia de cada vez. Um novo dia se libera todos os dias; você sempre pode olhar para os dias que já viveu, mas não pode adiantar.",
     "paragraph3": "Apareça, seja gentil e reflita um pouco. Estrelas, sequências e emblemas estão ali só para você notar o quanto já avançou.",
     "paragraph4": "Vamos pedir permissão para enviar dois lembretes suaves todos os dias — um versículo pela manhã e um aviso à noite para refletir — você pode desativar qualquer um deles quando quiser na aba Conquistas.",
+    "nameTitle": "Como devemos te chamar?",
+    "nameSubtitle": "Para que Barnabé possa te cumprimentar pelo nome — é totalmente opcional, e nunca sai do seu dispositivo.",
     "crisisRegionTitle": "Mais uma coisa",
     "crisisRegionSubtitle": "Se você algum dia estiver em crise, queremos mostrar a linha de apoio certa para onde você está. Vamos calcular pelo seu dispositivo — mas se preferir configurar agora, escolha seu país abaixo. Você sempre pode mudar isso depois em Configurações.",
     "startButton": "Comece sua jornada"
@@ -500,6 +502,7 @@
     "personalizationTitle": "Personalização",
     "personalizationSubtitleEmpty": "Adicione seu nome",
     "personalizationSubtitle": "Faça a boas-vindas diária soar um pouco mais como se estivesse falando com você.",
+    "chatPersonalityTitle": "Personalidade do Chat",
     "nameLabel": "Como devemos te chamar?",
     "namePlaceholder": "Seu nome (opcional)",
     "dailyWelcomeLabel": "Tela de boas-vindas diária",
@@ -636,6 +639,10 @@
       "moreToExplore": {
         "title": "Mais para explorar",
         "text": "As abas no topo têm uma História real, uma Curiosidade do Dia, seu Diário de entradas passadas, e tudo o que você salvou em Favoritos."
+      },
+      "menuExtras": {
+        "title": "Ainda mais no menu",
+        "text": "Toque em ☰ no canto superior para planos de leitura bíblica, uma lista de orações para acompanhar as respondidas, seus destaques e notas salvos, e Fale com Barnabé — um chat privado baseado nas Escrituras."
       },
       "saveWhatMoves": {
         "title": "Salve o que te toca",
