@@ -55,7 +55,7 @@ function entryPreview(t, e) {
 
 const ENTRY_TYPE_ICONS = { reflection: "create-outline", moment: "star", kindness: "gift-outline" };
 
-export default function HistoryScreen({ store, onOpenReflection }) {
+export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
@@ -84,6 +84,9 @@ export default function HistoryScreen({ store, onOpenReflection }) {
   const onThisDay = onThisDaySnippet(t, entries, store.latestDay);
   const todaysEntry = entries[`day-${store.latestDay}`];
   const todaysPreview = todaysEntry ? entryPreview(t, todaysEntry) : null;
+  const prayers = store.prayers || [];
+  const activePrayers = prayers.filter((p) => p.status !== "answered").length;
+  const answeredPrayers = prayers.length - activePrayers;
 
   const openEntry = (dayNumber) => {
     hapticTap();
@@ -118,6 +121,29 @@ export default function HistoryScreen({ store, onOpenReflection }) {
           <Text style={styles.onThisDayLabel}>{t("history.onThisDayLabel")}</Text>
           <Text style={styles.onThisDayText}>{onThisDay}</Text>
         </View>
+      ) : null}
+
+      {prayers.length > 0 && onOpenPrayers ? (
+        <TouchableOpacity
+          style={styles.prayersCard}
+          onPress={() => {
+            hapticTap();
+            onOpenPrayers();
+          }}
+          accessibilityRole="button"
+          accessibilityLabel={t("history.prayers.openLabel")}
+        >
+          <View style={styles.writeTodayLeft}>
+            <Ionicons name="heart-outline" size={20} color={colors.sageDark} />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.prayersCardTitle}>{t("history.prayers.title")}</Text>
+              <Text style={styles.prayersCardSub}>
+                {t("history.prayers.summary", { active: activePrayers, answered: answeredPrayers })}
+              </Text>
+            </View>
+          </View>
+          <Text style={styles.prayersCardArrow}>›</Text>
+        </TouchableOpacity>
       ) : null}
 
       <TouchableOpacity
@@ -277,6 +303,22 @@ function getStyles(colors, shadow) {
     writeTodayTitle: { fontSize: 14.5, fontWeight: "700", color: colors.buttonOnText },
     writeTodaySub: { fontSize: 12, color: colors.buttonOnText, opacity: 0.85, marginTop: 2 },
     writeTodayArrow: { fontSize: 20, fontWeight: "700", color: colors.buttonOnText },
+    prayersCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 10,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 18,
+      ...shadow,
+    },
+    prayersCardTitle: { fontSize: 14.5, fontWeight: "700", color: colors.sageDark },
+    prayersCardSub: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
+    prayersCardArrow: { fontSize: 20, fontWeight: "700", color: colors.textSoft },
     calendarToggle: {
       flexDirection: "row",
       alignItems: "center",

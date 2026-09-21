@@ -9,7 +9,7 @@ import VersePopup from "../components/VersePopup";
 import { useTheme } from "../theme";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion, TOTAL_DAYS } from "../content";
-import { BADGE_DEFS } from "../storage";
+import { BADGE_DEFS, MOMENT_STAR_REWARD } from "../storage";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import {
   loadConfessions,
@@ -23,11 +23,6 @@ import {
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 import { scheduleMomentReminder, cancelMomentReminder } from "../notifications";
-
-// The stars a completed Barnabas Moment awards — kept in sync with the "2"
-// literal in storage.js's markMomentDone, since that's the only place the
-// award is actually granted; this is purely for the "+2 ⭐" UI hints below.
-const MOMENT_STAR_REWARD = 2;
 
 const MOMENT_INTENTION_KEYS = ["today", "tonight", "tomorrow"];
 

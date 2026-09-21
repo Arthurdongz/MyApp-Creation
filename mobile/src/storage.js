@@ -21,6 +21,16 @@ import { LATEST_WHATS_NEW_VERSION } from "./data/whatsNew";
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
+// Single source of truth for how many stars each action awards. Every place
+// below that actually grants totalStars reads from these instead of its own
+// copy of the number, and screens that preview a reward amount before it's
+// earned (e.g. TodayScreen's "+N ⭐" hints) import them too, rather than
+// keeping a locally-declared literal in sync by hand.
+export const DAILY_STAR_REWARD = 1;
+export const MOMENT_STAR_REWARD = 2;
+export const WENT_FURTHER_STAR_REWARD = 2;
+export const JOURNAL_STAR_REWARD = 2;
+
 // journeyStartDate and order decide which verse/encouragement/moment/story
 // show on a given day, and are set once, at journey creation, and never
 // recomputed afterward — except as a fallback when AsyncStorage.getItem
@@ -488,7 +498,7 @@ function ensureDayEntryWithStar(state, dayNumber) {
   let totalStars = state.totalStars;
   if (!entry.starsAwarded.daily) {
     entry.starsAwarded.daily = true;
-    totalStars += 1;
+    totalStars += DAILY_STAR_REWARD;
   }
   return {
     ...state,
@@ -735,7 +745,7 @@ export function useJournalStore() {
   const markMomentDone = useCallback(() => {
     updateViewedEntry((entry) => {
       if (entry.momentDone) return { entry, starsGained: 0 };
-      const starsGained = entry.starsAwarded.moment ? 0 : 2;
+      const starsGained = entry.starsAwarded.moment ? 0 : MOMENT_STAR_REWARD;
       return {
         entry: {
           ...entry,
@@ -754,7 +764,7 @@ export function useJournalStore() {
   const markWentFurtherDone = useCallback(() => {
     updateViewedEntry((entry) => {
       if (entry.wentFurtherDone) return { entry, starsGained: 0 };
-      const starsGained = entry.starsAwarded.wentFurther ? 0 : 2;
+      const starsGained = entry.starsAwarded.wentFurther ? 0 : WENT_FURTHER_STAR_REWARD;
       return {
         entry: {
           ...entry,
@@ -782,7 +792,7 @@ export function useJournalStore() {
           entry.momentDone = true;
           if (!entry.starsAwarded.moment) {
             entry.starsAwarded.moment = true;
-            starsGained = 2;
+            starsGained = MOMENT_STAR_REWARD;
           }
         }
         const next = {
@@ -806,7 +816,7 @@ export function useJournalStore() {
         const trimmedWho = (encouragedWho || "").trim();
         const hasContent = trimmedReflection || trimmedNote || trimmedReceived || trimmedWho;
         const alreadyAwarded = entry.starsAwarded.journal;
-        const starsGained = hasContent && !alreadyAwarded ? 2 : 0;
+        const starsGained = hasContent && !alreadyAwarded ? JOURNAL_STAR_REWARD : 0;
         return {
           entry: {
             ...entry,

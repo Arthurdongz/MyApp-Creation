@@ -309,7 +309,11 @@
       "time_one": "{{count}} fois",
       "time_other": "{{count}} fois",
       "favorite_one": "{{count}} favori",
-      "favorite_other": "{{count}} favoris"
+      "favorite_other": "{{count}} favoris",
+      "readingDay_one": "{{count}} jour lu",
+      "readingDay_other": "{{count}} jours lus",
+      "readingPlan_one": "{{count}} plan",
+      "readingPlan_other": "{{count}} plans"
     },
     "weeklyRecap": {
       "title": "Cette Semaine",
@@ -376,7 +380,12 @@
     "badgesTitle": "Badges",
     "badgeLockedSuffix": ", verrouillé",
     "moodCalendarTitle": "Calendrier d'Humeur",
-    "moodCalendarSubtitle": "Comment tu t'es senti, jour après jour."
+    "moodCalendarSubtitle": "Comment tu t'es senti, jour après jour.",
+    "readingPlans": {
+      "title": "Plans de Lecture",
+      "summary": "{{days}} · {{plans}} en cours",
+      "openLabel": "Ouvrir tes plans de lecture"
+    }
   },
   "chat": {
     "title": "Parle à Barnabas",
@@ -469,7 +478,12 @@
       "emptyPrompt": "Tu n'as pas encore réfléchi aujourd'hui",
       "label": "Écrire la réflexion d'aujourd'hui"
     },
-    "openEntryLabel": "Ouvrir l'entrée du Jour {{day}}"
+    "openEntryLabel": "Ouvrir l'entrée du Jour {{day}}",
+    "prayers": {
+      "title": "Prières",
+      "summary": "{{active}} actives · {{answered}} exaucées",
+      "openLabel": "Ouvrir ta liste de prières"
+    }
   },
   "favorites": {
     "title": "Favoris",
@@ -627,6 +641,8 @@
     "nextLabel": "Astuce suivante",
     "finish": "Compris !",
     "finishLabel": "Compris, terminer la visite",
+    "stepProgressLabel": "Progression de la visite",
+    "stepAnnouncement": "Étape {{current}} sur {{total}} : {{title}}. {{text}}",
     "steps": {
       "lookBack": {
         "title": "Reviens en arrière quand tu veux",

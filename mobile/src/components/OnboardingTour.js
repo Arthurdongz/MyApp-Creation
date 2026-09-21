@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { AccessibilityInfo, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
@@ -34,6 +34,30 @@ export default function OnboardingTour({ visible, onFinish }) {
   const isLast = step === STEPS.length - 1;
   const current = STEPS[step];
 
+  // A screen reader has no other way to notice the card's text changed —
+  // tapping Next/Skip only ever moves accessibility focus off the button it
+  // already had focus on, it never lands on the new title/body underneath.
+  // Without this, a screen-reader user would have to manually re-explore
+  // the whole card after every tap just to find out anything changed.
+  // Skipped on the mount that merely flips `visible` false->true unmounting
+  // the Modal (nothing to announce there); the initial step's content is
+  // still announced naturally when the Modal appears and VoiceOver/TalkBack
+  // reads what's now on screen.
+  const wasVisible = useRef(visible);
+  useEffect(() => {
+    if (!visible) {
+      wasVisible.current = false;
+      return;
+    }
+    if (wasVisible.current) {
+      AccessibilityInfo.announceForAccessibility(
+        t("tour.stepAnnouncement", { current: step + 1, total: STEPS.length, title: current.title, text: current.text })
+      );
+    }
+    wasVisible.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [visible, step]);
+
   const handleNext = () => {
     hapticTap();
     if (isLast) {
@@ -63,11 +87,26 @@ export default function OnboardingTour({ visible, onFinish }) {
             <Text style={styles.skipBtnText}>{t("tour.skip")}</Text>
           </TouchableOpacity>
 
-          <Ionicons name={current.icon} size={34} color={colors.sageDark} style={styles.emoji} />
-          <Text style={styles.title}>{current.title}</Text>
+          <Ionicons
+            name={current.icon}
+            size={34}
+            color={colors.sageDark}
+            style={styles.emoji}
+            accessible={false}
+            importantForAccessibility="no"
+          />
+          <Text style={styles.title} accessibilityRole="header">
+            {current.title}
+          </Text>
           <Text style={styles.text}>{current.text}</Text>
 
-          <View style={styles.dotsRow}>
+          <View
+            style={styles.dotsRow}
+            accessible
+            accessibilityRole="progressbar"
+            accessibilityLabel={t("tour.stepProgressLabel")}
+            accessibilityValue={{ min: 1, max: STEPS.length, now: step + 1 }}
+          >
             {STEPS.map((_, i) => (
               <View key={i} style={[styles.dot, i === step && styles.dotActive]} />
             ))}

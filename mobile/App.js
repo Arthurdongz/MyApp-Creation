@@ -358,7 +358,13 @@ function AppContent({ store }) {
           )}
           {tab === "story" && <StoryScreen store={store} />}
           {tab === "facts" && <FactScreen store={store} />}
-          {tab === "history" && <HistoryScreen store={store} onOpenReflection={setReflectionEditorDay} />}
+          {tab === "history" && (
+            <HistoryScreen
+              store={store}
+              onOpenReflection={setReflectionEditorDay}
+              onOpenPrayers={() => setShowPrayerList(true)}
+            />
+          )}
           {tab === "favorites" && <FavoritesScreen store={store} />}
           {tab === "rewards" && (
             <RewardsScreen
@@ -368,6 +374,7 @@ function AppContent({ store }) {
                 scrollViewRef.current?.scrollTo({ y: 0, animated: false });
                 setTab("today");
               }}
+              onOpenReadingPlans={() => setShowBibleReadingPlans(true)}
             />
           )}
 

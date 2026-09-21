@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { BADGE_DEFS } from "../storage";
 import { TOTAL_DAYS } from "../content";
+import { loadReadingPlanProgress } from "../bibleReadingPlanProgress";
 import SharePreviewModal from "../components/SharePreviewModal";
 import YearReviewCard from "../components/YearReviewCard";
 import AppIcon from "../components/AppIcon";
@@ -133,7 +135,51 @@ function YearInReviewCard({ recap, styles, onShare }) {
   );
 }
 
-export default function RewardsScreen({ store, onJumpToDay }) {
+// Reading-plan progress lives in its own AsyncStorage-backed store (see
+// bibleReadingPlanProgress.js), entirely separate from the main journal
+// state — so without this, time spent on a reading plan was invisible
+// everywhere except the Bible section itself. Only totals are shown here
+// (not a per-plan breakdown), since that needs nothing beyond what's
+// already in the progress blob — no importing every plan's day-count
+// definitions just to render a summary card.
+function ReadingPlansCard({ styles, colors, onOpen }) {
+  const { t } = useTranslation();
+  const [progress, setProgress] = useState(null);
+
+  useEffect(() => {
+    loadReadingPlanProgress().then(setProgress);
+  }, []);
+
+  if (!progress) return null;
+  const planIds = Object.keys(progress.plans);
+  if (planIds.length === 0) return null;
+  const daysRead = planIds.reduce((sum, id) => sum + progress.plans[id].completedDays.length, 0);
+
+  return (
+    <TouchableOpacity
+      style={styles.readingPlansCard}
+      onPress={onOpen}
+      accessibilityRole="button"
+      accessibilityLabel={t("rewards.readingPlans.openLabel")}
+    >
+      <View style={styles.readingPlansLeft}>
+        <Ionicons name="book-outline" size={20} color={colors.sageDark} />
+        <View style={{ flex: 1 }}>
+          <Text style={styles.readingPlansTitle}>{t("rewards.readingPlans.title")}</Text>
+          <Text style={styles.readingPlansSub}>
+            {t("rewards.readingPlans.summary", {
+              days: unit(t, "readingDay", daysRead),
+              plans: unit(t, "readingPlan", planIds.length),
+            })}
+          </Text>
+        </View>
+      </View>
+      <Text style={styles.readingPlansArrow}>›</Text>
+    </TouchableOpacity>
+  );
+}
+
+export default function RewardsScreen({ store, onJumpToDay, onOpenReadingPlans }) {
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
@@ -148,6 +194,9 @@ export default function RewardsScreen({ store, onJumpToDay }) {
 
       <WeeklyRecapCard recap={weeklyRecap} styles={styles} />
       <YearInReviewCard recap={yearInReview} styles={styles} onShare={() => setShowYearShare(true)} />
+      {onOpenReadingPlans ? (
+        <ReadingPlansCard styles={styles} colors={colors} onOpen={onOpenReadingPlans} />
+      ) : null}
 
       <View style={styles.summaryRow}>
         <View style={styles.tile}>
@@ -343,6 +392,23 @@ function getStyles(colors, shadow) {
       paddingHorizontal: 9,
       overflow: "hidden",
     },
+    readingPlansCard: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 10,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 16,
+      padding: 16,
+      marginBottom: 20,
+      ...shadow,
+    },
+    readingPlansLeft: { flexDirection: "row", alignItems: "center", gap: 12, flex: 1 },
+    readingPlansTitle: { fontSize: 14.5, fontWeight: "700", color: colors.sageDark },
+    readingPlansSub: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
+    readingPlansArrow: { fontSize: 20, fontWeight: "700", color: colors.textSoft },
     summaryRow: { flexDirection: "row", gap: 10, marginBottom: 24 },
     treeCard: {
       backgroundColor: colors.card,

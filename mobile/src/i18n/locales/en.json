@@ -309,7 +309,11 @@
       "time_one": "{{count}} time",
       "time_other": "{{count}} times",
       "favorite_one": "{{count}} favorite",
-      "favorite_other": "{{count}} favorites"
+      "favorite_other": "{{count}} favorites",
+      "readingDay_one": "{{count}} day read",
+      "readingDay_other": "{{count}} days read",
+      "readingPlan_one": "{{count}} plan",
+      "readingPlan_other": "{{count}} plans"
     },
     "weeklyRecap": {
       "title": "This Week",
@@ -376,7 +380,12 @@
     "badgesTitle": "Badges",
     "badgeLockedSuffix": ", locked",
     "moodCalendarTitle": "Mood Calendar",
-    "moodCalendarSubtitle": "How you've been feeling, day by day."
+    "moodCalendarSubtitle": "How you've been feeling, day by day.",
+    "readingPlans": {
+      "title": "Reading Plans",
+      "summary": "{{days}} · {{plans}} in progress",
+      "openLabel": "Open your reading plans"
+    }
   },
   "chat": {
     "title": "Talk to Barnabas",
@@ -469,7 +478,12 @@
       "emptyPrompt": "You haven't reflected today",
       "label": "Write today's reflection"
     },
-    "openEntryLabel": "Open Day {{day}} entry"
+    "openEntryLabel": "Open Day {{day}} entry",
+    "prayers": {
+      "title": "Prayers",
+      "summary": "{{active}} active · {{answered}} answered",
+      "openLabel": "Open your prayer list"
+    }
   },
   "favorites": {
     "title": "Favorites",
@@ -627,6 +641,8 @@
     "nextLabel": "Next tip",
     "finish": "Got it!",
     "finishLabel": "Got it, finish tour",
+    "stepProgressLabel": "Tour progress",
+    "stepAnnouncement": "Step {{current}} of {{total}}: {{title}}. {{text}}",
     "steps": {
       "lookBack": {
         "title": "Look back anytime",

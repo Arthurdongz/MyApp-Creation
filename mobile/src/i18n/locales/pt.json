@@ -309,7 +309,11 @@
       "time_one": "{{count}} vez",
       "time_other": "{{count}} vezes",
       "favorite_one": "{{count}} favorito",
-      "favorite_other": "{{count}} favoritos"
+      "favorite_other": "{{count}} favoritos",
+      "readingDay_one": "{{count}} dia lido",
+      "readingDay_other": "{{count}} dias lidos",
+      "readingPlan_one": "{{count}} plano",
+      "readingPlan_other": "{{count}} planos"
     },
     "weeklyRecap": {
       "title": "Esta Semana",
@@ -376,7 +380,12 @@
     "badgesTitle": "Emblemas",
     "badgeLockedSuffix": ", bloqueado",
     "moodCalendarTitle": "Calendário de Humor",
-    "moodCalendarSubtitle": "Como você tem se sentido, dia a dia."
+    "moodCalendarSubtitle": "Como você tem se sentido, dia a dia.",
+    "readingPlans": {
+      "title": "Planos de Leitura",
+      "summary": "{{days}} · {{plans}} em andamento",
+      "openLabel": "Abrir seus planos de leitura"
+    }
   },
   "chat": {
     "title": "Fale com Barnabé",
@@ -469,7 +478,12 @@
       "emptyPrompt": "Você ainda não refletiu hoje",
       "label": "Escrever a reflexão de hoje"
     },
-    "openEntryLabel": "Abrir a entrada do Dia {{day}}"
+    "openEntryLabel": "Abrir a entrada do Dia {{day}}",
+    "prayers": {
+      "title": "Orações",
+      "summary": "{{active}} ativas · {{answered}} respondidas",
+      "openLabel": "Abrir sua lista de orações"
+    }
   },
   "favorites": {
     "title": "Favoritos",
@@ -627,6 +641,8 @@
     "nextLabel": "Próxima dica",
     "finish": "Entendi!",
     "finishLabel": "Entendi, finalizar tour",
+    "stepProgressLabel": "Progresso do tour",
+    "stepAnnouncement": "Passo {{current}} de {{total}}: {{title}}. {{text}}",
     "steps": {
       "lookBack": {
         "title": "Olhe para trás quando quiser",
