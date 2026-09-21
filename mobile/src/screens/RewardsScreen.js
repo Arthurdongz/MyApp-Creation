@@ -9,6 +9,7 @@ import { loadReadingPlanProgress } from "../bibleReadingPlanProgress";
 import SharePreviewModal from "../components/SharePreviewModal";
 import YearReviewCard from "../components/YearReviewCard";
 import AppIcon from "../components/AppIcon";
+import DayGridCalendar from "../components/DayGridCalendar";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -174,7 +175,7 @@ function ReadingPlansCard({ styles, colors, onOpen }) {
           </Text>
         </View>
       </View>
-      <Text style={styles.readingPlansArrow}>›</Text>
+      <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
     </TouchableOpacity>
   );
 }
@@ -266,58 +267,32 @@ export default function RewardsScreen({ store, onJumpToDay, onOpenReadingPlans }
 // prev/next day nav (both call the same store.jumpToDay this uses) — this
 // just gives that existing capability a visual, at-a-glance home: how far
 // into the 366-day journey you are, and a tap-to-revisit grid instead of
-// paging backward one day at a time.
+// paging backward one day at a time. The grid/legend itself is shared with
+// HistoryScreen's EntryCalendar via DayGridCalendar; the progress bar above
+// it is Rewards-specific.
 function JourneyCalendar({ store, styles, onJumpToDay }) {
   const { t } = useTranslation();
-  const entries = store.state.entries;
   const latest = store.latestDay;
-  const days = [];
-  for (let day = 1; day <= latest; day++) days.push(day);
   const progressPercent = Math.min(100, Math.round((latest / TOTAL_DAYS) * 100));
 
   return (
-    <View style={{ marginBottom: 8 }}>
+    <View>
       <Text style={styles.journeyProgressLabel}>{t("rewards.journey.progress", { day: latest, total: TOTAL_DAYS })}</Text>
       <View style={styles.journeyProgressTrack}>
         <View style={[styles.journeyProgressFill, { width: `${progressPercent}%` }]} />
       </View>
-      <View style={styles.journeyGrid}>
-        {days.map((day) => {
-          const entry = entries[`day-${day}`];
-          const hasContent = !!(
-            entry &&
-            (entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.mood)
-          );
-          const dateLabel = entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day });
-          return (
-            <TouchableOpacity
-              key={day}
-              style={[
-                styles.journeyCell,
-                hasContent && styles.journeyCellLogged,
-                entry?.momentDone && styles.journeyCellMoment,
-              ]}
-              onPress={() => onJumpToDay(day)}
-              accessibilityRole="button"
-              accessibilityLabel={t("rewards.journey.dayLabel", { day, date: dateLabel })}
-            />
-          );
-        })}
-      </View>
-      <View style={styles.journeyLegendRow}>
-        <View style={styles.journeyLegendItem}>
-          <View style={[styles.journeyLegendDot, styles.journeyCellMoment]} />
-          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendMoment")}</Text>
-        </View>
-        <View style={styles.journeyLegendItem}>
-          <View style={[styles.journeyLegendDot, styles.journeyCellLogged]} />
-          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendLogged")}</Text>
-        </View>
-        <View style={styles.journeyLegendItem}>
-          <View style={styles.journeyLegendDot} />
-          <Text style={styles.journeyLegendText}>{t("rewards.journey.legendEmpty")}</Text>
-        </View>
-      </View>
+      <DayGridCalendar
+        latest={latest}
+        entries={store.state.entries}
+        hasContent={(entry) => entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.mood}
+        onSelectDay={onJumpToDay}
+        dayLabel={(day, entry) =>
+          t("rewards.journey.dayLabel", { day, date: entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day }) })
+        }
+        legendMomentText={t("rewards.journey.legendMoment")}
+        legendLoggedText={t("rewards.journey.legendLogged")}
+        legendEmptyText={t("rewards.journey.legendEmpty")}
+      />
     </View>
   );
 }
@@ -408,7 +383,6 @@ function getStyles(colors, shadow) {
     readingPlansLeft: { flexDirection: "row", alignItems: "center", gap: 12, flex: 1 },
     readingPlansTitle: { fontSize: 14.5, fontWeight: "700", color: colors.sageDark },
     readingPlansSub: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
-    readingPlansArrow: { fontSize: 20, fontWeight: "700", color: colors.textSoft },
     summaryRow: { flexDirection: "row", gap: 10, marginBottom: 24 },
     treeCard: {
       backgroundColor: colors.card,
@@ -472,21 +446,6 @@ function getStyles(colors, shadow) {
       marginBottom: 14,
     },
     journeyProgressFill: { height: "100%", borderRadius: 4, backgroundColor: colors.sage },
-    journeyGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, marginBottom: 12 },
-    journeyCell: {
-      width: 12,
-      height: 12,
-      borderRadius: 3,
-      backgroundColor: colors.card,
-      borderWidth: 1,
-      borderColor: colors.border,
-    },
-    journeyCellLogged: { backgroundColor: colors.sage, borderColor: colors.sage },
-    journeyCellMoment: { backgroundColor: colors.gold, borderColor: colors.gold },
-    journeyLegendRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginBottom: 24 },
-    journeyLegendItem: { flexDirection: "row", alignItems: "center", gap: 6 },
-    journeyLegendDot: { width: 12, height: 12, borderRadius: 3 },
-    journeyLegendText: { fontSize: 12, color: colors.textSoft },
     moodGrid: {
       flexDirection: "row",
       flexWrap: "wrap",

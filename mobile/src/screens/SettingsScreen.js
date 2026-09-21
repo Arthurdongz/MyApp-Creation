@@ -386,7 +386,7 @@ export default function SettingsScreen({ store, onClose }) {
                   </Text>
                 ) : null}
               </View>
-              <Text style={styles.menuChevron}>›</Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
             </TouchableOpacity>
           ))}
 
@@ -408,7 +408,7 @@ export default function SettingsScreen({ store, onClose }) {
                 })}
               </Text>
             </View>
-            <Text style={styles.menuChevron}>›</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -425,7 +425,11 @@ export default function SettingsScreen({ store, onClose }) {
                 {checkingUpdate ? t("settings.checkingUpdates") : t("settings.checkUpdatesSubtitle")}
               </Text>
             </View>
-            {checkingUpdate ? <ActivityIndicator size="small" color={colors.sageDark} /> : <Text style={styles.menuChevron}>›</Text>}
+            {checkingUpdate ? (
+              <ActivityIndicator size="small" color={colors.sageDark} />
+            ) : (
+              <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => Linking.openURL(PRIVACY_POLICY_URL)} style={styles.footerLinkWrap}>
@@ -617,8 +621,9 @@ export default function SettingsScreen({ store, onClose }) {
               accessibilityRole="button"
             >
               <Text style={styles.voiceValueText} numberOfLines={1}>
-                {selectedVoiceName} ›
+                {selectedVoiceName}
               </Text>
+              <Ionicons name="chevron-forward" size={16} color={colors.sageDark} />
             </TouchableOpacity>
           </View>
 
@@ -930,7 +935,6 @@ function getStyles(colors, shadow) {
     menuTextWrap: { flex: 1 },
     menuTitle: { fontSize: 15, fontWeight: "600", color: colors.text },
     menuSubtitle: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
-    menuChevron: { fontSize: 20, color: colors.textSoft, marginLeft: 8 },
     settingsRow: {
       flexDirection: "row",
       alignItems: "center",
@@ -1018,6 +1022,9 @@ function getStyles(colors, shadow) {
     listRowTextActive: { color: colors.sageDark, fontWeight: "700" },
     listRowCheck: { fontSize: 16, color: colors.sageDark, fontWeight: "700" },
     voiceValueBtn: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 4,
       borderWidth: 1,
       borderColor: colors.border,
       borderRadius: 999,
@@ -1025,7 +1032,7 @@ function getStyles(colors, shadow) {
       paddingHorizontal: 14,
       maxWidth: 220,
     },
-    voiceValueText: { fontSize: 13, fontWeight: "600", color: colors.sageDark },
+    voiceValueText: { flexShrink: 1, fontSize: 13, fontWeight: "600", color: colors.sageDark },
     testVoiceBtn: {
       borderWidth: 1,
       borderColor: colors.sage,

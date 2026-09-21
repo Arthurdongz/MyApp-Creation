@@ -1284,7 +1284,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
                     : journalPrompt}
                 </Text>
               </View>
-              <Text style={styles.reflectTeaserArrow}>›</Text>
+              <Ionicons name="chevron-forward" size={18} color={colors.sage} />
             </View>
           </Card>
         </TouchableOpacity>
@@ -1726,6 +1726,5 @@ function getStyles(colors) {
     },
     reflectTeaserLeft: { flexDirection: "row", alignItems: "center", gap: 10, flex: 1 },
     reflectTeaserText: { flex: 1, fontSize: 13.5, fontWeight: "600", color: colors.text },
-    reflectTeaserArrow: { fontSize: 20, color: colors.sage, fontWeight: "700" },
   });
 }

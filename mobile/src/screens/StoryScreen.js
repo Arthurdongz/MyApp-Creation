@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import Card from "../components/Card";
+import ContentActionCard from "../components/ContentActionCard";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
@@ -35,35 +35,21 @@ export default function StoryScreen({ store }) {
       <Text style={styles.title}>{t("story.title")}</Text>
       <Text style={styles.subtitle}>{t("story.subtitle")}</Text>
 
-      <Card style={styles.storyCard}>
-        <View style={styles.cardLabelRow}>
-          <Text style={styles.cardLabel}>{t("story.cardLabel")}</Text>
-          <View style={styles.cardLabelActions}>
-            <TouchableOpacity onPress={handleListen} accessibilityRole="button" accessibilityLabel={t("story.listenLabel")}>
-              <Text style={styles.favoriteBtn}>{t("common.listen")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSharePreview(true)}
-              accessibilityRole="button"
-              accessibilityLabel={t("story.shareLabel")}
-            >
-              <Text style={styles.favoriteBtn}>{t("common.share")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                hapticTap();
-                toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={storySaved ? t("common.savedRemoveFromFavorites") : t("common.saveToFavorites")}
-              accessibilityState={{ selected: storySaved }}
-            >
-              <Text style={[styles.favoriteBtn, storySaved && styles.favoriteBtnActive]}>
-                {storySaved ? t("common.saved") : t("common.save")}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+      <ContentActionCard
+        cardStyle={styles.storyCard}
+        label={t("story.cardLabel")}
+        onListen={handleListen}
+        listenLabel={t("story.listenLabel")}
+        onShare={() => setSharePreview(true)}
+        shareLabel={t("story.shareLabel")}
+        saved={storySaved}
+        onToggleSave={() => {
+          hapticTap();
+          toggleFavorite("truestory", viewingDay, { text: story.text, title: story.title });
+        }}
+        saveLabel={t("common.saveToFavorites")}
+        savedLabel={t("common.savedRemoveFromFavorites")}
+      >
         <Text style={styles.storyTitle}>{story.title}</Text>
         <Text style={styles.storyText}>{story.text}</Text>
         <View style={styles.insightRow}>
@@ -93,7 +79,7 @@ export default function StoryScreen({ store }) {
             ) : null}
           </View>
         )}
-      </Card>
+      </ContentActionCard>
 
       <SharePreviewModal
         visible={sharePreview}
@@ -113,36 +99,6 @@ function getStyles(colors) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     storyCard: { backgroundColor: colors.storyCard },
-    cardLabelRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-    },
-    cardLabelActions: {
-      flexDirection: "row",
-      gap: 6,
-    },
-    cardLabel: {
-      textTransform: "uppercase",
-      letterSpacing: 0.8,
-      fontSize: 11,
-      fontWeight: "700",
-      color: colors.sageDark,
-      marginBottom: 10,
-    },
-    favoriteBtn: {
-      fontSize: 12,
-      fontWeight: "700",
-      color: colors.textSoft,
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 999,
-      paddingVertical: 3,
-      paddingHorizontal: 9,
-      marginBottom: 10,
-      overflow: "hidden",
-    },
-    favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     storyTitle: {
       fontSize: 17,
       fontWeight: "700",

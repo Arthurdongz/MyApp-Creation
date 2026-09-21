@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticTap } from "../haptics";
+import DayGridCalendar from "../components/DayGridCalendar";
 
 const MOOD_EMOJI = { joyful: "😊", peaceful: "🙂", hopeful: "🌱", tired: "😔", struggling: "😢" };
 
@@ -113,7 +114,7 @@ export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }
             </Text>
           </View>
         </View>
-        <Text style={styles.writeTodayArrow}>›</Text>
+        <Ionicons name="chevron-forward" size={20} color={colors.buttonOnText} />
       </TouchableOpacity>
 
       {onThisDay ? (
@@ -142,7 +143,7 @@ export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }
               </Text>
             </View>
           </View>
-          <Text style={styles.prayersCardArrow}>›</Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
         </TouchableOpacity>
       ) : null}
 
@@ -162,7 +163,7 @@ export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }
       </TouchableOpacity>
 
       {showCalendar ? (
-        <EntryCalendar store={store} styles={styles} onOpenDay={openEntry} />
+        <EntryCalendar store={store} onOpenDay={openEntry} />
       ) : (
         <>
           {allKeys.length === 0 ? null : (
@@ -219,7 +220,7 @@ export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }
                         </Text>
                       ) : null}
                     </View>
-                    <Text style={styles.entryChevron}>›</Text>
+                    <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
                   </TouchableOpacity>
                 );
               })}
@@ -233,53 +234,25 @@ export default function HistoryScreen({ store, onOpenReflection, onOpenPrayers }
 
 // A tap-to-revisit grid alternative to the list above, for quickly finding
 // a specific day rather than scrolling or searching by text — every day so
-// far, color-coded by what's logged on it. Mirrors the visual pattern of
-// RewardsScreen's JourneyCalendar, but every day (with or without an entry)
-// opens straight into that day's entry editor, matching what tapping a row
-// in the list above already does.
-function EntryCalendar({ store, styles, onOpenDay }) {
+// far, color-coded by what's logged on it. Every day (with or without an
+// entry) opens straight into that day's entry editor, matching what tapping
+// a row in the list above already does. The grid/legend itself is shared
+// with RewardsScreen's JourneyCalendar via DayGridCalendar.
+function EntryCalendar({ store, onOpenDay }) {
   const { t } = useTranslation();
-  const entries = store.state.entries;
-  const latest = store.latestDay;
-  const days = [];
-  for (let day = 1; day <= latest; day++) days.push(day);
-
   return (
-    <View style={{ marginBottom: 8 }}>
-      <View style={styles.calGrid}>
-        {days.map((day) => {
-          const entry = entries[`day-${day}`];
-          const hasContent = !!(
-            entry &&
-            (entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.momentDone)
-          );
-          const dateLabel = entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day });
-          return (
-            <TouchableOpacity
-              key={day}
-              style={[styles.calCell, hasContent && styles.calCellLogged, entry?.momentDone && styles.calCellMoment]}
-              onPress={() => onOpenDay(day)}
-              accessibilityRole="button"
-              accessibilityLabel={t("history.calendar.dayLabel", { day, date: dateLabel })}
-            />
-          );
-        })}
-      </View>
-      <View style={styles.calLegendRow}>
-        <View style={styles.calLegendItem}>
-          <View style={[styles.calLegendDot, styles.calCellMoment]} />
-          <Text style={styles.calLegendText}>{t("history.calendar.legendMoment")}</Text>
-        </View>
-        <View style={styles.calLegendItem}>
-          <View style={[styles.calLegendDot, styles.calCellLogged]} />
-          <Text style={styles.calLegendText}>{t("history.calendar.legendEntry")}</Text>
-        </View>
-        <View style={styles.calLegendItem}>
-          <View style={styles.calLegendDot} />
-          <Text style={styles.calLegendText}>{t("history.calendar.legendEmpty")}</Text>
-        </View>
-      </View>
-    </View>
+    <DayGridCalendar
+      latest={store.latestDay}
+      entries={store.state.entries}
+      hasContent={(entry) => entry.reflection || entry.barnabasNote || entry.receivedKindness || entry.momentDone}
+      onSelectDay={onOpenDay}
+      dayLabel={(day, entry) =>
+        t("history.calendar.dayLabel", { day, date: entry ? formatDate(entry.dateLogged) : t("common.dayLabel", { day }) })
+      }
+      legendMomentText={t("history.calendar.legendMoment")}
+      legendLoggedText={t("history.calendar.legendEntry")}
+      legendEmptyText={t("history.calendar.legendEmpty")}
+    />
   );
 }
 
@@ -302,7 +275,6 @@ function getStyles(colors, shadow) {
     writeTodayLeft: { flexDirection: "row", alignItems: "center", gap: 12, flex: 1 },
     writeTodayTitle: { fontSize: 14.5, fontWeight: "700", color: colors.buttonOnText },
     writeTodaySub: { fontSize: 12, color: colors.buttonOnText, opacity: 0.85, marginTop: 2 },
-    writeTodayArrow: { fontSize: 20, fontWeight: "700", color: colors.buttonOnText },
     prayersCard: {
       flexDirection: "row",
       alignItems: "center",
@@ -318,7 +290,6 @@ function getStyles(colors, shadow) {
     },
     prayersCardTitle: { fontSize: 14.5, fontWeight: "700", color: colors.sageDark },
     prayersCardSub: { fontSize: 12, color: colors.textSoft, marginTop: 2 },
-    prayersCardArrow: { fontSize: 20, fontWeight: "700", color: colors.textSoft },
     calendarToggle: {
       flexDirection: "row",
       alignItems: "center",
@@ -327,21 +298,6 @@ function getStyles(colors, shadow) {
       marginBottom: 14,
     },
     calendarToggleText: { fontSize: 13, fontWeight: "700", color: colors.sageDark },
-    calGrid: { flexDirection: "row", flexWrap: "wrap", gap: 4, marginBottom: 12 },
-    calCell: {
-      width: 12,
-      height: 12,
-      borderRadius: 3,
-      backgroundColor: colors.card,
-      borderWidth: 1,
-      borderColor: colors.border,
-    },
-    calCellLogged: { backgroundColor: colors.sage, borderColor: colors.sage },
-    calCellMoment: { backgroundColor: colors.gold, borderColor: colors.gold },
-    calLegendRow: { flexDirection: "row", flexWrap: "wrap", gap: 14, marginBottom: 24 },
-    calLegendItem: { flexDirection: "row", alignItems: "center", gap: 6 },
-    calLegendDot: { width: 12, height: 12, borderRadius: 3 },
-    calLegendText: { fontSize: 12, color: colors.textSoft },
     searchInput: {
       borderWidth: 1,
       borderColor: colors.border,
@@ -401,6 +357,5 @@ function getStyles(colors, shadow) {
       fontWeight: "700",
     },
     entryPreview: { fontSize: 12.5, color: colors.textSoft, marginTop: 2 },
-    entryChevron: { fontSize: 18, color: colors.textSoft },
   });
 }

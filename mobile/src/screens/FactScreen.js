@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import Card from "../components/Card";
+import ContentActionCard from "../components/ContentActionCard";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDay } from "../content";
@@ -26,41 +26,23 @@ export default function FactScreen({ store }) {
       <Text style={styles.title}>{t("fact.title")}</Text>
       <Text style={styles.subtitle}>{t("fact.subtitle")}</Text>
 
-      <Card style={styles.factCard}>
-        <View style={styles.cardLabelRow}>
-          <Text style={styles.cardLabel}>{t("fact.cardLabel")}</Text>
-          <View style={styles.cardLabelActions}>
-            <TouchableOpacity
-              onPress={() => speak(fact, settings)}
-              accessibilityRole="button"
-              accessibilityLabel={t("fact.listenLabel")}
-            >
-              <Text style={styles.favoriteBtn}>{t("common.listen")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setSharePreview(true)}
-              accessibilityRole="button"
-              accessibilityLabel={t("fact.shareLabel")}
-            >
-              <Text style={styles.favoriteBtn}>{t("common.share")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                hapticTap();
-                toggleFavorite("highlight", viewingDay, { text: fact, source: t("app.brand") });
-              }}
-              accessibilityRole="button"
-              accessibilityLabel={factSaved ? t("common.savedRemoveFromFavorites") : t("common.saveToFavorites")}
-              accessibilityState={{ selected: factSaved }}
-            >
-              <Text style={[styles.favoriteBtn, factSaved && styles.favoriteBtnActive]}>
-                {factSaved ? t("common.saved") : t("common.save")}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+      <ContentActionCard
+        cardStyle={styles.factCard}
+        label={t("fact.cardLabel")}
+        onListen={() => speak(fact, settings)}
+        listenLabel={t("fact.listenLabel")}
+        onShare={() => setSharePreview(true)}
+        shareLabel={t("fact.shareLabel")}
+        saved={factSaved}
+        onToggleSave={() => {
+          hapticTap();
+          toggleFavorite("highlight", viewingDay, { text: fact, source: t("app.brand") });
+        }}
+        saveLabel={t("common.saveToFavorites")}
+        savedLabel={t("common.savedRemoveFromFavorites")}
+      >
         <Text style={styles.factText}>{fact}</Text>
-      </Card>
+      </ContentActionCard>
 
       <SharePreviewModal
         visible={sharePreview}
@@ -80,38 +62,6 @@ function getStyles(colors) {
     title: { fontSize: 22, fontWeight: "700", color: colors.sageDark, marginBottom: 4 },
     subtitle: { fontSize: 14, color: colors.textSoft, marginBottom: 18 },
     factCard: { backgroundColor: colors.factCard },
-    cardLabelRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      flexWrap: "wrap",
-      gap: 8,
-    },
-    cardLabelActions: {
-      flexDirection: "row",
-      gap: 6,
-    },
-    cardLabel: {
-      textTransform: "uppercase",
-      letterSpacing: 0.8,
-      fontSize: 11,
-      fontWeight: "700",
-      color: colors.sageDark,
-      marginBottom: 10,
-    },
-    favoriteBtn: {
-      fontSize: 12,
-      fontWeight: "700",
-      color: colors.textSoft,
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 999,
-      paddingVertical: 3,
-      paddingHorizontal: 9,
-      marginBottom: 10,
-      overflow: "hidden",
-    },
-    favoriteBtnActive: { color: colors.goldText, borderColor: colors.goldText },
     factText: {
       fontSize: 16,
       lineHeight: 23,
