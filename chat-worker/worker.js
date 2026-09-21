@@ -195,6 +195,17 @@ Always reply in ${languageName}, regardless of what language the user writes in 
 }
 
 const MAX_REQUESTS_PER_DAY = 30;
+// deviceId is a random string the app generates and stores locally (see
+// mobile/src/chat.js's getOrCreateChatDeviceId) — nothing server-side ties
+// it to a real device or account, so anyone calling this endpoint directly
+// (not through the app) can reset their per-device quota for free just by
+// sending a new deviceId on every request. IP address is the one signal in
+// this request that the caller can't simply regenerate client-side, so it
+// backstops the per-device cap rather than replacing it: legitimate users
+// sharing one IP (a household, a campus network) can still all use the app
+// normally, but rotating deviceId behind a single IP now hits this ceiling
+// instead of bypassing rate limiting entirely.
+const MAX_REQUESTS_PER_IP_PER_DAY = 150;
 const MAX_HISTORY_TURNS = 10;
 const MAX_TOOL_ROUNDS = 3;
 
@@ -508,12 +519,28 @@ async function handleChat(request, env, ctx) {
     return jsonResponse({ error: "Missing device id." }, 400);
   }
 
-  const dayKey = `${deviceId}:${new Date().toISOString().slice(0, 10)}`;
-  const count = parseInt((await env.RATE_LIMIT_KV.get(dayKey)) || "0", 10);
+  const today = new Date().toISOString().slice(0, 10);
+  const dayKey = `${deviceId}:${today}`;
+  // Set by Cloudflare's edge itself from the actual TCP connection, not
+  // copied from a client-supplied header — unlike deviceId, a caller can't
+  // simply put a different value here to get a fresh quota.
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const ipDayKey = `ip:${ip}:${today}`;
+
+  const [count, ipCount] = await Promise.all([
+    env.RATE_LIMIT_KV.get(dayKey).then((v) => parseInt(v || "0", 10)),
+    env.RATE_LIMIT_KV.get(ipDayKey).then((v) => parseInt(v || "0", 10)),
+  ]);
   if (count >= MAX_REQUESTS_PER_DAY) {
     return jsonResponse({ error: "You've reached today's message limit — try again tomorrow." }, 429);
   }
-  await env.RATE_LIMIT_KV.put(dayKey, String(count + 1), { expirationTtl: 86400 });
+  if (ipCount >= MAX_REQUESTS_PER_IP_PER_DAY) {
+    return jsonResponse({ error: "Too many requests from this network today — try again tomorrow." }, 429);
+  }
+  await Promise.all([
+    env.RATE_LIMIT_KV.put(dayKey, String(count + 1), { expirationTtl: 86400 }),
+    env.RATE_LIMIT_KV.put(ipDayKey, String(ipCount + 1), { expirationTtl: 86400 }),
+  ]);
 
   const safeHistory = Array.isArray(history)
     ? history

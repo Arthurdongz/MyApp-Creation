@@ -7,8 +7,18 @@ import * as Sharing from "expo-sharing";
 import * as DocumentPicker from "expo-document-picker";
 import { todayKey, isValidOrder } from "./content";
 
+// Bumped whenever a change to the exported shape would break an older app
+// version's ability to make sense of it. storage.js's normalizeLoaded
+// defensively fills in missing/malformed fields for anything at or below
+// this version (so an old, partial, or hand-edited backup degrades
+// gracefully instead of crashing), but a backup stamped with a schema
+// *higher* than this only exists because it came from a newer app version —
+// this build can't know what that version changed, so it's rejected
+// outright rather than silently importing data it might misinterpret.
+export const BACKUP_SCHEMA_VERSION = 2;
+
 export async function exportBackup(state) {
-  const payload = { app: "barnabas-journal", schema: 2, exportedAt: new Date().toISOString(), state };
+  const payload = { app: "barnabas-journal", schema: BACKUP_SCHEMA_VERSION, exportedAt: new Date().toISOString(), state };
   const fileName = `barnabas-journal-backup-${todayKey()}.json`;
   const dir = FileSystem.cacheDirectory || FileSystem.documentDirectory;
   const uri = dir + fileName;
@@ -47,6 +57,9 @@ export async function pickAndReadBackup() {
   }
 
   const parsed = JSON.parse(content);
+  if (typeof parsed.schema === "number" && parsed.schema > BACKUP_SCHEMA_VERSION) {
+    throw new Error("This backup was made with a newer version of Barnabas Journal. Update the app, then try restoring it again.");
+  }
   const incoming = parsed.state || parsed;
   if (!incoming.journeyStartDate || !isValidOrder(incoming.order)) {
     throw new Error("That file doesn't look like a valid Barnabas Journal backup.");

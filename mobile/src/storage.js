@@ -196,6 +196,10 @@ function defaultSettings() {
     // completeOnboarding sets this straight to the latest version, since
     // a brand-new user has nothing to compare "new" against.
     lastSeenWhatsNewVersion: 0,
+    // Date key (YYYY-MM-DD) the rolling notification windows were last
+    // fully topped up — see the launch effect below, which uses this to
+    // skip redoing that work on a same-day relaunch.
+    lastReminderTopUpAt: null,
   };
 }
 
@@ -246,11 +250,30 @@ function migrateSettings(rawSettings) {
   return migrated;
 }
 
+// Fills in any fields emptyEntry() would set that a given entry is missing,
+// instead of trusting the shape wholesale — the same data this loads flows
+// in from a restored backup (backup.js) as easily as from this app's own
+// prior save, and a backup can be older than BACKUP_SCHEMA_VERSION, hand
+// edited, or otherwise partial. Without this, an entry missing e.g.
+// starsAwarded would crash the first time computeStreak or
+// ensureDayEntryWithStar reads entry.starsAwarded.daily. Malformed keys or
+// non-object entries are dropped rather than guessed at.
+function normalizeEntries(rawEntries, journeyStartDate) {
+  const entries = {};
+  for (const [key, entry] of Object.entries(rawEntries || {})) {
+    const match = /^day-(\d+)$/.exec(key);
+    if (!match || !entry || typeof entry !== "object") continue;
+    const base = emptyEntry(Number(match[1]), journeyStartDate);
+    entries[key] = { ...base, ...entry, starsAwarded: { ...base.starsAwarded, ...(entry.starsAwarded || {}) } };
+  }
+  return entries;
+}
+
 function normalizeLoaded(parsed) {
   return {
     journeyStartDate: parsed.journeyStartDate,
     order: parsed.order,
-    entries: parsed.entries || {},
+    entries: normalizeEntries(parsed.entries, parsed.journeyStartDate),
     totalStars: parsed.totalStars || 0,
     favorites: parsed.favorites || [],
     chatConversations: parsed.chatConversations || [],
@@ -605,13 +628,26 @@ export function useJournalStore() {
 
   const latestDay = unlockedDayFor(state.journeyStartDate);
 
-  // "Top up" both rolling notification schedules once per app launch, so
-  // the reminders keep showing fresh, content-matched days even if the user
-  // hasn't opened the app in a while (as long as it's within the lookahead
-  // window notifications.js schedules).
+  // "Top up" every enabled rolling notification window, so reminders keep
+  // showing fresh, content-matched days even if the user hasn't opened the
+  // app in a while (as long as it's within the lookahead window
+  // notifications.js schedules). Each call cancels and re-schedules an
+  // entire window per enabled reminder type — nothing in that window's
+  // content actually changes between two opens on the same calendar day,
+  // so gate it on lastReminderTopUpAt to run at most once a day instead of
+  // repeating the full cancel+reschedule against the OS notification APIs
+  // on every relaunch. A genuine content change (a settings toggle, a
+  // backup restore) reschedules through its own direct call regardless of
+  // this gate.
   useEffect(() => {
     if (!ready) return;
+    if (state.settings.lastReminderTopUpAt === todayKey()) return;
     topUpReminders(state);
+    setState((prev) => {
+      const next = { ...prev, settings: { ...prev.settings, lastReminderTopUpAt: todayKey() } };
+      persist(next);
+      return next;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
 
