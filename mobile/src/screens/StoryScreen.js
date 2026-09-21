@@ -5,20 +5,15 @@ import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDaySmallBank } from "../content";
-import { STORIES } from "../data/stories";
-import { STORIES_ES } from "../data/stories.es";
-import { STORIES_PT } from "../data/stories.pt";
-import { STORIES_FR } from "../data/stories.fr";
+import { loadStories } from "../data/byLang";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
-
-const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
 
 export default function StoryScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const storiesBank = STORIES_BY_LANG[i18n.language] || STORIES;
+  const storiesBank = loadStories(i18n.language);
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
   const story = useMemo(() => pickForDaySmallBank(storiesBank, viewingDay, order), [storiesBank, viewingDay, order]);

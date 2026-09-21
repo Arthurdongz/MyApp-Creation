@@ -19,12 +19,7 @@ import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { hapticSuccess, hapticTap } from "../haptics";
 import { pickForDaySmallBank } from "../content";
-import { JOURNAL_PROMPTS } from "../data/journalPrompts";
-import { JOURNAL_PROMPTS_ES } from "../data/journalPrompts.es";
-import { JOURNAL_PROMPTS_PT } from "../data/journalPrompts.pt";
-import { JOURNAL_PROMPTS_FR } from "../data/journalPrompts.fr";
-
-const JOURNAL_PROMPTS_BY_LANG = { es: JOURNAL_PROMPTS_ES, pt: JOURNAL_PROMPTS_PT, fr: JOURNAL_PROMPTS_FR };
+import { loadJournalPrompts } from "../data/byLang";
 
 const MOOD_KEYS = [
   { key: "joyful", emoji: "😊" },
@@ -46,7 +41,7 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
   const MOODS = MOOD_KEYS.map((m) => ({ ...m, label: t(`common.moods.${m.key}`) }));
-  const journalPromptsBank = JOURNAL_PROMPTS_BY_LANG[i18n.language] || JOURNAL_PROMPTS;
+  const journalPromptsBank = loadJournalPrompts(i18n.language);
   const journalPrompt = useMemo(
     () => pickForDaySmallBank(journalPromptsBank, dayNumber, store.order),
     [journalPromptsBank, dayNumber, store.order]

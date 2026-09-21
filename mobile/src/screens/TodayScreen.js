@@ -11,34 +11,15 @@ import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { pickForDay, pickForDaySmallBank, pickVerseVersion, TOTAL_DAYS } from "../content";
 import { BADGE_DEFS } from "../storage";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
-import { CONFESSIONS } from "../data/confessions";
-import { CONFESSIONS_ES } from "../data/confessions.es";
-import { CONFESSIONS_PT } from "../data/confessions.pt";
-import { CONFESSIONS_FR } from "../data/confessions.fr";
-import { ENCOURAGEMENTS } from "../data/encouragements";
-import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
-import { ENCOURAGEMENTS_PT } from "../data/encouragements.pt";
-import { ENCOURAGEMENTS_FR } from "../data/encouragements.fr";
-import { BARNABAS_MOMENTS } from "../data/moments";
-import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
-import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
-import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
-import { WISDOM } from "../data/wisdom";
-import { QUOTES_ES } from "../data/quotes.es";
-import { QUOTES_PT } from "../data/quotes.pt";
-import { QUOTES_FR } from "../data/quotes.fr";
-import { STORIES } from "../data/stories";
-import { STORIES_ES } from "../data/stories.es";
-import { STORIES_PT } from "../data/stories.pt";
-import { STORIES_FR } from "../data/stories.fr";
-import { HIGHLIGHTS } from "../data/highlights";
-import { HIGHLIGHTS_ES } from "../data/highlights.es";
-import { HIGHLIGHTS_PT } from "../data/highlights.pt";
-import { HIGHLIGHTS_FR } from "../data/highlights.fr";
-import { JOURNAL_PROMPTS } from "../data/journalPrompts";
-import { JOURNAL_PROMPTS_ES } from "../data/journalPrompts.es";
-import { JOURNAL_PROMPTS_PT } from "../data/journalPrompts.pt";
-import { JOURNAL_PROMPTS_FR } from "../data/journalPrompts.fr";
+import {
+  loadConfessions,
+  loadEncouragements,
+  loadMoments,
+  loadQuotes,
+  loadStories,
+  loadHighlights,
+  loadJournalPrompts,
+} from "../data/byLang";
 import { speak } from "../speech";
 import { hapticSuccess, hapticTap } from "../haptics";
 import { scheduleMomentReminder, cancelMomentReminder } from "../notifications";
@@ -47,12 +28,6 @@ import { scheduleMomentReminder, cancelMomentReminder } from "../notifications";
 // literal in storage.js's markMomentDone, since that's the only place the
 // award is actually granted; this is purely for the "+2 ⭐" UI hints below.
 const MOMENT_STAR_REWARD = 2;
-
-// The "Encouraging Thought" card is quotes-only now (true stories moved to
-// their own Story tab, backed by data/stories.js; facts moved to their own
-// Facts tab, backed by data/highlights.js). WISDOM still holds legacy
-// "story"-type entries alongside quotes; filter down to just quotes.
-const QUOTES = WISDOM.filter((w) => w.type === "quote");
 
 const MOMENT_INTENTION_KEYS = ["today", "tonight", "tomorrow"];
 
@@ -63,25 +38,17 @@ function truncateForPreview(text, maxLen = 90) {
   return trimmed.length > maxLen ? `${trimmed.slice(0, maxLen).trimEnd()}…` : trimmed;
 }
 
-const CONFESSIONS_BY_LANG = { es: CONFESSIONS_ES, pt: CONFESSIONS_PT, fr: CONFESSIONS_FR };
-const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, fr: ENCOURAGEMENTS_FR };
-const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
-const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
-const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
-const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
-const JOURNAL_PROMPTS_BY_LANG = { es: JOURNAL_PROMPTS_ES, pt: JOURNAL_PROMPTS_PT, fr: JOURNAL_PROMPTS_FR };
-
 export default function TodayScreen({ store, scrollViewRef, onOpenReflection, onOpenStory }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const confessionsBank = CONFESSIONS_BY_LANG[i18n.language] || CONFESSIONS;
-  const encouragementsBank = ENCOURAGEMENTS_BY_LANG[i18n.language] || ENCOURAGEMENTS;
-  const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
-  const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
-  const storiesBank = STORIES_BY_LANG[i18n.language] || STORIES;
-  const highlightsBank = HIGHLIGHTS_BY_LANG[i18n.language] || HIGHLIGHTS;
-  const journalPromptsBank = JOURNAL_PROMPTS_BY_LANG[i18n.language] || JOURNAL_PROMPTS;
+  const confessionsBank = loadConfessions(i18n.language);
+  const encouragementsBank = loadEncouragements(i18n.language);
+  const momentsBank = loadMoments(i18n.language);
+  const quotesBank = loadQuotes(i18n.language);
+  const storiesBank = loadStories(i18n.language);
+  const highlightsBank = loadHighlights(i18n.language);
+  const journalPromptsBank = loadJournalPrompts(i18n.language);
 
   const MOMENT_INTENTIONS = MOMENT_INTENTION_KEYS.map((key) => ({
     key,

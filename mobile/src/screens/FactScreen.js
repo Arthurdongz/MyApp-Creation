@@ -5,20 +5,15 @@ import Card from "../components/Card";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
 import { pickForDay } from "../content";
-import { HIGHLIGHTS } from "../data/highlights";
-import { HIGHLIGHTS_ES } from "../data/highlights.es";
-import { HIGHLIGHTS_PT } from "../data/highlights.pt";
-import { HIGHLIGHTS_FR } from "../data/highlights.fr";
+import { loadHighlights } from "../data/byLang";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
-
-const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
 
 export default function FactScreen({ store }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const highlightsBank = HIGHLIGHTS_BY_LANG[i18n.language] || HIGHLIGHTS;
+  const highlightsBank = loadHighlights(i18n.language);
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
   const fact = pickForDay(highlightsBank, viewingDay, order);

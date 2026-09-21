@@ -13,14 +13,9 @@ import * as React from "react";
 import * as Localization from "expo-localization";
 import { unlockedDayFor, pickForDay, pickVerseVersion } from "../content";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
-import { HIGHLIGHTS } from "../data/highlights";
-import { HIGHLIGHTS_ES } from "../data/highlights.es";
-import { HIGHLIGHTS_PT } from "../data/highlights.pt";
-import { HIGHLIGHTS_FR } from "../data/highlights.fr";
+import { loadHighlights } from "../data/byLang";
 import { TodayVerseWidget } from "./TodayVerseWidget";
 import { TodayFactWidget } from "./TodayFactWidget";
-
-const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
 
 // This headless task runs outside the app's React tree, so it can't read
 // react-i18next's language state — check the device locale directly
@@ -86,7 +81,7 @@ async function resolveTodayFact() {
 
     const dayNumber = unlockedDayFor(journeyStartDate);
     const lang = deviceLanguageCode();
-    const bank = HIGHLIGHTS_BY_LANG[lang] || HIGHLIGHTS;
+    const bank = loadHighlights(lang);
     const text = pickForDay(bank, dayNumber, order);
     return { text };
   } catch {

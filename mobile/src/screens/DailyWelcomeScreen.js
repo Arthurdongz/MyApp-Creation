@@ -4,18 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import Card from "../components/Card";
 import { useTheme } from "../theme";
 import { pickForDay, pickForDaySmallBank } from "../content";
-import { HIGHLIGHTS } from "../data/highlights";
-import { HIGHLIGHTS_ES } from "../data/highlights.es";
-import { HIGHLIGHTS_PT } from "../data/highlights.pt";
-import { HIGHLIGHTS_FR } from "../data/highlights.fr";
-import { WELCOME_TEASERS } from "../data/welcomeTeasers";
-import { WELCOME_TEASERS_ES } from "../data/welcomeTeasers.es";
-import { WELCOME_TEASERS_PT } from "../data/welcomeTeasers.pt";
-import { WELCOME_TEASERS_FR } from "../data/welcomeTeasers.fr";
+import { loadHighlights, loadWelcomeTeasers } from "../data/byLang";
 import { hapticTap } from "../haptics";
-
-const HIGHLIGHTS_BY_LANG = { es: HIGHLIGHTS_ES, pt: HIGHLIGHTS_PT, fr: HIGHLIGHTS_FR };
-const WELCOME_TEASERS_BY_LANG = { es: WELCOME_TEASERS_ES, pt: WELCOME_TEASERS_PT, fr: WELCOME_TEASERS_FR };
 
 // A once-a-day gate shown before the main app, on the first open of each
 // calendar day only (see storage.js's showDailyWelcome/dismissDailyWelcome).
@@ -29,8 +19,8 @@ export default function DailyWelcomeScreen({ store, onContinue }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
-  const highlightsBank = HIGHLIGHTS_BY_LANG[i18n.language] || HIGHLIGHTS;
-  const teasersBank = WELCOME_TEASERS_BY_LANG[i18n.language] || WELCOME_TEASERS;
+  const highlightsBank = loadHighlights(i18n.language);
+  const teasersBank = loadWelcomeTeasers(i18n.language);
 
   const { latestDay, order, streak, settings } = store;
   const fact = pickForDay(highlightsBank, latestDay, order);

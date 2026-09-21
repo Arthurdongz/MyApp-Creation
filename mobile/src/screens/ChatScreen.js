@@ -21,19 +21,9 @@ import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
 import { pickForDay, pickForDaySmallBank } from "../content";
 import { VERSES } from "../data/verses";
-import { STORIES } from "../data/stories";
-import { STORIES_ES } from "../data/stories.es";
-import { STORIES_PT } from "../data/stories.pt";
-import { STORIES_FR } from "../data/stories.fr";
-import { BARNABAS_MOMENTS } from "../data/moments";
-import { BARNABAS_MOMENTS_ES } from "../data/moments.es";
-import { BARNABAS_MOMENTS_PT } from "../data/moments.pt";
-import { BARNABAS_MOMENTS_FR } from "../data/moments.fr";
+import { loadStories, loadMoments } from "../data/byLang";
 import VersePopup from "../components/VersePopup";
 import ChatPersonaModal from "../components/ChatPersonaModal";
-
-const STORIES_BY_LANG = { es: STORIES_ES, pt: STORIES_PT, fr: STORIES_FR };
-const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
 
 // How many days of mood history to summarize into the personalization
 // context sent with each message — kept in sync with the Worker's own
@@ -134,8 +124,8 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   } = store;
   const crisisResource = getCrisisResource(resolveCrisisRegion(settings));
 
-  const storyBank = STORIES_BY_LANG[i18n.language] || STORIES;
-  const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
+  const storyBank = loadStories(i18n.language);
+  const momentsBank = loadMoments(i18n.language);
   const todayEntry = state.entries[`day-${latestDay}`];
 
   // Grounds Barnabas in what the user is actually seeing today — the exact
