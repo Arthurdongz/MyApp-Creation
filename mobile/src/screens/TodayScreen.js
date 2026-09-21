@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Linking, Platform, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, Linking, Platform, Share, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import Card from "../components/Card";
@@ -12,6 +12,9 @@ import { pickForDay, pickForDaySmallBank, pickVerseVersion, TOTAL_DAYS } from ".
 import { BADGE_DEFS } from "../storage";
 import { BIBLE_VERSIONS, VERSES } from "../data/verses";
 import { CONFESSIONS } from "../data/confessions";
+import { CONFESSIONS_ES } from "../data/confessions.es";
+import { CONFESSIONS_PT } from "../data/confessions.pt";
+import { CONFESSIONS_FR } from "../data/confessions.fr";
 import { ENCOURAGEMENTS } from "../data/encouragements";
 import { ENCOURAGEMENTS_ES } from "../data/encouragements.es";
 import { ENCOURAGEMENTS_PT } from "../data/encouragements.pt";
@@ -60,6 +63,7 @@ function truncateForPreview(text, maxLen = 90) {
   return trimmed.length > maxLen ? `${trimmed.slice(0, maxLen).trimEnd()}…` : trimmed;
 }
 
+const CONFESSIONS_BY_LANG = { es: CONFESSIONS_ES, pt: CONFESSIONS_PT, fr: CONFESSIONS_FR };
 const ENCOURAGEMENTS_BY_LANG = { es: ENCOURAGEMENTS_ES, pt: ENCOURAGEMENTS_PT, fr: ENCOURAGEMENTS_FR };
 const BARNABAS_MOMENTS_BY_LANG = { es: BARNABAS_MOMENTS_ES, pt: BARNABAS_MOMENTS_PT, fr: BARNABAS_MOMENTS_FR };
 const QUOTES_BY_LANG = { es: QUOTES_ES, pt: QUOTES_PT, fr: QUOTES_FR };
@@ -71,6 +75,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
+  const confessionsBank = CONFESSIONS_BY_LANG[i18n.language] || CONFESSIONS;
   const encouragementsBank = ENCOURAGEMENTS_BY_LANG[i18n.language] || ENCOURAGEMENTS;
   const momentsBank = BARNABAS_MOMENTS_BY_LANG[i18n.language] || BARNABAS_MOMENTS;
   const quotesBank = QUOTES_BY_LANG[i18n.language] || QUOTES;
@@ -115,7 +120,10 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     const version = pickVerseVersion(viewingDay, settings, VERSE_VERSION_IDS);
     return { ref: entry.ref, version, text: entry.versions[version] || entry.versions.KJV };
   }, [viewingDay, order, settings.verseVersionMode, settings.verseFavoriteVersion]);
-  const confession = useMemo(() => pickForDay(CONFESSIONS, viewingDay, order), [viewingDay, order]);
+  const confession = useMemo(
+    () => pickForDay(confessionsBank, viewingDay, order),
+    [confessionsBank, viewingDay, order]
+  );
   const encouragement = useMemo(
     () => pickForDay(encouragementsBank, viewingDay, order),
     [encouragementsBank, viewingDay, order]
@@ -401,6 +409,21 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     }
   };
 
+  // Used by both the crisis-resource call button and the "go a little
+  // further" call nudge below — unlike Share.share (where a rejected
+  // promise just means the user dismissed the sheet), a rejected
+  // Linking.openURL means the device genuinely couldn't start a call, so
+  // this surfaces it instead of failing silently — especially important on
+  // the crisis path, where a silent failure could leave someone tapping a
+  // dead button at the moment they most need it to work.
+  const openTelLink = async (url) => {
+    try {
+      await Linking.openURL(url);
+    } catch (e) {
+      Alert.alert(t("today.support.callErrorTitle"), t("today.support.callErrorMessage"));
+    }
+  };
+
   // Jump links under the day navigator, and the refs/helper that make them
   // scroll to the right spot in App.js's shared ScrollView. Word also opens
   // its accordion row on jump, since landing on a collapsed one-liner
@@ -431,7 +454,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           {crisisResource.callUrl ? (
             <TouchableOpacity
               style={styles.secondaryButton}
-              onPress={() => Linking.openURL(crisisResource.callUrl)}
+              onPress={() => openTelLink(crisisResource.callUrl)}
               accessibilityRole="button"
               accessibilityLabel={crisisResource.callLabel}
             >
@@ -492,7 +515,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
           <View style={styles.momentActions}>
             <TouchableOpacity
               style={styles.secondaryButton}
-              onPress={() => Linking.openURL("tel:")}
+              onPress={() => openTelLink("tel:")}
               accessibilityRole="button"
               accessibilityLabel={t("today.support.call.callLabel")}
             >

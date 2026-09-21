@@ -228,7 +228,9 @@
         "didItText": "Me contacté con alguien ✓",
         "didItDoneText": "Contactado ✓"
       },
-      "savedVerseLabel": "De tus favoritos guardados"
+      "savedVerseLabel": "De tus favoritos guardados",
+      "callErrorTitle": "No se pudo abrir la app de teléfono",
+      "callErrorMessage": "Algo salió mal al intentar iniciar la llamada. Intenta marcar manualmente."
     },
     "reflect": {
       "sectionTitleToday": "Reflexión de Hoy",

@@ -228,7 +228,9 @@
         "didItText": "Je l'ai fait ✓",
         "didItDoneText": "Fait ✓"
       },
-      "savedVerseLabel": "Parmi tes favoris enregistrés"
+      "savedVerseLabel": "Parmi tes favoris enregistrés",
+      "callErrorTitle": "Impossible d'ouvrir l'application téléphone",
+      "callErrorMessage": "Une erreur s'est produite en essayant de lancer l'appel. Essaie de composer le numéro manuellement."
     },
     "reflect": {
       "sectionTitleToday": "Réflexion du Jour",

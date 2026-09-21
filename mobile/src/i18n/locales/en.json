@@ -228,7 +228,9 @@
         "didItText": "I reached out ✓",
         "didItDoneText": "Reached out ✓"
       },
-      "savedVerseLabel": "From your saved favorites"
+      "savedVerseLabel": "From your saved favorites",
+      "callErrorTitle": "Couldn't open the phone app",
+      "callErrorMessage": "Something went wrong trying to start the call. Please try dialing manually instead."
     },
     "reflect": {
       "sectionTitleToday": "Today's Reflection",

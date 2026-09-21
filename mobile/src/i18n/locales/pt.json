@@ -228,7 +228,9 @@
         "didItText": "Eu entrei em contato ✓",
         "didItDoneText": "Contato feito ✓"
       },
-      "savedVerseLabel": "Dos seus favoritos salvos"
+      "savedVerseLabel": "Dos seus favoritos salvos",
+      "callErrorTitle": "Não foi possível abrir o aplicativo de telefone",
+      "callErrorMessage": "Algo deu errado ao tentar iniciar a chamada. Tente discar manualmente."
     },
     "reflect": {
       "sectionTitleToday": "Reflexão de Hoje",
