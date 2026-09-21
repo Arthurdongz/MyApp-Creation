@@ -7,7 +7,7 @@
 import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import { BIBLE_VERSIONS } from "./data/verses";
-import KJV_TEXT from "./data/bible-kjv.json";
+import { getKjvText } from "./data/kjvText";
 
 const BIBLE_DATA_BASE_URL =
   "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/bible-data/";
@@ -17,7 +17,7 @@ const BIBLE_DATA_BASE_URL =
 // rather than trying to persist it.
 const CACHE_DIR = Platform.OS !== "web" && FileSystem.documentDirectory ? `${FileSystem.documentDirectory}bible-data/` : null;
 
-const textCache = { KJV: KJV_TEXT };
+const textCache = {};
 const loadPromises = {};
 
 export function getVersionMeta(id) {
@@ -25,12 +25,17 @@ export function getVersionMeta(id) {
 }
 
 export function isVersionLoaded(id) {
+  if (id === "KJV") return true; // always bundled — see getKjvText's lazy require
   return !!textCache[id];
 }
 
 // Synchronous cache read — lets callers avoid flashing a loading state
-// for a version (e.g. KJV) that's already in memory.
+// for a version (e.g. KJV) that's already in memory. KJV's own lazy load
+// (see data/kjvText.js) is itself synchronous once called, so this stays
+// synchronous for KJV too — just deferred to first call instead of import
+// time, so its ~4.2MB parse isn't paid by every app launch.
 export function getCachedVersionText(id) {
+  if (id === "KJV") return getKjvText();
   return textCache[id] || null;
 }
 
@@ -46,6 +51,7 @@ async function ensureCacheDir() {
 // text, parses it, and caches the parsed array in memory for the rest of
 // this session. Concurrent calls for the same version share one fetch.
 export async function loadVersionText(id) {
+  if (id === "KJV") return getKjvText();
   if (textCache[id]) return textCache[id];
   if (loadPromises[id]) return loadPromises[id];
 

@@ -1,12 +1,13 @@
 // Resolves a confession's scripture `ref` string (e.g. "Romans 8:37",
 // "Psalm 91:10-11", "1 John 5:1, 11-12", "Isaiah 43:25, Jeremiah 31:34")
 // into the actual KJV verse text, and gives access to a full chapter for
-// "read more" — the local KJV_TEXT bundle backing this is the only
-// translation wired up here (see App.js AGENTS notes: confession references
-// use plain KJV text, independent of the daily-verse translation setting).
+// "read more" — the local, lazily-loaded KJV bundle (see data/kjvText.js)
+// backing this is the only translation wired up here (see App.js AGENTS
+// notes: confession references use plain KJV text, independent of the
+// daily-verse translation setting).
 
 import { BIBLE_BOOKS } from "./data/bible-books";
-import KJV_TEXT from "./data/bible-kjv.json";
+import { getKjvText } from "./data/kjvText";
 
 const BOOK_INDEX = new Map(BIBLE_BOOKS.map((name, i) => [name, i]));
 const SORTED_BOOKS = [...BIBLE_BOOKS].sort((a, b) => b.length - a.length);
@@ -73,7 +74,7 @@ export function parseRef(ref) {
 function chapterVerses(book, chapter) {
   const bi = BOOK_INDEX.get(book);
   if (bi == null) return null;
-  return KJV_TEXT[bi]?.[chapter - 1] || null;
+  return getKjvText()[bi]?.[chapter - 1] || null;
 }
 
 // Returns [{ book, chapter, verseStart, verseEnd, text }] — one block per
@@ -107,7 +108,7 @@ export function getChapter(book, chapter) {
 export function chapterCount(book) {
   const bi = BOOK_INDEX.get(book);
   if (bi == null) return 0;
-  return KJV_TEXT[bi].length;
+  return getKjvText()[bi].length;
 }
 
 // Version-aware equivalents of getChapter/chapterCount, for the full

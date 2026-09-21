@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
 import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
-import KJV_TEXT from "../data/bible-kjv.json";
 import { BIBLE_VERSIONS } from "../data/verses";
 import { getCachedVersionText, isVersionLoaded, loadVersionText } from "../bibleVersions";
 import { hapticTap } from "../haptics";
@@ -156,7 +155,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   };
 
   const verses = versionData ? getChapterFrom(versionData, book, currentChapter) : null;
-  const kjvVerses = getChapterFrom(KJV_TEXT, book, currentChapter);
+  const kjvVerses = getChapterFrom(getCachedVersionText("KJV"), book, currentChapter);
   const total = versionData ? chapterCountFrom(versionData, book) : 0;
   const isCitedVerse = (v) => currentChapter === chapter && highlightStart != null && v >= highlightStart && v <= highlightEnd;
 
