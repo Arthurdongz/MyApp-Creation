@@ -399,6 +399,8 @@
     "subscribeComingSoonTitle": "Coming soon",
     "subscribeComingSoonMessage": "Subscriptions aren't set up yet — check back soon.",
     "genericError": "Something went wrong. Please try again.",
+    "tapToRetry": "Tap to retry",
+    "retryLabel": "Retry sending this message",
     "quotaBanner": "{{left}} of {{limit}} free messages left this month",
     "unlimitedBanner": "Unlimited chatting — thank you for subscribing ✨",
     "emptyState": "Say hello — Barnabas is listening.",

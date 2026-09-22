@@ -158,6 +158,14 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const [sending, setSending] = useState(false);
   const [streamingText, setStreamingText] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  // The text of the most recent send attempt that failed with no reply data
+  // at all (see sendToBarnabas) — set only in that case, so "tap to retry"
+  // is offered exactly when resending is safe and unambiguous: the failed
+  // user message is already the last thing in the conversation, nothing
+  // came back for it yet, and retrying just re-attempts the same call
+  // rather than risking a duplicate bubble alongside a partial reply that
+  // already rendered.
+  const [failedMessage, setFailedMessage] = useState(null);
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
   const [personaModalOpen, setPersonaModalOpen] = useState(false);
@@ -205,15 +213,18 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     : null;
   const messages = storedConversation ? storedConversation.messages : [];
 
-  const handleSend = async () => {
-    const text = input.trim();
-    if (!text || sending || !conversation) return;
+  // Shared by a fresh send and a retry — `history` is always everything
+  // that should precede `text` in the request, never including `text`
+  // itself (chat.js's sendChatMessage appends it). The caller owns getting
+  // that right: a fresh send passes `messages` from before the new user
+  // bubble was appended; a retry passes `messages` with the trailing,
+  // still-unanswered user bubble sliced off, since that message is already
+  // in the conversation from the attempt being retried.
+  const sendToBarnabas = async (text, history) => {
     hapticTap();
-    const history = messages;
-    appendChatMessage(conversation, { role: "user", content: text });
-    setInput("");
     setSending(true);
     setErrorMsg("");
+    setFailedMessage(null);
     setStreamingText("");
     try {
       // The streaming bubble below renders `streamingText` directly, not
@@ -235,15 +246,33 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     } catch (e) {
       // A failure after some of the reply already streamed in still keeps
       // that partial text — see chat.js's consumeChatStream — rather than
-      // discarding what the user already saw.
+      // discarding what the user already saw. Retry is only offered when
+      // nothing at all came back, so a retry never risks duplicating a
+      // user bubble that already has a (partial) answer sitting under it.
       if (e.partialText) {
         appendChatMessage(conversation, { role: "assistant", content: e.partialText });
+      } else if (e.retriable !== false) {
+        setFailedMessage(text);
       }
       setErrorMsg(e.message || t("chat.genericError"));
     } finally {
       setSending(false);
       setStreamingText("");
     }
+  };
+
+  const handleSend = () => {
+    const text = input.trim();
+    if (!text || sending || !conversation) return;
+    const history = messages;
+    appendChatMessage(conversation, { role: "user", content: text });
+    setInput("");
+    sendToBarnabas(text, history);
+  };
+
+  const handleRetry = () => {
+    if (!failedMessage || sending || !conversation) return;
+    sendToBarnabas(failedMessage, messages.slice(0, -1));
   };
 
   // Tapping an already-set thumb again clears it, rather than only ever
@@ -477,7 +506,21 @@ export default function ChatScreen({ store, onClose, seedContext }) {
               ) : null}
             </ScrollView>
 
-            {errorMsg ? <Text style={styles.errorText}>{errorMsg}</Text> : null}
+            {errorMsg && failedMessage ? (
+              <TouchableOpacity
+                style={styles.retryRow}
+                onPress={handleRetry}
+                accessibilityRole="button"
+                accessibilityLabel={t("chat.retryLabel")}
+              >
+                <Ionicons name="refresh" size={14} color={colors.goldText} />
+                <Text style={styles.retryText}>
+                  {errorMsg} {t("chat.tapToRetry")}
+                </Text>
+              </TouchableOpacity>
+            ) : errorMsg ? (
+              <Text style={styles.errorText}>{errorMsg}</Text>
+            ) : null}
 
             {/*
               Reading an old conversation from History should always work,
@@ -612,6 +655,8 @@ function getStyles(colors, shadow) {
     bubbleRef: { color: colors.sageDark, fontWeight: "700", textDecorationLine: "underline" },
     feedbackRow: { flexDirection: "row", gap: 12, marginTop: 8 },
     errorText: { fontSize: 13, color: colors.goldText, marginHorizontal: 16, marginBottom: 6 },
+    retryRow: { flexDirection: "row", alignItems: "center", gap: 6, marginHorizontal: 16, marginBottom: 6 },
+    retryText: { flex: 1, fontSize: 13, color: colors.goldText },
     inputRow: {
       flexDirection: "row",
       alignItems: "flex-end",

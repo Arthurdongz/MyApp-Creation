@@ -399,6 +399,8 @@
     "subscribeComingSoonTitle": "Muy pronto",
     "subscribeComingSoonMessage": "Las suscripciones aún no están disponibles — vuelve pronto.",
     "genericError": "Algo salió mal. Inténtalo de nuevo.",
+    "tapToRetry": "Toca para reintentar",
+    "retryLabel": "Reintentar el envío de este mensaje",
     "quotaBanner": "Te quedan {{left}} de {{limit}} mensajes gratis este mes",
     "unlimitedBanner": "Chat ilimitado — gracias por suscribirte ✨",
     "emptyState": "Saluda — Bernabé está escuchando.",

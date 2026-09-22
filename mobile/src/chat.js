@@ -179,7 +179,14 @@ export async function sendChatMessage(
 
     if (!res.ok) {
       cleanup();
-      if (res.status === 429) throw new Error("You've reached today's message limit — try again tomorrow.");
+      if (res.status === 429) {
+        // Retrying this one immediately can only fail the same way again —
+        // tell the caller not to offer a retry affordance for it, unlike
+        // every other failure path here.
+        const err = new Error("You've reached today's message limit — try again tomorrow.");
+        err.retriable = false;
+        throw err;
+      }
       let detail = "";
       try {
         detail = (await res.json()).error || "";
