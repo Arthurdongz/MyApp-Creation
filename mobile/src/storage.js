@@ -946,6 +946,31 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Appends `extraText` onto the last message in `conversation` instead of
+  // adding a new one — used when a reply that got cut off mid-stream (see
+  // chat.js's continueChatMessage) picks back up: the interrupted partial
+  // text is already saved as its own assistant message, and the
+  // continuation's text is the next part of that *same* reply, not a
+  // second reply.
+  const extendLastChatMessage = useCallback(
+    (conversation, extraText) => {
+      setState((prev) => {
+        const chatConversations = prev.chatConversations.map((c) => {
+          if (c.id !== conversation.id || c.messages.length === 0) return c;
+          const lastIndex = c.messages.length - 1;
+          const messages = c.messages.map((m, i) =>
+            i === lastIndex ? { ...m, content: m.content + extraText } : m
+          );
+          return { ...c, messages, updatedAt: Date.now() };
+        });
+        const next = { ...prev, chatConversations };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
   // Records a thumbs up/down on one message within `conversation`, purely
   // for the local chat bubble UI to reflect the choice back (a filled vs
   // outline icon) — the actual signal reaches the developer separately via
@@ -1236,6 +1261,7 @@ export function useJournalStore() {
     chatConversations: state.chatConversations,
     openChatConversation,
     appendChatMessage,
+    extendLastChatMessage,
     prayers: state.prayers,
     addPrayer,
     markPrayerAnswered,

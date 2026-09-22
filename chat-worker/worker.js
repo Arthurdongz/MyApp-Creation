@@ -416,6 +416,25 @@ async function runStreamingRound(anthropic, system, messages, tools, ndjson) {
   return { response, wroteText };
 }
 
+// Appends an assistant turn's content blocks onto `messages`, merging into
+// the last entry instead of pushing a new one when that last entry is
+// *already* assistant-role — which happens when initialMessages arrives
+// pre-ending in an assistant turn (a continuation request's prefill; see
+// handleChat's isContinuation branch) and that first round itself needs a
+// tool-call round. The Anthropic API requires strict user/assistant
+// alternation, so two consecutive assistant entries would otherwise be
+// rejected; every other call site here (a fresh, non-continuation message)
+// always has the prior entry be role "user", so this merge never triggers
+// for the common case and behaves exactly as a plain push.
+function appendAssistantContent(messages, content) {
+  const last = messages[messages.length - 1];
+  if (last && last.role === "assistant") {
+    const lastContent = typeof last.content === "string" ? [{ type: "text", text: last.content }] : last.content;
+    return [...messages.slice(0, -1), { role: "assistant", content: [...lastContent, ...content] }];
+  }
+  return [...messages, { role: "assistant", content }];
+}
+
 // Generates the actual Barnabas reply, letting Claude call
 // lookup_bible_verse as many times as it needs (bounded) before settling
 // on final text. The intermediate tool-call/tool-result exchange never
@@ -440,7 +459,7 @@ async function generateReplyStreaming(anthropic, system, initialMessages, ndjson
       return;
     }
 
-    messages = [...messages, { role: "assistant", content: response.content }];
+    messages = appendAssistantContent(messages, response.content);
     const toolUseBlocks = response.content.filter((b) => b.type === "tool_use");
     const toolResults = [];
     for (const block of toolUseBlocks) {
@@ -518,8 +537,16 @@ async function handleChat(request, env, ctx) {
     return jsonResponse({ error: "Invalid request body." }, 400);
   }
 
-  const { message, history, deviceId, region, language, todayContext, personalization, personaPreferences } = body;
-  if (!message || typeof message !== "string" || message.length > 2000) {
+  const { message, history, deviceId, region, language, todayContext, personalization, personaPreferences, continuePartial } =
+    body;
+  // A continuation request (see mobile/src/chat.js's continueChatMessage)
+  // picks a reply back up after it got cut off mid-stream — there's no new
+  // user text, `history` itself already ends in the partial assistant
+  // reply to continue from, via Claude's own prefill/continuation behavior
+  // (ending a `messages` array in an assistant turn makes the model
+  // continue that exact text rather than starting fresh).
+  const isContinuation = continuePartial === true;
+  if (!isContinuation && (!message || typeof message !== "string" || message.length > 2000)) {
     return jsonResponse({ error: "Invalid message." }, 400);
   }
   if (!deviceId || typeof deviceId !== "string") {
@@ -554,6 +581,12 @@ async function handleChat(request, env, ctx) {
         .filter((m) => m && typeof m.content === "string" && (m.role === "user" || m.role === "assistant"))
         .slice(-MAX_HISTORY_TURNS)
     : [];
+  if (isContinuation) {
+    const last = safeHistory[safeHistory.length - 1];
+    if (!last || last.role !== "assistant" || !last.content.trim()) {
+      return jsonResponse({ error: "Nothing to continue." }, 400);
+    }
+  }
   const resolvedRegion = typeof region === "string" ? region : null;
   const resolvedLanguage = typeof language === "string" ? language : null;
   const safeTodayContext = sanitizeTodayContext(todayContext);
@@ -565,8 +598,13 @@ async function handleChat(request, env, ctx) {
   // needsCrisisResponse swallows its own errors and falls back to `false`
   // (see its own catch) so a classifier hiccup never blocks the chat — it
   // stays outside the streaming commitment below, since it can still fail
-  // with a plain error response at this point.
-  const isCrisis = await needsCrisisResponse(anthropic, message);
+  // with a plain error response at this point. Skipped for a continuation:
+  // there's no new user text to classify, and the original message already
+  // went through this check on the attempt that got interrupted — if it had
+  // been a crisis message, that attempt would have taken the crisis branch
+  // below (a single atomic write, not a multi-second Claude stream) and
+  // never produced the partial text a continuation picks up from.
+  const isCrisis = isContinuation ? false : await needsCrisisResponse(anthropic, message);
 
   // From here on the response is committed to streaming NDJSON — no more
   // synchronous validation, since headers are about to be sent. Any later
@@ -593,7 +631,16 @@ async function handleChat(request, env, ctx) {
       safePersonalization,
       safePersonaPreferences
     );
-    const messages = [...safeHistory, { role: "user", content: message }];
+    // A continuation's `messages` already ends in the assistant turn to
+    // continue (safeHistory itself, validated above) — trailing whitespace
+    // on a prefilled assistant turn is rejected by the API, so trim just
+    // the copy sent here, not what's actually stored/displayed anywhere.
+    const messages = isContinuation
+      ? [
+          ...safeHistory.slice(0, -1),
+          { ...safeHistory[safeHistory.length - 1], content: safeHistory[safeHistory.length - 1].content.trimEnd() },
+        ]
+      : [...safeHistory, { role: "user", content: message }];
     ctx.waitUntil(
       (async () => {
         try {

@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
-import { sendChatMessage, sendChatFeedback } from "../chat";
+import { sendChatMessage, continueChatMessage, sendChatFeedback } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
@@ -114,6 +114,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     chatConversations,
     openChatConversation,
     appendChatMessage,
+    extendLastChatMessage,
     setChatMessageFeedback,
     resumeChatConversation,
     latestDay,
@@ -166,10 +167,20 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // rather than risking a duplicate bubble alongside a partial reply that
   // already rendered.
   const [failedMessage, setFailedMessage] = useState(null);
+  // True when the last stored message is a reply that got cut off and the
+  // automatic recovery attempt inside sendChatMessage also failed (see
+  // sendToBarnabas/handleContinue) — offers "tap to continue" instead of
+  // "tap to retry", since there's a real partial answer to pick back up
+  // rather than an unanswered message to resend.
+  const [canContinue, setCanContinue] = useState(false);
   const [versePopupOpen, setVersePopupOpen] = useState(false);
   const [versePopupRef, setVersePopupRef] = useState(null);
   const [personaModalOpen, setPersonaModalOpen] = useState(false);
   const scrollRef = useRef(null);
+  // Not state — aborting shouldn't itself trigger a re-render, only the
+  // sending/streamingText updates that follow it do. Live only while a
+  // request is in flight; see handleStop.
+  const abortControllerRef = useRef(null);
 
   const openVerseRef = (ref) => {
     hapticTap();
@@ -208,6 +219,13 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Closing the chat mid-reply (this screen is a Modal App.js can dismiss
+  // at any time) shouldn't leave a request running against a component
+  // that's gone — abort whatever's in flight, the same as tapping Stop.
+  useEffect(() => {
+    return () => abortControllerRef.current?.abort();
+  }, []);
+
   const storedConversation = conversation
     ? chatConversations.find((c) => c.id === conversation.id)
     : null;
@@ -225,7 +243,16 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setSending(true);
     setErrorMsg("");
     setFailedMessage(null);
+    setCanContinue(false);
     setStreamingText("");
+    // sendChatMessage already makes one automatic attempt to pick a
+    // mid-stream network drop back up (see chat.js) — this controller is
+    // for the person themselves choosing to stop, either mid-generation
+    // (handleStop) or by leaving the screen. Either way it's read in the
+    // catch block below via `controller.signal.aborted` to tell a
+    // deliberate stop apart from a real failure.
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     try {
       // The streaming bubble below renders `streamingText` directly, not
       // the store — appendChatMessage persists to AsyncStorage on every
@@ -239,25 +266,28 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         todayContext,
         personalization,
         { style: settings.chatPersonaStyle, note: settings.chatPersonaNote },
-        { onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar) }
+        { onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar), signal: controller.signal }
       );
       appendChatMessage(conversation, { role: "assistant", content: reply });
       recordChatMessageSent();
     } catch (e) {
-      // A failure after some of the reply already streamed in still keeps
-      // that partial text — see chat.js's consumeChatStream — rather than
-      // discarding what the user already saw. Retry is only offered when
-      // nothing at all came back, so a retry never risks duplicating a
-      // user bubble that already has a (partial) answer sitting under it.
+      // A deliberate stop (handleStop) or a failure after real text had
+      // already streamed in both still keep that text rather than
+      // discarding it — the difference is only whether an error banner
+      // and a retry/continue affordance show underneath it afterward.
       if (e.partialText) {
         appendChatMessage(conversation, { role: "assistant", content: e.partialText });
-      } else if (e.retriable !== false) {
+      } else if (!e.cancelled && e.retriable !== false) {
         setFailedMessage(text);
       }
-      setErrorMsg(e.message || t("chat.genericError"));
+      if (!e.cancelled) {
+        setErrorMsg(e.message || t("chat.genericError"));
+        if (e.canContinue) setCanContinue(true);
+      }
     } finally {
       setSending(false);
       setStreamingText("");
+      abortControllerRef.current = null;
     }
   };
 
@@ -273,6 +303,60 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const handleRetry = () => {
     if (!failedMessage || sending || !conversation) return;
     sendToBarnabas(failedMessage, messages.slice(0, -1));
+  };
+
+  // Stopping mid-generation, the same idea as most chat apps' "stop"
+  // button — aborts the in-flight request but keeps whatever text had
+  // already streamed in as the final reply (see sendToBarnabas's catch),
+  // rather than discarding it.
+  const handleStop = () => {
+    hapticTap();
+    abortControllerRef.current?.abort();
+  };
+
+  // Picks a reply that got cut off back up — unlike handleRetry (which
+  // resends a whole message that got no answer at all), this continues the
+  // partial reply already sitting as the last message in the conversation,
+  // via chat.js's continueChatMessage / Claude's own continuation
+  // behavior, and extends that same message instead of adding a new one.
+  const handleContinue = async () => {
+    if (!canContinue || sending || !conversation || messages.length === 0) return;
+    hapticTap();
+    setSending(true);
+    setErrorMsg("");
+    setCanContinue(false);
+    setStreamingText("");
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+    try {
+      // The partial reply being continued is already its own stored,
+      // rendered bubble (see the message list below) — the streaming bubble
+      // only ever needs the new tail text on its own, not that text
+      // prefixed again, so it reads as that same bubble's continuation
+      // landing right underneath rather than a duplicate of what's already
+      // shown.
+      const tail = await continueChatMessage(
+        messages,
+        i18n.language,
+        resolveCrisisRegion(settings),
+        todayContext,
+        personalization,
+        { style: settings.chatPersonaStyle, note: settings.chatPersonaNote },
+        { onDelta: (_chunk, tailSoFar) => setStreamingText(tailSoFar), signal: controller.signal }
+      );
+      extendLastChatMessage(conversation, tail);
+      recordChatMessageSent();
+    } catch (e) {
+      if (e.partialText) extendLastChatMessage(conversation, e.partialText);
+      if (!e.cancelled) {
+        setErrorMsg(e.message || t("chat.genericError"));
+        if (e.canContinue) setCanContinue(true);
+      }
+    } finally {
+      setSending(false);
+      setStreamingText("");
+      abortControllerRef.current = null;
+    }
   };
 
   // Tapping an already-set thumb again clears it, rather than only ever
@@ -518,6 +602,18 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                   {errorMsg} {t("chat.tapToRetry")}
                 </Text>
               </TouchableOpacity>
+            ) : errorMsg && canContinue ? (
+              <TouchableOpacity
+                style={styles.retryRow}
+                onPress={handleContinue}
+                accessibilityRole="button"
+                accessibilityLabel={t("chat.continueLabel")}
+              >
+                <Ionicons name="play-forward" size={14} color={colors.goldText} />
+                <Text style={styles.retryText}>
+                  {errorMsg} {t("chat.tapToContinue")}
+                </Text>
+              </TouchableOpacity>
             ) : errorMsg ? (
               <Text style={styles.errorText}>{errorMsg}</Text>
             ) : null}
@@ -540,15 +636,26 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                     multiline
                     editable={!sending}
                   />
-                  <TouchableOpacity
-                    style={[styles.sendBtn, (!input.trim() || sending) && styles.sendBtnDisabled]}
-                    onPress={handleSend}
-                    disabled={!input.trim() || sending}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("chat.sendLabel")}
-                  >
-                    <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
-                  </TouchableOpacity>
+                  {sending ? (
+                    <TouchableOpacity
+                      style={styles.sendBtn}
+                      onPress={handleStop}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("chat.stopLabel")}
+                    >
+                      <Ionicons name="stop" size={15} color={colors.buttonOnText} />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[styles.sendBtn, !input.trim() && styles.sendBtnDisabled]}
+                      onPress={handleSend}
+                      disabled={!input.trim()}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("chat.sendLabel")}
+                    >
+                      <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
+                    </TouchableOpacity>
+                  )}
                 </View>
 
                 <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
