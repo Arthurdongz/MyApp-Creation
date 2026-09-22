@@ -412,6 +412,7 @@
     "sendButton": "Send",
     "disclaimer": "If you're in crisis, please reach real help: {{resource}}",
     "historyLabel": "View past conversations",
+    "newChatLabel": "Start a new chat",
     "historyTitle": "Past Conversations",
     "backToChatLabel": "Back to chat",
     "historyEmpty": "You haven't started a conversation yet.",

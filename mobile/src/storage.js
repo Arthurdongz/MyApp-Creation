@@ -920,6 +920,18 @@ export function useJournalStore() {
     return existing || newChatConversation();
   }, [state.settings, state.chatConversations]);
 
+  // Unlike openChatConversation, always hands back a brand new, empty,
+  // not-yet-persisted conversation regardless of the session window — for
+  // the "New chat" button, which exists specifically to step away from
+  // whatever conversation is currently active (resumed or not). Same
+  // "nothing written until a message is sent" rule applies: picking New
+  // Chat and closing without typing leaves no empty entry in History, and
+  // doesn't touch activeChatConversationId/chatLastActiveAt itself — only
+  // actually sending a message (appendChatMessage) does that, so an
+  // untouched "New chat" doesn't silently orphan a still-current real
+  // conversation.
+  const startNewChatConversation = useCallback(() => newChatConversation(), []);
+
   // Appends a message to `conversation` (the object openChatConversation or
   // a History row handed back), inserting it into chatConversations for the
   // first time if this is its first message. Also marks it the active
@@ -1260,6 +1272,7 @@ export function useJournalStore() {
     recordChatMessageSent,
     chatConversations: state.chatConversations,
     openChatConversation,
+    startNewChatConversation,
     appendChatMessage,
     extendLastChatMessage,
     prayers: state.prayers,

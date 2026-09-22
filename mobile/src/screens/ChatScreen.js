@@ -113,6 +113,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     updateSettings,
     chatConversations,
     openChatConversation,
+    startNewChatConversation,
     appendChatMessage,
     extendLastChatMessage,
     setChatMessageFeedback,
@@ -382,6 +383,26 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setView("chat");
   };
 
+  // Steps away from whatever conversation is currently showing (resumed
+  // from a past session, or one already underway) into a genuinely new one
+  // — unlike openChatConversation (called once on mount), this always
+  // creates fresh rather than possibly resuming, since that's the whole
+  // point of the button. Stops anything still in flight first, the same as
+  // handleStop, since starting over while a reply is generating shouldn't
+  // leave that request running unseen against a conversation no longer on
+  // screen.
+  const handleNewChat = () => {
+    hapticTap();
+    abortControllerRef.current?.abort();
+    setConversation(startNewChatConversation());
+    setInput("");
+    setErrorMsg("");
+    setFailedMessage(null);
+    setCanContinue(false);
+    setStreamingText("");
+    setView("chat");
+  };
+
   // Subscriptions aren't wired up yet — this app has no App Store/Play
   // Console product or RevenueCat project behind it. Once that exists,
   // replace this with the real purchase flow and call
@@ -429,6 +450,16 @@ export default function ChatScreen({ store, onClose, seedContext }) {
             </View>
           </View>
           <View style={styles.headerRight}>
+            {view === "history" || messages.length > 0 ? (
+              <TouchableOpacity
+                onPress={handleNewChat}
+                style={styles.iconBtn}
+                accessibilityLabel={t("chat.newChatLabel")}
+                accessibilityRole="button"
+              >
+                <Ionicons name="create-outline" size={16} color={colors.sageDark} />
+              </TouchableOpacity>
+            ) : null}
             {view === "chat" ? (
               <TouchableOpacity
                 onPress={() => {

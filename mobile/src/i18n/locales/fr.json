@@ -412,6 +412,7 @@
     "sendButton": "Envoyer",
     "disclaimer": "Si tu traverses une crise, trouve une aide réelle : {{resource}}",
     "historyLabel": "Voir les conversations précédentes",
+    "newChatLabel": "Démarrer une nouvelle conversation",
     "historyTitle": "Conversations Précédentes",
     "backToChatLabel": "Retour au chat",
     "historyEmpty": "Tu n'as pas encore commencé de conversation.",
