@@ -1,0 +1,1719 @@
+{
+  "app": {
+    "brand": "Barnabas Journal",
+    "tagline": "\"Filho de Encorajamento\" — Atos 4:36",
+    "menu": "Menu",
+    "loading": "Carregando...",
+    "footer": "Fique quieto. Seja gentil. Seja o encorajamento de alguém hoje.",
+    "chatFab": "Conversar com Barnabé",
+    "starsLabel_one": "{{count}} pt",
+    "starsLabel_other": "{{count}} pts",
+    "starsAccessibilityLabel_one": "{{count}} ponto Barnabé",
+    "starsAccessibilityLabel_other": "{{count}} pontos Barnabé",
+    "starsTapTitle": "Pontos Barnabé",
+    "starsTapMessage": "Ganhe pontos completando sua leitura diária e seu Momento Barnabé — uma pequena forma de marcar que você esteve presente.",
+    "streakLabel_one": "Sequência de {{count}} dia",
+    "streakLabel_other": "Sequência de {{count}} dias",
+    "streakAccessibilityLabel_one": "Sequência de {{count}} dia",
+    "streakAccessibilityLabel_other": "Sequência de {{count}} dias",
+    "streakTapTitle": "Sua Sequência",
+    "streakTapMessage_one": "Você esteve presente {{count}} dia seguido.",
+    "streakTapMessage_other": "Você esteve presente {{count}} dias seguidos. Continue assim!",
+    "closeChat": "Fechar chat",
+    "upToDateTitle": "Você já está atualizado",
+    "upToDateMessage": "Você já tem a versão mais recente do Barnabas Journal.",
+    "updateCheckErrorTitle": "Não foi possível verificar atualizações",
+    "updateCheckErrorMessage": "Verifique sua conexão e tente novamente.",
+    "updateCheckUnsupportedTitle": "Não disponível aqui",
+    "updateCheckUnsupportedMessage": "Verificar atualizações só funciona no aplicativo instalado, não no modo de desenvolvimento.",
+    "tabs": {
+      "today": "Hoje",
+      "story": "História",
+      "facts": "Curiosidades",
+      "journal": "Diário",
+      "favorites": "Favoritos",
+      "rewards": "Conquistas"
+    }
+  },
+  "onboarding": {
+    "welcomeTitle": "Bem-vindo ao Barnabas Journal",
+    "paragraph1": "No livro de Atos, um homem chamado José recebeu um novo nome dos apóstolos: Barnabé — \"filho de encorajamento\". Ele tinha o dom de erguer os outros com uma palavra gentil ou um gesto de generosidade na hora certa.",
+    "paragraph2": "Este diário te dá, a cada dia, um novo versículo, uma palavra de encorajamento e um pequeno \"momento Barnabé\" para fazer por outra pessoa — um dia de cada vez. Um novo dia se libera todos os dias; você sempre pode olhar para os dias que já viveu, mas não pode adiantar.",
+    "paragraph3": "Apareça, seja gentil e reflita um pouco. Estrelas, sequências e emblemas estão ali só para você notar o quanto já avançou.",
+    "paragraph4": "Vamos pedir permissão para enviar dois lembretes suaves todos os dias — um versículo pela manhã e um aviso à noite para refletir — você pode desativar qualquer um deles quando quiser na aba Conquistas.",
+    "nameTitle": "Como devemos te chamar?",
+    "nameSubtitle": "Para que Barnabé possa te cumprimentar pelo nome — é totalmente opcional, e nunca sai do seu dispositivo.",
+    "crisisRegionTitle": "Mais uma coisa",
+    "crisisRegionSubtitle": "Se você algum dia estiver em crise, queremos mostrar a linha de apoio certa para onde você está. Vamos calcular pelo seu dispositivo — mas se preferir configurar agora, escolha seu país abaixo. Você sempre pode mudar isso depois em Configurações.",
+    "startButton": "Comece sua jornada"
+  },
+  "common": {
+    "listen": "🔊 Ouvir",
+    "share": "↗ Compartilhar",
+    "save": "☆ Salvar",
+    "saved": "★ Salvo",
+    "savedTapRemove": "★ Salvo (toque para remover)",
+    "saveToFavorites": "Salvar nos favoritos",
+    "savedRemoveFromFavorites": "Salvo — toque para remover dos favoritos",
+    "cancel": "Cancelar",
+    "change": "Alterar",
+    "close": "Fechar",
+    "normal": "Normal",
+    "moreActions": "Mais ações",
+    "privacyPolicy": "Política de Privacidade",
+    "saveShort": "Salvar",
+    "dayLabel": "Dia {{day}}",
+    "moods": {
+      "joyful": "Alegre",
+      "peaceful": "Tranquilo",
+      "hopeful": "Esperançoso",
+      "tired": "Cansado",
+      "struggling": "Sobrecarregado"
+    }
+  },
+  "today": {
+    "dayNav": {
+      "todayLabel": "Hoje · Dia {{day}}",
+      "dayLabel": "Dia {{day}}",
+      "previous": "Dia anterior",
+      "next": "Próximo dia",
+      "backToToday": "Voltar para hoje",
+      "progress": "{{day}} de {{total}}"
+    },
+    "jump": {
+      "verse": "Versículo",
+      "verseLabel": "Ir para o Versículo",
+      "confession": "Confissão",
+      "confessionLabel": "Ir para a Confissão de Hoje",
+      "word": "Palavra",
+      "wordLabel": "Ir para Uma Palavra para Você",
+      "moment": "Momento",
+      "momentLabel": "Ir para Seu Momento Barnabé",
+      "reflect": "Refletir",
+      "reflectLabel": "Ir para a Reflexão de Hoje"
+    },
+    "labels": {
+      "verse": "Versículo"
+    },
+    "reading": {
+      "sectionTitle": "Leitura de Hoje"
+    },
+    "confession": {
+      "title": "Confissão de Hoje",
+      "speakPrompt": "Declare isto em voz alta hoje.",
+      "viewVerseLabel": "Ver {{ref}}",
+      "readChapter": "Ler o capítulo completo →",
+      "verseUnavailable": "Este versículo ainda não está disponível para leitura no aplicativo.",
+      "prevChapter": "Capítulo anterior",
+      "nextChapter": "Próximo capítulo",
+      "highlightGreen": "Destacar em verde",
+      "highlightYellow": "Destacar em amarelo",
+      "highlightRed": "Destacar em vermelho",
+      "highlightBlue": "Destacar em azul",
+      "underline": "Sublinhar",
+      "selectedCount": "Selecionados: {{count}}",
+      "clearMark": "Remover destaque",
+      "addNote": "Adicionar uma nota",
+      "copyVerse": "Copiar",
+      "shareVerse": "Compartilhar",
+      "bookmarkVerse": "Marcador",
+      "highlightVerse": "Destacar",
+      "backToOptions": "Voltar",
+      "copied": "Copiado!",
+      "notePlaceholder": "Escreva uma nota…",
+      "saveNote": "Salvar",
+      "bibleVersion": "Versão",
+      "chooseVersion": "Escolher versão da Bíblia",
+      "downloadingVersion": "Baixando {{version}}…",
+      "downloadFailed": "Não foi possível baixar — toque para tentar novamente",
+      "verseOmitted": "Esta tradução não tem texto próprio para este versículo.",
+      "verseOmittedWithText": "Esta tradução não tem texto próprio para este versículo (pode seguir uma tradição de manuscritos diferente, ou numerar os versículos de outra forma). Como referência, a Versão King James diz: “{{text}}”"
+    },
+    "word": {
+      "title": "Uma Palavra para Você",
+      "reflectPrompt": "Deixe isso repousar por um momento — o que isso desperta em você?",
+      "reflectPlaceholder": "O que isso desperta em você?",
+      "reflectPlaceholderWithQuote": "O que despertou em você ao ler: “{{quote}}”?",
+      "reflectSaved": "Salvo. Obrigado por parar para pensar nisso. ⭐⭐"
+    },
+    "thought": {
+      "title": "Pensamento de Encorajamento",
+      "reflectPrompt": "Deixe isso repousar por um momento — o que isso desperta em você?",
+      "reflectPlaceholderWithQuote": "O que despertou em você ao ler: “{{quote}}”?",
+      "reflectSaved": "Salvo. Obrigado por parar para pensar nisso. ⭐⭐"
+    },
+    "fact": {
+      "title": "Você Sabia?"
+    },
+    "moment": {
+      "streakChipLabel": "Sequência de {{count}} dias",
+      "milestoneStreak_one": "🎉 Falta {{count}} dia para sua próxima conquista!",
+      "milestoneStreak_other": "🎉 Faltam {{count}} dias para sua próxima conquista!",
+      "milestoneStars_one": "🎉 Falta {{count}} estrela para sua próxima conquista!",
+      "milestoneStars_other": "🎉 Faltam {{count}} estrelas para sua próxima conquista!",
+      "rewardHint": "Complete o momento de hoje e ganhe {{stars}} ⭐",
+      "celebrateMsg": "🎉 O dia de alguém pode ser um pouco diferente porque você apareceu. +{{stars}} ⭐ e uma sequência de {{streak}} dias.",
+      "tally": "💛 Você já esteve ao lado de alguém {{times}} até agora.",
+      "sectionTitle": "Seu Momento Barnabé",
+      "summaryLabel": "O momento Barnabé de hoje, feito — toque para ver",
+      "summaryText": "✓ Você fez o momento de hoje",
+      "collapseLabel": "Recolher o momento Barnabé de hoje",
+      "collapseText": "‹ Recolher",
+      "followUp": {
+        "label": "Ontem, você planejou:",
+        "question": "Você conseguiu fazer?",
+        "yesLabel": "Sim, eu fiz",
+        "yesButton": "Sim, eu fiz 🎉",
+        "notYet": "Ainda não, mas talvez eu faça",
+        "no": "Não, dessa vez não"
+      },
+      "customNote": "Essa é a sua própria ideia para hoje.",
+      "useSuggestion": "Usar a sugestão de hoje em vez disso",
+      "customPlaceholder": "Qual é o seu próprio ato de bondade para hoje?",
+      "useCustom": "Usar isso em vez disso",
+      "writeOwn": "Ou escreva sua própria bondade para hoje",
+      "plannedFor": "Planejado para: {{when}}",
+      "changeWhenLabel": "Alterar quando você vai fazer isso",
+      "whenPrompt": "Quando você vai fazer isso?",
+      "doneLabel": "Feito",
+      "doneText": "Feito ✓",
+      "doTodayLabel": "Fiz isso hoje",
+      "doTodayText": "Fiz isso hoje ✓",
+      "doLabel": "Eu fiz isso",
+      "doText": "Eu fiz isso ✓",
+      "sendToSomeone": "💌 Compartilhe este encorajamento",
+      "doneMsg": "Muito bem — essa bondade fez diferença. ⭐⭐",
+      "whatHappenedLabel": "O que aconteceu? (opcional)",
+      "whatHappenedPlaceholder": "O que aconteceu quando você fez isso?",
+      "whoLabel": "Em quem você estava pensando? (opcional)",
+      "whoPlaceholder": "Um nome, ou apenas \"um desconhecido\"",
+      "reflectSaved": "Salvo. Obrigado por compartilhar isso. ⭐⭐",
+      "reachOutPrefix": "💛 Se hoje parece pesado —",
+      "reachOutLink": "entre em contato com alguém que se importa",
+      "reminderOn": "🔔 Vamos te lembrar"
+    },
+    "momentIntentions": {
+      "today": "Hoje",
+      "tonight": "Hoje à noite",
+      "tomorrow": "Amanhã de manhã"
+    },
+    "reachOut": {
+      "message": "Oi, eu queria entrar em contato hoje — só estava pensando em você. Como você está?",
+      "messageWithQuote": "Oi, eu queria entrar em contato hoje — só estava pensando em você. Algo que eu li me chamou a atenção: \"{{quote}}\" Como você está?",
+      "talkMessage": "Oi, você tem alguns minutos para conversar? Eu estou precisando de alguém para me ouvir ultimamente."
+    },
+    "shareMoment": "Um pouco de encorajamento da minha parte para você hoje: {{moment}}\n\n— enviado por {{brand}}",
+    "support": {
+      "sectionTitle": "Um Pouco de Apoio Extra",
+      "crisis": {
+        "title": "Um Recurso, Se Você Precisar",
+        "body": "Parece que este último tempo tem sido pesado para você. Isso importa, e você não precisa carregar isso sozinho."
+      },
+      "checkinTalk": {
+        "title": "Já Que Tem Sido Pesado Ultimamente",
+        "body": "Esta última semana pareceu ser demais. Um problema compartilhado é um problema pela metade — há alguém de confiança com quem você poderia falar sobre como você realmente está?",
+        "talkLabel": "Falar com alguém",
+        "talkButton": "💬 Falar com Alguém"
+      },
+      "checkinPause": {
+        "title": "Um Momento para Pausar",
+        "body": "Nesta temporada pesada, pare por um momento: qual é uma pequena coisa pela qual você é grato agora, mesmo que seja pequena? E pense: existe algo que uma vez pareceu impossível de superar, e que você superou mesmo assim? Você pode de novo."
+      },
+      "call": {
+        "title": "🌿 Vá Um Pouco Mais Longe",
+        "body": "Uma mensagem de texto é fácil de enviar, e igualmente fácil de ignorar. Existe alguém que você poderia realmente ligar, ou ver pessoalmente, em vez de só mandar mensagem hoje?",
+        "callLabel": "Ligar para alguém",
+        "callButton": "📞 Ligar para Alguém",
+        "didItLabel": "Eu entrei em contato",
+        "didItText": "Eu entrei em contato ✓",
+        "didItDoneText": "Contato feito ✓"
+      },
+      "savedVerseLabel": "Dos seus favoritos salvos",
+      "callErrorTitle": "Não foi possível abrir o aplicativo de telefone",
+      "callErrorMessage": "Algo deu errado ao tentar iniciar a chamada. Tente discar manualmente."
+    },
+    "reflect": {
+      "sectionTitleToday": "Reflexão de Hoje",
+      "sectionTitleDay": "Reflexão do Dia {{day}}",
+      "heartTitle": "O que está no seu coração hoje?",
+      "heartPlaceholder": "Escreva livremente — isso é só para você...",
+      "momentTitle": "Seu momento Barnabé — o que você fez, e como se sentiu?",
+      "momentPlaceholder": "O que você fez por alguém hoje, e como se sentiu?",
+      "whoTitle": "Em quem você estava pensando? (opcional)",
+      "whoPlaceholder": "Um nome, ou apenas \"um desconhecido\"",
+      "kindnessTitle": "Alguém me regou hoje — alguém te mostrou bondade?",
+      "kindnessPlaceholder": "O que alguém fez por você hoje, e como se sentiu?",
+      "moodLabel": "Como você está se sentindo?",
+      "saveLabel": "Salvar reflexão",
+      "saveButton": "Salvar Reflexão",
+      "savedToday": "Salvo com carinho. Obrigado por aparecer hoje. ⭐⭐",
+      "savedPastDay": "Salvo com carinho. Obrigado por voltar a este dia. ⭐⭐",
+      "teaserEmpty": "Toque para escrever sobre o Pensamento de Encorajamento de hoje — ou o que estiver em sua mente",
+      "teaserLabel": "Abrir a reflexão de hoje no seu Diário"
+    }
+  },
+  "dailyWelcome": {
+    "greetingNamed": "Bem-vindo de volta ao seu Barnabas Journal, {{name}}.",
+    "greetingGeneric": "Bem-vindo de volta ao seu Barnabas Journal.",
+    "dayLine": "Dia {{day}} da sua jornada.",
+    "streakLine": "sequência de {{count}} dias",
+    "factLabel": "Algo para pensar",
+    "continueButton": "Continuar"
+  },
+  "whatsNew": {
+    "title": "Novidades",
+    "subtitle": "Algumas coisas foram adicionadas à sua jornada desde a última vez que você abriu o app.",
+    "continueButton": "Continuar",
+    "releases": {
+      "1": {
+        "heading": "Planos de leitura bíblica mais profundos",
+        "items": {
+          "0": "Novo plano de leitura \"A Bíblia explica a Bíblia\": cada dia combina passagens que se esclarecem mutuamente, seguindo temas como aliança, sacrifício e o Espírito ao longo de quase 100 dias.",
+          "1": "Estudos Temáticos: planos focados, verso a verso, sobre saúde e cura, longevidade, oração, jejum, fé e justiça — construídos pesquisando toda a Bíblia para cobrir cada tema com a maior amplitude possível.",
+          "2": "Novos temas de \"Vida\" sobre a ira, o ódio e a pureza sexual, cada um dividido entre o que a Bíblia diz sobre o perigo, seguido do seu remédio.",
+          "3": "\"Conversar com Barnabé\": ao terminar uma passagem de um plano de leitura, agora você pode abrir uma breve reflexão guiada com Barnabé, assim como Filipe acompanhou o oficial etíope a entender o que acabara de ler."
+        }
+      }
+    }
+  },
+  "fact": {
+    "title": "Curiosidade do Dia",
+    "subtitle": "Uma descoberta curta e real sobre bondade, conexão ou esperança — pensada para te inspirar rumo ao seu Momento Barnabé.",
+    "cardLabel": "Você Sabia?",
+    "listenLabel": "Ouvir a curiosidade de hoje",
+    "shareLabel": "Compartilhar a curiosidade de hoje"
+  },
+  "story": {
+    "title": "História do Dia",
+    "subtitle": "Uma história real de alguém mostrando o lado bom da humanidade — o efeito Barnabé, em ação na vida real.",
+    "cardLabel": "História Real",
+    "listenLabel": "Ouvir a história de hoje",
+    "shareLabel": "Compartilhar a história de hoje",
+    "insightLabel": "Mostrar a lição por trás desta história",
+    "insightTitle": "A Lição Barnabé",
+    "sourceLabel": "Ver a fonte da história",
+    "sourceTitle": "Fonte"
+  },
+  "rewards": {
+    "title": "Conquistas",
+    "subtitle": "Uma pequena forma de notar o quanto você já avançou.",
+    "units": {
+      "day_one": "{{count}} dia",
+      "day_other": "{{count}} dias",
+      "barnabasMoment_one": "{{count}} Momento Barnabé",
+      "barnabasMoment_other": "{{count}} Momentos Barnabé",
+      "journalEntry_one": "{{count}} entrada de diário",
+      "journalEntry_other": "{{count}} entradas de diário",
+      "time_one": "{{count}} vez",
+      "time_other": "{{count}} vezes",
+      "favorite_one": "{{count}} favorito",
+      "favorite_other": "{{count}} favoritos",
+      "readingDay_one": "{{count}} dia lido",
+      "readingDay_other": "{{count}} dias lidos",
+      "readingPlan_one": "{{count}} plano",
+      "readingPlan_other": "{{count}} planos"
+    },
+    "weeklyRecap": {
+      "title": "Esta Semana",
+      "summary": "Nos últimos {{days}}, você apareceu {{shownUp}}, fez {{moments}}, e escreveu {{entries}}.",
+      "kindnessNoticed": "E você percebeu bondade chegando até você {{times}} — você também está sendo regado, não só derramando.",
+      "kindnessDefault": "Quem rega os outros, ele mesmo será regado — não se esqueça de notar quando a bondade chega até você também."
+    },
+    "yearInReview": {
+      "titleFull": "Seu Ano em Revisão",
+      "titlePartial": "Sua Jornada Até Agora",
+      "shareLabel": "Compartilhar seu ano em revisão",
+      "summary": "Em {{days}}, você apareceu {{shownUp}}, fez {{moments}}, e alcançou uma sequência máxima de {{streak}} seguidos.",
+      "favoritesSaved": "Você salvou {{favorites}} pelo caminho para voltar depois."
+    },
+    "totalStars": "Estrelas Totais",
+    "dayStreak": "Sequência de Dias",
+    "barnabasMoments": "Momentos Barnabé",
+    "tree": {
+      "title": "Sua Árvore de Encorajamento",
+      "subtitle": "Cresce um pouco cada vez que você completa um Momento Barnabé.",
+      "stage0": {
+        "name": "Semente",
+        "desc": "Toda árvore começa como uma semente. Seu primeiro ato de bondade ainda está por vir."
+      },
+      "stage1": {
+        "name": "Broto",
+        "desc": "Suas primeiras raízes estão se firmando."
+      },
+      "stage2": {
+        "name": "Muda",
+        "desc": "Um crescimento pequeno e constante — uma bondade de cada vez."
+      },
+      "stage3": {
+        "name": "Árvore Jovem",
+        "desc": "Sua bondade está se tornando um hábito."
+      },
+      "stage4": {
+        "name": "Árvore",
+        "desc": "Seu encorajamento criou raízes profundas."
+      },
+      "stage5": {
+        "name": "Árvore Florescente",
+        "desc": "Uma árvore sob a qual outros podem agora descansar."
+      },
+      "progressToNext_one": "Mais {{count}} momento até ela crescer",
+      "progressToNext_other": "Mais {{count}} momentos até ela crescer",
+      "maxedOut": "Totalmente crescida — e ainda dando frutos.",
+      "peopleEncouraged_one": "💛 Você já alcançou {{count}} pessoa até agora.",
+      "peopleEncouraged_other": "💛 Você já alcançou {{count}} pessoas até agora."
+    },
+    "journeyTitle": "Minha Jornada Barnabé",
+    "journeySubtitle": "Cada dia até agora — toque em qualquer quadrado para voltar e revisitá-lo.",
+    "journey": {
+      "progress": "Dia {{day}} de {{total}}",
+      "dayLabel": "{{date}} (Dia {{day}}) — toque para revisitar",
+      "legendMoment": "Momento Barnabé feito",
+      "legendLogged": "Escreveu ou registrou um humor",
+      "legendEmpty": "Nada registrado"
+    },
+    "badgeCelebration": {
+      "eyebrow": "Novo Emblema Desbloqueado",
+      "dismiss": "Legal!"
+    },
+    "badgesTitle": "Emblemas",
+    "badgeLockedSuffix": ", bloqueado",
+    "moodCalendarTitle": "Calendário de Humor",
+    "moodCalendarSubtitle": "Como você tem se sentido, dia a dia.",
+    "readingPlans": {
+      "title": "Planos de Leitura",
+      "summary": "{{days}} · {{plans}} em andamento",
+      "openLabel": "Abrir seus planos de leitura"
+    }
+  },
+  "chat": {
+    "title": "Fale com Barnabé",
+    "subtitle": "Uma conversa privada, individual — faça perguntas ou converse com calma. Não é um terapeuta, mas é um ouvido atento baseado nas Escrituras.",
+    "paywall": {
+      "title": "Você já usou as mensagens gratuitas deste mês",
+      "text": "Suas mensagens gratuitas se renovam no próximo mês, ou assine agora para conversar sem limites. Manter isso funcionando custa um pouco — assinar ajuda a cobrir esse custo.",
+      "subscribeLabel": "Assinar para chat ilimitado",
+      "subscribeButton": "Assinar para Chat Ilimitado"
+    },
+    "subscribeComingSoonTitle": "Em breve",
+    "subscribeComingSoonMessage": "As assinaturas ainda não estão disponíveis — volte em breve.",
+    "genericError": "Algo deu errado. Tente novamente.",
+    "tapToRetry": "Toque para tentar novamente",
+    "retryLabel": "Tentar enviar esta mensagem novamente",
+    "tapToContinue": "Toque para continuar",
+    "continueLabel": "Continuar esta resposta",
+    "stopLabel": "Parar a geração",
+    "quotaBanner": "Restam {{left}} de {{limit}} mensagens gratuitas este mês",
+    "unlimitedBanner": "Chat ilimitado — obrigado por assinar ✨",
+    "emptyState": "Diga olá — Barnabé está ouvindo.",
+    "inputPlaceholder": "Digite uma mensagem...",
+    "sendLabel": "Enviar mensagem",
+    "sendButton": "Enviar",
+    "disclaimer": "Se você está em crise, por favor busque ajuda real: {{resource}}",
+    "historyLabel": "Ver conversas anteriores",
+    "newChatLabel": "Iniciar uma nova conversa",
+    "historyTitle": "Conversas Anteriores",
+    "backToChatLabel": "Voltar ao chat",
+    "historyEmpty": "Você ainda não começou nenhuma conversa.",
+    "historyRowMeta_one": "{{count}} mensagem · {{date}}",
+    "historyRowMeta_other": "{{count}} mensagens · {{date}}",
+    "historyPreviewFallback": "Nova conversa",
+    "personalizationOn": "Personalizado com sua sequência e humor — toque para desativar",
+    "personalizationOff": "Personalização desativada — toque para ativar",
+    "personalizationOnLabel": "Desativar a personalização com sua sequência e humor",
+    "personalizationOffLabel": "Ativar a personalização com sua sequência e humor",
+    "feedbackUpLabel": "Esta resposta foi útil",
+    "feedbackDownLabel": "Esta resposta não foi útil",
+    "persona": {
+      "buttonLabel": "Estilo: {{style}}",
+      "openLabel": "Personalize como Barnabé fala com você",
+      "title": "Como você quer que Barnabé fale com você?",
+      "subtitle": "Escolha um estilo — Barnabé continua fiel às Escrituras não importa qual você escolha.",
+      "styles": {
+        "friend": { "label": "Amigo", "description": "Casual e caloroso, como conversar com um bom amigo." },
+        "mentor": { "label": "Mentor", "description": "Reflexivo e sábio, oferece perspectiva." },
+        "coach": { "label": "Treinador", "description": "Animado e motivador, te impulsiona a avançar." },
+        "direct": { "label": "Direto", "description": "Curto, claro, sem rodeios." },
+        "playful": { "label": "Divertido", "description": "Leve, com um toque de humor." }
+      },
+      "noteLabel": "Algo mais que Barnabé deveria saber? (opcional)",
+      "notePlaceholder": "ex. \"me chame pelo nome\", \"respostas curtas\", \"com humor\"",
+      "noteHint": "{{count}}/300",
+      "saveButton": "Salvar",
+      "closeLabel": "Fechar"
+    },
+    "seedFromReading": {
+      "userMessage": "Acabei de ler {{ref}} do plano de leitura \"{{planTitle}}\".",
+      "userMessageWithText": "Acabei de ler {{ref}} do plano de leitura \"{{planTitle}}\": \"{{passageText}}\"",
+      "assistantPrompt": "Você entendeu o que leu? Eu adoraria ouvir seus pensamentos — o que chamou sua atenção, ou há algo que gostaria de conversar juntos?"
+    }
+  },
+  "history": {
+    "title": "Meu Diário",
+    "subtitle": "Cada entrada que você já escreveu, guardada em um só lugar tranquilo.",
+    "onThisDayLabel": "Neste Dia",
+    "onThisDay": {
+      "yearAgo": "há um ano",
+      "threeMonthsAgo": "há três meses",
+      "monthAgo": "há um mês",
+      "weekAgo": "há uma semana",
+      "entry": "{{label}} (Dia {{day}}), você escreveu: \"{{snippet}}\""
+    },
+    "searchPlaceholder": "Buscar no seu diário...",
+    "emptyNoEntries": "Seu diário ainda está quieto — escreva sua primeira reflexão acima.",
+    "emptySearch": "Nenhuma entrada corresponde à sua busca.",
+    "entryDate": "Dia {{day}} · {{date}}",
+    "moodLabel": "Humor: {{mood}}",
+    "blockLabels": {
+      "reflection": "Reflexão",
+      "barnabasMoment": "Momento Barnabé",
+      "kindnessReceived": "Bondade Recebida"
+    },
+    "markedDone": "Marcado como feito.",
+    "calendar": {
+      "showCalendar": "Visualização de calendário",
+      "showList": "Visualização de lista",
+      "dayLabel": "{{date}} (Dia {{day}}) — toque para abrir",
+      "legendMoment": "Momento Barnabé feito",
+      "legendEntry": "Escreveu ou registrou algo",
+      "legendEmpty": "Nada ainda"
+    },
+    "writeToday": {
+      "title": "Escrever a Reflexão de Hoje",
+      "emptyPrompt": "Você ainda não refletiu hoje",
+      "label": "Escrever a reflexão de hoje"
+    },
+    "openEntryLabel": "Abrir a entrada do Dia {{day}}",
+    "prayers": {
+      "title": "Orações",
+      "summary": "{{active}} ativas · {{answered}} respondidas",
+      "openLabel": "Abrir sua lista de orações"
+    }
+  },
+  "favorites": {
+    "title": "Favoritos",
+    "subtitle": "Versículos, citações e curiosidades que você salvou para voltar depois.",
+    "searchPlaceholder": "Buscar nos seus favoritos...",
+    "emptyNoFavorites": "Nada salvo ainda — toque em \"Salvar\" em um versículo ou citação que você queira guardar.",
+    "emptySearch": "Nenhum favorito corresponde à sua busca.",
+    "entryKind": "{{kind}} · Dia {{day}}",
+    "removeLabel": "Remover {{kind}} dos favoritos",
+    "kind": {
+      "verse": "Versículo",
+      "confession": "Confissão",
+      "trueStory": "História Real",
+      "fact": "Curiosidade",
+      "story": "História",
+      "quote": "Citação"
+    }
+  },
+  "settings": {
+    "title": "Configurações",
+    "closeLabel": "Fechar configurações",
+    "backLabel": "Voltar para Configurações",
+    "subtitleDark": "Escuro",
+    "subtitleLight": "Claro",
+    "remindersSummary": "{{count}} de {{total}} ativados",
+    "appearanceTitle": "Aparência",
+    "darkMode": "Modo Escuro",
+    "switchToLight": "Mudar para modo claro",
+    "switchToDark": "Mudar para modo escuro",
+    "personalizationTitle": "Personalização",
+    "personalizationSubtitleEmpty": "Adicione seu nome",
+    "personalizationSubtitle": "Faça a boas-vindas diária soar um pouco mais como se estivesse falando com você.",
+    "chatPersonalityTitle": "Personalidade do Chat",
+    "nameLabel": "Como devemos te chamar?",
+    "namePlaceholder": "Seu nome (opcional)",
+    "dailyWelcomeLabel": "Tela de boas-vindas diária",
+    "dailyWelcomeHint": "Uma saudação curta e algo para esperar, mostrado uma vez quando você abre o app a cada dia.",
+    "dailyWelcomeSwitchLabel": "Ativar ou desativar a tela de boas-vindas diária",
+    "bibleVersionTitle": "Versão da Bíblia",
+    "bibleVersionSubtitle": "O versículo diário está disponível em oito traduções de domínio público: a King James Version (KJV), a World English Bible em inglês simples (WEB), a American Standard Version (ASV), a Young's Literal Translation (YLT), a Bible in Basic English simplificada (BBE), a Reina-Valera Antigua em espanhol (RVA), a Almeida 1911 em português (ALM1911), e a Louis Segond 1910 em francês (LSG).",
+    "verseModeAlternate": "Alternar diariamente",
+    "verseModeFavorite": "Sempre usar meu favorito",
+    "crisisRegionTitle": "Região de apoio em crise",
+    "crisisRegionSubtitle": "Calculamos sua região a partir das configurações do dispositivo para mostrar a linha de crise correta. Se esse palpite estiver errado, escolha seu país aqui.",
+    "crisisRegionAuto": "Detectar automaticamente pelo dispositivo",
+    "crisisRegionOther": "Outro / não está na lista",
+    "voiceSpeechTitle": "Voz e Fala",
+    "voiceSpeechSubtitle": "Escolha como os botões de {{listenLabel}} soam.",
+    "voiceLabel": "Voz",
+    "voiceValueLabel": "Voz: {{voice}}. Toque para alterar.",
+    "defaultVoiceName": "Padrão",
+    "pitchLabel": "Tom",
+    "pitchPresets": {
+      "lower": "Mais grave",
+      "higher": "Mais agudo"
+    },
+    "speedLabel": "Velocidade",
+    "ratePresets": {
+      "slower": "Mais lenta",
+      "faster": "Mais rápida",
+      "fastest": "A mais rápida"
+    },
+    "testVoiceButton": "🔊 Testar Voz",
+    "testVoiceSpeech": "É assim que a voz vai soar ao ler seu versículo ou história em voz alta.",
+    "voicePickerTitle": "Escolha uma Voz",
+    "closeVoicePickerLabel": "Fechar seletor de voz",
+    "remindersTitle": "Lembretes Diários",
+    "remindersSubtitle": "Quatro avisos suaves — uma confissão para declarar sobre o seu dia, um versículo para começar o dia, um destaque para te encorajar ao longo do caminho, e um momento para refletir ao encerrá-lo.",
+    "confessionLabel": "Confissão · Declare em voz alta",
+    "confessionSwitchLabel": "Lembrete de confissão",
+    "morningLabel": "Manhã · Palavra do dia",
+    "morningSwitchLabel": "Lembrete matinal",
+    "highlightLabel": "Destaque · Encorajamento ao longo do dia",
+    "highlightSwitchLabel": "Lembrete de destaque",
+    "eveningLabel": "Noite · Hora de refletir",
+    "eveningSwitchLabel": "Lembrete noturno",
+    "notifDisabledTitle": "Notificações não habilitadas",
+    "notifDisabledMessage": "Não conseguimos agendar um lembrete — verifique se as notificações estão permitidas para este app nas configurações do seu dispositivo.",
+    "checkUpdatesTitle": "Buscar atualizações",
+    "checkUpdatesSubtitle": "Obtenha a versão mais recente sem fechar e reabrir o app.",
+    "checkingUpdates": "Buscando…",
+    "backupTitle": "Backup",
+    "backupSubtitle": "Seu diário vive neste dispositivo (o Android também pode fazer backup automático na sua conta do Google como rede de segurança). Exporte um backup de vez em quando, ou restaure um aqui.",
+    "backupNote": {
+      "overdue": "Já se passaram {{days}} dias desde o seu último backup ({{date}}) — considere exportar um novo.",
+      "recent": "Último backup: {{date}}.",
+      "never": "Você ainda não exportou um backup."
+    },
+    "exportBackup": "Exportar Backup",
+    "restoreBackup": "Restaurar Backup",
+    "exportError": "Não foi possível exportar um backup agora.",
+    "importSuccess": "Backup restaurado. Bem-vindo de volta!",
+    "importError": "Esse arquivo não parece ser um backup válido."
+  },
+  "about": {
+    "title": "Sobre o {{brand}}",
+    "closeLabel": "Fechar sobre",
+    "paragraph1": "O Barnabas Journal existe para trazer um pouco de encorajamento para o seu dia — um versículo, uma citação, e uma história real de alguém que esteve presente para outra pessoa, todos os dias.",
+    "paragraph2": "Leva o nome de Barnabé, chamado \"filho de encorajamento\" em Atos 4:36 — um homem que acolheu o marginalizado, deu segundas chances e permaneceu ao lado de pessoas que outros já haviam desistido.",
+    "paragraph3": "Nossa esperança é simples: que este app te ajude a levar um pouco mais de esperança para o seu dia, e te dê uma forma fácil de repassar isso para outra pessoa. Não importa sua origem, sua fé, ou a fase da vida em que você está, há algo aqui para você.",
+    "version": "Versão {{version}}",
+    "emailLabel": "Envie um e-mail para {{email}}",
+    "emailText": "Dúvidas ou comentários: {{email}}"
+  },
+  "menu": {
+    "closeLabel": "Fechar menu",
+    "shareApp": "Compartilhar App",
+    "about": "Sobre",
+    "shareAppMessage": "Eu tenho usado o {{brand}} — um lugar diário onde venho para ser encorajado, e saio tendo encorajado outra pessoa também. Pensei que você também poderia gostar."
+  },
+  "bibleBrowser": {
+    "title": "Ler a Bíblia",
+    "allBooks": "Todos os livros",
+    "allChapters": "Todos os capítulos",
+    "wholeChapter": "Ler o capítulo inteiro"
+  },
+  "bibleMarks": {
+    "title": "Meus destaques e notas",
+    "tabHighlights": "Destaques",
+    "tabBookmarks": "Marcadores",
+    "tabNotes": "Notas",
+    "empty_highlights": "Ainda não há versículos destacados — toque em qualquer versículo no leitor da Bíblia para destacá-lo.",
+    "empty_bookmarks": "Ainda não há versículos marcados — toque em qualquer versículo no leitor da Bíblia para marcá-lo.",
+    "empty_notes": "Ainda não há notas — toque em qualquer versículo no leitor da Bíblia para adicionar uma."
+  },
+  "prayerList": {
+    "title": "Minhas Orações",
+    "subtitle": "Leve seus pedidos a Deus, depois olhe para trás e veja como Ele respondeu.",
+    "tabActive": "Ativas",
+    "tabAnswered": "Respondidas",
+    "stat": "{{answered}} de {{total}} respondidas até agora 🙏",
+    "addPlaceholder": "Pelo que você está orando?",
+    "addLabel": "Adicionar uma oração",
+    "addButton": "Adicionar",
+    "emptyActive": "Ainda não há nada aqui — adicione a primeira coisa pela qual você está orando.",
+    "emptyAnswered": "Ainda não há orações respondidas — elas aparecerão aqui quando você marcar uma como respondida.",
+    "markAnsweredButton": "Marcar como Respondida",
+    "markAnsweredLabel": "Marcar esta oração como respondida",
+    "answerPrompt": "Como Deus respondeu isso? (opcional)",
+    "answerPlaceholder": "O que aconteceu...",
+    "confirmButton": "Confirmar",
+    "cancelButton": "Cancelar",
+    "reopenButton": "Reabrir",
+    "reopenLabel": "Mover esta oração de volta para ativas",
+    "deleteLabel": "Excluir esta oração",
+    "dayLabel": "Dia {{day}}",
+    "answeredSameDay": "Respondida no mesmo dia",
+    "answeredAfter_one": "Respondida {{count}} dia depois",
+    "answeredAfter_other": "Respondida {{count}} dias depois"
+  },
+  "tour": {
+    "skip": "Pular",
+    "skipLabel": "Pular tour",
+    "next": "Próximo",
+    "nextLabel": "Próxima dica",
+    "finish": "Entendi!",
+    "finishLabel": "Entendi, finalizar tour",
+    "stepProgressLabel": "Progresso do tour",
+    "stepAnnouncement": "Passo {{current}} de {{total}}: {{title}}. {{text}}",
+    "steps": {
+      "lookBack": {
+        "title": "Olhe para trás quando quiser",
+        "text": "O navegador de dias permite revisitar qualquer dia que você já viveu. Você sempre pode olhar para trás, mas não pode adiantar o hoje."
+      },
+      "jumpLinks": {
+        "title": "Vá direto para o que você quer",
+        "text": "Os links rápidos abaixo do navegador de dias — Versículo · Palavra · Momento · Refletir — te levam direto para aquela parte da página."
+      },
+      "moreToExplore": {
+        "title": "Mais para explorar",
+        "text": "As abas no topo têm uma História real, uma Curiosidade do Dia, seu Diário de entradas passadas, e tudo o que você salvou em Favoritos."
+      },
+      "menuExtras": {
+        "title": "Ainda mais no menu",
+        "text": "Toque em ☰ no canto superior para planos de leitura bíblica, uma lista de orações para acompanhar as respondidas, seus destaques e notas salvos, e Fale com Barnabé — um chat privado baseado nas Escrituras."
+      },
+      "saveWhatMoves": {
+        "title": "Salve o que te toca",
+        "text": "Toque em Salvar — ou ☆ Salvar no menu ••• de um cartão — em qualquer versículo, citação, história ou curiosidade para guardá-lo em Favoritos para depois."
+      },
+      "crisisRegion": {
+        "title": "Receba a linha de crise certa",
+        "text": "Calculamos seu país a partir do dispositivo para mostrar a linha de crise correta. Se estiver errado, vá em Configurações → Região de apoio em crise e escolha seu país manualmente."
+      }
+    }
+  },
+  "share": {
+    "chooseBackground": "Escolha um Fundo",
+    "themeLabel": "Fundo {{name}}",
+    "themeLabelSelected": "Fundo {{name}}, selecionado",
+    "shareButton": "Compartilhar isto",
+    "successMsg": "Compartilhado. Obrigado por repassar!",
+    "errorMsg": "Não foi possível criar a imagem para compartilhar agora.",
+    "dialogTitle": "Compartilhar do {{brand}}",
+    "watermark": "✦ {{brand}}",
+    "includeReflectionLabel": "Incluir minha própria reflexão",
+    "myReflectionLabel": "Minha reflexão",
+    "yearCard": {
+      "titleFull": "Meu Ano com {{brand}}",
+      "titlePartial": "Minha Jornada Até Agora",
+      "daysShownUp": "Dias que Você Apareceu",
+      "bestStreak": "Melhor Sequência",
+      "favoritesSaved": "Favoritos Salvos"
+    }
+  },
+  "bibleReadingPlans": {
+    "title": "Planos de leitura",
+    "yearSection": "A Bíblia inteira",
+    "yearPlan": {
+      "title": "A Bíblia toda em um ano",
+      "description": "Leia do início ao fim, de Gênesis a Apocalipse — cada capítulo, uma vez, em 365 dias."
+    },
+    "crossReferencePlan": {
+      "title": "A Bíblia Explica a Bíblia",
+      "description": "Profecia e cumprimento, promessa e resposta — passagens conectadas que abrem o que você está lendo, da mesma forma que Filipe abriu as Escrituras ao eunuco etíope. Acima de tudo, este plano é construído para mostrar uma única coisa: Cristo, em todas as Escrituras (Lucas 24:27). Um plano que continua crescendo — cada livro da Bíblia já tem seu lugar nele, e novos dias são adicionados com o tempo até que cada capítulo também tenha.",
+      "days": {
+        "1": {
+          "theme": "A Criação Renovada",
+          "connection": "Gênesis começa com Deus criando os céus e a terra; João começa com essa mesma Palavra — Jesus Cristo — que os fez, agora feita carne e, como diz a passagem completa, trazendo graça e verdade que a lei só podia apontar; Apocalipse encerra a história com essa mesma Palavra fazendo novas todas as coisas."
+        },
+        "2": {
+          "theme": "O Cordeiro da Páscoa",
+          "connection": "O cordeiro cujo sangue livrou Israel no Egito, e cujos ossos não deveriam ser quebrados, aponta diretamente para Cristo, nossa Páscoa, sacrificado de uma vez por todas."
+        },
+        "3": {
+          "theme": "A Maldição Sobre Jericó, Cumprida",
+          "connection": "Josué amaldiçoou quem reconstruísse Jericó, nomeando como custo o primogênito e o filho mais novo do construtor; cinco séculos depois, Hiel de Betel a reconstruiu — e perdeu ambos. Toda maldição que a Escritura pronuncia cai em algum lugar, e é exatamente por isso que Paulo pode dizer que Cristo nos redimiu da maldição da lei ao se fazer maldição por nós — o único lugar onde uma maldição podia cair sem destruir quem a carregava."
+        },
+        "4": {
+          "theme": "O Filho de Abraão, o Filho de Deus",
+          "connection": "Abraão não negou seu único filho a Deus; Deus não negou o seu. O monte onde Isaque foi poupado fica a pouca distância da colina onde Jesus não foi."
+        },
+        "5": {
+          "theme": "A Serpente de Bronze",
+          "connection": "Quem olhava para a serpente de bronze que Moisés levantou vivia. Jesus disse que o Filho do Homem seria levantado da mesma forma, para que todo aquele que olhar para ele tenha vida eterna."
+        },
+        "6": {
+          "theme": "Um Sacerdote Como Melquisedeque",
+          "connection": "Um misterioso rei-sacerdote abençoa Abraão séculos antes de existir o sacerdócio levítico. Um salmo de Davi declara depois que o Rei que vem é sacerdote segundo essa mesma ordem — e Hebreus mostra que é Jesus."
+        },
+        "7": {
+          "theme": "O Maná e o Pão da Vida",
+          "connection": "O pão caía do céu para manter Israel vivo um dia de cada vez no deserto. Jesus se chamou de o verdadeiro pão do céu, dado para que quem come dele nunca mais tenha fome."
+        },
+        "8": {
+          "theme": "O Pastor Que Restaura",
+          "connection": "Davi canta sobre um Pastor que restaura sua alma. Ezequiel condena os pastores fracassados de Israel e promete que o próprio Deus pastoreará seu rebanho. Jesus diz claramente: 'Eu sou o bom pastor.'"
+        },
+        "9": {
+          "theme": "A Sabedoria Antes do Mundo",
+          "connection": "Provérbios retrata a sabedoria presente com Deus na criação, alegrando-se sempre diante dele. Paulo diz que Cristo é essa sabedoria em pessoa — antes de todas as coisas, e nele todas as coisas subsistem."
+        },
+        "10": {
+          "theme": "O Cântico de Ana, o Cântico de Maria",
+          "connection": "Duas mulheres, séculos separadas, ambas surpreendidas por Deus de formas muito diferentes, entoam quase o mesmo cântico: os soberbos derrubados, os humildes exaltados, os famintos saciados. A diferença está no que cada uma celebra — Ana se alegra por um filho que servirá na casa de Deus; Maria canta enquanto carrega o Filho que é a própria casa de Deus vindo habitar entre nós, Jesus Cristo."
+        },
+        "11": {
+          "theme": "Um Sinal Para Esta Geração",
+          "connection": "Jonas passou três dias e três noites no peixe antes de ir pregar a Nínive. Jesus disse que esse seria o único sinal dado a esta geração — três dias antes de ressuscitar para pregar vida ao mundo."
+        },
+        "12": {
+          "theme": "O Servo Sofredor Cura",
+          "connection": "Isaías descreveu um servo ferido por nossas transgressões setecentos anos antes. Um oficial etíope lia essas mesmas palavras sem entendê-las, até que Filipe explicou que falavam de Jesus."
+        },
+        "13": {
+          "theme": "Anunciado pelo Nome",
+          "connection": "Isaías nomeia Ciro como o rei que deixaria o povo exilado de Deus voltar para casa — mais de um século antes de Ciro nascer — e até o chama de 'seu ungido', a mesma palavra depois traduzida como 'Messias' e 'Cristo'. Um rei pagão só poderia ser uma sombra desse título; Esdras registra Ciro fazendo exatamente o que foi anunciado, uma pequena prévia de quão precisamente Deus cumpre o que diz sobre o verdadeiro Ungido."
+        },
+        "14": {
+          "theme": "Uma Virgem Conceberá",
+          "connection": "Isaías prometeu um filho chamado Emanuel, 'Deus conosco'. Mateus registra o anjo dizendo a José que era exatamente isso que estava acontecendo com Maria — e ele mesmo nomeia o menino: 'chamarás o seu nome JESUS, porque ele salvará o seu povo dos seus pecados'."
+        },
+        "15": {
+          "theme": "Governante Vindo de Belém",
+          "connection": "Miqueias nomeia a pequena cidade de Belém como o local de nascimento do governante de Israel, cujas saídas são desde a eternidade. Um recenseamento romano, de todas as coisas, é o que coloca Maria lá para dar à luz — e o anúncio que se segue não deixa dúvida sobre quem é esse governante: 'hoje vos nasceu... o Salvador, que é Cristo, o Senhor'."
+        },
+        "16": {
+          "theme": "O Rei Vem com Mansidão",
+          "connection": "Zacarias descreve o rei de Jerusalém chegando não em um cavalo de guerra, mas num jumentinho. Mateus registra as multidões reconhecendo exatamente esse rei quando Jesus entra na cidade."
+        },
+        "17": {
+          "theme": "Vendido por Prata",
+          "connection": "Zacarias nomeia o preço exato — trinta moedas de prata — e o que acontece com ele. Mateus registra os principais sacerdotes tomando conselho contra Jesus para o matar, e Judas — que o havia traído — recebeu exatamente esse preço, o destino do dinheiro combinando com a profecia quase palavra por palavra."
+        },
+        "18": {
+          "theme": "Desamparado e Vindicado",
+          "connection": "Um salmo de Davi descreve zombaria, mãos e pés perfurados, e vestes repartidas séculos antes de a crucificação existir como castigo. O Evangelho registra a morte de Jesus combinando em detalhes, até suas primeiras palavras na cruz."
+        },
+        "19": {
+          "theme": "Retido no Hades",
+          "connection": "Davi escreveu que Deus não deixaria seu Santo ver corrupção. Pedro, pregando no Pentecostes, argumenta que Davi só poderia estar falando de outra pessoa que não ele mesmo — porque o corpo de Davi se corrompeu, e o de Jesus não."
+        },
+        "20": {
+          "theme": "Uma Nova Aliança Prometida, Uma Nova Aliança Derramada",
+          "connection": "Jeremias prometeu uma aliança escrita no coração, não em pedra. Em sua última ceia, Jesus chama o cálice que compartilha de 'a nova aliança no meu sangue' — exatamente o que Jeremias havia previsto, agora sobre a mesa."
+        },
+        "21": {
+          "theme": "Um Só Sacrifício, Uma Vez Por Todas",
+          "connection": "Uma vez por ano, o sumo sacerdote de Israel entrava no Lugar Santíssimo com sangue que nunca poderia resolver totalmente o pecado. Hebreus mostra Cristo entrando no próprio céu com seu próprio sangue, terminando o que aquele ritual anual só podia representar."
+        },
+        "22": {
+          "theme": "O Fogo de Elias, o Espírito de Elias",
+          "connection": "Elias faz descer fogo para voltar o coração de Israel a Deus. Malaquias promete outro Elias antes do dia do Senhor. Gabriel diz a Zacarias que seu filho João irá adiante do Senhor — não como substituto de Deus Pai, mas como o arauto que prepara o caminho para o próprio Senhor Jesus — 'no espírito e poder de Elias'."
+        },
+        "23": {
+          "theme": "Providência Por Trás da Cortina",
+          "connection": "O nome de Deus nunca aparece no livro de Ester, e ainda assim cada 'coincidência' — um rei que não consegue dormir, um antigo registro lido em voz alta, uma rainha posicionada 'para uma hora como esta' — coopera para o bem do seu povo. Essa mesma mão oculta agia na 'coincidência' mais sombria da história: Herodes, Pilatos e a multidão conspirando contra Jesus enquanto, sem saber, apenas faziam 'tudo o que a tua mão e o teu conselho, desde antes, determinaram que se fizesse' — a própria cruz foi providência, não derrota."
+        },
+        "24": {
+          "theme": "As Cinzas de Jó, a Resposta de Jó",
+          "connection": "Jó perde tudo em um único dia e ainda assim não atribui a Deus nenhum erro. Tiago aponta para a perseverança de Jó como prova de que o Senhor é 'cheio de misericórdia e compaixão' para com os que esperam nele — e Hebreus aponta ainda mais longe, para Jesus, que suportou infinitamente mais do que Jó enquanto mantinha os olhos na alegria diante dele, para que qualquer um correndo sua própria corrida difícil pudesse olhar para ele e não desanimar."
+        },
+        "25": {
+          "theme": "O Fogo Que Não Queimou",
+          "connection": "Isaías promete que quando Israel passar pelo fogo, não será queimado, porque Deus está com eles. Três jovens na Babilônia entram numa fornalha literal e provam isso — e quando o rei olha para dentro, já não vê três homens, mas quatro, o quarto 'semelhante ao Filho de Deus', presente com seu povo até mesmo dentro da chama."
+        },
+        "26": {
+          "theme": "Uma Casa Não Feita por Mãos",
+          "connection": "Neemias reconstrói muros derrubados, pedra por pedra, à noite. Paulo descreve uma construção diferente — judeus e gentios igualmente, edificados juntos como uma habitação de Deus, com Cristo como a pedra angular."
+        },
+        "27": {
+          "theme": "O Pródigo e a Compaixão do Pai",
+          "connection": "O salmo canta que o Senhor não nos trata segundo nossos pecados, mas se compadece de nós como um pai se compadece de seus filhos. A parábola dá um rosto a essa compaixão — e é o próprio Jesus quem a conta, o mesmo Filho que em breve sairia à procura do que estava perdido, mostrando a quem o ouvia como é o Pai ao mostrar a si mesmo."
+        },
+        "28": {
+          "theme": "O Maior de Todos",
+          "connection": "Moisés ordena a Israel amar o Senhor com todo o coração, alma e força. Jesus chama esse mandamento de o maior de todos. Paulo mostra como realmente é uma vida construída sobre esse amor."
+        },
+        "29": {
+          "theme": "Boas Novas Lidas em Voz Alta",
+          "connection": "Isaías promete boas novas aos pobres e liberdade aos cativos. Na sinagoga de sua terra natal, Jesus lê essas mesmas palavras e diz à sala: 'Hoje se cumpriu esta escritura em vossos ouvidos.'"
+        },
+        "30": {
+          "theme": "Todas as Coisas Feitas Novas",
+          "connection": "Isaías retrata novos céus e uma nova terra onde não há mais choro. Apocalipse encerra toda a Bíblia com essa mesma imagem completada — não mais morte, não mais lágrimas, e sem necessidade de sol nem de candeia, 'porque o Senhor Deus os alumia', a luz vindo de um trono compartilhado por Deus e o Cordeiro, Jesus Cristo, para sempre."
+        },
+        "31": {
+          "theme": "Deus do Território?",
+          "connection": "Quando a Assíria repovoou Samaria com povos estrangeiros que não o adoravam, leões atacaram até que um sacerdote foi enviado para ensiná-los 'o costume do Deus da terra' — a antiga suposição de que cada território tinha sua própria divindade protetora. Gerações antes, os próprios oficiais da Síria cometeram o mesmo erro, chamando o SENHOR apenas de 'Deus dos montes' — e foram derrotados no vale para provar que estavam errados. Todo esse percurso se dirige a algo específico: não a um deus territorial maior, mas ao único Deus verdadeiro que, em Cristo, faria sua morada nas pessoas, e não em um pedaço de terra."
+        },
+        "32": {
+          "theme": "Toda a Terra É Dele",
+          "connection": "O SENHOR não apenas superou os deuses do Egito em seu próprio território — executou juízo contra todos eles, em seu próprio solo, na noite da Páscoa. A terra nunca foi um território dividido entre divindades rivais; ela é, e sempre foi, somente dele — exatamente por isso, séculos depois, pôde dá-la inteiramente ao seu Filho (veja o Salmo 2, dois dias adiante)."
+        },
+        "33": {
+          "theme": "Poderes Reais, Uma Batalha Real",
+          "connection": "Deus demarcou as fronteiras das nações, mas guardou seu próprio povo como sua porção pessoal. O mensageiro angelical de Daniel foi atrasado três semanas por algo chamado 'o príncipe do reino da Pérsia' — uma oposição real, ainda que invisível. Paulo diz que os crentes travam essa mesma batalha permanecendo firmes 'no Senhor e na força do seu poder' — em Cristo, não contra ele, e nunca sozinhos."
+        },
+        "34": {
+          "theme": "Transferidos Para o Seu Reino",
+          "connection": "Cristo recebeu as nações e os confins da terra como herança — e todo aquele unido a ele já foi transferido de um domínio para o outro, para o dele. O território em questão não é mais uma colina ou um vale; é a qual reino você pertence."
+        },
+        "35": {
+          "theme": "Vocês São o Templo Dele",
+          "connection": "O Deus que possui toda a terra e quebrou toda pretensão rival sobre ela não se contenta em governar à distância — ele vem morar dentro de você. Seu corpo, diz Paulo, é agora a própria morada que ele escolheu habitar, comprada não com prata ou ouro, mas com o sangue de Cristo — não um santuário visitado ocasionalmente, mas um templo habitado."
+        },
+        "36": {
+          "theme": "Nenhuma Outra Pretensão Pode Prevalecer",
+          "connection": "É aqui que todo esse percurso chega: nenhum outro nome, nenhum outro príncipe, nenhum poder rival de qualquer território tem autoridade onde o próprio Deus agora habita. Paulo nomeia exatamente quem garante isso: nada 'nos poderá separar do amor de Deus, que está em Cristo Jesus nosso Senhor'. Aquele que vive dentro de você é maior do que qualquer coisa no mundo fora de você — e nada pode arrancar isso."
+        },
+        "37": {
+          "theme": "Vaidade de Vaidades, e o Fim do Assunto",
+          "connection": "O Pregador testa todo prazer, todo projeto, toda posse debaixo do sol e chama tudo de vapor — e chega, depois de tudo, a uma conclusão firme: teme a Deus e guarda os seus mandamentos. Jesus aponta a mesma saída de uma vida agitada e inquieta: um tesouro guardado onde a traça e a ferrugem não podem alcançar."
+        },
+        "38": {
+          "theme": "Um Cântico de Amor, Um Amor Maior",
+          "connection": "Lido por séculos simplesmente como um canto de casamento, o Cântico dos Cânticos também tem sido lido como uma imagem de um romance maior — um noivo que se entregou completamente por aquela que ama, para torná-la íntegra e sem mancha. Paulo torna a imagem explícita: esse noivo é Cristo, e a noiva é sua igreja."
+        },
+        "39": {
+          "theme": "O Que Era Reto aos Seus Próprios Olhos",
+          "connection": "Juízes repete o mesmo padrão vez após vez — pecado, opressão, um clamor por socorro, um libertador — porque, como diz seu versículo final, não havia rei, e cada um fazia o que era reto aos seus próprios olhos. Provérbios nomeia exatamente por que isso é perigoso: um caminho pode parecer certo e ainda assim terminar em morte. Apocalipse responde a todo o problema de Juízes com um nome escrito em um manto: REI DOS REIS E SENHOR DOS SENHORES — Jesus Cristo, o Rei que Israel sempre precisou e nunca teve plenamente até Ele."
+        },
+        "40": {
+          "theme": "Um Redentor Para a Estrangeira",
+          "connection": "Uma viúva moabita sem nenhum direito sobre Israel se apega mesmo assim ao Deus de Noemi — e é redimida por Boaz, torna-se bisavó do rei Davi, e é mencionada abertamente na genealogia de Jesus em Mateus. A linhagem familiar do Messias passa diretamente por uma estrangeira que foi acolhida."
+        },
+        "41": {
+          "theme": "Um Reino Para Sempre",
+          "connection": "Deus promete a Davi que sua casa, seu reino e seu trono serão estabelecidos para sempre. Mil anos depois, um anjo diz a uma jovem em Nazaré para chamar seu filho de JESUS — e que ele se assentará nesse mesmo trono, governando um reino que nunca terá fim."
+        },
+        "42": {
+          "theme": "Designados Para Dar Graças",
+          "connection": "No momento em que a arca chega a Jerusalém, Davi não apenas celebra — ele designa pessoas cujo trabalho é simplesmente dar graças, continuamente. O autor de Hebreus chama essa mesma ação de graças contínua de um sacrifício que os crentes ainda podem oferecer — por meio de Jesus, que 'padeceu fora da porta' para tornar esse acesso a Deus possível."
+        },
+        "43": {
+          "theme": "Se o Meu Povo Se Humilhar",
+          "connection": "A resposta de Deus a Salomão na dedicação do templo tem uma condição em seu centro: não desempenho, mas humildade. Tiago diz a mesma coisa à igreja séculos depois — Deus resiste aos soberbos, mas dá graça a quem se humilhar diante dele. Cristo é ao mesmo tempo o mandamento e o modelo: humilhou a si mesmo até a morte de cruz, e Deus o exaltou sobre todo nome — o mesmo caminho, diz ele, que levanta quem está disposto a descer primeiro."
+        },
+        "44": {
+          "theme": "Novas a Cada Manhã",
+          "connection": "Escrito nas cinzas da destruição de Jerusalém, Lamentações ainda encontra um ponto de apoio: as misericórdias do SENHOR são novas a cada manhã, por mais escura que tenha sido a noite anterior. A manhã que provou isso sem dúvida veio séculos depois, 'de manhã bem cedo', quando mulheres chegaram a um túmulo esperando um corpo e o encontraram vazio — a manhã nova definitiva, Cristo ressuscitado."
+        },
+        "45": {
+          "theme": "Amado Mesmo na Infidelidade",
+          "connection": "Deus diz a Oseias para ir e amar novamente sua esposa infiel — como uma imagem viva de como o SENHOR amou Israel mesmo em sua infidelidade. Paulo diz que esse mesmo amor foi ainda mais longe: Cristo morreu por nós quando ainda éramos pecadores, não depois que nos endireitamos."
+        },
+        "46": {
+          "theme": "Derramarei o Meu Espírito",
+          "connection": "Séculos antes de acontecer, Joel prometeu um dia em que o Espírito de Deus seria derramado sobre toda pessoa, não apenas alguns escolhidos. De pé diante de uma multidão no Pentecostes, Pedro aponta diretamente para as palavras de Joel e diz: isto é aquilo — e conclui todo o seu sermão em um único ponto: 'Deus o fez Senhor e Cristo, a este Jesus que vós crucificastes'."
+        },
+        "47": {
+          "theme": "Corra o Juízo Como as Águas",
+          "connection": "Amós entrega uma palavra dura a uma nação religiosa: Deus não tem interesse em dias de festa e sacrifícios oferecidos ao lado da injustiça — corra a justiça como um rio em vez disso. Miqueias, profetizando na mesma época, reduz a verdadeira religião às mesmas três coisas: justiça, misericórdia e humildade diante de Deus. Séculos depois, Jesus faz a mesma repreensão aos líderes religiosos de seu tempo, quase citando Miqueias palavra por palavra: dizimavam suas especiarias e 'deixaram o que era mais importante da lei: o juízo, a misericórdia e a fé'."
+        },
+        "48": {
+          "theme": "O Orgulho Antes da Queda",
+          "connection": "Edom, seguro em sua fortaleza nos penhascos, se gaba de que ninguém jamais poderia derrubá-lo — e Deus responde diretamente a essa jactância. Provérbios declara o princípio como uma simples regra de vida: o orgulho vem antes da destruição, e a altivez de espírito antes da queda. Jesus declara o lado positivo dessa mesma regra como seu próprio ensinamento: quem se exalta será humilhado, e quem se humilha será exaltado — o padrão que sua própria vida provaria primeiro."
+        },
+        "49": {
+          "theme": "Tardio Para a Ira, Bom no Dia da Angústia",
+          "connection": "Gerações depois de Nínive se arrepender do aviso de Jonas e ser poupada, Naum anuncia que o julgamento dessa mesma cidade finalmente chegou — prova de que a paciência de Deus tem um propósito, não que não tem limite. Pedro explica depois exatamente por que Deus espera tanto tempo antes de Cristo voltar: não por demora, mas por paciência, não querendo que ninguém pereça."
+        },
+        "50": {
+          "theme": "O Justo Viverá Pela Fé",
+          "connection": "Uma linha de um profeta menor, escrita a um homem lutando com a questão de por que Deus tolera a injustiça, torna-se o eixo de todo o evangelho do Novo Testamento — Paulo a cita como o tema de 'o evangelho de Cristo', a mesma expressão que usa logo ao lado em Romanos, e a cita novamente aos Gálatas: o justo viverá, não pelo que realiza, mas pela fé."
+        },
+        "51": {
+          "theme": "Ele Se Alegrará Sobre Ti Com Cânticos",
+          "connection": "Sofonias descreve Deus não apenas tolerando seu povo, mas cantando sobre eles, deleitando-se neles como um pai incapaz de conter sua alegria. Jesus diz que o céu faz esse mesmo tipo de celebração por um único pecador que volta para casa."
+        },
+        "52": {
+          "theme": "Considerai os Vossos Caminhos",
+          "connection": "Ageu confronta um povo que encontrou tempo e dinheiro para terminar suas próprias casas enquanto a casa de Deus permanecia em ruínas, e diz claramente para considerarem seus caminhos. Jesus formula a correção como uma promessa, não apenas uma repreensão: buscai primeiro o reino, e todo o resto que vocês perseguiam lhes será acrescentado."
+        },
+        "53": {
+          "theme": "Imediatamente, O Seguiram",
+          "connection": "O Evangelho de Marcos avança em ritmo acelerado — redes largadas 'imediatamente' ao chamado de Jesus, e o próprio Jesus explicando por que veio: não para ser servido, mas para servir, e dar sua vida em resgate por muitos, exatamente o que Isaías havia descrito setecentos anos antes que um servo sofredor faria."
+        },
+        "54": {
+          "theme": "Para Mim o Viver É Cristo",
+          "connection": "Escrevendo de uma cela de prisão com sua vida genuinamente incerta, Paulo pode dizer que viver é Cristo e morrer é lucro — e que aprendeu a se contentar em qualquer circunstância. Ele diz a outra igreja exatamente como: a graça de Deus basta, e seu poder se manifesta melhor na fraqueza."
+        },
+        "55": {
+          "theme": "Consolai-Vos Uns aos Outros Com Estas Palavras",
+          "connection": "Paulo não diz aos tessalonicenses que a tristeza deles pelos crentes que morreram está errada — em vez disso, dá a eles um motivo para esperança: o próprio Senhor voltará, e a morte não terá a última palavra. Jesus já havia prometido a mesma coisa aos seus próprios discípulos: voltarei, e vos tomarei comigo."
+        },
+        "56": {
+          "theme": "Não Vos Canseis de Fazer o Bem",
+          "connection": "Duas cartas para a mesma igreja em dificuldades, escritas com pouco tempo de diferença, chegam ao mesmo encorajamento: não vos canseis de fazer o que é certo, porque a colheita vem para os que não desistem. As duas cartas também terminam da mesma forma — com graça, da mesma fonte: 'a graça de nosso Senhor Jesus Cristo seja com todos vós'."
+        },
+        "57": {
+          "theme": "Uma Boa Batalha, Um Bom Final",
+          "connection": "Paulo encarrega o jovem Timóteo, no início de seu ministério, a batalhar a boa batalha e agarrar a vida eterna — e depois, perto do fim de sua própria vida, em sua última carta, diz que fez exatamente isso: batalhou a boa batalha, terminou a carreira, guardou a fé, com uma coroa esperando, 'a qual o Senhor, justo juiz, me dará naquele dia' — o próprio Cristo recebendo em casa uma corrida terminada."
+        },
+        "58": {
+          "theme": "Boas Obras, Graça Custosa",
+          "connection": "A Tito é dito claramente que a salvação vem 'não pelas obras de justiça que houvéssemos feito, mas segundo a sua misericórdia', derramada 'por meio de Jesus Cristo, nosso Salvador' — e depois é dito igualmente claro para ter cuidado em manter boas obras mesmo assim. Filemom mostra como essa graça se parece aplicada a um relacionamento real: um escravo fugitivo recebido de volta não como propriedade, mas como irmão, por causa do que Cristo já havia feito tanto pelo senhor quanto pelo escravo."
+        },
+        "59": {
+          "theme": "Batalhai Pela Fé, Andai na Luz",
+          "connection": "Cinco cartas curtas, algumas com apenas um capítulo, giram todas em torno do mesmo apelo: apeguem-se ao que é verdadeiro, amem em ação e não apenas em palavras, e permaneçam no amor de Deus enquanto outros se afastam. Cada uma ancora esse apelo no mesmo lugar — Pedro começa chamando Jesus de 'nosso Salvador', João começa chamando-o de Filho de Deus, e Judas termina nomeando 'o único Deus, Salvador nosso... e nosso Senhor Jesus Cristo' como o único capaz de guardar alguém de cair."
+        },
+        "60": {
+          "theme": "A Queda e o Último Adão",
+          "connection": "O primeiro pecado traz a morte ao mundo por meio de um só homem, e com ele vem a primeira promessa de resgate: a semente da mulher esmagaria a cabeça da serpente, ainda que seu calcanhar fosse ferido. Paulo traça a linha diretamente: assim como o pecado e a morte vieram por um só homem, Adão, a graça e a vida vêm por um só homem, Jesus Cristo — o segundo Adão desfazendo o que o primeiro Adão fez."
+        },
+        "61": {
+          "theme": "Abençoado Para Ser Bênção",
+          "connection": "Deus promete a Abrão que nele — na verdade, em sua descendência — todas as famílias da terra serão abençoadas. Paulo diz que essa promessa foi pregada a Abraão de antemão como o próprio evangelho, e que todo aquele que tem fé, como Abraão teve, é abençoado com ele — porque a promessa sempre visava uma descendência específica: Cristo."
+        },
+        "62": {
+          "theme": "Vendido pelos Irmãos, Enviado para Salvar",
+          "connection": "José é despojado, vendido pelos próprios irmãos, e dado como morto em tudo o que importava — e depois se levanta para salvar a mesma família que o traiu, dizendo-lhes claramente: vós pensastes o mal, Deus o tornou em bem. Séculos depois, outro Filho — Jesus — é traído e entregue por seu próprio povo, e o que parecia o pior mal da história se torna o meio de salvar o mundo."
+        },
+        "63": {
+          "theme": "EU SOU",
+          "connection": "Deus diz a Moisés seu nome desde a sarça ardente: EU SOU O QUE SOU. Séculos depois, Jesus se coloca diante dos líderes religiosos e diz: 'Antes que Abraão existisse, eu sou' — reivindicando, sem dúvida, o mesmo nome, e por isso mesmo pegaram pedras para apedrejá-lo."
+        },
+        "64": {
+          "theme": "Água da Rocha",
+          "connection": "Moisés fere uma rocha no deserto e a água jorra para salvar um povo moribundo e queixoso. Paulo diz que Israel bebeu de uma Rocha espiritual que os seguia — 'e a Rocha era Cristo', saciando uma sede que nenhuma água comum poderia acalmar."
+        },
+        "65": {
+          "theme": "Cheiro Suave ao Senhor",
+          "connection": "O holocausto em Levítico é entregue inteiramente a Deus, sem reservar nada, 'cheiro suave ao SENHOR'. Paulo diz aos crentes para andarem em amor como Cristo os amou e se entregou a si mesmo por eles, 'oferta e sacrifício a Deus em cheiro suave' — as mesmas palavras, a oferta maior."
+        },
+        "66": {
+          "theme": "Uma Estrela de Jacó",
+          "connection": "Balaão, um profeta pagão contratado para amaldiçoar Israel, em vez disso vê muito além no futuro e fala de uma Estrela que sairá de Jacó. Séculos depois, astrólogos estrangeiros seguem uma estrela real até que ela para sobre uma casa em Belém, e se prostram para adorar o menino lá dentro — Jesus, a própria Estrela que Balaão vislumbrou de uma distância que não conseguia compreender."
+        },
+        "67": {
+          "theme": "Um Profeta Como Moisés",
+          "connection": "Moisés diz a Israel que Deus um dia levantará um Profeta como ele, do meio do próprio povo, e que devem ouvi-lo. Pregando no templo, Pedro cita exatamente essa promessa e diz à multidão que ela já se cumpriu — em Jesus."
+        },
+        "68": {
+          "theme": "Sê Forte e Corajoso",
+          "connection": "Deus diz a Josué três vezes para ser forte e corajoso, porque 'não te deixarei, nem te desampararei'. Hebreus cita essa mesma promessa palavra por palavra e a entrega a todo crente em Cristo — a mesma coragem, pela mesma razão, apoiada pela mesma presença que nunca falha."
+        },
+        "69": {
+          "theme": "A Batalha É do Senhor",
+          "connection": "Davi, o mais jovem e o menor, sai para enfrentar um gigante que ninguém mais em Israel ousava enfrentar, e vence — não com as armas do mundo, mas em nome do SENHOR dos Exércitos, para que 'toda a terra saiba que há Deus em Israel'. Paulo diz que o gigante que toda pessoa acaba enfrentando é a própria morte, e que Cristo já venceu essa batalha: 'graças a Deus, que nos dá a vitória por nosso Senhor Jesus Cristo'."
+        },
+        "70": {
+          "theme": "Uma Casa Que Não Pode Conter Deus",
+          "connection": "Salomão dedica um templo magnífico e admite, no mesmo fôlego, que os céus dos céus não podem conter Deus — quanto menos um edifício. Séculos depois, Jesus está no sucessor daquele templo e diz: 'Derribai este templo, e em três dias o levantarei' — falando, explica João, do templo do seu corpo: Deus finalmente contido, não em um edifício, mas em um homem."
+        },
+        "71": {
+          "theme": "Purificado Fora do Acampamento",
+          "connection": "Naamã, um general estrangeiro com lepra, só é curado depois de se humilhar e se lavar no Jordão exatamente como lhe foi dito, não como esperava. Jesus aponta para essa mesma história na sinagoga de sua terra natal como prova de que a misericórdia de Deus nunca esteve cercada a uma só nação — e a multidão tenta jogá-lo de um penhasco por dizer isso."
+        },
+        "72": {
+          "theme": "Dele, Por Ele e Para Ele",
+          "connection": "Davi entrega tudo o que foi reunido para o templo e ora: tudo isso já era teu; só estamos devolvendo o que já veio da tua mão. Paulo encerra um longo argumento sobre os caminhos de Deus com quase as mesmas palavras: 'porque dele, e por ele, e para ele, são todas as coisas; glória, pois, a ele eternamente' — o mesmo 'por ele' que Paulo usa em outro lugar para o próprio Cristo, por quem e para quem todas as coisas foram criadas (Colossenses 1:16)."
+        },
+        "73": {
+          "theme": "Não Ardia o Nosso Coração?",
+          "connection": "Esdras abre o livro da lei diante de toda a assembleia, e enquanto é lido e explicado, o povo que estivera chorando encontra sua tristeza transformada em alegria. Séculos depois, dois discípulos caminhando para Emaús ouvem Cristo abrir-lhes as Escrituras a respeito dele mesmo, e depois perguntam um ao outro: 'Porventura não ardia em nós o nosso coração... quando nos abria as Escrituras?' Ler bem a Escritura sempre terminou da mesma forma — não com informação, mas com um coração ardente."
+        },
+        "74": {
+          "theme": "Eu Sei Que o Meu Redentor Vive",
+          "connection": "No meio de uma perda insuportável, Jó diz algo que não consegue explicar totalmente, mas se recusa a largar: 'Eu sei que o meu Redentor vive... e depois de consumida esta minha pele, ainda em minha carne verei a Deus'. De pé diante de um túmulo séculos depois, Jesus torna específica e pessoal a esperança de Jó: 'Eu sou a ressurreição e a vida; quem crê em mim, ainda que esteja morto, viverá'."
+        },
+        "75": {
+          "theme": "Eis Que Venho Para Fazer a Tua Vontade",
+          "connection": "Davi escreve que Deus nunca quis tantos sacrifícios e ofertas quanto uma vida entregue à sua vontade — 'eis aqui venho... o fazer a tua vontade, ó Deus meu, me agrada'. Hebreus cita este salmo e o coloca diretamente na boca de Cristo ao entrar no mundo, a única oferta que finalmente faz o que todo sacrifício de animal antes só podia apontar."
+        },
+        "76": {
+          "theme": "A Pedra Que os Edificadores Rejeitaram",
+          "connection": "O salmo celebra uma pedra que os edificadores rejeitaram e que Deus fez a principal esquina. Jesus cita essa linha exatamente aos líderes religiosos que planejavam rejeitá-lo, e eles entenderam exatamente a quem ele se referia — eles mesmos como os edificadores, e ele mesmo como a pedra."
+        },
+        "77": {
+          "theme": "Um Menino Nos Nasceu",
+          "connection": "Isaías promete um menino que será chamado Maravilhoso, Conselheiro, Deus Forte, Pai da Eternidade, Príncipe da Paz, governando no trono de Davi para sempre. Um anjo anuncia exatamente esse nascimento a pastores num campo — 'hoje vos nasceu... o Salvador, que é Cristo, o Senhor' — e todo um exército celestial começa a cantar sobre o menino, Jesus."
+        },
+        "78": {
+          "theme": "Poderão Estes Ossos Viver?",
+          "connection": "Ezequiel é levado a um vale de ossos secos e mortos, e é perguntado se podem viver — e observa Deus devolver fôlego de vida ao que não tinha mais esperança. Paulo diz que os crentes estavam exatamente assim mortos antes de Cristo, 'mortos em ofensas e pecados' — e que Deus, sendo rico em misericórdia, nos vivificou juntamente com Cristo, e nos ressuscitou juntamente com ele."
+        },
+        "79": {
+          "theme": "Semelhante a um Filho do Homem",
+          "connection": "Daniel vê alguém semelhante a um filho do homem receber domínio eterno, glória e um reino que nunca será destruído. Em julgamento diante do sumo sacerdote, Jesus aplica exatamente essa visão a si mesmo: 'vereis o Filho do homem assentado à direita do poder, e vindo sobre as nuvens do céu' — as mesmas palavras que o condenaram."
+        },
+        "80": {
+          "theme": "Do Egito Chamei o Meu Filho",
+          "connection": "Oseias relembra como Deus certa vez chamou Israel, seu filho, para fora do Egito. Mateus cita exatamente essa linha quando José foge para o Egito com o menino Jesus e depois retorna — o Filho verdadeiro e fiel tendo sucesso onde a nação uma vez falhou, andando o mesmo caminho que Israel uma vez andou e fazendo-o certo."
+        },
+        "81": {
+          "theme": "Olharão Para Mim, a Quem Traspassaram",
+          "connection": "Zacarias descreve a casa de Davi olhando para alguém que eles mesmos traspassaram, pranteando como por um filho único. João, presente na crucificação, vê um soldado traspassar o lado de Jesus com uma lança e nomeia exatamente essa profecia como cumprida diante de seus olhos."
+        },
+        "82": {
+          "theme": "O Mensageiro Que Prepara o Caminho",
+          "connection": "Malaquias promete um mensageiro que preparará o caminho diante do Senhor, que virá de repente ao seu próprio templo. Marcos abre todo o seu Evangelho com esse cumprimento exato: 'Princípio do evangelho de Jesus Cristo, Filho de Deus', e então nomeia João Batista como o mensageiro de Malaquias, citando Malaquias e Isaías juntos em sua primeira frase — todo o Evangelho começando exatamente onde a profecia disse que começaria."
+        },
+        "83": {
+          "theme": "Contado por Justiça",
+          "connection": "Abrão crê na promessa de Deus muito antes de existir uma lei para guardar ou um templo para servir, e Deus lhe conta isso como justiça. Paulo constrói todo o seu argumento da salvação pela fé sobre este exato versículo: a justiça não se ganha trabalhando, mas é dada a quem crê, da mesma forma que foi dada a Abraão — e, finalmente, pela fé em Cristo."
+        },
+        "84": {
+          "theme": "Uma Escada para o Céu",
+          "connection": "Jacó sonha com uma escada que vai da terra até o céu, com anjos subindo e descendo por ela. Séculos depois, Jesus diz a Natanael que ele verá essa mesma cena — anjos subindo e descendo, mas agora sobre o próprio Filho do homem: Cristo é a escada, a única ligação entre o céu e a terra."
+        },
+        "85": {
+          "theme": "O Sangue do Pacto",
+          "connection": "Moisés sela o pacto de Israel com Deus aspergindo o povo com sangue e chamando-o de 'o sangue do pacto'. Em sua última ceia, Jesus toma um cálice e usa quase as mesmas palavras para si mesmo: 'isto é o meu sangue, o sangue do novo testamento, que é derramado por muitos, para remissão dos pecados' — um novo pacto, selado da mesma forma, a um custo infinitamente maior."
+        },
+        "86": {
+          "theme": "Sombra das Coisas Que Haviam de Vir",
+          "connection": "Deus dá a Israel um calendário de festas designadas — Páscoa, Primícias, Pentecostes, Trombetas, Expiação, Tabernáculos — cada uma um ensaio de algo maior. Paulo diz claramente aos colossenses para não deixarem mais ninguém os julgar por essas festas, porque elas sempre foram apenas 'sombra das coisas que haviam de vir; mas o corpo é de Cristo' — as festas apontavam para frente, e Cristo é para onde elas apontavam."
+        },
+        "87": {
+          "theme": "O SENHOR Te Abençoe e Te Guarde",
+          "connection": "Deus dá aos sacerdotes de Israel uma bênção específica para pronunciar sobre o povo, colocando o próprio nome dele sobre eles. Paulo encerra uma carta com uma bênção própria, nomeando as três pessoas de Deus de uma vez: 'a graça do Senhor Jesus Cristo, e o amor de Deus, e a comunhão do Espírito Santo' — a antiga bênção, agora rastreada até sua própria fonte."
+        },
+        "88": {
+          "theme": "Um Profeta Maior Que Moisés",
+          "connection": "Moisés morre com o registro de que nunca mais se levantou em Israel um profeta como ele — ele conhecia a Deus face a face. Hebreus não nega isso; diz algo maior: quem construiu a casa merece mais honra do que a própria casa, e Jesus, que construiu tudo, merece mais glória do que Moisés jamais poderia ter."
+        },
+        "89": {
+          "theme": "Príncipe do Exército",
+          "connection": "Antes de Jericó cair, uma figura misteriosa aparece a Josué segurando uma espada desembainhada, e se identifica não tomando partido, mas como 'príncipe do exército do SENHOR' — e Josué o adora. João depois vê um cavaleiro num cavalo branco liderando os exércitos do céu, cujo nome é 'a Palavra de Deus' — o mesmo título que o Evangelho de João dá a Jesus (João 1:1,14) — a mesma figura de comando, vista finalmente em plenitude."
+        },
+        "90": {
+          "theme": "Um Homem Segundo o Coração de Deus",
+          "connection": "Samuel passa pelos irmãos mais velhos e mais impressionantes de Davi e unge o mais novo, o pastor de ovelhas, porque o SENHOR olha para o coração. Séculos depois, Paulo diz a uma multidão na sinagoga que Deus levantou Davi como rei, e depois acrescenta mais uma frase: da própria linhagem de Davi, Deus levantou aquele para quem Davi sempre esteve apontando — um Salvador, Jesus."
+        },
+        "91": {
+          "theme": "Uma Porção Dobrada",
+          "connection": "Eliseu pede uma porção dobrada do espírito de Elias antes de seu mentor ser levado ao céu — e acaba realizando aproximadamente o dobro de milagres registrados. Jesus diz a seus próprios discípulos algo ainda maior antes de ascender: quem crê nele fará as obras que ele fez, e obras ainda maiores, porque ele vai para o Pai e envia outro Consolador para permanecer com eles para sempre."
+        },
+        "92": {
+          "theme": "O Teu Trono, ó Deus",
+          "connection": "Um salmo escrito para celebrar um casamento real irrompe numa linguagem que nenhum rei meramente humano poderia sustentar: 'O teu trono, ó Deus, é eterno e para sempre.' Hebreus cita essa linha exata e a aplica diretamente a Jesus, argumentando a partir do próprio salmo que o Filho é maior do que qualquer anjo — um canto de casamento para o rei de Israel, dirigido profeticamente ao verdadeiro Rei desde sempre."
+        },
+        "93": {
+          "theme": "Como nos Dias de Noé",
+          "connection": "Deus vê a violência e a corrupção da terra e diz a um único homem justo que construa uma arca antes de sequer se formar uma nuvem. Jesus aponta exatamente para esse momento para descrever o seu próprio retorno: a vida seguindo como sempre — comendo, bebendo, casando — até o dia em que o dilúvio veio e levou a todos. A arca foi um aviso que ninguém quis ouvir; este também é."
+        },
+        "94": {
+          "theme": "Salvos por Meio da Água",
+          "connection": "Oito pessoas entram na arca, e o dilúvio que destrói o mundo se torna exatamente aquilo que as leva em segurança através dele. Pedro retoma essa mesma imagem séculos depois e diz que o batismo agora salva da mesma forma — não lavando a sujeira da carne, mas pela ressurreição de Jesus Cristo, aquele que leva os crentes em segurança através do juízo como a arca fez outrora."
+        },
+        "95": {
+          "theme": "Não para Ab-rogar, mas para Cumprir",
+          "connection": "Deus pronuncia dez palavras no Sinai que definem como é um povo santo, gravadas em pedra para que não pudessem ser suavizadas nem esquecidas. Séculos depois, num monte próprio, Jesus diz claramente à multidão que não veio para destruir essa lei — veio para cumpri-la, vivendo perfeitamente o que o Sinai só podia ordenar, tornando-se a justiça que a lei podia descrever mas nunca produzir em mais ninguém."
+        },
+        "96": {
+          "theme": "Não Puderam Entrar",
+          "connection": "Dez dos doze espias voltam com medo, o povo acredita mais nos gigantes do que na promessa de Deus, e toda uma geração perde a terra da qual estava a um passo de entrar na posse. Hebreus apresenta essa história como um aviso direto aos crentes do Novo Testamento: não foi o deserto que fechou a porta para essa geração, foi a incredulidade — e a mesma porta que se fechou para eles continua aberta para quem simplesmente confiar no que Deus disse."
+        },
+        "97": {
+          "theme": "Nem só de Pão Viverá o Homem",
+          "connection": "Moisés lembra Israel de que Deus os deixou ter fome no deserto só para os alimentar com um maná que nunca tinham visto, ensinando-lhes que o homem vive de toda palavra que sai da boca de Deus, não só de pão. Quando Satanás tenta um Jesus faminto a transformar pedras em pão, é exatamente essa palavra que Ele cita de volta — o mesmo versículo que Israel deveria aprender, finalmente vivido à perfeição por Aquele maior do que Israel."
+        },
+        "98": {
+          "theme": "Escolhei Hoje",
+          "connection": "No fim da sua vida, Josué reúne Israel e coloca a escolha em aberto: servir os deuses do Egito, os deuses da terra, ou o SENHOR — mas escolher. Séculos depois, quando o ensino difícil de Jesus afasta as multidões e Ele pergunta aos doze se também vão embora, Pedro dá a única resposta que verdadeiramente resolve a questão: 'Senhor, para quem iremos? Tu tens as palavras da vida eterna.'"
+        },
+        "99": {
+          "theme": "Vai com Esta Tua Força",
+          "connection": "Gideão esconde-se de Midiã num lagar, chamando-se a si mesmo o menor da família mais fraca da sua tribo, quando o anjo do SENHOR o chama de valente herói e o envia mesmo assim. Paulo descobre o mesmo padrão com o seu próprio espinho na carne: a força de Deus não espera que a fraqueza desapareça, ela se aperfeiçoa na fraqueza — o mesmo 'eu sou o menor' que Gideão ofereceu a Deus como desculpa já era, para Deus, o próprio lugar onde agir."
+        },
+        "100": {
+          "theme": "Aproximados",
+          "connection": "Rute é uma viúva moabita sem nenhum direito sobre o Deus de Israel, colhendo grão sobrante no campo de um estranho, quando Boaz lhe mostra uma bondade que nada tem a ver com o que lhe é devido. Paulo descreve todo crente gentio exatamente nesses termos — antes estranhos aos pactos da promessa, sem esperança e sem Deus — 'mas agora em Cristo Jesus, vós que antes estáveis longe, fostes aproximados pelo sangue de Cristo,' da mesma forma que Rute foi trazida da margem para dentro da própria linhagem de Israel."
+        },
+        "101": {
+          "theme": "Fala, Que o Teu Servo Ouve",
+          "connection": "Numa época em que a palavra do SENHOR era rara, uma criança que ainda não reconhece a voz de Deus é chamada pelo nome na noite, e Eli precisa ensiná-la a responder. Hebreus começa dizendo que Deus falou em fragmentos e de diversas maneiras pelos profetas há muito tempo, mas agora falou plena e definitivamente pelo seu Filho — o Deus que uma vez precisou chamar duas vezes o nome de um menino falou, em Cristo, de uma forma que não pode ser mal-entendida."
+        },
+        "102": {
+          "theme": "Tu És Aquele Homem",
+          "connection": "Natã conta a Davi uma história sobre a crueldade de um homem rico até que Davi condena o homem com indignação — e só então Natã volta a história contra ele: 'Tu és aquele homem.' Davi não se defende; simplesmente diz: 'Pequei contra o SENHOR.' João promete que essa mesma reviravolta está sempre disponível: se confessarmos os nossos pecados, Deus é fiel e justo para os perdoar — a mesma misericórdia que alcançou um rei quebrantado no instante em que ele parou de se esconder."
+        },
+        "103": {
+          "theme": "Uma Voz Mansa e Delicada",
+          "connection": "Elias espera encontrar Deus no vento, no terremoto ou no fogo, e em vez disso encontra-o numa voz mansa e delicada depois que todo o barulho passou. Anos depois, num monte de transfiguração, esse mesmo Elias está de pé, falando com Jesus em glória — o profeta que uma vez precisou de um sussurro numa caverna, agora face a face com a Voz para a qual esse sussurro sempre apontou."
+        },
+        "104": {
+          "theme": "Mais São os Que Estão Conosco",
+          "connection": "O servo de Eliseu entra em pânico ao ver um exército inimigo até que Eliseu ora e os seus olhos se abrem para ver montes cheios de cavalos e carros de fogo cercando-os, invisíveis mas reais o tempo todo. Hebreus diz que os anjos são exatamente isso — espíritos ministradores enviados para servir aqueles que hão de herdar a salvação — o mesmo exército invisível que continua de guarda, quer os olhos de alguém tenham sido abertos para vê-lo ou não."
+        },
+        "105": {
+          "theme": "O Seu Reino Não Terá Fim",
+          "connection": "Davi quer construir uma casa para Deus, e Deus promete, em vez disso, construir uma para Davi — um trono e um reino estabelecidos para sempre, por meio de um filho ainda não nascido. Gabriel cita esse pacto quase palavra por palavra a Maria sobre o menino que ela conceberá: 'o Senhor Deus lhe dará o trono de Davi seu pai... e o seu reino não terá fim' — a antiga promessa de Natã a um rei, finalmente e para sempre cumprida."
+        },
+        "106": {
+          "theme": "Choro e Alegria",
+          "connection": "Os exilados voltam e lançam o fundamento de um novo templo, e o grito de alegria e o som do choro se misturam tão alto que ninguém consegue distingui-los — alguns lembrando a glória do primeiro templo, outros apenas felizes por poder construir. Paulo diz que todo crente também está sendo edificado sobre um fundamento, com o próprio Cristo como pedra angular — o templo verdadeiro e final que este dos dias de Esdras só podia prefigurar."
+        },
+        "107": {
+          "theme": "A Bondade de Deus Te Leva",
+          "connection": "Neemias conduz Israel numa longa oração que recorda toda a sua história de rebelião contra um Deus que continuava paciente, continuava provendo maná e água, continuava mantendo a porta aberta não importa quantas vezes a tivessem fechado com força. Paulo nomeia exatamente esse padrão em Romanos: não é o medo que muda um coração, é a bondade de Deus — 'a bondade de Deus te leva ao arrependimento' — a mesma paciência em que a geração de Neemias ainda vivia séculos depois."
+        },
+        "108": {
+          "theme": "Enforcado na Sua Própria Forca",
+          "connection": "Hamã constrói uma forca de cinquenta côvados para enforcar Mardoqueu, e no fim do capítulo é o próprio Hamã quem acaba enforcado ali, preso na armadilha que ele mesmo armou. Paulo declara o princípio que a história de Ester apenas dramatiza: 'Não vos enganeis; Deus não se deixa escarnecer; pois tudo o que o homem semear, isso também ceifará' — uma lei escrita no próprio funcionamento do mundo, muito antes de Hamã dar a ordem."
+        },
+        "109": {
+          "theme": "Quem É Este?",
+          "connection": "Depois de capítulos de Jó exigindo uma explicação, Deus finalmente responde — não com razões, mas com pergunta após pergunta sobre quem lançou os fundamentos da terra, quem encerrou o mar, quem ordena a manhã. Paulo diz de Cristo que por Ele foram criadas todas as coisas, visíveis e invisíveis, e que Ele é antes de todas as coisas e nEle tudo subsiste — a mesma Voz do turbilhão que dominou Jó é Aquele que fez e agora sustenta cada uma das coisas sobre as quais Jó foi interrogado."
+        },
+        "110": {
+          "theme": "O Fim do Senhor",
+          "connection": "Jó nunca recebe a explicação que exigiu, mas recebe algo melhor: vê a Deus, arrepende-se em pó e cinza, e é restaurado com mais do que tinha antes. Tiago aponta diretamente para essa história para encorajar uma igreja sofredora: 'ouvistes da paciência de Jó, e vistes o fim que o Senhor lhe deu, que o Senhor é muito misericordioso e compassivo' — não a resposta a cada pergunta, mas o caráter daquele que está presente através de todas elas."
+        },
+        "111": {
+          "theme": "Bem-Aventurado Aquele Cuja Transgressão É Perdoada",
+          "connection": "Davi descreve o alívio de finalmente confessar o pecado em vez de carregá-lo em silêncio: 'Bem-aventurado aquele cuja transgressão é perdoada, e cujo pecado é coberto.' Paulo cita esse salmo palavra por palavra como seu texto de prova para a justificação pela fé — a bênção que Davi cantava não era conquistada guardando a lei, era recebida no momento em que ele parava de fingir, o mesmo dom que Paulo diz que ainda é dado a quem simplesmente crê."
+        },
+        "112": {
+          "theme": "Feito um Pouco Menor que os Anjos",
+          "connection": "Davi olha para o céu noturno e se maravilha de que Deus sequer note a humanidade, muito menos a coroe de glória e honra e ponha tudo debaixo dos seus pés. Hebreus cita esse salmo e diz que ainda não se cumpriu totalmente para a humanidade — mas cumpriu-se para Jesus: 'vemos a Jesus, feito um pouco menor que os anjos por causa da paixão da morte, coroado de glória e honra,' o homem sobre quem Davi se maravilhava, finalmente revelado."
+        },
+        "113": {
+          "theme": "O Reino Será do Senhor",
+          "connection": "Toda a curta profecia de Obadias é um julgamento sobre Edom por se alegrar com o desastre de Israel — mas termina olhando além de Edom, para um dia em que libertadores subirão ao monte Sião e 'o reino será do SENHOR.' João ouve exatamente essa esperança proclamada no céu na sétima trombeta: 'Os reinos do mundo se tornaram os reinos do nosso Senhor e do seu Cristo, e ele reinará pelos séculos dos séculos.'"
+        },
+        "114": {
+          "theme": "Um Povo Numeroso e Forte",
+          "connection": "Joel começa com uma praga de gafanhotos tão total que deixa a terra despida, chamando-a de chegada de um exército avassalador — uma prévia, em termos agrícolas, do dia do SENHOR. A visão de João sobre a quinta trombeta toma emprestada exatamente essa imagem para o julgamento final: gafanhotos com poder como o dos escorpiões, enviados para atormentar um mundo que ignorou todos os avisos anteriores."
+        },
+        "115": {
+          "theme": "Derramarei o Meu Espírito",
+          "connection": "No meio de um livro sobre gafanhotos e julgamento, Joel de repente promete algo que ninguém pediu: um dia em que Deus derramará o seu Espírito sobre toda a carne — filhos e filhas, jovens e velhos, todos — e 'todo aquele que invocar o nome do SENHOR será salvo.' No dia de Pentecostes, Pedro se levanta e diz que isso é aquilo: a promessa não é mais futura, está acontecendo diante deles."
+        },
+        "116": {
+          "theme": "A Ceifa Está Madura",
+          "connection": "Joel encerra seu livro com uma imagem de nações reunidas num vale para o julgamento, onde a ceifa está madura e o lagar está cheio — a consequência do pecado espremida até a última gota. Apocalipse reutiliza exatamente essa imagem da colheita para o fim: alguém semelhante ao Filho do homem sobre uma nuvem, foice na mão, a quem se diz claramente: 'Lança a tua foice e ceifa, porque é chegada a hora de ceifar, porque a seara da terra está madura.'"
+        },
+        "117": {
+          "theme": "O SENHOR É Tardio em Irar-se",
+          "connection": "Naum começa unindo duas coisas que parecem não combinar: o SENHOR é tardio em irar-se e grande em força, mas de maneira nenhuma inocentará o culpado — vingança e bondade no mesmo fôlego, dirigidas à queda vindoura de Nínive. Paulo diz aos crentes para deixarem essa vingança exatamente onde Naum a coloca: 'não vos vingueis a vós mesmos... porque está escrito: Minha é a vingança, eu retribuirei, diz o Senhor.'"
+        },
+        "118": {
+          "theme": "Uma Cidade Devastada",
+          "connection": "Naum descreve a queda de Nínive com detalhes vívidos, quase cinematográficos — carros correndo pelas ruas, a cidade saqueada e vazia, ninguém para chorar por ela. Séculos depois, Jesus chora sobre uma cidade diferente por uma razão surpreendentemente semelhante: porque ela não conheceu, no seu dia, o que era para a sua paz, e vinha um julgamento que poderia ter sido evitado."
+        },
+        "119": {
+          "theme": "O Salário do Pecado",
+          "connection": "Naum expõe totalmente a culpa de Nínive — crueldade, engano, violência entranhada em todo o modo de vida de um império — antes de declarar que a sua queda é simplesmente o que toda essa culpa ganhou. Paulo reduz o mesmo princípio a uma única frase que se aplica muito além de Nínive: 'o salário do pecado é a morte, mas o dom gratuito de Deus é a vida eterna, por Cristo Jesus, nosso Senhor.'"
+        },
+        "120": {
+          "theme": "Até Quando, ó SENHOR?",
+          "connection": "Habacuque não começa com uma mensagem de Deus, mas com uma queixa a ele: violência e injustiça por toda parte, e Deus aparentemente calado a respeito — 'Até quando, SENHOR, clamarei eu, e tu não ouvirás?' João ouve a mesma pergunta feita no próprio céu, de almas debaixo do altar clamando: 'Até quando, ó Soberano, santo e verdadeiro, não julgas e vingas o nosso sangue?' — o clamor do injustiçado nunca é algo que Deus ignora, mesmo quando a resposta demora mais do que se esperava."
+        },
+        "121": {
+          "theme": "O Justo Viverá pela Sua Fé",
+          "connection": "Deus responde à queixa de Habacuque não com uma explicação, mas com uma ordem para esperar e confiar: a visão é para um tempo determinado, e 'o justo viverá pela sua fé.' Hebreus cita essa mesma linha a uma igreja vacilante e cansada, exortando-a a não recuar da mesma fé paciente que Habacuque deveria manter enquanto esperava que Deus agisse."
+        },
+        "122": {
+          "theme": "Todavia Eu Me Alegrarei",
+          "connection": "Habacuque termina onde começou — ainda observando uma nação prestes a ser invadida, colheitas perdidas, rebanhos desaparecidos — mas chega, de alguma forma, à adoração em vez do desespero: 'todavia eu me alegrarei no SENHOR; exultarei no Deus da minha salvação.' Paulo chega ao mesmo lugar a partir de uma cela de prisão: ele aprendeu a contentar-se, seja qual for o seu estado, porque a sua força para isso vem de Cristo, não das suas circunstâncias."
+        },
+        "123": {
+          "theme": "Perto Está o Grande Dia do SENHOR",
+          "connection": "Sofonias anuncia um dia vindouro do SENHOR tão severo que varrerá tudo, descrito como próximo e que muito se apressa, pegando os complacentes completamente de surpresa. Paulo diz aos tessalonicenses que esse mesmo dia ainda está por vir e chegará exatamente como Sofonias descreveu — 'como o ladrão de noite,' com destruição repentina — mas os crentes, vigilantes e despertos, não precisam ser surpreendidos por ele."
+        },
+        "124": {
+          "theme": "Buscai a Mansidão",
+          "connection": "No meio de pronunciar julgamento nação após nação, Sofonias para para dizer aos mansos da terra que busquem o SENHOR, busquem a justiça, busquem a mansidão — talvez sejam escondidos no dia da ira do SENHOR. Jesus transforma essa mesma esperança frágil numa promessa absoluta nas bem-aventuranças: 'Bem-aventurados os mansos, porque eles herdarão a terra' — não escondidos do julgamento, mas recebendo o mundo inteiro em vez disso."
+        },
+        "125": {
+          "theme": "Ele Se Regozijará em Ti com Cânticos",
+          "connection": "O livro de julgamento implacável de Sofonias se transforma, em suas últimas linhas, numa das imagens mais ternas de Deus em toda a Escritura: cantando sobre o seu povo, regozijando-se com eles em alegria, repousando no seu amor por eles. Apocalipse mostra exatamente no que isso se torna no fim da história — Deus habitando permanentemente com o seu povo, enxugando toda lágrima, sem mais morte, tristeza, choro ou dor."
+        },
+        "126": {
+          "theme": "Considerai os Vossos Caminhos",
+          "connection": "Os exilados que voltaram deixaram o templo inacabado por dezesseis anos enquanto constroem e revestem as suas próprias casas confortáveis, e toda a mensagem de Ageu se resume numa linha repetida: 'considerai os vossos caminhos.' O que ocupa o primeiro lugar é construído primeiro — e Jesus torna esse mesmo princípio explícito para toda geração seguinte: 'buscai primeiro o reino de Deus, e a sua justiça, e todas estas coisas vos serão acrescentadas.'"
+        },
+        "127": {
+          "theme": "Ainda uma Vez Farei Tremer",
+          "connection": "Deus promete por meio de Ageu que fará tremer os céus e a terra, e que a glória desta última casa será maior do que a da primeira — um segundo templo pequeno e pouco impressionante carregando uma promessa maior do que o seu tamanho sugeria. Hebreus cita diretamente esse tremor e diz que aponta para algo ainda por vir: tudo o que pode ser abalado sendo removido para que aquilo que não pode ser abalado — o reino que os crentes estão recebendo — permaneça."
+        },
+        "128": {
+          "theme": "A Peleja Não É Vossa",
+          "connection": "Josafá enfrenta uma coalizão invasora grande demais para ser combatida, e em vez de formar linhas de batalha, ele conduz Judá em adoração, ouvindo a palavra de Deus por meio de Jaaziel: 'a peleja não é vossa, mas de Deus... não tereis de pelejar nesta peleja.' Paulo diz aos crentes para travarem uma guerra diferente da mesma forma — não contra carne e sangue, mas revestindo-se de toda a armadura de Deus, porque o verdadeiro inimigo nunca foi algo que a força humana pudesse igualar de qualquer forma."
+        },
+        "129": {
+          "theme": "Como Está Sentada Solitária a Cidade",
+          "connection": "Lamentações começa com Jerusalém retratada como uma viúva chorando na noite depois que as próprias pessoas que uma vez a amaram a abandonaram — 'Como está sentada solitária a cidade que era populosa!' Séculos depois, Jesus se coloca sobre essa mesma cidade e lamenta em linguagem quase idêntica: 'Jerusalém, Jerusalém, que matas os profetas... quantas vezes quis ajuntar os teus filhos... e não quiseste!'"
+        },
+        "130": {
+          "theme": "Não Te Deixarei Ir, Se Não Me Abençoares",
+          "connection": "Sozinho à noite e temendo o que o amanhã trará, Jacó luta com um homem misterioso até o amanhecer e se recusa a soltá-lo: 'Não te deixarei ir, se não me abençoares' — e vai embora mancando, com um novo nome, e abençoado. Jesus conta uma parábola construída sobre exatamente essa mesma postura diante de Deus: 'importa orar sempre e nunca desfalecer,' lutando numa fé persistente que se recusa a soltar até que a resposta chegue."
+        },
+        "131": {
+          "theme": "Mostra-me a Tua Glória",
+          "connection": "Moisés pede a Deus a única coisa que nunca fora permitida a ninguém: 'mostra-me a tua glória.' Deus responde escondendo-o numa fenda da rocha e deixando passar apenas a sua bondade — a glória face a face ainda era mais do que qualquer ser humano poderia sobreviver a ver. João abre seu Evangelho dizendo que aquilo que Moisés só pôde vislumbrar por trás, os crentes agora viram plenamente: 'o Verbo se fez carne, e habitou entre nós... cheio de graça e de verdade... o Filho unigênito... esse o revelou.'"
+        },
+        "132": {
+          "theme": "A Nenhuma Delas Foi Enviado Elias",
+          "connection": "No meio de uma fome, Deus envia Elias não a nenhuma viúva de Israel, mas a uma viúva estrangeira em Sarepta, multiplicando a sua farinha e o seu azeite e mais tarde ressuscitando o seu filho. Quando Jesus prega na sua própria terra e a multidão se torna hostil, ele aponta exatamente para essa história como prova de que a misericórdia de Deus nunca esteve limitada àqueles que supunham ter o primeiro direito sobre ela."
+        },
+        "133": {
+          "theme": "Recebe-o Como a Mim Mesmo",
+          "connection": "Paulo escreve a Filemom em favor de um escravo fugitivo, Onésimo, pedindo-lhe que o receba de volta não como propriedade, mas como um irmão amado — e oferecendo-se para cobrir pessoalmente o que Onésimo devesse. Paulo faz em miniatura exatamente o que Cristo faz por cada crente: colocar-se entre o culpado e o ofendido, pois 'há um só Deus, e um só Mediador entre Deus e os homens, Jesus Cristo homem.'"
+        },
+        "134": {
+          "theme": "Andando na Verdade",
+          "connection": "A breve segunda carta de João elogia uma família por andar na verdade e a adverte a não deixar entrar em sua casa nem em sua comunhão os enganadores que negam Cristo — verdade e amor mantidos juntos, nunca um sem o outro. Paulo dá o mesmo nome a essa combinação como a marca do verdadeiro crescimento espiritual: 'seguindo a verdade em amor, cresçamos em tudo naquele que é a cabeça, Cristo.'"
+        },
+        "135": {
+          "theme": "Cooperadores da Verdade",
+          "connection": "João elogia Gaio por receber os ministros itinerantes como estranhos e enviá-los adiante de maneira digna de Deus, em nítido contraste com Diótrefes, que gostava de ter a primazia e se recusava a recebê-los. Jesus faz da hospitalidade aos estranhos uma medida direta do amor por ele: 'era estrangeiro, e me recolhestes... e, quanto o fizestes a um destes meus pequeninos irmãos, a mim o fizestes.'"
+        },
+        "136": {
+          "theme": "Batalhar pela Fé",
+          "connection": "Judas exorta os crentes a batalharem pela fé que uma vez foi dada aos santos, alertando que certos homens se infiltraram secretamente, transformando a graça em pretexto para o pecado. Pedro descreve a mesma ameaça em termos quase idênticos e dá a postura para enfrentá-la: 'sede sóbrios; vigiai; porque o diabo, vosso adversário, anda em derredor, bramando como leão, buscando a quem possa tragar; ao qual resisti firmes na fé.'"
+        },
+        "137": {
+          "theme": "Testemunhas Oculares da Sua Majestade",
+          "connection": "Pedro insiste que a sua mensagem não é uma fábula habilmente inventada, porque ele esteve lá no monte quando Jesus foi transfigurado e uma voz veio da excelsa glória. Mateus registra exatamente a cena que Pedro está recordando: Jesus resplandecendo como o sol, Moisés e Elias ao seu lado, e a voz do Pai vinda da nuvem declarando: 'Este é o meu Filho amado, em quem me comprazo; a ele ouvi.'"
+        },
+        "138": {
+          "theme": "Transformado em Anjo de Luz",
+          "connection": "Pedro adverte sobre falsos mestres que introduzirão secretamente doutrinas destruidoras, explorando os crentes com palavras fingidas para seu próprio ganho, disfarçados para parecer o verdadeiro. Paulo nomeia diretamente a fonte desse disfarce: 'o próprio Satanás se transforma em anjo de luz,' portanto não deveria surpreender que os seus ministros pareçam, na superfície, ministros de justiça."
+        },
+        "139": {
+          "theme": "Novos Céus e Nova Terra",
+          "connection": "Pedro diz a uma igreja tentada a duvidar da volta de Cristo que o dia do Senhor virá como um ladrão, e olha adiante para novos céus e nova terra, nos quais habita a justiça. A visão final de João mostra exatamente o que foi prometido a Pedro finalmente chegando: 'um novo céu, e uma nova terra; porque já o primeiro céu e a primeira terra passaram.'"
+        },
+        "140": {
+          "theme": "O Que Era desde o Princípio",
+          "connection": "João abre a sua primeira carta quase exatamente da mesma forma como abriu o seu Evangelho — remontando a 'o que era desde o princípio,' algo visto, ouvido e apalpado, o Verbo da vida dado a conhecer. O seu Evangelho fornece a declaração mais completa por trás disso: 'No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus... Nele estava a vida, e a vida era a luz dos homens.'"
+        },
+        "141": {
+          "theme": "Não Ameis o Mundo",
+          "connection": "João diz claramente aos crentes para não amarem o mundo nem as coisas que há no mundo, porque o amor do Pai e o amor do mundo não podem viver juntos no mesmo coração. Tiago faz o mesmo aviso de forma ainda mais direta a uma igreja que se aconchega aos valores do mundo: 'não sabeis que a amizade do mundo é inimizade contra Deus? Portanto, qualquer que quiser ser amigo do mundo constitui-se inimigo de Deus.'"
+        },
+        "142": {
+          "theme": "Agora Somos Filhos de Deus",
+          "connection": "João se maravilha com o amor tão grande que o Pai nos deu para que fôssemos chamados filhos de Deus — e é isso que somos, ainda que o mundo não o reconheça ainda. Paulo descreve a mesma identidade por dentro: 'todos os que são guiados pelo Espírito de Deus, esses são filhos de Deus... o mesmo Espírito testifica com o nosso espírito que somos filhos de Deus. E, se somos filhos, somos também herdeiros... e coerdeiros com Cristo.'"
+        },
+        "143": {
+          "theme": "Deus É Amor",
+          "connection": "João chega à declaração mais simples e mais ampla de toda a sua carta — 'Deus é amor' — e a fundamenta na cruz: Deus enviou o seu Filho unigênito para que os crentes vivam por meio dele, e para que ele fosse a propiciação pelos seus pecados. Jesus já havia definido esse amor em ação antes mesmo de João o escrever: 'O meu mandamento é este: Que vos ameis uns aos outros, assim como eu vos amei. Ninguém tem maior amor do que este, de dar alguém a sua vida pelos seus amigos.'"
+        },
+        "144": {
+          "theme": "Para Que Saibais",
+          "connection": "João encerra a sua carta dizendo aos crentes exatamente por que a escreveu: 'estas coisas vos escrevi, a vós que credes no nome do Filho de Deus, para que saibais que tendes a vida eterna.' O Evangelho de João termina com o propósito idêntico declarado para a história que acabou de contar: 'estas, porém, se escreveram para que creiais que Jesus é o Cristo, o Filho de Deus, e para que, crendo, tenhais vida em seu nome.'"
+        },
+        "145": {
+          "theme": "Irrepreensível, Como Despenseiro de Deus",
+          "connection": "Paulo diz a Tito o que procurar num ancião — irrepreensível, não obstinado, não iracundo, amante do bem, retentor da fiel palavra — para que as jovens igrejas de Creta tivessem líderes dignos de confiança. Paulo dá a Timóteo quase a mesma lista de qualificações, quase palavra por palavra, confirmando que isso não era uma regra local para uma ilha, mas o padrão que a igreja de Cristo deveria seguir em toda parte."
+        },
+        "146": {
+          "theme": "A Graça de Deus Que Traz Salvação",
+          "connection": "A Tito é dito que a graça de Deus, que traz salvação, ensina os crentes a renunciar à impiedade e às concupiscências mundanas e a viver sóbria, justa e piedosamente — graça que treina, não apenas graça que perdoa. Paulo explica exatamente por que a graça tem esse efeito: 'o amor de Cristo nos constrange... para que os que vivem não vivam mais para si, mas para aquele que por eles morreu e ressuscitou.'"
+        },
+        "147": {
+          "theme": "A Lavagem da Regeneração",
+          "connection": "Tito termina com um dos resumos mais claros da salvação em toda a Escritura: não pelas obras de justiça que houvéssemos feito, mas segundo a sua misericórdia, nos salvou, pela lavagem da regeneração e da renovação do Espírito Santo. Paulo diz o mesmo aos efésios quase no mesmo fôlego: 'Deus, que é riquíssimo em misericórdia, pelo seu muito amor com que nos amou, estando nós ainda mortos em nossas ofensas, nos vivificou juntamente com Cristo... pela graça sois salvos.'"
+        },
+        "148": {
+          "theme": "Não o Espírito de Temor",
+          "connection": "Escrevendo da prisão, provavelmente perto do fim da sua vida, Paulo diz a Timóteo para reacender o dom de Deus que está nele, 'porque Deus não nos deu o espírito de temor, mas de fortaleza, e de amor, e de moderação.' É a mesma confiança que o autor de Hebreus diz a todo crente para manter em circunstâncias difíceis: 'O Senhor é o meu ajudador, e não temerei o que me possa fazer o homem.'"
+        },
+        "149": {
+          "theme": "Se Sofrermos, Também Reinaremos",
+          "connection": "Paulo diz a Timóteo para suportar as aflições como bom soldado de Jesus Cristo, ancorando isso numa palavra fiel: 'se sofrermos, também com ele reinaremos.' Ele já havia escrito a mesma equação aos romanos em palavras quase idênticas: 'e, se filhos, também herdeiros... e coerdeiros com Cristo: se é certo que com ele padecemos, para que também com ele sejamos glorificados.'"
+        },
+        "150": {
+          "theme": "Sobrevirão Tempos Perigosos",
+          "connection": "Paulo adverte Timóteo que nos últimos dias sobrevirão tempos perigosos, descrevendo pessoas amantes de si mesmas, soberbas, sem afeto natural, tendo aparência de piedade, mas negando a eficácia dela. Jesus já havia descrito o mesmo desmoronamento aos seus discípulos — traição, falsos profetas, e o amor de muitos esfriando — com a mesma promessa anexada: 'aquele que perseverar até ao fim, esse será salvo.'"
+        },
+        "151": {
+          "theme": "Uma Coroa de Justiça",
+          "connection": "Bem no final da sua última carta, Paulo escreve o que podem ser as suas últimas palavras como homem livre: 'combati o bom combate, acabei a carreira, guardei a fé. Desde agora, a coroa da justiça me está guardada.' Jesus faz a mesma promessa a uma igreja perseguida em Apocalipse, numa frase quase idêntica: 'sê fiel até à morte, e dar-te-ei a coroa da vida.'"
+        },
+        "152": {
+          "theme": "O Tabernáculo de Davi",
+          "connection": "Amós termina o seu livro de julgamento com uma promessa inesperada: Deus levantará o tabernáculo caído de Davi e o reconstruirá como era antigamente, para que o remanescente e os gentios sobre quem o seu nome é invocado o busquem. No concílio de Jerusalém, Tiago cita exatamente essa profecia palavra por palavra para resolver o debate sobre os crentes gentios — prova, do próprio Amós, de que o plano de Deus sempre foi trazer os de fora."
+        },
+        "153": {
+          "theme": "Sangue Que Fala Melhor",
+          "connection": "Gênesis 4 registra o primeiro homicídio da história: Caim mata Abel, e Deus lhe diz \"a voz do sangue do teu irmão clama a mim desde a terra\" — sangue que clama por vingança. Hebreus volta até essa mesma cena para descrever o que os crentes receberam em seu lugar: Jesus, \"e ao sangue da aspersão, que fala melhor do que o de Abel.\" O sangue de Abel exigia justiça contra um assassino; o sangue de Cristo suplica misericórdia para o culpado — o mesmo tribunal, um veredito oposto."
+        },
+        "154": {
+          "theme": "Vendido pelos Seus Irmãos, Enviado para Salvá-los",
+          "connection": "Os irmãos de José o vendem como escravo por inveja, e anos depois ele lhes diz: \"Deus me enviou adiante de vós, para vos conservar posteridade na terra, e para vos guardar em vida por um grande livramento.\" Estêvão, defendendo o evangelho diante do Sinédrio, conta a mesma história quase como uma acusação contra os seus ouvintes: \"os patriarcas, movidos de inveja, venderam José para o Egito; mas Deus era com ele.\" O padrão é exato — um filho amado, traído pela própria família, exaltado por Deus para se tornar o próprio resgate daqueles que o traíram."
+        },
+        "155": {
+          "theme": "Batizados no Mar",
+          "connection": "Êxodo 14 coloca Israel entre o exército de Faraó e a água, sem outro caminho a não ser atravessá-la — o mar que afoga os seus inimigos torna-se o caminho da sua liberdade. Paulo diz aos coríntios que isso nunca foi apenas história: \"nossos pais estiveram todos debaixo da nuvem... e todos foram batizados em Moisés, na nuvem e no mar.\" O que Israel atravessou fisicamente, todo crente atravessa espiritualmente no batismo — a morte para trás, a liberdade à frente, e o mesmo Deus que dividiu as águas guiando o caminho."
+        },
+        "156": {
+          "theme": "Uma Glória Que Veio Habitar",
+          "connection": "Êxodo termina não com um plano, mas com uma presença: \"a glória do Senhor encheu o tabernáculo\", tão completamente que nem Moisés \"podia entrar\". João descreve algo que nenhum tabernáculo poderia conter, fazendo exatamente aquilo para que o tabernáculo foi construído: \"o Verbo se fez carne, e habitou entre nós... e vimos a sua glória.\" A palavra que João usa para \"habitou\" carrega a mesma ideia de \"armou tenda\" — Deus armando uma tenda de carne entre o seu povo, assim como uma vez armou uma de cortinas entre as doze tribos."
+        },
+        "157": {
+          "theme": "Um Só Sacrifício, de Uma Vez para Sempre",
+          "connection": "No Dia da Expiação, Arão colocava os pecados de Israel sobre a cabeça de um bode vivo e o enviava ao deserto, enquanto o sangue de um segundo bode sozinho abria o caminho para o Lugar Santíssimo — uma imagem repetida todos os anos porque nunca podia terminar a obra. Hebreus explica por quê: Cristo entrou \"não com sangue de bodes e novilhos, mas com o seu próprio sangue... uma vez, havendo obtido eterna redenção para nós.\" O que Levítico 16 representava em dois animais e um ritual anual, a cruz realizou num só Homem e num só momento, permanentemente."
+        },
+        "158": {
+          "theme": "A Rocha, Ferida Duas Vezes",
+          "connection": "Israel exige água outra vez no deserto, e desta vez Moisés — a quem só foi ordenado falar à rocha — fere-a com raiva, e a água jorra mesmo assim. Paulo revela depois o que aquela rocha sempre tinha sido: \"beberam da pedra espiritual que os seguia, e a pedra era Cristo.\" Ferida uma vez em Horebe para dar vida, esta segunda vez nunca deveria ter acontecido — um pequeno aviso, em pedra, de que Cristo só seria ferido pelo pecado uma única vez."
+        },
+        "159": {
+          "theme": "Um Cordão Escarlate numa Cidade Condenada",
+          "connection": "Raabe esconde os espias de Israel em Jericó e recebe a promessa de ser poupada quando a cidade cair. Hebreus a coloca entre os heróis da fé pela mesma razão que a Páscoa uma vez poupou os primogênitos de Israel: \"Pela fé Raabe, a meretriz, não pereceu com os desobedientes, tendo acolhido em paz os espias.\" Uma mulher pagã, marcada pela fé e não pela linhagem, torna-se ancestral do próprio Cristo (Mateus 1:5) — prova de que a marca da fé sempre valeu mais do que o mérito por trás dela."
+        },
+        "160": {
+          "theme": "Um Anjo Anuncia um Libertador, Duas Vezes",
+          "connection": "Um anjo aparece a uma mulher estéril e sem nome e diz que o filho que ela vai ter será separado desde o ventre para \"começar a livrar Israel da mão dos filisteus.\" Séculos depois, um anjo aparece de novo com palavras surpreendentemente semelhantes sobre outro filho separado, cheio do Espírito Santo desde o ventre de sua mãe e enviado \"para preparar ao Senhor um povo apercebido.\" A história de Sansão termina em fracasso apesar do anúncio; a de João Batista tem sucesso completo — porque ele sempre foi apenas quem preparava o caminho para um Libertador maior do que os dois."
+        },
+        "161": {
+          "theme": "O Parente Que Havia de Redimir",
+          "connection": "Um parente mais próximo tem o primeiro direito de redimir Rute e a sua herança, mas quando o custo fica claro — \"não poderei redimi-lo para mim, para que não prejudique a minha herança\" — ele se afasta, e Boaz a redime em seu lugar, à sua própria custa. A redenção de todo crente segue a mesma forma: alguém precisava ser próximo o bastante para redimir, disposto o bastante para pagar, e capaz o bastante para realmente poder fazê-lo. Paulo diz que Cristo é os três ao mesmo tempo: \"em quem temos a redenção pelo seu sangue, a remissão das ofensas, segundo as riquezas da sua graça.\""
+        },
+        "162": {
+          "theme": "Um Homem Luta para que um Exército Não Precise",
+          "connection": "Golias desafia todo o exército de Israel durante quarenta dias, e nenhum soldado ousa enfrentá-lo — até que Davi sai sozinho e declara: \"do Senhor é a batalha\", e depois a vence por todos os que observam. Israel não precisou lutar naquele dia; só precisou confiar naquele que lutava por eles e depois entrar na vitória que ele já havia conquistado. Hebreus diz que Cristo fez o mesmo num campo de batalha muito maior, enfrentando a própria morte \"para que pela morte destruísse aquele que tinha o império da morte... e livrasse todos os que, com medo da morte, estavam por toda a vida sujeitos à servidão.\""
+        },
+        "163": {
+          "theme": "Um Trono Que Nunca Terá Fim",
+          "connection": "Davi quer construir uma casa para Deus; Deus responde, em vez disso, com uma promessa sobre a casa de Davi: \"a tua casa e o teu reino serão firmes para sempre diante de ti; teu trono será estabelecido para sempre.\" Todo rei depois de Davi acabou fracassando ou morrendo — até que Gabriel se apresentou diante de uma virgem chamada Maria e usou palavras surpreendentemente semelhantes sobre o seu filho: \"o Senhor Deus lhe dará o trono de Davi seu pai... e reinará eternamente na casa de Jacó, e o seu reino não terá fim.\" Uma promessa feita a um rei mil anos antes finalmente tem um Rei que pode cumpri-la."
+        },
+        "164": {
+          "theme": "O Mediador Que Jó Só Podia Ansiar",
+          "connection": "Jó, lutando com um sofrimento inexplicável, anseia por alguém que pudesse ficar entre ele e Deus como igual a ambos: \"Não há entre nós árbitro que ponha a mão sobre nós ambos.\" Ninguém no mundo de Jó podia ser essa pessoa — Deus era santo demais, Jó humano demais, e nada preenchia o espaço. Paulo responde a esse anseio diretamente: \"há um só Deus, e um só Mediador entre Deus e os homens, Jesus Cristo homem\" — capaz de pôr uma mão sobre Deus e outra sobre a humanidade, porque ele é ambos."
+        },
+        "165": {
+          "theme": "Tu És Meu Filho",
+          "connection": "O Salmo 2 retrata nações rebeldes conspirando contra o Ungido de Deus, apenas para ouvir o decreto do Senhor resolver o assunto de uma vez por todas: \"Tu és meu Filho, eu hoje te gerei... pede-me, e eu te darei as nações por herança.\" Pregando numa sinagoga séculos depois, Paulo cita exatamente este versículo e diz que finalmente aconteceu: \"Deus a cumpriu para conosco, seus filhos, ressuscitando a Jesus.\" A ressurreição não foi apenas prova de vida após a morte — foi a resposta da história a um decreto de coroação pronunciado mil anos antes."
+        },
+        "166": {
+          "theme": "Um Corpo Que Não Ficaria na Sepultura",
+          "connection": "Davi escreve com uma confiança estranha para um homem que sabia que ia morrer: \"não deixarás a minha alma no inferno, nem permitirás que o teu Santo veja a corrupção.\" No dia de Pentecostes, Pedro aponta o problema óbvio — o túmulo de Davi ainda estava ali mesmo em Jerusalém — de modo que o salmo não podia ter sido sobre Davi: \"prevendo isto, falou da ressurreição de Cristo, que a sua alma não foi deixada no inferno, nem a sua carne viu a corrupção.\" Uma confissão de esperança de mil anos torna-se, nas mãos de Pedro, um dos primeiros sermões já pregados sobre um túmulo vazio."
+        },
+        "167": {
+          "theme": "Zelo Que Consome",
+          "connection": "O salmista, reprovado e escarnecido por sua devoção à casa de Deus, clama: \"o zelo da tua casa me devorou, e as afrontas dos que te afrontam a mim caíram sobre mim.\" Quando Jesus derruba as mesas dos cambistas no templo, João diz que os seus discípulos se lembraram exatamente desta frase e a aplicaram a ele sem hesitar. O que custou zombaria ao salmista custou a vida a Jesus não muitos capítulos depois nesse mesmo evangelho — o zelo que limpou o templo é o mesmo zelo que o levou à cruz pelo templo verdadeiro, o seu próprio corpo."
+        },
+        "168": {
+          "theme": "Levantai as Vossas Cabeças",
+          "connection": "O Salmo 24 retrata as antigas portas de Jerusalém recebendo a ordem de se abrirem de par em par para um Rei da glória que regressa, com um diálogo que pergunta exatamente quem merece tal entrada: \"O Senhor forte e poderoso, o Senhor poderoso na batalha... o Senhor dos exércitos, ele é o Rei da glória.\" Paulo retrata a mesma cena cumprida nos próprios portões do céu: Cristo, tendo descido ao lugar mais baixo, subindo \"acima de todos os céus, para cumprir todas as coisas.\" Todo rei terreno que alguma vez entrou em Jerusalém acabou por deixá-la num caixão; este Rei entrou no próprio céu e nunca o deixará."
+        },
+        "169": {
+          "theme": "Qual É o Nome de Seu Filho?",
+          "connection": "Agur termina Provérbios com uma pergunta que soa quase como um desafio a quem quer que afirme entender Deus por completo: \"Quem subiu ao céu e desceu?... qual é o seu nome, e qual é o nome de seu filho, se é que o sabes?\" Nenhuma resposta vem durante séculos. Então Jesus diz claramente a Nicodemos: \"ninguém subiu ao céu, senão o que desceu do céu, o Filho do homem, que está no céu\" — a única pessoa na história capaz de responder ao enigma de Agur, porque ele é tanto o que desceu quanto o Filho cujo nome Agur não conseguiu encontrar."
+        },
+        "170": {
+          "theme": "Viu a Sua Glória",
+          "connection": "A visão de Isaías do Senhor \"assentado sobre um alto e sublime trono\", rodeado de serafins que clamam \"Santo, santo, santo\", o apavora ao ponto de se voluntariar para uma missão que ainda não compreende: \"Eis-me aqui, envia-me a mim.\" Séculos depois, vendo Israel rejeitar Jesus apesar dos seus milagres, João faz uma afirmação que deveria deter qualquer leitor: \"Isaías disse isto quando viu a sua glória, e falou dele.\" O profeta não apenas vislumbrou a glória de Deus em abstrato — segundo o próprio João, Isaías 6 foi uma visão de Cristo entronizado, muito antes de ele andar sobre a terra."
+        },
+        "171": {
+          "theme": "Um Rei Sobre um Jumentinho",
+          "connection": "Zacarias retrata o Rei que vem a Jerusalém chegando não num cavalo de guerra, mas \"pobre, e montado sobre um jumento, e sobre um jumentinho, filho de jumenta\" — um rei que conquista pela humildade, não pela força. Mateus registra o dia em que isso aconteceu quase palavra por palavra, até o animal específico: \"o teu Rei vem a ti, manso, e assentado sobre uma jumenta, e sobre um jumentinho, filho de animal de carga.\" Quinhentos anos entre a profecia e o cortejo, e os detalhes ainda coincidem o suficiente para nomear o próprio jumentinho."
+        },
+        "172": {
+          "theme": "Bem-Aventurados os Que Choram",
+          "connection": "Jesus abre o seu sermão mais famoso pronunciando bênção sobre pessoas que o mundo costuma chamar de infelizes — os pobres de espírito, os que choram, os mansos — uma linguagem que ecoa uma profecia que ele mesmo leria depois em voz alta na sinagoga da sua terra e reivindicaria como a sua própria missão. Isaías já havia descrito essa mesma obra ungida pelo Espírito séculos antes: enviado \"para curar os quebrantados de coração... a consolar todos os que choram... a dar-lhes glória em vez de cinza.\" As bem-aventuranças não são um novo conjunto de regras; são Isaías 61 pregado de um monte por Aquele mesmo de quem Isaías falava."
+        },
+        "173": {
+          "theme": "Começando por Moisés",
+          "connection": "Dois discípulos desanimados caminham para Emaús sem reconhecer Jesus ressuscitado ao seu lado, até que ele faz algo notável: \"e, começando por Moisés, e por todos os profetas, explicava-lhes o que dele se achava em todas as Escrituras.\" Só depois, quando ele já se foi, é que compreendem por que a conversa lhes pareceu daquele jeito: \"Porventura não ardia em nós o nosso coração... quando nos abria as Escrituras?\" Este único capítulo é a ideia inteira por trás de todo este plano de leitura — o próprio Cristo ensinando que todo o Antigo Testamento, lido corretamente, sempre apontou para ele."
+        },
+        "174": {
+          "theme": "A Queda de Um, a Obediência de Outro",
+          "connection": "Paulo coloca dois homens lado a lado e pede aos leitores que vejam toda a história humana nessa comparação: \"assim como pela desobediência de um só homem muitos foram feitos pecadores, assim também pela obediência de um só muitos serão feitos justos.\" Um único ato de Adão num jardim alcançou cada pessoa que jamais nasceria — \"a morte passou a todos os homens\", diz Paulo, mesmo aos que não haviam pecado da mesma maneira que Adão. O que Gênesis 3:6 descreve em poucas palavras simples — uma mão que se estende para um fruto — Romanos 5 dedica um capítulo inteiro a desenrolar como a dobradiça sobre a qual girou toda a raça humana, até que um segundo Homem a reverteu."
+        },
+        "175": {
+          "theme": "Digno É o Cordeiro",
+          "connection": "O céu procura alguém digno de abrir um rolo selado e não encontra ninguém — até que um ancião aponta para o que parece ser um paradoxo de pé diante do trono: um Cordeiro, recém-morto, de algum modo vitorioso. O cântico que se segue explica toda a cena: \"tu foste morto, e com o teu sangue nos compraste para Deus... Digno é o Cordeiro que foi morto de receber o poder, e riquezas, e sabedoria, e força, e honra, e glória, e ações de graças.\" Isaías já havia descrito como aquele Cordeiro chegaria ali — \"ele foi oprimido, mas não abriu a boca; como um cordeiro foi levado ao matadouro.\" — submissão silenciosa em Isaías 53 tornando-se o louvor mais alto do céu em Apocalipse 5."
+        },
+        "176": {
+          "theme": "A Promessa Derramada",
+          "connection": "Joel promete um dia em que o Espírito de Deus não repousaria mais apenas sobre uns poucos escolhidos — profetas, sacerdotes, reis — mas seria derramado \"sobre toda a carne\", filhos e filhas, velhos e jovens, servos e livres, todos juntos. Cinquenta dias depois da ressurreição, Pedro se levanta diante de uma multidão perplexa em Jerusalém e diz que aquele dia finalmente chegou: \"isto é o que foi dito pelo profeta Joel.\" O Pentecostes não é um plano novo improvisado na hora; é uma promessa de séculos chegando exatamente no tempo certo, derramada precisamente sobre o tipo de pessoas que sempre disse que alcançaria."
+        },
+        "177": {
+          "theme": "Onde Deus Se Encontraria com Eles",
+          "connection": "Êxodo 25 dá instruções exatas para a cobertura de ouro da arca: \"ali virei a ti, e falarei contigo de sobre o propiciatório, do meio dos dois querubins.\" Aquela única peça de mobiliário era o único lugar na terra onde um Deus santo podia se encontrar com pessoas pecadoras sem as destruir. Paulo diz que Deus agora propôs a Cristo \"para propiciação, pela fé no seu sangue\" — a mesma palavra traduzida \"propiciatório\" em outras partes do Antigo Testamento, descrevendo o mesmo lugar, e agora a mesma pessoa, onde Deus e os pecadores realmente se encontram."
+        },
+        "178": {
+          "theme": "Risca-Me a Mim em Seu Lugar",
+          "connection": "Depois que Israel adora um bezerro de ouro, Moisés faz algo espantoso: sobe novamente ao monte e oferece: \"se perdoares agora o seu pecado... e, se não, risca-me, peço-te, do teu livro que tens escrito.\" Deus não aceita a oferta — um mediador que ele mesmo é culpado não pode de fato substituir os culpados. Paulo diz depois quase as mesmas palavras sobre os seus próprios parentes: \"eu mesmo desejara ser separado de Cristo por amor de meus irmãos\" — mas só um Mediador na história podia realmente fazer essa oferta e vê-la aceita, porque só ele não tinha pecado próprio que precisasse ser riscado."
+        },
+        "179": {
+          "theme": "Feito Pecado, para que Fôssemos Feitos Justiça",
+          "connection": "As queixas de Israel no deserto trazem serpentes ardentes entre eles, e o remédio de Deus pede algo estranho: olhar para uma imagem de bronze da própria coisa que os matava, e viver. Paulo torna depois explícita a lógica por trás dessa ordem estranha: Deus \"aquele que não conheceu pecado, o fez pecado por nós; para que nele fôssemos feitos justiça de Deus.\" A serpente levantada não era a cura por si mesma — era uma imagem de que a única saída de um problema mortal era Deus permitir que o remédio tomasse a própria forma da maldição."
+        },
+        "180": {
+          "theme": "Maldito Todo Aquele que For Pendurado no Madeiro",
+          "connection": "A lei de Deuteronômio é direta sobre quem quer que seja executado e exposto publicamente: \"maldito de Deus é o que for pendurado\" — um sinal específico e inconfundível de julgamento divino, não um versículo isolado. Paulo cita exatamente essa lei séculos depois para explicar a cruz: \"Cristo nos resgatou da maldição da lei, fazendo-se maldição por nós; porque está escrito: Maldito todo aquele que for pendurado no madeiro.\" O próprio versículo destinado a afastar Israel de uma morte vergonhosa se torna a prova de Paulo de que a morte de Jesus nunca foi um acidente da justiça romana — foi o lugar designado para que uma maldição finalmente caísse em algum lugar onde pudesse ser absorvida em vez de transmitida."
+        },
+        "181": {
+          "theme": "Um Caminho Através, Depois Descanso do Outro Lado",
+          "connection": "Josué guia Israel através do Jordão em terra seca, da mesma maneira que a geração de Moisés atravessou o Mar Vermelho uma geração antes — exceto que esta travessia termina não num deserto, mas na terra prometida. Hebreus aponta o problema óbvio de parar a história ali: \"porque, se Josué lhes houvera dado repouso, nunca falaria de outro dia depois daquele. Portanto, resta ainda um repouso para o povo de Deus.\" Josué podia fazer Israel atravessar um rio; só Cristo podia fazer alguém atravessar a distância mais profunda que o pecado põe entre as pessoas e o verdadeiro descanso."
+        },
+        "182": {
+          "theme": "Não Estava Sozinho, Afinal",
+          "connection": "Elias, exausto e certo de ser a última pessoa fiel restante em Israel, recebe sua resposta não no vento, nem no terremoto, nem no fogo, mas num \"cicio de brandura suave\" — e a resposta real de Deus o corrige: há mais sete mil que nunca se dobraram diante de Baal. Paulo cita essa mesma história séculos depois para fazer um ponto bem mais tarde: \"Deus não rejeitou o seu povo, que antes conheceu... assim também agora, neste tempo, ficou um remanescente segundo a eleição da graça.\" Elias se sentiu sozinho em sua fidelidade como os crentes às vezes se sentem em cada geração — e nas duas vezes, a resposta de Deus é a mesma: sempre há um remanescente, guardado pela graça, que o desanimado simplesmente ainda não consegue ver."
+        },
+        "183": {
+          "theme": "A Farinha Não Se Acabou",
+          "connection": "Uma viúva em Sarepta, reduzida ao seu último punhado de farinha, alimenta Elias primeiro a pedido dele e vê a promessa se cumprir: \"a farinha da tigela não se acabará, e o azeite da botija não faltará, até ao dia em que o Senhor dê chuva sobre a terra.\" Séculos depois, pregando seu primeiro sermão registrado, Jesus recorre deliberadamente a essa história exata para fazer um ponto duro à sua própria terra natal: a misericórdia de Deus na grande fome não foi para as muitas viúvas de Israel, mas para uma estrangeira em Sidom. O milagre de Elias não era só sobre farinha e azeite — Jesus o lê como um sinal precoce de que o resgate de Deus sempre alcançaria mais longe do que uma única nação esperava."
+        },
+        "184": {
+          "theme": "Calor Que Voltou à Carne Fria",
+          "connection": "O filho de uma mulher sunamita morre de repente, e Eliseu se deita sobre o corpo do menino até que \"a carne do menino aqueceu... e o menino abriu os olhos.\" É uma das poucas ressurreições registradas antes da do próprio Cristo — uma pequena antecipação de um poder que os profetas podiam tomar emprestado, mas nunca possuir plenamente. Hebreus a inclui entre os grandes atos de fé daquela era, \"as mulheres receberam, pela ressurreição, os seus mortos\", bem ao lado de uma promessa de \"melhor ressurreição\" — porque todo profeta que ressuscitou um corpo acabou morrendo ele mesmo; só Aquele a quem seus milagres apontavam ressuscitaria e nunca mais morreria."
+        },
+        "185": {
+          "theme": "Um Filho Que Edificaria, e Reinaria para Sempre",
+          "connection": "Davi não tem permissão para construir o templo de Deus porque é homem de guerra, então Deus lhe dá em vez disso uma promessa sobre o seu filho: \"ele edificará uma casa ao meu nome, e eu confirmarei o trono do seu reino para sempre.\" Salomão construiu um templo real e físico — e depois morreu, e aquele templo acabou sendo destruído. Paulo diz depois claramente que qualquer projeto de construção, espiritual ou não, se apoia em apenas um fundamento real: \"porque ninguém pode pôr outro fundamento além do que já está posto, o qual é Jesus Cristo\" — o Filho maior que edifica uma casa, e um reino, que exército algum pode derrubar."
+        },
+        "186": {
+          "theme": "Se o Meu Povo Se Humilhar",
+          "connection": "Na dedicação do templo de Salomão, Deus dá a Israel uma promessa com condições: humilhar-se, orar, buscar a sua face, converter-se dos seus maus caminhos, \"então eu ouvirei dos céus, e perdoarei o seu pecado, e sararei a sua terra.\" Essa aproximação exigia um ritual elaborado que uma nação pecadora nunca conseguia sustentar totalmente por si mesma. Hebreus descreve o que torna possível agora, permanentemente, o mesmo tipo de aproximação a Deus: \"Cheguemos, pois, com confiança ao trono da graça, para que possamos alcançar misericórdia e achar graça, a fim de sermos socorridos em tempo oportuno\" — a mesma busca que Deus antes exigia por meio de cerimônia, agora aberta a qualquer momento por causa de quem está naquele trono."
+        },
+        "187": {
+          "theme": "Um Coração Preparado para Buscá-la",
+          "connection": "Esdras retorna do exílio com um foco singular: \"Esdras tinha preparado o seu coração para buscar a lei do Senhor, e para a cumprir, e para ensinar em Israel os seus estatutos e os seus juízos.\" Ele não apenas estudou as Escrituras por curiosidade — ordenou sua vida para primeiro obedecê-las, depois ensiná-las. Paulo dá a Timóteo quase a mesma instrução séculos depois: \"Procura apresentar-te a Deus aprovado... que maneja bem a palavra da verdade.\" Ambos os homens entenderam que manusear as Escrituras com descuido causa dano real; ambos miravam o mesmo alvo — uma vida moldada pelo texto, não apenas familiarizada com ele."
+        },
+        "188": {
+          "theme": "Um Deus Pronto a Perdoar",
+          "connection": "Neemias 9 é o próprio relato longo e honesto de Israel sobre sua história — uma rebelião após outra, e depois de cada uma, o mesmo refrão: Deus permaneceu fiel de qualquer forma. \"Recusaram ouvir... endureceram a sua cerviz... porém tu, na tua muita misericórdia, os não desamparaste... porque tu és Deus disposto a perdoar, misericordioso, compassivo, tardio em irar-te.\" É uma das declarações mais claras da Escritura de que a paciência de Deus não é um recurso relutante — é o seu caráter mesmo. Paulo depois faz uma pergunta direta sobre quem toma essa paciência por garantida: \"ou desprezas as riquezas da sua benignidade... ignorando que a benignidade de Deus te leva ao arrependimento?\" Ambos os textos chegam à mesma verdade: a paciência de Deus nunca foi prova de que ele não se importa com o pecado — sempre esteve destinada a levar a algum lugar."
+        },
+        "189": {
+          "theme": "Pendurado em Sua Própria Forca",
+          "connection": "Hamã constrói uma forca de cinquenta côvados especificamente para executar Mardoqueu, e ao final do capítulo, \"penduraram a Hamã na forca que tinha preparado para Mardoqueu.\" É uma das imagens mais vívidas da Escritura de um princípio geral que Paulo declara depois com clareza: \"Não erreis: Deus não se deixa escarnecer; porque tudo o que o homem semear, isso também ceifará.\" Ester nunca menciona Deus pelo nome em todo o livro, e ainda assim este capítulo mostra a sua justiça agindo mesmo assim, silenciosamente, por meio de acontecimentos comuns — prova de que a sua ordem moral não precisa ser anunciada para continuar plenamente em vigor."
+        },
+        "190": {
+          "theme": "A Plenitude dos Tempos",
+          "connection": "Eclesiastes, escrito por um homem que experimentou tudo debaixo do sol e não achou nada que durasse, observa algo verdadeiro sobre como Deus age: \"tudo fez formoso em seu tempo... o homem não pode descobrir a obra que Deus fez desde o princípio até ao fim.\" A história não segue os horários humanos, e ninguém vivo poderia jamais ver todo o plano enquanto ele ainda se desenrolava. Paulo nomeia depois o momento exato em que esse plano chegou ao seu ponto: \"vindo, porém, a plenitude dos tempos, Deus enviou o seu Filho.\" O Natal não foi uma interrupção da história — foi o compromisso mais cuidadosamente programado da história, chegando num calendário que ninguém além de Deus poderia prever."
+        },
+        "191": {
+          "theme": "Sem Mancha",
+          "connection": "Cântico dos Cânticos retrata um esposo olhando para a sua esposa e não encontrando nada a repreender-lhe: \"tu és toda formosa, amiga minha, e em ti não há mancha alguma.\" Lido como poesia sobre um casamento, é belo; lido como uma imagem de Cristo e da sua igreja, torna-se algo mais — Paulo descreve exatamente o que Cristo está fazendo pelas pessoas que ama: apresentar a igreja \"a si mesmo... gloriosa, sem mácula, nem ruga, nem coisa semelhante, mas santa e irrepreensível.\" O veredito do esposo no cântico de Salomão não é um desejo vão — Efésios diz que Cristo está de fato trabalhando para torná-lo literalmente verdadeiro."
+        },
+        "192": {
+          "theme": "A Voz no Deserto, Chegando",
+          "connection": "Marcos abre o seu evangelho recuando diretamente até a profecia secular de Isaías, \"voz do que clama no deserto: Preparai o caminho do Senhor\", e apontando para o homem parado diante dele: João Batista. Depois, no próprio batismo de Jesus, \"viu os céus se abrirem e o Espírito, como pomba, descer sobre ele. E ouviu-se uma voz dos céus que dizia: Tu és o meu Filho amado.\" Marcos não começa o seu evangelho com genealogia ou narrativa de nascimento — o seu primeiríssimo capítulo anuncia, por meio de profecia cumprida e do próprio céu falando, exatamente quem é este antes que um único milagre aconteça."
+        },
+        "193": {
+          "theme": "Pão Melhor do que o de Seus Pais",
+          "connection": "A geração que comeu maná no deserto ainda assim acabou morrendo — aquele pão mantinha os corpos vivos um dia de cada vez e tinha que ser recolhido de novo a cada manhã. Jesus invoca deliberadamente essa história para explicar quem ele é: \"eu sou o pão da vida; aquele que vem a mim não terá fome, e quem crê em mim nunca terá sede.\" O maná respondia a uma necessidade física um dia de cada vez; Jesus oferece algo que o maná só podia ilustrar — um sustento que nunca precisa ser repetido porque alcança até a vida eterna."
+        },
+        "194": {
+          "theme": "Abençoados com o Crente Abraão",
+          "connection": "Séculos antes de a lei existir, Abraão simplesmente tomou a palavra de Deus — \"creu ele no Senhor, e imputou-lhe isto para justiça\" — e se tornou o modelo de como qualquer pessoa, sempre, se acerta com Deus. Paulo recua até esse momento exato para resolver um debate nas igrejas da Galácia: \"a Escritura, prevendo que Deus havia de justificar pela fé os gentios, anunciou primeiro o evangelho a Abraão... os que são da fé são abençoados com o crente Abraão.\" A salvação pela fé não foi uma invenção do Novo Testamento acrescentada sobre a lei — na verdade é o arranjo mais antigo, e a lei que veio depois nunca a mudou."
+        },
+        "195": {
+          "theme": "Poderão Estes Ossos Viver?",
+          "connection": "Ezequiel é mostrado um vale de ossos secos e espalhados e ordenado a profetizar sobre eles — uma imagem de uma nação tão espiritualmente morta que a própria esperança parecia absurda: \"porei espírito em vós, e vivereis.\" Paulo descreve exatamente a mesma transformação acontecendo em crentes individuais, em termos quase idênticos: mortos em pecado, então \"pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus.\" O que Ezequiel viu como uma ressurreição nacional, Efésios descreve como o testemunho cristão comum — espiritualmente tão mortos quanto ossos secos, até que Deus faz o que só Deus pode fazer."
+        },
+        "196": {
+          "theme": "Todo Joelho Se Dobrará",
+          "connection": "Deus declara por meio de Isaías, numa linguagem que não deixa espaço para rival algum, \"diante de mim se dobrará todo o joelho, e por mim jurará toda a língua\" — palavras ditas sobre o Senhor somente, o único Deus verdadeiro que não compartilha a sua glória com ninguém. Paulo toma essas palavras exatas e as aplica, sem desculpas, a Jesus: depois de esvaziar-se a si mesmo e se tornar \"obediente até à morte, e morte de cruz\", Deus o exaltou de tal maneira \"para que ao nome de Jesus se dobre todo joelho... e toda língua confesse que Jesus Cristo é o Senhor.\" Paulo não está sendo poético — ele está identificando Jesus como o próprio Senhor que Isaías descrevia, digno de uma adoração que Isaías diz pertencer só a Deus."
+        },
+        "197": {
+          "theme": "Por Ele Foram Criadas Todas as Coisas",
+          "connection": "Paulo abre a sua descrição da supremacia de Cristo com afirmações grandes demais para um mero mestre ou profeta: \"a imagem do Deus invisível, o primogênito de toda a criação; porque nele foram criadas todas as coisas... e ele é antes de todas as coisas, e todas as coisas subsistem por ele.\" É o mesmo território que Provérbios reivindica para a Sabedoria, presente com Deus \"desde a eternidade fui constituída... antes de haver profundezas.\" — poesia que Colossenses revela que não era apenas poesia. Cada fio que o Antigo Testamento deixou solto sobre uma Sabedoria presente antes da criação e ativa dentro dela é amarrado aqui num único nome: Cristo, sustentando todas as coisas agora mesmo, não apenas no princípio."
+        },
+        "198": {
+          "theme": "Provado como o Ouro",
+          "connection": "Tiago diz aos crentes que sofrem para terem \"grande gozo\" quando vierem as provações, porque a fé provada produz paciência, e a paciência, maturidade — um ensino difícil que só faz sentido se a provação realmente realiza algo. Jó chega à mesma conclusão de dentro de um sofrimento real e imerecido, sem ainda conhecer o resultado: \"mas ele sabe o meu caminho: prove-me, e sairei como o ouro.\" Jó não podia ver o refinamento enquanto ainda estava no fogo; Tiago escreve a pessoas que podem olhar para trás, para toda a história de Jó, e saber de antemão o que Jó teve que confiar às cegas — que a provação nunca foi em vão."
+        },
+        "199": {
+          "theme": "Preordenado Antes da Fundação do Mundo",
+          "connection": "Todo cordeiro pascal na história de Israel tinha que atender a um requisito: \"sem mácula, macho de um ano.\" Pedro diz a crentes dispersos e sofredores o que realmente custou a sua redenção: \"pelo precioso sangue de Cristo, como de um cordeiro imaculado e incontaminado, o qual, na verdade, já de antes, desde a fundação do mundo, estava conhecido.\" A ligação não foi por acaso — Pedro recorre à própria linguagem de Êxodo para o cordeiro pascal e a aplica a um Cordeiro escolhido para esse papel antes de Moisés, antes do Egito, antes da própria criação."
+        },
+        "200": {
+          "theme": "Uma Árvore Fechada, Outra Árvore Aberta",
+          "connection": "Os capítulos iniciais da Bíblia descrevem um jardim com uma árvore cujo fruto traz a morte — \"no dia em que dela comeres, certamente morrerás\" — e a história que se segue é em grande parte a longa consequência de alcançá-lo mesmo assim. Os seus últimos capítulos descrevem uma cidade com uma árvore diferente, livremente acessível dos dois lados de um rio que sai do próprio trono de Deus, cujas \"folhas... eram para a cura das nações.\" Entre uma árvore que teve que ser proibida e outra aberta para sempre está tudo o que este plano de leitura tem apontado — Cristo, que se chama a si mesmo, neste mesmo capítulo, \"o Alfa e o Ômega, o princípio e o fim, o primeiro e o derradeiro.\" Gênesis abriu uma ferida que só ele podia fechar; Apocalipse a mostra fechada, para sempre."
+        }
+      }
+    },
+    "qualitySection": "Coração de Barnabé: qualidades semelhantes às de Cristo",
+    "qualitySectionIntro": "Planos curtos de 5 dias sobre as qualidades que formaram Barnabé. Escolha qualquer um, a qualquer momento.",
+    "studySection": "Estudos por Tema",
+    "studySectionIntro": "Há dois tipos de estudo aqui. Saúde e cura, longevidade, oração, jejum, fé e justiça foram construídos pesquisando cada ocorrência das palavras-chave de cada tema no texto KJV incluído no aplicativo, mantendo depois cada passagem de ensino distinta — tão completas quanto uma busca cuidadosa em todo o livro permite (fé, justiça e oração foram selecionadas pela amplitude, já que uma lista literal de cada ocorrência chegaria às centenas). O restante — propósito, salvação, identidade, casamento, trabalho, sabedoria e as demais estações e perguntas da vida — não tem uma única palavra para pesquisar, então são um recorte substancial e deliberado, não uma pretensão de completude. De qualquer forma, o objetivo é o mesmo que 2 Timóteo 3:16-17 dá à Escritura: doutrina, repreensão, correção e instrução em justiça.",
+    "lifeSection": "Para o que você está enfrentando",
+    "lifeSectionIntro": "Planos curtos de 5 dias para as temporadas que a vida traz. Volte a qualquer um deles sempre que precisar.",
+    "allPlans": "Todos os planos",
+    "dayLabel": "Dia {{day}}",
+    "dayCount": "{{count}} dias",
+    "progressLine": "{{done}} de {{total}} lidos",
+    "markRead": "Marcar como lido",
+    "markUnread": "Marcar como não lido",
+    "dangerSectionLabel": "O Perigo",
+    "remedySectionLabel": "O Remédio",
+    "meditationPrompt": {
+      "question": "Você entendeu o que leu? Gostaria de discutir isso com Barnabás?",
+      "discussButton": "Conversar com Barnabás",
+      "dismissButton": "Agora não"
+    },
+    "topics": {
+      "encouragement": {
+        "title": "Encorajamento",
+        "description": "A qualidade que deu nome a Barnabé — veja como as Escrituras nos chamam a edificar uns aos outros."
+      },
+      "love": {
+        "title": "Amor",
+        "description": "O amor que nunca desiste, no centro de tudo o que Barnabé viveu."
+      },
+      "peace": {
+        "title": "Paz",
+        "description": "A paz que só Deus pode dar, firme não importa o que esteja acontecendo ao seu redor."
+      },
+      "forgiveness": {
+        "title": "Perdão",
+        "description": "Soltar da mesma forma que você foi solto: livremente, e quantas vezes for preciso."
+      },
+      "hope": {
+        "title": "Esperança",
+        "description": "Uma esperança que se sustenta, porque está ancorada em quem Deus é, não em como as coisas parecem agora."
+      },
+      "humility": {
+        "title": "Humildade",
+        "description": "Colocar os outros em primeiro lugar: a força silenciosa que abriu espaço para pessoas como Paulo e Marcos crescerem."
+      },
+      "generosity": {
+        "title": "Generosidade",
+        "description": "Barnabé vendeu um campo por causa dos outros — cinco dias sobre o tipo de generosidade que custa algo e devolve muito mais."
+      },
+      "faithfulness": {
+        "title": "Fidelidade",
+        "description": "Aparecer, manter o rumo, e confiar em um Deus cuja fidelidade nunca se esgota."
+      },
+      "joy": {
+        "title": "Alegria",
+        "description": "Uma alegria que não depende das circunstâncias — do tipo que sobrevive a uma temporada difícil."
+      },
+      "courage": {
+        "title": "Coragem",
+        "description": "Ser forte e destemido, porque Alguém mais forte já está com você."
+      },
+      "anxiety": {
+        "title": "Ansiedade e preocupação",
+        "description": "Para os dias em que sua mente não se acalma — cinco passagens para levar sua preocupação ao único lugar a que ela pertence."
+      },
+      "grief": {
+        "title": "Luto e perda",
+        "description": "Para quando dói e você não sabe o que fazer com isso — consolo para os que choram."
+      },
+      "waiting": {
+        "title": "Espera",
+        "description": "Para temporadas que parecem paradas — sobre confiar no tempo de Deus quando o seu já se esgotou."
+      },
+      "doubt": {
+        "title": "Dúvida",
+        "description": "Para os momentos em que a fé parece instável — tudo bem perguntar, e tudo bem continuar acreditando."
+      },
+      "weariness": {
+        "title": "Cansaço e esgotamento",
+        "description": "Para quando você não tem mais nada a dar — sobre o descanso e a força que só Deus pode restaurar."
+      },
+      "healing": {
+        "title": "Saúde e Cura",
+        "description": "O que a Escritura diz sobre o Deus que cura — o corpo, e as feridas por baixo do corpo."
+      },
+      "longLife": {
+        "title": "Vida Longa",
+        "description": "O tipo de vida que Deus promete a quem anda em seus caminhos — extensão de dias, e o que realmente os preenche."
+      },
+      "prayer": {
+        "title": "Oração",
+        "description": "Como orar, por que orar, e a promessa de que Deus realmente escuta."
+      },
+      "fasting": {
+        "title": "Jejum",
+        "description": "Deixar a comida de lado para buscar mais a Deus — por que homens e mulheres da Escritura jejuaram, e o que Jesus esperava disso."
+      },
+      "faith": {
+        "title": "Fé",
+        "description": "O que a fé realmente é, de onde vem, e o que ela torna possível."
+      },
+      "righteousness": {
+        "title": "Justiça",
+        "description": "Boa posição diante de Deus — não conquistada com mais esforço, mas dada, e depois vivida."
+      },
+      "purposeOfLife": {
+        "title": "Propósito e Sentido da Vida",
+        "description": "Por que você está aqui — feito por Deus, para Deus, e para algo que ultrapassa você."
+      },
+      "salvation": {
+        "title": "Salvação",
+        "description": "O que significa ser salvo, e como — pela graça, mediante a fé, não por você mesmo."
+      },
+      "lifeAfterDeath": {
+        "title": "A Morte e o Que Vem Depois",
+        "description": "A morte é o fim? O que a Escritura diz que acontece depois, e por que isso muda como você vive agora."
+      },
+      "whenBadThingsHappen": {
+        "title": "Quando Coisas Ruins Acontecem",
+        "description": "Se Deus é bom, por que a vida dói? Respostas honestas, não fáceis."
+      },
+      "assurance": {
+        "title": "Deus Está com Você",
+        "description": "Para os momentos de insegurança, sem esperança, ou quando você só precisa saber que Ele está perto e se importa."
+      },
+      "everySeason": {
+        "title": "Um Tempo para Tudo",
+        "description": "Altos e baixos, celebrar e chorar — cada estação tem seu lugar, e Deus está em todas elas."
+      },
+      "wisdom": {
+        "title": "Sabedoria, Entendimento e Conhecimento",
+        "description": "De onde vem a verdadeira sabedoria, e como pedi-la."
+      },
+      "walkingWithGod": {
+        "title": "Crescendo na Sua Caminhada com Deus",
+        "description": "Permanecer, amadurecer, agradá-Lo — como é crescer, não apenas crer."
+      },
+      "repentance": {
+        "title": "Arrependimento",
+        "description": "Para os erros que você quer corrigir — voltar atrás, e ser recebido com misericórdia, não condenação."
+      },
+      "identity": {
+        "title": "Identidade e Autoestima",
+        "description": "Para quando você duvida de si mesmo — quem Deus diz que você é, e do que Ele diz que você é capaz."
+      },
+      "marriageAndSingleness": {
+        "title": "Casamento e Solteirice",
+        "description": "Para quem quer se casar e quem já é casado — o desígnio de Deus para ambas as estações."
+      },
+      "lovingOthers": {
+        "title": "Amar e Se Relacionar com os Outros",
+        "description": "Como realmente se dar bem com as pessoas — os muitos mandamentos de 'uns aos outros' da Escritura."
+      },
+      "betrayal": {
+        "title": "Traição",
+        "description": "Para quando alguém próximo te machucou — a Escritura é honesta sobre a traição, e sobre a resposta de Deus a ela."
+      },
+      "brokennessAndStrength": {
+        "title": "Quebrantado, Mas Forte",
+        "description": "Para os momentos em que você se sente quebrado e os momentos em que se sente forte — a força de Deus atende a ambos."
+      },
+      "fearNot": {
+        "title": "Não Temas",
+        "description": "Para os momentos de medo — a ordem repetida e específica de Deus para não temer, e por que você pode confiar nela."
+      },
+      "depression": {
+        "title": "Depressão e Desespero",
+        "description": "Para os dias mais escuros — até Davi e Elias passaram por isso, e Deus os encontrou ali."
+      },
+      "healingFromThePast": {
+        "title": "Cura de um Passado Quebrado",
+        "description": "Para quando coisas terríveis moldaram como você vê a vida e as pessoas — Deus restaura o que foi tirado."
+      },
+      "changeAndTransition": {
+        "title": "Mudança e Transição",
+        "description": "Quando as coisas se unem e quando desmoronam — Deus é firme em ambos os momentos."
+      },
+      "newBeginnings": {
+        "title": "Restauração e Novos Começos",
+        "description": "Para recomeçar — depois de um fracasso, uma perda, ou de ter desistido, Deus é especialista em novos começos."
+      },
+      "perseverance": {
+        "title": "Perseverança — Não Desista",
+        "description": "Para quando você trabalhou duro sem nada para mostrar, e só precisa aguentar um pouco mais."
+      },
+      "diligence": {
+        "title": "Preguiça e Diligência",
+        "description": "O que a Escritura adverte que a preguiça custa, e a recompensa que promete a quem se apresenta e trabalha de coração."
+      },
+      "workAndPlanning": {
+        "title": "Sabedoria para o Trabalho e os Planos",
+        "description": "Para negócios, estudos e projetos — a estratégia da Escritura para planejar e trabalhar bem."
+      },
+      "blessingAndRiches": {
+        "title": "Bênção, Riquezas e Verdadeiro Sucesso",
+        "description": "A generosidade de Deus, o desejo de ser rico, e a diferença entre riquezas terrenas e ser rico para com Deus."
+      },
+      "anger": {
+        "title": "Ira",
+        "description": "O que a Escritura adverte que a ira pode fazer sem controle, e o remédio de Deus para ela."
+      },
+      "hatred": {
+        "title": "Ódio",
+        "description": "O perigo de odiar outra pessoa, e o caminho mais difícil e melhor ao qual a Escritura nos chama em vez disso."
+      },
+      "sexualPurity": {
+        "title": "Pureza Sexual",
+        "description": "O que a Escritura adverte sobre o pecado sexual, e o remédio — a via de escape, e uma consciência limpa."
+      }
+    }
+  }
+}
