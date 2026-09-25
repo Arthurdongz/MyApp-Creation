@@ -58,6 +58,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.barnabasjournal.app",
+      "buildNumber": "3",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
