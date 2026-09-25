@@ -14,13 +14,14 @@
 // says so plainly in the app. Every one of the 66 books has had at least
 // one passage since day 59 (days 37-59 were a breadth pass built to close
 // that gap); days 60 onward are the much longer chapter-level push, one new
-// (mostly whole) chapter per day. As of day 176, 136 of the Bible's 1,189
+// (mostly whole) chapter per day. As of day 200, 157 of the Bible's 1,189
 // chapters are read in full somewhere in this plan — real progress, but
-// still well under an eighth; more days get added over time until they all
+// still well under a sixth; more days get added over time until they all
 // are. Days 153-176 gave Matthew, Luke, Acts, Romans, and Revelation their
-// first whole-chapter entries in this plan (Matthew 5, Luke 24, Acts 2,
-// Romans 5, Revelation 5) — Mark, John, and most of the shorter epistles
-// still have only verse-level passages, not a whole chapter yet.
+// first whole-chapter entries; days 177-200 added Mark, John, Galatians,
+// Ephesians, Philippians, Colossians, James, and 1 Peter — most of the
+// shorter epistles (2 Corinthians, 1 & 2 Thessalonians, 1 Timothy) still
+// have only verse-level passages, not a whole chapter yet.
 //
 // Above chapter coverage, the plan's real commitment is the one stated in
 // the description: every day should point a reader to Christ before and
@@ -1317,6 +1318,174 @@ export const CROSS_REFERENCE_PLAN = [
     passages: [
       { ref: "Acts 2", book: "Acts", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Joel 2:28-32", book: "Joel", chapter: 2, verseStart: 28, verseEnd: 32 },
+    ],
+  },
+  {
+    day: 177,
+    passages: [
+      { ref: "Exodus 25", book: "Exodus", chapter: 25, verseStart: null, verseEnd: null },
+      { ref: "Romans 3:25", book: "Romans", chapter: 3, verseStart: 25, verseEnd: 25 },
+    ],
+  },
+  {
+    day: 178,
+    passages: [
+      { ref: "Exodus 32", book: "Exodus", chapter: 32, verseStart: null, verseEnd: null },
+      { ref: "Romans 9:3", book: "Romans", chapter: 9, verseStart: 3, verseEnd: 3 },
+    ],
+  },
+  {
+    day: 179,
+    passages: [
+      { ref: "Numbers 21", book: "Numbers", chapter: 21, verseStart: null, verseEnd: null },
+      { ref: "2 Corinthians 5:21", book: "2 Corinthians", chapter: 5, verseStart: 21, verseEnd: 21 },
+    ],
+  },
+  {
+    day: 180,
+    passages: [
+      { ref: "Deuteronomy 21", book: "Deuteronomy", chapter: 21, verseStart: null, verseEnd: null },
+      { ref: "Galatians 3:13", book: "Galatians", chapter: 3, verseStart: 13, verseEnd: 13 },
+    ],
+  },
+  {
+    day: 181,
+    passages: [
+      { ref: "Joshua 3", book: "Joshua", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 4:8-9", book: "Hebrews", chapter: 4, verseStart: 8, verseEnd: 9 },
+    ],
+  },
+  {
+    day: 182,
+    passages: [
+      { ref: "1 Kings 19", book: "1 Kings", chapter: 19, verseStart: null, verseEnd: null },
+      { ref: "Romans 11:2-5", book: "Romans", chapter: 11, verseStart: 2, verseEnd: 5 },
+    ],
+  },
+  {
+    day: 183,
+    passages: [
+      { ref: "1 Kings 17", book: "1 Kings", chapter: 17, verseStart: null, verseEnd: null },
+      { ref: "Luke 4:25-26", book: "Luke", chapter: 4, verseStart: 25, verseEnd: 26 },
+    ],
+  },
+  {
+    day: 184,
+    passages: [
+      { ref: "2 Kings 4", book: "2 Kings", chapter: 4, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 11:35", book: "Hebrews", chapter: 11, verseStart: 35, verseEnd: 35 },
+    ],
+  },
+  {
+    day: 185,
+    passages: [
+      { ref: "1 Chronicles 22", book: "1 Chronicles", chapter: 22, verseStart: null, verseEnd: null },
+      { ref: "1 Corinthians 3:11", book: "1 Corinthians", chapter: 3, verseStart: 11, verseEnd: 11 },
+    ],
+  },
+  {
+    day: 186,
+    passages: [
+      { ref: "2 Chronicles 7", book: "2 Chronicles", chapter: 7, verseStart: null, verseEnd: null },
+      { ref: "Hebrews 4:16", book: "Hebrews", chapter: 4, verseStart: 16, verseEnd: 16 },
+    ],
+  },
+  {
+    day: 187,
+    passages: [
+      { ref: "Ezra 7", book: "Ezra", chapter: 7, verseStart: null, verseEnd: null },
+      { ref: "2 Timothy 2:15", book: "2 Timothy", chapter: 2, verseStart: 15, verseEnd: 15 },
+    ],
+  },
+  {
+    day: 188,
+    passages: [
+      { ref: "Nehemiah 9", book: "Nehemiah", chapter: 9, verseStart: null, verseEnd: null },
+      { ref: "Romans 2:4", book: "Romans", chapter: 2, verseStart: 4, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 189,
+    passages: [
+      { ref: "Esther 7", book: "Esther", chapter: 7, verseStart: null, verseEnd: null },
+      { ref: "Galatians 6:7", book: "Galatians", chapter: 6, verseStart: 7, verseEnd: 7 },
+    ],
+  },
+  {
+    day: 190,
+    passages: [
+      { ref: "Ecclesiastes 3", book: "Ecclesiastes", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Galatians 4:4", book: "Galatians", chapter: 4, verseStart: 4, verseEnd: 4 },
+    ],
+  },
+  {
+    day: 191,
+    passages: [
+      { ref: "Song of Solomon 4", book: "Song of Solomon", chapter: 4, verseStart: null, verseEnd: null },
+      { ref: "Ephesians 5:27", book: "Ephesians", chapter: 5, verseStart: 27, verseEnd: 27 },
+    ],
+  },
+  {
+    day: 192,
+    passages: [
+      { ref: "Mark 1", book: "Mark", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Isaiah 40:3", book: "Isaiah", chapter: 40, verseStart: 3, verseEnd: 3 },
+    ],
+  },
+  {
+    day: 193,
+    passages: [
+      { ref: "John 6", book: "John", chapter: 6, verseStart: null, verseEnd: null },
+      { ref: "Exodus 16:15", book: "Exodus", chapter: 16, verseStart: 15, verseEnd: 15 },
+    ],
+  },
+  {
+    day: 194,
+    passages: [
+      { ref: "Galatians 3", book: "Galatians", chapter: 3, verseStart: null, verseEnd: null },
+      { ref: "Genesis 15:6", book: "Genesis", chapter: 15, verseStart: 6, verseEnd: 6 },
+    ],
+  },
+  {
+    day: 195,
+    passages: [
+      { ref: "Ephesians 2", book: "Ephesians", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Ezekiel 37:1-14", book: "Ezekiel", chapter: 37, verseStart: 1, verseEnd: 14 },
+    ],
+  },
+  {
+    day: 196,
+    passages: [
+      { ref: "Philippians 2", book: "Philippians", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Isaiah 45:23", book: "Isaiah", chapter: 45, verseStart: 23, verseEnd: 23 },
+    ],
+  },
+  {
+    day: 197,
+    passages: [
+      { ref: "Colossians 1", book: "Colossians", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Proverbs 8:22-23", book: "Proverbs", chapter: 8, verseStart: 22, verseEnd: 23 },
+    ],
+  },
+  {
+    day: 198,
+    passages: [
+      { ref: "James 1", book: "James", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Job 23:10", book: "Job", chapter: 23, verseStart: 10, verseEnd: 10 },
+    ],
+  },
+  {
+    day: 199,
+    passages: [
+      { ref: "1 Peter 1", book: "1 Peter", chapter: 1, verseStart: null, verseEnd: null },
+      { ref: "Exodus 12:5", book: "Exodus", chapter: 12, verseStart: 5, verseEnd: 5 },
+    ],
+  },
+  {
+    day: 200,
+    passages: [
+      { ref: "Genesis 2", book: "Genesis", chapter: 2, verseStart: null, verseEnd: null },
+      { ref: "Revelation 22", book: "Revelation", chapter: 22, verseStart: null, verseEnd: null },
     ],
   },
 ];
