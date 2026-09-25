@@ -353,7 +353,6 @@ function AppContent({ store }) {
               store={store}
               scrollViewRef={scrollViewRef}
               onOpenReflection={setReflectionEditorDay}
-              onOpenStory={() => setTab("story")}
             />
           )}
           {tab === "story" && <StoryScreen store={store} />}

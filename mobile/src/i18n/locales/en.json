@@ -153,8 +153,6 @@
       "milestoneStars_other": "🎉 {{count}} stars until your next milestone!",
       "rewardHint": "Complete today's moment to earn {{stars}} ⭐",
       "celebrateMsg": "🎉 Someone's day may be a little different because you showed up. +{{stars}} ⭐ and a {{streak}}-day streak going.",
-      "inspiredByLabel": "Inspired by today's story:",
-      "readStoryLink": "Read their story →",
       "tally": "💛 You've been there for someone {{times}} so far.",
       "sectionTitle": "Your Barnabas Moment",
       "summaryLabel": "Today's Barnabas moment, done — tap to view",

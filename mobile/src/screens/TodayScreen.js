@@ -16,7 +16,6 @@ import {
   loadEncouragements,
   loadMoments,
   loadQuotes,
-  loadStories,
   loadHighlights,
   loadJournalPrompts,
 } from "../data/byLang";
@@ -33,7 +32,7 @@ function truncateForPreview(text, maxLen = 90) {
   return trimmed.length > maxLen ? `${trimmed.slice(0, maxLen).trimEnd()}…` : trimmed;
 }
 
-export default function TodayScreen({ store, scrollViewRef, onOpenReflection, onOpenStory }) {
+export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
@@ -41,7 +40,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
   const encouragementsBank = loadEncouragements(i18n.language);
   const momentsBank = loadMoments(i18n.language);
   const quotesBank = loadQuotes(i18n.language);
-  const storiesBank = loadStories(i18n.language);
   const highlightsBank = loadHighlights(i18n.language);
   const journalPromptsBank = loadJournalPrompts(i18n.language);
 
@@ -99,10 +97,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     [momentsBank, viewingDay, order]
   );
   const moment = today.customMoment || suggestedMoment;
-  const story = useMemo(
-    () => pickForDaySmallBank(storiesBank, viewingDay, order),
-    [storiesBank, viewingDay, order]
-  );
   const fact = useMemo(
     () => pickForDay(highlightsBank, viewingDay, order),
     [highlightsBank, viewingDay, order]
@@ -219,12 +213,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
     if (today.wentFurtherDone) return;
     hapticSuccess();
     markWentFurtherDone();
-  };
-
-  const handleReadStory = () => {
-    hapticTap();
-    scrollViewRef?.current?.scrollTo({ y: 0, animated: false });
-    onOpenStory && onOpenStory();
   };
 
   const [reflection, setReflection] = useState(today.reflection || "");
@@ -676,20 +664,6 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection, on
             ) : null}
 
             <Text style={[styles.bodyText, { marginBottom: 14 }]}>{moment}</Text>
-
-            {!today.momentDone && story ? (
-              <TouchableOpacity
-                style={styles.storyTieInRow}
-                onPress={handleReadStory}
-                accessibilityRole="button"
-                accessibilityLabel={`${t("today.moment.inspiredByLabel")} ${story.title}`}
-              >
-                <Text style={styles.storyTieInText}>
-                  {t("today.moment.inspiredByLabel")} <Text style={styles.storyTieInTitle}>{story.title}</Text>
-                </Text>
-                <Text style={styles.storyTieInLink}>{t("today.moment.readStoryLink")}</Text>
-              </TouchableOpacity>
-            ) : null}
 
             {!today.momentDone ? (
               today.customMoment ? (
@@ -1426,23 +1400,6 @@ function getStyles(colors) {
     },
     streakChipRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     streakChipText: { fontSize: 12.5, fontWeight: "700", color: colors.sageDark },
-    storyTieInRow: {
-      flexDirection: "row",
-      flexWrap: "wrap",
-      alignItems: "center",
-      gap: 6,
-      marginBottom: 14,
-      paddingBottom: 14,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.border,
-    },
-    storyTieInText: { fontSize: 13, color: colors.textSoft, flexShrink: 1 },
-    storyTieInTitle: { fontWeight: "700", color: colors.text },
-    storyTieInLink: {
-      fontSize: 13,
-      fontWeight: "700",
-      color: colors.goldText,
-    },
     rewardHint: {
       fontSize: 12.5,
       fontWeight: "600",

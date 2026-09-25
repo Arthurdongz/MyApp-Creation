@@ -153,8 +153,6 @@
       "milestoneStars_other": "🎉 ¡Faltan {{count}} estrellas para tu próximo logro!",
       "rewardHint": "Completa el momento de hoy y gana {{stars}} ⭐",
       "celebrateMsg": "🎉 El día de alguien puede ser un poco diferente porque tú apareciste. +{{stars}} ⭐ y una racha de {{streak}} días.",
-      "inspiredByLabel": "Inspirado en la historia de hoy:",
-      "readStoryLink": "Lee su historia →",
       "tally": "💛 Ya has estado ahí para alguien {{times}}.",
       "sectionTitle": "Tu Momento Bernabé",
       "summaryLabel": "El momento Bernabé de hoy, hecho — toca para ver",

@@ -153,8 +153,6 @@
       "milestoneStars_other": "🎉 Encore {{count}} étoiles avant ton prochain palier !",
       "rewardHint": "Termine le moment d'aujourd'hui pour gagner {{stars}} ⭐",
       "celebrateMsg": "🎉 La journée de quelqu'un est peut-être un peu différente parce que tu t'es présenté. +{{stars}} ⭐ et une série de {{streak}} jours.",
-      "inspiredByLabel": "Inspiré par l'histoire du jour :",
-      "readStoryLink": "Lire son histoire →",
       "tally": "💛 Tu as été là pour quelqu'un {{times}} jusqu'ici.",
       "sectionTitle": "Ton Moment Barnabas",
       "summaryLabel": "Le moment Barnabas d'aujourd'hui, fait — touche pour voir",
