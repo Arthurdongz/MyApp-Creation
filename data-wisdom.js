@@ -311,7 +311,7 @@ const WISDOM = [
   {"type":"story","title":null,"text":"A young intern, just before a hard appointment: someone remembered a small detail about their life and asked about it. Years later, they still told the story."},
   {"type":"story","title":null,"text":"A shop owner, just before a hard appointment: someone let them go first in line with a warm smile. They passed the kindness on to someone else that same week."},
   {"type":"story","title":null,"text":"A struggling college student, at the end of a long line: a child waved and said hello, like it was the easiest thing in the world. They never forgot it."},
-  {"type":"quote","text":"You don't have to see the whole staircase, just take the first step.","source":"Attr. Martin Luther King Jr."},
+  {"type":"quote","text":"It's not what you look at that matters, it's what you see.","source":"Henry David Thoreau"},
   {"type":"story","title":null,"text":"A tired commuter, on the anniversary of a loss: someone remembered a small detail about their life and asked about it. They passed the kindness on to someone else that same week."},
   {"type":"story","title":null,"text":"A first-time volunteer, far from home for the holidays: a coworker covered their shift without being asked twice. They found themselves smiling the rest of the day."},
   {"type":"quote","text":"Every act of love and kindness leaves this world a little better than it found it.","source":"Unknown"},
@@ -366,6 +366,6 @@ const WISDOM = [
   {"type":"story","title":null,"text":"A widow spending her first holiday alone, in a crowded train station: someone remembered a small detail about their life and asked about it. They found themselves smiling the rest of the day."},
   {"type":"story","title":null,"text":"A young intern, in a waiting room: someone sat down beside them and just listened. That one moment carried them through a hard season."},
   {"type":"story","title":null,"text":"An elderly man, in a crowded train station: someone drove out of their way just to bring them home. Years later, they still told the story."},
-  {"type":"quote","text":"Kindness is a language which the deaf can hear and the blind can see.","source":"Mark Twain"},
+  {"type":"quote","text":"The greatest use of a life is to spend it on something that will outlast it.","source":"William James"},
   {"type":"quote","text":"A word of encouragement during a failure is worth more than an hour of praise after success.","source":"Unknown"},
 ];

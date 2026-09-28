@@ -84,13 +84,37 @@ export function pickForDay(arr, dayNumber, order) {
   return arr[safeIndex(rawIdx, arr.length)];
 }
 
-// For banks smaller than the full 366 (like the true-stories bank, which
-// grows over time), still route through the user's per-user shuffle order
-// so the sequence doesn't feel like a flat repeating loop, but wrap it down
-// to the bank's actual size.
+// For banks smaller than the full 366 (like true stories, wisdom quotes,
+// journal prompts, Barnabas principles, and welcome teasers, all of which
+// grow over time), still route through the user's per-user shuffle order so
+// the sequence doesn't feel like a flat repeating loop.
+//
+// This used to just take `order[(dayNumber - 1) % order.length] % arr.length`
+// — but since `order` is a full random shuffle of 0..365, that modulo lands
+// on essentially a random value in [0, arr.length) for every day, with no
+// guarantee of spacing between repeats of the same entry. Two occurrences of
+// the same item could land, by chance, just days apart (this is exactly what
+// happened with a wisdom quote repeating 4 calendar days later) even though
+// the item is only meant to resurface once every few months on average.
+//
+// Instead, derive one fixed permutation of the bank from the user's `order`
+// (ranking its first `arr.length` values) and cycle through that same
+// permutation every time it runs out, rather than reshuffling per cycle.
+// A reshuffle-per-cycle approach seems more "random," but provably can't
+// avoid an occasional short-distance repeat right at the seam between two
+// cycles (whichever item lands last in one cycle can land early in the
+// next); a fixed, repeating cycle is the only way to *guarantee* every
+// repeat is exactly `arr.length` days apart, never closer — the same
+// guarantee a full 366-entry bank gets for free from `pickForDay`.
+function argsort(values) {
+  return values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+}
+
 export function pickForDaySmallBank(arr, dayNumber, order) {
-  const rawIdx = order[(dayNumber - 1) % order.length];
-  return arr[safeIndex(rawIdx, arr.length)];
+  const size = arr.length;
+  if (size <= 0) return undefined;
+  const perm = argsort(order.slice(0, size));
+  return arr[perm[(dayNumber - 1) % size]];
 }
 
 // Which Bible translation to show for a given day: either a pinned favorite

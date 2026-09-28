@@ -154,7 +154,7 @@ export const HIGHLIGHTS = [
   // Small Acts, Big Impact
   "A held door, a returned smile, a \"you go ahead\" — small courtesies shape how safe and cared-for a place feels to strangers.",
   "The \"pay it forward\" effect is real: people who receive an unexpected kindness are more likely to pass one on themselves.",
-  "Buying someone's coffee anonymously has, in real experiments, triggered chains of kindness that outlast the original act by hours.",
+  "People consistently underestimate how much a short, friendly chat with a stranger — a cashier, a fellow commuter — will actually lift their own mood, studies find.",
   "A two-minute favor for a stranger has an outsized effect on how kind that stranger later says the world is.",
   "Complimenting a stranger's work out loud is rare enough that most people remember exactly who did it and when.",
   "The smallest acts — noticing someone's new haircut, remembering their order — often carry more weight than people expect while doing them.",
@@ -333,8 +333,8 @@ export const HIGHLIGHTS = [
   "Ordinary people, showing up in ordinary ways, are responsible for most of the encouragement that has ever mattered in anyone's life — you don't need a platform to give it.",
 
   // Carrying It Forward
-  "Kindness has been shown to spread through social networks well beyond the original giver and receiver — the person you help today may end up helping someone you'll never meet.",
-  "The \"ripple effect\" of kindness isn't just a metaphor — researchers have traced measurable chains of generosity spreading from a single starting act.",
+  "Adults who describe themselves as generous can often trace it back to one specific act of kindness shown to them as a child, decades before.",
+  "Family stories about a relative's generosity, retold at gatherings for generations, have been shown to shape how the descendants who never met them choose to live.",
   "A single encouraging teacher can shape not just a student's life, but the lives of everyone that student later goes on to teach or lead.",
   "Kindness shown to a parent under stress often reaches their children indirectly, through a calmer, less exhausted version of that parent.",
   "Encouragement given to one person in a family sometimes changes how that whole household treats each other for the rest of the week.",
