@@ -84,18 +84,19 @@ export function pickForDay(arr, dayNumber, order) {
   return arr[safeIndex(rawIdx, arr.length)];
 }
 
-// For banks smaller than the full 366 (like true stories, wisdom quotes,
-// journal prompts, Barnabas principles, and welcome teasers, all of which
-// grow over time), still route through the user's per-user shuffle order so
-// the sequence doesn't feel like a flat repeating loop.
+// For banks smaller than the full 366 (like true stories, journal prompts,
+// Barnabas principles, and welcome teasers, all of which grow over time),
+// still route through the user's per-user shuffle order so the sequence
+// doesn't feel like a flat repeating loop.
 //
 // This used to just take `order[(dayNumber - 1) % order.length] % arr.length`
 // — but since `order` is a full random shuffle of 0..365, that modulo lands
 // on essentially a random value in [0, arr.length) for every day, with no
 // guarantee of spacing between repeats of the same entry. Two occurrences of
 // the same item could land, by chance, just days apart (this is exactly what
-// happened with a wisdom quote repeating 4 calendar days later) even though
-// the item is only meant to resurface once every few months on average.
+// happened with the wisdom quotes bank repeating an entry 4 calendar days
+// later, back when it only had 91 entries — since expanded to a full 366,
+// like every other daily bank, and switched to pickForDay instead).
 //
 // Instead, derive one fixed permutation of the bank from the user's `order`
 // (ranking its first `arr.length` values) and cycle through that same

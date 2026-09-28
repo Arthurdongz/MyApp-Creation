@@ -89,7 +89,7 @@ export default function TodayScreen({ store, scrollViewRef, onOpenReflection }) 
     [encouragementsBank, viewingDay, order]
   );
   const quote = useMemo(
-    () => pickForDaySmallBank(quotesBank, viewingDay, order),
+    () => pickForDay(quotesBank, viewingDay, order),
     [quotesBank, viewingDay, order]
   );
   const suggestedMoment = useMemo(
