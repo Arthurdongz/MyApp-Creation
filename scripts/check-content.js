@@ -198,8 +198,8 @@ console.log("\n=== WISDOM ===");
 {
   const web = load("data-wisdom.js", "WISDOM");
   const mobile = load("mobile/src/data/wisdom.js", "WISDOM");
-  if (web.length !== 366) fail(`WISDOM (web): expected 366 entries, found ${web.length}`);
-  else ok(`WISDOM (web): ${web.length} entries`);
+  ok(`WISDOM (web): ${web.length} entries (no fixed count — cycles via pickForDaySmallBank)`);
+  if (!web.every((w) => w.type === "quote")) fail("WISDOM (web): contains a non-quote entry (dead vignette data should stay out of this bank)");
   checkObjectFieldDuplicates("WISDOM", web, "text");
   checkObjectFieldCollisions("WISDOM", web, ["text"]);
   checkMirrorIdentical("WISDOM", web, mobile);
