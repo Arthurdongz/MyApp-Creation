@@ -1,14 +1,16 @@
 // 366 scripture verses on hope, encouragement, comfort, joy, peace, and strength —
 // one for every day of the year, including a leap day, with no repeats.
 //
-// Each entry carries the same reference in eight public-domain translations:
-// King James Version (KJV, 1611/1769), World English Bible (WEB, modern
-// plain English), American Standard Version (ASV, 1901, a close formal
-// revision of the KJV), Young's Literal Translation (YLT, 1862/1898,
-// deliberately literal/quirky), Bible in Basic English (BBE, 1949, short
-// sentences and a restricted ~1000-word vocabulary), Reina-Valera Antigua
-// (RVA, 1909, Spanish), Almeida 1911 (ALM1911, Portuguese), and Louis
-// Segond 1910 (LSG, French). Picked over NLT/MSG/TPT/TLB, which are
+// Each entry carries the same reference in nine public-domain translations:
+// King James Version (KJV, 1611/1769), Berean Standard Bible (BSB, 2022,
+// modern English, explicitly dedicated to the public domain by Bible Hub),
+// World English Bible (WEB, modern plain English), American Standard
+// Version (ASV, 1901, a close formal revision of the KJV), Young's Literal
+// Translation (YLT, 1862/1898, deliberately literal/quirky), Bible in
+// Basic English (BBE, 1949, short sentences and a restricted ~1000-word
+// vocabulary), Reina-Valera Antigua (RVA, 1909, Spanish), Almeida 1911
+// (ALM1911, Portuguese), and Louis Segond 1910 (LSG, French). Picked over
+// NLT/MSG/TPT/TLB, which are
 // commercially copyrighted (Tyndale, NavPress, Broadstreet) and can't be
 // reproduced here without a license; RVA was picked over the still-
 // copyrighted 1960 Reina-Valera (RV60), ALM1911 over the copyrighted
@@ -21,9 +23,23 @@
 // bulk source and matched by reference programmatically (not typed or
 // recalled from memory) — see scripts/check-content.js's "all VERSES refs
 // resolve to real verses" check for KJV, and the fetch/verify pass
-// described below for the other seven. Sources: KJV from this project's
+// described below for the other eight. Sources: KJV from this project's
 // own bundled data-bible-kjv.js (github.com/aruljohn/Bible-kjv-derived,
-// see mobile/src/data/bible-kjv.json); ASV, YLT, and BBE from
+// see mobile/src/data/bible-kjv.json); BSB from
+// github.com/BSB-publishing/bsb-data-output (base/text-only/*.txt, CC0 1.0,
+// built from github.com/BSB-publishing/bsb2usfm) — see bible-data/BSB.json's
+// own generation for 16 chapters (Matthew 17/18/23, Mark 7/9/11/15, Luke
+// 17/23, John 5, Acts 8/15/24/28, Romans 16, Revelation 12) where that
+// source's per-chapter files either drop a verse found in the KJV's
+// underlying text entirely (the well-known set of verses absent from the
+// older manuscripts modern critical-text translations are based on — every
+// mainstream modern translation omits or footnotes these same verses) or,
+// for Revelation 12 alone, merge what KJV numbers as a separate verse 18
+// onto the end of verse 17's line; fixed with an inserted "[Not found in
+// the earliest manuscripts.]" placeholder (a split, not an insertion, for
+// Revelation 12) so every chapter's verse count still matches KJV's, since
+// this app indexes verse text positionally rather than storing a
+// verse-number field; ASV, YLT, and BBE from
 // github.com/scrollmapper/bible_databases (formats/json/{ASV,YLT,BBE}.json,
 // all explicitly public domain); RVA from the same repo's SpaRV.json
 // ("La Santa Biblia Reina-Valera (1909)"); WEB from
@@ -61,6 +77,7 @@
 
 const BIBLE_VERSIONS = [
   { id: "KJV", name: "King James Version" },
+  { id: "BSB", name: "Berean Standard Bible" },
   { id: "WEB", name: "World English Bible" },
   { id: "ASV", name: "American Standard Version" },
   { id: "YLT", name: "Young's Literal Translation" },
@@ -75,6 +92,7 @@ const VERSES = [
     ref: "Genesis 50:20",
     versions: {
       KJV: "But as for you, ye thought evil against me; but God meant it unto good, to bring to pass, as it is this day, to save much people alive.",
+      BSB: "As for you, what you intended against me for evil, God intended for good, in order to accomplish a day like this— to preserve the lives of many people.",
       WEB: "As for you, you meant evil against me, but God meant it for good, to save many people alive, as is happening today.",
       ASV: "And as for you, ye meant evil against me; but God meant it for good, to bring to pass, as it is this day, to save much people alive.",
       YLT: "As for you, ye devised against me evil--God devised it for good, in order to do as at this day, to keep alive a numerous people.",
@@ -88,6 +106,7 @@ const VERSES = [
     ref: "Exodus 14:14",
     versions: {
       KJV: "The LORD shall fight for you, and ye shall hold your peace.",
+      BSB: "The LORD will fight for you; you need only to be still.”",
       WEB: "Yahweh will fight for you, and you shall be still.”",
       ASV: "Jehovah will fight for you, and ye shall hold your peace.",
       YLT: "Jehovah doth fight for you, and ye keep silent.'",
@@ -101,6 +120,7 @@ const VERSES = [
     ref: "Exodus 15:2",
     versions: {
       KJV: "The LORD is my strength and song, and he is become my salvation: he is my God, and I will prepare him an habitation; my father's God, and I will exalt him.",
+      BSB: "The LORD is my strength and my song, and He has become my salvation. He is my God, and I will praise Him, my father’s God, and I will exalt Him.",
       WEB: "Yah is my strength and song. He has become my salvation. This is my God, and I will praise him; my father’s God, and I will exalt him.",
       ASV: "Jehovah is my strength and song, And he is become my salvation: This is my God, and I will praise him; My father’s God, and I will exalt him.",
       YLT: "My strength and song is JAH, And He is become my salvation: This is my God, and I glorify Him; God of my father, and I exalt Him.",
@@ -114,6 +134,7 @@ const VERSES = [
     ref: "Numbers 6:24-26",
     versions: {
       KJV: "The LORD bless thee, and keep thee: the LORD make his face shine upon thee, and be gracious unto thee: the LORD lift up his countenance upon thee, and give thee peace.",
+      BSB: "‘May the LORD bless you and keep you; may the LORD cause His face to shine upon you and be gracious to you; may the LORD lift up His countenance toward you and give you peace.’",
       WEB: "Yahweh bless you, and keep you. Yahweh make his face to shine on you, and be gracious to you. Yahweh lift up his face toward you, and give you peace.",
       ASV: "Jehovah bless thee, and keep thee: Jehovah make his face to shine upon thee, and be gracious unto thee: Jehovah lift up his countenance upon thee, and give thee peace.",
       YLT: "`Jehovah bless thee and keep thee; `Jehovah cause His face to shine upon thee, and favour thee; `Jehovah lift up His countenance upon thee, and appoint for thee--peace.",
@@ -127,6 +148,7 @@ const VERSES = [
     ref: "Deuteronomy 33:27",
     versions: {
       KJV: "The eternal God is thy refuge, and underneath are the everlasting arms: and he shall thrust out the enemy from before thee; and shall say, Destroy them.",
+      BSB: "The eternal God is your dwelling place, and underneath are the everlasting arms. He drives out the enemy before you, giving the command, ‘Destroy him!’",
       WEB: "The eternal God is your dwelling place. Underneath are the everlasting arms. He thrust out the enemy from before you, and said, ‘Destroy!’",
       ASV: "The eternal God is thy dwelling-place, And underneath are the everlasting arms. And he thrust out the enemy from before thee, And said, Destroy.",
       YLT: "A habitation is the eternal God, And beneath are arms age-during. And He casteth out from thy presence the enemy, and saith, `Destroy!'",
@@ -140,6 +162,7 @@ const VERSES = [
     ref: "Joshua 1:9",
     versions: {
       KJV: "Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.",
+      BSB: "Have I not commanded you to be strong and courageous? Do not be afraid; do not be discouraged, for the LORD your God is with you wherever you go.”",
       WEB: "Haven’t I commanded you? Be strong and courageous. Don’t be afraid. Don’t be dismayed, for Yahweh your God is with you wherever you go.”",
       ASV: "Have not I commanded thee? Be strong and of good courage; be not affrighted, neither be thou dismayed: for Jehovah thy God is with thee whithersoever thou goest.",
       YLT: "`Have not I commanded thee? be strong and courageous; be not terrified nor affrighted, for with thee is Jehovah thy God in every place whither thou goest.'",
@@ -153,6 +176,7 @@ const VERSES = [
     ref: "Joshua 24:15",
     versions: {
       KJV: "And if it seem evil unto you to serve the LORD, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the LORD.",
+      BSB: "But if it is unpleasing in your sight to serve the LORD, then choose for yourselves this day whom you will serve, whether the gods your fathers served beyond the Euphrates, or the gods of the Amorites in whose land you are living. As for me and my house, we will serve the LORD!”",
       WEB: "If it seems evil to you to serve Yahweh, choose today whom you will serve; whether the gods which your fathers served that were beyond the River, or the gods of the Amorites, in whose land you dwell; but as for me and my house, we will serve Yahweh.”",
       ASV: "And if it seem evil unto you to serve Jehovah, choose you this day whom ye will serve; whether the gods which your fathers served that were beyond the River, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve Jehovah.",
       YLT: "and if wrong in your eyes to serve Jehovah--choose for you to-day whom ye do serve; --whether the gods whom your fathers served, which are beyond the River, or the gods of the Amorite in whose land ye are dwelling; and I and my house--we serve Jehovah.'",
@@ -166,6 +190,7 @@ const VERSES = [
     ref: "Ruth 1:16",
     versions: {
       KJV: "And Ruth said, Intreat me not to leave thee, or to return from following after thee: for whither thou goest, I will go; and where thou lodgest, I will lodge: thy people shall be my people, and thy God my God.",
+      BSB: "But Ruth replied: “Do not urge me to leave you or to turn from following you. For wherever you go, I will go, and wherever you live, I will live; your people will be my people, and your God will be my God.",
       WEB: "Ruth said, “Don’t urge me to leave you, and to return from following you, for where you go, I will go; and where you stay, I will stay. Your people will be my people, and your God my God.",
       ASV: "And Ruth said, Entreat me not to leave thee, and to return from following after thee, for whither thou goest, I will go; and where thou lodgest, I will lodge; thy people shall be my people, and thy God my God.",
       YLT: "And Ruth saith, `Urge me not to leave thee--to turn back from after thee; for whither thou goest I go, and where thou lodgest I lodge; thy people is my people, and thy God my God.",
@@ -179,6 +204,7 @@ const VERSES = [
     ref: "1 Samuel 16:7",
     versions: {
       KJV: "But the LORD said unto Samuel, Look not on his countenance, or on the height of his stature; because I have refused him: for the LORD seeth not as man seeth; for man looketh on the outward appearance, but the LORD looketh on the heart.",
+      BSB: "But the LORD said to Samuel, “Do not consider his appearance or height, for I have rejected him; the LORD does not see as man does. For man sees the outward appearance, but the LORD sees the heart.”",
       WEB: "But Yahweh said to Samuel, “Don’t look on his face, or on the height of his stature, because I have rejected him; for I don’t see as man sees. For man looks at the outward appearance, but Yahweh looks at the heart.”",
       ASV: "But Jehovah said unto Samuel, Look not on his countenance, or on the height of his stature; because I have rejected him: for Jehovah seeth not as man seeth; for man looketh on the outward appearance, but Jehovah looketh on the heart.",
       YLT: "And Jehovah saith unto Samuel, `Look not unto his appearance, and unto the height of his stature, for I have rejected him; for it is not as man seeth--for man looketh at the eyes, and Jehovah looketh at the heart.'",
@@ -192,6 +218,7 @@ const VERSES = [
     ref: "Psalm 119:105",
     versions: {
       KJV: "Thy word is a lamp unto my feet, and a light unto my path.",
+      BSB: "Your word is a lamp to my feet and a light to my path.",
       WEB: "Your word is a lamp to my feet, and a light for my path.",
       ASV: "Thy word is a lamp unto my feet, And light unto my path.",
       YLT: "Nun. A lamp to my foot is Thy word, And a light to my path.",
@@ -205,6 +232,7 @@ const VERSES = [
     ref: "1 Kings 19:12",
     versions: {
       KJV: "And after the earthquake a fire; but the LORD was not in the fire: and after the fire a still small voice.",
+      BSB: "After the earthquake there was a fire, but the LORD was not in the fire. And after the fire came a still, small voice.",
       WEB: "After the earthquake a fire passed; but Yahweh was not in the fire. After the fire, there was a still small voice.",
       ASV: "and after the earthquake a fire; but Jehovah was not in the fire: and after the fire a still small voice.",
       YLT: "and after the shaking a fire: --not in the fire is Jehovah; and after the fire a voice still small.",
@@ -218,6 +246,7 @@ const VERSES = [
     ref: "Nehemiah 8:10",
     versions: {
       KJV: "Then he said unto them, Go your way, eat the fat, and drink the sweet, and send portions unto them for whom nothing is prepared: for this day is holy unto our Lord: neither be ye sorry; for the joy of the LORD is your strength.",
+      BSB: "Then Nehemiah told them, “Go and eat what is rich, drink what is sweet, and send out portions to those who have nothing prepared, since today is holy to our Lord. Do not grieve, for the joy of the LORD is your strength.”",
       WEB: "Then he said to them, “Go your way. Eat the fat, drink the sweet, and send portions to him for whom nothing is prepared, for today is holy to our Lord. Don’t be grieved, for the joy of Yahweh is your strength.”",
       ASV: "Then he said unto them, Go your way, eat the fat, and drink the sweet, and send portions unto him for whom nothing is prepared; for this day is holy unto our Lord: neither be ye grieved; for the joy of Jehovah is your strength.",
       YLT: "And he saith to them, `Go, eat fat things, and drink sweet things, and sent portions to him for whom nothing is prepared, for to-day is holy to our Lord, and be not grieved, for the joy of Jehovah is your strength.'",
@@ -231,6 +260,7 @@ const VERSES = [
     ref: "2 Chronicles 7:14",
     versions: {
       KJV: "If my people, which are called by my name, shall humble themselves, and pray, and seek my face, and turn from their wicked ways; then will I hear from heaven, and will forgive their sin, and will heal their land.",
+      BSB: "and if My people who are called by My name humble themselves and pray and seek My face and turn from their wicked ways, then I will hear from heaven, forgive their sin, and heal their land.",
       WEB: "if my people, who are called by my name, will humble themselves, pray, seek my face, and turn from their wicked ways; then I will hear from heaven, will forgive their sin, and will heal their land.",
       ASV: "if my people, who are called by my name, shall humble themselves, and pray, and seek my face, and turn from their wicked ways; then will I hear from heaven, and will forgive their sin, and will heal their land.",
       YLT: "and My people on whom My name is called be humbled, and pray, and seek My face, and turn back from their evil ways, then I--I hear from the heavens, and forgive their sin, and heal their land.",
@@ -244,6 +274,7 @@ const VERSES = [
     ref: "2 Chronicles 20:15",
     versions: {
       KJV: "And he said, Hearken ye, all Judah, and ye inhabitants of Jerusalem, and thou king Jehoshaphat, Thus saith the LORD unto you, Be not afraid nor dismayed by reason of this great multitude; for the battle is not yours, but God's.",
+      BSB: "And he said, “Listen, all you people of Judah and Jerusalem! Listen, King Jehoshaphat! This is what the LORD says: ‘Do not be afraid or discouraged because of this vast army, for the battle does not belong to you, but to God.",
       WEB: "and he said, “Listen, all Judah, and you inhabitants of Jerusalem, and you, king Jehoshaphat. Yahweh says to you, ‘Don’t be afraid, and don’t be dismayed because of this great multitude; for the battle is not yours, but God’s.",
       ASV: "and he said, Hearken ye, all Judah, and ye inhabitants of Jerusalem, and thou king Jehoshaphat: Thus saith Jehovah unto you, Fear not ye, neither be dismayed by reason of this great multitude; for the battle is not yours, but God’s.",
       YLT: "and he saith, `Attend, all Judah, and ye inhabitants of Jerusalem, and O king Jehoshaphat, Thus said Jehovah to you, Ye fear not, nor are afraid of the face of this great multitude, for not for you is the battle, but for God.",
@@ -257,6 +288,7 @@ const VERSES = [
     ref: "Esther 4:14",
     versions: {
       KJV: "For if thou altogether holdest thy peace at this time, then shall there enlargement and deliverance arise to the Jews from another place; but thou and thy father's house shall be destroyed: and who knoweth whether thou art come to the kingdom for such a time as this?",
+      BSB: "For if you remain silent at this time, relief and deliverance for the Jews will arise from another place, but you and your father’s house will perish. And who knows if perhaps you have come to the kingdom for such a time as this?”",
       WEB: "For if you remain silent now, then relief and deliverance will come to the Jews from another place, but you and your father’s house will perish. Who knows if you haven’t come to the kingdom for such a time as this?”",
       ASV: "For if thou altogether holdest thy peace at this time, then will relief and deliverance arise to the Jews from another place, but thou and thy father’s house will perish: and who knoweth whether thou art not come to the kingdom for such a time as this?",
       YLT: "but if thou keep entirely silent at this time, respite and deliverance remaineth to the Jews from another place, and thou and the house of thy fathers are destroyed; and who knoweth whether for a time like this thou hast come to the kingdom?'",
@@ -270,6 +302,7 @@ const VERSES = [
     ref: "Job 19:25",
     versions: {
       KJV: "For I know that my redeemer liveth, and that he shall stand at the latter day upon the earth.",
+      BSB: "But I know that my Redeemer lives, and in the end He will stand upon the earth.",
       WEB: "But as for me, I know that my Redeemer lives. In the end, he will stand upon the earth.",
       ASV: "But as for me I know that my Redeemer liveth, And at last he will stand up upon the earth.",
       YLT: "That--I have known my Redeemer, The Living and the Last, For the dust he doth rise.",
@@ -283,6 +316,7 @@ const VERSES = [
     ref: "Job 42:5",
     versions: {
       KJV: "I have heard of thee by the hearing of the ear: but now mine eye seeth thee.",
+      BSB: "My ears had heard of You, but now my eyes have seen You.",
       WEB: "I had heard of you by the hearing of the ear, but now my eye sees you.",
       ASV: "I had heard of thee by the hearing of the ear; But now mine eye seeth thee.",
       YLT: "By the hearing of the ear I heard Thee, And now mine eye hath seen Thee.",
@@ -296,6 +330,7 @@ const VERSES = [
     ref: "Job 13:15",
     versions: {
       KJV: "Though he slay me, yet will I trust in him: but I will maintain mine own ways before him.",
+      BSB: "Though He slay me, I will hope in Him. I will still defend my ways to His face.",
       WEB: "Behold, he will kill me. I have no hope. Nevertheless, I will maintain my ways before him.",
       ASV: "Behold, he will slay me; I have no hope: Nevertheless I will maintain my ways before him.",
       YLT: "Lo, He doth slay me--I wait not! Only, my ways unto His face I argue.",
@@ -309,6 +344,7 @@ const VERSES = [
     ref: "Psalm 23:1",
     versions: {
       KJV: "The LORD is my shepherd; I shall not want.",
+      BSB: "The LORD is my shepherd; I shall not want.",
       WEB: "Yahweh is my shepherd: I shall lack nothing.",
       ASV: "Jehovah is my shepherd; I shall not want.",
       YLT: "Jehovah is my shepherd, I do not lack.",
@@ -322,6 +358,7 @@ const VERSES = [
     ref: "Psalm 23:3",
     versions: {
       KJV: "He restoreth my soul: he leadeth me in the paths of righteousness for his name's sake.",
+      BSB: "He restores my soul; He guides me in the paths of righteousness for the sake of His name.",
       WEB: "He restores my soul. He guides me in the paths of righteousness for his name’s sake.",
       ASV: "He restoreth my soul: He guideth me in the paths of righteousness for his name’s sake.",
       YLT: "My soul He refresheth, He leadeth me in paths of righteousness, For His name's sake.",
@@ -335,6 +372,7 @@ const VERSES = [
     ref: "Psalm 23:4",
     versions: {
       KJV: "Yea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me; thy rod and thy staff they comfort me.",
+      BSB: "Even though I walk through the valley of the shadow of death, I will fear no evil, for You are with me; Your rod and Your staff, they comfort me.",
       WEB: "Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me. Your rod and your staff, they comfort me.",
       ASV: "Yea, though I walk through the valley of the shadow of death, I will fear no evil; for thou art with me; Thy rod and thy staff, they comfort me.",
       YLT: "Also--when I walk in a valley of death-shade, I fear no evil, for Thou art with me, Thy rod and Thy staff--they comfort me.",
@@ -348,6 +386,7 @@ const VERSES = [
     ref: "Psalm 23:6",
     versions: {
       KJV: "Surely goodness and mercy shall follow me all the days of my life: and I will dwell in the house of the LORD for ever.",
+      BSB: "Surely goodness and mercy will follow me all the days of my life, and I will dwell in the house of the LORD forever.",
       WEB: "Surely goodness and loving kindness shall follow me all the days of my life, and I will dwell in Yahweh’s house forever.",
       ASV: "Surely goodness and lovingkindness shall follow me all the days of my life; And I shall dwell in the house of Jehovah for ever.",
       YLT: "Only--goodness and kindness pursue me, All the days of my life, And my dwelling is in the house of Jehovah, For a length of days!",
@@ -361,6 +400,7 @@ const VERSES = [
     ref: "Psalm 30:5",
     versions: {
       KJV: "For his anger endureth but a moment; in his favour is life: weeping may endure for a night, but joy cometh in the morning.",
+      BSB: "For His anger is fleeting, but His favor lasts a lifetime. Weeping may stay the night, but joy comes in the morning.",
       WEB: "For his anger is but for a moment. His favor is for a lifetime. Weeping may stay for the night, but joy comes in the morning.",
       ASV: "For his anger is but for a moment; His favor is for a life-time: Weeping may tarry for the night, But joy cometh in the morning.",
       YLT: "For--a moment is in His anger, Life is in His good-will, At even remaineth weeping, and at morn singing.",
@@ -374,6 +414,7 @@ const VERSES = [
     ref: "Psalm 30:11",
     versions: {
       KJV: "Thou hast turned for me my mourning into dancing: thou hast put off my sackcloth, and girded me with gladness.",
+      BSB: "You turned my mourning into dancing; You peeled off my sackcloth and clothed me with joy,",
       WEB: "You have turned my mourning into dancing for me. You have removed my sackcloth, and clothed me with gladness.",
       ASV: "Thou hast turned for me my mourning into dancing; Thou hast loosed my sackcloth, and girded me with gladness.",
       YLT: "Thou hast turned my mourning to dancing for me, Thou hast loosed my sackcloth, And girdest me with joy.",
@@ -387,6 +428,7 @@ const VERSES = [
     ref: "Psalm 34:18",
     versions: {
       KJV: "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.",
+      BSB: "The LORD is near to the brokenhearted; He saves the contrite in spirit.",
       WEB: "Yahweh is near to those who have a broken heart, and saves those who have a crushed spirit.",
       ASV: "Jehovah is nigh unto them that are of a broken heart, And saveth such as are of a contrite spirit.",
       YLT: "Near is Jehovah to the broken of heart, And the bruised of spirit He saveth.",
@@ -400,6 +442,7 @@ const VERSES = [
     ref: "Psalm 34:8",
     versions: {
       KJV: "O taste and see that the LORD is good: blessed is the man that trusteth in him.",
+      BSB: "Taste and see that the LORD is good; blessed is the man who takes refuge in Him!",
       WEB: "Oh taste and see that Yahweh is good. Blessed is the man who takes refuge in him.",
       ASV: "Oh taste and see that Jehovah is good: Blessed is the man that taketh refuge in him.",
       YLT: "Taste ye and see that Jehovah is good, O the happiness of the man who trusteth in Him.",
@@ -413,6 +456,7 @@ const VERSES = [
     ref: "Psalm 37:4",
     versions: {
       KJV: "Delight thyself also in the LORD; and he shall give thee the desires of thine heart.",
+      BSB: "Delight yourself in the LORD, and He will give you the desires of your heart.",
       WEB: "Also delight yourself in Yahweh, and he will give you the desires of your heart.",
       ASV: "Delight thyself also in Jehovah; And he will give thee the desires of thy heart.",
       YLT: "And delight thyself on Jehovah, And He giveth to thee the petitions of thy heart.",
@@ -426,6 +470,7 @@ const VERSES = [
     ref: "Psalm 37:7",
     versions: {
       KJV: "Rest in the LORD, and wait patiently for him: fret not thyself because of him who prospereth in his way, because of the man who bringeth wicked devices to pass.",
+      BSB: "Be still before the LORD and wait patiently for Him; do not fret when men prosper in their ways, when they carry out wicked schemes.",
       WEB: "Rest in Yahweh, and wait patiently for him. Don’t fret because of him who prospers in his way, because of the man who makes wicked plots happen.",
       ASV: "Rest in Jehovah, and wait patiently for him: Fret not thyself because of him who prospereth in his way, Because of the man who bringeth wicked devices to pass.",
       YLT: "Be silent for Jehovah, and stay thyself for Him, Do not fret because of him Who is making prosperous his way, Because of a man doing wicked devices.",
@@ -439,6 +484,7 @@ const VERSES = [
     ref: "Psalm 37:25",
     versions: {
       KJV: "I have been young, and now am old; yet have I not seen the righteous forsaken, nor his seed begging bread.",
+      BSB: "I once was young and now am old, yet never have I seen the righteous abandoned or their children begging for bread.",
       WEB: "I have been young, and now am old, yet I have not seen the righteous forsaken, nor his children begging for bread.",
       ASV: "I have been young, and now am old; Yet have I not seen the righteous forsaken, Nor his seed begging bread.",
       YLT: "Young I have been, I have also become old, And I have not seen the righteous forsaken, And his seed seeking bread.",
@@ -452,6 +498,7 @@ const VERSES = [
     ref: "Psalm 46:10",
     versions: {
       KJV: "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.",
+      BSB: "“Be still and know that I am God; I will be exalted among the nations, I will be exalted over the earth.”",
       WEB: "Be still, and know that I am God. I will be exalted among the nations. I will be exalted in the earth.",
       ASV: "Be still, and know that I am God: I will be exalted among the nations, I will be exalted in the earth.",
       YLT: "Desist, and know that I am God, I am exalted among nations, I am exalted in the earth.",
@@ -465,6 +512,7 @@ const VERSES = [
     ref: "Psalm 51:10",
     versions: {
       KJV: "Create in me a clean heart, O God; and renew a right spirit within me.",
+      BSB: "Create in me a clean heart, O God, and renew a right spirit within me.",
       WEB: "Create in me a clean heart, O God. Renew a right spirit within me.",
       ASV: "Create in me a clean heart, O God; And renew a right spirit within me.",
       YLT: "A clean heart prepare for me, O God, And a right spirit renew within me.",
@@ -478,6 +526,7 @@ const VERSES = [
     ref: "Psalm 55:22",
     versions: {
       KJV: "Cast thy burden upon the LORD, and he shall sustain thee: he shall never suffer the righteous to be moved.",
+      BSB: "Cast your burden upon the LORD and He will sustain you; He will never let the righteous be shaken.",
       WEB: "Cast your burden on Yahweh and he will sustain you. He will never allow the righteous to be moved.",
       ASV: "Cast thy burden upon Jehovah, and he will sustain thee: He will never suffer the righteous to be moved.",
       YLT: "Cast on Jehovah that which He hath given thee, And He doth sustain thee, He doth not suffer for ever the moving of the righteous.",
@@ -491,6 +540,7 @@ const VERSES = [
     ref: "Psalm 56:3",
     versions: {
       KJV: "What time I am afraid, I will trust in thee.",
+      BSB: "When I am afraid, I put my trust in You.",
       WEB: "When I am afraid, I will put my trust in you.",
       ASV: "What time I am afraid, I will put my trust in thee.",
       YLT: "The day I am afraid I am confident toward Thee.",
@@ -504,6 +554,7 @@ const VERSES = [
     ref: "Psalm 56:8",
     versions: {
       KJV: "Thou tellest my wanderings: put thou my tears into thy bottle: are they not in thy book?",
+      BSB: "You have taken account of my wanderings. Put my tears in Your bottle — are they not in Your book?",
       WEB: "You count my wanderings. You put my tears into your container. Aren’t they in your book?",
       ASV: "Thou numberest my wanderings: Put thou my tears into thy bottle; Are they not in thy book?",
       YLT: "My wandering Thou hast counted, Thou--place Thou my tear in Thy bottle, Are they not in Thy book?",
@@ -517,6 +568,7 @@ const VERSES = [
     ref: "Psalm 62:5",
     versions: {
       KJV: "My soul, wait thou only upon God; for my expectation is from him.",
+      BSB: "Rest in God alone, O my soul, for my hope comes from Him.",
       WEB: "My soul, wait in silence for God alone, for my expectation is from him.",
       ASV: "My soul, wait thou in silence for God only; For my expectation is from him.",
       YLT: "Only--for God, be silent, O my soul, For from Him is my hope.",
@@ -530,6 +582,7 @@ const VERSES = [
     ref: "Psalm 94:19",
     versions: {
       KJV: "In the multitude of my thoughts within me thy comforts delight my soul.",
+      BSB: "When anxiety overwhelms me, Your consolation delights my soul.",
       WEB: "In the multitude of my thoughts within me, your comforts delight my soul.",
       ASV: "In the multitude of my thoughts within me Thy comforts delight my soul.",
       YLT: "In the abundance of my thoughts within me, Thy comforts delight my soul.",
@@ -543,6 +596,7 @@ const VERSES = [
     ref: "Psalm 95:1",
     versions: {
       KJV: "O come, let us sing unto the LORD: let us make a joyful noise to the rock of our salvation.",
+      BSB: "Come, let us sing for joy to the LORD; let us shout to the Rock of our salvation!",
       WEB: "Oh come, let’s sing to Yahweh. Let’s shout aloud to the rock of our salvation!",
       ASV: "Oh come, let us sing unto Jehovah; Let us make a joyful noise to the rock of our salvation.",
       YLT: "Come, we sing to Jehovah, We shout to the rock of our salvation.",
@@ -556,6 +610,7 @@ const VERSES = [
     ref: "Psalm 100:1",
     versions: {
       KJV: "Make a joyful noise unto the LORD, all ye lands.",
+      BSB: "Make a joyful noise to the LORD, all the earth.",
       WEB: "Shout for joy to Yahweh, all you lands!",
       ASV: "Make a joyful noise unto Jehovah, all ye lands.",
       YLT: "Shout to Jehovah, all the earth.",
@@ -569,6 +624,7 @@ const VERSES = [
     ref: "Psalm 100:4",
     versions: {
       KJV: "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.",
+      BSB: "Enter His gates with thanksgiving and His courts with praise; give thanks to Him and bless His name.",
       WEB: "Enter into his gates with thanksgiving, and into his courts with praise. Give thanks to him, and bless his name.",
       ASV: "Enter into his gates with thanksgiving, And into his courts with praise: Give thanks unto him, and bless his name.",
       YLT: "Enter ye His gates with thanksgiving, His courts with praise, Give ye thanks to Him, bless ye His Name.",
@@ -582,6 +638,7 @@ const VERSES = [
     ref: "Psalm 103:3",
     versions: {
       KJV: "Who forgiveth all thine iniquities; who healeth all thy diseases.",
+      BSB: "He who forgives all your iniquities and heals all your diseases,",
       WEB: "who forgives all your sins, who heals all your diseases.",
       ASV: "Who forgiveth all thine iniquities; Who healeth all thy diseases.",
       YLT: "Who is forgiving all thine iniquities, Who is healing all thy diseases.",
@@ -595,6 +652,7 @@ const VERSES = [
     ref: "Psalm 103:12",
     versions: {
       KJV: "As far as the east is from the west, so far hath he removed our transgressions from us.",
+      BSB: "As far as the east is from the west, so far has He removed our transgressions from us.",
       WEB: "As far as the east is from the west, so far has he removed our transgressions from us.",
       ASV: "As far as the east is from the west, So far hath he removed our transgressions from us.",
       YLT: "As the distance of east from west He hath put far from us our transgressions.",
@@ -608,6 +666,7 @@ const VERSES = [
     ref: "Psalm 103:13",
     versions: {
       KJV: "Like as a father pitieth his children, so the LORD pitieth them that fear him.",
+      BSB: "As a father has compassion on his children, so the LORD has compassion on those who fear Him.",
       WEB: "Like a father has compassion on his children, so Yahweh has compassion on those who fear him.",
       ASV: "Like as a father pitieth his children, So Jehovah pitieth them that fear him.",
       YLT: "As a father hath mercy on sons, Jehovah hath mercy on those fearing Him.",
@@ -621,6 +680,7 @@ const VERSES = [
     ref: "Psalm 103:2",
     versions: {
       KJV: "Bless the LORD, O my soul, and forget not all his benefits.",
+      BSB: "Bless the LORD, O my soul, and do not forget all His kind deeds —",
       WEB: "Praise Yahweh, my soul, and don’t forget all his benefits.",
       ASV: "Bless Jehovah, O my soul, And forget not all his benefits.",
       YLT: "Bless, O my soul, Jehovah, And forget not all His benefits.",
@@ -634,6 +694,7 @@ const VERSES = [
     ref: "Psalm 147:3",
     versions: {
       KJV: "He healeth the broken in heart, and bindeth up their wounds.",
+      BSB: "He heals the brokenhearted and binds up their wounds.",
       WEB: "He heals the broken in heart, and binds up their wounds.",
       ASV: "He healeth the broken in heart, And bindeth up their wounds.",
       YLT: "Who is giving healing to the broken of heart, And is binding up their griefs.",
@@ -647,6 +708,7 @@ const VERSES = [
     ref: "Psalm 118:24",
     versions: {
       KJV: "This is the day which the LORD hath made; we will rejoice and be glad in it.",
+      BSB: "This is the day that the LORD has made; we will rejoice and be glad in it.",
       WEB: "This is the day that Yahweh has made. We will rejoice and be glad in it!",
       ASV: "This is the day which Jehovah hath made; We will rejoice and be glad in it.",
       YLT: "This is the day Jehovah hath made, We rejoice and are glad in it.",
@@ -660,6 +722,7 @@ const VERSES = [
     ref: "Psalm 118:8",
     versions: {
       KJV: "It is better to trust in the LORD than to put confidence in man.",
+      BSB: "It is better to take refuge in the LORD than to trust in man.",
       WEB: "It is better to take refuge in Yahweh, than to put confidence in man.",
       ASV: "It is better to take refuge in Jehovah Than to put confidence in man.",
       YLT: "Better to take refuge in Jehovah than to trust in man.",
@@ -673,6 +736,7 @@ const VERSES = [
     ref: "Psalm 121:2",
     versions: {
       KJV: "My help cometh from the LORD, which made heaven and earth.",
+      BSB: "My help comes from the LORD, the Maker of heaven and earth.",
       WEB: "My help comes from Yahweh, who made heaven and earth.",
       ASV: "My help cometh from Jehovah, Who made heaven and earth.",
       YLT: "My help is from Jehovah, maker of heaven and earth.",
@@ -686,6 +750,7 @@ const VERSES = [
     ref: "Psalm 121:7",
     versions: {
       KJV: "The LORD shall preserve thee from all evil: he shall preserve thy soul.",
+      BSB: "The LORD will guard you from all evil; He will preserve your soul.",
       WEB: "Yahweh will keep you from all evil. He will keep your soul.",
       ASV: "Jehovah will keep thee from all evil; He will keep thy soul.",
       YLT: "Jehovah preserveth thee from all evil, He doth preserve thy soul.",
@@ -699,6 +764,7 @@ const VERSES = [
     ref: "Psalm 126:5",
     versions: {
       KJV: "They that sow in tears shall reap in joy.",
+      BSB: "Those who sow in tears will reap with shouts of joy.",
       WEB: "Those who sow in tears will reap in joy.",
       ASV: "They that sow in tears shall reap in joy.",
       YLT: "Those sowing in tears, with singing do reap.",
@@ -712,6 +778,7 @@ const VERSES = [
     ref: "Psalm 127:1",
     versions: {
       KJV: "Except the LORD build the house, they labour in vain that build it: except the LORD keep the city, the watchman waketh but in vain.",
+      BSB: "Unless the LORD builds the house, its builders labor in vain; unless the LORD protects the city, its watchmen stand guard in vain.",
       WEB: "Unless Yahweh builds the house, they who build it labor in vain. Unless Yahweh watches over the city, the watchman guards it in vain.",
       ASV: "Except Jehovah build the house, They labor in vain that build it: Except Jehovah keep the city, The watchman waketh but in vain.",
       YLT: "If Jehovah doth not build the house, In vain have its builders laboured at it, If Jehovah doth not watch a city, In vain hath a watchman waked.",
@@ -725,6 +792,7 @@ const VERSES = [
     ref: "Psalm 139:14",
     versions: {
       KJV: "I will praise thee; for I am fearfully and wonderfully made: marvellous are thy works; and that my soul knoweth right well.",
+      BSB: "I praise You, for I am fearfully and wonderfully made. Marvelous are Your works, and I know this very well.",
       WEB: "I will give thanks to you, for I am fearfully and wonderfully made. Your works are wonderful. My soul knows that very well.",
       ASV: "I will give thanks unto thee; for I am fearfully and wonderfully made: Wonderful are thy works; And that my soul knoweth right well.",
       YLT: "I confess Thee, because that with wonders I have been distinguished. Wonderful are Thy works, And my soul is knowing it well.",
@@ -738,6 +806,7 @@ const VERSES = [
     ref: "Psalm 139:23",
     versions: {
       KJV: "Search me, O God, and know my heart: try me, and know my thoughts.",
+      BSB: "Search me, O God, and know my heart; test me and know my concerns.",
       WEB: "Search me, God, and know my heart. Try me, and know my thoughts.",
       ASV: "Search me, O God, and know my heart: Try me, and know my thoughts.",
       YLT: "Search me, O God, and know my heart, Try me, and know my thoughts.",
@@ -751,6 +820,7 @@ const VERSES = [
     ref: "Psalm 139:10",
     versions: {
       KJV: "Even there shall thy hand lead me, and thy right hand shall hold me.",
+      BSB: "even there Your hand will guide me; Your right hand will hold me fast.",
       WEB: "even there your hand will lead me, and your right hand will hold me.",
       ASV: "Even there shall thy hand lead me, And thy right hand shall hold me.",
       YLT: "Also there Thy hand doth lead me, And Thy right hand doth hold me.",
@@ -764,6 +834,7 @@ const VERSES = [
     ref: "Psalm 145:18",
     versions: {
       KJV: "The LORD is nigh unto all them that call upon him, to all that call upon him in truth.",
+      BSB: "The LORD is near to all who call on Him, to all who call out to Him in truth.",
       WEB: "Yahweh is near to all those who call on him, to all who call on him in truth.",
       ASV: "Jehovah is nigh unto all them that call upon him, To all that call upon him in truth.",
       YLT: "Near is Jehovah to all those calling Him, To all who call Him in truth.",
@@ -777,6 +848,7 @@ const VERSES = [
     ref: "Psalm 145:14",
     versions: {
       KJV: "The LORD upholdeth all that fall, and raiseth up all those that be bowed down.",
+      BSB: "The LORD upholds all who fall and lifts up all who are bowed down.",
       WEB: "Yahweh upholds all who fall, and raises up all those who are bowed down.",
       ASV: "Jehovah upholdeth all that fall, And raiseth up all those that are bowed down.",
       YLT: "Jehovah is supporting all who are falling, And raising up all who are bowed down.",
@@ -790,6 +862,7 @@ const VERSES = [
     ref: "Psalm 147:1",
     versions: {
       KJV: "Praise ye the LORD: for it is good to sing praises unto our God; for it is pleasant, and praise is comely.",
+      BSB: "Hallelujah! How good it is to sing praises to our God, how pleasant and lovely to praise Him!",
       WEB: "Praise Yah, for it is good to sing praises to our God; for it is pleasant and fitting to praise him.",
       ASV: "Praise ye Jehovah; For it is good to sing praises unto our God; For it is pleasant, and praise is comely.",
       YLT: "Praise ye Jah! For it is good to praise our God, For pleasant--comely is praise.",
@@ -803,6 +876,7 @@ const VERSES = [
     ref: "Psalm 147:11",
     versions: {
       KJV: "The LORD taketh pleasure in them that fear him, in those that hope in his mercy.",
+      BSB: "The LORD is pleased with those who fear Him, who hope in His loving devotion.",
       WEB: "Yahweh takes pleasure in those who fear him, in those who hope in his loving kindness.",
       ASV: "Jehovah taketh pleasure in them that fear him, In those that hope in his lovingkindness.",
       YLT: "Jehovah is pleased with those fearing Him, With those waiting for His kindness.",
@@ -816,6 +890,7 @@ const VERSES = [
     ref: "Psalm 16:11",
     versions: {
       KJV: "Thou wilt shew me the path of life: in thy presence is fulness of joy; at thy right hand there are pleasures for evermore.",
+      BSB: "You have made known to me the path of life; You will fill me with joy in Your presence, with eternal pleasures at Your right hand.",
       WEB: "You will show me the path of life. In your presence is fullness of joy. In your right hand there are pleasures forever more.",
       ASV: "Thou wilt show me the path of life: In thy presence is fulness of joy; In thy right hand there are pleasures for evermore.",
       YLT: "Thou causest me to know the path of life; Fulness of joys is with Thy presence, Pleasant things by Thy right hand for ever!",
@@ -829,6 +904,7 @@ const VERSES = [
     ref: "Psalm 16:8",
     versions: {
       KJV: "I have set the LORD always before me: because he is at my right hand, I shall not be moved.",
+      BSB: "I have set the LORD always before me. Because He is at my right hand, I will not be shaken.",
       WEB: "I have set Yahweh always before me. Because he is at my right hand, I shall not be moved.",
       ASV: "I have set Jehovah always before me: Because he is at my right hand, I shall not be moved.",
       YLT: "I did place Jehovah before me continually, Because--at my right hand I am not moved.",
@@ -842,6 +918,7 @@ const VERSES = [
     ref: "Psalm 16:1",
     versions: {
       KJV: "Preserve me, O God: for in thee do I put my trust.",
+      BSB: "Preserve me, O God, for in You I take refuge.",
       WEB: "Preserve me, God, for I take refuge in you.",
       ASV: "Preserve me, O God; for in thee do I take refuge.",
       YLT: "Preserve me, O God, for I did trust in Thee.",
@@ -855,6 +932,7 @@ const VERSES = [
     ref: "Psalm 27:1",
     versions: {
       KJV: "The LORD is my light and my salvation; whom shall I fear? the LORD is the strength of my life; of whom shall I be afraid?",
+      BSB: "The LORD is my light and my salvation— whom shall I fear? The LORD is the stronghold of my life— whom shall I dread?",
       WEB: "Yahweh is my light and my salvation. Whom shall I fear? Yahweh is the strength of my life. Of whom shall I be afraid?",
       ASV: "Jehovah is my light and my salvation; Whom shall I fear? Jehovah is the strength of my life; Of whom shall I be afraid?",
       YLT: "Jehovah is my light and my salvation, Whom do I fear? Jehovah is the strength of my life, Of whom am I afraid?",
@@ -868,6 +946,7 @@ const VERSES = [
     ref: "Psalm 27:14",
     versions: {
       KJV: "Wait on the LORD: be of good courage, and he shall strengthen thine heart: wait, I say, on the LORD.",
+      BSB: "Wait patiently for the LORD; be strong and courageous. Wait patiently for the LORD!",
       WEB: "Wait for Yahweh. Be strong, and let your heart take courage. Yes, wait for Yahweh.",
       ASV: "Wait for Jehovah: Be strong, and let thy heart take courage; Yea, wait thou for Jehovah.",
       YLT: "Look unto Jehovah--be strong, And He doth strengthen thy heart, Yea, look unto Jehovah!",
@@ -881,6 +960,7 @@ const VERSES = [
     ref: "Psalm 27:10",
     versions: {
       KJV: "When my father and my mother forsake me, then the LORD will take me up.",
+      BSB: "Though my father and mother forsake me, the LORD will receive me.",
       WEB: "When my father and my mother forsake me, then Yahweh will take me up.",
       ASV: "When my father and my mother forsake me, Then Jehovah will take me up.",
       YLT: "When my father and my mother Have forsaken me, then doth Jehovah gather me.",
@@ -894,6 +974,7 @@ const VERSES = [
     ref: "Psalm 18:2",
     versions: {
       KJV: "The LORD is my rock, and my fortress, and my deliverer; my God, my strength, in whom I will trust; my buckler, and the horn of my salvation, and my high tower.",
+      BSB: "The LORD is my rock, my fortress, and my deliverer. My God is my rock, in whom I take refuge, my shield, and the horn of my salvation, my stronghold.",
       WEB: "Yahweh is my rock, my fortress, and my deliverer; my God, my rock, in whom I take refuge; my shield, and the horn of my salvation, my high tower.",
       ASV: "Jehovah is my rock, and my fortress, and my deliverer; My God, my rock, in whom I will take refuge; My shield, and the horn of my salvation, my high tower.",
       YLT: "Jehovah is my rock, and my bulwark, And my deliverer, My God is my rock, I trust in Him: My shield, and a horn of my salvation, My high tower.",
@@ -907,6 +988,7 @@ const VERSES = [
     ref: "Psalm 18:19",
     versions: {
       KJV: "He brought me forth also into a large place: he delivered me, because he delighted in me.",
+      BSB: "He brought me out into the open; He rescued me because He delighted in me.",
       WEB: "He brought me out also into a large place. He delivered me, because he delighted in me.",
       ASV: "He brought me forth also into a large place; He delivered me, because he delighted in me.",
       YLT: "And He bringeth me forth to a large place, He draweth me out, because He delighted in me.",
@@ -920,6 +1002,7 @@ const VERSES = [
     ref: "Psalm 18:6",
     versions: {
       KJV: "In my distress I called upon the LORD, and cried unto my God: he heard my voice out of his temple, and my cry came before him, even into his ears.",
+      BSB: "In my distress I called upon the LORD; I cried to my God for help. From His temple He heard my voice, and my cry for His help reached His ears.",
       WEB: "In my distress I called on Yahweh, and cried to my God. He heard my voice out of his temple. My cry before him came into his ears.",
       ASV: "In my distress I called upon Jehovah, And cried unto my God: He heard my voice out of his temple, And my cry before him came into his ears.",
       YLT: "In mine adversity I call Jehovah, And unto my God I cry. He heareth from His temple my voice, And My cry before Him cometh into His ears.",
@@ -933,6 +1016,7 @@ const VERSES = [
     ref: "Psalm 19:1",
     versions: {
       KJV: "The heavens declare the glory of God; and the firmament sheweth his handywork.",
+      BSB: "The heavens declare the glory of God; the skies proclaim the work of His hands.",
       WEB: "The heavens declare the glory of God. The expanse shows his handiwork.",
       ASV: "The heavens declare the glory of God; And the firmament showeth his handiwork.",
       YLT: "The heavens are recounting the honour of God, And the work of His hands The expanse is declaring.",
@@ -946,6 +1030,7 @@ const VERSES = [
     ref: "Psalm 19:14",
     versions: {
       KJV: "Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer.",
+      BSB: "May the words of my mouth and the meditation of my heart be pleasing in Your sight, O LORD, my Rock and my Redeemer.",
       WEB: "Let the words of my mouth and the meditation of my heart be acceptable in your sight, Yahweh, my rock, and my redeemer.",
       ASV: "Let the words of my mouth and the meditation of my heart Be acceptable in thy sight, O Jehovah, my rock, and my redeemer.",
       YLT: "Let the sayings of my mouth, And the meditation of my heart, Be for a pleasing thing before Thee, O Jehovah, my rock, and my redeemer!",
@@ -959,6 +1044,7 @@ const VERSES = [
     ref: "Psalm 20:7",
     versions: {
       KJV: "Some trust in chariots, and some in horses: but we will remember the name of the LORD our God.",
+      BSB: "Some trust in chariots and others in horses, but we trust in the name of the LORD our God.",
       WEB: "Some trust in chariots, and some in horses, but we trust in the name of Yahweh our God.",
       ASV: "Some trust in chariots, and some in horses; But we will make mention of the name of Jehovah our God.",
       YLT: "Some of chariots, and some of horses, And we of the name of Jehovah our God Make mention.",
@@ -972,6 +1058,7 @@ const VERSES = [
     ref: "Psalm 37:23",
     versions: {
       KJV: "The steps of a good man are ordered by the LORD: and he delighteth in his way.",
+      BSB: "The steps of a man are ordered by the LORD who takes delight in his journey.",
       WEB: "A man’s steps are established by Yahweh. He delights in his way.",
       ASV: "A man’s goings are established of Jehovah; And he delighteth in his way.",
       YLT: "From Jehovah are the steps of a man, They have been prepared, And his way he desireth.",
@@ -985,6 +1072,7 @@ const VERSES = [
     ref: "Psalm 40:1",
     versions: {
       KJV: "I waited patiently for the LORD; and he inclined unto me, and heard my cry.",
+      BSB: "I waited patiently for the LORD; He inclined to me and heard my cry.",
       WEB: "I waited patiently for Yahweh. He turned to me, and heard my cry.",
       ASV: "I waited patiently for Jehovah; And he inclined unto me, and heard my cry.",
       YLT: "I have diligently expected Jehovah, And He inclineth to me, and heareth my cry.",
@@ -998,6 +1086,7 @@ const VERSES = [
     ref: "Psalm 40:3",
     versions: {
       KJV: "And he hath put a new song in my mouth, even praise unto our God: many shall see it, and fear, and shall trust in the LORD.",
+      BSB: "He put a new song in my mouth, a hymn of praise to our God. Many will see and fear and put their trust in the LORD.",
       WEB: "He has put a new song in my mouth, even praise to our God. Many shall see it, and fear, and shall trust in Yahweh.",
       ASV: "And he hath put a new song in my mouth, even praise unto our God: Many shall see it, and fear, And shall trust in Jehovah.",
       YLT: "And He putteth in my mouth a new song, `Praise to our God.' Many do see and fear, and trust in Jehovah.",
@@ -1011,6 +1100,7 @@ const VERSES = [
     ref: "Psalm 42:1",
     versions: {
       KJV: "As the hart panteth after the water brooks, so panteth my soul after thee, O God.",
+      BSB: "As the deer pants for streams of water, so my soul longs after You, O God.",
       WEB: "As the deer pants for the water brooks, so my soul pants after you, God.",
       ASV: "As the hart panteth after the water brooks, So panteth my soul after thee, O God.",
       YLT: "As a hart doth pant for streams of water, So my soul panteth toward Thee, O God.",
@@ -1024,6 +1114,7 @@ const VERSES = [
     ref: "Psalm 42:11",
     versions: {
       KJV: "Why art thou cast down, O my soul? and why art thou disquieted within me? hope thou in God: for I shall yet praise him, who is the health of my countenance, and my God.",
+      BSB: "Why are you downcast, O my soul? Why the unease within me? Put your hope in God, for I will yet praise Him, my Savior and my God.",
       WEB: "Why are you in despair, my soul? Why are you disturbed within me? Hope in God! For I shall still praise him, the saving help of my countenance, and my God.",
       ASV: "Why art thou cast down, O my soul? And why art thou disquieted within me? Hope thou in God; for I shall yet praise him, Who is the help of my countenance, and my God.",
       YLT: "What! bowest thou thyself, O my soul? And what! art thou troubled within me? Wait for God, for still I confess Him, The salvation of my countenance, and my God!",
@@ -1037,6 +1128,7 @@ const VERSES = [
     ref: "Psalm 46:4",
     versions: {
       KJV: "There is a river, the streams whereof shall make glad the city of God, the holy place of the tabernacles of the most High.",
+      BSB: "There is a river whose streams delight the city of God, the holy place where the Most High dwells.",
       WEB: "There is a river, the streams of which make the city of God glad, the holy place of the tents of the Most High.",
       ASV: "There is a river, the streams whereof make glad the city of God, The holy place of the tabernacles of the Most High.",
       YLT: "A river--its rivulets rejoice the city of God, Thy holy place of the tabernacles of the Most High.",
@@ -1050,6 +1142,7 @@ const VERSES = [
     ref: "Proverbs 3:5",
     versions: {
       KJV: "Trust in the LORD with all thine heart; and lean not unto thine own understanding.",
+      BSB: "Trust in the LORD with all your heart, and lean not on your own understanding;",
       WEB: "Trust in Yahweh with all your heart, and don’t lean on your own understanding.",
       ASV: "Trust in Jehovah with all thy heart, And lean not upon thine own understanding.",
       YLT: "Trust unto Jehovah with all thy heart, And unto thine own understanding lean not.",
@@ -1063,6 +1156,7 @@ const VERSES = [
     ref: "Proverbs 3:6",
     versions: {
       KJV: "In all thy ways acknowledge him, and he shall direct thy paths.",
+      BSB: "in all your ways acknowledge Him, and He will make your paths straight.",
       WEB: "In all your ways acknowledge him, and he will make your paths straight.",
       ASV: "In all thy ways acknowledge him, And he will direct thy paths.",
       YLT: "In all thy ways know thou Him, And He doth make straight thy paths.",
@@ -1076,6 +1170,7 @@ const VERSES = [
     ref: "Proverbs 17:22",
     versions: {
       KJV: "A merry heart doeth good like a medicine: but a broken spirit drieth the bones.",
+      BSB: "A joyful heart is good medicine, but a broken spirit dries up the bones.",
       WEB: "A cheerful heart makes good medicine, but a crushed spirit dries up the bones.",
       ASV: "A cheerful heart is a good medicine; But a broken spirit drieth up the bones.",
       YLT: "A rejoicing heart doth good to the body, And a smitten spirit drieth the bone.",
@@ -1089,6 +1184,7 @@ const VERSES = [
     ref: "Proverbs 12:25",
     versions: {
       KJV: "Heaviness in the heart of man maketh it stoop: but a good word maketh it glad.",
+      BSB: "Anxiety weighs down the heart of a man, but a good word cheers it up.",
       WEB: "Anxiety in a man’s heart weighs it down, but a kind word makes it glad.",
       ASV: "Heaviness in the heart of a man maketh it stoop; But a good word maketh it glad.",
       YLT: "Sorrow in the heart of a man boweth down, And a good word maketh him glad.",
@@ -1102,6 +1198,7 @@ const VERSES = [
     ref: "Proverbs 16:24",
     versions: {
       KJV: "Pleasant words are as an honeycomb, sweet to the soul, and health to the bones.",
+      BSB: "Pleasant words are a honeycomb, sweet to the soul and healing to the bones.",
       WEB: "Pleasant words are a honeycomb, sweet to the soul, and health to the bones.",
       ASV: "Pleasant words are as a honeycomb, Sweet to the soul, and health to the bones.",
       YLT: "Sayings of pleasantness are a honeycomb, Sweet to the soul, and healing to the bone.",
@@ -1115,6 +1212,7 @@ const VERSES = [
     ref: "Proverbs 15:1",
     versions: {
       KJV: "A soft answer turneth away wrath: but grievous words stir up anger.",
+      BSB: "A gentle answer turns away wrath, but a harsh word stirs up anger.",
       WEB: "A gentle answer turns away wrath, but a harsh word stirs up anger.",
       ASV: "A soft answer turneth away wrath; But a grievous word stirreth up anger.",
       YLT: "A soft answer turneth back fury, And a grievous word raiseth up anger.",
@@ -1128,6 +1226,7 @@ const VERSES = [
     ref: "Proverbs 18:10",
     versions: {
       KJV: "The name of the LORD is a strong tower: the righteous runneth into it, and is safe.",
+      BSB: "The name of the LORD is a strong tower; the righteous run to it and are safe.",
       WEB: "Yahweh’s name is a strong tower: the righteous run to him, and are safe.",
       ASV: "The name of Jehovah is a strong tower; The righteous runneth into it, and is safe.",
       YLT: "A tower of strength is the name of Jehovah, Into it the righteous runneth, and is set on high.",
@@ -1141,6 +1240,7 @@ const VERSES = [
     ref: "Proverbs 18:24",
     versions: {
       KJV: "A man that hath friends must shew himself friendly: and there is a friend that sticketh closer than a brother.",
+      BSB: "A man of many companions may come to ruin, but there is a friend who stays closer than a brother.",
       WEB: "A man of many companions may be ruined, but there is a friend who sticks closer than a brother.",
       ASV: "He that maketh many friends doeth it to his own destruction; But there is a friend that sticketh closer than a brother.",
       YLT: "A man with friends is to show himself friendly, And there is a lover adhering more than a brother!",
@@ -1154,6 +1254,7 @@ const VERSES = [
     ref: "Proverbs 27:17",
     versions: {
       KJV: "Iron sharpeneth iron; so a man sharpeneth the countenance of his friend.",
+      BSB: "As iron sharpens iron, so one man sharpens another.",
       WEB: "Iron sharpens iron; so a man sharpens his friend’s countenance.",
       ASV: "Iron sharpeneth iron; So a man sharpeneth the countenance of his friend.",
       YLT: "Iron by iron is sharpened, And a man sharpens the face of his friend.",
@@ -1167,6 +1268,7 @@ const VERSES = [
     ref: "Proverbs 27:19",
     versions: {
       KJV: "As in water face answereth to face, so the heart of man to man.",
+      BSB: "As water reflects the face, so the heart reflects the true man.",
       WEB: "Like water reflects a face, so a man’s heart reflects the man.",
       ASV: "As in water face answereth to face, So the heart of man to man.",
       YLT: "As in water the face is to face, So the heart of man to man.",
@@ -1180,6 +1282,7 @@ const VERSES = [
     ref: "Proverbs 27:9",
     versions: {
       KJV: "Ointment and perfume rejoice the heart: so doth the sweetness of a man's friend by hearty counsel.",
+      BSB: "Oil and incense bring joy to the heart, and the counsel of a friend is sweetness to the soul.",
       WEB: "Perfume and incense bring joy to the heart; so does earnest counsel from a man’s friend.",
       ASV: "Oil and perfume rejoice the heart; So doth the sweetness of a man’s friend that cometh of hearty counsel.",
       YLT: "Ointment and perfume rejoice the heart, And the sweetness of one's friend--from counsel of the soul.",
@@ -1193,6 +1296,7 @@ const VERSES = [
     ref: "Ecclesiastes 4:9",
     versions: {
       KJV: "Two are better than one; because they have a good reward for their labour.",
+      BSB: "Two are better than one, because they have a good return for their labor.",
       WEB: "Two are better than one, because they have a good reward for their labor.",
       ASV: "Two are better than one, because they have a good reward for their labor.",
       YLT: "The two are better than the one, in that they have a good reward by their labour.",
@@ -1206,6 +1310,7 @@ const VERSES = [
     ref: "Ecclesiastes 4:10",
     versions: {
       KJV: "For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up.",
+      BSB: "For if one falls down, his companion can lift him up; but pity the one who falls without another to help him up!",
       WEB: "For if they fall, the one will lift up his fellow; but woe to him who is alone when he falls, and doesn’t have another to lift him up.",
       ASV: "For if they fall, the one will lift up his fellow; but woe to him that is alone when he falleth, and hath not another to lift him up.",
       YLT: "For if they fall, the one raiseth up his companion, but woe to the one who falleth and there is not a second to raise him up!",
@@ -1219,6 +1324,7 @@ const VERSES = [
     ref: "Ecclesiastes 4:12",
     versions: {
       KJV: "And if one prevail against him, two shall withstand him; and a threefold cord is not quickly broken.",
+      BSB: "And though one may be overpowered, two can resist. Moreover, a cord of three strands is not quickly broken.",
       WEB: "If a man prevails against one who is alone, two shall withstand him; and a threefold cord is not quickly broken.",
       ASV: "And if a man prevail against him that is alone, two shall withstand him; and a threefold cord is not quickly broken.",
       YLT: "And if the one strengthen himself, the two stand against him; and the threefold cord is not hastily broken.",
@@ -1232,6 +1338,7 @@ const VERSES = [
     ref: "Ecclesiastes 3:1",
     versions: {
       KJV: "To every thing there is a season, and a time to every purpose under the heaven.",
+      BSB: "To everything there is a season, and a time for every purpose under heaven:",
       WEB: "For everything there is a season, and a time for every purpose under heaven.",
       ASV: "For everything there is a season, and a time for every purpose under heaven.",
       YLT: "To everything--a season, and a time to every delight under the heavens.",
@@ -1245,6 +1352,7 @@ const VERSES = [
     ref: "Ecclesiastes 3:11",
     versions: {
       KJV: "He hath made every thing beautiful in his time: also he hath set the world in their heart, so that no man can find out the work that God maketh from the beginning to the end.",
+      BSB: "He has made everything beautiful in its time. He has also set eternity in the hearts of men, yet they cannot fathom the work that God has done from beginning to end.",
       WEB: "He has made everything beautiful in its time. He has also set eternity in their hearts, yet so that man can’t find out the work that God has done from the beginning even to the end.",
       ASV: "He hath made everything beautiful in its time: also he hath set eternity in their heart, yet so that man cannot find out the work that God hath done from the beginning even to the end.",
       YLT: "The whole He hath made beautiful in its season; also, that knowledge He hath put in their heart without which man findeth not out the work that God hath done from the beginning even unto the end.",
@@ -1258,6 +1366,7 @@ const VERSES = [
     ref: "Song of Solomon 8:7",
     versions: {
       KJV: "Many waters cannot quench love, neither can the floods drown it: if a man would give all the substance of his house for love, it would utterly be contemned.",
+      BSB: "Mighty waters cannot quench love; rivers cannot sweep it away. If a man were to give all the wealth of his house for love, his offer would be utterly scorned.",
       WEB: "Many waters can’t quench love, neither can floods drown it. If a man would give all the wealth of his house for love, he would be utterly scorned.",
       ASV: "Many waters cannot quench love, Neither can floods drown it: If a man would give all the substance of his house for love, He would utterly be contemned.",
       YLT: "Many waters are not able to quench the love, And floods do not wash it away. If one give all the wealth of his house for love, Treading down--they tread upon it.",
@@ -1271,6 +1380,7 @@ const VERSES = [
     ref: "Isaiah 40:31",
     versions: {
       KJV: "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint.",
+      BSB: "But those who wait upon the LORD will renew their strength; they will mount up with wings like eagles; they will run and not grow weary, they will walk and not faint.",
       WEB: "but those who wait for Yahweh will renew their strength. They will mount up with wings like eagles. They will run, and not be weary. They will walk, and not faint.",
       ASV: "but they that wait for Jehovah shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; they shall walk, and not faint.",
       YLT: "But those expecting Jehovah pass to power, They raise up the pinion as eagles, They run and are not fatigued, They go on and do not faint!",
@@ -1284,6 +1394,7 @@ const VERSES = [
     ref: "Isaiah 40:29",
     versions: {
       KJV: "He giveth power to the faint; and to them that have no might he increaseth strength.",
+      BSB: "He gives power to the faint and increases the strength of the weak.",
       WEB: "He gives power to the weak. He increases the strength of him who has no might.",
       ASV: "He giveth power to the faint; and to him that hath no might he increaseth strength.",
       YLT: "He is giving power to the weary, And to those not strong He increaseth might.",
@@ -1297,6 +1408,7 @@ const VERSES = [
     ref: "Isaiah 40:1",
     versions: {
       KJV: "Comfort ye, comfort ye my people, saith your God.",
+      BSB: "“Comfort, comfort My people,” says your God.",
       WEB: "“Comfort, comfort my people,” says your God.",
       ASV: "Comfort ye, comfort ye my people, saith your God.",
       YLT: "Comfort ye, comfort ye, My people, saith your God.",
@@ -1310,6 +1422,7 @@ const VERSES = [
     ref: "Isaiah 40:11",
     versions: {
       KJV: "He shall feed his flock like a shepherd: he shall gather the lambs with his arm, and carry them in his bosom, and shall gently lead those that are with young.",
+      BSB: "He tends His flock like a shepherd; He gathers the lambs in His arms and carries them close to His heart. He gently leads the nursing ewes.",
       WEB: "He will feed his flock like a shepherd. He will gather the lambs in his arm, and carry them in his bosom. He will gently lead those who have their young.",
       ASV: "He will feed his flock like a shepherd, he will gather the lambs in his arm, and carry them in his bosom, and will gently lead those that have their young.",
       YLT: "As a shepherd His flock He feedeth, With His arm He gathereth lambs, And in His bosom He carrieth them: Suckling ones He leadeth.",
@@ -1323,6 +1436,7 @@ const VERSES = [
     ref: "Isaiah 41:10",
     versions: {
       KJV: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
+      BSB: "Do not fear, for I am with you; do not be afraid, for I am your God. I will strengthen you; I will surely help you; I will uphold you with My righteous right hand.",
       WEB: "Don’t you be afraid, for I am with you. Don’t be dismayed, for I am your God. I will strengthen you. Yes, I will help you. Yes, I will uphold you with the right hand of my righteousness.",
       ASV: "fear thou not, for I am with thee; be not dismayed, for I am thy God; I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.",
       YLT: "Be not afraid, for with thee I am, Look not around, for I am thy God, I have strengthened thee, Yea, I have helped thee, yea, I upheld thee, With the right hand of My righteousness.",
@@ -1336,6 +1450,7 @@ const VERSES = [
     ref: "Isaiah 43:2",
     versions: {
       KJV: "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned; neither shall the flame kindle upon thee.",
+      BSB: "When you pass through the waters, I will be with you; and when you go through the rivers, they will not overwhelm you. When you walk through the fire, you will not be scorched; the flames will not set you ablaze.",
       WEB: "When you pass through the waters, I will be with you, and through the rivers, they will not overflow you. When you walk through the fire, you will not be burned, and flame will not scorch you.",
       ASV: "When thou passest through the waters, I will be with thee; and through the rivers, they shall not overflow thee: when thou walkest through the fire, thou shalt not be burned, neither shall the flame kindle upon thee.",
       YLT: "When thou passest into waters, I am with thee, And into floods, they do not overflow thee, When thou goest into fire, thou art not burnt, And a flame doth not burn against thee.",
@@ -1349,6 +1464,7 @@ const VERSES = [
     ref: "Isaiah 43:1",
     versions: {
       KJV: "But now thus saith the LORD that created thee, O Jacob, and he that formed thee, O Israel, Fear not: for I have redeemed thee, I have called thee by thy name; thou art mine.",
+      BSB: "But now, this is what the LORD says— He who created you, O Jacob, and He who formed you, O Israel: “Do not fear, for I have redeemed you; I have called you by your name; you are Mine!",
       WEB: "But now Yahweh who created you, Jacob, and he who formed you, Israel, says: “Don’t be afraid, for I have redeemed you. I have called you by your name. You are mine.",
       ASV: "But now thus saith Jehovah that created thee, O Jacob, and he that formed thee, O Israel: Fear not, for I have redeemed thee; I have called thee by thy name, thou art mine.",
       YLT: "And now, thus said Jehovah, Thy Creator, O Jacob, and thy Fashioner, O Israel, Be not afraid, for I have redeemed thee, I have called on thy name--thou art Mine.",
@@ -1362,6 +1478,7 @@ const VERSES = [
     ref: "Isaiah 51:12",
     versions: {
       KJV: "I, even I, am he that comforteth you: who art thou, that thou shouldest be afraid of a man that shall die, and of the son of man which shall be made as grass.",
+      BSB: "“I, even I, am He who comforts you. Why should you be afraid of mortal man, of a son of man who withers like grass?",
       WEB: "“I, even I, am he who comforts you. Who are you, that you are afraid of man who shall die, and of the son of man who will be made as grass?",
       ASV: "I, even I, am he that comforteth you: who art thou, that thou art afraid of man that shall die, and of the son of man that shall be made as grass.",
       YLT: "I--I am He--your comforter, Who art thou--and thou art afraid of man? he dieth! And of the son of man--grass he is made!",
@@ -1375,6 +1492,7 @@ const VERSES = [
     ref: "Isaiah 52:7",
     versions: {
       KJV: "How beautiful upon the mountains are the feet of him that bringeth good tidings, that publisheth peace; that bringeth good tidings of good, that publisheth salvation; that saith unto Zion, Thy God reigneth!",
+      BSB: "How beautiful on the mountains are the feet of those who bring good news, who proclaim peace, who bring good tidings, who proclaim salvation, who say to Zion, “Your God reigns!”",
       WEB: "How beautiful on the mountains are the feet of him who brings good news, who publishes peace, who brings good news, who proclaims salvation, who says to Zion, “Your God reigns!”",
       ASV: "How beautiful upon the mountains are the feet of him that bringeth good tidings, that publisheth peace, that bringeth good tidings of good, that publisheth salvation, that saith unto Zion, Thy God reigneth!",
       YLT: "How comely on the mountains, Have been the feet of one proclaiming tidings, Sounding peace, proclaiming good tidings, Sounding salvation, Saying to Zion, `Reigned hath thy God.'",
@@ -1388,6 +1506,7 @@ const VERSES = [
     ref: "Isaiah 55:12",
     versions: {
       KJV: "For ye shall go out with joy, and be led forth with peace: the mountains and the hills shall break forth before you into singing, and all the trees of the field shall clap their hands.",
+      BSB: "You will indeed go out with joy and be led forth in peace; the mountains and hills will burst into song before you, and all the trees of the field will clap their hands.",
       WEB: "For you shall go out with joy, and be led out with peace. The mountains and the hills will break out before you into singing; and all the trees of the fields will clap their hands.",
       ASV: "For ye shall go out with joy, and be led forth with peace: the mountains and the hills shall break forth before you into singing; and all the trees of the fields shall clap their hands.",
       YLT: "For with joy ye go forth, And with peace ye are brought in, The mountains and the hills Break forth before you with singing, And all trees of the field clap the hand.",
@@ -1401,6 +1520,7 @@ const VERSES = [
     ref: "Isaiah 55:8",
     versions: {
       KJV: "For my thoughts are not your thoughts, neither are your ways my ways, saith the LORD.",
+      BSB: "“For My thoughts are not your thoughts, neither are your ways My ways,” declares the LORD.",
       WEB: "“For my thoughts are not your thoughts, and your ways are not my ways,” says Yahweh.",
       ASV: "For my thoughts are not your thoughts, neither are your ways my ways, saith Jehovah.",
       YLT: "For not My thoughts are your thoughts, Nor your ways My ways, --an affirmation of Jehovah.",
@@ -1414,6 +1534,7 @@ const VERSES = [
     ref: "Isaiah 55:6",
     versions: {
       KJV: "Seek ye the LORD while he may be found, call ye upon him while he is near.",
+      BSB: "Seek the LORD while He may be found; call on Him while He is near.",
       WEB: "Seek Yahweh while he may be found. Call on him while he is near.",
       ASV: "Seek ye Jehovah while he may be found; call ye upon him while he is near.",
       YLT: "Seek ye Jehovah, while He is found, Call ye Him, while He is near.",
@@ -1427,6 +1548,7 @@ const VERSES = [
     ref: "Isaiah 61:1-2",
     versions: {
       KJV: "The Spirit of the Lord GOD is upon me; because the LORD hath anointed me to preach good tidings unto the meek; he hath sent me to bind up the brokenhearted, to proclaim liberty to the captives, and the opening of the prison to them that are bound; To proclaim the acceptable year of the LORD, and the day of vengeance of our God; to comfort all that mourn.",
+      BSB: "The Spirit of the Lord GOD is on Me, because the LORD has anointed Me to preach good news to the poor. He has sent Me to bind up the brokenhearted, to proclaim liberty to the captives and freedom to the prisoners, to proclaim the year of the LORD’s favor and the day of our God’s vengeance, to comfort all who mourn,",
       WEB: "The Lord Yahweh’s Spirit is on me, because Yahweh has anointed me to preach good news to the humble. He has sent me to bind up the broken hearted, to proclaim liberty to the captives and release to those who are bound, to proclaim the year of Yahweh’s favor and the day of vengeance of our God, to comfort all who mourn.",
       ASV: "The Spirit of the Lord Jehovah is upon me; because Jehovah hath anointed me to preach good tidings unto the meek; he hath sent me to bind up the broken-hearted, to proclaim liberty to the captives, and the opening of the prison to them that are bound; to proclaim the year of Jehovah’s favor, and the day of vengeance of our God; to comfort all that mourn.",
       YLT: "The Spirit of the Lord Jehovah is on me, Because Jehovah did anoint me To proclaim tidings to the humble, He sent me to bind the broken of heart, To proclaim to captives liberty, And to bound ones an opening of bands. To proclaim the year of the good pleasure of Jehovah, And the day of vengeance of our God, To comfort all mourners.",
@@ -1440,6 +1562,7 @@ const VERSES = [
     ref: "Isaiah 61:3",
     versions: {
       KJV: "To appoint unto them that mourn in Zion, to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness; that they might be called trees of righteousness, the planting of the LORD, that he might be glorified.",
+      BSB: "to console the mourners in Zion — to give them a crown of beauty for ashes, the oil of joy for mourning, and a garment of praise for a spirit of despair. So they will be called oaks of righteousness, the planting of the LORD, that He may be glorified.",
       WEB: "to provide for those who mourn in Zion, to give to them a garland for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness, that they may be called trees of righteousness, the planting of Yahweh, that he may be glorified.",
       ASV: "to appoint unto them that mourn in Zion, to give unto them a garland for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness; that they may be called trees of righteousness, the planting of Jehovah, that he may be glorified.",
       YLT: "To appoint to mourners in Zion, To give to them beauty instead of ashes, The oil of joy instead of mourning, A covering of praise for a spirit of weakness, And He is calling to them, `Trees of righteousness, The planting of Jehovah--to be beautified.'",
@@ -1453,6 +1576,7 @@ const VERSES = [
     ref: "Isaiah 66:13",
     versions: {
       KJV: "As one whom his mother comforteth, so will I comfort you; and ye shall be comforted in Jerusalem.",
+      BSB: "As a mother comforts her son, so will I comfort you, and you will be consoled over Jerusalem.”",
       WEB: "As one whom his mother comforts, so I will comfort you. You will be comforted in Jerusalem.”",
       ASV: "As one whom his mother comforteth, so will I comfort you; and ye shall be comforted in Jerusalem.",
       YLT: "As one whom his mother comforteth, so do I comfort you, Yea, in Jerusalem ye are comforted.",
@@ -1466,6 +1590,7 @@ const VERSES = [
     ref: "Isaiah 63:9",
     versions: {
       KJV: "In all their affliction he was afflicted, and the angel of his presence saved them: in his love and in his pity he redeemed them; and he bare them, and carried them all the days of old.",
+      BSB: "In all their distress, He too was afflicted, and the Angel of His Presence saved them. In His love and compassion He redeemed them; He lifted them up and carried them all the days of old.",
       WEB: "In all their affliction he was afflicted, and the angel of his presence saved them. In his love and in his pity he redeemed them. He bore them, and carried them all the days of old.",
       ASV: "In all their affliction he was afflicted, and the angel of his presence saved them: in his love and in his pity he redeemed them; and he bare them, and carried them all the days of old.",
       YLT: "In all their distress He is no adversary, And the messenger of His presence saved them, In His love and in His pity He redeemed them, And He doth lift them up, And beareth them all the days of old.",
@@ -1479,6 +1604,7 @@ const VERSES = [
     ref: "Isaiah 26:3",
     versions: {
       KJV: "Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.",
+      BSB: "You will keep in perfect peace the steadfast of mind, because he trusts in You.",
       WEB: "You will keep whoever’s mind is steadfast in perfect peace, because he trusts in you.",
       ASV: "Thou wilt keep him in perfect peace, whose mind is stayed on thee; because he trusteth in thee.",
       YLT: "An imagination supported Thou fortifiest peace--peace! For in Thee it is confident.",
@@ -1492,6 +1618,7 @@ const VERSES = [
     ref: "Isaiah 26:4",
     versions: {
       KJV: "Trust ye in the LORD for ever: for in the LORD JEHOVAH is everlasting strength.",
+      BSB: "Trust in the LORD forever, because GOD the LORD is the Rock eternal.",
       WEB: "Trust in Yahweh forever; for in Yah, Yahweh, is an everlasting Rock.",
       ASV: "Trust ye in Jehovah for ever; for in Jehovah, even Jehovah, is an everlasting rock.",
       YLT: "Trust ye in Jehovah for ever, For in Jah Jehovah is a rock of ages.",
@@ -1505,6 +1632,7 @@ const VERSES = [
     ref: "Isaiah 42:3",
     versions: {
       KJV: "A bruised reed shall he not break, and the smoking flax shall he not quench: he shall bring forth judgment unto truth.",
+      BSB: "A bruised reed He will not break and a smoldering wick He will not extinguish; He will faithfully bring forth justice.",
       WEB: "He won’t break a bruised reed. He won’t quench a dimly burning wick. He will faithfully bring justice.",
       ASV: "A bruised reed will he not break, and a dimly burning wick will he not quench: he will bring forth justice in truth.",
       YLT: "A bruised reed he breaketh not, And dim flax he quencheth not, To truth he bringeth forth judgment.",
@@ -1518,6 +1646,7 @@ const VERSES = [
     ref: "Isaiah 12:2",
     versions: {
       KJV: "Behold, God is my salvation; I will trust, and not be afraid: for the LORD JEHOVAH is my strength and my song; he also is become my salvation.",
+      BSB: "Surely God is my salvation; I will trust and not be afraid. For the LORD GOD is my strength and my song, and He also has become my salvation.”",
       WEB: "Behold, God is my salvation. I will trust, and will not be afraid; for Yah, Yahweh, is my strength and song; and he has become my salvation.”",
       ASV: "Behold, God is my salvation; I will trust, and will not be afraid: for Jehovah, even Jehovah, is my strength and song; and he is become my salvation.",
       YLT: "Lo, God is my salvation, I trust, and fear not, For my strength and song is Jah Jehovah, And He is to me for salvation.",
@@ -1531,6 +1660,7 @@ const VERSES = [
     ref: "Isaiah 12:3",
     versions: {
       KJV: "Therefore with joy shall ye draw water out of the wells of salvation.",
+      BSB: "With joy you will draw water from the springs of salvation,",
       WEB: "Therefore with joy you will draw water out of the wells of salvation.",
       ASV: "Therefore with joy shall ye draw water out of the wells of salvation.",
       YLT: "And ye have drawn waters with joy Out of the fountains of salvation.",
@@ -1544,6 +1674,7 @@ const VERSES = [
     ref: "Isaiah 9:2",
     versions: {
       KJV: "The people that walked in darkness have seen a great light: they that dwell in the land of the shadow of death, upon them hath the light shined.",
+      BSB: "The people walking in darkness have seen a great light; on those living in the land of the shadow of death, a light has dawned.",
       WEB: "The people who walked in darkness have seen a great light. The light has shined on those who lived in the land of the shadow of death.",
       ASV: "The people that walked in darkness have seen a great light: they that dwelt in the land of the shadow of death, upon them hath the light shined.",
       YLT: "The people who are walking in darkness Have seen a great light, Dwellers in a land of death-shade, Light hath shone upon them.",
@@ -1557,6 +1688,7 @@ const VERSES = [
     ref: "Isaiah 9:6",
     versions: {
       KJV: "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
+      BSB: "For unto us a child is born, unto us a son is given, and the government will be upon His shoulders. And He will be called Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace.",
       WEB: "For a child is born to us. A son is given to us; and the government will be on his shoulders. His name will be called Wonderful Counselor, Mighty God, Everlasting Father, Prince of Peace.",
       ASV: "For unto us a child is born, unto us a son is given; and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, Mighty God, Everlasting Father, Prince of Peace.",
       YLT: "For a Child hath been born to us, A Son hath been given to us, And the princely power is on his shoulder, And He doth call his name Wonderful, Counsellor, Mighty God, Father of Eternity, Prince of Peace.",
@@ -1570,6 +1702,7 @@ const VERSES = [
     ref: "Isaiah 9:7",
     versions: {
       KJV: "Of the increase of his government and peace there shall be no end, upon the throne of David, and upon his kingdom, to order it, and to establish it with judgment and with justice from henceforth even for ever. The zeal of the LORD of hosts will perform this.",
+      BSB: "Of the increase of His government and peace there will be no end. He will reign on the throne of David and over his kingdom, to establish and sustain it with justice and righteousness from that time and forevermore. The zeal of the LORD of Hosts will accomplish this.",
       WEB: "Of the increase of his government and of peace there shall be no end, on David’s throne, and on his kingdom, to establish it, and to uphold it with justice and with righteousness from that time on, even forever. The zeal of Yahweh of Armies will perform this.",
       ASV: "Of the increase of his government and of peace there shall be no end, upon the throne of David, and upon his kingdom, to establish it, and to uphold it with justice and with righteousness from henceforth even for ever. The zeal of Jehovah of hosts will perform this.",
       YLT: "To the increase of the princely power, And of peace, there is no end, On the throne of David, and on his kingdom, To establish it, and to support it, In judgment and in righteousness, Henceforth, even unto the age, The zeal of Jehovah of Hosts doth this.",
@@ -1583,6 +1716,7 @@ const VERSES = [
     ref: "Jeremiah 29:11",
     versions: {
       KJV: "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.",
+      BSB: "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, to give you a future and a hope.",
       WEB: "For I know the thoughts that I think toward you,” says Yahweh, “thoughts of peace, and not of evil, to give you hope and a future.",
       ASV: "For I know the thoughts that I think toward you, saith Jehovah, thoughts of peace, and not of evil, to give you hope in your latter end.",
       YLT: "For I have known the thoughts that I am thinking towards you--an affirmation of Jehovah; thoughts of peace, and not of evil, to give to you posterity and hope.",
@@ -1596,6 +1730,7 @@ const VERSES = [
     ref: "Jeremiah 29:12",
     versions: {
       KJV: "Then shall ye call upon me, and ye shall go and pray unto me, and I will hearken unto you.",
+      BSB: "Then you will call upon Me and come and pray to Me, and I will listen to you.",
       WEB: "You shall call on me, and you shall go and pray to me, and I will listen to you.",
       ASV: "And ye shall call upon me, and ye shall go and pray unto me, and I will hearken unto you.",
       YLT: "`And ye have called Me, and have gone, and have prayed unto Me, and I have hearkened unto you.",
@@ -1609,6 +1744,7 @@ const VERSES = [
     ref: "Jeremiah 29:13",
     versions: {
       KJV: "And ye shall seek me, and find me, when ye shall search for me with all your heart.",
+      BSB: "You will seek Me and find Me when you search for Me with all your heart.",
       WEB: "You shall seek me, and find me, when you search for me with all your heart.",
       ASV: "And ye shall seek me, and find me, when ye shall search for me with all your heart.",
       YLT: "And ye have sought Me, and have found, for ye seek Me with all your heart.",
@@ -1622,6 +1758,7 @@ const VERSES = [
     ref: "Jeremiah 17:7-8",
     versions: {
       KJV: "Blessed is the man that trusteth in the LORD, and whose hope the LORD is. For he shall be as a tree planted by the waters, and that spreadeth out her roots by the river, and shall not see when heat cometh, but her leaf shall be green; and shall not be careful in the year of drought, neither shall cease from yielding fruit.",
+      BSB: "But blessed is the man who trusts in the LORD, whose confidence is in Him. He is like a tree planted by the waters that sends out its roots toward the stream. It does not fear when the heat comes, and its leaves are always green. It does not worry in a year of drought, nor does it cease to produce fruit.",
       WEB: "“Blessed is the man who trusts in Yahweh, and whose confidence is in Yahweh. For he will be as a tree planted by the waters, who spreads out its roots by the river, and will not fear when heat comes, but its leaf will be green, and will not be concerned in the year of drought. It won’t cease from yielding fruit.",
       ASV: "Blessed is the man that trusteth in Jehovah, and whose trust Jehovah is. For he shall be as a tree planted by the waters, that spreadeth out its roots by the river, and shall not fear when heat cometh, but its leaf shall be green; and shall not be careful in the year of drought, neither shall cease from yielding fruit.",
       YLT: "Blessed is the man who trusteth in Jehovah, And whose confidence hath been Jehovah. And hath been as a tree planted by waters, And by a rivulet he sendeth forth his roots, And he doth not see when heat cometh, And his leaf hath been green, And in a year of dearth he is not sorrowful, Nor doth he cease from making fruit.",
@@ -1635,6 +1772,7 @@ const VERSES = [
     ref: "Jeremiah 32:27",
     versions: {
       KJV: "Behold, I am the LORD, the God of all flesh: is there any thing too hard for me?",
+      BSB: "“Behold, I am the LORD, the God of all flesh. Is anything too difficult for Me?",
       WEB: "“Behold, I am Yahweh, the God of all flesh. Is there anything too hard for me?",
       ASV: "Behold, I am Jehovah, the God of all flesh: is there anything too hard for me?",
       YLT: "`Lo, I am Jehovah, God of all flesh: For Me is anything too wonderful?",
@@ -1648,6 +1786,7 @@ const VERSES = [
     ref: "Jeremiah 33:3",
     versions: {
       KJV: "Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not.",
+      BSB: "Call to Me, and I will answer and show you great and unsearchable things you do not know.",
       WEB: "Call to me, and I will answer you, and will show you great and difficult things, which you don’t know.",
       ASV: "Call unto me, and I will answer thee, and will show thee great things, and difficult, which thou knowest not.",
       YLT: "Call unto Me, and I do answer thee, yea, I declare to thee great and fenced things--thou hast not known them.",
@@ -1661,6 +1800,7 @@ const VERSES = [
     ref: "Jeremiah 31:3",
     versions: {
       KJV: "The LORD hath appeared of old unto me, saying, Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.",
+      BSB: "The LORD appeared to us in the past, saying: “I have loved you with an everlasting love; therefore I have drawn you with loving devotion.",
       WEB: "Yahweh appeared of old to me, saying, “Yes, I have loved you with an everlasting love. Therefore I have drawn you with loving kindness.",
       ASV: "Jehovah appeared of old unto me, saying, Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.",
       YLT: "From afar Jehovah hath appeared to me, With love age-during I have loved thee, Therefore I have drawn thee with kindness.",
@@ -1674,6 +1814,7 @@ const VERSES = [
     ref: "Lamentations 3:22",
     versions: {
       KJV: "It is of the LORD's mercies that we are not consumed, because his compassions fail not.",
+      BSB: "Because of the loving devotion of the LORD we are not consumed, for His mercies never fail.",
       WEB: "It is because of Yahweh’s loving kindnesses that we are not consumed, because his compassion doesn’t fail.",
       ASV: "It is of Jehovah’s lovingkindnesses that we are not consumed, because his compassions fail not.",
       YLT: "The kindnesses of Jehovah! For we have not been consumed, For not ended have His mercies.",
@@ -1687,6 +1828,7 @@ const VERSES = [
     ref: "Lamentations 3:23",
     versions: {
       KJV: "They are new every morning: great is thy faithfulness.",
+      BSB: "They are new every morning; great is Your faithfulness!",
       WEB: "They are new every morning. Great is your faithfulness.",
       ASV: "They are new every morning; great is thy faithfulness.",
       YLT: "New every morning, abundant is thy faithfulness.",
@@ -1700,6 +1842,7 @@ const VERSES = [
     ref: "Lamentations 3:25",
     versions: {
       KJV: "The LORD is good unto them that wait for him, to the soul that seeketh him.",
+      BSB: "The LORD is good to those who wait for Him, to the soul who seeks Him.",
       WEB: "Yahweh is good to those who wait for him, to the soul who seeks him.",
       ASV: "Jehovah is good unto them that wait for him, to the soul that seeketh him.",
       YLT: "Good is Jehovah to those waiting for Him, To the soul that seeketh Him.",
@@ -1713,6 +1856,7 @@ const VERSES = [
     ref: "Ezekiel 36:26",
     versions: {
       KJV: "A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you an heart of flesh.",
+      BSB: "I will give you a new heart and put a new spirit within you; I will remove your heart of stone and give you a heart of flesh.",
       WEB: "I will also give you a new heart, and I will put a new spirit within you. I will take away the stony heart out of your flesh, and I will give you a heart of flesh.",
       ASV: "A new heart also will I give you, and a new spirit will I put within you; and I will take away the stony heart out of your flesh, and I will give you a heart of flesh.",
       YLT: "And I have given to you a new heart, And a new spirit I give in your midst, And I have turned aside the heart of stone out of your flesh, And I have given to you a heart of flesh.",
@@ -1726,6 +1870,7 @@ const VERSES = [
     ref: "Ezekiel 37:3",
     versions: {
       KJV: "And he said unto me, Son of man, can these bones live? And I answered, O Lord GOD, thou knowest.",
+      BSB: "Then He asked me, “Son of man, can these bones come to life?” “O Lord GOD,” I replied, “only You know.”",
       WEB: "He said to me, “Son of man, can these bones live?” I answered, “Lord Yahweh, you know.”",
       ASV: "And he said unto me, Son of man, can these bones live? And I answered, O Lord Jehovah, thou knowest.",
       YLT: "And He saith unto me, `Son of man, do these bones live?' And I say, `O Lord Jehovah, Thou--Thou hast known.'",
@@ -1739,6 +1884,7 @@ const VERSES = [
     ref: "Daniel 3:17",
     versions: {
       KJV: "If it be so, our God whom we serve is able to deliver us from the burning fiery furnace, and he will deliver us out of thine hand, O king.",
+      BSB: "If the God whom we serve exists, then He is able to deliver us from the blazing fiery furnace and from your hand, O king.",
       WEB: "If it happens, our God whom we serve is able to deliver us from the burning fiery furnace; and he will deliver us out of your hand, O king.",
       ASV: "If it be so, our God whom we serve is able to deliver us from the burning fiery furnace; and he will deliver us out of thy hand, O king.",
       YLT: "Lo, it is; our God whom we are serving, is able to deliver us from a burning fiery furnace; and from thy hand, O king, He doth deliver.",
@@ -1752,6 +1898,7 @@ const VERSES = [
     ref: "Daniel 12:3",
     versions: {
       KJV: "And they that be wise shall shine as the brightness of the firmament; and they that turn many to righteousness as the stars for ever and ever.",
+      BSB: "Then the wise will shine like the brightness of the heavens, and those who lead many to righteousness will shine like the stars forever and ever.",
       WEB: "Those who are wise will shine as the brightness of the expanse. Those who turn many to righteousness will shine as the stars forever and ever.",
       ASV: "And they that are wise shall shine as the brightness of the firmament; and they that turn many to righteousness as the stars for ever and ever.",
       YLT: "And those teaching do shine as the brightness of the expanse, and those justifying the multitude as stars to the age and for ever.",
@@ -1765,6 +1912,7 @@ const VERSES = [
     ref: "Hosea 14:4",
     versions: {
       KJV: "I will heal their backsliding, I will love them freely: for mine anger is turned away from him.",
+      BSB: "I will heal their apostasy; I will freely love them, for My anger has turned away from them.",
       WEB: "“I will heal their waywardness. I will love them freely; for my anger is turned away from him.",
       ASV: "I will heal their backsliding, I will love them freely; for mine anger is turned away from him.",
       YLT: "I heal their backsliding, I love them freely, For turned back hath Mine anger from him.",
@@ -1778,6 +1926,7 @@ const VERSES = [
     ref: "Hosea 6:1",
     versions: {
       KJV: "Come, and let us return unto the LORD: for he hath torn, and he will heal us; he hath smitten, and he will bind us up.",
+      BSB: "Come, let us return to the LORD. For He has torn us to pieces, but He will heal us; He has wounded us, but He will bind up our wounds.",
       WEB: "“Come! Let’s return to Yahweh; for he has torn us to pieces, and he will heal us; he has injured us, and he will bind up our wounds.",
       ASV: "Come, and let us return unto Jehovah; for he hath torn, and he will heal us; he hath smitten, and he will bind us up.",
       YLT: "`Come, and we turn back unto Jehovah, For He hath torn, and He doth heal us, He doth smite, and He bindeth us up.",
@@ -1791,6 +1940,7 @@ const VERSES = [
     ref: "Joel 2:25",
     versions: {
       KJV: "And I will restore to you the years that the locust hath eaten, the cankerworm, and the caterpiller, and the palmerworm, my great army which I sent among you.",
+      BSB: "I will repay you for the years eaten by locusts — the swarming locust, the young locust, the destroying locust, and the devouring locust — My great army that I sent against you.",
       WEB: "I will restore to you the years that the swarming locust has eaten, the great locust, the grasshopper, and the caterpillar, my great army, which I sent among you.",
       ASV: "And I will restore to you the years that the locust hath eaten, the canker-worm, and the caterpillar, and the palmer-worm, my great army which I sent among you.",
       YLT: "And I have recompensed to you the years That consume did the locust, the cankerworm, And the caterpillar, and the palmer-worm, My great force that I did send against you.",
@@ -1804,6 +1954,7 @@ const VERSES = [
     ref: "Joel 3:16",
     versions: {
       KJV: "The LORD also shall roar out of Zion, and utter his voice from Jerusalem; and the heavens and the earth shall shake: but the LORD will be the hope of his people, and the strength of the children of Israel.",
+      BSB: "The LORD will roar from Zion and raise His voice from Jerusalem; heaven and earth will tremble. But the LORD will be a refuge for His people, a stronghold for the people of Israel.",
       WEB: "Yahweh will roar from Zion, and thunder from Jerusalem; and the heavens and the earth will shake; but Yahweh will be a refuge to his people, and a stronghold to the children of Israel.",
       ASV: "And Jehovah will roar from Zion, and utter his voice from Jerusalem; and the heavens and the earth shall shake: but Jehovah will be a refuge unto his people, and a stronghold to the children of Israel.",
       YLT: "And Jehovah from Zion doth roar, And from Jerusalem giveth forth His voice, And shaken have the heavens and earth, And Jehovah is a refuge to his people, And a stronghold to sons of Israel.",
@@ -1817,6 +1968,7 @@ const VERSES = [
     ref: "Amos 5:14",
     versions: {
       KJV: "Seek good, and not evil, that ye may live: and so the LORD, the God of hosts, shall be with you, as ye have spoken.",
+      BSB: "Seek good, not evil, so that you may live. And the LORD, the God of Hosts, will be with you, as you have claimed.",
       WEB: "Seek good, and not evil, that you may live; and so Yahweh, the God of Armies, will be with you, as you say.",
       ASV: "Seek good, and not evil, that ye may live; and so Jehovah, the God of hosts, will be with you, as ye say.",
       YLT: "Seek good, and not evil, that ye may live, And it is so; Jehovah, God of Hosts, is with you, as ye said.",
@@ -1830,6 +1982,7 @@ const VERSES = [
     ref: "Jonah 2:9",
     versions: {
       KJV: "But I will sacrifice unto thee with the voice of thanksgiving; I will pay that that I have vowed. Salvation is of the LORD.",
+      BSB: "But I, with the voice of thanksgiving, will sacrifice to You. I will fulfill what I have vowed. Salvation is from the LORD!”",
       WEB: "But I will sacrifice to you with the voice of thanksgiving. I will pay that which I have vowed. Salvation belongs to Yahweh.”",
       ASV: "But I will sacrifice unto thee with the voice of thanksgiving; I will pay that which I have vowed. Salvation is of Jehovah.",
       YLT: "And I--with a voice of thanksgiving--I sacrifice to Thee, That which I have vowed I complete, Salvation is of Jehovah.",
@@ -1843,6 +1996,7 @@ const VERSES = [
     ref: "Micah 6:8",
     versions: {
       KJV: "He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God.",
+      BSB: "He has shown you, O man, what is good. And what does the LORD require of you but to act justly, to love mercy, and to walk humbly with your God?",
       WEB: "He has shown you, O man, what is good. What does Yahweh require of you, but to act justly, to love mercy, and to walk humbly with your God?",
       ASV: "He hath showed thee, O man, what is good; and what doth Jehovah require of thee, but to do justly, and to love kindness, and to walk humbly with thy God?",
       YLT: "He hath declared to thee, O man, what is good; Yea, what is Jehovah requiring of thee, Except--to do judgment, and love kindness, And lowly to walk with thy God?",
@@ -1856,6 +2010,7 @@ const VERSES = [
     ref: "Micah 7:18",
     versions: {
       KJV: "Who is a God like unto thee, that pardoneth iniquity, and passeth by the transgression of the remnant of his heritage? he retaineth not his anger for ever, because he delighteth in mercy.",
+      BSB: "Who is a God like You, who pardons iniquity and passes over the transgression of the remnant of His inheritance — who does not retain His anger forever, because He delights in loving devotion?",
       WEB: "Who is a God like you, who pardons iniquity, and passes over the disobedience of the remnant of his heritage? He doesn’t retain his anger forever, because he delights in loving kindness.",
       ASV: "Who is a God like unto thee, that pardoneth iniquity, and passeth over the transgression of the remnant of his heritage? he retaineth not his anger for ever, because he delighteth in lovingkindness.",
       YLT: "Who is a God like Thee? taking away iniquity, And passing by the transgression of the remnant of His inheritance, He hath not retained for ever His anger, Because He--He delighteth in kindness.",
@@ -1869,6 +2024,7 @@ const VERSES = [
     ref: "Nahum 1:7",
     versions: {
       KJV: "The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+      BSB: "The LORD is good, a stronghold in the day of distress; He cares for those who trust in Him.",
       WEB: "Yahweh is good, a stronghold in the day of trouble; and he knows those who take refuge in him.",
       ASV: "Jehovah is good, a stronghold in the day of trouble; and he knoweth them that take refuge in him.",
       YLT: "Good is Jehovah for a strong place in a day of distress. And He knoweth those trusting in Him.",
@@ -1882,6 +2038,7 @@ const VERSES = [
     ref: "Habakkuk 3:17-18",
     versions: {
       KJV: "Although the fig tree shall not blossom, neither shall fruit be in the vines; the labour of the olive shall fail, and the fields shall yield no meat; the flock shall be cut off from the fold, and there shall be no herd in the stalls: Yet I will rejoice in the LORD, I will joy in the God of my salvation.",
+      BSB: "Though the fig tree does not bud and no fruit is on the vines, though the olive crop fails and the fields produce no food, though the sheep are cut off from the fold and no cattle are in the stalls, yet I will exult in the LORD; I will rejoice in the God of my salvation!",
       WEB: "For though the fig tree doesn’t flourish, nor fruit be in the vines; the labor of the olive fails, the fields yield no food; the flocks are cut off from the fold, and there is no herd in the stalls: yet I will rejoice in Yahweh. I will be joyful in the God of my salvation!",
       ASV: "For though the fig-tree shall not flourish, Neither shall fruit be in the vines; The labor of the olive shall fail, And the fields shall yield no food; The flock shall be cut off from the fold, And there shall be no herd in the stalls: Yet I will rejoice in Jehovah, I will joy in the God of my salvation.",
       YLT: "Though the fig-tree doth not flourish, And there is no produce among vines, Failed hath the work of the olive, And fields have not yielded food, Cut off from the fold hath been the flock, And there is no herd in the stalls. Yet I, in Jehovah I exult, I do joy in the God of my salvation.",
@@ -1895,6 +2052,7 @@ const VERSES = [
     ref: "Habakkuk 2:4",
     versions: {
       KJV: "Behold, his soul which is lifted up is not upright in him: but the just shall live by his faith.",
+      BSB: "Look at the proud one; his soul is not upright — but the righteous will live by faith —",
       WEB: "Behold, his soul is puffed up. It is not upright in him, but the righteous will live by his faith.",
       ASV: "Behold, his soul is puffed up, it is not upright in him; but the righteous shall live by his faith.",
       YLT: "Lo, a presumptuous one! Not upright is his soul within him, And the righteous by his stedfastness liveth.",
@@ -1908,6 +2066,7 @@ const VERSES = [
     ref: "Zephaniah 3:17",
     versions: {
       KJV: "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+      BSB: "The LORD your God is among you; He is mighty to save. He will rejoice over you with gladness; He will quiet you with His love; He will rejoice over you with singing.”",
       WEB: "Yahweh, your God, is among you, a mighty one who will save. He will rejoice over you with joy. He will calm you in his love. He will rejoice over you with singing.",
       ASV: "Jehovah thy God is in the midst of thee, a mighty one who will save; he will rejoice over thee with joy; he will rest in his love; he will joy over thee with singing.",
       YLT: "Jehovah thy God is in thy midst, A mighty one doth save, He rejoiceth over thee with joy, He doth work in His love, He joyeth over thee with singing.'",
@@ -1921,6 +2080,7 @@ const VERSES = [
     ref: "Haggai 2:9",
     versions: {
       KJV: "The glory of this latter house shall be greater than of the former, saith the LORD of hosts: and in this place will I give peace, saith the LORD of hosts.",
+      BSB: "The latter glory of this house will be greater than the former, says the LORD of Hosts. And in this place I will provide peace, declares the LORD of Hosts.”",
       WEB: "‘The latter glory of this house will be greater than the former,’ says Yahweh of Armies; ‘and in this place I will give peace,’ says Yahweh of Armies.”",
       ASV: "The latter glory of this house shall be greater than the former, saith Jehovah of hosts; and in this place will I give peace, saith Jehovah of hosts.",
       YLT: "Greater is the honour of this latter house, Than of the former, said Jehovah of Hosts, And in this place do I give peace, An affirmation of Jehovah of Hosts.'",
@@ -1934,6 +2094,7 @@ const VERSES = [
     ref: "Zechariah 4:6",
     versions: {
       KJV: "Then he answered and spake unto me, saying, This is the word of the LORD unto Zerubbabel, saying, Not by might, nor by power, but by my spirit, saith the LORD of hosts.",
+      BSB: "So he said to me, “This is the word of the LORD to Zerubbabel: Not by might nor by power, but by My Spirit, says the LORD of Hosts.",
       WEB: "Then he answered and spoke to me, saying, “This is Yahweh’s word to Zerubbabel, saying, ‘Not by might, nor by power, but by my Spirit,’ says Yahweh of Armies.",
       ASV: "Then he answered and spake unto me, saying, This is the word of Jehovah unto Zerubbabel, saying, Not by might, nor by power, but by my Spirit, saith Jehovah of hosts.",
       YLT: "And he answereth and speaketh unto me, saying: `This is a word of Jehovah unto Zerubbabel, saying: Not by a force, nor by power, But--by My Spirit, said Jehovah of Hosts.",
@@ -1947,6 +2108,7 @@ const VERSES = [
     ref: "Zechariah 9:12",
     versions: {
       KJV: "Turn you to the strong hold, ye prisoners of hope: even to day do I declare that I will render double unto thee.",
+      BSB: "Return to your stronghold, O prisoners of hope; even today I declare that I will restore to you double.",
       WEB: "Turn to the stronghold, you prisoners of hope! Even today I declare that I will restore double to you.",
       ASV: "Turn you to the stronghold, ye prisoners of hope: even to-day do I declare that I will render double unto thee.",
       YLT: "Turn back to a fenced place, Ye prisoners of the hope, Even to-day a second announcer I restore to thee.",
@@ -1960,6 +2122,7 @@ const VERSES = [
     ref: "Malachi 4:2",
     versions: {
       KJV: "But unto you that fear my name shall the Sun of righteousness arise with healing in his wings; and ye shall go forth, and grow up as calves of the stall.",
+      BSB: "“But for you who fear My name, the sun of righteousness will rise with healing in its wings, and you will go out and leap like calves from the stall.",
       WEB: "But to you who fear my name shall the sun of righteousness arise with healing in its wings. You will go out, and leap like calves of the stall.",
       ASV: "But unto you that fear my name shall the sun of righteousness arise with healing in its wings; and ye shall go forth, and gambol as calves of the stall.",
       YLT: "And risen to you, ye who fear My name, Hath the sun of righteousness--and healing in its wings, And ye have gone forth, and have increased as calves of a stall.",
@@ -1973,6 +2136,7 @@ const VERSES = [
     ref: "Matthew 5:4",
     versions: {
       KJV: "Blessed are they that mourn: for they shall be comforted.",
+      BSB: "Blessed are those who mourn, for they will be comforted.",
       WEB: "Blessed are those who mourn, for they shall be comforted.",
       ASV: "Blessed are they that mourn: for they shall be comforted.",
       YLT: "`Happy the mourning--because they shall be comforted.",
@@ -1986,6 +2150,7 @@ const VERSES = [
     ref: "Matthew 5:3",
     versions: {
       KJV: "Blessed are the poor in spirit: for theirs is the kingdom of heaven.",
+      BSB: "“Blessed are the poor in spirit, for theirs is the kingdom of heaven.",
       WEB: "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven.",
       ASV: "Blessed are the poor in spirit: for theirs is the kingdom of heaven.",
       YLT: "`Happy the poor in spirit--because theirs is the reign of the heavens.",
@@ -1999,6 +2164,7 @@ const VERSES = [
     ref: "Matthew 5:14",
     versions: {
       KJV: "Ye are the light of the world. A city that is set on an hill cannot be hid.",
+      BSB: "You are the light of the world. A city on a hill cannot be hidden.",
       WEB: "You are the light of the world. A city located on a hill can’t be hidden.",
       ASV: "Ye are the light of the world. A city set on a hill cannot be hid.",
       YLT: "`Ye are the light of the world, a city set upon a mount is not able to be hid.",
@@ -2012,6 +2178,7 @@ const VERSES = [
     ref: "Matthew 5:16",
     versions: {
       KJV: "Let your light so shine before men, that they may see your good works, and glorify your Father which is in heaven.",
+      BSB: "In the same way, let your light shine before men, that they may see your good deeds and glorify your Father in heaven.",
       WEB: "Even so, let your light shine before men; that they may see your good works, and glorify your Father who is in heaven.",
       ASV: "Even so let your light shine before men; that they may see your good works, and glorify your Father who is in heaven.",
       YLT: "so let your light shine before men, that they may see your good works, and may glorify your Father who is in the heavens.",
@@ -2025,6 +2192,7 @@ const VERSES = [
     ref: "Matthew 6:34",
     versions: {
       KJV: "Take therefore no thought for the morrow: for the morrow shall take thought for the things of itself. Sufficient unto the day is the evil thereof.",
+      BSB: "Therefore do not worry about tomorrow, for tomorrow will worry about itself. Today has enough trouble of its own.’’",
       WEB: "Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself. Each day’s own evil is sufficient.",
       ASV: "Be not therefore anxious for the morrow: for the morrow will be anxious for itself. Sufficient unto the day is the evil thereof.",
       YLT: "Be not therefore anxious for the morrow, for the morrow shall be anxious for its own things; sufficient for the day is the evil of it.",
@@ -2038,6 +2206,7 @@ const VERSES = [
     ref: "Matthew 6:26",
     versions: {
       KJV: "Behold the fowls of the air: for they sow not, neither do they reap, nor gather into barns; yet your heavenly Father feedeth them. Are ye not much better than they?",
+      BSB: "Look at the birds of the air: They do not sow or reap or gather into barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
       WEB: "See the birds of the sky, that they don’t sow, neither do they reap, nor gather into barns. Your heavenly Father feeds them. Aren’t you of much more value than they?",
       ASV: "Behold the birds of the heaven, that they sow not, neither do they reap, nor gather into barns; and your heavenly Father feedeth them. Are not ye of much more value than they?",
       YLT: "look to the fowls of the heaven, for they do not sow, nor reap, nor gather into storehouses, and your heavenly Father doth nourish them; are not ye much better than they?",
@@ -2051,6 +2220,7 @@ const VERSES = [
     ref: "Matthew 7:7",
     versions: {
       KJV: "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",
+      BSB: "Ask, and it will be given to you; seek, and you will find; knock, and the door will be opened to you.",
       WEB: "“Ask, and it will be given you. Seek, and you will find. Knock, and it will be opened for you.",
       ASV: "Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you.",
       YLT: "`Ask, and it shall be given to you; seek, and ye shall find; knock, and it shall be opened to you.",
@@ -2064,6 +2234,7 @@ const VERSES = [
     ref: "Matthew 11:28",
     versions: {
       KJV: "Come unto me, all ye that labour and are heavy laden, and I will give you rest.",
+      BSB: "Come to Me, all you who are weary and burdened, and I will give you rest.",
       WEB: "“Come to me, all you who labor and are heavily burdened, and I will give you rest.",
       ASV: "Come unto me, all ye that labor and are heavy laden, and I will give you rest.",
       YLT: "`Come unto me, all ye labouring and burdened ones, and I will give you rest.",
@@ -2077,6 +2248,7 @@ const VERSES = [
     ref: "Matthew 11:29",
     versions: {
       KJV: "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.",
+      BSB: "Take My yoke upon you and learn from Me, for I am gentle and humble in heart, and you will find rest for your souls.",
       WEB: "Take my yoke upon you, and learn from me, for I am gentle and humble in heart; and you will find rest for your souls.",
       ASV: "Take my yoke upon you, and learn of me; for I am meek and lowly in heart: and ye shall find rest unto your souls.",
       YLT: "take up my yoke upon you, and learn from me, because I am meek and humble in heart, and ye shall find rest to your souls.",
@@ -2090,6 +2262,7 @@ const VERSES = [
     ref: "Matthew 14:27",
     versions: {
       KJV: "But straightway Jesus spake unto them, saying, Be of good cheer; it is I; be not afraid.",
+      BSB: "But Jesus spoke up at once: “Take courage! It is I. Do not be afraid.”",
       WEB: "But immediately Jesus spoke to them, saying, “Cheer up! It is I! Don’t be afraid.”",
       ASV: "But straightway Jesus spake unto them, saying, Be of good cheer; it is I; be not afraid.",
       YLT: "and immediately Jesus spake to them, saying, `Be of good courage, I am he, be not afraid.'",
@@ -2103,6 +2276,7 @@ const VERSES = [
     ref: "Matthew 19:26",
     versions: {
       KJV: "But Jesus beheld them, and said unto them, With men this is impossible; but with God all things are possible.",
+      BSB: "Jesus looked at them and said, “With man this is impossible, but with God all things are possible.”",
       WEB: "Looking at them, Jesus said, “With men this is impossible, but with God all things are possible.”",
       ASV: "And Jesus looking upon them said to them, With men this is impossible; but with God all things are possible.",
       YLT: "And Jesus having earnestly beheld, said to them, `With men this is impossible, but with God all things are possible.'",
@@ -2116,6 +2290,7 @@ const VERSES = [
     ref: "Matthew 28:20",
     versions: {
       KJV: "Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen.",
+      BSB: "and teaching them to obey all that I have commanded you. And surely I am with you always, even to the end of the age.”",
       WEB: "teaching them to observe all things that I commanded you. Behold, I am with you always, even to the end of the age.” Amen.",
       ASV: "teaching them to observe all things whatsoever I commanded you: and lo, I am with you always, even unto the end of the world.",
       YLT: "teaching them to observe all, whatever I did command you,) and lo, I am with you all the days--till the full end of the age.'",
@@ -2129,6 +2304,7 @@ const VERSES = [
     ref: "Matthew 5:7",
     versions: {
       KJV: "Blessed are the merciful: for they shall obtain mercy.",
+      BSB: "Blessed are the merciful, for they will be shown mercy.",
       WEB: "Blessed are the merciful, for they shall obtain mercy.",
       ASV: "Blessed are the merciful: for they shall obtain mercy.",
       YLT: "`Happy the kind--because they shall find kindness.",
@@ -2142,6 +2318,7 @@ const VERSES = [
     ref: "Mark 5:36",
     versions: {
       KJV: "As soon as Jesus heard the word that was spoken, he saith unto the ruler of the synagogue, Be not afraid, only believe.",
+      BSB: "But Jesus overheard their conversation and said to Jairus, “ Do not be afraid; just believe.”",
       WEB: "But Jesus, when he heard the message spoken, immediately said to the ruler of the synagogue, “Don’t be afraid, only believe.”",
       ASV: "But Jesus, not heeding the word spoken, saith unto the ruler of the synagogue, Fear not, only believe.",
       YLT: "And Jesus immediately, having heard the word that is spoken, saith to the chief of the synagogue, `Be not afraid, only believe.'",
@@ -2155,6 +2332,7 @@ const VERSES = [
     ref: "Mark 11:24",
     versions: {
       KJV: "Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.",
+      BSB: "Therefore I tell you, whatever you ask for in prayer, believe that you have received it, and it will be yours.",
       WEB: "Therefore I tell you, all things whatever you pray and ask for, believe that you have received them, and you shall have them.",
       ASV: "Therefore I say unto you, All things whatsoever ye pray and ask for, believe that ye receive them, and ye shall have them.",
       YLT: "Because of this I say to you, all whatever--praying--ye do ask, believe that ye receive, and it shall be to you.",
@@ -2168,6 +2346,7 @@ const VERSES = [
     ref: "Mark 4:39",
     versions: {
       KJV: "And he arose, and rebuked the wind, and said unto the sea, Peace, be still. And the wind ceased, and there was a great calm.",
+      BSB: "Then Jesus got up and rebuked the wind and the sea. “Silence!” He commanded. “Be still!” And the wind died down, and it was perfectly calm.",
       WEB: "He awoke, and rebuked the wind, and said to the sea, “Peace! Be still!” The wind ceased, and there was a great calm.",
       ASV: "And he awoke, and rebuked the wind, and said unto the sea, Peace, be still. And the wind ceased, and there was a great calm.",
       YLT: "And having waked up, he rebuked the wind, and said to the sea, `Peace, be stilled;' and the wind did lull, and there was a great calm.",
@@ -2181,6 +2360,7 @@ const VERSES = [
     ref: "Mark 9:24",
     versions: {
       KJV: "And straightway the father of the child cried out, and said with tears, Lord, I believe; help thou mine unbelief.",
+      BSB: "Immediately the boy’s father cried out, “I do believe; help my unbelief!”",
       WEB: "Immediately the father of the child cried out with tears, “I believe. Help my unbelief!”",
       ASV: "Straightway the father of the child cried out, and said, I believe; help thou mine unbelief.",
       YLT: "and immediately the father of the child, having cried out, with tears said, `I believe, sir; be helping mine unbelief.'",
@@ -2194,6 +2374,7 @@ const VERSES = [
     ref: "Luke 2:10",
     versions: {
       KJV: "And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people.",
+      BSB: "But the angel said to them, “ Do not be afraid! For behold, I bring you good news of great joy that will be for all the people:",
       WEB: "The angel said to them, “Don’t be afraid, for behold, I bring you good news of great joy which will be to all the people.",
       ASV: "And the angel said unto them, Be not afraid; for behold, I bring you good tidings of great joy which shall be to all the people.",
       YLT: "And the messenger said to them, `Fear not, for lo, I bring you good news of great joy, that shall be to all the people--",
@@ -2207,6 +2388,7 @@ const VERSES = [
     ref: "Luke 2:14",
     versions: {
       KJV: "Glory to God in the highest, and on earth peace, good will toward men.",
+      BSB: "“Glory to God in the highest, and on earth peace to men on whom His favor rests!”",
       WEB: "Glory to God in the highest, on earth peace, good will toward men.",
       ASV: "Glory to God in the highest, And on earth peace among men in whom he is well pleased.",
       YLT: "`Glory in the highest to God, and upon earth peace, among men--good will.'",
@@ -2220,6 +2402,7 @@ const VERSES = [
     ref: "Luke 6:38",
     versions: {
       KJV: "Give, and it shall be given unto you; good measure, pressed down, and shaken together, and running over, shall men give into your bosom. For with the same measure that ye mete withal it shall be measured to you again.",
+      BSB: "Give, and it will be given to you. A good measure, pressed down, shaken together, and running over will be poured into your lap. For with the measure you use, it will be measured back to you.”",
       WEB: "Give, and it will be given to you: good measure, pressed down, shaken together, and running over, will be given to you. For with the same measure you measure it will be measured back to you.",
       ASV: "give, and it shall be given unto you; good measure, pressed down, shaken together, running over, shall they give into your bosom. For with what measure ye mete it shall be measured to you again.",
       YLT: "`Give, and it shall be given to you; good measure, pressed, and shaken, and running over, they shall give into your bosom; for with that measure with which ye measure, it shall be measured to you again.'",
@@ -2233,6 +2416,7 @@ const VERSES = [
     ref: "Luke 12:32",
     versions: {
       KJV: "Fear not, little flock; for it is your Father's good pleasure to give you the kingdom.",
+      BSB: "Do not be afraid, little flock, for your Father is pleased to give you the kingdom.",
       WEB: "Don’t be afraid, little flock, for it is your Father’s good pleasure to give you the Kingdom.",
       ASV: "Fear not, little flock; for it is your Father’s good pleasure to give you the kingdom.",
       YLT: "`Fear not, little flock, because your Father did delight to give you the reign.",
@@ -2246,6 +2430,7 @@ const VERSES = [
     ref: "Luke 1:37",
     versions: {
       KJV: "For with God nothing shall be impossible.",
+      BSB: "For no word from God will ever fail.”",
       WEB: "For nothing spoken by God is impossible.”",
       ASV: "For no word from God shall be void of power.",
       YLT: "because nothing shall be impossible with God.'",
@@ -2259,6 +2444,7 @@ const VERSES = [
     ref: "Luke 1:47",
     versions: {
       KJV: "And my spirit hath rejoiced in God my Saviour.",
+      BSB: "and my spirit rejoices in God my Savior!",
       WEB: "My spirit has rejoiced in God my Savior.",
       ASV: "And my spirit hath rejoiced in God my Saviour.",
       YLT: "And my spirit was glad on God my Saviour.",
@@ -2272,6 +2458,7 @@ const VERSES = [
     ref: "Luke 6:23",
     versions: {
       KJV: "Rejoice ye in that day, and leap for joy: for, behold, your reward is great in heaven: for in the like manner did their fathers unto the prophets.",
+      BSB: "Rejoice in that day and leap for joy, because great is your reward in heaven. For their fathers treated the prophets in the same way.",
       WEB: "Rejoice in that day, and leap for joy, for behold, your reward is great in heaven, for their fathers did the same thing to the prophets.",
       ASV: "Rejoice in that day, and leap for joy: for behold, your reward is great in heaven; for in the same manner did their fathers unto the prophets.",
       YLT: "rejoice in that day, and leap, for lo, your reward is great in the heaven, for according to these things were their fathers doing to the prophets.",
@@ -2285,6 +2472,7 @@ const VERSES = [
     ref: "Matthew 18:4",
     versions: {
       KJV: "Whosoever therefore shall humble himself as this little child, the same is greatest in the kingdom of heaven.",
+      BSB: "Therefore, whoever humbles himself like this little child is the greatest in the kingdom of heaven.",
       WEB: "Whoever therefore humbles himself as this little child is the greatest in the Kingdom of Heaven.",
       ASV: "Whosoever therefore shall humble himself as this little child, the same is the greatest in the kingdom of heaven.",
       YLT: "whoever then may humble himself as this child, he is the greater in the reign of the heavens.",
@@ -2298,6 +2486,7 @@ const VERSES = [
     ref: "Luke 15:24",
     versions: {
       KJV: "For this my son was dead, and is alive again; he was lost, and is found. And they began to be merry.",
+      BSB: "For this son of mine was dead and is alive again! He was lost and is found!’ So they began to celebrate.",
       WEB: "for this, my son, was dead, and is alive again. He was lost, and is found.’ Then they began to celebrate.",
       ASV: "for this my son was dead, and is alive again; he was lost, and is found. And they began to be merry.",
       YLT: "because this my son was dead, and did live again, and he was lost, and was found; and they began to be merry.",
@@ -2311,6 +2500,7 @@ const VERSES = [
     ref: "John 3:16",
     versions: {
       KJV: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.",
+      BSB: "For God so loved the world that He gave His one and only Son, that everyone who believes in Him shall not perish but have eternal life.",
       WEB: "For God so loved the world, that he gave his one and only Son, that whoever believes in him should not perish, but have eternal life.",
       ASV: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth on him should not perish, but have eternal life.",
       YLT: "for God did so love the world, that His Son--the only begotten--He gave, that every one who is believing in him may not perish, but may have life age-during.",
@@ -2324,6 +2514,7 @@ const VERSES = [
     ref: "John 14:27",
     versions: {
       KJV: "Peace I leave with you, my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be afraid.",
+      BSB: "Peace I leave with you; My peace I give to you. I do not give to you as the world gives. Do not let your hearts be troubled; do not be afraid.",
       WEB: "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful.",
       ASV: "Peace I leave with you; my peace I give unto you: not as the world giveth, give I unto you. Let not your heart be troubled, neither let it be fearful.",
       YLT: "`Peace I leave to you; my peace I give to you, not according as the world doth give do I give to you; let not your heart be troubled, nor let it be afraid.",
@@ -2337,6 +2528,7 @@ const VERSES = [
     ref: "John 16:33",
     versions: {
       KJV: "These things I have spoken unto you, that in me ye might have peace. In the world ye shall have tribulation: but be of good cheer; I have overcome the world.",
+      BSB: "I have told you these things so that in Me you may have peace. In the world you will have tribulation. But take courage; I have overcome the world!”",
       WEB: "I have told you these things, that in me you may have peace. In the world you have trouble; but cheer up! I have overcome the world.”",
       ASV: "These things have I spoken unto you, that in me ye may have peace. In the world ye have tribulation: but be of good cheer; I have overcome the world.",
       YLT: "these things I have spoken to you, that in me ye may have peace, in the world ye shall have tribulation, but take courage--I have overcome the world.'",
@@ -2350,6 +2542,7 @@ const VERSES = [
     ref: "John 14:6",
     versions: {
       KJV: "Jesus saith unto him, I am the way, the truth, and the life: no man cometh unto the Father, but by me.",
+      BSB: "Jesus answered, “I am the way and the truth and the life. No one comes to the Father except through Me.",
       WEB: "Jesus said to him, “I am the way, the truth, and the life. No one comes to the Father, except through me.",
       ASV: "Jesus saith unto him, I am the way, and the truth, and the life: no one cometh unto the Father, but by me.",
       YLT: "Jesus saith to him, `I am the way, and the truth, and the life, no one doth come unto the Father, if not through me.",
@@ -2363,6 +2556,7 @@ const VERSES = [
     ref: "John 14:2",
     versions: {
       KJV: "In my Father's house are many mansions: if it were not so, I would have told you. I go to prepare a place for you.",
+      BSB: "In My Father’s house are many rooms. If it were not so, would I have told you that I am going there to prepare a place for you?",
       WEB: "In my Father’s house are many homes. If it weren’t so, I would have told you. I am going to prepare a place for you.",
       ASV: "In my Father’s house are many mansions; if it were not so, I would have told you; for I go to prepare a place for you.",
       YLT: "in the house of my Father are many mansions; and if not, I would have told you; I go on to prepare a place for you.",
@@ -2376,6 +2570,7 @@ const VERSES = [
     ref: "John 10:10",
     versions: {
       KJV: "The thief cometh not, but for to steal, and to kill, and to destroy: I am come that they might have life, and that they might have it more abundantly.",
+      BSB: "The thief comes only to steal and kill and destroy. I have come that they may have life, and have it in all its fullness.",
       WEB: "The thief only comes to steal, kill, and destroy. I came that they may have life, and may have it abundantly.",
       ASV: "The thief cometh not, but that he may steal, and kill, and destroy: I came that they may have life, and may have it abundantly.",
       YLT: "`The thief doth not come, except that he may steal, and kill, and destroy; I came that they may have life, and may have it abundantly.",
@@ -2389,6 +2584,7 @@ const VERSES = [
     ref: "John 10:11",
     versions: {
       KJV: "I am the good shepherd: the good shepherd giveth his life for the sheep.",
+      BSB: "I am the good shepherd. The good shepherd lays down His life for the sheep.",
       WEB: "I am the good shepherd. The good shepherd lays down his life for the sheep.",
       ASV: "I am the good shepherd: the good shepherd layeth down his life for the sheep.",
       YLT: "`I am the good shepherd; the good shepherd his life layeth down for the sheep.",
@@ -2402,6 +2598,7 @@ const VERSES = [
     ref: "John 11:25",
     versions: {
       KJV: "Jesus said unto her, I am the resurrection, and the life: he that believeth in me, though he were dead, yet shall he live.",
+      BSB: "Jesus said to her, “I am the resurrection and the life. Whoever believes in Me will live, even though he dies.",
       WEB: "Jesus said to her, “I am the resurrection and the life. He who believes in me will still live, even if he dies.",
       ASV: "Jesus said unto her, I am the resurrection, and the life: he that believeth on me, though he die, yet shall he live.",
       YLT: "Jesus said to her, `I am the rising again, and the life; he who is believing in me, even if he may die, shall live.",
@@ -2415,6 +2612,7 @@ const VERSES = [
     ref: "John 11:35",
     versions: {
       KJV: "Jesus wept.",
+      BSB: "Jesus wept.",
       WEB: "Jesus wept.",
       ASV: "Jesus wept.",
       YLT: "Jesus wept.",
@@ -2428,6 +2626,7 @@ const VERSES = [
     ref: "John 14:15-16",
     versions: {
       KJV: "If ye love me, keep my commandments. And I will pray the Father, and he shall give you another Comforter, that he may abide with you for ever.",
+      BSB: "If you love Me, you will keep My commandments. And I will ask the Father, and He will give you another Advocate to be with you forever —",
       WEB: "If you love me, keep my commandments. I will pray to the Father, and he will give you another Counselor, that he may be with you forever.",
       ASV: "If ye love me, ye will keep my commandments. And I will pray the Father, and he shall give you another Comforter, that he may be with you for ever.",
       YLT: "`If ye love me, my commands keep, and I will ask the Father, and another Comforter He will give to you, that he may remain with you--to the age.",
@@ -2441,6 +2640,7 @@ const VERSES = [
     ref: "John 15:11",
     versions: {
       KJV: "These things have I spoken unto you, that my joy might remain in you, and that your joy might be full.",
+      BSB: "I have told you these things so that My joy may be in you and your joy may be complete.",
       WEB: "I have spoken these things to you, that my joy may remain in you, and that your joy may be made full.",
       ASV: "These things have I spoken unto you, that my joy may be in you, and that your joy may be made full.",
       YLT: "these things I have spoken to you, that my joy in you may remain, and your joy may be full.",
@@ -2454,6 +2654,7 @@ const VERSES = [
     ref: "John 15:13",
     versions: {
       KJV: "Greater love hath no man than this, that a man lay down his life for his friends.",
+      BSB: "Greater love has no one than this, that he lay down his life for his friends.",
       WEB: "Greater love has no one than this, that someone lay down his life for his friends.",
       ASV: "Greater love hath no man than this, that a man lay down his life for his friends.",
       YLT: "greater love than this hath no one, that any one his life may lay down for his friends.",
@@ -2467,6 +2668,7 @@ const VERSES = [
     ref: "John 16:22",
     versions: {
       KJV: "And ye now therefore have sorrow: but I will see you again, and your heart shall rejoice, and your joy no man taketh from you.",
+      BSB: "So also you have sorrow now, but I will see you again and your hearts will rejoice, and no one will take away your joy.",
       WEB: "Therefore you now have sorrow, but I will see you again, and your heart will rejoice, and no one will take your joy away from you.",
       ASV: "And ye therefore now have sorrow: but I will see you again, and your heart shall rejoice, and your joy no one taketh away from you.",
       YLT: "`And ye, therefore, now, indeed, have sorrow; and again I will see you, and your heart shall rejoice, and your joy no one doth take from you.",
@@ -2480,6 +2682,7 @@ const VERSES = [
     ref: "John 16:24",
     versions: {
       KJV: "Hitherto have ye asked nothing in my name: ask, and ye shall receive, that your joy may be full.",
+      BSB: "Until now you have not asked for anything in My name. Ask and you will receive, so that your joy may be complete.",
       WEB: "Until now, you have asked nothing in my name. Ask, and you will receive, that your joy may be made full.",
       ASV: "Hitherto have ye asked nothing in my name: ask, and ye shall receive, that your joy may be made full.",
       YLT: "till now ye did ask nothing in my name; ask, and ye shall receive, that your joy may be full.",
@@ -2493,6 +2696,7 @@ const VERSES = [
     ref: "John 8:12",
     versions: {
       KJV: "Then spake Jesus again unto them, saying, I am the light of the world: he that followeth me shall not walk in darkness, but shall have the light of life.",
+      BSB: "Once again, Jesus spoke to the people and said, “I am the light of the world. Whoever follows Me will never walk in the darkness, but will have the light of life.”",
       WEB: "Again, therefore, Jesus spoke to them, saying, “I am the light of the world. He who follows me will not walk in the darkness, but will have the light of life.”",
       ASV: "Again therefore Jesus spake unto them, saying, I am the light of the world: he that followeth me shall not walk in the darkness, but shall have the light of life.",
       YLT: "Again, therefore, Jesus spake to them, saying, `I am the light of the world; he who is following me shall not walk in the darkness, but he shall have the light of the life.'",
@@ -2506,6 +2710,7 @@ const VERSES = [
     ref: "John 8:36",
     versions: {
       KJV: "If the Son therefore shall make you free, ye shall be free indeed.",
+      BSB: "So if the Son sets you free, you will be free indeed.",
       WEB: "If therefore the Son makes you free, you will be free indeed.",
       ASV: "If therefore the Son shall make you free, ye shall be free indeed.",
       YLT: "if then the son may make you free, in reality ye shall be free.",
@@ -2519,6 +2724,7 @@ const VERSES = [
     ref: "John 8:32",
     versions: {
       KJV: "And ye shall know the truth, and the truth shall make you free.",
+      BSB: "Then you will know the truth, and the truth will set you free.”",
       WEB: "You will know the truth, and the truth will make you free.”",
       ASV: "and ye shall know the truth, and the truth shall make you free.",
       YLT: "and the truth shall make you free.'",
@@ -2532,6 +2738,7 @@ const VERSES = [
     ref: "2 Chronicles 20:20",
     versions: {
       KJV: "And they rose early in the morning, and went forth into the wilderness of Tekoa: and as they went forth, Jehoshaphat stood and said, Hear me, O Judah, and ye inhabitants of Jerusalem; Believe in the LORD your God, so shall ye be established; believe his prophets, so shall ye prosper.",
+      BSB: "Early in the morning they got up and left for the Wilderness of Tekoa. As they set out, Jehoshaphat stood up and said, “Hear me, O people of Judah and Jerusalem. Believe in the LORD your God, and you will be upheld; believe in His prophets, and you will succeed.”",
       WEB: "They rose early in the morning, and went out into the wilderness of Tekoa. As they went out, Jehoshaphat stood and said, “Listen to me, Judah, and you inhabitants of Jerusalem! Believe in Yahweh your God, so you will be established! Believe his prophets, so you will prosper.”",
       ASV: "And they rose early in the morning, and went forth into the wilderness of Tekoa: and as they went forth, Jehoshaphat stood and said, Hear me, O Judah, and ye inhabitants of Jerusalem: believe in Jehovah your God, so shall ye be established; believe his prophets, so shall ye prosper.",
       YLT: "And they rise early in the morning, and go out to the wilderness of Tekoa, and in their going out Jehoshaphat hath stood and saith, `Hear me, O Judah, and inhabitants of Jerusalem, remain stedfast in Jehovah your God, and be stedfast; remain stedfast in His prophets, and prosper.'",
@@ -2545,6 +2752,7 @@ const VERSES = [
     ref: "1 Peter 1:8",
     versions: {
       KJV: "Whom having not seen, ye love; in whom, though now ye see him not, yet believing, ye rejoice with joy unspeakable and full of glory.",
+      BSB: "Though you have not seen Him, you love Him; and though you do not see Him now, you believe in Him and rejoice with an inexpressible and glorious joy,",
       WEB: "whom, not having known, you love. In him, though now you don’t see him, yet believing, you rejoice greatly with joy that is unspeakable and full of glory.",
       ASV: "whom not having seen ye love; on whom, though now ye see him not, yet believing, ye rejoice greatly with joy unspeakable and full of glory.",
       YLT: "whom, not having seen, ye love, in whom, now not seeing and believing, ye are glad with joy unspeakable and glorified.",
@@ -2558,6 +2766,7 @@ const VERSES = [
     ref: "Acts 1:8",
     versions: {
       KJV: "But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me both in Jerusalem, and in all Judaea, and in Samaria, and unto the uttermost part of the earth.",
+      BSB: "But you will receive power when the Holy Spirit comes upon you, and you will be My witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth.”",
       WEB: "But you will receive power when the Holy Spirit has come upon you. You will be witnesses to me in Jerusalem, in all Judea and Samaria, and to the uttermost parts of the earth.”",
       ASV: "But ye shall receive power, when the Holy Spirit is come upon you: and ye shall be my witnesses both in Jerusalem, and in all Judæa and Samaria, and unto the uttermost part of the earth.",
       YLT: "but ye shall receive power at the coming of the Holy Spirit upon you, and ye shall be witnesses to me both in Jerusalem, and in all Judea, and Samaria, and unto the end of the earth.'",
@@ -2571,6 +2780,7 @@ const VERSES = [
     ref: "Acts 17:28",
     versions: {
       KJV: "For in him we live, and move, and have our being; as certain also of your own poets have said, For we are also his offspring.",
+      BSB: "‘For in Him we live and move and have our being.’ As some of your own poets have said, ‘We are His offspring.’",
       WEB: "For in him we live, move, and have our being.’ As some of your own poets have said, ‘For we are also his offspring.",
       ASV: "for in him we live, and move, and have our being; as certain even of your own poets have said, For we are also his offspring.",
       YLT: "for in Him we live, and move, and are; as also certain of your poets have said: For of Him also we are offspring.",
@@ -2584,6 +2794,7 @@ const VERSES = [
     ref: "Acts 20:35",
     versions: {
       KJV: "I have shewed you all things, how that so labouring ye ought to support the weak, and to remember the words of the Lord Jesus, how he said, It is more blessed to give than to receive.",
+      BSB: "In everything, I showed you that by this kind of hard work we must help the weak, remembering the words of the Lord Jesus Himself: ‘It is more blessed to give than to receive.’”",
       WEB: "In all things I gave you an example, that so laboring you ought to help the weak, and to remember the words of the Lord Jesus, that he himself said, ‘It is more blessed to give than to receive.’”",
       ASV: "In all things I gave you an example, that so laboring ye ought to help the weak, and to remember the words of the Lord Jesus, that he himself said, It is more blessed to give than to receive.",
       YLT: "all things I did shew you, that, thus labouring, it behoveth us to partake with the ailing, to be mindful also of the words of the Lord Jesus, that he himself said, It is more blessed to give than to receive.'",
@@ -2597,6 +2808,7 @@ const VERSES = [
     ref: "Acts 2:4",
     versions: {
       KJV: "And they were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance.",
+      BSB: "And they were all filled with the Holy Spirit and began to speak in other tongues as the Spirit enabled them.",
       WEB: "They were all filled with the Holy Spirit, and began to speak with other languages, as the Spirit gave them the ability to speak.",
       ASV: "And they were all filled with the Holy Spirit, and began to speak with other tongues, as the Spirit gave them utterance.",
       YLT: "and they were all filled with the Holy Spirit, and began to speak with other tongues, according as the Spirit was giving them to declare.",
@@ -2610,6 +2822,7 @@ const VERSES = [
     ref: "Acts 11:24",
     versions: {
       KJV: "For he was a good man, and full of the Holy Ghost and of faith: and much people was added unto the Lord.",
+      BSB: "Barnabas was a good man, full of the Holy Spirit and faith, and a great number of people were brought to the Lord.",
       WEB: "For he was a good man, and full of the Holy Spirit and of faith, and many people were added to the Lord.",
       ASV: "for he was a good man, and full of the Holy Spirit and of faith: and much people was added unto the Lord.",
       YLT: "because he was a good man, and full of the Holy Spirit, and of faith, and a great multitude was added to the Lord.",
@@ -2623,6 +2836,7 @@ const VERSES = [
     ref: "Acts 4:36",
     versions: {
       KJV: "And Joses, who by the apostles was surnamed Barnabas, (which is, being interpreted, The son of consolation,) a Levite, and of the country of Cyprus.",
+      BSB: "Joseph, a Levite from Cyprus, whom the apostles called Barnabas (meaning Son of Encouragement),",
       WEB: "Joses, who by the apostles was also called Barnabas (which is, being interpreted, Son of Encouragement), a Levite, a man of Cyprus by race.",
       ASV: "And Joseph, who by the apostles was surnamed Barnabas (which is, being interpreted, Son of exhortation), a Levite, a man of Cyprus by race.",
       YLT: "And Joses, who was surnamed by the apostles Barnabas--which is, having been interpreted, Son of Comfort--a Levite, of Cyprus by birth.",
@@ -2636,6 +2850,7 @@ const VERSES = [
     ref: "Romans 15:13",
     versions: {
       KJV: "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.",
+      BSB: "Now may the God of hope fill you with all joy and peace as you believe in Him, so that you may overflow with hope by the power of the Holy Spirit.",
       WEB: "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope, in the power of the Holy Spirit.",
       ASV: "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, in the power of the Holy Spirit.",
       YLT: "and the God of the hope shall fill you with all joy and peace in the believing, for your abounding in the hope in power of the Holy Spirit.",
@@ -2649,6 +2864,7 @@ const VERSES = [
     ref: "Romans 8:28",
     versions: {
       KJV: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.",
+      BSB: "And we know that God works all things together for the good of those who love Him, who are called according to His purpose.",
       WEB: "We know that all things work together for good for those who love God, for those who are called according to his purpose.",
       ASV: "And we know that to them that love God all things work together for good, even to them that are called according to his purpose.",
       YLT: "And we have known that to those loving God all things do work together for good, to those who are called according to purpose.",
@@ -2662,6 +2878,7 @@ const VERSES = [
     ref: "Romans 8:31",
     versions: {
       KJV: "What shall we then say to these things? If God be for us, who can be against us?",
+      BSB: "What then shall we say in response to these things? If God is for us, who can be against us?",
       WEB: "What then shall we say about these things? If God is for us, who can be against us?",
       ASV: "What then shall we say to these things? If God is for us, who is against us?",
       YLT: "What, then, shall we say unto these things? if God is for us, who is against us?",
@@ -2675,6 +2892,7 @@ const VERSES = [
     ref: "Romans 5:1",
     versions: {
       KJV: "Therefore being justified by faith, we have peace with God through our Lord Jesus Christ.",
+      BSB: "Therefore, since we have been justified through faith, we have peace with God through our Lord Jesus Christ,",
       WEB: "Being therefore justified by faith, we have peace with God through our Lord Jesus Christ.",
       ASV: "Being therefore justified by faith, we have peace with God through our Lord Jesus Christ.",
       YLT: "Having been declared righteous, then, by faith, we have peace toward God through our Lord Jesus Christ.",
@@ -2688,6 +2906,7 @@ const VERSES = [
     ref: "Romans 5:8",
     versions: {
       KJV: "But God commendeth his love toward us, in that, while we were yet sinners, Christ died for us.",
+      BSB: "But God proves His love for us in this: While we were still sinners, Christ died for us.",
       WEB: "But God commends his own love toward us, in that while we were yet sinners, Christ died for us.",
       ASV: "But God commendeth his own love toward us, in that, while we were yet sinners, Christ died for us.",
       YLT: "and God doth commend His own love to us, that, in our being still sinners, Christ did die for us.",
@@ -2701,6 +2920,7 @@ const VERSES = [
     ref: "Romans 5:4-5",
     versions: {
       KJV: "And patience, experience; and experience, hope: And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the Holy Ghost which is given unto us.",
+      BSB: "perseverance, character; and character, hope. And hope does not disappoint us, because God has poured out His love into our hearts through the Holy Spirit, whom He has given us.",
       WEB: "and perseverance, proven character; and proven character, hope: and hope doesn’t disappoint us, because God’s love has been poured into our hearts through the Holy Spirit who was given to us.",
       ASV: "and stedfastness, approvedness; and approvedness, hope: and hope putteth not to shame; because the love of God hath been shed abroad in our hearts through the Holy Spirit which was given unto us.",
       YLT: "and the endurance, experience; and the experience, hope; and the hope doth not make ashamed, because the love of God hath been poured forth in our hearts through the Holy Spirit that hath been given to us.",
@@ -2714,6 +2934,7 @@ const VERSES = [
     ref: "Romans 8:38-39",
     versions: {
       KJV: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor powers, nor things present, nor things to come, Nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
+      BSB: "For I am convinced that neither death nor life, neither angels nor principalities, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.",
       WEB: "For I am persuaded that neither death, nor life, nor angels, nor principalities, nor things present, nor things to come, nor powers, nor height, nor depth, nor any other created thing will be able to separate us from God’s love which is in Christ Jesus our Lord.",
       ASV: "For I am persuaded, that neither death, nor life, nor angels, nor principalities, nor things present, nor things to come, nor powers, nor height, nor depth, nor any other creature, shall be able to separate us from the love of God, which is in Christ Jesus our Lord.",
       YLT: "for I am persuaded that neither death, nor life, nor messengers, nor principalities, nor powers, nor things present, nor things about to be, nor height, nor depth, nor any other created thing, shall be able to separate us from the love of god, that is in Christ Jesus our Lord.",
@@ -2727,6 +2948,7 @@ const VERSES = [
     ref: "Romans 12:12",
     versions: {
       KJV: "Rejoicing in hope; patient in tribulation; continuing instant in prayer.",
+      BSB: "Be joyful in hope, patient in affliction, persistent in prayer.",
       WEB: "rejoicing in hope; enduring in troubles; continuing steadfastly in prayer.",
       ASV: "rejoicing in hope; patient in tribulation; continuing stedfastly in prayer.",
       YLT: "in the hope rejoicing; in the tribulation enduring; in the prayer persevering.",
@@ -2740,6 +2962,7 @@ const VERSES = [
     ref: "Romans 12:21",
     versions: {
       KJV: "Be not overcome of evil, but overcome evil with good.",
+      BSB: "Do not be overcome by evil, but overcome evil with good.",
       WEB: "Don’t be overcome by evil, but overcome evil with good.",
       ASV: "Be not overcome of evil, but overcome evil with good.",
       YLT: "Be not overcome by the evil, but overcome, in the good, the evil.",
@@ -2753,6 +2976,7 @@ const VERSES = [
     ref: "Romans 12:15",
     versions: {
       KJV: "Rejoice with them that do rejoice, and weep with them that weep.",
+      BSB: "Rejoice with those who rejoice; weep with those who weep.",
       WEB: "Rejoice with those who rejoice. Weep with those who weep.",
       ASV: "Rejoice with them that rejoice; weep with them that weep.",
       YLT: "to rejoice with the rejoicing, and to weep with the weeping.",
@@ -2766,6 +2990,7 @@ const VERSES = [
     ref: "Romans 15:5",
     versions: {
       KJV: "Now the God of patience and consolation grant you to be likeminded one toward another according to Christ Jesus.",
+      BSB: "Now may the God who gives endurance and encouragement grant you harmony with one another in Christ Jesus,",
       WEB: "Now the God of perseverance and of encouragement grant you to be of the same mind with one another according to Christ Jesus.",
       ASV: "Now the God of patience and of comfort grant you to be of the same mind one with another according to Christ Jesus.",
       YLT: "And may the God of the endurance, and of the exhortation, give to you to have the same mind toward one another, according to Christ Jesus.",
@@ -2779,6 +3004,7 @@ const VERSES = [
     ref: "Romans 15:4",
     versions: {
       KJV: "For whatsoever things were written aforetime were written for our learning, that we through patience and comfort of the scriptures might have hope.",
+      BSB: "For everything that was written in the past was written for our instruction, so that through endurance and the encouragement of the Scriptures, we might have hope.",
       WEB: "For whatever things were written before were written for our learning, that through perseverance and through encouragement of the Scriptures we might have hope.",
       ASV: "For whatsoever things were written aforetime were written for our learning, that through patience and through comfort of the scriptures we might have hope.",
       YLT: "for, as many things as were written before, for our instruction were written before, that through the endurance, and the exhortation of the Writings, we might have the hope.",
@@ -2792,6 +3018,7 @@ const VERSES = [
     ref: "Romans 15:1",
     versions: {
       KJV: "We then that are strong ought to bear the infirmities of the weak, and not to please ourselves.",
+      BSB: "We who are strong ought to bear with the shortcomings of the weak and not to please ourselves.",
       WEB: "Now we who are strong ought to bear the weaknesses of the weak, and not to please ourselves.",
       ASV: "Now we that are strong ought to bear the infirmities of the weak, and not to please ourselves.",
       YLT: "And we ought--we who are strong--to bear the infirmities of the weak, and not to please ourselves.",
@@ -2805,6 +3032,7 @@ const VERSES = [
     ref: "Romans 14:17",
     versions: {
       KJV: "For the kingdom of God is not meat and drink; but righteousness, and peace, and joy in the Holy Ghost.",
+      BSB: "For the kingdom of God is not a matter of eating and drinking, but of righteousness, peace, and joy in the Holy Spirit.",
       WEB: "for God’s Kingdom is not eating and drinking, but righteousness, peace, and joy in the Holy Spirit.",
       ASV: "for the kingdom of God is not eating and drinking, but righteousness and peace and joy in the Holy Spirit.",
       YLT: "for the reign of God is not eating and drinking, but righteousness, and peace, and joy in the Holy Spirit.",
@@ -2818,6 +3046,7 @@ const VERSES = [
     ref: "Romans 14:12",
     versions: {
       KJV: "So then every one of us shall give account of himself to God.",
+      BSB: "So then, each of us will give an account of himself to God.",
       WEB: "So then each one of us will give account of himself to God.",
       ASV: "So then each one of us shall give account of himself to God.",
       YLT: "so, then, each of us concerning himself shall give reckoning to God.",
@@ -2831,6 +3060,7 @@ const VERSES = [
     ref: "Romans 10:15",
     versions: {
       KJV: "And how shall they preach, except they be sent? as it is written, How beautiful are the feet of them that preach the gospel of peace, and bring glad tidings of good things!",
+      BSB: "And how can they preach unless they are sent? As it is written: “How beautiful are the feet of those who bring good news!”",
       WEB: "And how will they preach unless they are sent? As it is written: “How beautiful are the feet of those who preach the Good News of peace, who bring glad tidings of good things!”",
       ASV: "and how shall they preach, except they be sent? even as it is written, How beautiful are the feet of them that bring glad tidings of good things!",
       YLT: "and how shall they preach, if they may not be sent? according as it hath been written, `How beautiful the feet of those proclaiming good tidings of peace, of those proclaiming good tidings of the good things!'",
@@ -2844,6 +3074,7 @@ const VERSES = [
     ref: "1 Corinthians 13:4",
     versions: {
       KJV: "Charity suffereth long, and is kind; charity envieth not; charity vaunteth not itself, is not puffed up.",
+      BSB: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud.",
       WEB: "Love is patient and is kind. Love doesn’t envy. Love doesn’t brag, is not proud.",
       ASV: "Love suffereth long, and is kind; love envieth not; love vaunteth not itself, is not puffed up.",
       YLT: "The love is long-suffering, it is kind, the love doth not envy, the love doth not vaunt itself, is not puffed up.",
@@ -2857,6 +3088,7 @@ const VERSES = [
     ref: "1 Corinthians 13:7",
     versions: {
       KJV: "Beareth all things, believeth all things, hopeth all things, endureth all things.",
+      BSB: "It bears all things, believes all things, hopes all things, endures all things.",
       WEB: "bears all things, believes all things, hopes all things, and endures all things.",
       ASV: "beareth all things, believeth all things, hopeth all things, endureth all things.",
       YLT: "all things it beareth, all it believeth, all it hopeth, all it endureth.",
@@ -2870,6 +3102,7 @@ const VERSES = [
     ref: "1 Corinthians 13:13",
     versions: {
       KJV: "And now abideth faith, hope, charity, these three; but the greatest of these is charity.",
+      BSB: "And now these three remain: faith, hope, and love; but the greatest of these is love.",
       WEB: "But now faith, hope, and love remain—these three. The greatest of these is love.",
       ASV: "But now abideth faith, hope, love, these three; and the greatest of these is love.",
       YLT: "and now there doth remain faith, hope, love--these three; and the greatest of these is love.",
@@ -2883,6 +3116,7 @@ const VERSES = [
     ref: "1 Corinthians 10:13",
     versions: {
       KJV: "There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it.",
+      BSB: "No temptation has seized you except what is common to man. And God is faithful; He will not let you be tempted beyond what you can bear. But when you are tempted, He will also provide an escape, so that you can stand up under it.",
       WEB: "No temptation has taken you except what is common to man. God is faithful, who will not allow you to be tempted above what you are able, but will with the temptation also make the way of escape, that you may be able to endure it.",
       ASV: "There hath no temptation taken you but such as man can bear: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation make also the way of escape, that ye may be able to endure it.",
       YLT: "No temptation hath taken you--except human; and God is faithful, who will not suffer you to be tempted above what ye are able, but He will make, with the temptation, also the outlet, for your being able to bear it.",
@@ -2896,6 +3130,7 @@ const VERSES = [
     ref: "1 Corinthians 2:9",
     versions: {
       KJV: "But as it is written, Eye hath not seen, nor ear heard, neither have entered into the heart of man, the things which God hath prepared for them that love him.",
+      BSB: "Rather, as it is written: “No eye has seen, no ear has heard, no heart has imagined, what God has prepared for those who love Him.”",
       WEB: "But as it is written, “Things which an eye didn’t see, and an ear didn’t hear, which didn’t enter into the heart of man, these God has prepared for those who love him.”",
       ASV: "but as it is written, Things which eye saw not, and ear heard not, And which entered not into the heart of man, Whatsoever things God prepared for them that love him.",
       YLT: "but, according as it hath been written, `What eye did not see, and ear did not hear, and upon the heart of man came not up, what God did prepare for those loving Him--'",
@@ -2909,6 +3144,7 @@ const VERSES = [
     ref: "1 Corinthians 15:58",
     versions: {
       KJV: "Therefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labour is not in vain in the Lord.",
+      BSB: "Therefore, my beloved brothers, be steadfast and immovable. Always excel in the work of the Lord, because you know that your labor in the Lord is not in vain.",
       WEB: "Therefore, my beloved brothers, be steadfast, immovable, always abounding in the Lord’s work, because you know that your labor is not in vain in the Lord.",
       ASV: "Wherefore, my beloved brethren, be ye stedfast, unmoveable, always abounding in the work of the Lord, forasmuch as ye know that your labor is not vain in the Lord.",
       YLT: "so that, my brethren beloved, become ye stedfast, unmovable, abounding in the work of the Lord at all times, knowing that your labour is not vain in the Lord.",
@@ -2922,6 +3158,7 @@ const VERSES = [
     ref: "1 Corinthians 15:55",
     versions: {
       KJV: "O death, where is thy sting? O grave, where is thy victory?",
+      BSB: "“Where, O Death, is your victory? Where, O Death, is your sting?”",
       WEB: "Death, where is your sting? Hades, where is your victory?",
       ASV: "O death, where is thy victory? O death, where is thy sting?",
       YLT: "where, O Death, thy sting? where, O Hades, thy victory?'",
@@ -2935,6 +3172,7 @@ const VERSES = [
     ref: "1 Corinthians 16:13",
     versions: {
       KJV: "Watch ye, stand fast in the faith, quit you like men, be strong.",
+      BSB: "Be on the alert. Stand firm in the faith. Be men of courage. Be strong.",
       WEB: "Watch! Stand firm in the faith! Be courageous! Be strong!",
       ASV: "Watch ye, stand fast in the faith, quit you like men, be strong.",
       YLT: "Watch ye, stand in the faith; be men, be strong.",
@@ -2948,6 +3186,7 @@ const VERSES = [
     ref: "1 Corinthians 3:16",
     versions: {
       KJV: "Know ye not that ye are the temple of God, and that the Spirit of God dwelleth in you?",
+      BSB: "Do you not know that you yourselves are God’s temple, and that God’s Spirit dwells in you?",
       WEB: "Don’t you know that you are a temple of God, and that God’s Spirit lives in you?",
       ASV: "Know ye not that ye are a temple of God, and that the Spirit of God dwelleth in you?",
       YLT: "have ye not known that ye are a sanctuary of God, and the Spirit of God doth dwell in you?",
@@ -2961,6 +3200,7 @@ const VERSES = [
     ref: "1 Corinthians 16:14",
     versions: {
       KJV: "Let all your things be done with charity.",
+      BSB: "Do everything in love.",
       WEB: "Let all that you do be done in love.",
       ASV: "Let all that ye do be done in love.",
       YLT: "let all your things be done in love.",
@@ -2974,6 +3214,7 @@ const VERSES = [
     ref: "2 Corinthians 5:7",
     versions: {
       KJV: "For we walk by faith, not by sight.",
+      BSB: "For we walk by faith, not by sight.",
       WEB: "for we walk by faith, not by sight.",
       ASV: "(for we walk by faith, not by sight).",
       YLT: "for through faith we walk, not through sight--",
@@ -2987,6 +3228,7 @@ const VERSES = [
     ref: "2 Corinthians 2:14",
     versions: {
       KJV: "Now thanks be unto God, which always causeth us to triumph in Christ, and maketh manifest the savour of his knowledge by us in every place.",
+      BSB: "But thanks be to God, who always leads us triumphantly as captives in Christ and through us spreads everywhere the fragrance of the knowledge of Him.",
       WEB: "Now thanks be to God, who always leads us in triumph in Christ, and reveals through us the sweet aroma of his knowledge in every place.",
       ASV: "But thanks be unto God, who always leadeth us in triumph in Christ, and maketh manifest through us the savor of his knowledge in every place.",
       YLT: "and to God are thanks, who at all times is leading us in triumph in the Christ, and the fragrance of His knowledge He is manifesting through us in every place.",
@@ -3000,6 +3242,7 @@ const VERSES = [
     ref: "2 Corinthians 1:3-4",
     versions: {
       KJV: "Blessed be God, even the Father of our Lord Jesus Christ, the Father of mercies, and the God of all comfort; Who comforteth us in all our tribulation, that we may be able to comfort them which are in any trouble, by the comfort wherewith we ourselves are comforted of God.",
+      BSB: "Blessed be the God and Father of our Lord Jesus Christ, the Father of compassion and the God of all comfort, who comforts us in all our troubles, so that we can comfort those in any trouble with the comfort we ourselves have received from God.",
       WEB: "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort; who comforts us in all our affliction, that we may be able to comfort those who are in any affliction, through the comfort with which we ourselves are comforted by God.",
       ASV: "Blessed be the God and Father of our Lord Jesus Christ, the Father of mercies and God of all comfort; who comforteth us in all our affliction, that we may be able to comfort them that are in any affliction, through the comfort wherewith we ourselves are comforted of God.",
       YLT: "Blessed is God, even the Father of our Lord Jesus Christ, the Father of the mercies, and God of all comfort, who is comforting us in all our tribulation, for our being able to comfort those in any tribulation through the comfort with which we are comforted ourselves by God.",
@@ -3013,6 +3256,7 @@ const VERSES = [
     ref: "2 Corinthians 4:17",
     versions: {
       KJV: "For our light affliction, which is but for a moment, worketh for us a far more exceeding and eternal weight of glory.",
+      BSB: "For our light and momentary affliction is producing for us an eternal weight of glory that is far beyond comparison.",
       WEB: "For our light affliction, which is for the moment, works for us more and more exceedingly an eternal weight of glory.",
       ASV: "For our light affliction, which is for the moment, worketh for us more and more exceedingly an eternal weight of glory.",
       YLT: "for the momentary light matter of our tribulation, more and more exceedingly an age-during weight of glory doth work out for us--",
@@ -3026,6 +3270,7 @@ const VERSES = [
     ref: "2 Corinthians 4:8",
     versions: {
       KJV: "We are troubled on every side, yet not distressed; we are perplexed, but not in despair.",
+      BSB: "We are hard pressed on all sides, but not crushed; perplexed, but not in despair;",
       WEB: "We are pressed on every side, yet not crushed; perplexed, yet not to despair.",
       ASV: "we are pressed on every side, yet not straitened; perplexed, yet not unto despair.",
       YLT: "on every side being in tribulation, but not straitened; perplexed, but not in despair.",
@@ -3039,6 +3284,7 @@ const VERSES = [
     ref: "2 Corinthians 5:17",
     versions: {
       KJV: "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.",
+      BSB: "Therefore if anyone is in Christ, he is a new creation. The old has passed away. Behold, the new has come!",
       WEB: "Therefore if anyone is in Christ, he is a new creation. The old things have passed away. Behold, all things have become new.",
       ASV: "Wherefore if any man is in Christ, he is a new creature: the old things are passed away; behold, they are become new.",
       YLT: "so that if any one is in Christ-- he is a new creature; the old things did pass away, lo, become new have the all things.",
@@ -3052,6 +3298,7 @@ const VERSES = [
     ref: "2 Corinthians 6:2",
     versions: {
       KJV: "(For he saith, I have heard thee in a time accepted, and in the day of salvation have I succoured thee: behold, now is the accepted time; behold, now is the day of salvation.)",
+      BSB: "For He says: “In the time of favor I heard you, and in the day of salvation I helped you.” Behold, now is the time of favor; now is the day of salvation!",
       WEB: "for he says, “At an acceptable time I listened to you. In a day of salvation I helped you.” Behold, now is the acceptable time. Behold, now is the day of salvation.",
       ASV: "(for he saith, At an acceptable time I hearkened unto thee, And in a day of salvation did I succor thee: behold, now is the acceptable time; behold, now is the day of salvation).",
       YLT: "for He saith, `In an acceptable time I did hear thee, and in a day of salvation I did help thee, lo, now is a well-accepted time; lo, now, a day of salvation,' --",
@@ -3065,6 +3312,7 @@ const VERSES = [
     ref: "2 Corinthians 9:7",
     versions: {
       KJV: "Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver.",
+      BSB: "Each one should give what he has decided in his heart to give, not out of regret or compulsion. For God loves a cheerful giver.",
       WEB: "Let each man give according as he has determined in his heart, not grudgingly or under compulsion, for God loves a cheerful giver.",
       ASV: "Let each man do according as he hath purposed in his heart: not grudgingly, or of necessity: for God loveth a cheerful giver.",
       YLT: "each one, according as he doth purpose in heart, not out of sorrow or out of necessity, for a cheerful giver doth God love.",
@@ -3078,6 +3326,7 @@ const VERSES = [
     ref: "2 Corinthians 12:9",
     versions: {
       KJV: "And he said unto me, My grace is sufficient for thee: for my strength is made perfect in weakness. Most gladly therefore will I rather glory in my infirmities, that the power of Christ may rest upon me.",
+      BSB: "But He said to me, “My grace is sufficient for you, for My power is perfected in weakness.” Therefore I will boast all the more gladly in my weaknesses, so that the power of Christ may rest on me.",
       WEB: "He has said to me, “My grace is sufficient for you, for my power is made perfect in weakness.” Most gladly therefore I will rather glory in my weaknesses, that the power of Christ may rest on me.",
       ASV: "And he hath said unto me, My grace is sufficient for thee: for my power is made perfect in weakness. Most gladly therefore will I rather glory in my weaknesses, that the power of Christ may rest upon me.",
       YLT: "and He said to me, `Sufficient for thee is My grace, for My power in infirmity is perfected;' most gladly, therefore, will I rather boast in my infirmities, that the power of the Christ may rest on me.",
@@ -3091,6 +3340,7 @@ const VERSES = [
     ref: "2 Timothy 4:18",
     versions: {
       KJV: "And the Lord shall deliver me from every evil work, and will preserve me unto his heavenly kingdom: to whom be glory for ever and ever. Amen.",
+      BSB: "And the Lord will rescue me from every evil action and bring me safely into His heavenly kingdom. To Him be the glory forever and ever. Amen.",
       WEB: "And the Lord will deliver me from every evil work, and will preserve me for his heavenly Kingdom. To him be the glory forever and ever. Amen.",
       ASV: "The Lord will deliver me from every evil work, and will save me unto his heavenly kingdom: to whom be the glory for ever and ever. Amen.",
       YLT: "and the Lord shall free me from every evil work, and shall save me --to his heavenly kingdom; to whom is the glory to the ages of the ages! Amen.",
@@ -3104,6 +3354,7 @@ const VERSES = [
     ref: "2 Corinthians 3:17",
     versions: {
       KJV: "Now the Lord is that Spirit: and where the Spirit of the Lord is, there is liberty.",
+      BSB: "Now the Lord is the Spirit, and where the Spirit of the Lord is, there is freedom.",
       WEB: "Now the Lord is the Spirit and where the Spirit of the Lord is, there is liberty.",
       ASV: "Now the Lord is the Spirit: and where the Spirit of the Lord is, there is liberty.",
       YLT: "And the Lord is the Spirit; and where the Spirit of the Lord is, there is liberty.",
@@ -3117,6 +3368,7 @@ const VERSES = [
     ref: "Galatians 5:22",
     versions: {
       KJV: "But the fruit of the Spirit is love, joy, peace, longsuffering, gentleness, goodness, faith.",
+      BSB: "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faithfulness,",
       WEB: "But the fruit of the Spirit is love, joy, peace, patience, kindness, goodness, faith.",
       ASV: "But the fruit of the Spirit is love, joy, peace, longsuffering, kindness, goodness, faithfulness.",
       YLT: "And the fruit of the Spirit is: Love, joy, peace, long-suffering, kindness, goodness, faith.",
@@ -3130,6 +3382,7 @@ const VERSES = [
     ref: "Galatians 6:9",
     versions: {
       KJV: "And let us not be weary in well doing: for in due season we shall reap, if we faint not.",
+      BSB: "Let us not grow weary in well-doing, for in due time we will reap a harvest if we do not give up.",
       WEB: "Let’s not be weary in doing good, for we will reap in due season, if we don’t give up.",
       ASV: "And let us not be weary in well-doing: for in due season we shall reap, if we faint not.",
       YLT: "and in the doing good we may not be faint-hearted, for at the proper time we shall reap--not desponding.",
@@ -3143,6 +3396,7 @@ const VERSES = [
     ref: "Galatians 6:2",
     versions: {
       KJV: "Bear ye one another's burdens, and so fulfil the law of Christ.",
+      BSB: "Carry one another’s burdens, and in this way you will fulfill the law of Christ.",
       WEB: "Bear one another’s burdens, and so fulfill the law of Christ.",
       ASV: "Bear ye one another’s burdens, and so fulfil the law of Christ.",
       YLT: "of one another the burdens bear ye, and so fill up the law of the Christ.",
@@ -3156,6 +3410,7 @@ const VERSES = [
     ref: "Galatians 2:20",
     versions: {
       KJV: "I am crucified with Christ: nevertheless I live; yet not I, but Christ liveth in me: and the life which I now live in the flesh I live by the faith of the Son of God, who loved me, and gave himself for me.",
+      BSB: "I have been crucified with Christ, and I no longer live, but Christ lives in me. The life I live in the body, I live by faith in the Son of God, who loved me and gave Himself up for me.",
       WEB: "I have been crucified with Christ, and it is no longer I who live, but Christ lives in me. That life which I now live in the flesh, I live by faith in the Son of God, who loved me, and gave himself up for me.",
       ASV: "I have been crucified with Christ; and it is no longer I that live, but Christ liveth in me: and that life which I now live in the flesh I live in faith, the faith which is in the Son of God, who loved me, and gave himself up for me.",
       YLT: "with Christ I have been crucified, and live no more do I, and Christ doth live in me; and that which I now live in the flesh--in the faith I live of the Son of God, who did love me and did give himself for me.",
@@ -3169,6 +3424,7 @@ const VERSES = [
     ref: "Galatians 3:26",
     versions: {
       KJV: "For ye are all the children of God by faith in Christ Jesus.",
+      BSB: "You are all sons of God through faith in Christ Jesus.",
       WEB: "For you are all children of God, through faith in Christ Jesus.",
       ASV: "For ye are all sons of God, through faith, in Christ Jesus.",
       YLT: "for ye are all sons of God through the faith in Christ Jesus.",
@@ -3182,6 +3438,7 @@ const VERSES = [
     ref: "Galatians 5:1",
     versions: {
       KJV: "Stand fast therefore in the liberty wherewith Christ hath made us free, and be not entangled again with the yoke of bondage.",
+      BSB: "It is for freedom that Christ has set us free. Stand firm, then, and do not be encumbered once more by a yoke of slavery.",
       WEB: "Stand firm therefore in the liberty by which Christ has made us free, and don’t be entangled again with a yoke of bondage.",
       ASV: "For freedom did Christ set us free: stand fast therefore, and be not entangled again in a yoke of bondage.",
       YLT: "In the freedom, then, with which Christ did make you free--stand ye, and be not held fast again by a yoke of servitude.",
@@ -3195,6 +3452,7 @@ const VERSES = [
     ref: "Ephesians 2:8",
     versions: {
       KJV: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God.",
+      BSB: "For it is by grace you have been saved through faith, and this not from yourselves; it is the gift of God,",
       WEB: "for by grace you have been saved through faith, and that not of yourselves; it is the gift of God.",
       ASV: "for by grace have ye been saved through faith; and that not of yourselves, it is the gift of God.",
       YLT: "for by grace ye are having been saved, through faith, and this not of you--of God the gift.",
@@ -3208,6 +3466,7 @@ const VERSES = [
     ref: "Ephesians 3:17-18",
     versions: {
       KJV: "That Christ may dwell in your hearts by faith; that ye, being rooted and grounded in love, May be able to comprehend with all saints what is the breadth, and length, and depth, and height.",
+      BSB: "so that Christ may dwell in your hearts through faith. Then you, being rooted and grounded in love, will have power, together with all the saints, to comprehend the length and width and height and depth",
       WEB: "that Christ may dwell in your hearts through faith, to the end that you, being rooted and grounded in love, may be strengthened to comprehend with all the saints what is the width and length and height and depth.",
       ASV: "that Christ may dwell in your hearts through faith; to the end that ye, being rooted and grounded in love, may be strong to apprehend with all the saints what is the breadth and length and height and depth.",
       YLT: "that the Christ may dwell through the faith in your hearts, in love having been rooted and founded, that ye may be in strength to comprehend, with all the saints, what is the breadth, and length, and depth, and height.",
@@ -3221,6 +3480,7 @@ const VERSES = [
     ref: "Ephesians 3:20",
     versions: {
       KJV: "Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us.",
+      BSB: "Now to Him who is able to do immeasurably more than all we ask or imagine, according to His power that is at work within us,",
       WEB: "Now to him who is able to do exceedingly abundantly above all that we ask or think, according to the power that works in us.",
       ASV: "Now unto him that is able to do exceeding abundantly above all that we ask or think, according to the power that worketh in us.",
       YLT: "and to Him who is able above all things to do exceeding abundantly what we ask or think, according to the power that is working in us.",
@@ -3234,6 +3494,7 @@ const VERSES = [
     ref: "Ephesians 4:32",
     versions: {
       KJV: "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.",
+      BSB: "Be kind and tenderhearted to one another, forgiving each other just as in Christ God forgave you.",
       WEB: "And be kind to one another, tender hearted, forgiving each other, just as God also in Christ forgave you.",
       ASV: "and be ye kind one to another, tenderhearted, forgiving each other, even as God also in Christ forgave you.",
       YLT: "and become one to another kind, tender-hearted, forgiving one another, according as also God in Christ did forgive you.",
@@ -3247,6 +3508,7 @@ const VERSES = [
     ref: "Ephesians 4:29",
     versions: {
       KJV: "Let no corrupt communication proceed out of your mouth, but that which is good to the use of edifying, that it may minister grace unto the hearers.",
+      BSB: "Let no unwholesome talk come out of your mouths, but only what is helpful for building up the one in need and bringing grace to those who listen.",
       WEB: "Let no corrupt speech proceed out of your mouth, but only what is good for building others up as the need may be, that it may give grace to those who hear.",
       ASV: "Let no corrupt speech proceed out of your mouth, but such as is good for edifying as the need may be, that it may give grace to them that hear.",
       YLT: "Let no corrupt word out of your mouth go forth, but what is good unto the needful building up, that it may give grace to the hearers.",
@@ -3260,6 +3522,7 @@ const VERSES = [
     ref: "Ephesians 6:10",
     versions: {
       KJV: "Finally, my brethren, be strong in the Lord, and in the power of his might.",
+      BSB: "Finally, be strong in the Lord and in His mighty power.",
       WEB: "Finally, be strong in the Lord, and in the strength of his might.",
       ASV: "Finally, be strong in the Lord, and in the strength of his might.",
       YLT: "As to the rest, my brethren, be strong in the Lord, and in the power of his might.",
@@ -3273,6 +3536,7 @@ const VERSES = [
     ref: "Philippians 4:13",
     versions: {
       KJV: "I can do all things through Christ which strengtheneth me.",
+      BSB: "I can do all things through Christ who gives me strength.",
       WEB: "I can do all things through Christ, who strengthens me.",
       ASV: "I can do all things in him that strengtheneth me.",
       YLT: "For all things I have strength, in Christ's strengthening me.",
@@ -3286,6 +3550,7 @@ const VERSES = [
     ref: "Philippians 4:6",
     versions: {
       KJV: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God.",
+      BSB: "Be anxious for nothing, but in everything, by prayer and petition, with thanksgiving, present your requests to God.",
       WEB: "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.",
       ASV: "In nothing be anxious; but in everything by prayer and supplication with thanksgiving let your requests be made known unto God.",
       YLT: "for nothing be anxious, but in everything by prayer, and by supplication, with thanksgiving, let your requests be made known unto God.",
@@ -3299,6 +3564,7 @@ const VERSES = [
     ref: "Philippians 4:7",
     versions: {
       KJV: "And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.",
+      BSB: "And the peace of God, which surpasses all understanding, will guard your hearts and your minds in Christ Jesus.",
       WEB: "And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus.",
       ASV: "And the peace of God, which passeth all understanding, shall guard your hearts and your thoughts in Christ Jesus.",
       YLT: "and the peace of God, that is surpassing all understanding, shall guard your hearts and your thoughts in Christ Jesus.",
@@ -3312,6 +3578,7 @@ const VERSES = [
     ref: "Philippians 4:4",
     versions: {
       KJV: "Rejoice in the Lord alway: and again I say, Rejoice.",
+      BSB: "Rejoice in the Lord always. I will say it again: Rejoice!",
       WEB: "Rejoice in the Lord always! Again I will say, “Rejoice!”",
       ASV: "Rejoice in the Lord always: again I will say, Rejoice.",
       YLT: "Rejoice in the Lord always; again I will say, rejoice.",
@@ -3325,6 +3592,7 @@ const VERSES = [
     ref: "Philippians 4:19",
     versions: {
       KJV: "But my God shall supply all your need according to his riches in glory by Christ Jesus.",
+      BSB: "And my God will supply all your needs according to His glorious riches in Christ Jesus.",
       WEB: "My God will supply every need of yours according to his riches in glory in Christ Jesus.",
       ASV: "And my God shall supply every need of yours according to his riches in glory in Christ Jesus.",
       YLT: "and my God shall supply all your need, according to His riches in glory in Christ Jesus.",
@@ -3338,6 +3606,7 @@ const VERSES = [
     ref: "Philippians 1:6",
     versions: {
       KJV: "Being confident of this very thing, that he which hath begun a good work in you will perform it until the day of Jesus Christ.",
+      BSB: "being confident of this, that He who began a good work in you will carry it on to completion until the day of Christ Jesus.",
       WEB: "being confident of this very thing, that he who began a good work in you will complete it until the day of Jesus Christ.",
       ASV: "being confident of this very thing, that he who began a good work in you will perfect it until the day of Jesus Christ.",
       YLT: "having been confident of this very thing, that He who did begin in you a good work, will perform it till a day of Jesus Christ.",
@@ -3351,6 +3620,7 @@ const VERSES = [
     ref: "Colossians 3:15",
     versions: {
       KJV: "And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful.",
+      BSB: "Let the peace of Christ rule in your hearts, for to this you were called as members of one body. And be thankful.",
       WEB: "And let the peace of God rule in your hearts, to which also you were called in one body, and be thankful.",
       ASV: "And let the peace of Christ rule in your hearts, to the which also ye were called in one body; and be ye thankful.",
       YLT: "and let the peace of God rule in your hearts, to which also ye were called in one body, and become thankful.",
@@ -3364,6 +3634,7 @@ const VERSES = [
     ref: "Colossians 3:12",
     versions: {
       KJV: "Put on therefore, as the elect of God, holy and beloved, bowels of mercies, kindness, humbleness of mind, meekness, longsuffering.",
+      BSB: "Therefore, as the elect of God, holy and beloved, clothe yourselves with hearts of compassion, kindness, humility, gentleness, and patience.",
       WEB: "Put on therefore, as God’s chosen ones, holy and beloved, a heart of compassion, kindness, lowliness, humility, and perseverance.",
       ASV: "Put on therefore, as God’s elect, holy and beloved, a heart of compassion, kindness, lowliness, meekness, longsuffering.",
       YLT: "Put on, therefore, as choice ones of God, holy and beloved, bowels of mercies, kindness, humble-mindedness, meekness, long-suffering.",
@@ -3377,6 +3648,7 @@ const VERSES = [
     ref: "Colossians 3:14",
     versions: {
       KJV: "And above all these things put on charity, which is the bond of perfectness.",
+      BSB: "And over all these virtues put on love, which is the bond of perfect unity.",
       WEB: "Above all these things, walk in love, which is the bond of perfection.",
       ASV: "and above all these things put on love, which is the bond of perfectness.",
       YLT: "and above all these things, have love, which is a bond of the perfection.",
@@ -3390,6 +3662,7 @@ const VERSES = [
     ref: "Colossians 3:2",
     versions: {
       KJV: "Set your affection on things above, not on things on the earth.",
+      BSB: "Set your minds on things above, not on earthly things.",
       WEB: "Set your mind on the things that are above, not on the things that are on the earth.",
       ASV: "Set your mind on the things that are above, not on the things that are upon the earth.",
       YLT: "the things above mind ye, not the things upon the earth.",
@@ -3403,6 +3676,7 @@ const VERSES = [
     ref: "Colossians 1:27",
     versions: {
       KJV: "To whom God would make known what is the riches of the glory of this mystery among the Gentiles; which is Christ in you, the hope of glory.",
+      BSB: "To them God has chosen to make known among the Gentiles the glorious riches of this mystery, which is Christ in you, the hope of glory.",
       WEB: "to whom God was pleased to make known what are the riches of the glory of this mystery among the Gentiles, which is Christ in you, the hope of glory.",
       ASV: "to whom God was pleased to make known what is the riches of the glory of this mystery among the Gentiles, which is Christ in you, the hope of glory.",
       YLT: "to whom God did will to make known what is the riches of the glory of this secret among the nations--which is Christ in you, the hope of the glory.",
@@ -3416,6 +3690,7 @@ const VERSES = [
     ref: "1 Thessalonians 5:11",
     versions: {
       KJV: "Wherefore comfort yourselves together, and edify one another, even as also ye do.",
+      BSB: "Therefore encourage and build one another up, just as you are already doing.",
       WEB: "Therefore exhort one another, and build each other up, even as you also do.",
       ASV: "Wherefore exhort one another, and build each other up, even as also ye do.",
       YLT: "wherefore, comfort ye one another, and build ye up, one the one, as also ye do.",
@@ -3429,6 +3704,7 @@ const VERSES = [
     ref: "1 Thessalonians 5:16-18",
     versions: {
       KJV: "Rejoice evermore. Pray without ceasing. In every thing give thanks: for this is the will of God in Christ Jesus concerning you.",
+      BSB: "Rejoice at all times. Pray without ceasing. Give thanks in every circumstance, for this is God’s will for you in Christ Jesus.",
       WEB: "Always rejoice. Pray without ceasing. In everything give thanks, for this is the will of God in Christ Jesus toward you.",
       ASV: "Rejoice always; pray without ceasing; in everything give thanks: for this is the will of God in Christ Jesus to you-ward.",
       YLT: "always rejoice ye; continually pray ye; in every thing give thanks, for this is the will of God in Christ Jesus in regard to you.",
@@ -3442,6 +3718,7 @@ const VERSES = [
     ref: "1 Thessalonians 5:23",
     versions: {
       KJV: "And the very God of peace sanctify you wholly; and I pray God your whole spirit and soul and body be preserved blameless unto the coming of our Lord Jesus Christ.",
+      BSB: "Now may the God of peace Himself sanctify you completely, and may your entire spirit, soul, and body be kept blameless at the coming of our Lord Jesus Christ.",
       WEB: "May the God of peace himself sanctify you completely. May your whole spirit, soul, and body be preserved blameless at the coming of our Lord Jesus Christ.",
       ASV: "And the God of peace himself sanctify you wholly; and may your spirit and soul and body be preserved entire, without blame at the coming of our Lord Jesus Christ.",
       YLT: "and the God of the peace Himself sanctify you wholly, and may your whole spirit, and soul, and body, be preserved unblameably in the presence of our Lord Jesus Christ.",
@@ -3455,6 +3732,7 @@ const VERSES = [
     ref: "1 Thessalonians 5:24",
     versions: {
       KJV: "Faithful is he that calleth you, who also will do it.",
+      BSB: "The One who calls you is faithful, and He will do it.",
       WEB: "He who calls you is faithful, who will also do it.",
       ASV: "Faithful is he that calleth you, who will also do it.",
       YLT: "stedfast is He who is calling you, who also will do it.",
@@ -3468,6 +3746,7 @@ const VERSES = [
     ref: "2 Thessalonians 2:16-17",
     versions: {
       KJV: "Now our Lord Jesus Christ himself, and God, even our Father, which hath loved us, and hath given us everlasting consolation and good hope through grace, Comfort your hearts, and stablish you in every good word and work.",
+      BSB: "Now may our Lord Jesus Christ Himself and God our Father, who by grace has loved us and given us eternal comfort and good hope, encourage your hearts and strengthen you in every good word and deed.",
       WEB: "Now our Lord Jesus Christ himself, and God our Father, who loved us and gave us eternal comfort and good hope through grace, comfort your hearts and establish you in every good work and word.",
       ASV: "Now our Lord Jesus Christ himself, and God our Father who loved us and gave us eternal comfort and good hope through grace, comfort your hearts and establish them in every good work and word.",
       YLT: "and may our Lord Jesus Christ himself, and our God and Father, who did love us, and did give comfort age-during, and good hope in grace, comfort your hearts, and establish you in every good word and work.",
@@ -3481,6 +3760,7 @@ const VERSES = [
     ref: "2 Timothy 1:7",
     versions: {
       KJV: "For God hath not given us the spirit of fear; but of power, and of love, and of a sound mind.",
+      BSB: "For God has not given us a spirit of fear, but of power, love, and self-control.",
       WEB: "For God didn’t give us a spirit of fear, but of power, love, and self-control.",
       ASV: "For God gave us not a spirit of fearfulness; but of power and love and discipline.",
       YLT: "for God did not give us a spirit of fear, but of power, and of love, and of a sound mind.",
@@ -3494,6 +3774,7 @@ const VERSES = [
     ref: "2 Timothy 4:7",
     versions: {
       KJV: "I have fought a good fight, I have finished my course, I have kept the faith.",
+      BSB: "I have fought the good fight, I have finished the race, I have kept the faith.",
       WEB: "I have fought the good fight. I have finished the course. I have kept the faith.",
       ASV: "I have fought the good fight, I have finished the course, I have kept the faith.",
       YLT: "the good strife I have striven, the course I have finished, the faith I have kept.",
@@ -3507,6 +3788,7 @@ const VERSES = [
     ref: "2 Timothy 2:15",
     versions: {
       KJV: "Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.",
+      BSB: "Make every effort to present yourself approved to God, an unashamed workman who accurately handles the word of truth.",
       WEB: "Give diligence to present yourself approved by God, a workman who doesn’t need to be ashamed, properly handling the Word of Truth.",
       ASV: "Give diligence to present thyself approved unto God, a workman that needeth not to be ashamed, handling aright the word of truth.",
       YLT: "be diligent to present thyself approved to God--a workman irreproachable, rightly dividing the word of the truth.",
@@ -3520,6 +3802,7 @@ const VERSES = [
     ref: "1 Timothy 4:12",
     versions: {
       KJV: "Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity.",
+      BSB: "Let no one despise your youth, but set an example for the believers in speech, in conduct, in love, in faith, in purity.",
       WEB: "Let no man despise your youth; but be an example to those who believe, in word, in your way of life, in love, in spirit, in faith, and in purity.",
       ASV: "Let no man despise thy youth; but be thou an ensample to them that believe, in word, in manner of life, in love, in faith, in purity.",
       YLT: "let no one despise thy youth, but a pattern become thou of those believing in word, in behaviour, in love, in spirit, in faith, in purity.",
@@ -3533,6 +3816,7 @@ const VERSES = [
     ref: "1 Timothy 6:6",
     versions: {
       KJV: "But godliness with contentment is great gain.",
+      BSB: "Of course, godliness with contentment is great gain.",
       WEB: "But godliness with contentment is great gain.",
       ASV: "But godliness with contentment is great gain.",
       YLT: "but it is great gain--the piety with contentment.",
@@ -3546,6 +3830,7 @@ const VERSES = [
     ref: "Titus 2:13",
     versions: {
       KJV: "Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.",
+      BSB: "as we await the blessed hope and glorious appearance of our great God and Savior Jesus Christ.",
       WEB: "looking for the blessed hope and appearing of the glory of our great God and Savior, Jesus Christ.",
       ASV: "looking for the blessed hope and appearing of the glory of the great God and our Saviour Jesus Christ.",
       YLT: "waiting for the blessed hope and manifestation of the glory of our great God and Saviour Jesus Christ.",
@@ -3559,6 +3844,7 @@ const VERSES = [
     ref: "Titus 3:5",
     versions: {
       KJV: "Not by works of righteousness which we have done, but according to his mercy he saved us, by the washing of regeneration, and renewing of the Holy Ghost.",
+      BSB: "He saved us, not by the righteous deeds we had done, but according to His mercy, through the washing of new birth and renewal by the Holy Spirit.",
       WEB: "not by works of righteousness which we did ourselves, but according to his mercy, he saved us through the washing of regeneration and renewing by the Holy Spirit.",
       ASV: "not by works done in righteousness, which we did ourselves, but according to his mercy he saved us, through the washing of regeneration and renewing of the Holy Spirit.",
       YLT: "(not by works that are in righteousness that we did but according to His kindness,) He did save us, through a bathing of regeneration, and a renewing of the Holy Spirit.",
@@ -3572,6 +3858,7 @@ const VERSES = [
     ref: "Philemon 1:15",
     versions: {
       KJV: "For perhaps he therefore departed for a season, that thou shouldest receive him for ever.",
+      BSB: "For perhaps this is why he was separated from you for a while, so that you might have him back for good —",
       WEB: "For perhaps he was therefore separated from you for a while, that you would have him forever.",
       ASV: "For perhaps he was therefore parted from thee for a season, that thou shouldest have him for ever.",
       YLT: "for perhaps because of this he did depart for an hour, that age-duringly thou mayest have him.",
@@ -3585,6 +3872,7 @@ const VERSES = [
     ref: "Hebrews 11:1",
     versions: {
       KJV: "Now faith is the substance of things hoped for, the evidence of things not seen.",
+      BSB: "Now faith is the assurance of what we hope for and the certainty of what we do not see.",
       WEB: "Now faith is assurance of things hoped for, proof of things not seen.",
       ASV: "Now faith is assurance of things hoped for, a conviction of things not seen.",
       YLT: "And faith is of things hoped for a confidence, of matters not seen a conviction.",
@@ -3598,6 +3886,7 @@ const VERSES = [
     ref: "Hebrews 12:1",
     versions: {
       KJV: "Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us.",
+      BSB: "Therefore, since we are surrounded by such a great cloud of witnesses, let us throw off every encumbrance and the sin that so easily entangles, and let us run with endurance the race set out for us.",
       WEB: "Therefore let’s also, seeing we are surrounded by so great a cloud of witnesses, lay aside every weight and the sin which so easily entangles us, and let’s run with perseverance the race that is set before us.",
       ASV: "Therefore let us also, seeing we are compassed about with so great a cloud of witnesses, lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us.",
       YLT: "Therefore, we also having so great a cloud of witnesses set around us, every weight having put off, and the closely besetting sin, through endurance may we run the contest that is set before us.",
@@ -3611,6 +3900,7 @@ const VERSES = [
     ref: "Hebrews 12:2",
     versions: {
       KJV: "Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.",
+      BSB: "Let us fix our eyes on Jesus, the author and perfecter of our faith, who for the joy set before Him endured the cross, scorning its shame, and sat down at the right hand of the throne of God.",
       WEB: "looking to Jesus, the author and perfecter of faith, who for the joy that was set before him endured the cross, despising its shame, and has sat down at the right hand of the throne of God.",
       ASV: "looking unto Jesus the author and perfecter of our faith, who for the joy that was set before him endured the cross, despising shame, and hath sat down at the right hand of the throne of God.",
       YLT: "looking to the author and perfecter of faith--Jesus, who, over-against the joy set before him--did endure a cross, shame having despised, on the right hand also of the throne of God did sit down.",
@@ -3624,6 +3914,7 @@ const VERSES = [
     ref: "Hebrews 10:23",
     versions: {
       KJV: "Let us hold fast the profession of our faith without wavering; for he is faithful that promised.",
+      BSB: "Let us hold resolutely to the hope we profess, for He who promised is faithful.",
       WEB: "let’s hold fast the confession of our hope without wavering; for he who promised is faithful.",
       ASV: "let us hold fast the confession of our hope that it waver not; for he is faithful that promised.",
       YLT: "may we hold fast the unwavering profession of the hope, (for faithful is He who did promise).",
@@ -3637,6 +3928,7 @@ const VERSES = [
     ref: "Hebrews 10:24",
     versions: {
       KJV: "And let us consider one another to provoke unto love and to good works.",
+      BSB: "And let us consider how to spur one another on to love and good deeds.",
       WEB: "Let’s consider how to provoke one another to love and good works.",
       ASV: "and let us consider one another to provoke unto love and good works.",
       YLT: "and may we consider one another to provoke to love and to good works.",
@@ -3650,6 +3942,7 @@ const VERSES = [
     ref: "Hebrews 4:16",
     versions: {
       KJV: "Let us therefore come boldly unto the throne of grace, that we may obtain mercy, and find grace to help in time of need.",
+      BSB: "Let us then approach the throne of grace with confidence, so that we may receive mercy and find grace to help us in our time of need.",
       WEB: "Let’s therefore draw near with boldness to the throne of grace, that we may receive mercy and may find grace for help in time of need.",
       ASV: "Let us therefore draw near with boldness unto the throne of grace, that we may receive mercy, and may find grace to help us in time of need.",
       YLT: "we may come near, then, with freedom, to the throne of the grace, that we may receive kindness, and find grace--for seasonable help.",
@@ -3663,6 +3956,7 @@ const VERSES = [
     ref: "Hebrews 13:8",
     versions: {
       KJV: "Jesus Christ the same yesterday, and to day, and for ever.",
+      BSB: "Jesus Christ is the same yesterday and today and forever.",
       WEB: "Jesus Christ is the same yesterday, today, and forever.",
       ASV: "Jesus Christ is the same yesterday and to-day, yea and for ever.",
       YLT: "Jesus Christ yesterday and to-day the same, and to the ages.",
@@ -3676,6 +3970,7 @@ const VERSES = [
     ref: "Hebrews 13:1",
     versions: {
       KJV: "Let brotherly love continue.",
+      BSB: "Continue in brotherly love.",
       WEB: "Let brotherly love continue.",
       ASV: "Let love of the brethren continue.",
       YLT: "Let brotherly love remain.",
@@ -3689,6 +3984,7 @@ const VERSES = [
     ref: "Hebrews 13:2",
     versions: {
       KJV: "Be not forgetful to entertain strangers: for thereby some have entertained angels unawares.",
+      BSB: "Do not neglect to show hospitality to strangers, for by so doing some people have entertained angels without knowing it.",
       WEB: "Don’t forget to show hospitality to strangers, for in doing so, some have entertained angels without knowing it.",
       ASV: "Forget not to show love unto strangers: for thereby some have entertained angels unawares.",
       YLT: "of the hospitality be not forgetful, for through this unawares certain did entertain messengers.",
@@ -3702,6 +3998,7 @@ const VERSES = [
     ref: "Hebrews 13:16",
     versions: {
       KJV: "But to do good and to communicate forget not: for with such sacrifices God is well pleased.",
+      BSB: "And do not neglect to do good and to share with others, for with such sacrifices God is pleased.",
       WEB: "But don’t forget to be doing good and sharing, for with such sacrifices God is well pleased.",
       ASV: "But to do good and to communicate forget not: for with such sacrifices God is well pleased.",
       YLT: "and of doing good, and of fellowship, be not forgetful, for with such sacrifices God is well-pleased.",
@@ -3715,6 +4012,7 @@ const VERSES = [
     ref: "James 1:2",
     versions: {
       KJV: "My brethren, count it all joy when ye fall into divers temptations.",
+      BSB: "Consider it pure joy, my brothers, when you encounter trials of many kinds,",
       WEB: "Count it all joy, my brothers, when you fall into various temptations.",
       ASV: "Count it all joy, my brethren, when ye fall into manifold temptations.",
       YLT: "All joy count it, my brethren, when ye may fall into temptations manifold.",
@@ -3728,6 +4026,7 @@ const VERSES = [
     ref: "James 1:3",
     versions: {
       KJV: "Knowing this, that the trying of your faith worketh patience.",
+      BSB: "because you know that the testing of your faith develops perseverance.",
       WEB: "knowing that the testing of your faith produces endurance.",
       ASV: "knowing that the proving of your faith worketh patience.",
       YLT: "knowing that the proof of your faith doth work endurance.",
@@ -3741,6 +4040,7 @@ const VERSES = [
     ref: "James 1:5",
     versions: {
       KJV: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.",
+      BSB: "Now if any of you lacks wisdom, he should ask God, who gives generously to all without finding fault, and it will be given to him.",
       WEB: "But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
       ASV: "But if any of you lacketh wisdom, let him ask of God, who giveth to all liberally and upbraideth not; and it shall be given him.",
       YLT: "and if any of you do lack wisdom, let him ask from God, who is giving to all liberally, and not reproaching, and it shall be given to him.",
@@ -3754,6 +4054,7 @@ const VERSES = [
     ref: "James 1:17",
     versions: {
       KJV: "Every good gift and every perfect gift is from above, and cometh down from the Father of lights, with whom is no variableness, neither shadow of turning.",
+      BSB: "Every good and perfect gift is from above, coming down from the Father of the heavenly lights, with whom there is no change or shifting shadow.",
       WEB: "Every good gift and every perfect gift is from above, coming down from the Father of lights, with whom can be no variation, nor turning shadow.",
       ASV: "Every good gift and every perfect gift is from above, coming down from the Father of lights, with whom can be no variation, neither shadow that is cast by turning.",
       YLT: "every good giving, and every perfect gift is from above, coming down from the Father of the lights, with whom is no variation, or shadow of turning.",
@@ -3767,6 +4068,7 @@ const VERSES = [
     ref: "James 4:8",
     versions: {
       KJV: "Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye double minded.",
+      BSB: "Draw near to God, and He will draw near to you. Cleanse your hands, you sinners, and purify your hearts, you double-minded.",
       WEB: "Draw near to God, and he will draw near to you. Cleanse your hands, you sinners. Purify your hearts, you double-minded.",
       ASV: "Draw nigh to God, and he will draw nigh to you. Cleanse your hands, ye sinners; and purify your hearts, ye doubleminded.",
       YLT: "draw nigh to God, and He will draw nigh to you; cleanse hands, ye sinners! and purify hearts, ye two-souled!",
@@ -3780,6 +4082,7 @@ const VERSES = [
     ref: "James 5:16",
     versions: {
       KJV: "Confess your faults one to another, and pray one for another, that ye may be healed. The effectual fervent prayer of a righteous man availeth much.",
+      BSB: "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous man has great power to prevail.",
       WEB: "Confess your offenses to one another, and pray for one another, that you may be healed. The insistent prayer of a righteous person is powerfully effective.",
       ASV: "Confess therefore your sins one to another, and pray one for another, that ye may be healed. The supplication of a righteous man availeth much in its working.",
       YLT: "Be confessing to one another the trespasses, and be praying for one another, that ye may be healed; very strong is a working supplication of a righteous man.",
@@ -3793,6 +4096,7 @@ const VERSES = [
     ref: "1 Peter 5:7",
     versions: {
       KJV: "Casting all your care upon him; for he careth for you.",
+      BSB: "Cast all your anxiety on Him, because He cares for you.",
       WEB: "casting all your worries on him, because he cares for you.",
       ASV: "casting all your anxiety upon him, because he careth for you.",
       YLT: "all your care having cast upon Him, because He careth for you.",
@@ -3806,6 +4110,7 @@ const VERSES = [
     ref: "1 Peter 1:3",
     versions: {
       KJV: "Blessed be the God and Father of our Lord Jesus Christ, which according to his abundant mercy hath begotten us again unto a lively hope by the resurrection of Jesus Christ from the dead.",
+      BSB: "Blessed be the God and Father of our Lord Jesus Christ! By His great mercy He has given us new birth into a living hope through the resurrection of Jesus Christ from the dead,",
       WEB: "Blessed be the God and Father of our Lord Jesus Christ, who according to his great mercy caused us to be born again to a living hope through the resurrection of Jesus Christ from the dead.",
       ASV: "Blessed be the God and Father of our Lord Jesus Christ, who according to his great mercy begat us again unto a living hope by the resurrection of Jesus Christ from the dead.",
       YLT: "Blessed is the God and Father of our Lord Jesus Christ, who, according to the abundance of His kindness did beget us again to a living hope, through the rising again of Jesus Christ out of the dead.",
@@ -3819,6 +4124,7 @@ const VERSES = [
     ref: "1 Peter 1:6",
     versions: {
       KJV: "Wherein ye greatly rejoice, though now for a season, if need be, ye are in heaviness through manifold temptations.",
+      BSB: "In this you greatly rejoice, though now for a little while you may have had to suffer grief in various trials",
       WEB: "Wherein you greatly rejoice, though now for a little while, if need be, you have been grieved in various trials.",
       ASV: "Wherein ye greatly rejoice, though now for a little while, if need be, ye have been put to grief in manifold trials.",
       YLT: "in which ye are glad, a little now, if it be necessary, being made to sorrow in manifold trials.",
@@ -3832,6 +4138,7 @@ const VERSES = [
     ref: "1 Peter 4:8",
     versions: {
       KJV: "And above all things have fervent charity among yourselves: for charity shall cover the multitude of sins.",
+      BSB: "Above all, love one another deeply, because love covers over a multitude of sins.",
       WEB: "And above all things be earnest in your love among yourselves, for love covers a multitude of sins.",
       ASV: "above all things being fervent in your love among yourselves; for love covereth a multitude of sins.",
       YLT: "and, before all things, to one another having the earnest love, because the love shall cover a multitude of sins.",
@@ -3845,6 +4152,7 @@ const VERSES = [
     ref: "1 Peter 4:10",
     versions: {
       KJV: "As every man hath received the gift, even so minister the same one to another, as good stewards of the manifold grace of God.",
+      BSB: "As good stewards of the manifold grace of God, each of you should use whatever gift he has received to serve one another.",
       WEB: "As each has received a gift, employ it in serving one another, as good managers of the grace of God in its various forms.",
       ASV: "according as each hath received a gift, ministering it among yourselves, as good stewards of the manifold grace of God.",
       YLT: "each, according as he received a gift, to one another ministering it, as good stewards of the manifold grace of God.",
@@ -3858,6 +4166,7 @@ const VERSES = [
     ref: "1 Peter 5:8",
     versions: {
       KJV: "Be sober, be vigilant; because your adversary the devil, as a roaring lion, walketh about, seeking whom he may devour.",
+      BSB: "Be sober-minded and alert. Your adversary the devil prowls around like a roaring lion, seeking someone to devour.",
       WEB: "Be sober and self-controlled. Be watchful. Your adversary, the devil, walks around like a roaring lion, seeking whom he may devour.",
       ASV: "Be sober, be watchful: your adversary the devil, as a roaring lion, walketh about, seeking whom he may devour.",
       YLT: "Be sober, vigilant, because your opponent the devil, as a roaring lion, doth walk about, seeking whom he may swallow up.",
@@ -3871,6 +4180,7 @@ const VERSES = [
     ref: "1 Peter 5:10",
     versions: {
       KJV: "But the God of all grace, who hath called us unto his eternal glory by Christ Jesus, after that ye have suffered a while, make you perfect, stablish, strengthen, settle you.",
+      BSB: "And after you have suffered for a little while, the God of all grace, who has called you to His eternal glory in Christ, will Himself restore you, secure you, strengthen you, and establish you.",
       WEB: "But may the God of all grace, who called you to his eternal glory by Christ Jesus, after you have suffered a little while, perfect, establish, strengthen, and settle you.",
       ASV: "And the God of all grace, who called you unto his eternal glory in Christ, after that ye have suffered a little while, shall himself perfect, establish, strengthen you.",
       YLT: "And the God of all grace, who did call you to His age-during glory in Christ Jesus, having suffered a little, Himself make you perfect, establish, strengthen, settle you.",
@@ -3884,6 +4194,7 @@ const VERSES = [
     ref: "2 Peter 1:3",
     versions: {
       KJV: "According as his divine power hath given unto us all things that pertain unto life and godliness, through the knowledge of him that hath called us to glory and virtue.",
+      BSB: "His divine power has given us everything we need for life and godliness through the knowledge of Him who called us by His own glory and excellence.",
       WEB: "seeing that his divine power has granted to us all things that pertain to life and godliness, through the knowledge of him who called us by his own glory and virtue.",
       ASV: "seeing that his divine power hath granted unto us all things that pertain unto life and godliness, through the knowledge of him that called us by his own glory and virtue.",
       YLT: "As all things to us His divine power (the things pertaining unto life and piety) hath given, through the acknowledgement of him who did call us through glory and worthiness.",
@@ -3897,6 +4208,7 @@ const VERSES = [
     ref: "2 Peter 3:9",
     versions: {
       KJV: "The Lord is not slack concerning his promise, as some men count slackness; but is longsuffering to us-ward, not willing that any should perish, but that all should come to repentance.",
+      BSB: "The Lord is not slow in keeping His promise as some understand slowness, but is patient with you, not wanting anyone to perish but everyone to come to repentance.",
       WEB: "The Lord is not slow concerning his promise, as some count slowness; but he is patient with us, not wishing that anyone should perish, but that all should come to repentance.",
       ASV: "The Lord is not slack concerning his promise, as some count slackness; but is longsuffering to you-ward, not wishing that any should perish, but that all should come to repentance.",
       YLT: "the Lord is not slow in regard to the promise, as certain count slowness, but is long-suffering to us, not counselling any to be lost but all to pass on to reformation.",
@@ -3910,6 +4222,7 @@ const VERSES = [
     ref: "1 John 4:16",
     versions: {
       KJV: "And we have known and believed the love that God hath to us. God is love; and he that dwelleth in love dwelleth in God, and God in him.",
+      BSB: "And we have come to know and believe the love that God has for us. God is love; whoever abides in love abides in God, and God in him.",
       WEB: "We know and have believed the love which God has for us. God is love, and he who remains in love remains in God, and God remains in him.",
       ASV: "And we know and have believed the love which God hath in us. God is love; and he that abideth in love abideth in God, and God abideth in him.",
       YLT: "and we--we have known and believed the love, that God hath in us; God is love, and he who is remaining in the love, in God he doth remain, and God in him.",
@@ -3923,6 +4236,7 @@ const VERSES = [
     ref: "1 John 4:18",
     versions: {
       KJV: "There is no fear in love; but perfect love casteth out fear: because fear hath torment. He that feareth is not made perfect in love.",
+      BSB: "There is no fear in love, but perfect love drives out fear, because fear involves punishment. The one who fears has not been perfected in love.",
       WEB: "There is no fear in love; but perfect love casts out fear, because fear has punishment. He who fears is not made perfect in love.",
       ASV: "There is no fear in love: but perfect love casteth out fear, because fear hath punishment; and he that feareth is not made perfect in love.",
       YLT: "fear is not in the love, but the perfect love doth cast out the fear, because the fear hath punishment, and he who is fearing hath not been made perfect in the love.",
@@ -3936,6 +4250,7 @@ const VERSES = [
     ref: "1 John 4:19",
     versions: {
       KJV: "We love him, because he first loved us.",
+      BSB: "We love because He first loved us.",
       WEB: "We love him, because he first loved us.",
       ASV: "We love, because he first loved us.",
       YLT: "we--we love him, because He--He first loved us.",
@@ -3949,6 +4264,7 @@ const VERSES = [
     ref: "1 John 1:9",
     versions: {
       KJV: "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.",
+      BSB: "If we confess our sins, He is faithful and just to forgive us our sins and to cleanse us from all unrighteousness.",
       WEB: "If we confess our sins, he is faithful and righteous to forgive us the sins, and to cleanse us from all unrighteousness.",
       ASV: "If we confess our sins, he is faithful and righteous to forgive us our sins, and to cleanse us from all unrighteousness.",
       YLT: "if we may confess our sins, stedfast He is and righteous that He may forgive us the sins, and may cleanse us from every unrighteousness.",
@@ -3962,6 +4278,7 @@ const VERSES = [
     ref: "1 John 4:7",
     versions: {
       KJV: "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God.",
+      BSB: "Beloved, let us love one another, because love comes from God. Everyone who loves has been born of God and knows God.",
       WEB: "Beloved, let’s love one another, for love is of God; and everyone who loves has been born of God, and knows God.",
       ASV: "Beloved, let us love one another: for love is of God; and every one that loveth is begotten of God, and knoweth God.",
       YLT: "Beloved, may we love one another, because the love is of God, and every one who is loving, of God he hath been begotten, and doth know God.",
@@ -3975,6 +4292,7 @@ const VERSES = [
     ref: "1 John 5:14",
     versions: {
       KJV: "And this is the confidence that we have in him, that, if we ask any thing according to his will, he heareth us.",
+      BSB: "And this is the confidence that we have before Him: If we ask anything according to His will, He hears us.",
       WEB: "This is the boldness which we have toward him, that if we ask anything according to his will, he listens to us.",
       ASV: "And this is the boldness which we have toward him, that, if we ask anything according to his will, he heareth us.",
       YLT: "And this is the boldness that we have toward Him, that if anything we may ask according to his will, He doth hear us.",
@@ -3988,6 +4306,7 @@ const VERSES = [
     ref: "3 John 1:2",
     versions: {
       KJV: "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth.",
+      BSB: "Beloved, I pray that in every way you may prosper and enjoy good health, as your soul also prospers.",
       WEB: "Beloved, I pray that you may prosper in all things and be healthy, even as your soul prospers.",
       ASV: "Beloved, I pray that in all things thou mayest prosper and be in health, even as thy soul prospereth.",
       YLT: "beloved, concerning all things I desire thee to prosper, and to be in health, even as thy soul doth prosper.",
@@ -4001,6 +4320,7 @@ const VERSES = [
     ref: "3 John 1:4",
     versions: {
       KJV: "I have no greater joy than to hear that my children walk in truth.",
+      BSB: "I have no greater joy than to hear that my children are walking in the truth.",
       WEB: "I have no greater joy than this: to hear about my children walking in truth.",
       ASV: "Greater joy have I none than this, to hear of my children walking in the truth.",
       YLT: "greater than these things I have no joy, that I may hear of my children in truth walking.",
@@ -4014,6 +4334,7 @@ const VERSES = [
     ref: "Jude 1:24",
     versions: {
       KJV: "Now unto him that is able to keep you from falling, and to present you faultless before the presence of his glory with exceeding joy.",
+      BSB: "Now to Him who is able to keep you from stumbling and to present you unblemished in His glorious presence, with great joy —",
       WEB: "Now to him who is able to keep them from stumbling, and to present you faultless before the presence of his glory in great joy.",
       ASV: "Now unto him that is able to guard you from stumbling, and to set you before the presence of his glory without blemish in exceeding joy.",
       YLT: "And to Him who is able to guard you not stumbling, and to set you in the presence of His glory unblemished, in gladness.",
@@ -4027,6 +4348,7 @@ const VERSES = [
     ref: "2 John 1:3",
     versions: {
       KJV: "Grace be with you, mercy, and peace, from God the Father, and from the Lord Jesus Christ, the Son of the Father, in truth and love.",
+      BSB: "Grace, mercy, and peace from God the Father and from Jesus Christ, the Son of the Father, will be with us in truth and love.",
       WEB: "Grace, mercy, and peace will be with us, from God the Father, and from the Lord Jesus Christ, the Son of the Father, in truth and love.",
       ASV: "Grace, mercy, peace shall be with us, from God the Father, and from Jesus Christ, the Son of the Father, in truth and love.",
       YLT: "there shall be with you grace, kindness, peace, from God the Father, and from the Lord Jesus Christ, the Son of the Father, in truth and love.",
@@ -4040,6 +4362,7 @@ const VERSES = [
     ref: "Revelation 21:4",
     versions: {
       KJV: "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.",
+      BSB: "‘He will wipe away every tear from their eyes,’ and there will be no more death or mourning or crying or pain, for the former things have passed away.”",
       WEB: "He will wipe away every tear from their eyes. Death will be no more; neither will there be mourning, nor crying, nor pain, any more. The first things have passed away.”",
       ASV: "and he shall wipe away every tear from their eyes; and death shall be no more; neither shall there be mourning, nor crying, nor pain, any more: the first things are passed away.",
       YLT: "and God shall wipe away every tear from their eyes, and the death shall not be any more, nor sorrow, nor crying, nor shall there be any more pain, because the first things did go away.'",
@@ -4053,6 +4376,7 @@ const VERSES = [
     ref: "Revelation 21:5",
     versions: {
       KJV: "And he that sat upon the throne said, Behold, I make all things new. And he said unto me, Write: for these words are true and faithful.",
+      BSB: "And the One seated on the throne said, “Behold, I make all things new.” Then He said, “Write this down, for these words are faithful and true.”",
       WEB: "He who sits on the throne said, “Behold, I am making all things new.” He said, “Write, for these words of God are faithful and true.”",
       ASV: "And he that sitteth on the throne said, Behold, I make all things new. And he saith, Write: for these words are faithful and true.",
       YLT: "And He who is sitting upon the throne said, `Lo, new I make all things; and He saith to me, `Write, because these words are true and stedfast;'",
@@ -4066,6 +4390,7 @@ const VERSES = [
     ref: "Revelation 3:20",
     versions: {
       KJV: "Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.",
+      BSB: "Behold, I stand at the door and knock. If anyone hears My voice and opens the door, I will come in and dine with him, and he with Me.",
       WEB: "Behold, I stand at the door and knock. If anyone hears my voice and opens the door, then I will come in to him, and will dine with him, and he with me.",
       ASV: "Behold, I stand at the door and knock: if any man hear my voice and open the door, I will come in to him, and will sup with him, and he with me.",
       YLT: "lo, I have stood at the door, and I knock; if any one may hear my voice, and may open the door, I will come in unto him, and will sup with him, and he with me.",
@@ -4079,6 +4404,7 @@ const VERSES = [
     ref: "Revelation 1:8",
     versions: {
       KJV: "I am Alpha and Omega, the beginning and the ending, saith the Lord, which is, and which was, and which is to come, the Almighty.",
+      BSB: "“I am the Alpha and the Omega,” says the Lord God, who is and was and is to come — the Almighty.",
       WEB: "I am the Alpha and the Omega,” says the Lord God, “who is and who was and who is to come, the Almighty.",
       ASV: "I am the Alpha and the Omega, saith the Lord God, who is and who was and who is to come, the Almighty.",
       YLT: "`I am the Alpha and the Omega, beginning and end, saith the Lord, who is, and who was, and who is coming--the Almighty.'",
@@ -4092,6 +4418,7 @@ const VERSES = [
     ref: "Revelation 22:5",
     versions: {
       KJV: "And there shall be no night there; and they need no candle, neither light of the sun; for the Lord God giveth them light: and they shall reign for ever and ever.",
+      BSB: "There will be no more night in the city, and they will have no need for the light of a lamp or of the sun. For the Lord God will shine on them, and they will reign forever and ever.",
       WEB: "There will be no night, and they need no lamp light or sun light; for the Lord God will illuminate them. They will reign forever and ever.",
       ASV: "And there shall be night no more; and they need no light of lamp, neither light of sun; for the Lord God shall give them light: and they shall reign for ever and ever.",
       YLT: "and night shall not be there, and they have no need of a lamp and light of a sun, because the Lord God doth give them light, and they shall reign--to the ages of the ages.",
@@ -4105,6 +4432,7 @@ const VERSES = [
     ref: "Psalm 1:1-2",
     versions: {
       KJV: "Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful. But his delight is in the law of the LORD; and in his law doth he meditate day and night.",
+      BSB: "Blessed is the man who does not walk in the counsel of the wicked, or set foot on the path of sinners, or sit in the seat of mockers. But his delight is in the Law of the LORD, and on His law he meditates day and night.",
       WEB: "Blessed is the man who doesn’t walk in the counsel of the wicked, nor stand on the path of sinners, nor sit in the seat of scoffers; but his delight is in Yahweh’s law. On his law he meditates day and night.",
       ASV: "Blessed is the man that walketh not in the counsel of the wicked, Nor standeth in the way of sinners, Nor sitteth in the seat of scoffers: But his delight is in the law of Jehovah; And on his law doth he meditate day and night.",
       YLT: "O the happiness of that one, who Hath not walked in the counsel of the wicked. And in the way of sinners hath not stood, And in the seat of scorners hath not sat; But--in the law of Jehovah is his delight, And in His law he doth meditate by day and by night.",
@@ -4118,6 +4446,7 @@ const VERSES = [
     ref: "Psalm 1:3",
     versions: {
       KJV: "And he shall be like a tree planted by the rivers of water, that bringeth forth his fruit in his season; his leaf also shall not wither; and whatsoever he doeth shall prosper.",
+      BSB: "He is like a tree planted by streams of water, yielding its fruit in season, whose leaf does not wither, and who prospers in all he does.",
       WEB: "He will be like a tree planted by the streams of water, that produces its fruit in its season, whose leaf also does not wither. Whatever he does shall prosper.",
       ASV: "And he shall be like a tree planted by the streams of water, That bringeth forth its fruit in its season, Whose leaf also doth not wither; And whatsoever he doeth shall prosper.",
       YLT: "And he hath been as a tree, Planted by rivulets of water, That giveth its fruit in its season, And its leaf doth not wither, And all that he doth he causeth to prosper.",
@@ -4131,6 +4460,7 @@ const VERSES = [
     ref: "Psalm 9:9",
     versions: {
       KJV: "The LORD also will be a refuge for the oppressed, a refuge in times of trouble.",
+      BSB: "The LORD is a refuge for the oppressed, a stronghold in times of trouble.",
       WEB: "Yahweh will also be a high tower for the oppressed; a high tower in times of trouble.",
       ASV: "Jehovah also will be a high tower for the oppressed, A high tower in times of trouble.",
       YLT: "And Jehovah is a tower for the bruised, A tower for times of adversity.",
@@ -4144,6 +4474,7 @@ const VERSES = [
     ref: "Psalm 11:4",
     versions: {
       KJV: "The LORD is in his holy temple, the LORD'S throne is in heaven: his eyes behold, his eyelids try, the children of men.",
+      BSB: "The LORD is in His holy temple; the LORD is on His heavenly throne. His eyes are watching closely; they examine the sons of men.",
       WEB: "Yahweh is in his holy temple. Yahweh is on his throne in heaven. His eyes observe. His eyes examine the children of men.",
       ASV: "Jehovah is in his holy temple; Jehovah, his throne is in heaven; His eyes behold, his eyelids try, the children of men.",
       YLT: "`Jehovah is in his holy temple: Jehovah--in the heavens is His throne. His eyes see--His eyelids try the sons of men.",
@@ -4157,6 +4488,7 @@ const VERSES = [
     ref: "Psalm 13:1,5",
     versions: {
       KJV: "How long wilt thou forget me, O LORD? for ever? how long wilt thou hide thy face from me? But I have trusted in thy mercy; my heart shall rejoice in thy salvation.",
+      BSB: "How long, O LORD? Will You forget me forever? How long will You hide Your face from me? But I have trusted in Your loving devotion; my heart will rejoice in Your salvation.",
       WEB: "How long, Yahweh? Will you forget me forever? How long will you hide your face from me? But I trust in your loving kindness. My heart rejoices in your salvation.",
       ASV: "How long, O Jehovah? wilt thou forget me for ever? How long wilt thou hide thy face from me? But I have trusted in thy lovingkindness; My heart shall rejoice in thy salvation.",
       YLT: "Till when, O Jehovah, Dost Thou forget me? --for ever? Till when dost Thou hide Thy face from me? And I, in Thy kindness I have trusted, Rejoice doth my heart in Thy salvation.",
@@ -4170,6 +4502,7 @@ const VERSES = [
     ref: "Psalm 32:7",
     versions: {
       KJV: "Thou art my hiding place; thou shalt preserve me from trouble; thou shalt compass me about with songs of deliverance. Selah.",
+      BSB: "You are my hiding place. You protect me from trouble; You surround me with songs of deliverance. Selah",
       WEB: "You are my hiding place. You will preserve me from trouble. You will surround me with songs of deliverance.",
       ASV: "Thou art my hiding-place; thou wilt preserve me from trouble; Thou wilt compass me about with songs of deliverance. [Selah",
       YLT: "Thou art a hiding-place for me, From distress Thou dost keep me, With songs of deliverance dost compass me. Selah.",
@@ -4183,6 +4516,7 @@ const VERSES = [
     ref: "Psalm 34:4",
     versions: {
       KJV: "I sought the LORD, and he heard me, and delivered me from all my fears.",
+      BSB: "I sought the LORD, and He answered me; He delivered me from all my fears.",
       WEB: "I sought Yahweh, and he answered me, and delivered me from all my fears.",
       ASV: "I sought Jehovah, and he answered me, And delivered me from all my fears.",
       YLT: "I sought Jehovah, and He answered me, And from all my fears did deliver me.",
@@ -4196,6 +4530,7 @@ const VERSES = [
     ref: "Psalm 34:7",
     versions: {
       KJV: "The angel of the LORD encampeth round about them that fear him, and delivereth them.",
+      BSB: "The angel of the LORD encamps around those who fear Him, and he delivers them.",
       WEB: "Yahweh’s angel encamps around those who fear him, and delivers them.",
       ASV: "The angel of Jehovah encampeth round about them that fear him, And delivereth them.",
       YLT: "A messenger of Jehovah is encamping, Round about those who fear Him, And He armeth them.",
@@ -4209,6 +4544,7 @@ const VERSES = [
     ref: "Psalm 34:19",
     versions: {
       KJV: "Many are the afflictions of the righteous: but the LORD delivereth him out of them all.",
+      BSB: "Many are the afflictions of the righteous, but the LORD delivers him from them all.",
       WEB: "Many are the afflictions of the righteous, but Yahweh delivers him out of them all.",
       ASV: "Many are the afflictions of the righteous; But Jehovah delivereth him out of them all.",
       YLT: "Many are the evils of the righteous, Out of them all doth Jehovah deliver him.",
@@ -4222,6 +4558,7 @@ const VERSES = [
     ref: "Psalm 37:39",
     versions: {
       KJV: "But the salvation of the righteous is of the LORD: he is their strength in the time of trouble.",
+      BSB: "The salvation of the righteous is from the LORD; He is their stronghold in time of trouble.",
       WEB: "But the salvation of the righteous is from Yahweh. He is their stronghold in the time of trouble.",
       ASV: "But the salvation of the righteous is of Jehovah: He is their stronghold in the time of trouble.",
       YLT: "And the salvation of the righteous is from Jehovah, Their strong place in a time of adversity.",
@@ -4235,6 +4572,7 @@ const VERSES = [
     ref: "Psalm 37:5",
     versions: {
       KJV: "Commit thy way unto the LORD; trust also in him; and he shall bring it to pass.",
+      BSB: "Commit your way to the LORD; trust in Him, and He will do it.",
       WEB: "Commit your way to Yahweh. Trust also in him, and he will do this.",
       ASV: "Commit thy way unto Jehovah; Trust also in him, and he will bring it to pass.",
       YLT: "Roll on Jehovah thy way, And trust upon Him, and He worketh.",
@@ -4248,6 +4586,7 @@ const VERSES = [
     ref: "Psalm 37:37",
     versions: {
       KJV: "Mark the perfect man, and behold the upright: for the end of that man is peace.",
+      BSB: "Consider the blameless and observe the upright, for posterity awaits the man of peace.",
       WEB: "Mark the perfect man, and see the upright, for there is a future for the man of peace.",
       ASV: "Mark the perfect man, and behold the upright; For there is a happy end to the man of peace.",
       YLT: "Observe the perfect, and see the upright, For the latter end of each is peace.",
@@ -4261,6 +4600,7 @@ const VERSES = [
     ref: "Psalm 41:1",
     versions: {
       KJV: "Blessed is he that considereth the poor: the LORD will deliver him in time of trouble.",
+      BSB: "Blessed is the one who cares for the poor; the LORD will deliver him in the day of trouble.",
       WEB: "Blessed is he who considers the poor. Yahweh will deliver him in the day of evil.",
       ASV: "Blessed is he that considereth the poor: Jehovah will deliver him in the day of evil.",
       YLT: "O the happiness of him Who is acting wisely unto the poor, In a day of evil doth Jehovah deliver him.",
@@ -4274,6 +4614,7 @@ const VERSES = [
     ref: "Psalm 46:1-2",
     versions: {
       KJV: "God is our refuge and strength, a very present help in trouble. Therefore will not we fear, though the earth be removed, and though the mountains be carried into the midst of the sea.",
+      BSB: "God is our refuge and strength, an ever-present help in times of trouble. Therefore we will not fear, though the earth is transformed and the mountains are toppled into the depths of the seas,",
       WEB: "God is our refuge and strength, a very present help in trouble. Therefore we won’t be afraid, though the earth changes, though the mountains are shaken into the heart of the seas.",
       ASV: "God is our refuge and strength, A very present help in trouble. Therefore will we not fear, though the earth do change, And though the mountains be shaken into the heart of the seas.",
       YLT: "God is to us a refuge and strength, A help in adversities found most surely. Therefore we fear not in the changing of earth, And in the slipping of mountains Into the heart of the seas.",
@@ -4287,6 +4628,7 @@ const VERSES = [
     ref: "Psalm 46:11",
     versions: {
       KJV: "The LORD of hosts is with us; the God of Jacob is our refuge. Selah.",
+      BSB: "The LORD of Hosts is with us; the God of Jacob is our fortress. Selah",
       WEB: "Yahweh of Armies is with us. The God of Jacob is our refuge.",
       ASV: "Jehovah of hosts is with us; The God of Jacob is our refuge. [Selah",
       YLT: "Jehovah of hosts is with us, A tower for us is the God of Jacob! Selah.",
@@ -4300,6 +4642,7 @@ const VERSES = [
     ref: "Hebrews 10:25",
     versions: {
       KJV: "Not forsaking the assembling of ourselves together, as the manner of some is; but exhorting one another: and so much the more, as ye see the day approaching.",
+      BSB: "Let us not neglect meeting together, as some have made a habit, but let us encourage one another, and all the more as you see the Day approaching.",
       WEB: "not forsaking our own assembling together, as the custom of some is, but exhorting one another, and so much the more as you see the Day approaching.",
       ASV: "not forsaking our own assembling together, as the custom of some is, but exhorting one another; and so much the more, as ye see the day drawing nigh.",
       YLT: "not forsaking the assembling of ourselves together, as a custom of certain is, but exhorting, and so much the more as ye see the day coming nigh.",
@@ -4313,6 +4656,7 @@ const VERSES = [
     ref: "Isaiah 58:11",
     versions: {
       KJV: "And the LORD shall guide thee continually, and satisfy thy soul in drought, and make fat thy bones: and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
+      BSB: "The LORD will always guide you; He will satisfy you in a sun-scorched land and strengthen your frame. You will be like a well-watered garden, like a spring whose waters never fail.",
       WEB: "and Yahweh will guide you continually, satisfy your soul in dry places, and make your bones strong. You will be like a watered garden, and like a spring of water whose waters don’t fail.",
       ASV: "and Jehovah will guide thee continually, and satisfy thy soul in dry places, and make strong thy bones; and thou shalt be like a watered garden, and like a spring of water, whose waters fail not.",
       YLT: "And Jehovah doth lead thee continually, And hath satisfied in drought thy soul, And thy bones He armeth, And thou hast been as a watered garden, And as an outlet of waters, whose waters lie not.",
@@ -4326,6 +4670,7 @@ const VERSES = [
     ref: "Proverbs 16:9",
     versions: {
       KJV: "A man's heart deviseth his way: but the LORD directeth his steps.",
+      BSB: "A man’s heart plans his course, but the LORD determines his steps.",
       WEB: "A man’s heart plans his course, but Yahweh directs his steps.",
       ASV: "A man’s heart deviseth his way; But Jehovah directeth his steps.",
       YLT: "The heart of man deviseth his way, And Jehovah establisheth his step.",
@@ -4339,6 +4684,7 @@ const VERSES = [
     ref: "Proverbs 25:11",
     versions: {
       KJV: "A word fitly spoken is like apples of gold in pictures of silver.",
+      BSB: "A word fitly spoken is like apples of gold in settings of silver.",
       WEB: "A word fitly spoken is like apples of gold in settings of silver.",
       ASV: "A word fitly spoken Is like apples of gold in network of silver.",
       YLT: "Apples of gold in imagery of silver, Is the word spoken at its fit times.",
@@ -4352,6 +4698,7 @@ const VERSES = [
     ref: "Proverbs 31:25",
     versions: {
       KJV: "Strength and honour are her clothing; and she shall rejoice in time to come.",
+      BSB: "Strength and honor are her clothing, and she can laugh at the days to come.",
       WEB: "Strength and dignity are her clothing. She laughs at the time to come.",
       ASV: "Strength and dignity are her clothing; And she laugheth at the time to come.",
       YLT: "Strength and honour are her clothing, And she rejoiceth at a latter day.",
@@ -4365,6 +4712,7 @@ const VERSES = [
     ref: "Proverbs 4:23",
     versions: {
       KJV: "Keep thy heart with all diligence; for out of it are the issues of life.",
+      BSB: "Guard your heart with all diligence, for from it flow springs of life.",
       WEB: "Keep your heart with all diligence, for out of it is the wellspring of life.",
       ASV: "Keep thy heart with all diligence; For out of it are the issues of life.",
       YLT: "Above every charge keep thy heart, For out of it are the outgoings of life.",
@@ -4378,6 +4726,7 @@ const VERSES = [
     ref: "Romans 12:2",
     versions: {
       KJV: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.",
+      BSB: "Do not be conformed to this world, but be transformed by the renewing of your mind. Then you will be able to test and approve what is the good, pleasing, and perfect will of God.",
       WEB: "Don’t be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what is the good, well-pleasing, and perfect will of God.",
       ASV: "And be not fashioned according to this world: but be ye transformed by the renewing of your mind, that ye may prove what is the good and acceptable and perfect will of God.",
       YLT: "and be not conformed to this age, but be transformed by the renewing of your mind, for your proving what is the will of God--the good, and acceptable, and perfect.",
@@ -4391,6 +4740,7 @@ const VERSES = [
     ref: "Isaiah 43:19",
     versions: {
       KJV: "Behold, I will do a new thing; now it shall spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
+      BSB: "Behold, I am about to do something new; even now it is coming. Do you not see it? Indeed, I will make a way in the wilderness and streams in the desert.",
       WEB: "Behold, I will do a new thing. It springs out now. Don’t you know it? I will even make a way in the wilderness, and rivers in the desert.",
       ASV: "Behold, I will do a new thing; now shall it spring forth; shall ye not know it? I will even make a way in the wilderness, and rivers in the desert.",
       YLT: "Lo, I am doing a new thing, now it springeth up, Do ye not know it? Yea, I put in a wilderness a way, In a desolate place--floods.",
@@ -4404,6 +4754,7 @@ const VERSES = [
     ref: "Song of Solomon 2:11",
     versions: {
       KJV: "For, lo, the winter is past, the rain is over and gone;",
+      BSB: "For now the winter is past; the rain is over and gone.",
       WEB: "For behold, the winter is past. The rain is over and gone.",
       ASV: "For, lo, the winter is past; The rain is over and gone;",
       YLT: "For lo, the winter hath passed by, The rain hath passed away--it hath gone.",
@@ -4417,6 +4768,7 @@ const VERSES = [
     ref: "Song of Solomon 2:12",
     versions: {
       KJV: "The flowers appear on the earth; the time of the singing of birds is come, and the voice of the turtle is heard in our land;",
+      BSB: "The flowers have appeared in the countryside; the season of singing has come, and the cooing of turtledoves is heard in our land.",
       WEB: "The flowers appear on the earth. The time of the singing has come, and the voice of the turtledove is heard in our land.",
       ASV: "The flowers appear on the earth; The time of the singing of birds is come, And the voice of the turtle-dove is heard in our land;",
       YLT: "The flowers have appeared in the earth, The time of the singing hath come, And the voice of the turtle was heard in our land,",
@@ -4430,6 +4782,7 @@ const VERSES = [
     ref: "Galatians 5:23",
     versions: {
       KJV: "Meekness, temperance: against such there is no law.",
+      BSB: "gentleness, and self-control. Against such things there is no law.",
       WEB: "gentleness, and self-control. Against such things there is no law.",
       ASV: "meekness, self-control; against such there is no law.",
       YLT: "meekness, temperance: against such there is no law;",
@@ -4443,6 +4796,7 @@ const VERSES = [
     ref: "Psalm 37:6",
     versions: {
       KJV: "And he shall bring forth thy righteousness as the light, and thy judgment as the noonday.",
+      BSB: "He will bring forth your righteousness like the dawn, your justice like the noonday sun.",
       WEB: "he will make your righteousness shine out like light, and your justice as the noon day sun.",
       ASV: "And he will make thy righteousness to go forth as the light, And thy justice as the noonday.",
       YLT: "And hath brought out as light thy righteousness, And thy judgment as noon-day.",
@@ -4456,6 +4810,7 @@ const VERSES = [
     ref: "Proverbs 31:26",
     versions: {
       KJV: "She openeth her mouth with wisdom; and in her tongue is the law of kindness.",
+      BSB: "She opens her mouth with wisdom, and faithful instruction is on her tongue.",
       WEB: "She opens her mouth with wisdom. Kind instruction is on her tongue.",
       ASV: "She openeth her mouth with wisdom; And the law of kindness is on her tongue.",
       YLT: "Her mouth she hath opened in wisdom, And the law of kindness is on her tongue.",
@@ -4469,6 +4824,7 @@ const VERSES = [
     ref: "Isaiah 40:30",
     versions: {
       KJV: "Even the youths shall faint and be weary, and the young men shall utterly fall:",
+      BSB: "Even youths grow tired and weary, and young men stumble and fall.",
       WEB: "Even the youths faint and get weary, and the young men utterly fall;",
       ASV: "Even the youths shall faint and be weary, and the young men shall utterly fall:",
       YLT: "Even youths are wearied and fatigued, And young men utterly stumble,",
@@ -4482,6 +4838,7 @@ const VERSES = [
     ref: "Proverbs 14:15",
     versions: {
       KJV: "The simple believeth every word: but the prudent man looketh well to his going.",
+      BSB: "The simple man believes every word, but the prudent man watches his steps.",
       WEB: "A simple man believes everything, but the prudent man carefully considers his ways.",
       ASV: "The simple believeth every word; But the prudent man looketh well to his going.",
       YLT: "The simple giveth credence to everything, And the prudent attendeth to his step.",
@@ -4495,6 +4852,7 @@ const VERSES = [
     ref: "Proverbs 17:17",
     versions: {
       KJV: "A friend loveth at all times, and a brother is born for adversity.",
+      BSB: "A friend loves at all times, and a brother is born for adversity.",
       WEB: "A friend loves at all times; and a brother is born for adversity.",
       ASV: "A friend loveth at all times; And a brother is born for adversity.",
       YLT: "At all times is the friend loving, And a brother for adversity is born.",
@@ -4508,6 +4866,7 @@ const VERSES = [
     ref: "Psalm 121:8",
     versions: {
       KJV: "The LORD shall preserve thy going out and thy coming in from this time forth, and even for evermore.",
+      BSB: "The LORD will watch over your coming and going, both now and forevermore.",
       WEB: "Yahweh will keep your going out and your coming in, from this time forward, and forever more.",
       ASV: "Jehovah will keep thy going out and thy coming in From this time forth and for evermore.",
       YLT: "Jehovah preserveth thy going out and thy coming in, From henceforth even unto the age!",
@@ -4521,6 +4880,7 @@ const VERSES = [
     ref: "Exodus 15:13",
     versions: {
       KJV: "Thou in thy mercy hast led forth the people which thou hast redeemed: thou hast guided them in thy strength unto thy holy habitation.",
+      BSB: "With loving devotion You will lead the people You have redeemed; with Your strength You will guide them to Your holy dwelling.",
       WEB: "“You, in your loving kindness, have led the people that you have redeemed. You have guided them in your strength to your holy habitation.",
       ASV: "Thou in thy lovingkindness hast led the people that thou hast redeemed: Thou hast guided them in thy strength to thy holy habitation.",
       YLT: "Thou hast led forth in Thy kindness The people whom Thou hast redeemed. Thou hast led on in Thy strength Unto Thy holy habitation.",
@@ -4534,6 +4894,7 @@ const VERSES = [
     ref: "Proverbs 3:7",
     versions: {
       KJV: "Be not wise in thine own eyes: fear the LORD, and depart from evil.",
+      BSB: "Be not wise in your own eyes; fear the LORD and turn away from evil.",
       WEB: "Don’t be wise in your own eyes. Fear Yahweh, and depart from evil.",
       ASV: "Be not wise in thine own eyes; Fear Jehovah, and depart from evil:",
       YLT: "Be not wise in thine own eyes, Fear Jehovah, and turn aside from evil.",
@@ -4547,6 +4908,7 @@ const VERSES = [
     ref: "Psalm 145:9",
     versions: {
       KJV: "The LORD is good to all: and his tender mercies are over all his works.",
+      BSB: "The LORD is good to all; His compassion rests on all He has made.",
       WEB: "Yahweh is good to all. His tender mercies are over all his works.",
       ASV: "Jehovah is good to all; And his tender mercies are over all his works.",
       YLT: "Good is Jehovah to all, And His mercies are over all His works.",
@@ -4560,6 +4922,7 @@ const VERSES = [
     ref: "Deuteronomy 16:15",
     versions: {
       KJV: "Seven days shalt thou keep a solemn feast unto the LORD thy God in the place which the LORD shall choose: because the LORD thy God shall bless thee in all thine increase, and in all the works of thine hands, therefore thou shalt surely rejoice.",
+      BSB: "For seven days you shall celebrate a feast to the LORD your God in the place He will choose, because the LORD your God will bless you in all your produce and in all the work of your hands, so that your joy will be complete.",
       WEB: "You shall keep a feast to Yahweh your God seven days in the place which Yahweh chooses, because Yahweh your God will bless you in all your increase and in all the work of your hands, and you shall be altogether joyful.",
       ASV: "Seven days shalt thou keep a feast unto Jehovah thy God in the place which Jehovah shall choose; because Jehovah thy God will bless thee in all thine increase, and in all the work of thy hands, and thou shalt be altogether joyful.",
       YLT: "Seven days thou dost feast before Jehovah thy God, in the place which Jehovah doth choose, for Jehovah thy God doth bless thee in all thine increase, and in every work of thy hands, and thou hast been only rejoicing.",
@@ -4573,6 +4936,7 @@ const VERSES = [
     ref: "Psalm 37:24",
     versions: {
       KJV: "Though he fall, he shall not be utterly cast down: for the LORD upholdeth him with his hand.",
+      BSB: "Though he falls, he will not be overwhelmed, for the LORD is holding his hand.",
       WEB: "Though he stumble, he shall not fall, for Yahweh holds him up with his hand.",
       ASV: "Though he fall, he shall not be utterly cast down; For Jehovah upholdeth him with his hand.",
       YLT: "When he falleth, he is not cast down, For Jehovah is sustaining his hand.",
@@ -4586,6 +4950,7 @@ const VERSES = [
     ref: "Psalm 28:7",
     versions: {
       KJV: "The LORD is my strength and my shield; my heart trusted in him, and I am helped: therefore my heart greatly rejoiceth; and with my song will I praise him.",
+      BSB: "The LORD is my strength and my shield; my heart trusts in Him, and I am helped. Therefore my heart rejoices, and I give thanks to Him with my song.",
       WEB: "Yahweh is my strength and my shield. My heart has trusted in him, and I am helped. Therefore my heart greatly rejoices. With my song I will thank him.",
       ASV: "Jehovah is my strength and my shield; My heart hath trusted in him, and I am helped: Therefore my heart greatly rejoiceth; And with my song will I praise him.",
       YLT: "Jehovah is my strength, and my shield, In Him my heart trusted, and I have been helped. And my heart exulteth, And with my song I thank Him.",
@@ -4599,6 +4964,7 @@ const VERSES = [
     ref: "Philippians 4:8",
     versions: {
       KJV: "Finally, brethren, whatsoever things are true, whatsoever things are honest, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
+      BSB: "Finally, brothers, whatever is true, whatever is honorable, whatever is right, whatever is pure, whatever is lovely, whatever is admirable — if anything is excellent or praiseworthy — think on these things.",
       WEB: "Finally, brothers, whatever things are true, whatever things are honorable, whatever things are just, whatever things are pure, whatever things are lovely, whatever things are of good report: if there is any virtue and if there is any praise, think about these things.",
       ASV: "Finally, brethren, whatsoever things are true, whatsoever things are honorable, whatsoever things are just, whatsoever things are pure, whatsoever things are lovely, whatsoever things are of good report; if there be any virtue, and if there be any praise, think on these things.",
       YLT: "As to the rest, brethren, as many things as are true, as many as are grave, as many as are righteous, as many as are pure, as many as are lovely, as many as are of good report, if any worthiness, and if any praise, these things think upon;",
@@ -4612,6 +4978,7 @@ const VERSES = [
     ref: "Job 8:21",
     versions: {
       KJV: "Till he fill thy mouth with laughing, and thy lips with rejoicing.",
+      BSB: "He will yet fill your mouth with laughter, and your lips with a shout of joy.",
       WEB: "He will still fill your mouth with laughter, your lips with shouting.",
       ASV: "He will yet fill thy mouth with laughter, And thy lips with shouting.",
       YLT: "While he filleth with laughter thy mouth, And thy lips with shouting,",
@@ -4625,6 +4992,7 @@ const VERSES = [
     ref: "Psalm 145:13",
     versions: {
       KJV: "Thy kingdom is an everlasting kingdom, and thy dominion endureth throughout all generations.",
+      BSB: "Your kingdom is an everlasting kingdom, and Your dominion endures through all generations. The LORD is faithful in all His words and kind in all His actions.",
       WEB: "Your kingdom is an everlasting kingdom. Your dominion endures throughout all generations. Yahweh is faithful in all his words, and loving in all his deeds.",
       ASV: "Thy kingdom is an everlasting kingdom, And thy dominion endureth throughout all generations.",
       YLT: "Thy kingdom is a kingdom of all ages, And Thy dominion is in all generations.",
@@ -4638,6 +5006,7 @@ const VERSES = [
     ref: "Romans 12:10",
     versions: {
       KJV: "Be kindly affectioned one to another with brotherly love; in honour preferring one another;",
+      BSB: "Be devoted to one another in brotherly love. Outdo yourselves in honoring one another.",
       WEB: "In love of the brothers be tenderly affectionate to one another; in honor preferring one another;",
       ASV: "In love of the brethren be tenderly affectioned one to another; in honor preferring one another;",
       YLT: "in the love of brethren, to one another kindly affectioned: in the honour going before one another;",
@@ -4651,6 +5020,7 @@ const VERSES = [
     ref: "Psalm 116:5",
     versions: {
       KJV: "Gracious is the LORD, and righteous; yea, our God is merciful.",
+      BSB: "The LORD is gracious and righteous; our God is full of compassion.",
       WEB: "Yahweh is Gracious and righteous. Yes, our God is merciful.",
       ASV: "Gracious is Jehovah, and righteous; Yea, our God is merciful.",
       YLT: "Gracious is Jehovah, and righteous, Yea, our God is merciful,",
@@ -4664,6 +5034,7 @@ const VERSES = [
     ref: "Psalm 29:11",
     versions: {
       KJV: "The LORD will give strength unto his people; the LORD will bless his people with peace.",
+      BSB: "The LORD gives His people strength; the LORD blesses His people with peace.",
       WEB: "Yahweh will give strength to his people. Yahweh will bless his people with peace.",
       ASV: "Jehovah will give strength unto his people; Jehovah will bless his people with peace.",
       YLT: "Jehovah strength to his people giveth, Jehovah blesseth His people with peace!",
@@ -4677,6 +5048,7 @@ const VERSES = [
     ref: "Luke 19:38",
     versions: {
       KJV: "Saying, Blessed be the King that cometh in the name of the Lord: peace in heaven, and glory in the highest.",
+      BSB: "“Blessed is the King who comes in the name of the Lord!” “Peace in heaven and glory in the highest!”",
       WEB: "saying, “Blessed is the King who comes in the name of the Lord! Peace in heaven, and glory in the highest!”",
       ASV: "saying, Blessed is the King that cometh in the name of the Lord: peace in heaven, and glory in the highest.",
       YLT: "saying, `blessed is he who is coming, a king in the name of the Lord; peace in heaven, and glory in the highest.'",
@@ -4690,6 +5062,7 @@ const VERSES = [
     ref: "Lamentations 3:24",
     versions: {
       KJV: "The LORD is my portion, saith my soul; therefore will I hope in him.",
+      BSB: "“The LORD is my portion,” says my soul, “therefore I will hope in Him.”",
       WEB: "“Yahweh is my portion,” says my soul. “Therefore I will hope in him.”",
       ASV: "Jehovah is my portion, saith my soul; therefore will I hope in him.",
       YLT: "My portion is Jehovah, hath my soul said, Therefore I hope for Him.",
@@ -4703,6 +5076,7 @@ const VERSES = [
     ref: "Isaiah 53:5",
     versions: {
       KJV: "But he was wounded for our transgressions, he was bruised for our iniquities: the chastisement of our peace was upon him; and with his stripes we are healed.",
+      BSB: "But He was pierced for our transgressions, He was crushed for our iniquities; the punishment that brought us peace was upon Him, and by His stripes we are healed.",
       WEB: "But he was pierced for our transgressions. He was crushed for our iniquities. The punishment that brought our peace was on him; and by his wounds we are healed.",
       ASV: "But he was wounded for our transgressions, he was bruised for our iniquities; the chastisement of our peace was upon him; and with his stripes we are healed.",
       YLT: "And he is pierced for our transgressions, Bruised for our iniquities, The chastisement of our peace is on him, And by his bruise there is healing to us.",
@@ -4716,6 +5090,7 @@ const VERSES = [
     ref: "Matthew 28:6",
     versions: {
       KJV: "He is not here: for he is risen, as he said. Come, see the place where the Lord lay.",
+      BSB: "He is not here; He has risen, just as He said! Come, see the place where He lay.",
       WEB: "He is not here, for he has risen, just like he said. Come, see the place where the Lord was lying.",
       ASV: "He is not here; for he is risen, even as he said. Come, see the place where the Lord lay.",
       YLT: "he is not here, for he rose, as he said; come, see the place where the Lord was lying;",
@@ -4729,6 +5104,7 @@ const VERSES = [
     ref: "John 14:19",
     versions: {
       KJV: "Yet a little while, and the world seeth me no more; but ye see me: because I live, ye shall live also.",
+      BSB: "In a little while the world will see Me no more, but you will see Me. Because I live, you also will live.",
       WEB: "Yet a little while, and the world will see me no more; but you will see me. Because I live, you will live also.",
       ASV: "Yet a little while, and the world beholdeth me no more; but ye behold me: because I live, ye shall live also.",
       YLT: "yet a little, and the world doth no more behold me, and ye behold me, because I live, and ye shall live;",
@@ -4742,6 +5118,7 @@ const VERSES = [
     ref: "Deuteronomy 31:8",
     versions: {
       KJV: "And the LORD, he it is that doth go before thee; he will be with thee, he will not fail thee, neither forsake thee: fear not, neither be dismayed.",
+      BSB: "The LORD Himself goes before you; He will be with you. He will never leave you nor forsake you. Do not be afraid or discouraged.”",
       WEB: "Yahweh himself is who goes before you. He will be with you. He will not fail you nor forsake you. Don’t be afraid. Don’t be discouraged.”",
       ASV: "And Jehovah, he it is that doth go before thee; he will be with thee, he will not fail thee, neither forsake thee: fear not, neither be dismayed.",
       YLT: "and Jehovah is He who is going before thee, He himself is with thee; He doth not fail thee nor forsake thee; fear not, nor be affrighted.'",
@@ -4755,6 +5132,7 @@ const VERSES = [
     ref: "Psalm 119:65",
     versions: {
       KJV: "TETH. Thou hast dealt well with thy servant, O LORD, according unto thy word.",
+      BSB: "You are good to Your servant, O LORD, according to Your word.",
       WEB: "Do good to your servant, according to your word, Yahweh.",
       ASV: "Thou hast dealt well with thy servant, O Jehovah, according unto thy word.",
       YLT: "Teth. Good Thou didst with Thy servant, O Jehovah, According to Thy word.",
@@ -4768,6 +5146,7 @@ const VERSES = [
     ref: "Micah 7:7",
     versions: {
       KJV: "Therefore I will look unto the LORD; I will wait for the God of my salvation: my God will hear me.",
+      BSB: "But as for me, I will look to the LORD; I will wait for the God of my salvation. My God will hear me.",
       WEB: "But as for me, I will look to Yahweh. I will wait for the God of my salvation. My God will hear me.",
       ASV: "But as for me, I will look unto Jehovah; I will wait for the God of my salvation: my God will hear me.",
       YLT: "And I--in Jehovah I do watch, I do wait for the God of my salvation, Hear me doth my God.",
@@ -4781,6 +5160,7 @@ const VERSES = [
     ref: "1 Corinthians 1:27",
     versions: {
       KJV: "But God hath chosen the foolish things of the world to confound the wise; and God hath chosen the weak things of the world to confound the things which are mighty;",
+      BSB: "But God chose the foolish things of the world to shame the wise; God chose the weak things of the world to shame the strong.",
       WEB: "but God chose the foolish things of the world that he might put to shame those who are wise. God chose the weak things of the world that he might put to shame the things that are strong.",
       ASV: "but God chose the foolish things of the world, that he might put to shame them that are wise; and God chose the weak things of the world, that he might put to shame the things that are strong;",
       YLT: "but the foolish things of the world did God choose, that the wise He may put to shame; and the weak things of the world did God choose that He may put to shame the strong;",
@@ -4794,6 +5174,7 @@ const VERSES = [
     ref: "Matthew 6:21",
     versions: {
       KJV: "For where your treasure is, there will your heart be also.",
+      BSB: "For where your treasure is, there your heart will be also.",
       WEB: "for where your treasure is, there your heart will be also.",
       ASV: "for where thy treasure is, there will thy heart be also.",
       YLT: "for where your treasure is, there will be also your heart.",
@@ -4807,6 +5188,7 @@ const VERSES = [
     ref: "James 3:17",
     versions: {
       KJV: "But the wisdom that is from above is first pure, then peaceable, gentle, and easy to be intreated, full of mercy and good fruits, without partiality, and without hypocrisy.",
+      BSB: "But the wisdom from above is first of all pure, then peace-loving, gentle, accommodating, full of mercy and good fruit, impartial, and sincere.",
       WEB: "But the wisdom that is from above is first pure, then peaceful, gentle, reasonable, full of mercy and good fruits, without partiality, and without hypocrisy.",
       ASV: "But the wisdom that is from above is first pure, then peaceable, gentle, easy to be entreated, full of mercy and good fruits, without variance, without hypocrisy.",
       YLT: "and the wisdom from above, first, indeed, is pure, then peaceable, gentle, easily entreated, full of kindness and good fruits, uncontentious, and unhypocritical: --",
@@ -4820,6 +5202,7 @@ const VERSES = [
     ref: "Psalm 119:114",
     versions: {
       KJV: "Thou art my hiding place and my shield: I hope in thy word.",
+      BSB: "You are my hiding place and my shield; I put my hope in Your word.",
       WEB: "You are my hiding place and my shield. I hope in your word.",
       ASV: "Thou art my hiding-place and my shield: I hope in thy word.",
       YLT: "My hiding place and my shield art Thou, For Thy word I have hoped.",

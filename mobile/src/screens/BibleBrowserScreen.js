@@ -2,7 +2,7 @@
 // book, chapter, and (optionally) a specific verse directly, independent
 // of any cited verse. Book list -> chapter grid -> verse grid -> opens the
 // same BibleChapterModal used everywhere else (with its own version
-// dropdown, so the download-on-first-use flow for the other 7
+// dropdown, so the download-on-first-use flow for the other 8
 // translations works here too), scrolled to the chosen verse the same way
 // a cited reference opens it. The verse grid also offers a "read the whole
 // chapter" shortcut for anyone who just wants to start at the top. Chapter

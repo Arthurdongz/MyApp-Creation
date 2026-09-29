@@ -113,8 +113,8 @@ export function chapterCount(book) {
 
 // Version-aware equivalents of getChapter/chapterCount, for the full
 // Bible reader/browser which (unlike confession/verse-of-the-day lookups
-// above) can show any of the 8 translations, not just KJV — see
-// bibleVersions.js for how the other 7 translations' text gets fetched
+// above) can show any of the 9 translations, not just KJV — see
+// bibleVersions.js for how the other 8 translations' text gets fetched
 // and cached on-device.
 export function getChapterFrom(text, book, chapter) {
   const bi = BOOK_INDEX.get(book);

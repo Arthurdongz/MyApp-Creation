@@ -1,6 +1,6 @@
 // Multi-version full-Bible download & cache for the chapter reader and
 // Bible browser. Only KJV ships bundled with the app (~4MB, see
-// bibleLookup.js) — the other 7 translations' full text live as static
+// bibleLookup.js) — the other 8 translations' full text live as static
 // JSON in this repo's own bible-data/ folder and are fetched on first
 // use from raw.githubusercontent.com, then written to this device's
 // filesystem so later reads work fully offline without re-downloading.
