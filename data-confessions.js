@@ -277,7 +277,7 @@ const CONFESSIONS = [
   {"text":"I commit my works to the Lord, and my thoughts and plans are established.","ref":"Proverbs 16:3"},
   {"text":"My steps are directed by the Lord — I never go where there is trouble, and I do not take a wrong step.","ref":"Proverbs 16:9"},
   {"text":"My steps are ordered by the Lord, and He delights in my way.","ref":"Psalm 37:23"},
-  {"text":"The word of God I speak does not return to Him void — it accomplishes what He pleases and prospers where He sends it.","ref":"Isaiah 55:11"},
+  {"text":"God has prepared good works for me. I will walk faithfully in what He has entrusted to me rather than live without direction.","ref":"Ephesians 2:10, Proverbs 3:5-6"},
   {"text":"My words, fitly spoken, are like apples of gold in settings of silver, bringing beauty wherever I go.","ref":"Proverbs 25:11"},
   {"text":"I let no corrupt word come from my mouth, only what builds others up and ministers grace to those who hear.","ref":"Ephesians 4:29"},
   {"text":"The Lord sets a watch before my mouth and keeps the door of my lips.","ref":"Psalm 141:3"},
