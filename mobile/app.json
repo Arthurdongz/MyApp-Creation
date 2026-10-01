@@ -81,7 +81,7 @@
       "eas": {
         "projectId": "fe93cf8f-fb13-4188-89d1-d1a615a3a246"
       },
-      "sentryDsn": ""
+      "sentryDsn": "https://f207a17c15bdb16bf59a594e942899ea@o4512182365388800.ingest.us.sentry.io/4512182390751232"
     },
     "owner": "arthurdongz",
     "runtimeVersion": {
