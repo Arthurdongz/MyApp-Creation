@@ -423,6 +423,20 @@
     "personalizationOffLabel": "Turn on personalization using your streak and mood",
     "feedbackUpLabel": "This reply was helpful",
     "feedbackDownLabel": "This reply was not helpful",
+    "memory": {
+      "on": "Remembering you across chats — tap to manage",
+      "off": "Not remembering past chats — tap to turn on",
+      "onLabel": "Manage what Barnabas remembers about you",
+      "offLabel": "Turn on remembering past conversations",
+      "enablePromptTitle": "Let Barnabas Remember You?",
+      "enablePromptText": "When this is on, Barnabas keeps a short, private note of things worth remembering from your conversations — your name if you share it, something you're going through, a recurring prayer topic — so future chats can feel more like talking to someone who knows you. It never includes your journal entries, only what you say in chat. You can view or clear it anytime.",
+      "manageTitle": "What Barnabas Remembers",
+      "nothingYet": "Nothing yet — keep chatting and Barnabas will start remembering key things.",
+      "cancel": "Cancel",
+      "turnOn": "Turn On",
+      "turnOff": "Turn Off",
+      "forget": "Forget Everything"
+    },
     "persona": {
       "buttonLabel": "Vibe: {{style}}",
       "openLabel": "Personalize how Barnabas talks to you",

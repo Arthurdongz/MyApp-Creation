@@ -185,6 +185,18 @@ function defaultSettings() {
     // Editable via the "Vibe" button in ChatScreen.
     chatPersonaStyle: "friend",
     chatPersonaNote: "",
+    // A short, consolidated memory of past *separate* conversations (name,
+    // an ongoing situation, a recurring prayer topic — see chat-worker/
+    // worker.js's updateMemory for exactly what gets kept), carried into
+    // every new conversation's system prompt when enabled. Off by default,
+    // unlike chatPersonalizationEnabled above — this summarizes the user's
+    // own conversational text, not just lightweight app-activity numbers,
+    // so it's opt-in rather than opt-out. Updated automatically (see
+    // ChatScreen.js's handleNewChat and its unmount effect) via chat.js's
+    // updateChatMemory; never touched by hand except to clear it.
+    chatMemoryEnabled: false,
+    chatMemoryText: "",
+    chatMemoryUpdatedAt: null,
     // null = trust the device locale guess (see crisisResources.js);
     // a region code or "OTHER" means the user corrected it by hand in
     // Settings because the device guessed wrong.
@@ -279,6 +291,21 @@ function normalizeEntries(rawEntries, journeyStartDate) {
   return entries;
 }
 
+// Fills in the per-conversation summary bookkeeping (see setChatConversationSummary
+// and markChatMemorySummarized) that a conversation saved before those
+// features existed won't have — same defensive-backfill idea as
+// normalizeEntries above, for the same reason (this loads from a backup as
+// easily as from this app's own prior save).
+function normalizeChatConversations(rawConversations) {
+  if (!Array.isArray(rawConversations)) return [];
+  return rawConversations.map((c) => ({
+    summary: null,
+    summarizedThroughIndex: 0,
+    memorySummarizedCount: 0,
+    ...c,
+  }));
+}
+
 function normalizeLoaded(parsed) {
   return {
     journeyStartDate: parsed.journeyStartDate,
@@ -286,7 +313,7 @@ function normalizeLoaded(parsed) {
     entries: normalizeEntries(parsed.entries, parsed.journeyStartDate),
     totalStars: parsed.totalStars || 0,
     favorites: parsed.favorites || [],
-    chatConversations: parsed.chatConversations || [],
+    chatConversations: normalizeChatConversations(parsed.chatConversations),
     earnedBadgeIds: parsed.earnedBadgeIds || [],
     prayers: parsed.prayers || [],
     settings: { ...defaultSettings(), ...migrateSettings(parsed.settings || {}) },
@@ -384,7 +411,25 @@ const CHAT_SESSION_TIMEOUT_MS = 30 * 60 * 1000;
 
 function newChatConversation() {
   const now = Date.now();
-  return { id: `chat-${now}-${Math.random().toString(36).slice(2, 8)}`, startedAt: now, updatedAt: now, messages: [] };
+  return {
+    id: `chat-${now}-${Math.random().toString(36).slice(2, 8)}`,
+    startedAt: now,
+    updatedAt: now,
+    messages: [],
+    // This conversation's own running recap of turns that have aged out of
+    // what's sent verbatim to Claude (see chat-worker/worker.js's
+    // SUMMARY_WINDOW) — null until the conversation actually grows long
+    // enough to need one. summarizedThroughIndex is how many of this
+    // conversation's messages that summary already covers.
+    summary: null,
+    summarizedThroughIndex: 0,
+    // How many of this conversation's messages have already been folded
+    // into the cross-conversation memory note (settings.chatMemoryText) —
+    // lets handleNewChat/the unmount effect skip re-summarizing a
+    // conversation that hasn't grown since the last time, rather than
+    // calling updateChatMemory again for nothing new.
+    memorySummarizedCount: 0,
+  };
 }
 
 // A gentle, rate-limited nudge toward real crisis resources when someone's
@@ -983,6 +1028,47 @@ export function useJournalStore() {
     [persist]
   );
 
+  // Persists a conversation's updated running recap (see chat.js's
+  // sendChatMessage/continueChatMessage onSummary callback and chat-worker/
+  // worker.js's SUMMARY_WINDOW) — fired only when the Worker actually moved
+  // the summarized-through boundary this turn, so this is a rare write, not
+  // one on every message. Doesn't touch `updatedAt`, unlike the message
+  // writes above — a summary refresh isn't itself new conversation
+  // activity worth bumping the History list's sort order over.
+  const setChatConversationSummary = useCallback(
+    (conversation, summary, summarizedThroughIndex) => {
+      setState((prev) => {
+        const chatConversations = prev.chatConversations.map((c) =>
+          c.id === conversation.id ? { ...c, summary, summarizedThroughIndex } : c
+        );
+        const next = { ...prev, chatConversations };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
+  // Marks how many of `conversation`'s messages have been folded into the
+  // cross-conversation memory note so far (see chat.js's updateChatMemory
+  // and ChatScreen.js's trigger points) — read back before calling
+  // updateChatMemory again, so leaving and reopening the same still-active
+  // conversation without adding anything new doesn't re-summarize it for
+  // no reason.
+  const markChatMemorySummarized = useCallback(
+    (conversation, messageCount) => {
+      setState((prev) => {
+        const chatConversations = prev.chatConversations.map((c) =>
+          c.id === conversation.id ? { ...c, memorySummarizedCount: messageCount } : c
+        );
+        const next = { ...prev, chatConversations };
+        persist(next);
+        return next;
+      });
+    },
+    [persist]
+  );
+
   // Records a thumbs up/down on one message within `conversation`, purely
   // for the local chat bubble UI to reflect the choice back (a filled vs
   // outline icon) — the actual signal reaches the developer separately via
@@ -1275,6 +1361,8 @@ export function useJournalStore() {
     startNewChatConversation,
     appendChatMessage,
     extendLastChatMessage,
+    setChatConversationSummary,
+    markChatMemorySummarized,
     prayers: state.prayers,
     addPrayer,
     markPrayerAnswered,

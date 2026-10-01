@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
-import { sendChatMessage, continueChatMessage, sendChatFeedback } from "../chat";
+import { sendChatMessage, continueChatMessage, sendChatFeedback, updateChatMemory } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
@@ -30,6 +30,32 @@ import ChatPersonaModal from "../components/ChatPersonaModal";
 // MAX_RECENT_MOODS cap (chat-worker/worker.js), so nothing gathered here
 // ever gets silently truncated server-side.
 const PERSONALIZATION_MOOD_DAYS = 7;
+
+// Below this many messages, a conversation isn't worth folding into the
+// cross-conversation memory note — a one- or two-message exchange rarely
+// has anything worth remembering, and summarizing it anyway would just
+// burn a Worker call for nothing.
+const MEMORY_UPDATE_MIN_MESSAGES = 4;
+
+// Fires the opt-in cross-conversation memory update (see settings.
+// chatMemoryEnabled/chatMemoryText and chat.js's updateChatMemory) when
+// `conv` has grown since it was last folded in. Takes everything it needs
+// as plain arguments rather than closing over component state, so it
+// behaves identically whether called from a live event handler (fresh
+// render values) or from the chat screen's unmount cleanup (necessarily
+// stale closures otherwise — see ChatScreen's latestRef). Fire-and-forget:
+// updateChatMemory already swallows its own errors, so there's nothing
+// further to catch here.
+function triggerMemoryUpdate(conv, msgs, currentSettings, conversations, updateSettingsFn, markSummarizedFn) {
+  if (!currentSettings.chatMemoryEnabled || !conv || msgs.length < MEMORY_UPDATE_MIN_MESSAGES) return;
+  const stored = conversations.find((c) => c.id === conv.id);
+  const alreadyDone = stored?.memorySummarizedCount || 0;
+  if (msgs.length <= alreadyDone) return;
+  updateChatMemory(currentSettings.chatMemoryText || null, msgs).then((updatedMemory) => {
+    updateSettingsFn({ chatMemoryText: updatedMemory, chatMemoryUpdatedAt: Date.now() });
+    markSummarizedFn(conv, msgs.length);
+  });
+}
 
 // Longer book names first, so e.g. "1 John" matches before the bare "John"
 // alternative gets a chance to swallow just the tail of it.
@@ -116,6 +142,8 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     startNewChatConversation,
     appendChatMessage,
     extendLastChatMessage,
+    setChatConversationSummary,
+    markChatMemorySummarized,
     setChatMessageFeedback,
     resumeChatConversation,
     latestDay,
@@ -220,17 +248,54 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Closing the chat mid-reply (this screen is a Modal App.js can dismiss
-  // at any time) shouldn't leave a request running against a component
-  // that's gone — abort whatever's in flight, the same as tapping Stop.
-  useEffect(() => {
-    return () => abortControllerRef.current?.abort();
-  }, []);
-
   const storedConversation = conversation
     ? chatConversations.find((c) => c.id === conversation.id)
     : null;
   const messages = storedConversation ? storedConversation.messages : [];
+
+  // This conversation's own running recap of turns that have aged out of
+  // what's sent verbatim (see chat-worker/worker.js's SUMMARY_WINDOW) —
+  // null until it's actually grown long enough to need one.
+  const conversationSummary = storedConversation?.summary
+    ? { text: storedConversation.summary, throughIndex: storedConversation.summarizedThroughIndex || 0 }
+    : null;
+  // The opt-in cross-conversation memory note (see settings.chatMemoryEnabled/
+  // chatMemoryText) — null both when the feature is off and when it's on
+  // but nothing's been remembered yet, so the Worker always gets a clean
+  // "nothing to say here" signal either way.
+  const memory = settings.chatMemoryEnabled && settings.chatMemoryText ? settings.chatMemoryText : null;
+
+  // Always holds the latest conversation/messages/settings/chatConversations,
+  // read by the unmount cleanup below instead of the values that effect's
+  // own closure captured on mount (which would otherwise be permanently
+  // stale — this component mounts once per chat screen open and that
+  // effect's dependency array is intentionally empty, same as the one
+  // above it).
+  const latestRef = useRef();
+  latestRef.current = { conversation, messages, settings, chatConversations };
+
+  // Closing the chat mid-reply (this screen is a Modal App.js can dismiss
+  // at any time) shouldn't leave a request running against a component
+  // that's gone — abort whatever's in flight, the same as tapping Stop.
+  // Also the other place (besides handleNewChat) a conversation's own
+  // messages get folded into the cross-conversation memory note, since
+  // closing the chat screen is just as much "stepping away from this
+  // conversation" as explicitly starting a new one.
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+      const latest = latestRef.current;
+      triggerMemoryUpdate(
+        latest.conversation,
+        latest.messages,
+        latest.settings,
+        latest.chatConversations,
+        updateSettings,
+        markChatMemorySummarized
+      );
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Shared by a fresh send and a retry — `history` is always everything
   // that should precede `text` in the request, never including `text`
@@ -267,7 +332,14 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         todayContext,
         personalization,
         { style: settings.chatPersonaStyle, note: settings.chatPersonaNote },
-        { onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar), signal: controller.signal }
+        memory,
+        conversationSummary,
+        {
+          onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar),
+          signal: controller.signal,
+          onSummary: ({ text: summaryText, throughIndex }) =>
+            setChatConversationSummary(conversation, summaryText, throughIndex),
+        }
       );
       appendChatMessage(conversation, { role: "assistant", content: reply });
       recordChatMessageSent();
@@ -343,7 +415,14 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         todayContext,
         personalization,
         { style: settings.chatPersonaStyle, note: settings.chatPersonaNote },
-        { onDelta: (_chunk, tailSoFar) => setStreamingText(tailSoFar), signal: controller.signal }
+        memory,
+        conversationSummary,
+        {
+          onDelta: (_chunk, tailSoFar) => setStreamingText(tailSoFar),
+          signal: controller.signal,
+          onSummary: ({ text: summaryText, throughIndex }) =>
+            setChatConversationSummary(conversation, summaryText, throughIndex),
+        }
       );
       extendLastChatMessage(conversation, tail);
       recordChatMessageSent();
@@ -376,6 +455,39 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     }
   };
 
+  // The memory toggle (bannerRow below) opens straight into an Alert rather
+  // than a dedicated settings screen — there's exactly one thing to show
+  // (the current note, if any) and exactly two actions worth offering
+  // (turn off / forget everything), so a whole new screen would be more
+  // surface than the feature needs. Turning on for the first time needs its
+  // own explanatory prompt first, since — unlike chatPersonalizationEnabled,
+  // which only ever sends numbers — this one summarizes the user's own
+  // typed conversation text, so it's opt-in rather than opt-out and worth
+  // explaining before flipping it on.
+  const handleMemoryTogglePress = () => {
+    hapticTap();
+    if (!settings.chatMemoryEnabled) {
+      Alert.alert(t("chat.memory.enablePromptTitle"), t("chat.memory.enablePromptText"), [
+        { text: t("chat.memory.cancel"), style: "cancel" },
+        { text: t("chat.memory.turnOn"), onPress: () => updateSettings({ chatMemoryEnabled: true }) },
+      ]);
+      return;
+    }
+    Alert.alert(
+      t("chat.memory.manageTitle"),
+      settings.chatMemoryText ? settings.chatMemoryText : t("chat.memory.nothingYet"),
+      [
+        { text: t("chat.memory.cancel"), style: "cancel" },
+        {
+          text: t("chat.memory.forget"),
+          style: "destructive",
+          onPress: () => updateSettings({ chatMemoryText: "", chatMemoryUpdatedAt: null }),
+        },
+        { text: t("chat.memory.turnOff"), onPress: () => updateSettings({ chatMemoryEnabled: false }) },
+      ]
+    );
+  };
+
   const handleOpenHistoryRow = (conv) => {
     hapticTap();
     resumeChatConversation(conv.id);
@@ -390,10 +502,14 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // point of the button. Stops anything still in flight first, the same as
   // handleStop, since starting over while a reply is generating shouldn't
   // leave that request running unseen against a conversation no longer on
-  // screen.
+  // screen. Also where the conversation being left behind gets folded into
+  // the cross-conversation memory note, if it's long enough to be worth it
+  // and memory is turned on — the other trigger point is leaving the
+  // screen entirely (see the unmount effect above).
   const handleNewChat = () => {
     hapticTap();
     abortControllerRef.current?.abort();
+    triggerMemoryUpdate(conversation, messages, settings, chatConversations, updateSettings, markChatMemorySummarized);
     setConversation(startNewChatConversation());
     setInput("");
     setErrorMsg("");
@@ -543,6 +659,17 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                 >
                   <Text style={styles.personalizationToggle}>
                     {settings.chatPersonalizationEnabled ? t("chat.personalizationOn") : t("chat.personalizationOff")}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleMemoryTogglePress}
+                  accessibilityRole="button"
+                  accessibilityLabel={
+                    settings.chatMemoryEnabled ? t("chat.memory.onLabel") : t("chat.memory.offLabel")
+                  }
+                >
+                  <Text style={styles.personalizationToggle}>
+                    {settings.chatMemoryEnabled ? t("chat.memory.on") : t("chat.memory.off")}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity

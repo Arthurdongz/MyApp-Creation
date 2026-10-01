@@ -423,6 +423,20 @@
     "personalizationOffLabel": "Ativar a personalização com sua sequência e humor",
     "feedbackUpLabel": "Esta resposta foi útil",
     "feedbackDownLabel": "Esta resposta não foi útil",
+    "memory": {
+      "on": "Lembrando de você nas conversas — toque para gerenciar",
+      "off": "Não lembrando de conversas anteriores — toque para ativar",
+      "onLabel": "Gerenciar o que Barnabé lembra sobre você",
+      "offLabel": "Ativar a lembrança de conversas anteriores",
+      "enablePromptTitle": "Deixar Barnabé se Lembrar de Você?",
+      "enablePromptText": "Quando isso está ativado, Barnabé guarda uma breve nota privada de coisas que valem a pena lembrar das suas conversas — seu nome, se você compartilhar, algo que você esteja passando, um tema de oração recorrente — para que conversas futuras pareçam mais com falar com alguém que te conhece. Nunca inclui suas entradas do diário, apenas o que você diz na conversa. Você pode ver ou apagar isso quando quiser.",
+      "manageTitle": "O que Barnabé Lembra",
+      "nothingYet": "Nada ainda — continue conversando e Barnabé vai começar a lembrar coisas importantes.",
+      "cancel": "Cancelar",
+      "turnOn": "Ativar",
+      "turnOff": "Desativar",
+      "forget": "Esquecer Tudo"
+    },
     "persona": {
       "buttonLabel": "Estilo: {{style}}",
       "openLabel": "Personalize como Barnabé fala com você",

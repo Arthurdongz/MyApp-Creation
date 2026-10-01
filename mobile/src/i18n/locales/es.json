@@ -423,6 +423,20 @@
     "personalizationOffLabel": "Activar la personalización con tu racha y ánimo",
     "feedbackUpLabel": "Esta respuesta fue útil",
     "feedbackDownLabel": "Esta respuesta no fue útil",
+    "memory": {
+      "on": "Recordándote en los chats — toca para administrar",
+      "off": "Sin recordar chats anteriores — toca para activar",
+      "onLabel": "Administrar lo que Barnabás recuerda de ti",
+      "offLabel": "Activar el recuerdo de conversaciones anteriores",
+      "enablePromptTitle": "¿Dejar que Barnabás te recuerde?",
+      "enablePromptText": "Cuando esto está activado, Barnabás guarda una breve nota privada de cosas que vale la pena recordar de tus conversaciones — tu nombre si lo compartes, algo por lo que estás pasando, un tema de oración recurrente — para que los chats futuros se sientan más como hablar con alguien que te conoce. Nunca incluye tus entradas del diario, solo lo que dices en el chat. Puedes verla o borrarla cuando quieras.",
+      "manageTitle": "Lo que Barnabás recuerda",
+      "nothingYet": "Nada todavía — sigue conversando y Barnabás empezará a recordar cosas importantes.",
+      "cancel": "Cancelar",
+      "turnOn": "Activar",
+      "turnOff": "Desactivar",
+      "forget": "Olvidar Todo"
+    },
     "persona": {
       "buttonLabel": "Estilo: {{style}}",
       "openLabel": "Personaliza cómo te habla Bernabé",

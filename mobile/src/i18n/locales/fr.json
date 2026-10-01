@@ -423,6 +423,20 @@
     "personalizationOffLabel": "Activer la personnalisation avec ta série et ton humeur",
     "feedbackUpLabel": "Cette réponse était utile",
     "feedbackDownLabel": "Cette réponse n'était pas utile",
+    "memory": {
+      "on": "Je me souviens de toi entre les discussions — touche pour gérer",
+      "off": "Je ne me souviens pas des discussions passées — touche pour activer",
+      "onLabel": "Gérer ce dont Barnabas se souvient de toi",
+      "offLabel": "Activer le souvenir des conversations passées",
+      "enablePromptTitle": "Laisser Barnabas se Souvenir de Toi ?",
+      "enablePromptText": "Quand c'est activé, Barnabas garde une courte note privée des choses à retenir de tes conversations — ton prénom si tu le partages, une situation que tu traverses, un sujet de prière récurrent — pour que les prochaines discussions ressemblent davantage à parler à quelqu'un qui te connaît. Cela n'inclut jamais tes entrées de journal, seulement ce que tu dis dans la discussion. Tu peux la consulter ou l'effacer à tout moment.",
+      "manageTitle": "Ce dont Barnabas se Souvient",
+      "nothingYet": "Rien pour l'instant — continue à discuter et Barnabas commencera à retenir des choses importantes.",
+      "cancel": "Annuler",
+      "turnOn": "Activer",
+      "turnOff": "Désactiver",
+      "forget": "Tout Oublier"
+    },
     "persona": {
       "buttonLabel": "Style : {{style}}",
       "openLabel": "Personnalise la façon dont Barnabas te parle",
