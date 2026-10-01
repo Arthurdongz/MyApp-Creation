@@ -1,10 +1,16 @@
 import { Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 
 const PRIVACY_POLICY_URL = "https://arthurdongz.github.io/MyApp-Creation/privacy-policy.html";
 const CONTACT_EMAIL = "arthurdongz0711@gmail.com";
-const APP_VERSION = "1.0.0";
+// Read from app.json at build time rather than hand-duplicated here, which
+// had silently drifted to "1.0.0" while app.json moved on to several real
+// releases since — showing a wrong version number to a reviewer or a user
+// reporting a bug is exactly the kind of small thing worth never having to
+// remember to update by hand again.
+const APP_VERSION = Constants.expoConfig?.version || "1.0.0";
 
 export default function AboutScreen({ onClose }) {
   const { colors } = useTheme();
