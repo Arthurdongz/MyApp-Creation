@@ -238,6 +238,8 @@
       "sectionTitleDay": "Réflexion du Jour {{day}}",
       "heartTitle": "Qu'as-tu sur le cœur aujourd'hui ?",
       "heartPlaceholder": "Écris librement — ceci est juste pour toi...",
+    "discussWithBarnabas": "En discuter avec Barnabas",
+    "discussWithBarnabasLabel": "Discuter de ce que tu as écrit avec Barnabas",
       "momentTitle": "Ton moment Barnabas — qu'as-tu fait, et qu'as-tu ressenti ?",
       "momentPlaceholder": "Qu'as-tu fait pour quelqu'un aujourd'hui, et qu'as-tu ressenti ?",
       "whoTitle": "À qui pensais-tu ? (facultatif)",
@@ -450,6 +452,9 @@
       "userMessage": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} ».",
       "userMessageWithText": "Je viens de lire {{ref}} du plan de lecture « {{planTitle}} » : « {{passageText}} »",
       "assistantPrompt": "As-tu compris ce que tu as lu ? J'aimerais entendre tes pensées — qu'est-ce qui t'a marqué, ou y a-t-il un passage dont tu aimerais parler ensemble ?"
+    },
+    "seedFromReflection": {
+      "userMessage": "Je réfléchissais à la question du jour — « {{reflectionPrompt}} » — et voici ce que j'ai écrit : « {{reflectionText}} »"
     }
   },
   "history": {

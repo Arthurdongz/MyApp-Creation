@@ -238,6 +238,8 @@
       "sectionTitleDay": "Reflexión del Día {{day}}",
       "heartTitle": "¿Qué tienes en el corazón hoy?",
       "heartPlaceholder": "Escribe libremente — esto es solo para ti...",
+    "discussWithBarnabas": "Hablar de esto con Barnabás",
+    "discussWithBarnabasLabel": "Hablar de lo que escribiste con Barnabás",
       "momentTitle": "Tu momento Bernabé — ¿qué hiciste y cómo te sentiste?",
       "momentPlaceholder": "¿Qué hiciste por alguien hoy, y cómo te sentiste?",
       "whoTitle": "¿En quién estabas pensando? (opcional)",
@@ -450,6 +452,9 @@
       "userMessage": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\".",
       "userMessageWithText": "Acabo de leer {{ref}} del plan de lectura \"{{planTitle}}\": \"{{passageText}}\"",
       "assistantPrompt": "¿Entendiste lo que leíste? Me encantaría escuchar tus pensamientos — ¿qué te llamó la atención, o hay algo que te gustaría conversar juntos?"
+    },
+    "seedFromReflection": {
+      "userMessage": "Estaba reflexionando sobre la pregunta de hoy — \"{{reflectionPrompt}}\" — y esto es lo que escribí: \"{{reflectionText}}\""
     }
   },
   "history": {

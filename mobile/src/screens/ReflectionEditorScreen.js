@@ -36,7 +36,7 @@ function formatDate(key) {
   return date.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
 }
 
-export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
+export default function ReflectionEditorScreen({ store, dayNumber, onClose, onDiscussWithBarnabas }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t, i18n } = useTranslation();
@@ -101,6 +101,19 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
     store.setMood(mood);
   };
 
+  // Saves first (same fields handleSave writes, just without its "saved"
+  // toast — attention is about to move to the chat modal, not stay here)
+  // so what was just written is safely persisted before carrying it into
+  // the conversation, the same way leaving this screen via handleClose
+  // already auto-saves rather than risking it being lost.
+  const canDiscuss = reflection.trim().length > 0;
+  const handleDiscuss = () => {
+    if (!canDiscuss) return;
+    hapticTap();
+    store.saveReflection(reflection, barnabasNote, receivedKindness, encouragedWho);
+    onDiscussWithBarnabas?.({ reflectionPrompt: journalPrompt, reflectionText: reflection.trim() });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -130,6 +143,18 @@ export default function ReflectionEditorScreen({ store, dayNumber, onClose }) {
             value={reflection}
             onChangeText={setReflection}
           />
+          <TouchableOpacity
+            style={[styles.discussBtn, !canDiscuss && styles.discussBtnDisabled]}
+            onPress={handleDiscuss}
+            disabled={!canDiscuss}
+            accessibilityRole="button"
+            accessibilityLabel={t("today.reflect.discussWithBarnabasLabel")}
+          >
+            <Ionicons name="chatbubbles-outline" size={14} color={canDiscuss ? colors.sageDark : colors.textSoft} />
+            <Text style={[styles.discussBtnText, !canDiscuss && styles.discussBtnTextDisabled]}>
+              {t("today.reflect.discussWithBarnabas")}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.field}>
@@ -248,6 +273,22 @@ function getStyles(colors) {
       textAlignVertical: "top",
       minHeight: 60,
     },
+    discussBtn: {
+      flexDirection: "row",
+      alignSelf: "flex-start",
+      alignItems: "center",
+      gap: 6,
+      marginTop: 8,
+      paddingVertical: 6,
+      paddingHorizontal: 10,
+      borderRadius: 999,
+      borderWidth: 1,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
+    },
+    discussBtnDisabled: { opacity: 0.5 },
+    discussBtnText: { fontSize: 12, fontWeight: "700", color: colors.sageDark },
+    discussBtnTextDisabled: { color: colors.textSoft },
     fieldLabel: { fontSize: 13, fontWeight: "700", color: colors.text, marginBottom: 10 },
     moodRow: { flexDirection: "row", justifyContent: "space-between", gap: 6, marginBottom: 20 },
     moodBtn: {

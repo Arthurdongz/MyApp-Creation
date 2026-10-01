@@ -238,6 +238,8 @@
       "sectionTitleDay": "Day {{day}}'s Reflection",
       "heartTitle": "What's on your heart today?",
       "heartPlaceholder": "Write freely — this is just for you...",
+    "discussWithBarnabas": "Discuss this with Barnabas",
+    "discussWithBarnabasLabel": "Discuss what you wrote with Barnabas",
       "momentTitle": "Your Barnabas moment — what did you do, and how did it feel?",
       "momentPlaceholder": "What did you do for someone today, and how did it feel?",
       "whoTitle": "Who were you thinking about? (optional)",
@@ -450,6 +452,9 @@
       "userMessage": "I just read {{ref}} from the \"{{planTitle}}\" reading plan.",
       "userMessageWithText": "I just read {{ref}} from the \"{{planTitle}}\" reading plan: \"{{passageText}}\"",
       "assistantPrompt": "Did you understand what you read? I'd love to hear your thoughts — what stood out to you, or is there a part you'd like to talk through together?"
+    },
+    "seedFromReflection": {
+      "userMessage": "I was just reflecting on today's question — \"{{reflectionPrompt}}\" — and here's what I wrote: \"{{reflectionText}}\""
     }
   },
   "history": {

@@ -202,27 +202,42 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // closed check in openChatConversation runs on every open, not just the
   // first ever one.
   //
-  // When arriving with seedContext (from "Discuss with Barnabas" on a
-  // reading plan day — see BibleReadingPlansScreen/App.js), and only if the
-  // resolved conversation is brand new, locally seed two messages before
-  // any API call: a first-person "I just read..." message (role "user")
-  // and a hardcoded, Philip-style opening question (role "assistant"),
-  // echoing Acts 8:30's "Understandest thou what thou readest?". Seeding
-  // locally rather than via the Worker keeps the very first stored message
-  // role "user", which the Anthropic Messages API requires once real
-  // turns start appending after it (see chat-worker/worker.js's
-  // handleChat, which sends [...history, {role:"user",...}]).
+  // When arriving with seedContext, and only if the resolved conversation is
+  // brand new, locally seed the first user message before any API call —
+  // keeps the very first stored message role "user", which the Anthropic
+  // Messages API requires once real turns start appending after it (see
+  // chat-worker/worker.js's handleChat, which sends [...history,
+  // {role:"user",...}]). Two distinct seed shapes:
+  //
+  // - From "Discuss with Barnabas" on a reading plan day (BibleReadingPlansScreen/
+  //   App.js): a first-person "I just read..." message, answered with a
+  //   hardcoded, Philip-style opening question (role "assistant", no API
+  //   call), echoing Acts 8:30's "Understandest thou what thou readest?".
+  //   A fixed question fits here since every reading-plan day is the same
+  //   shape of prompt.
+  // - From "Discuss with Barnabas" on a journal reflection (ReflectionEditorScreen/
+  //   App.js): a first-person "I was reflecting on..." message sharing
+  //   today's prompt and what they wrote, answered with a *real* generated
+  //   reply via sendToBarnabas instead — reflection prompts range from fear
+  //   to gratitude to grief, too varied for one fixed opening line to fit
+  //   well the way it does for reading plans.
   useEffect(() => {
     const conv = openChatConversation();
     setConversation(conv);
     if (seedContext) {
       const isFreshConversation = !chatConversations.some((c) => c.id === conv.id);
       if (isFreshConversation) {
-        const userText = seedContext.passageText
-          ? t("chat.seedFromReading.userMessageWithText", seedContext)
-          : t("chat.seedFromReading.userMessage", seedContext);
-        appendChatMessage(conv, { role: "user", content: userText });
-        appendChatMessage(conv, { role: "assistant", content: t("chat.seedFromReading.assistantPrompt") });
+        if (seedContext.reflectionText) {
+          const userText = t("chat.seedFromReflection.userMessage", seedContext);
+          appendChatMessage(conv, { role: "user", content: userText });
+          sendToBarnabas(userText, [], conv);
+        } else {
+          const userText = seedContext.passageText
+            ? t("chat.seedFromReading.userMessageWithText", seedContext)
+            : t("chat.seedFromReading.userMessage", seedContext);
+          appendChatMessage(conv, { role: "user", content: userText });
+          appendChatMessage(conv, { role: "assistant", content: t("chat.seedFromReading.assistantPrompt") });
+        }
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -284,7 +299,12 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // bubble was appended; a retry passes `messages` with the trailing,
   // still-unanswered user bubble sliced off, since that message is already
   // in the conversation from the attempt being retried.
-  const sendToBarnabas = async (text, history) => {
+  // `convOverride` lets a caller pass the conversation explicitly instead of
+  // relying on the `conversation` state variable — needed by the seeding
+  // effect below, which calls this synchronously right after creating a
+  // brand-new conversation, before that state update has actually landed.
+  const sendToBarnabas = async (text, history, convOverride) => {
+    const conv = convOverride || conversation;
     hapticTap();
     setSending(true);
     setErrorMsg("");
@@ -318,17 +338,17 @@ export default function ChatScreen({ store, onClose, seedContext }) {
           onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar),
           signal: controller.signal,
           onSummary: ({ text: summaryText, throughIndex }) =>
-            setChatConversationSummary(conversation, summaryText, throughIndex),
+            setChatConversationSummary(conv, summaryText, throughIndex),
         }
       );
-      appendChatMessage(conversation, { role: "assistant", content: reply });
+      appendChatMessage(conv, { role: "assistant", content: reply });
     } catch (e) {
       // A deliberate stop (handleStop) or a failure after real text had
       // already streamed in both still keep that text rather than
       // discarding it — the difference is only whether an error banner
       // and a retry/continue affordance show underneath it afterward.
       if (e.partialText) {
-        appendChatMessage(conversation, { role: "assistant", content: e.partialText });
+        appendChatMessage(conv, { role: "assistant", content: e.partialText });
       } else if (!e.cancelled && e.retriable !== false) {
         setFailedMessage(text);
       }

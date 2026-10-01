@@ -296,7 +296,12 @@ function AppContent({ store }) {
       ) : showPrayerList ? (
         <PrayerListScreen store={store} onClose={() => setShowPrayerList(false)} />
       ) : reflectionEditorDay != null ? (
-        <ReflectionEditorScreen store={store} dayNumber={reflectionEditorDay} onClose={() => setReflectionEditorDay(null)} />
+        <ReflectionEditorScreen
+          store={store}
+          dayNumber={reflectionEditorDay}
+          onClose={() => setReflectionEditorDay(null)}
+          onDiscussWithBarnabas={openChatWithSeed}
+        />
       ) : (
         <ScrollView
           ref={scrollViewRef}
