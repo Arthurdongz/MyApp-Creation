@@ -3,7 +3,7 @@ import { Clipboard, Modal, ScrollView, Share, StyleSheet, Text, TextInput, Touch
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
-import { getChapterFrom, chapterCountFrom } from "../bibleLookup";
+import { getChapterFrom, chapterCountFrom, BIBLE_BOOKS } from "../bibleLookup";
 import { BIBLE_VERSIONS } from "../data/verses";
 import { getCachedVersionText, isVersionLoaded, loadVersionText } from "../bibleVersions";
 import { hapticTap } from "../haptics";
@@ -74,6 +74,12 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   const { colors, shadow } = useTheme();
   const styles = getStyles(colors, shadow);
   const { t } = useTranslation();
+  // Mirrors `book` the same way currentChapter already mirrors `chapter` —
+  // the initial value a caller opens the reader on, but free to move away
+  // from once Prev/Next crosses a book boundary (see goPrev/goNext), since
+  // `book` itself is just the caller's starting point and never changes
+  // for the lifetime of one open (see the reset effect below).
+  const [currentBook, setCurrentBook] = useState(book);
   const [currentChapter, setCurrentChapter] = useState(chapter);
   const [selectedVerses, setSelectedVerses] = useState([]);
   const [actionBarOpen, setActionBarOpen] = useState(false);
@@ -129,6 +135,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
   useEffect(() => {
     if (visible) {
+      setCurrentBook(book);
       setCurrentChapter(chapter);
       closeSelection();
       setVersionPickerOpen(false);
@@ -154,23 +161,50 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     loadVersion(id);
   };
 
-  const verses = versionData ? getChapterFrom(versionData, book, currentChapter) : null;
-  const kjvVerses = getChapterFrom(getCachedVersionText("KJV"), book, currentChapter);
-  const total = versionData ? chapterCountFrom(versionData, book) : 0;
-  const isCitedVerse = (v) => currentChapter === chapter && highlightStart != null && v >= highlightStart && v <= highlightEnd;
+  const verses = versionData ? getChapterFrom(versionData, currentBook, currentChapter) : null;
+  const kjvVerses = getChapterFrom(getCachedVersionText("KJV"), currentBook, currentChapter);
+  const total = versionData ? chapterCountFrom(versionData, currentBook) : 0;
+  const isCitedVerse = (v) =>
+    currentBook === book && currentChapter === chapter && highlightStart != null && v >= highlightStart && v <= highlightEnd;
+
+  const bookIndex = BIBLE_BOOKS.indexOf(currentBook);
+  const prevBook = bookIndex > 0 ? BIBLE_BOOKS[bookIndex - 1] : null;
+  const nextBook = bookIndex >= 0 && bookIndex < BIBLE_BOOKS.length - 1 ? BIBLE_BOOKS[bookIndex + 1] : null;
+  // Only ever relevant right at chapter 1 (going back) or the book's own
+  // last chapter (going forward), so a wrong guess here can't strand
+  // anyone mid-book — worst case Prev/Next briefly disables itself at the
+  // very edge of the whole Bible (Genesis 1 / Revelation 22), which is
+  // the actually-correct behavior there anyway.
+  const atVeryStart = currentChapter <= 1 && !prevBook;
+  const atVeryEnd = currentChapter >= total && !nextBook;
 
   const goPrev = () => {
-    if (versionLoading || currentChapter <= 1) return;
+    if (versionLoading || atVeryStart) return;
     hapticTap();
     closeSelection();
-    setCurrentChapter((c) => c - 1);
+    if (currentChapter <= 1) {
+      // Crossing back into the previous book lands on its LAST chapter —
+      // chapterCountFrom works for any book this version's already-loaded
+      // text covers, not just the one currently showing, so this needs no
+      // extra fetch even though versionData hasn't changed.
+      const lastChapterOfPrevBook = chapterCountFrom(versionData, prevBook);
+      setCurrentBook(prevBook);
+      setCurrentChapter(lastChapterOfPrevBook);
+    } else {
+      setCurrentChapter((c) => c - 1);
+    }
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   };
   const goNext = () => {
-    if (versionLoading || currentChapter >= total) return;
+    if (versionLoading || atVeryEnd) return;
     hapticTap();
     closeSelection();
-    setCurrentChapter((c) => c + 1);
+    if (currentChapter >= total) {
+      setCurrentBook(nextBook);
+      setCurrentChapter(1);
+    } else {
+      setCurrentChapter((c) => c + 1);
+    }
     scrollRef.current?.scrollTo({ y: 0, animated: false });
   };
 
@@ -192,7 +226,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
     });
   };
 
-  const selectedMarks = selectedVerses.map((v) => getVerseMark(marks, book, currentChapter, v));
+  const selectedMarks = selectedVerses.map((v) => getVerseMark(marks, currentBook, currentChapter, v));
   const commonColor =
     selectedVerses.length > 0 && selectedMarks.every((m) => m?.color === selectedMarks[0]?.color) ? selectedMarks[0]?.color : null;
   const allUnderlined = selectedVerses.length > 0 && selectedMarks.every((m) => m?.underline);
@@ -200,22 +234,22 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
 
   const applyColor = (color) => {
     hapticTap();
-    setMarks((prev) => setVersesColor(prev, book, currentChapter, selectedVerses, color));
+    setMarks((prev) => setVersesColor(prev, currentBook, currentChapter, selectedVerses, color));
     closeSelection();
   };
   const applyClear = () => {
     hapticTap();
-    setMarks((prev) => clearVersesMarks(prev, book, currentChapter, selectedVerses));
+    setMarks((prev) => clearVersesMarks(prev, currentBook, currentChapter, selectedVerses));
     closeSelection();
   };
   const applyUnderline = () => {
     hapticTap();
-    setMarks((prev) => setVersesUnderline(prev, book, currentChapter, selectedVerses, !allUnderlined));
+    setMarks((prev) => setVersesUnderline(prev, currentBook, currentChapter, selectedVerses, !allUnderlined));
     closeSelection();
   };
   const applyBookmark = () => {
     hapticTap();
-    setMarks((prev) => setVersesBookmark(prev, book, currentChapter, selectedVerses, !allBookmarked));
+    setMarks((prev) => setVersesBookmark(prev, currentBook, currentChapter, selectedVerses, !allBookmarked));
     closeSelection();
   };
   const openNoteEditor = () => {
@@ -226,13 +260,13 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   };
   const saveNote = () => {
     hapticTap();
-    setMarks((prev) => setVersesNote(prev, book, currentChapter, selectedVerses, noteDraft));
+    setMarks((prev) => setVersesNote(prev, currentBook, currentChapter, selectedVerses, noteDraft));
     closeSelection();
   };
   const selectionText = () => {
     const sorted = [...selectedVerses].sort((a, b) => a - b);
     const text = sorted.map((vNum) => verses?.find((v) => v.verse === vNum)?.text).filter(Boolean).join(" ");
-    const ref = `${book} ${currentChapter}:${formatVerseRanges(sorted)}`;
+    const ref = `${currentBook} ${currentChapter}:${formatVerseRanges(sorted)}`;
     return `“${text}” — ${ref}`;
   };
   const handleCopy = () => {
@@ -258,7 +292,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
         <View style={styles.card}>
           <View style={styles.header}>
             <Text style={styles.title}>
-              {book} {currentChapter}
+              {currentBook} {currentChapter}
             </Text>
             <TouchableOpacity onPress={onClose} style={styles.closeBtn} accessibilityLabel={t("common.close")} accessibilityRole="button">
               <Text style={styles.closeBtnText}>✕</Text>
@@ -321,7 +355,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                     </View>
                   );
                 }
-                const mark = getVerseMark(marks, book, currentChapter, v.verse);
+                const mark = getVerseMark(marks, currentBook, currentChapter, v.verse);
                 const cited = isCitedVerse(v.verse);
                 const selected = selectedVerses.includes(v.verse);
                 return (
@@ -469,21 +503,25 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
           <View style={styles.navRow}>
             <TouchableOpacity
               onPress={goPrev}
-              disabled={versionLoading || currentChapter <= 1}
-              style={[styles.navBtn, (versionLoading || currentChapter <= 1) && styles.navBtnDisabled]}
+              disabled={versionLoading || atVeryStart}
+              style={[styles.navBtn, (versionLoading || atVeryStart) && styles.navBtnDisabled]}
               accessibilityRole="button"
-              accessibilityLabel={t("today.confession.prevChapter")}
+              accessibilityLabel={currentChapter <= 1 ? t("today.confession.goToBook", { book: prevBook }) : t("today.confession.prevChapter")}
             >
-              <Text style={[styles.navBtnText, (versionLoading || currentChapter <= 1) && styles.navBtnTextDisabled]}>‹ {t("today.confession.prevChapter")}</Text>
+              <Text style={[styles.navBtnText, (versionLoading || atVeryStart) && styles.navBtnTextDisabled]}>
+                ‹ {currentChapter <= 1 && prevBook ? prevBook : t("today.confession.prevChapter")}
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={goNext}
-              disabled={versionLoading || currentChapter >= total}
-              style={[styles.navBtn, (versionLoading || currentChapter >= total) && styles.navBtnDisabled]}
+              disabled={versionLoading || atVeryEnd}
+              style={[styles.navBtn, (versionLoading || atVeryEnd) && styles.navBtnDisabled]}
               accessibilityRole="button"
-              accessibilityLabel={t("today.confession.nextChapter")}
+              accessibilityLabel={currentChapter >= total ? t("today.confession.goToBook", { book: nextBook }) : t("today.confession.nextChapter")}
             >
-              <Text style={[styles.navBtnText, currentChapter >= total && styles.navBtnTextDisabled]}>{t("today.confession.nextChapter")} ›</Text>
+              <Text style={[styles.navBtnText, atVeryEnd && styles.navBtnTextDisabled]}>
+                {currentChapter >= total && nextBook ? nextBook : t("today.confession.nextChapter")} ›
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

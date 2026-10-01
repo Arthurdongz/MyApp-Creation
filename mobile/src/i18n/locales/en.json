@@ -106,6 +106,7 @@
       "verseUnavailable": "This verse isn't available to read in-app yet.",
       "prevChapter": "Previous chapter",
       "nextChapter": "Next chapter",
+      "goToBook": "Go to {{book}}",
       "highlightGreen": "Highlight green",
       "highlightYellow": "Highlight yellow",
       "highlightRed": "Highlight red",

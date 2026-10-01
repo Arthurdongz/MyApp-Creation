@@ -106,6 +106,7 @@
       "verseUnavailable": "Este versículo aún no está disponible para leer en la app.",
       "prevChapter": "Capítulo anterior",
       "nextChapter": "Capítulo siguiente",
+      "goToBook": "Ir a {{book}}",
       "highlightGreen": "Resaltar en verde",
       "highlightYellow": "Resaltar en amarillo",
       "highlightRed": "Resaltar en rojo",
