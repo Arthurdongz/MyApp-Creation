@@ -76,32 +76,62 @@
     <span class="brand-mark">✦</span>
     <h1>Barnabas Journal</h1>
   </div>
-  <p class="updated">Privacy Policy — Last updated July 28, 2026</p>
+  <p class="updated">Privacy Policy — Last updated October 1, 2026</p>
 
   <div class="card">
     <h2>Overview</h2>
     <p>
       Barnabas Journal ("the app") is a personal encouragement and journaling app. This
       policy explains, plainly, what happens to your information when you use it. The short
-      version: your journal never leaves your device, and we don't collect it.
+      version: your journal never leaves your device. The one exception is "Talk to
+      Barnabas," the optional AI chat feature — when you send it a message, that message (not
+      the rest of your journal) is sent to our server and on to our AI provider so Barnabas
+      can reply. The next section explains exactly what that involves.
     </p>
 
-    <h2>Information We Collect</h2>
+    <h2>Your Journal: Stored Only On Your Device</h2>
     <p>
-      We collect none of your journal content. Everything you write or choose in the app —
-      reflections, Barnabas moments, mood selections, favorites, streaks, and settings — is
-      stored only in local storage on your own device (on mobile, via the device's app
-      storage; on web, via your browser's local storage). We do not operate a server that
-      receives, stores, or has access to this information. We cannot see it, and we cannot
-      recover it for you if it's lost.
+      Everything you write or choose outside of chat — reflections, Barnabas moments, mood
+      selections, favorites, prayers, streaks, and settings — is stored only in local storage
+      on your own device (on mobile, via the device's app storage; on web, via your browser's
+      local storage). We do not operate a server that receives, stores, or has access to this
+      information. We cannot see it, and we cannot recover it for you if it's lost.
+    </p>
+
+    <h2>Talk to Barnabas (AI Chat)</h2>
+    <p>
+      This feature is optional — the rest of the app works fully without ever opening it. When
+      you do send a chat message, here's exactly what happens with it:
+    </p>
+    <ul>
+      <li><strong>What's sent:</strong> the message you typed, the recent messages in that same conversation (so Barnabas has context), a random ID generated and stored on your device (not your name, account, or any real identity), your app's display language, and the country/region used to show the right crisis helpline if one's ever needed. If you've turned on personalization in the chat screen, a few lightweight signals go too — your streak, how many Barnabas moments you've completed, and single-word mood labels from the last few days — never your actual written reflections. If you've turned on "remembering you across chats" (off by default), a short note Barnabas has built up from your own past conversations is sent as well, so it can stay consistent between separate chats; you can view or delete that note at any time from within the chat screen.</li>
+      <li><strong>What's never sent:</strong> your journal reflections, prayer requests, mood notes, or anything else you've written elsewhere in the app — those stay on your device unless you choose to type them into the chat yourself.</li>
+      <li><strong>Where it goes:</strong> your message is relayed through a server we run on Cloudflare Workers, which forwards it to Anthropic (the company behind the Claude AI models) to generate Barnabas's reply. Cloudflare and Anthropic process this on our behalf and under their own privacy terms — see
+        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare's privacy policy</a>
+        and
+        <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's privacy policy</a>.
+        Cloudflare also sees your device's IP address as a normal part of handling the request, used only to prevent abuse of the free message quota — it isn't stored beyond a short rolling counter and isn't shared further.
+      </li>
+      <li><strong>Chat history:</strong> like your journal, your conversations with Barnabas are stored locally on your device so you can revisit them — we don't keep a separate copy server-side.</li>
+      <li><strong>Reply feedback:</strong> if you tap the thumbs up/down on a reply, that message pair, your feedback, and your device ID are kept on our server for up to 90 days so the developer can review and improve how Barnabas responds, then automatically deleted. This is never used for advertising or shared with anyone beyond that review.</li>
+    </ul>
+
+    <h2>Crash and Error Diagnostics</h2>
+    <p>
+      The app uses Sentry to help us find and fix bugs. If something goes wrong, technical
+      details — what screen you were on, your device/OS version, the app version, and a
+      stack trace — are sent to Sentry automatically. This never includes your journal
+      content or chat messages. See
+      <a href="https://sentry.io/privacy/" target="_blank" rel="noopener">Sentry's privacy policy</a>
+      for how they handle this data.
     </p>
 
     <h2>Information We Do Not Collect</h2>
     <ul>
       <li>No account or sign-up is required, and we don't ask for your name, email, or any other identifying information.</li>
-      <li>No analytics or usage tracking is built into the app.</li>
       <li>No advertising, and no ad networks are integrated.</li>
-      <li>No data is sold, shared, or transmitted to any third party, because none is collected in the first place.</li>
+      <li>No location tracking — the "region" used for chat crisis resources is either your device's own language/locale setting or a country you pick yourself in Settings, never GPS or precise location.</li>
+      <li>Nothing from outside the chat feature described above is ever transmitted anywhere — your journal, reflections, prayers, and settings stay on your device, full stop.</li>
     </ul>
 
     <h2>Permissions the App Uses</h2>
@@ -109,6 +139,7 @@
       <li><strong>Notifications</strong> — used only for the optional morning and evening reminders you can turn on or off yourself in Settings. These are scheduled entirely on your device; nothing is sent to us or anyone else to make them work.</li>
       <li><strong>Text-to-speech (Listen buttons)</strong> — uses your device's or browser's own built-in speech engine to read content aloud. No audio or text is sent anywhere external to do this.</li>
       <li><strong>File access (Backup/Restore)</strong> — used only when you tap "Export Backup" or "Restore Backup" yourself, to save or load a plain JSON file of your own data to your own device. This never happens automatically or in the background.</li>
+      <li><strong>Internet access</strong> — used only when you actively use "Talk to Barnabas" (described above), when the app checks for content updates, and when Sentry reports a crash. The rest of the app works fully offline.</li>
     </ul>
 
     <h2>Automatic Device Backups</h2>
@@ -121,18 +152,18 @@
 
     <h2>Children's Privacy</h2>
     <p>
-      The app is not directed at children under 13, and we do not knowingly collect
-      information from anyone, including children, since we do not collect journal content
-      from any user at all.
+      The app is not directed at children under 13. We do not knowingly collect information
+      from children; the AI chat feature is intended for a general audience and, like the rest
+      of the app, collects no account or identity information from anyone.
     </p>
 
     <h2>Data Security and Your Control</h2>
     <p>
-      Because your data stays on your device, its security is tied to your device's own
-      security (screen lock, encryption, etc.), which we'd encourage you to keep enabled. You
-      can delete all app data at any time by uninstalling the app, or clear individual entries
-      from within the app itself. Exported backup files are yours to keep, move, or delete as
-      you see fit.
+      Because your journal and chat history stay on your device, their security is tied to
+      your device's own security (screen lock, encryption, etc.), which we'd encourage you to
+      keep enabled. You can delete all app data at any time by uninstalling the app, or clear
+      individual entries, conversations, or the chat memory note from within the app itself.
+      Exported backup files are yours to keep, move, or delete as you see fit.
     </p>
 
     <h2>Changes to This Policy</h2>
