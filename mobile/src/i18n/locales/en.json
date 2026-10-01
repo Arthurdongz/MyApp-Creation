@@ -389,22 +389,12 @@
   "chat": {
     "title": "Talk to Barnabas",
     "subtitle": "A private, one-on-one conversation — ask questions or talk things through. Not a therapist, but a listening ear grounded in Scripture.",
-    "paywall": {
-      "title": "You've used this month's free messages",
-      "text": "Your free messages renew next month, or subscribe now for unlimited chatting. Keeping this going costs a little to run — subscribing helps cover that.",
-      "subscribeLabel": "Subscribe for unlimited chat",
-      "subscribeButton": "Subscribe for Unlimited Chat"
-    },
-    "subscribeComingSoonTitle": "Coming soon",
-    "subscribeComingSoonMessage": "Subscriptions aren't set up yet — check back soon.",
     "genericError": "Something went wrong. Please try again.",
     "tapToRetry": "Tap to retry",
     "retryLabel": "Retry sending this message",
     "tapToContinue": "Tap to continue",
     "continueLabel": "Continue this reply",
     "stopLabel": "Stop generating",
-    "quotaBanner": "{{left}} of {{limit}} free messages left this month",
-    "unlimitedBanner": "Unlimited chatting — thank you for subscribing ✨",
     "emptyState": "Say hello — Barnabas is listening.",
     "inputPlaceholder": "Type a message...",
     "sendLabel": "Send message",

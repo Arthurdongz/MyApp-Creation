@@ -188,18 +188,15 @@ scoped from for fuller monthly-cost projections at scale. Cloudflare
 Workers' free tier (100k requests/day) covers this app's volume with room
 to spare.
 
-## What's NOT done yet
+## Free tier, no subscription
 
-This Worker and the app's ChatScreen give every user 100 free messages a
-month, forever (tracked locally on-device — see `computeChatAccess` in
-`mobile/src/storage.js`, which rolls the count over each calendar month).
-Once that month's messages are used up, the app shows a paywall with a
-"Subscribe for Unlimited Chat" button that's currently a stub (just shows
-an alert) — there's no App Store/Play Console subscription product or
-RevenueCat project wired up yet. That's a separate setup step in your own
-developer accounts before real payments can flow.
-
-Note: since this quota lives in local device storage rather than an
-account, uninstalling and reinstalling the app resets it — there's no way
-to close that loophole without real accounts or store-receipt-based
-eligibility checks, which is a bigger lift than the quota itself.
+There's no monthly quota, paywall, or subscription product — Talk to
+Barnabas is free for everyone, bounded only by this Worker's own
+anti-abuse rate limits (`MAX_REQUESTS_PER_DAY`/`MAX_REQUESTS_PER_IP_PER_DAY`
+above). An earlier version of the app tracked a monthly message count
+client-side and showed a "Subscribe for Unlimited Chat" paywall once it
+ran out; that whole mechanism (and the unused `chatSubscribed` escape
+hatch it would have needed) was removed rather than left half-wired, since
+there was no real purchase flow behind it. If paid tiers ever make sense
+later, that's a fresh feature to design against real usage data, not this
+stub revived.

@@ -389,22 +389,12 @@
   "chat": {
     "title": "Parle à Barnabas",
     "subtitle": "Une conversation privée, en tête-à-tête — pose des questions ou parle de ce qui te préoccupe. Ce n'est pas un thérapeute, mais une oreille attentive ancrée dans les Écritures.",
-    "paywall": {
-      "title": "Tu as utilisé tes messages gratuits de ce mois-ci",
-      "text": "Tes messages gratuits se renouvellent le mois prochain, ou abonne-toi dès maintenant pour discuter sans limite. Faire fonctionner tout ça coûte un peu — s'abonner aide à couvrir ces frais.",
-      "subscribeLabel": "S'abonner pour un chat illimité",
-      "subscribeButton": "S'abonner pour un Chat Illimité"
-    },
-    "subscribeComingSoonTitle": "Bientôt disponible",
-    "subscribeComingSoonMessage": "Les abonnements ne sont pas encore disponibles — reviens bientôt.",
     "genericError": "Une erreur s'est produite. Merci de réessayer.",
     "tapToRetry": "Appuie pour réessayer",
     "retryLabel": "Réessayer l'envoi de ce message",
     "tapToContinue": "Appuie pour continuer",
     "continueLabel": "Continuer cette réponse",
     "stopLabel": "Arrêter la génération",
-    "quotaBanner": "Il te reste {{left}} messages gratuits sur {{limit}} ce mois-ci",
-    "unlimitedBanner": "Chat illimité — merci de ton abonnement ✨",
     "emptyState": "Dis bonjour — Barnabas t'écoute.",
     "inputPlaceholder": "Écris un message...",
     "sendLabel": "Envoyer le message",

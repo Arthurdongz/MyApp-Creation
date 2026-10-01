@@ -168,9 +168,6 @@ function defaultSettings() {
     verseFavoriteVersion: isSpanish ? "RVA" : isPortuguese ? "ALM1911" : isFrench ? "LSG" : "KJV",
     reviewPromptShownAt: null,
     tourShown: false,
-    chatQuotaMonthKey: null,
-    chatMessagesUsed: 0,
-    chatSubscribed: false,
     // Lets Barnabas use lightweight, non-text signals (streak, moments
     // done, recent mood words) to personalize replies — never the user's
     // actual reflection text, which never leaves the device unless they
@@ -372,31 +369,6 @@ function daysSinceKey(key) {
   to.setHours(0, 0, 0, 0);
   from.setHours(0, 0, 0, 0);
   return Math.round((to - from) / 86400000);
-}
-
-// The chatbot gives CHAT_FREE_MESSAGES_PER_MONTH free messages every
-// calendar month, forever — not a one-time trial. chatQuotaMonthKey +
-// chatMessagesUsed track usage for whichever month they last refer to;
-// once the current month doesn't match chatQuotaMonthKey, the count is
-// stale and the month's full quota is available again (see
-// recordChatMessageSent, which does the actual rollover). chatSubscribed
-// — set by a real purchase flow once one exists; there is no such flow
-// yet, so subscribing is currently a no-op stub in ChatScreen — grants
-// unlimited messages regardless of the monthly count.
-const CHAT_FREE_MESSAGES_PER_MONTH = 100;
-
-function currentMonthKey() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
-export function computeChatAccess(settings) {
-  if (settings.chatSubscribed) {
-    return { granted: true, unlimited: true, messagesUsed: 0, messagesLeft: null, limit: null };
-  }
-  const messagesUsed = settings.chatQuotaMonthKey === currentMonthKey() ? settings.chatMessagesUsed : 0;
-  const messagesLeft = Math.max(0, CHAT_FREE_MESSAGES_PER_MONTH - messagesUsed);
-  return { granted: messagesLeft > 0, unlimited: false, messagesUsed, messagesLeft, limit: CHAT_FREE_MESSAGES_PER_MONTH };
 }
 
 // How long "Talk to Barnabas" stays on the same conversation with no
@@ -913,29 +885,6 @@ export function useJournalStore() {
     [persist]
   );
 
-  // Called after a chat message successfully round-trips (not before —
-  // network failures and Worker errors shouldn't burn quota). Rolls the
-  // count over to 1 if the current month doesn't match chatQuotaMonthKey
-  // yet, otherwise just increments it.
-  const recordChatMessageSent = useCallback(() => {
-    setState((prev) => {
-      // Subscribed users have unlimited messages (see computeChatAccess) —
-      // don't keep accumulating chatMessagesUsed while subscribed, or a
-      // later cancellation would find the quota already exhausted for
-      // whatever's left of that month even though none of it was actually
-      // used against the free allowance.
-      if (prev.settings.chatSubscribed) return prev;
-      const monthKey = currentMonthKey();
-      const messagesUsed = prev.settings.chatQuotaMonthKey === monthKey ? prev.settings.chatMessagesUsed + 1 : 1;
-      const next = {
-        ...prev,
-        settings: { ...prev.settings, chatQuotaMonthKey: monthKey, chatMessagesUsed: messagesUsed },
-      };
-      persist(next);
-      return next;
-    });
-  }, [persist]);
-
   const updateSettings = useCallback(
     (patch) => {
       setState((prev) => {
@@ -1298,7 +1247,6 @@ export function useJournalStore() {
   const peopleEncouraged = countPeopleEncouraged(state.entries);
   const weeklyRecap = computeWeeklyRecap(state.entries, latestDay);
   const yearInReview = computeYearInReview(state.entries, state.favorites, latestDay);
-  const chatAccess = computeChatAccess(state.settings);
 
   // Ask for a store review once a person has shown real, sustained
   // engagement (a 7-day streak — the same threshold as the "Week of Hope"
@@ -1354,8 +1302,6 @@ export function useJournalStore() {
     peopleEncouraged,
     weeklyRecap,
     yearInReview,
-    chatAccess,
-    recordChatMessageSent,
     chatConversations: state.chatConversations,
     openChatConversation,
     startNewChatConversation,

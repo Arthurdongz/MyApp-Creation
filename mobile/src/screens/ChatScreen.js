@@ -101,24 +101,6 @@ function renderScriptureSegments(content, styles, openVerseRef) {
   );
 }
 
-function ChatPaywall({ styles, onSubscribe }) {
-  const { t } = useTranslation();
-  return (
-    <View style={styles.paywallCard}>
-      <Text style={styles.paywallTitle}>{t("chat.paywall.title")}</Text>
-      <Text style={styles.paywallText}>{t("chat.paywall.text")}</Text>
-      <TouchableOpacity
-        style={styles.subscribeBtn}
-        onPress={onSubscribe}
-        accessibilityRole="button"
-        accessibilityLabel={t("chat.paywall.subscribeLabel")}
-      >
-        <Text style={styles.subscribeBtnText}>{t("chat.paywall.subscribeButton")}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
 function formatConversationTimestamp(ts) {
   const d = new Date(ts);
   const now = new Date();
@@ -133,8 +115,6 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const styles = getStyles(colors, shadow);
   const { t, i18n } = useTranslation();
   const {
-    chatAccess,
-    recordChatMessageSent,
     settings,
     updateSettings,
     chatConversations,
@@ -342,7 +322,6 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         }
       );
       appendChatMessage(conversation, { role: "assistant", content: reply });
-      recordChatMessageSent();
     } catch (e) {
       // A deliberate stop (handleStop) or a failure after real text had
       // already streamed in both still keep that text rather than
@@ -425,7 +404,6 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         }
       );
       extendLastChatMessage(conversation, tail);
-      recordChatMessageSent();
     } catch (e) {
       if (e.partialText) extendLastChatMessage(conversation, e.partialText);
       if (!e.cancelled) {
@@ -517,14 +495,6 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setCanContinue(false);
     setStreamingText("");
     setView("chat");
-  };
-
-  // Subscriptions aren't wired up yet — this app has no App Store/Play
-  // Console product or RevenueCat project behind it. Once that exists,
-  // replace this with the real purchase flow and call
-  // store.updateSettings({ chatSubscribed: true }) on success.
-  const handleSubscribe = () => {
-    Alert.alert(t("chat.subscribeComingSoonTitle"), t("chat.subscribeComingSoonMessage"));
   };
 
   const sortedHistory = [...chatConversations].sort((a, b) => b.updatedAt - a.updatedAt);
@@ -638,13 +608,6 @@ export default function ChatScreen({ store, onClose, seedContext }) {
               onContentSizeChange={() => scrollRef.current?.scrollToEnd({ animated: true })}
             >
               <View style={styles.bannerRow}>
-                {!chatAccess.unlimited ? (
-                  <Text style={styles.quotaBanner}>
-                    {t("chat.quotaBanner", { left: chatAccess.messagesLeft, limit: chatAccess.limit })}
-                  </Text>
-                ) : (
-                  <Text style={styles.quotaBanner}>{t("chat.unlimitedBanner")}</Text>
-                )}
                 <TouchableOpacity
                   onPress={() => {
                     hapticTap();
@@ -776,53 +739,39 @@ export default function ChatScreen({ store, onClose, seedContext }) {
               <Text style={styles.errorText}>{errorMsg}</Text>
             ) : null}
 
-            {/*
-              Reading an old conversation from History should always work,
-              even after the monthly quota runs out — only sending a new
-              message needs to be gated, so the paywall replaces just the
-              composer instead of the whole screen.
-            */}
-            {chatAccess.granted ? (
-              <>
-                <View style={styles.inputRow}>
-                  <TextInput
-                    style={styles.input}
-                    value={input}
-                    onChangeText={setInput}
-                    placeholder={t("chat.inputPlaceholder")}
-                    placeholderTextColor={colors.textSoft}
-                    multiline
-                    editable={!sending}
-                  />
-                  {sending ? (
-                    <TouchableOpacity
-                      style={styles.sendBtn}
-                      onPress={handleStop}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("chat.stopLabel")}
-                    >
-                      <Ionicons name="stop" size={15} color={colors.buttonOnText} />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity
-                      style={[styles.sendBtn, !input.trim() && styles.sendBtnDisabled]}
-                      onPress={handleSend}
-                      disabled={!input.trim()}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("chat.sendLabel")}
-                    >
-                      <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
-                    </TouchableOpacity>
-                  )}
-                </View>
+            <View style={styles.inputRow}>
+              <TextInput
+                style={styles.input}
+                value={input}
+                onChangeText={setInput}
+                placeholder={t("chat.inputPlaceholder")}
+                placeholderTextColor={colors.textSoft}
+                multiline
+                editable={!sending}
+              />
+              {sending ? (
+                <TouchableOpacity
+                  style={styles.sendBtn}
+                  onPress={handleStop}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("chat.stopLabel")}
+                >
+                  <Ionicons name="stop" size={15} color={colors.buttonOnText} />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={[styles.sendBtn, !input.trim() && styles.sendBtnDisabled]}
+                  onPress={handleSend}
+                  disabled={!input.trim()}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("chat.sendLabel")}
+                >
+                  <Text style={styles.sendBtnText}>{t("chat.sendButton")}</Text>
+                </TouchableOpacity>
+              )}
+            </View>
 
-                <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
-              </>
-            ) : (
-              <View style={styles.paywallDock}>
-                <ChatPaywall styles={styles} onSubscribe={handleSubscribe} />
-              </View>
-            )}
+            <Text style={styles.disclaimer}>{t("chat.disclaimer", { resource: crisisResource.sentence })}</Text>
           </>
         )}
       </KeyboardAvoidingView>
@@ -876,16 +825,6 @@ function getStyles(colors, shadow) {
       justifyContent: "space-between",
       gap: 8,
       marginBottom: 14,
-    },
-    quotaBanner: {
-      fontSize: 12,
-      fontWeight: "700",
-      color: colors.goldText,
-      backgroundColor: colors.factCard,
-      borderRadius: 999,
-      paddingVertical: 5,
-      paddingHorizontal: 12,
-      alignSelf: "flex-start",
     },
     personalizationToggle: {
       fontSize: 11,
@@ -961,30 +900,6 @@ function getStyles(colors, shadow) {
       paddingBottom: 10,
       backgroundColor: colors.chatHeaderBg,
     },
-    paywallDock: {
-      padding: 16,
-      backgroundColor: colors.chatHeaderBg,
-      borderTopWidth: 1,
-      borderTopColor: colors.border,
-    },
-    paywallCard: {
-      backgroundColor: colors.card,
-      borderWidth: 1,
-      borderColor: colors.border,
-      borderRadius: 16,
-      padding: 18,
-      alignItems: "flex-start",
-      ...shadow,
-    },
-    paywallTitle: { fontSize: 16, fontWeight: "700", color: colors.sageDark, marginBottom: 10 },
-    paywallText: { fontSize: 14, lineHeight: 20, color: colors.text, marginBottom: 16 },
-    subscribeBtn: {
-      backgroundColor: colors.buttonBg,
-      borderRadius: 12,
-      paddingVertical: 13,
-      paddingHorizontal: 20,
-    },
-    subscribeBtnText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 14 },
     historyContent: { padding: 16, paddingBottom: 24, flexGrow: 1 },
     historyRow: {
       backgroundColor: colors.card,

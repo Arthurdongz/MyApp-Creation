@@ -389,22 +389,12 @@
   "chat": {
     "title": "Habla con Bernabé",
     "subtitle": "Una conversación privada, uno a uno — haz preguntas o habla las cosas con calma. No es un terapeuta, pero sí un oído atento basado en las Escrituras.",
-    "paywall": {
-      "title": "Ya usaste tus mensajes gratis de este mes",
-      "text": "Tus mensajes gratis se renuevan el próximo mes, o suscríbete ahora para chatear sin límites. Mantener esto funcionando cuesta un poco — suscribirte ayuda a cubrir ese costo.",
-      "subscribeLabel": "Suscribirse para chat ilimitado",
-      "subscribeButton": "Suscribirse para Chat Ilimitado"
-    },
-    "subscribeComingSoonTitle": "Muy pronto",
-    "subscribeComingSoonMessage": "Las suscripciones aún no están disponibles — vuelve pronto.",
     "genericError": "Algo salió mal. Inténtalo de nuevo.",
     "tapToRetry": "Toca para reintentar",
     "retryLabel": "Reintentar el envío de este mensaje",
     "tapToContinue": "Toca para continuar",
     "continueLabel": "Continuar esta respuesta",
     "stopLabel": "Detener la generación",
-    "quotaBanner": "Te quedan {{left}} de {{limit}} mensajes gratis este mes",
-    "unlimitedBanner": "Chat ilimitado — gracias por suscribirte ✨",
     "emptyState": "Saluda — Bernabé está escuchando.",
     "inputPlaceholder": "Escribe un mensaje...",
     "sendLabel": "Enviar mensaje",
