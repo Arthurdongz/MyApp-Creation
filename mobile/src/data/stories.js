@@ -6,7 +6,7 @@
 // the biblical entries, so nothing here should raise copyright or privacy
 // concerns.
 //
-// This bank (174+ entries) is smaller than the app's other 366-entry banks
+// This bank (189+ entries) is smaller than the app's other 366-entry banks
 // for now, and cycles through the user's shuffle order modulo its own length
 // (see pickForDaySmallBank in ../content) until it's been expanded further.
 // Grown incrementally over time — new entries should keep following the
@@ -1071,5 +1071,95 @@ export const STORIES = [
     "text": "Liviu Librescu was a Romanian-American engineering professor at Virginia Tech, and a Holocaust survivor who had escaped a Nazi labor camp as a child. On April 16, 2007, when a gunman tried to force his way into Librescu's classroom during a campus shooting, Librescu held the door shut with his own body while his students escaped through the windows behind him.",
     "insight": "Librescu was shot and killed, but every student in that room except one survived. He died on Holocaust Remembrance Day itself, a man who had already escaped one attempt to end his life as a child, using the only thing he had left — his own body against a door — to make sure a room full of young people got the chance at a life he'd already fought once to keep.",
     "source": "Widely reported by the Associated Press and international press following the April 16, 2007 Virginia Tech shooting"
+  },
+  {
+    "title": "Two Midwives Who Said No",
+    "text": "When Pharaoh ordered the Hebrew midwives Shiphrah and Puah to kill every Israelite baby boy at birth, the two women simply refused, and when Pharaoh demanded to know why so many boys were surviving, they told him the Hebrew women gave birth too quickly for them to arrive in time. It was a direct lie to the most powerful man in Egypt, told to protect children who weren't even theirs.",
+    "insight": "Scripture says God dealt well with the midwives because they feared Him rather than Pharaoh, and gave them households of their own because of it. Two women with no power, no army, and no protection except their own refusal to comply are the reason a generation of Israelite boys — including, soon after, Moses himself — lived to grow up at all.",
+    "source": "Exodus 1:15-21"
+  },
+  {
+    "title": "A Basket, a Sister, and a Princess",
+    "text": "When Pharaoh's decree against Hebrew baby boys reached her own house, Jochebed hid her infant son for three months, then set him afloat on the Nile in a waterproofed basket when she could hide him no longer, placing her daughter Miriam nearby to watch from a distance. When Pharaoh's own daughter found the basket and recognized the baby as a Hebrew child, Miriam stepped forward and offered to find a Hebrew woman to nurse him — arranging, without anyone else realizing it, for the baby's own mother to raise him after all, this time openly and paid for it by the very household that had ordered his death.",
+    "insight": "Three different people — a mother who wouldn't give up on her son, a sister quick enough to seize an opening nobody had planned for, and a princess willing to defy her own father's decree — each did one small, specific thing none of them could have finished alone. Together they raised, inside Pharaoh's own palace, the man who would one day lead Israel out of it.",
+    "source": "Exodus 2:1-10"
+  },
+  {
+    "title": "Old Rags Down a Cistern",
+    "text": "When officials in Jerusalem lowered the prophet Jeremiah into an empty cistern to die, leaving him to sink into the mud at the bottom, it was Ebed-Melech, a foreign-born official in the king's own palace, who went to King Zedekiah and argued for Jeremiah's life. Given permission to act, Ebed-Melech gathered old rags and worn-out clothes, lowered them down to Jeremiah first, and told him to pad the ropes under his arms with them before being pulled out — so that the rescue itself wouldn't tear his skin or dislocate his arms.",
+    "insight": "Ebed-Melech had no personal stake in Jeremiah's unpopular prophecies and every reason to stay out of a dispute between a prophet and the king's own officials. He is remembered in scripture for a single act of rescue, and for a detail nobody would have blamed him for skipping — thinking, in the middle of saving a man's life, about how not to hurt him in the process.",
+    "source": "Jeremiah 38:7-13"
+  },
+  {
+    "title": "Hidden in the Temple for Six Years",
+    "text": "When Judah's queen mother Athaliah seized the throne by killing off the rest of the royal family, Jehosheba, the late king's daughter, secretly took her infant nephew Joash from among the royal children and hid him in the temple with his nurse for six years, telling no one he had survived. Only when Joash turned seven did the priest Jehoiada reveal him and have him crowned, ending Athaliah's reign and restoring the line of David to the throne.",
+    "insight": "Jehosheba kept a single secret, inside a hostile palace, for six full years, with no guarantee it would ever matter or that the boy would survive to be crowned at all. An entire royal line that scripture traces all the way to Jesus himself continued only because one woman was willing to wait that long without ever being found out.",
+    "source": "2 Kings 11:1-3; 2 Chronicles 22:10-12"
+  },
+  {
+    "title": "Brother Saul",
+    "text": "Three days after Saul of Tarsus was struck blind on the road to Damascus, God told a disciple named Ananias to go lay hands on him and restore his sight. Ananias objected — he had heard exactly what Saul had done to believers in Jerusalem and had come to Damascus with authority to do the same there. He went anyway, found Saul, and greeted him not as a feared persecutor but as \"Brother Saul,\" the first believer in scripture to call him that.",
+    "insight": "Ananias had every reason for his fear to be the last word, and scripture doesn't pretend otherwise — his hesitation is recorded right alongside his obedience. The man he was afraid of would go on to write much of the New Testament, and the first believer to ever call him \"brother\" is someone we know only from this one act of overcoming that fear.",
+    "source": "Acts 9:10-19"
+  },
+  {
+    "title": "A Centurion's Quiet Reputation",
+    "text": "Cornelius was a Roman centurion stationed in Caesarea, a Gentile with no claim on Israel's covenant, known among the Jewish community there simply for giving generously to those in need and praying constantly. An angel told him plainly that his prayers and gifts to the poor had been noticed, and sent him to find Peter — who, through a vision of his own the same day, was persuaded to set aside a lifetime of religious custom and enter a Gentile's home for the first time, opening the door for the gospel to reach beyond Israel at all.",
+    "insight": "Cornelius never did anything dramatic enough to make headlines in his own time — scripture only credits him with steady, ordinary generosity and prayer, sustained long enough that heaven itself took notice. It took a vision to convince Peter to walk through that door, but it took years of an unseen man quietly being who he already was to make that door worth knocking on.",
+    "source": "Acts 10:1-48"
+  },
+  {
+    "title": "Dinner With the Man Everyone Despised",
+    "text": "Zacchaeus was a chief tax collector in Jericho, wealthy from a system that let him overcharge his own neighbors and keep the difference, and the crowd that gathered to see Jesus pass through town had no interest in making room for a man they considered a collaborator and a thief. Too short to see over them, Zacchaeus climbed a tree instead — and Jesus stopped beneath it, looked up, and invited himself to stay at Zacchaeus's house that same day, to the crowd's open muttering.",
+    "insight": "Zacchaeus responded by giving half his wealth to the poor and repaying everyone he'd cheated four times over, a transformation that started with being noticed and named by someone who hadn't written him off the way everyone else already had. Jesus didn't wait for Zacchaeus to clean up his life first — the invitation came before the repentance did, not after it.",
+    "source": "Luke 19:1-10"
+  },
+  {
+    "title": "The Fifty-Mile Bus Ride",
+    "text": "Wilma Rudolph contracted polio as a small child in segregated 1940s Tennessee and was told she would never walk without a leg brace. Her mother drove her fifty miles each way, every week for two years, to the nearest clinic that would treat a Black child, while Rudolph's siblings took turns massaging her weakened leg at home every single day on the doctors' instructions. She walked unaided by age twelve, made her state's high school basketball team, and went on to win three Olympic gold medals in track at the 1960 Rome Games, becoming the fastest woman in the world.",
+    "insight": "None of it happened from one dramatic moment — it was a years-long accumulation of weekly bus trips and nightly leg massages from people who had every reason to eventually get tired of a routine with no guaranteed payoff. Rudolph became an international icon, but the actual work that got her there was mostly invisible, repeated so many times by people who never appear in the Olympic record at all.",
+    "source": "Wilma Rudolph, \"Wilma\" (1977); International Olympic Committee historical records"
+  },
+  {
+    "title": "The Marathon That Didn't Finish",
+    "text": "After losing his right leg to bone cancer at eighteen, Canadian runner Terry Fox began a cross-country \"Marathon of Hope\" in 1980, running roughly a marathon's distance every single day on an artificial leg to raise money for cancer research. He ran 5,373 kilometers over 143 consecutive days before doctors discovered the cancer had spread to his lungs, forcing him to stop less than halfway across the country. He died the following year, having never finished the route he set out to run.",
+    "insight": "Fox's own run raised about $1.7 million before it was cut short — a fraction of what he'd hoped for a route he never completed. But the annual Terry Fox Run his unfinished attempt inspired has since raised more than $850 million for cancer research worldwide, proof that an effort can fail by its own measure and still outgrow everything the person who started it ever saw.",
+    "source": "Terry Fox Foundation official records"
+  },
+  {
+    "title": "The Evidence He Gathered by Hand",
+    "text": "After winning a university essay contest on the slave trade in 1785, Thomas Clarkson became so convicted by his own research that he spent the next decades personally traveling to English ports, boarding slave ships, and interviewing sailors and former slaves to document the trade's brutality firsthand — evidence that became the backbone of William Wilberforce's parliamentary campaign to abolish it. The work was dangerous: in Liverpool, a group of slave-ship crewmen reportedly attacked him on a pier, and he narrowly escaped being thrown into the harbor.",
+    "insight": "Wilberforce is the name history remembers for ending the British slave trade, but the detailed, verifiable evidence he argued from in Parliament for two decades came largely from one man willing to do the unglamorous, physically dangerous work of actually going and looking. A law changed because someone besides its eventual champion was willing to do the research nobody else wanted to do in person.",
+    "source": "Thomas Clarkson, \"The History of the Rise, Progress, and Accomplishment of the Abolition of the African Slave-Trade\" (1808)"
+  },
+  {
+    "title": "Accepted as a Joke, Graduated First",
+    "text": "When Elizabeth Blackwell applied to medical schools in 1847, every one of them rejected her except Geneva Medical College in New York, where the all-male student body was asked to vote on her admission and, as she later learned, approved it as a prank, assuming no woman would actually attend. She did, enduring isolation, hostile stares, and exclusion from some lectures as the only woman in her class — and graduated at the top of it in 1849, becoming the first woman to earn a medical degree in the United States.",
+    "insight": "Blackwell went on to found an infirmary staffed entirely by women to treat patients other hospitals turned away, and personally trained the first generation of American women doctors who followed her. The vote that let her in was never meant to be taken seriously by the men who cast it — she simply took it seriously enough for both of them, and an entire profession opened because of it.",
+    "source": "Elizabeth Blackwell, \"Pioneer Work in Opening the Medical Profession to Women\" (1895); National Library of Medicine historical records"
+  },
+  {
+    "title": "Sixty-Nine Days Under the Desert",
+    "text": "In August 2010, a collapse at the San José copper mine in northern Chile trapped 33 miners roughly 700 meters underground, with no confirmed contact for the first seventeen days. Engineers from Chile, NASA consultants familiar with isolation psychology, and drilling teams from multiple countries worked together around the clock, eventually boring a narrow rescue shaft and lowering a custom-built capsule to bring each miner up individually. All 33 survived, pulled to the surface one at a time over nearly twenty-four hours while much of the world watched live.",
+    "insight": "No single person or country could have managed the rescue alone — it took specialists who had never worked together before, cooperating under enormous pressure with no guarantee the shaft would even reach the men alive. Sometimes the most remarkable rescues aren't one person's courage but dozens of strangers from different continents deciding, together, that thirty-three lives were worth every resource they could bring to bear.",
+    "source": "Widely reported by international press; Chilean government official inquiry records"
+  },
+  {
+    "title": "The Priest Who Stayed Just Outside the Line",
+    "text": "Monsignor Hugh O'Flaherty, an Irish priest based at the Vatican during the Nazi occupation of Rome, organized a network that hid thousands of Allied soldiers and Jewish refugees in apartments, convents, and farms across the city. The Gestapo's local chief, Herbert Kappler, had a white line painted on the pavement at the edge of Vatican territory specifically to keep O'Flaherty confined there — and O'Flaherty crossed it anyway, repeatedly, in disguise, to keep running the network under Kappler's nose.",
+    "insight": "After the war, Kappler was convicted and imprisoned, and the only visitor who ever came to see him was O'Flaherty — the priest he had spent years trying to catch. Kappler converted to Catholicism after years of those visits, baptized by the same man whose capture he'd once offered a bounty to secure.",
+    "source": "Widely documented in Allied wartime records; J.P. Gallagher, \"The Scarlet Pimpernel of the Vatican\" (1967)"
+  },
+  {
+    "title": "Forgiving the Bird",
+    "text": "Olympic runner Louis Zamperini became a World War II bombardier whose plane crashed into the Pacific; he survived 47 days adrift on a life raft before being captured and spending over two years as a prisoner of war, singled out for particularly brutal treatment by a guard the prisoners nicknamed \"the Bird.\" After the war, Zamperini struggled with nightmares and alcoholism until a 1949 Billy Graham crusade led to a faith he said finally let him let go of his hatred. He later traveled to Japan and personally met with his former captors to tell them he forgave them.",
+    "insight": "The guard who had tormented him most refused to meet with Zamperini when he came looking for that specific reconciliation, which Zamperini said he had to accept and forgive anyway, whether or not it was ever received. Some forgiveness is a conversation; some, it turns out, is simply a decision one person makes alone, with nothing guaranteed in return.",
+    "source": "Laura Hillenbrand, \"Unbroken: A World War II Story of Survival, Resilience, and Redemption\" (2010)"
+  },
+  {
+    "title": "Documenting What No One Would Report",
+    "text": "After a close friend was lynched in Memphis in 1892, journalist Ida B. Wells began personally investigating lynchings across the American South, traveling to the sites of killings, interviewing witnesses, and publishing the actual facts behind murders that white newspapers either ignored or openly celebrated. Her reporting provoked a mob to destroy her newspaper's offices while she was out of town, and she received death threats serious enough that she never safely returned to Memphis.",
+    "insight": "Wells kept publishing anyway, from exile, and co-founded the NAACP decades later, having already spent a career proving that the facts could be gathered and printed even when doing so cost her a home she could never go back to. She chose documentation as her weapon precisely because so many people around her were counting on nobody keeping count.",
+    "source": "Ida B. Wells, \"Southern Horrors: Lynch Law in All Its Phases\" (1892); National Park Service historical records"
   },
 ];
