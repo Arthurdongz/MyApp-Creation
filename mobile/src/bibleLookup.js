@@ -79,23 +79,32 @@ function chapterVerses(book, chapter) {
 
 // Returns [{ book, chapter, verseStart, verseEnd, text }] — one block per
 // parsed piece, each with its verse range's text already joined — or null
-// if the ref couldn't be resolved.
+// if none of the ref's pieces could be resolved.
+//
+// A piece whose end verse runs past the chapter's last verse is clipped
+// down to what actually exists rather than discarded outright — Barnabas's
+// chat citations are grounded per-verse by the Worker's own lookup tool,
+// but the range it writes into the visible reply can still overshoot by a
+// verse or two (e.g. citing "Philippians 3:20-23" when chapter 3 ends at
+// verse 21). Showing the real 20-21 beats a dead "verse not found" popup
+// for a reference that was mostly right. A piece whose start verse is
+// itself out of range has nothing real to show and is skipped.
 export function lookupRef(ref) {
   const pieces = parseRef(ref);
   if (!pieces) return null;
   const blocks = [];
   for (const p of pieces) {
+    if (p.verseStart == null) continue;
     const verses = chapterVerses(p.book, p.chapter);
-    if (!verses) return null;
+    if (!verses || p.verseStart > verses.length) continue;
+    const verseEnd = Math.min(p.verseEnd, verses.length);
     const parts = [];
-    for (let v = p.verseStart; v <= p.verseEnd; v++) {
-      const text = verses[v - 1];
-      if (!text) return null;
-      parts.push({ verse: v, text });
+    for (let v = p.verseStart; v <= verseEnd; v++) {
+      parts.push({ verse: v, text: verses[v - 1] });
     }
-    blocks.push({ book: p.book, chapter: p.chapter, verseStart: p.verseStart, verseEnd: p.verseEnd, verses: parts });
+    blocks.push({ book: p.book, chapter: p.chapter, verseStart: p.verseStart, verseEnd, verses: parts });
   }
-  return blocks;
+  return blocks.length ? blocks : null;
 }
 
 // Full chapter as [{ verse, text }], for the "read the full chapter" view.
