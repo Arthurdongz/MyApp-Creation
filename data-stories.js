@@ -6,7 +6,7 @@
 // the biblical entries, so nothing here should raise copyright or privacy
 // concerns.
 //
-// This bank (130+ entries) is smaller than the app's other 366-entry banks
+// This bank (174+ entries) is smaller than the app's other 366-entry banks
 // for now, and cycles through the user's shuffle order modulo its own length
 // (see pickForDaySmallBank in content.js) until it's been expanded further.
 // Grown incrementally over time — new entries should keep following the
@@ -980,5 +980,95 @@ const STORIES = [
     text: "Antoinette Tuff was a school bookkeeper in Georgia in 2013 when a gunman armed with an assault rifle entered her elementary school, and she found herself alone with him in the front office while police surrounded the building. Rather than panicking, she calmly talked with him for nearly half an hour, sharing her own struggles and telling him she loved him and that it wasn't too late to make a different choice, eventually convincing him to put down his weapon and surrender without a single shot fired.",
     insight: "Tuff later said she was terrified the entire time and simply kept talking because stopping felt more dangerous than continuing. Every child in that school went home that day in large part because one woman decided a frightened, armed young man was still someone worth trying to reach rather than simply someone to fear.",
     source: "Widely reported by CNN and national press, 2013",
+  },
+  {
+    title: "The Passports He Kept Issuing",
+    text: "In July 1944, Sweden sent Raoul Wallenberg, a businessman with no diplomatic experience, to Budapest for one purpose: to help save the city's Jewish population from deportation to Nazi death camps. He issued thousands of Swedish \"protective passports\" of dubious legal standing, rented buildings and declared them Swedish territory to shelter families, and reportedly climbed onto deportation trains and walked alongside marching columns handing out papers while Hungarian and German officers looked on. He is credited with saving tens of thousands of lives in a matter of months.",
+    insight: "In January 1945, as Soviet forces entered Budapest, Wallenberg was taken into Soviet custody on suspicion of espionage and never seen in public again. The USSR eventually claimed he had died in a Moscow prison in 1947, but his actual fate was never conclusively settled, and for decades his own family didn't know what had become of the man who'd saved so many others. Some rescues cost the rescuer an answer they never got to have.",
+    source: "Yad Vashem's Righteous Among the Nations records; Raoul Wallenberg Foundation",
+  },
+  {
+    title: "A Patent Sold for a Dollar",
+    text: "In 1922, University of Toronto researchers Frederick Banting, Charles Best, and James Collip succeeded in isolating insulin, turning type 1 diabetes from a near-certain death sentence into a manageable condition almost overnight. Banting refused to put his own name on the patent, saying it was unethical for a doctor to profit from something that would save lives, and the three sold the rights to the university for a token one dollar each — specifically so no single company could control it and drive up the price of a medicine people would need for the rest of their lives.",
+    insight: "The decision meant none of the three men who'd just made one of the century's most important medical discoveries earned anything from it directly, even as insulin went on to keep tens of millions of people alive worldwide in the century since. They treated the size of the need as a reason to give the discovery away, not a reason to charge more for it.",
+    source: "University of Toronto Discovery and Innovation records; Banting House National Historic Site of Canada",
+  },
+  {
+    title: "The Technique No One Credited Him For",
+    text: "Vivien Thomas was a Black lab technician with no medical degree — his own plans for medical school had collapsed when he lost his savings in the Great Depression — when surgeon Alfred Blalock hired him in the 1930s. Over the following decade Thomas developed the surgical technique and instruments behind what became the first successful operation for \"blue baby syndrome,\" a fatal heart defect in infants, and personally coached Blalock through the first human operation in 1944 from a step stool positioned behind him in the operating room.",
+    insight: "For decades afterward, Blalock received the acclaim for an operation Thomas had largely designed, while Thomas continued working at Johns Hopkins for a technician's wage, training generations of surgeons who knew exactly whose technique they were learning even when the official record didn't say so. Johns Hopkins finally awarded him an honorary doctorate in 1976, more than thirty years after the operation that made it true.",
+    source: "Johns Hopkins Medicine historical archives; Vivien Thomas, \"Partners of the Heart\" (1985)",
+  },
+  {
+    title: "The Doctor Who Said: Wash Your Hands",
+    text: "Hungarian physician Ignaz Semmelweis noticed in the 1840s that new mothers attended by doctors fresh from autopsies died of childbed fever at far higher rates than those attended by midwives, who didn't perform autopsies. He instituted mandatory handwashing with a chlorinated lime solution before examinations in his Vienna maternity ward, and mortality dropped dramatically within months — years before germ theory existed to explain why it worked.",
+    insight: "The medical establishment of his time rejected and ridiculed his findings, since he had no accepted theory for why washing hands would matter, and he was eventually dismissed from his post and committed to an asylum, where he died in 1865. Only after germ theory became accepted years later was he vindicated — too late for him to see it, but not too late for every mother and doctor who's washed their hands before touching a patient since.",
+    source: "History of medicine archives; widely documented as the origin of antiseptic procedure in obstetrics",
+  },
+  {
+    title: "The Cages She Wouldn't Look Away From",
+    text: "In 1841, American reformer Dorothea Dix visited a Massachusetts jail to teach a Sunday school class and found mentally ill inmates held in unheated cells alongside criminals, some chained and caged. Rather than simply reporting what she'd seen, she spent the next forty years personally touring jails and almshouses across dozens of states, documenting conditions in detail and lobbying legislature after legislature for dedicated, humane treatment facilities.",
+    insight: "Her advocacy directly led to the founding or expansion of more than thirty state psychiatric hospitals across the United States, institutions that still exist in some form today because one woman refused to let one Sunday afternoon's discovery stay a private horror she alone knew about. She later spent the Civil War organizing the Union's entire corps of army nurses, having already proven she could turn outrage into infrastructure.",
+    source: "Library of Congress Dorothea Dix papers; National Park Service historical records",
+  },
+  {
+    title: "A Risk Taken on One Boy",
+    text: "In July 1885, a nine-year-old named Joseph Meister was brought to chemist Louis Pasteur after being severely mauled by a rabid dog — a diagnosis that, left untreated, meant almost certain death. Pasteur was not a licensed physician, and his rabies treatment had only ever been tested on animals; using it on a child was both a legal risk and one that could have ended his career, or the boy's life, if it failed. He administered the series of injections anyway. The boy survived and never developed rabies.",
+    insight: "Pasteur reportedly spent sleepless nights during the treatment, fully aware of what either outcome would mean — for the boy, and for whether anyone would ever trust the treatment again. The case's success led directly to the founding of the Pasteur Institute and the wider use of the vaccine, built on the willingness of one scientist to risk everything on a single child first.",
+    source: "Pasteur Institute historical archives",
+  },
+  {
+    title: "The Mold He Didn't Patent",
+    text: "In 1928, Alexander Fleming noticed that a stray mold contaminating one of his bacterial culture plates had killed the surrounding bacteria, and identified it as a strain of Penicillium — the discovery that became penicillin, the first true antibiotic. Fleming never patented it, and when later asked why, he said it felt wrong to profit from something meant to save lives, especially once wartime researchers Howard Florey and Ernst Chain developed it into a usable drug during the Second World War, when the world needed it manufactured as widely and cheaply as possible.",
+    insight: "Leaving the discovery unpatented meant any manufacturer could produce penicillin once the wartime production methods were worked out, and by the war's end Allied forces had enough to treat wounded soldiers on a scale that would have been impossible under a single company's exclusive control. Fleming, Florey, and Chain shared the 1945 Nobel Prize, but the bigger prize had already gone to every patient the open discovery reached before any of them ever accepted it.",
+    source: "Nobel Prize official biography, nobelprize.org; Alexander Fleming Laboratory Museum, London",
+  },
+  {
+    title: "Taking the Blame to Save a Household",
+    text: "David's men had protected a wealthy man named Nabal's shepherds in the wilderness without taking anything in return, but when David's messengers later asked for provisions, Nabal insulted them and refused outright. Enraged, David set out with armed men intending to kill every male in Nabal's household by morning. Nabal's wife Abigail, hearing what had happened from a servant, quickly gathered a large gift of food and rode out alone to intercept David, falling before him, taking the blame for her husband's insult onto herself, and pleading for mercy before any blood was shed.",
+    insight: "David credited Abigail with keeping him from a massacre he would have regretted for the rest of his life, and blessed her for it on the spot. She acted without her husband's knowledge and at real personal risk, choosing to stand between an entire household and a furious armed company rather than simply hope the danger would pass.",
+    source: "1 Samuel 25:2-42",
+  },
+  {
+    title: "The Jar That Didn't Run Out",
+    text: "During a severe famine, God sent the prophet Elijah to a widow in Zarephath — a foreign town outside Israel — who was down to her very last handful of flour and a little oil, intending to prepare one final meal for herself and her son before they starved. Elijah asked her to make him a small cake of bread first, promising that her flour and oil would not run out before the famine ended. Despite having every reason to refuse a stranger her family's last food, she did as he asked.",
+    insight: "The jar of flour and jug of oil lasted through the rest of the famine, feeding her household for as long as the crisis continued. She had nothing to spare and shared it anyway, before she'd seen any proof the promise would hold — the kind of trust that only looks reasonable in hindsight.",
+    source: "1 Kings 17:8-16",
+  },
+  {
+    title: "The Word of a Captive Servant Girl",
+    text: "Naaman, a powerful Aramean army commander, had leprosy, and it was a young Israelite girl — taken captive in a raid by Naaman's own army and serving as a slave in his household — who told her mistress about a prophet in Samaria who could heal him. She owed Naaman nothing, and had every reason to resent the army that had torn her from her family, yet she spoke up anyway. Her word eventually reached Naaman, who traveled to the prophet Elisha and was healed after washing in the Jordan River seven times.",
+    insight: "Scripture never records this girl's name, only her willingness to offer help to the very household responsible for her captivity. The healing of a powerful foreign general — and the story an entire nation would later tell about it — traces back to one unnamed girl who chose to speak well of a God who hadn't yet delivered her from her own circumstances.",
+    source: "2 Kings 5:1-14",
+  },
+  {
+    title: "The One Who Wasn't Ashamed of His Chains",
+    text: "While Paul was imprisoned in Rome, a believer named Onesiphorus searched for him diligently until he found him, then visited often, refreshing him in ways Paul specifically remembered and thanked God for. Associating with a Roman prisoner carried real risk and no shortage of embarrassment at the time, and Paul noted plainly that Onesiphorus felt none of the shame others might have in his position.",
+    insight: "Paul prayed for mercy on Onesiphorus's whole household because of it, one of the few people in his letters he singles out by name for simply showing up and refusing to be embarrassed by an association others would have quietly avoided. Sometimes the whole of someone's recorded legacy is that they searched until they found the person everyone else had stopped visiting.",
+    source: "2 Timothy 1:16-18",
+  },
+  {
+    title: "The Door She Wouldn't Let Them Pass",
+    text: "Lydia, a dealer in purple cloth from Thyatira living in the city of Philippi, was among a group of women gathered by a riverside when she heard Paul preach and believed. She was baptized along with her household, then urged Paul and his companions to stay at her home, pressing the invitation until they agreed. Her house became the gathering place for the new believers in Philippi, including again after Paul and Silas were later released from prison there.",
+    insight: "Lydia is remembered as one of the first recorded converts in Europe, and her insistence on hospitality — pressing until Paul's group couldn't politely refuse — gave the earliest church in Philippi a literal roof over its head from its very first days. An open door, offered persistently enough that it couldn't be turned down, built something that outlasted her.",
+    source: "Acts 16:11-15, 40",
+  },
+  {
+    title: "Risking His Life to Deliver a Gift",
+    text: "The church in Philippi sent one of their own, Epaphroditus, to carry a gift to Paul during his imprisonment and to help care for him in person. The journey and the work of ministering to Paul left Epaphroditus so seriously ill that he nearly died, and news of his sickness reached home before he could recover, causing the Philippians real distress on his behalf.",
+    insight: "Paul sent him home with a letter specifically instructing the church to welcome him with honor, writing that Epaphroditus had risked his life \"to make up for the help you could not give me.\" He wasn't remembered for a sermon or a miracle — just for nearly dying to finish a delivery someone else could have made safely from a distance.",
+    source: "Philippians 2:25-30",
+  },
+  {
+    title: "A Tomb He Hadn't Used Yet",
+    text: "Joseph of Arimathea was a wealthy member of the Jewish ruling council and a secret disciple of Jesus who had not consented to the council's decision to crucify him. After Jesus's death, Joseph took the considerable risk of approaching the Roman governor Pilate directly and openly to ask for the body — a request that would publicly mark him as a follower — and buried Jesus in his own new, unused tomb, cut into rock.",
+    insight: "Coming out as a follower at the exact moment it was least safe to do so, Joseph gave the one thing he had that nobody else offered: a place. The gospels remember him by name for one specific, costly act of provision at the one moment it mattered most, after what may have been years of staying quiet about what he actually believed.",
+    source: "Matthew 27:57-60; Luke 23:50-53; John 19:38-42",
+  },
+  {
+    title: "Holding the Door on Holocaust Remembrance Day",
+    text: "Liviu Librescu was a Romanian-American engineering professor at Virginia Tech, and a Holocaust survivor who had escaped a Nazi labor camp as a child. On April 16, 2007, when a gunman tried to force his way into Librescu's classroom during a campus shooting, Librescu held the door shut with his own body while his students escaped through the windows behind him.",
+    insight: "Librescu was shot and killed, but every student in that room except one survived. He died on Holocaust Remembrance Day itself, a man who had already escaped one attempt to end his life as a child, using the only thing he had left — his own body against a door — to make sure a room full of young people got the chance at a life he'd already fought once to keep.",
+    source: "Widely reported by the Associated Press and international press following the April 16, 2007 Virginia Tech shooting",
   },
 ];
