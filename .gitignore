@@ -1,1 +1,15 @@
+# dependencies — mobile/ and chat-worker/ each install their own; this
+# root-level pattern catches any node_modules/ wherever npm installs it
+node_modules/
 
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# local env files — never commit real secrets/keys
+.env
+.env.local
+
+# editor
+.vscode/
+.idea/
