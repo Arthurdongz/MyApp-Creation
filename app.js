@@ -68,28 +68,40 @@ function parseScriptureRef(ref) {
   return pieces.length ? pieces : null;
 }
 
+// KJV text used to be a permanently-blocking ~4MB <script> tag loaded
+// before the page could become interactive at all, even for visitors who
+// never open the Bible reader or tap a scripture reference. It's now
+// lazily fetched the same way the other 7 translations already are (see
+// loadBibleVersionText/BIBLE_DATA_BASE_URL below) — chapterVerses reads
+// whatever's currently in bibleVersionTextCache.KJV, which callers are
+// responsible for awaiting via loadBibleVersionText("KJV") first.
 function chapterVerses(book, chapter) {
   const bi = BIBLE_BOOK_INDEX.get(book);
-  if (bi == null) return null;
-  return KJV_TEXT[bi]?.[chapter - 1] || null;
+  const kjv = bibleVersionTextCache.KJV;
+  if (bi == null || !kjv) return null;
+  return kjv[bi]?.[chapter - 1] || null;
 }
 
+// A piece whose end verse runs past the chapter's last verse is clipped
+// down to what actually exists rather than discarded outright — showing
+// the real, shorter passage beats a dead "verse not found" popup for a
+// reference that was mostly right (see mobile/src/bibleLookup.js's
+// lookupRef for the original fix this mirrors).
 function lookupScriptureRef(ref) {
   const pieces = parseScriptureRef(ref);
   if (!pieces) return null;
   const blocks = [];
   for (const p of pieces) {
     const verses = chapterVerses(p.book, p.chapter);
-    if (!verses) return null;
+    if (!verses || p.verseStart > verses.length) continue;
+    const verseEnd = Math.min(p.verseEnd, verses.length);
     const parts = [];
-    for (let v = p.verseStart; v <= p.verseEnd; v++) {
-      const text = verses[v - 1];
-      if (!text) return null;
-      parts.push({ verse: v, text });
+    for (let v = p.verseStart; v <= verseEnd; v++) {
+      parts.push({ verse: v, text: verses[v - 1] });
     }
-    blocks.push({ book: p.book, chapter: p.chapter, verseStart: p.verseStart, verseEnd: p.verseEnd, verses: parts });
+    blocks.push({ book: p.book, chapter: p.chapter, verseStart: p.verseStart, verseEnd, verses: parts });
   }
-  return blocks;
+  return blocks.length ? blocks : null;
 }
 
 function getBibleChapter(book, chapter) {
@@ -98,27 +110,32 @@ function getBibleChapter(book, chapter) {
   return verses.map((text, i) => ({ verse: i + 1, text }));
 }
 
+// Chapter counts are identical across translations, so the Bible browser's
+// book -> chapter grid reads this tiny fixed table (data-bible-books.js)
+// instead of needing the full KJV text downloaded first.
 function bibleChapterCount(book) {
-  const bi = BIBLE_BOOK_INDEX.get(book);
-  if (bi == null) return 0;
-  return KJV_TEXT[bi].length;
+  return BIBLE_CHAPTER_COUNTS[book] || 0;
 }
 
 // --- Full-Bible chapter reader: multi-version download & cache ---------
-// Only KJV ships bundled with the app (~4MB). The other 7 translations'
-// full text live as static JSON in this same repo's bible-data/ folder
-// and are fetched on first use from raw.githubusercontent.com, then
-// cached via the Cache Storage API — the same mechanism sw.js already
-// uses for the app shell — so later reads work offline without
-// re-downloading. chapterVerses/getBibleChapter/bibleChapterCount above
-// stay KJV-only on purpose (VersePopup's confession/verse lookups are
-// always KJV); the "*From"/"*Versioned" helpers below take an explicit
-// text array so the chapter reader and Bible browser can read any
-// downloaded version.
+// All 8 translations (including KJV, which used to ship as a permanently-
+// bundled ~4MB <script>) live as static JSON in this same repo's
+// bible-data/ folder and are fetched on first use from
+// raw.githubusercontent.com, then cached via the Cache Storage API — the
+// same mechanism sw.js already uses for the app shell — so later reads
+// work offline without re-downloading. chapterVerses/getBibleChapter/
+// lookupScriptureRef above stay KJV-only on purpose (VersePopup's
+// confession/verse lookups are always KJV); the "*From"/"*Versioned"
+// helpers below take an explicit text array so the chapter reader and
+// Bible browser can read any downloaded version.
+//
+// Points at `master`, not a feature branch — this is a published, stable
+// path baked into every deployed page load, not something that should
+// move whenever development happens to be on a differently-named branch.
 const BIBLE_DATA_BASE_URL =
-  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/bible-data/";
-const BIBLE_DATA_CACHE_NAME = "barnabas-bible-data-v1";
-const bibleVersionTextCache = { KJV: KJV_TEXT };
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/master/bible-data/";
+const BIBLE_DATA_CACHE_NAME = "barnabas-bible-data-v2";
+const bibleVersionTextCache = {};
 const bibleVersionLoadPromises = {};
 
 function isBibleVersionLoaded(id) {
@@ -835,11 +852,33 @@ async function copyTextToClipboard(text) {
   }
 }
 
-function openVersePopup(ref) {
-  const blocks = lookupScriptureRef(ref);
+// async: the KJV text backing this (chapterVerses -> bibleVersionTextCache.KJV)
+// is now lazily fetched on first use instead of always being bundled, so a
+// tap needs to wait for that download (usually instant once cached) before
+// the popup has anything to show.
+async function openVersePopup(ref) {
   document.getElementById("versePopupTitle").textContent = ref;
   const body = document.getElementById("versePopupBody");
   body.innerHTML = "";
+  document.getElementById("versePopupOverlay").hidden = false;
+
+  if (!isBibleVersionLoaded("KJV")) {
+    const loadingEl = document.createElement("p");
+    loadingEl.className = "verse-popup-text";
+    loadingEl.textContent = "Loading…";
+    body.appendChild(loadingEl);
+    try {
+      await loadBibleVersionText("KJV");
+    } catch (e) {
+      // handled below — lookupScriptureRef returns null without KJV loaded
+    }
+    // The popup may have been closed (or re-opened for a different ref)
+    // while the fetch was in flight — bail rather than overwrite it.
+    if (document.getElementById("versePopupTitle").textContent !== ref) return;
+    body.innerHTML = "";
+  }
+
+  const blocks = lookupScriptureRef(ref);
   if (!blocks) {
     const p = document.createElement("p");
     p.className = "verse-popup-text";
@@ -876,7 +915,6 @@ function openVersePopup(ref) {
       body.appendChild(wrap);
     });
   }
-  document.getElementById("versePopupOverlay").hidden = false;
 }
 
 function closeVersePopup() {
@@ -908,6 +946,12 @@ function openBibleChapter(book, chapter, highlightStart, highlightEnd) {
   // the cited verse would silently no-op instead of taking effect.
   document.getElementById("bibleChapterOverlay").hidden = false;
   ensureBibleVersionLoadedAndRender();
+  // renderBibleChapter's "this translation omits this verse" footnote reads
+  // KJV as a reference text regardless of which version is actually being
+  // read — when KJV isn't already the version being loaded above, warm it
+  // in the background so that footnote has something to show by the time
+  // it's needed, without making the chapter itself wait on it.
+  if (currentBibleVersion !== "KJV") loadBibleVersionText("KJV").catch(() => {});
 }
 
 function closeBibleChapter() {

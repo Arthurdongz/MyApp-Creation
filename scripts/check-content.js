@@ -232,6 +232,22 @@ console.log("\n=== BIBLE (KJV) ===");
   else ok(`KJV_TEXT (web): ${webKjv.length} books`);
   checkMirrorIdentical("KJV_TEXT", webKjv, mobileKjv);
 
+  // bible-data/KJV.json is a generated copy of data-bible-kjv.js's KJV_TEXT
+  // (the web app's Bible reader lazily fetches it the same way it fetches
+  // the other 7 translations, instead of always bundling the ~4MB script)
+  // — catch it ever drifting from its source rather than silently serving
+  // stale text.
+  const bundledKjv = JSON.parse(fs.readFileSync(path.join(ROOT, "bible-data/KJV.json"), "utf8"));
+  checkMirrorIdentical("KJV_TEXT vs bible-data/KJV.json", webKjv, bundledKjv);
+
+  const webChapterCounts = load("data-bible-books.js", "BIBLE_CHAPTER_COUNTS");
+  const expectedCounts = Object.fromEntries(webBooks.map((name, i) => [name, webKjv[i].length]));
+  if (JSON.stringify(webChapterCounts) !== JSON.stringify(expectedCounts)) {
+    fail("BIBLE_CHAPTER_COUNTS: doesn't match KJV_TEXT's actual per-book chapter counts");
+  } else {
+    ok("BIBLE_CHAPTER_COUNTS: matches KJV_TEXT's actual per-book chapter counts");
+  }
+
   // Every CONFESSIONS ref must actually resolve against the bundled KJV
   // text — the confession card links straight to this data, so a bad
   // reference here would be a broken link in the app, not just a typo.
