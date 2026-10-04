@@ -129,11 +129,12 @@ function bibleChapterCount(book) {
 // helpers below take an explicit text array so the chapter reader and
 // Bible browser can read any downloaded version.
 //
-// Points at `master`, not a feature branch — this is a published, stable
-// path baked into every deployed page load, not something that should
-// move whenever development happens to be on a differently-named branch.
+// Points at the branch this app is actually developed and deployed
+// from (GitHub Pages serves this site straight from this branch, not
+// master) — the one branch that's always current, so there's no separate
+// "also update master" step every time this data changes.
 const BIBLE_DATA_BASE_URL =
-  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/master/bible-data/";
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/bible-data/";
 const BIBLE_DATA_CACHE_NAME = "barnabas-bible-data-v2";
 const bibleVersionTextCache = {};
 const bibleVersionLoadPromises = {};
