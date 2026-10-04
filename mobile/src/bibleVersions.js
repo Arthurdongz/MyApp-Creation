@@ -9,8 +9,12 @@ import * as FileSystem from "expo-file-system/legacy";
 import { BIBLE_VERSIONS } from "./data/verses";
 import { getKjvText } from "./data/kjvText";
 
+// Points at `main` — the repo's permanent branch, not a session-named
+// feature branch — since this URL gets compiled directly into the
+// shipped app binary and needs to keep resolving for as long as any
+// installed copy of the app exists, long after any feature branch does.
 const BIBLE_DATA_BASE_URL =
-  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/bible-data/";
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/main/bible-data/";
 
 // expo-file-system's directories are unavailable on web (react-native-web)
 // — there, just keep whatever's been fetched in memory for the session

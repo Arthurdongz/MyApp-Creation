@@ -3,7 +3,7 @@ name: Publish EAS Update
 on:
   push:
     branches:
-      - claude/barnabas-journal-app-xxz25d
+      - main
     paths:
       - "mobile/**"
   workflow_dispatch: {}

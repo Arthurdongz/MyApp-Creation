@@ -287,10 +287,9 @@ const BIBLE_BOOKS = [
 // The always-bundled KJV text this project already ships and has verified
 // (see the Bible-version-reader work in the app itself) — fetched once per
 // Worker isolate and cached in module scope, not re-fetched per request.
-// Pinned to this branch; update if it's ever renamed or merged to a
-// default branch.
+// Pinned to `main`, the repo's permanent branch.
 const KJV_DATA_URL =
-  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/claude/barnabas-journal-app-xxz25d/mobile/src/data/bible-kjv.json";
+  "https://raw.githubusercontent.com/Arthurdongz/MyApp-Creation/main/mobile/src/data/bible-kjv.json";
 
 let kjvTextPromise = null;
 function getKjvText() {
