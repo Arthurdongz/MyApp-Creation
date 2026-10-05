@@ -1,4 +1,5 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../theme";
 import { CRISIS_REGION_LABELS, OTHER_REGION, sortedCrisisRegionCodes } from "../crisisResources";
@@ -8,6 +9,23 @@ export default function OnboardingScreen({ onStart, settings, updateSettings }) 
   const { colors } = useTheme();
   const { t } = useTranslation();
   const styles = getStyles(colors);
+  // completeOnboarding (the onStart it's passed) awaits a native
+  // notification-permission prompt before finishing — this just guards
+  // against a double-tap firing it twice while that's in flight; it isn't
+  // what makes the tap itself safe (see notifications.js/storage.js for
+  // the actual timeout/fallback fix for that).
+  const [starting, setStarting] = useState(false);
+
+  const handleStart = async () => {
+    if (starting) return;
+    hapticTap();
+    setStarting(true);
+    try {
+      await onStart();
+    } finally {
+      setStarting(false);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -89,8 +107,17 @@ export default function OnboardingScreen({ onStart, settings, updateSettings }) 
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={onStart} accessibilityRole="button">
-        <Text style={styles.buttonText}>{t("onboarding.startButton")}</Text>
+      <TouchableOpacity
+        style={[styles.button, starting && styles.buttonDisabled]}
+        onPress={handleStart}
+        disabled={starting}
+        accessibilityRole="button"
+      >
+        {starting ? (
+          <ActivityIndicator color={colors.buttonOnText} />
+        ) : (
+          <Text style={styles.buttonText}>{t("onboarding.startButton")}</Text>
+        )}
       </TouchableOpacity>
     </ScrollView>
   );
@@ -126,6 +153,7 @@ function getStyles(colors) {
       marginTop: 8,
     },
     buttonText: { color: colors.buttonOnText, fontWeight: "700", fontSize: 15 },
+    buttonDisabled: { opacity: 0.6 },
     nameCard: {
       backgroundColor: colors.card,
       borderWidth: 1,

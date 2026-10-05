@@ -82,13 +82,24 @@ if (SUPPORTED) {
   });
 }
 
+// Some Android OEM builds have been known to leave the native permission
+// dialog's promise unresolved (not rejected — genuinely hung) if the
+// dialog itself fails to render. Since this is awaited right at the start
+// of onboarding (see storage.js's completeOnboarding), a hang here would
+// leave "Begin your journey" looking completely unresponsive with no way
+// forward. Racing each native call against a timeout guarantees this
+// always settles one way or another.
+function withTimeout(promise, ms) {
+  return Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(null), ms))]);
+}
+
 export async function requestNotificationPermission() {
   if (!SUPPORTED) return false;
   try {
-    const current = await Notifications.getPermissionsAsync();
-    if (current.status === "granted") return true;
-    const requested = await Notifications.requestPermissionsAsync();
-    return requested.status === "granted";
+    const current = await withTimeout(Notifications.getPermissionsAsync(), 8000);
+    if (current?.status === "granted") return true;
+    const requested = await withTimeout(Notifications.requestPermissionsAsync(), 8000);
+    return requested?.status === "granted";
   } catch (e) {
     return false;
   }

@@ -1169,14 +1169,23 @@ export function useJournalStore() {
   }, [ready, showCheckInNudge]);
 
   const completeOnboarding = useCallback(async () => {
-    const granted = await requestNotificationPermission();
     let morningOk = false;
     let highlightOk = false;
     let eveningOk = false;
-    if (granted) {
-      morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order, state.settings);
-      highlightOk = await scheduleHighlightReminder(13, 0, state.journeyStartDate, state.order);
-      eveningOk = await scheduleEveningReminder(20, 0, state.journeyStartDate, state.order);
+    // Reminder setup (permission prompt + scheduling) must never be able to
+    // leave onboarding itself stuck — if any of it fails in some way the
+    // try/catches inside notifications.js didn't anticipate, the user still
+    // gets into the app, just with reminders off, same as declining the
+    // permission prompt outright.
+    try {
+      const granted = await requestNotificationPermission();
+      if (granted) {
+        morningOk = await scheduleMorningReminder(8, 0, state.journeyStartDate, state.order, state.settings);
+        highlightOk = await scheduleHighlightReminder(13, 0, state.journeyStartDate, state.order);
+        eveningOk = await scheduleEveningReminder(20, 0, state.journeyStartDate, state.order);
+      }
+    } catch (e) {
+      // fall through with reminders left off
     }
     updateSettings({
       onboarded: true,
