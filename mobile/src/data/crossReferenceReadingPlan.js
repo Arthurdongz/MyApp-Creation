@@ -42,6 +42,7 @@
 export const CROSS_REFERENCE_PLAN = [
   {
     day: 1,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 1", book: "Genesis", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "John 1:1-18", book: "John", chapter: 1, verseStart: 1, verseEnd: 18 },
@@ -50,6 +51,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 2,
+    principles: ["typology"],
     passages: [
       { ref: "Exodus 12", book: "Exodus", chapter: 12, verseStart: null, verseEnd: null },
       { ref: "John 19:31-37", book: "John", chapter: 19, verseStart: 31, verseEnd: 37 },
@@ -58,6 +60,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 3,
+    principles: ["historical"],
     passages: [
       { ref: "Joshua 6:20-27", book: "Joshua", chapter: 6, verseStart: 20, verseEnd: 27 },
       { ref: "1 Kings 16:29-34", book: "1 Kings", chapter: 16, verseStart: 29, verseEnd: 34 },
@@ -66,6 +69,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 4,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 22:1-19", book: "Genesis", chapter: 22, verseStart: 1, verseEnd: 19 },
       { ref: "John 3:14-17", book: "John", chapter: 3, verseStart: 14, verseEnd: 17 },
@@ -74,6 +78,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 5,
+    principles: ["typology"],
     passages: [
       { ref: "Numbers 21:4-9", book: "Numbers", chapter: 21, verseStart: 4, verseEnd: 9 },
       { ref: "John 3:14-21", book: "John", chapter: 3, verseStart: 14, verseEnd: 21 },
@@ -81,6 +86,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 6,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 14:17-20", book: "Genesis", chapter: 14, verseStart: 17, verseEnd: 20 },
       { ref: "Psalm 110", book: "Psalm", chapter: 110, verseStart: null, verseEnd: null },
@@ -89,6 +95,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 7,
+    principles: ["typology"],
     passages: [
       { ref: "Exodus 16", book: "Exodus", chapter: 16, verseStart: null, verseEnd: null },
       { ref: "John 6:25-40", book: "John", chapter: 6, verseStart: 25, verseEnd: 40 },
@@ -96,6 +103,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 8,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Psalm 23", book: "Psalm", chapter: 23, verseStart: null, verseEnd: null },
       { ref: "Ezekiel 34", book: "Ezekiel", chapter: 34, verseStart: null, verseEnd: null },
@@ -104,6 +112,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 9,
+    principles: ["christological"],
     passages: [
       { ref: "Proverbs 8", book: "Proverbs", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "Colossians 1:15-20", book: "Colossians", chapter: 1, verseStart: 15, verseEnd: 20 },
@@ -111,6 +120,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 10,
+    principles: ["harmonization"],
     passages: [
       { ref: "1 Samuel 2:1-10", book: "1 Samuel", chapter: 2, verseStart: 1, verseEnd: 10 },
       { ref: "Luke 1:46-55", book: "Luke", chapter: 1, verseStart: 46, verseEnd: 55 },
@@ -118,6 +128,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 11,
+    principles: ["typology"],
     passages: [
       { ref: "Jonah 1", book: "Jonah", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Matthew 12:38-41", book: "Matthew", chapter: 12, verseStart: 38, verseEnd: 41 },
@@ -125,6 +136,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 12,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Isaiah 53", book: "Isaiah", chapter: 53, verseStart: null, verseEnd: null },
       { ref: "Acts 8:26-35", book: "Acts", chapter: 8, verseStart: 26, verseEnd: 35 },
@@ -133,6 +145,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 13,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Isaiah 45:1-7", book: "Isaiah", chapter: 45, verseStart: 1, verseEnd: 7 },
       { ref: "Ezra 1:1-4", book: "Ezra", chapter: 1, verseStart: 1, verseEnd: 4 },
@@ -140,6 +153,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 14,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Isaiah 7:14", book: "Isaiah", chapter: 7, verseStart: 14, verseEnd: 14 },
       { ref: "Matthew 1:18-23", book: "Matthew", chapter: 1, verseStart: 18, verseEnd: 23 },
@@ -147,6 +161,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 15,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Micah 5:2", book: "Micah", chapter: 5, verseStart: 2, verseEnd: 2 },
       { ref: "Luke 2:1-11", book: "Luke", chapter: 2, verseStart: 1, verseEnd: 11 },
@@ -154,6 +169,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 16,
+    principles: ["typology"],
     passages: [
       { ref: "Zechariah 9:9", book: "Zechariah", chapter: 9, verseStart: 9, verseEnd: 9 },
       { ref: "Matthew 21:1-11", book: "Matthew", chapter: 21, verseStart: 1, verseEnd: 11 },
@@ -161,6 +177,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 17,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Zechariah 11:12-13", book: "Zechariah", chapter: 11, verseStart: 12, verseEnd: 13 },
       { ref: "Matthew 27:1-10", book: "Matthew", chapter: 27, verseStart: 1, verseEnd: 10 },
@@ -168,6 +185,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 18,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Psalm 22", book: "Psalm", chapter: 22, verseStart: null, verseEnd: null },
       { ref: "Matthew 27:35-46", book: "Matthew", chapter: 27, verseStart: 35, verseEnd: 46 },
@@ -175,6 +193,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 19,
+    principles: ["grammatical"],
     passages: [
       { ref: "Psalm 16:8-11", book: "Psalm", chapter: 16, verseStart: 8, verseEnd: 11 },
       { ref: "Acts 2:22-32", book: "Acts", chapter: 2, verseStart: 22, verseEnd: 32 },
@@ -182,6 +201,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 20,
+    principles: ["typology"],
     passages: [
       { ref: "Jeremiah 31:31-34", book: "Jeremiah", chapter: 31, verseStart: 31, verseEnd: 34 },
       { ref: "Luke 22:14-20", book: "Luke", chapter: 22, verseStart: 14, verseEnd: 20 },
@@ -190,6 +210,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 21,
+    principles: ["typology"],
     passages: [
       { ref: "Leviticus 16", book: "Leviticus", chapter: 16, verseStart: null, verseEnd: null },
       { ref: "Hebrews 9:23-28", book: "Hebrews", chapter: 9, verseStart: 23, verseEnd: 28 },
@@ -197,6 +218,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 22,
+    principles: ["context"],
     passages: [
       { ref: "1 Kings 18:20-40", book: "1 Kings", chapter: 18, verseStart: 20, verseEnd: 40 },
       { ref: "Malachi 4:5-6", book: "Malachi", chapter: 4, verseStart: 5, verseEnd: 6 },
@@ -205,6 +227,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 23,
+    principles: ["typology"],
     passages: [
       { ref: "Esther 4", book: "Esther", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Romans 8:28", book: "Romans", chapter: 8, verseStart: 28, verseEnd: 28 },
@@ -213,6 +236,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 24,
+    principles: ["moral"],
     passages: [
       { ref: "Job 1", book: "Job", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "James 5:7-11", book: "James", chapter: 5, verseStart: 7, verseEnd: 11 },
@@ -221,6 +245,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 25,
+    principles: ["typology"],
     passages: [
       { ref: "Daniel 3", book: "Daniel", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Isaiah 43:1-3", book: "Isaiah", chapter: 43, verseStart: 1, verseEnd: 3 },
@@ -228,6 +253,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 26,
+    principles: ["typology"],
     passages: [
       { ref: "Nehemiah 2:11-20", book: "Nehemiah", chapter: 2, verseStart: 11, verseEnd: 20 },
       { ref: "Ephesians 2:19-22", book: "Ephesians", chapter: 2, verseStart: 19, verseEnd: 22 },
@@ -235,6 +261,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 27,
+    principles: ["context"],
     passages: [
       { ref: "Psalm 103", book: "Psalm", chapter: 103, verseStart: null, verseEnd: null },
       { ref: "Luke 15:11-32", book: "Luke", chapter: 15, verseStart: 11, verseEnd: 32 },
@@ -242,6 +269,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 28,
+    principles: ["harmonization"],
     passages: [
       { ref: "Deuteronomy 6:4-9", book: "Deuteronomy", chapter: 6, verseStart: 4, verseEnd: 9 },
       { ref: "Matthew 22:34-40", book: "Matthew", chapter: 22, verseStart: 34, verseEnd: 40 },
@@ -250,6 +278,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 29,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Isaiah 61:1-3", book: "Isaiah", chapter: 61, verseStart: 1, verseEnd: 3 },
       { ref: "Luke 4:16-21", book: "Luke", chapter: 4, verseStart: 16, verseEnd: 21 },
@@ -257,6 +286,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 30,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Isaiah 65:17-25", book: "Isaiah", chapter: 65, verseStart: 17, verseEnd: 25 },
       { ref: "Revelation 21:1-8", book: "Revelation", chapter: 21, verseStart: 1, verseEnd: 8 },
@@ -270,6 +300,7 @@ export const CROSS_REFERENCE_PLAN = [
   // believer's own body as the ground where God Himself now dwells.
   {
     day: 31,
+    principles: ["historical"],
     passages: [
       { ref: "2 Kings 17:24-28", book: "2 Kings", chapter: 17, verseStart: 24, verseEnd: 28 },
       { ref: "1 Kings 20:23-28", book: "1 Kings", chapter: 20, verseStart: 23, verseEnd: 28 },
@@ -277,6 +308,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 32,
+    principles: ["historical"],
     passages: [
       { ref: "Exodus 12:12", book: "Exodus", chapter: 12, verseStart: 12, verseEnd: 12 },
       { ref: "Psalm 24:1-2", book: "Psalm", chapter: 24, verseStart: 1, verseEnd: 2 },
@@ -284,6 +316,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 33,
+    principles: ["historical"],
     passages: [
       { ref: "Deuteronomy 32:7-9", book: "Deuteronomy", chapter: 32, verseStart: 7, verseEnd: 9 },
       { ref: "Daniel 10:12-21", book: "Daniel", chapter: 10, verseStart: 12, verseEnd: 21 },
@@ -292,6 +325,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 34,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Colossians 1:12-13", book: "Colossians", chapter: 1, verseStart: 12, verseEnd: 13 },
       { ref: "Psalm 2:6-8", book: "Psalm", chapter: 2, verseStart: 6, verseEnd: 8 },
@@ -299,6 +333,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 35,
+    principles: ["typology"],
     passages: [
       { ref: "1 Corinthians 6:19-20", book: "1 Corinthians", chapter: 6, verseStart: 19, verseEnd: 20 },
       { ref: "2 Corinthians 6:16", book: "2 Corinthians", chapter: 6, verseStart: 16, verseEnd: 16 },
@@ -307,6 +342,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 36,
+    principles: ["harmonization"],
     passages: [
       { ref: "1 John 4:4", book: "1 John", chapter: 4, verseStart: 4, verseEnd: 4 },
       { ref: "Romans 8:38-39", book: "Romans", chapter: 8, verseStart: 38, verseEnd: 39 },
@@ -320,6 +356,7 @@ export const CROSS_REFERENCE_PLAN = [
   // no book is left out entirely.
   {
     day: 37,
+    principles: ["harmonization"],
     passages: [
       { ref: "Ecclesiastes 1", book: "Ecclesiastes", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Ecclesiastes 12", book: "Ecclesiastes", chapter: 12, verseStart: null, verseEnd: null },
@@ -328,6 +365,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 38,
+    principles: ["typology"],
     passages: [
       { ref: "Song of Solomon 2", book: "Song of Solomon", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Ephesians 5:25-27", book: "Ephesians", chapter: 5, verseStart: 25, verseEnd: 27 },
@@ -335,6 +373,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 39,
+    principles: ["moral"],
     passages: [
       { ref: "Judges 2:11-19", book: "Judges", chapter: 2, verseStart: 11, verseEnd: 19 },
       { ref: "Judges 21:25", book: "Judges", chapter: 21, verseStart: 25, verseEnd: 25 },
@@ -344,6 +383,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 40,
+    principles: ["typology"],
     passages: [
       { ref: "Ruth 1:16-17", book: "Ruth", chapter: 1, verseStart: 16, verseEnd: 17 },
       { ref: "Ruth 4:13-17", book: "Ruth", chapter: 4, verseStart: 13, verseEnd: 17 },
@@ -352,6 +392,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 41,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "2 Samuel 7:12-16", book: "2 Samuel", chapter: 7, verseStart: 12, verseEnd: 16 },
       { ref: "Luke 1:31-33", book: "Luke", chapter: 1, verseStart: 31, verseEnd: 33 },
@@ -359,6 +400,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 42,
+    principles: ["typology"],
     passages: [
       { ref: "1 Chronicles 16:8-36", book: "1 Chronicles", chapter: 16, verseStart: 8, verseEnd: 36 },
       { ref: "Hebrews 13:12-15", book: "Hebrews", chapter: 13, verseStart: 12, verseEnd: 15 },
@@ -366,6 +408,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 43,
+    principles: ["moral"],
     passages: [
       { ref: "2 Chronicles 7:12-16", book: "2 Chronicles", chapter: 7, verseStart: 12, verseEnd: 16 },
       { ref: "James 4:6-10", book: "James", chapter: 4, verseStart: 6, verseEnd: 10 },
@@ -374,6 +417,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 44,
+    principles: ["typology"],
     passages: [
       { ref: "Lamentations 3:19-26", book: "Lamentations", chapter: 3, verseStart: 19, verseEnd: 26 },
       { ref: "Psalm 30:5", book: "Psalm", chapter: 30, verseStart: 5, verseEnd: 5 },
@@ -382,6 +426,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 45,
+    principles: ["typology"],
     passages: [
       { ref: "Hosea 3:1-3", book: "Hosea", chapter: 3, verseStart: 1, verseEnd: 3 },
       { ref: "Romans 5:8", book: "Romans", chapter: 5, verseStart: 8, verseEnd: 8 },
@@ -389,6 +434,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 46,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Joel 2:28-29", book: "Joel", chapter: 2, verseStart: 28, verseEnd: 29 },
       { ref: "Acts 2:14-36", book: "Acts", chapter: 2, verseStart: 14, verseEnd: 36 },
@@ -396,6 +442,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 47,
+    principles: ["harmonization"],
     passages: [
       { ref: "Amos 5:21-24", book: "Amos", chapter: 5, verseStart: 21, verseEnd: 24 },
       { ref: "Micah 6:6-8", book: "Micah", chapter: 6, verseStart: 6, verseEnd: 8 },
@@ -404,6 +451,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 48,
+    principles: ["moral"],
     passages: [
       { ref: "Obadiah 1:3-4", book: "Obadiah", chapter: 1, verseStart: 3, verseEnd: 4 },
       { ref: "Proverbs 16:18", book: "Proverbs", chapter: 16, verseStart: 18, verseEnd: 18 },
@@ -412,6 +460,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 49,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Nahum 1:3-7", book: "Nahum", chapter: 1, verseStart: 3, verseEnd: 7 },
       { ref: "2 Peter 3:9", book: "2 Peter", chapter: 3, verseStart: 9, verseEnd: 9 },
@@ -419,6 +468,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 50,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Habakkuk 2:4", book: "Habakkuk", chapter: 2, verseStart: 4, verseEnd: 4 },
       { ref: "Romans 1:16-17", book: "Romans", chapter: 1, verseStart: 16, verseEnd: 17 },
@@ -427,6 +477,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 51,
+    principles: ["typology"],
     passages: [
       { ref: "Zephaniah 3:17", book: "Zephaniah", chapter: 3, verseStart: 17, verseEnd: 17 },
       { ref: "Luke 15:7", book: "Luke", chapter: 15, verseStart: 7, verseEnd: 7 },
@@ -434,6 +485,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 52,
+    principles: ["moral"],
     passages: [
       { ref: "Haggai 1:5-9", book: "Haggai", chapter: 1, verseStart: 5, verseEnd: 9 },
       { ref: "Matthew 6:33", book: "Matthew", chapter: 6, verseStart: 33, verseEnd: 33 },
@@ -441,6 +493,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 53,
+    principles: ["literal"],
     passages: [
       { ref: "Mark 1:14-20", book: "Mark", chapter: 1, verseStart: 14, verseEnd: 20 },
       { ref: "Mark 10:42-45", book: "Mark", chapter: 10, verseStart: 42, verseEnd: 45 },
@@ -448,6 +501,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 54,
+    principles: ["moral"],
     passages: [
       { ref: "Philippians 1:21", book: "Philippians", chapter: 1, verseStart: 21, verseEnd: 21 },
       { ref: "Philippians 4:11-13", book: "Philippians", chapter: 4, verseStart: 11, verseEnd: 13 },
@@ -456,6 +510,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 55,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Thessalonians 4:13-18", book: "1 Thessalonians", chapter: 4, verseStart: 13, verseEnd: 18 },
       { ref: "John 14:1-3", book: "John", chapter: 14, verseStart: 1, verseEnd: 3 },
@@ -463,6 +518,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 56,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 Thessalonians 3:10-18", book: "2 Thessalonians", chapter: 3, verseStart: 10, verseEnd: 18 },
       { ref: "Galatians 6:9", book: "Galatians", chapter: 6, verseStart: 9, verseEnd: 9 },
@@ -470,6 +526,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 57,
+    principles: ["typology"],
     passages: [
       { ref: "1 Timothy 6:11-12", book: "1 Timothy", chapter: 6, verseStart: 11, verseEnd: 12 },
       { ref: "2 Timothy 4:7-8", book: "2 Timothy", chapter: 4, verseStart: 7, verseEnd: 8 },
@@ -477,6 +534,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 58,
+    principles: ["typology"],
     passages: [
       { ref: "Titus 3:4-8", book: "Titus", chapter: 3, verseStart: 4, verseEnd: 8 },
       { ref: "Philemon 1:15-18", book: "Philemon", chapter: 1, verseStart: 15, verseEnd: 18 },
@@ -484,6 +542,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 59,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 Peter 1:1-4", book: "2 Peter", chapter: 1, verseStart: 1, verseEnd: 4 },
       { ref: "1 John 1:1-7", book: "1 John", chapter: 1, verseStart: 1, verseEnd: 7 },
@@ -501,6 +560,7 @@ export const CROSS_REFERENCE_PLAN = [
   // else (Luke 24:27, John 5:39).
   {
     day: 60,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 3", book: "Genesis", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Romans 5:12-21", book: "Romans", chapter: 5, verseStart: 12, verseEnd: 21 },
@@ -508,6 +568,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 61,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Genesis 12", book: "Genesis", chapter: 12, verseStart: null, verseEnd: null },
       { ref: "Galatians 3:6-9", book: "Galatians", chapter: 3, verseStart: 6, verseEnd: 9 },
@@ -515,6 +576,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 62,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 37", book: "Genesis", chapter: 37, verseStart: null, verseEnd: null },
       { ref: "Genesis 50:15-21", book: "Genesis", chapter: 50, verseStart: 15, verseEnd: 21 },
@@ -522,6 +584,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 63,
+    principles: ["grammatical"],
     passages: [
       { ref: "Exodus 3", book: "Exodus", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "John 8:54-59", book: "John", chapter: 8, verseStart: 54, verseEnd: 59 },
@@ -529,6 +592,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 64,
+    principles: ["typology"],
     passages: [
       { ref: "Exodus 17", book: "Exodus", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "1 Corinthians 10:1-4", book: "1 Corinthians", chapter: 10, verseStart: 1, verseEnd: 4 },
@@ -536,6 +600,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 65,
+    principles: ["grammatical"],
     passages: [
       { ref: "Leviticus 1", book: "Leviticus", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Ephesians 5:1-2", book: "Ephesians", chapter: 5, verseStart: 1, verseEnd: 2 },
@@ -543,6 +608,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 66,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Numbers 24", book: "Numbers", chapter: 24, verseStart: null, verseEnd: null },
       { ref: "Matthew 2:1-11", book: "Matthew", chapter: 2, verseStart: 1, verseEnd: 11 },
@@ -550,6 +616,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 67,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Deuteronomy 18", book: "Deuteronomy", chapter: 18, verseStart: null, verseEnd: null },
       { ref: "Acts 3:19-23", book: "Acts", chapter: 3, verseStart: 19, verseEnd: 23 },
@@ -557,6 +624,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 68,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Joshua 1", book: "Joshua", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Hebrews 13:5-6", book: "Hebrews", chapter: 13, verseStart: 5, verseEnd: 6 },
@@ -564,6 +632,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 69,
+    principles: ["typology"],
     passages: [
       { ref: "1 Samuel 17", book: "1 Samuel", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "1 Corinthians 15:54-57", book: "1 Corinthians", chapter: 15, verseStart: 54, verseEnd: 57 },
@@ -571,6 +640,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 70,
+    principles: ["typology"],
     passages: [
       { ref: "1 Kings 8", book: "1 Kings", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "John 2:18-21", book: "John", chapter: 2, verseStart: 18, verseEnd: 21 },
@@ -578,6 +648,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 71,
+    principles: ["historical"],
     passages: [
       { ref: "2 Kings 5", book: "2 Kings", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "Luke 4:24-27", book: "Luke", chapter: 4, verseStart: 24, verseEnd: 27 },
@@ -585,6 +656,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 72,
+    principles: ["harmonization"],
     passages: [
       { ref: "1 Chronicles 29", book: "1 Chronicles", chapter: 29, verseStart: null, verseEnd: null },
       { ref: "Romans 11:33-36", book: "Romans", chapter: 11, verseStart: 33, verseEnd: 36 },
@@ -592,6 +664,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 73,
+    principles: ["typology"],
     passages: [
       { ref: "Nehemiah 8", book: "Nehemiah", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "Luke 24:30-32", book: "Luke", chapter: 24, verseStart: 30, verseEnd: 32 },
@@ -599,6 +672,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 74,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Job 19", book: "Job", chapter: 19, verseStart: null, verseEnd: null },
       { ref: "John 11:21-27", book: "John", chapter: 11, verseStart: 21, verseEnd: 27 },
@@ -606,6 +680,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 75,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Psalm 40", book: "Psalm", chapter: 40, verseStart: null, verseEnd: null },
       { ref: "Hebrews 10:5-10", book: "Hebrews", chapter: 10, verseStart: 5, verseEnd: 10 },
@@ -613,6 +688,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 76,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Psalm 118", book: "Psalm", chapter: 118, verseStart: null, verseEnd: null },
       { ref: "Matthew 21:42-44", book: "Matthew", chapter: 21, verseStart: 42, verseEnd: 44 },
@@ -620,6 +696,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 77,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Isaiah 9", book: "Isaiah", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "Luke 2:10-14", book: "Luke", chapter: 2, verseStart: 10, verseEnd: 14 },
@@ -627,6 +704,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 78,
+    principles: ["typology"],
     passages: [
       { ref: "Ezekiel 37", book: "Ezekiel", chapter: 37, verseStart: null, verseEnd: null },
       { ref: "Ephesians 2:4-6", book: "Ephesians", chapter: 2, verseStart: 4, verseEnd: 6 },
@@ -634,6 +712,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 79,
+    principles: ["christological"],
     passages: [
       { ref: "Daniel 7", book: "Daniel", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "Matthew 26:63-64", book: "Matthew", chapter: 26, verseStart: 63, verseEnd: 64 },
@@ -641,6 +720,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 80,
+    principles: ["typology"],
     passages: [
       { ref: "Hosea 11", book: "Hosea", chapter: 11, verseStart: null, verseEnd: null },
       { ref: "Matthew 2:13-15", book: "Matthew", chapter: 2, verseStart: 13, verseEnd: 15 },
@@ -648,6 +728,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 81,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Zechariah 12", book: "Zechariah", chapter: 12, verseStart: null, verseEnd: null },
       { ref: "John 19:34-37", book: "John", chapter: 19, verseStart: 34, verseEnd: 37 },
@@ -655,6 +736,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 82,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Malachi 3", book: "Malachi", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Mark 1:1-4", book: "Mark", chapter: 1, verseStart: 1, verseEnd: 4 },
@@ -664,6 +746,7 @@ export const CROSS_REFERENCE_PLAN = [
   // Days 83-92: continuing the same chapter-by-chapter push.
   {
     day: 83,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Genesis 15", book: "Genesis", chapter: 15, verseStart: null, verseEnd: null },
       { ref: "Romans 4:1-5", book: "Romans", chapter: 4, verseStart: 1, verseEnd: 5 },
@@ -671,6 +754,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 84,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 28", book: "Genesis", chapter: 28, verseStart: null, verseEnd: null },
       { ref: "John 1:51", book: "John", chapter: 1, verseStart: 51, verseEnd: 51 },
@@ -678,6 +762,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 85,
+    principles: ["historical"],
     passages: [
       { ref: "Exodus 24", book: "Exodus", chapter: 24, verseStart: null, verseEnd: null },
       { ref: "Matthew 26:26-28", book: "Matthew", chapter: 26, verseStart: 26, verseEnd: 28 },
@@ -685,6 +770,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 86,
+    principles: ["typology"],
     passages: [
       { ref: "Leviticus 23", book: "Leviticus", chapter: 23, verseStart: null, verseEnd: null },
       { ref: "Colossians 2:16-17", book: "Colossians", chapter: 2, verseStart: 16, verseEnd: 17 },
@@ -692,6 +778,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 87,
+    principles: ["typology"],
     passages: [
       { ref: "Numbers 6", book: "Numbers", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 13:14", book: "2 Corinthians", chapter: 13, verseStart: 14, verseEnd: 14 },
@@ -699,6 +786,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 88,
+    principles: ["context"],
     passages: [
       { ref: "Deuteronomy 34", book: "Deuteronomy", chapter: 34, verseStart: null, verseEnd: null },
       { ref: "Hebrews 3:1-3", book: "Hebrews", chapter: 3, verseStart: 1, verseEnd: 3 },
@@ -706,6 +794,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 89,
+    principles: ["christological"],
     passages: [
       { ref: "Joshua 5", book: "Joshua", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "Revelation 19:11-13", book: "Revelation", chapter: 19, verseStart: 11, verseEnd: 13 },
@@ -713,6 +802,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 90,
+    principles: ["typology"],
     passages: [
       { ref: "1 Samuel 16", book: "1 Samuel", chapter: 16, verseStart: null, verseEnd: null },
       { ref: "Acts 13:22-23", book: "Acts", chapter: 13, verseStart: 22, verseEnd: 23 },
@@ -720,6 +810,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 91,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "2 Kings 2", book: "2 Kings", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "John 14:12-16", book: "John", chapter: 14, verseStart: 12, verseEnd: 16 },
@@ -727,6 +818,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 92,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Psalm 45", book: "Psalm", chapter: 45, verseStart: null, verseEnd: null },
       { ref: "Hebrews 1:8-9", book: "Hebrews", chapter: 1, verseStart: 8, verseEnd: 9 },
@@ -734,6 +826,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 93,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 6", book: "Genesis", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "Matthew 24:37-39", book: "Matthew", chapter: 24, verseStart: 37, verseEnd: 39 },
@@ -741,6 +834,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 94,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 7", book: "Genesis", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "1 Peter 3:20-21", book: "1 Peter", chapter: 3, verseStart: 20, verseEnd: 21 },
@@ -748,6 +842,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 95,
+    principles: ["literal"],
     passages: [
       { ref: "Exodus 20", book: "Exodus", chapter: 20, verseStart: null, verseEnd: null },
       { ref: "Matthew 5:17", book: "Matthew", chapter: 5, verseStart: 17, verseEnd: 17 },
@@ -755,6 +850,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 96,
+    principles: ["moral"],
     passages: [
       { ref: "Numbers 14", book: "Numbers", chapter: 14, verseStart: null, verseEnd: null },
       { ref: "Hebrews 3:16-19", book: "Hebrews", chapter: 3, verseStart: 16, verseEnd: 19 },
@@ -762,6 +858,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 97,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Deuteronomy 8", book: "Deuteronomy", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "Matthew 4:4", book: "Matthew", chapter: 4, verseStart: 4, verseEnd: 4 },
@@ -769,6 +866,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 98,
+    principles: ["moral"],
     passages: [
       { ref: "Joshua 24", book: "Joshua", chapter: 24, verseStart: null, verseEnd: null },
       { ref: "John 6:66-69", book: "John", chapter: 6, verseStart: 66, verseEnd: 69 },
@@ -776,6 +874,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 99,
+    principles: ["moral"],
     passages: [
       { ref: "Judges 6", book: "Judges", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 12:9-10", book: "2 Corinthians", chapter: 12, verseStart: 9, verseEnd: 10 },
@@ -783,6 +882,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 100,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Ruth 2", book: "Ruth", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Ephesians 2:12-13", book: "Ephesians", chapter: 2, verseStart: 12, verseEnd: 13 },
@@ -790,6 +890,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 101,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Samuel 3", book: "1 Samuel", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Hebrews 1:1-2", book: "Hebrews", chapter: 1, verseStart: 1, verseEnd: 2 },
@@ -797,6 +898,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 102,
+    principles: ["moral"],
     passages: [
       { ref: "2 Samuel 12", book: "2 Samuel", chapter: 12, verseStart: null, verseEnd: null },
       { ref: "1 John 1:9", book: "1 John", chapter: 1, verseStart: 9, verseEnd: 9 },
@@ -804,6 +906,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 103,
+    principles: ["typology"],
     passages: [
       { ref: "1 Kings 19", book: "1 Kings", chapter: 19, verseStart: null, verseEnd: null },
       { ref: "Matthew 17:1-3", book: "Matthew", chapter: 17, verseStart: 1, verseEnd: 3 },
@@ -811,6 +914,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 104,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "2 Kings 6", book: "2 Kings", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "Hebrews 1:14", book: "Hebrews", chapter: 1, verseStart: 14, verseEnd: 14 },
@@ -818,6 +922,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 105,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Chronicles 17", book: "1 Chronicles", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "Luke 1:32-33", book: "Luke", chapter: 1, verseStart: 32, verseEnd: 33 },
@@ -825,6 +930,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 106,
+    principles: ["typology"],
     passages: [
       { ref: "Ezra 3", book: "Ezra", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Ephesians 2:20-22", book: "Ephesians", chapter: 2, verseStart: 20, verseEnd: 22 },
@@ -832,6 +938,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 107,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Nehemiah 9", book: "Nehemiah", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "Romans 2:4", book: "Romans", chapter: 2, verseStart: 4, verseEnd: 4 },
@@ -839,6 +946,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 108,
+    principles: ["moral"],
     passages: [
       { ref: "Esther 7", book: "Esther", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "Galatians 6:7", book: "Galatians", chapter: 6, verseStart: 7, verseEnd: 7 },
@@ -846,6 +954,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 109,
+    principles: ["christological"],
     passages: [
       { ref: "Job 38", book: "Job", chapter: 38, verseStart: null, verseEnd: null },
       { ref: "Colossians 1:16-17", book: "Colossians", chapter: 1, verseStart: 16, verseEnd: 17 },
@@ -853,6 +962,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 110,
+    principles: ["moral"],
     passages: [
       { ref: "Job 42", book: "Job", chapter: 42, verseStart: null, verseEnd: null },
       { ref: "James 5:11", book: "James", chapter: 5, verseStart: 11, verseEnd: 11 },
@@ -860,6 +970,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 111,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Psalm 32", book: "Psalm", chapter: 32, verseStart: null, verseEnd: null },
       { ref: "Romans 4:6-8", book: "Romans", chapter: 4, verseStart: 6, verseEnd: 8 },
@@ -867,6 +978,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 112,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Psalm 8", book: "Psalm", chapter: 8, verseStart: null, verseEnd: null },
       { ref: "Hebrews 2:6-9", book: "Hebrews", chapter: 2, verseStart: 6, verseEnd: 9 },
@@ -874,6 +986,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 113,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Obadiah 1", book: "Obadiah", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Revelation 11:15", book: "Revelation", chapter: 11, verseStart: 15, verseEnd: 15 },
@@ -881,6 +994,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 114,
+    principles: ["typology"],
     passages: [
       { ref: "Joel 1", book: "Joel", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Revelation 9:3-4", book: "Revelation", chapter: 9, verseStart: 3, verseEnd: 4 },
@@ -888,6 +1002,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 115,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Joel 2", book: "Joel", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Acts 2:16-21", book: "Acts", chapter: 2, verseStart: 16, verseEnd: 21 },
@@ -895,6 +1010,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 116,
+    principles: ["typology"],
     passages: [
       { ref: "Joel 3", book: "Joel", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Revelation 14:14-16", book: "Revelation", chapter: 14, verseStart: 14, verseEnd: 16 },
@@ -902,6 +1018,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 117,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Nahum 1", book: "Nahum", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Romans 12:19", book: "Romans", chapter: 12, verseStart: 19, verseEnd: 19 },
@@ -909,6 +1026,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 118,
+    principles: ["moral"],
     passages: [
       { ref: "Nahum 2", book: "Nahum", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Luke 19:41-44", book: "Luke", chapter: 19, verseStart: 41, verseEnd: 44 },
@@ -916,6 +1034,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 119,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Nahum 3", book: "Nahum", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Romans 6:23", book: "Romans", chapter: 6, verseStart: 23, verseEnd: 23 },
@@ -923,6 +1042,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 120,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Habakkuk 1", book: "Habakkuk", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Revelation 6:9-10", book: "Revelation", chapter: 6, verseStart: 9, verseEnd: 10 },
@@ -930,6 +1050,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 121,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Habakkuk 2", book: "Habakkuk", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Hebrews 10:37-38", book: "Hebrews", chapter: 10, verseStart: 37, verseEnd: 38 },
@@ -937,6 +1058,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 122,
+    principles: ["harmonization"],
     passages: [
       { ref: "Habakkuk 3", book: "Habakkuk", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Philippians 4:11-13", book: "Philippians", chapter: 4, verseStart: 11, verseEnd: 13 },
@@ -944,6 +1066,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 123,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Zephaniah 1", book: "Zephaniah", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "1 Thessalonians 5:2-4", book: "1 Thessalonians", chapter: 5, verseStart: 2, verseEnd: 4 },
@@ -951,6 +1074,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 124,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Zephaniah 2", book: "Zephaniah", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Matthew 5:5", book: "Matthew", chapter: 5, verseStart: 5, verseEnd: 5 },
@@ -958,6 +1082,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 125,
+    principles: ["typology"],
     passages: [
       { ref: "Zephaniah 3", book: "Zephaniah", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Revelation 21:3-4", book: "Revelation", chapter: 21, verseStart: 3, verseEnd: 4 },
@@ -965,6 +1090,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 126,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Haggai 1", book: "Haggai", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Matthew 6:33", book: "Matthew", chapter: 6, verseStart: 33, verseEnd: 33 },
@@ -972,6 +1098,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 127,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Haggai 2", book: "Haggai", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Hebrews 12:26-28", book: "Hebrews", chapter: 12, verseStart: 26, verseEnd: 28 },
@@ -979,6 +1106,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 128,
+    principles: ["typology"],
     passages: [
       { ref: "2 Chronicles 20", book: "2 Chronicles", chapter: 20, verseStart: null, verseEnd: null },
       { ref: "Ephesians 6:10-12", book: "Ephesians", chapter: 6, verseStart: 10, verseEnd: 12 },
@@ -986,6 +1114,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 129,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Lamentations 1", book: "Lamentations", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Matthew 23:37", book: "Matthew", chapter: 23, verseStart: 37, verseEnd: 37 },
@@ -993,6 +1122,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 130,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 32", book: "Genesis", chapter: 32, verseStart: null, verseEnd: null },
       { ref: "Luke 18:1", book: "Luke", chapter: 18, verseStart: 1, verseEnd: 1 },
@@ -1000,6 +1130,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 131,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Exodus 33", book: "Exodus", chapter: 33, verseStart: null, verseEnd: null },
       { ref: "John 1:14-18", book: "John", chapter: 1, verseStart: 14, verseEnd: 18 },
@@ -1007,6 +1138,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 132,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Kings 17", book: "1 Kings", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "Luke 4:25-26", book: "Luke", chapter: 4, verseStart: 25, verseEnd: 26 },
@@ -1014,6 +1146,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 133,
+    principles: ["typology"],
     passages: [
       { ref: "Philemon 1", book: "Philemon", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "1 Timothy 2:5", book: "1 Timothy", chapter: 2, verseStart: 5, verseEnd: 5 },
@@ -1021,6 +1154,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 134,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 John 1", book: "2 John", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Ephesians 4:15", book: "Ephesians", chapter: 4, verseStart: 15, verseEnd: 15 },
@@ -1028,6 +1162,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 135,
+    principles: ["moral"],
     passages: [
       { ref: "3 John 1", book: "3 John", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Matthew 25:35-40", book: "Matthew", chapter: 25, verseStart: 35, verseEnd: 40 },
@@ -1035,6 +1170,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 136,
+    principles: ["harmonization"],
     passages: [
       { ref: "Jude 1", book: "Jude", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "1 Peter 5:8-9", book: "1 Peter", chapter: 5, verseStart: 8, verseEnd: 9 },
@@ -1042,6 +1178,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 137,
+    principles: ["literal"],
     passages: [
       { ref: "2 Peter 1", book: "2 Peter", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Matthew 17:1-5", book: "Matthew", chapter: 17, verseStart: 1, verseEnd: 5 },
@@ -1049,6 +1186,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 138,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "2 Peter 2", book: "2 Peter", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 11:13-15", book: "2 Corinthians", chapter: 11, verseStart: 13, verseEnd: 15 },
@@ -1056,6 +1194,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 139,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "2 Peter 3", book: "2 Peter", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Revelation 21:1", book: "Revelation", chapter: 21, verseStart: 1, verseEnd: 1 },
@@ -1063,6 +1202,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 140,
+    principles: ["christological"],
     passages: [
       { ref: "1 John 1", book: "1 John", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "John 1:1-4", book: "John", chapter: 1, verseStart: 1, verseEnd: 4 },
@@ -1070,6 +1210,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 141,
+    principles: ["harmonization"],
     passages: [
       { ref: "1 John 2", book: "1 John", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "James 4:4", book: "James", chapter: 4, verseStart: 4, verseEnd: 4 },
@@ -1077,6 +1218,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 142,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 John 3", book: "1 John", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Romans 8:14-17", book: "Romans", chapter: 8, verseStart: 14, verseEnd: 17 },
@@ -1084,6 +1226,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 143,
+    principles: ["christological"],
     passages: [
       { ref: "1 John 4", book: "1 John", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "John 15:12-13", book: "John", chapter: 15, verseStart: 12, verseEnd: 13 },
@@ -1091,6 +1234,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 144,
+    principles: ["harmonization"],
     passages: [
       { ref: "1 John 5", book: "1 John", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "John 20:30-31", book: "John", chapter: 20, verseStart: 30, verseEnd: 31 },
@@ -1098,6 +1242,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 145,
+    principles: ["harmonization"],
     passages: [
       { ref: "Titus 1", book: "Titus", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "1 Timothy 3:1-7", book: "1 Timothy", chapter: 3, verseStart: 1, verseEnd: 7 },
@@ -1105,6 +1250,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 146,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Titus 2", book: "Titus", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 5:14-15", book: "2 Corinthians", chapter: 5, verseStart: 14, verseEnd: 15 },
@@ -1112,6 +1258,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 147,
+    principles: ["harmonization"],
     passages: [
       { ref: "Titus 3", book: "Titus", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Ephesians 2:4-7", book: "Ephesians", chapter: 2, verseStart: 4, verseEnd: 7 },
@@ -1119,6 +1266,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 148,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "2 Timothy 1", book: "2 Timothy", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Hebrews 13:6", book: "Hebrews", chapter: 13, verseStart: 6, verseEnd: 6 },
@@ -1126,6 +1274,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 149,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 Timothy 2", book: "2 Timothy", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Romans 8:17", book: "Romans", chapter: 8, verseStart: 17, verseEnd: 17 },
@@ -1133,6 +1282,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 150,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 Timothy 3", book: "2 Timothy", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Matthew 24:9-13", book: "Matthew", chapter: 24, verseStart: 9, verseEnd: 13 },
@@ -1140,6 +1290,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 151,
+    principles: ["doubleReference"],
     passages: [
       { ref: "2 Timothy 4", book: "2 Timothy", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Revelation 2:10", book: "Revelation", chapter: 2, verseStart: 10, verseEnd: 10 },
@@ -1147,6 +1298,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 152,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Amos 9", book: "Amos", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "Acts 15:15-17", book: "Acts", chapter: 15, verseStart: 15, verseEnd: 17 },
@@ -1154,6 +1306,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 153,
+    principles: ["firstMention"],
     passages: [
       { ref: "Genesis 4", book: "Genesis", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Hebrews 12:22-24", book: "Hebrews", chapter: 12, verseStart: 22, verseEnd: 24 },
@@ -1161,6 +1314,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 154,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 45", book: "Genesis", chapter: 45, verseStart: null, verseEnd: null },
       { ref: "Acts 7:9-10", book: "Acts", chapter: 7, verseStart: 9, verseEnd: 10 },
@@ -1168,6 +1322,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 155,
+    principles: ["typology"],
     passages: [
       { ref: "Exodus 14", book: "Exodus", chapter: 14, verseStart: null, verseEnd: null },
       { ref: "1 Corinthians 10:1-2", book: "1 Corinthians", chapter: 10, verseStart: 1, verseEnd: 2 },
@@ -1175,6 +1330,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 156,
+    principles: ["grammatical"],
     passages: [
       { ref: "Exodus 40", book: "Exodus", chapter: 40, verseStart: null, verseEnd: null },
       { ref: "John 1:14", book: "John", chapter: 1, verseStart: 14, verseEnd: 14 },
@@ -1182,6 +1338,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 157,
+    principles: ["typology"],
     passages: [
       { ref: "Leviticus 16", book: "Leviticus", chapter: 16, verseStart: null, verseEnd: null },
       { ref: "Hebrews 9:11-12", book: "Hebrews", chapter: 9, verseStart: 11, verseEnd: 12 },
@@ -1189,6 +1346,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 158,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Numbers 20", book: "Numbers", chapter: 20, verseStart: null, verseEnd: null },
       { ref: "1 Corinthians 10:4", book: "1 Corinthians", chapter: 10, verseStart: 4, verseEnd: 4 },
@@ -1196,6 +1354,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 159,
+    principles: ["typology"],
     passages: [
       { ref: "Joshua 2", book: "Joshua", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Hebrews 11:31", book: "Hebrews", chapter: 11, verseStart: 31, verseEnd: 31 },
@@ -1203,6 +1362,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 160,
+    principles: ["harmonization"],
     passages: [
       { ref: "Judges 13", book: "Judges", chapter: 13, verseStart: null, verseEnd: null },
       { ref: "Luke 1:13-17", book: "Luke", chapter: 1, verseStart: 13, verseEnd: 17 },
@@ -1210,6 +1370,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 161,
+    principles: ["typology"],
     passages: [
       { ref: "Ruth 4", book: "Ruth", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Ephesians 1:7", book: "Ephesians", chapter: 1, verseStart: 7, verseEnd: 7 },
@@ -1217,6 +1378,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 162,
+    principles: ["typology"],
     passages: [
       { ref: "1 Samuel 17", book: "1 Samuel", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "Hebrews 2:14-15", book: "Hebrews", chapter: 2, verseStart: 14, verseEnd: 15 },
@@ -1224,6 +1386,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 163,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "2 Samuel 7", book: "2 Samuel", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "Luke 1:32-33", book: "Luke", chapter: 1, verseStart: 32, verseEnd: 33 },
@@ -1231,6 +1394,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 164,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Job 9", book: "Job", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "1 Timothy 2:5", book: "1 Timothy", chapter: 2, verseStart: 5, verseEnd: 5 },
@@ -1238,6 +1402,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 165,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Psalm 2", book: "Psalm", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Acts 13:32-33", book: "Acts", chapter: 13, verseStart: 32, verseEnd: 33 },
@@ -1245,6 +1410,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 166,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Psalm 16", book: "Psalm", chapter: 16, verseStart: null, verseEnd: null },
       { ref: "Acts 2:25-31", book: "Acts", chapter: 2, verseStart: 25, verseEnd: 31 },
@@ -1252,6 +1418,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 167,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Psalm 69", book: "Psalm", chapter: 69, verseStart: null, verseEnd: null },
       { ref: "John 2:17", book: "John", chapter: 2, verseStart: 17, verseEnd: 17 },
@@ -1259,6 +1426,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 168,
+    principles: ["typology"],
     passages: [
       { ref: "Psalm 24", book: "Psalm", chapter: 24, verseStart: null, verseEnd: null },
       { ref: "Ephesians 4:8-10", book: "Ephesians", chapter: 4, verseStart: 8, verseEnd: 10 },
@@ -1266,6 +1434,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 169,
+    principles: ["christological"],
     passages: [
       { ref: "Proverbs 30", book: "Proverbs", chapter: 30, verseStart: null, verseEnd: null },
       { ref: "John 3:13", book: "John", chapter: 3, verseStart: 13, verseEnd: 13 },
@@ -1273,6 +1442,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 170,
+    principles: ["christological"],
     passages: [
       { ref: "Isaiah 6", book: "Isaiah", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "John 12:37-41", book: "John", chapter: 12, verseStart: 37, verseEnd: 41 },
@@ -1280,6 +1450,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 171,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Zechariah 9", book: "Zechariah", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "Matthew 21:4-5", book: "Matthew", chapter: 21, verseStart: 4, verseEnd: 5 },
@@ -1287,6 +1458,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 172,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Matthew 5", book: "Matthew", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "Isaiah 61:1-3", book: "Isaiah", chapter: 61, verseStart: 1, verseEnd: 3 },
@@ -1294,6 +1466,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 173,
+    principles: ["christological"],
     passages: [
       { ref: "Luke 24", book: "Luke", chapter: 24, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 3:14-16", book: "2 Corinthians", chapter: 3, verseStart: 14, verseEnd: 16 },
@@ -1301,6 +1474,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 174,
+    principles: ["typology"],
     passages: [
       { ref: "Romans 5", book: "Romans", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "Genesis 3:6", book: "Genesis", chapter: 3, verseStart: 6, verseEnd: 6 },
@@ -1308,6 +1482,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 175,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Revelation 5", book: "Revelation", chapter: 5, verseStart: null, verseEnd: null },
       { ref: "Isaiah 53:7", book: "Isaiah", chapter: 53, verseStart: 7, verseEnd: 7 },
@@ -1315,6 +1490,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 176,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Acts 2", book: "Acts", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Joel 2:28-32", book: "Joel", chapter: 2, verseStart: 28, verseEnd: 32 },
@@ -1322,6 +1498,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 177,
+    principles: ["grammatical"],
     passages: [
       { ref: "Exodus 25", book: "Exodus", chapter: 25, verseStart: null, verseEnd: null },
       { ref: "Romans 3:25", book: "Romans", chapter: 3, verseStart: 25, verseEnd: 25 },
@@ -1329,6 +1506,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 178,
+    principles: ["doubleReference"],
     passages: [
       { ref: "Exodus 32", book: "Exodus", chapter: 32, verseStart: null, verseEnd: null },
       { ref: "Romans 9:3", book: "Romans", chapter: 9, verseStart: 3, verseEnd: 3 },
@@ -1336,6 +1514,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 179,
+    principles: ["typology"],
     passages: [
       { ref: "Numbers 21", book: "Numbers", chapter: 21, verseStart: null, verseEnd: null },
       { ref: "2 Corinthians 5:21", book: "2 Corinthians", chapter: 5, verseStart: 21, verseEnd: 21 },
@@ -1343,6 +1522,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 180,
+    principles: ["historical"],
     passages: [
       { ref: "Deuteronomy 21", book: "Deuteronomy", chapter: 21, verseStart: null, verseEnd: null },
       { ref: "Galatians 3:13", book: "Galatians", chapter: 3, verseStart: 13, verseEnd: 13 },
@@ -1350,6 +1530,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 181,
+    principles: ["typology"],
     passages: [
       { ref: "Joshua 3", book: "Joshua", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Hebrews 4:8-9", book: "Hebrews", chapter: 4, verseStart: 8, verseEnd: 9 },
@@ -1357,6 +1538,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 182,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Kings 19", book: "1 Kings", chapter: 19, verseStart: null, verseEnd: null },
       { ref: "Romans 11:2-5", book: "Romans", chapter: 11, verseStart: 2, verseEnd: 5 },
@@ -1364,6 +1546,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 183,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Kings 17", book: "1 Kings", chapter: 17, verseStart: null, verseEnd: null },
       { ref: "Luke 4:25-26", book: "Luke", chapter: 4, verseStart: 25, verseEnd: 26 },
@@ -1371,6 +1554,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 184,
+    principles: ["typology"],
     passages: [
       { ref: "2 Kings 4", book: "2 Kings", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Hebrews 11:35", book: "Hebrews", chapter: 11, verseStart: 35, verseEnd: 35 },
@@ -1378,6 +1562,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 185,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "1 Chronicles 22", book: "1 Chronicles", chapter: 22, verseStart: null, verseEnd: null },
       { ref: "1 Corinthians 3:11", book: "1 Corinthians", chapter: 3, verseStart: 11, verseEnd: 11 },
@@ -1385,6 +1570,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 186,
+    principles: ["harmonization"],
     passages: [
       { ref: "2 Chronicles 7", book: "2 Chronicles", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "Hebrews 4:16", book: "Hebrews", chapter: 4, verseStart: 16, verseEnd: 16 },
@@ -1392,6 +1578,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 187,
+    principles: ["harmonization"],
     passages: [
       { ref: "Ezra 7", book: "Ezra", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "2 Timothy 2:15", book: "2 Timothy", chapter: 2, verseStart: 15, verseEnd: 15 },
@@ -1399,6 +1586,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 188,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Nehemiah 9", book: "Nehemiah", chapter: 9, verseStart: null, verseEnd: null },
       { ref: "Romans 2:4", book: "Romans", chapter: 2, verseStart: 4, verseEnd: 4 },
@@ -1406,6 +1594,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 189,
+    principles: ["moral"],
     passages: [
       { ref: "Esther 7", book: "Esther", chapter: 7, verseStart: null, verseEnd: null },
       { ref: "Galatians 6:7", book: "Galatians", chapter: 6, verseStart: 7, verseEnd: 7 },
@@ -1413,6 +1602,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 190,
+    principles: ["progressiveRevelation"],
     passages: [
       { ref: "Ecclesiastes 3", book: "Ecclesiastes", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Galatians 4:4", book: "Galatians", chapter: 4, verseStart: 4, verseEnd: 4 },
@@ -1420,6 +1610,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 191,
+    principles: ["typology"],
     passages: [
       { ref: "Song of Solomon 4", book: "Song of Solomon", chapter: 4, verseStart: null, verseEnd: null },
       { ref: "Ephesians 5:27", book: "Ephesians", chapter: 5, verseStart: 27, verseEnd: 27 },
@@ -1427,6 +1618,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 192,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Mark 1", book: "Mark", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Isaiah 40:3", book: "Isaiah", chapter: 40, verseStart: 3, verseEnd: 3 },
@@ -1434,6 +1626,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 193,
+    principles: ["typology"],
     passages: [
       { ref: "John 6", book: "John", chapter: 6, verseStart: null, verseEnd: null },
       { ref: "Exodus 16:15", book: "Exodus", chapter: 16, verseStart: 15, verseEnd: 15 },
@@ -1441,6 +1634,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 194,
+    principles: ["scriptureInterprets"],
     passages: [
       { ref: "Galatians 3", book: "Galatians", chapter: 3, verseStart: null, verseEnd: null },
       { ref: "Genesis 15:6", book: "Genesis", chapter: 15, verseStart: 6, verseEnd: 6 },
@@ -1448,6 +1642,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 195,
+    principles: ["harmonization"],
     passages: [
       { ref: "Ephesians 2", book: "Ephesians", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Ezekiel 37:1-14", book: "Ezekiel", chapter: 37, verseStart: 1, verseEnd: 14 },
@@ -1455,6 +1650,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 196,
+    principles: ["christological"],
     passages: [
       { ref: "Philippians 2", book: "Philippians", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Isaiah 45:23", book: "Isaiah", chapter: 45, verseStart: 23, verseEnd: 23 },
@@ -1462,6 +1658,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 197,
+    principles: ["christological"],
     passages: [
       { ref: "Colossians 1", book: "Colossians", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Proverbs 8:22-23", book: "Proverbs", chapter: 8, verseStart: 22, verseEnd: 23 },
@@ -1469,6 +1666,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 198,
+    principles: ["harmonization"],
     passages: [
       { ref: "James 1", book: "James", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Job 23:10", book: "Job", chapter: 23, verseStart: 10, verseEnd: 10 },
@@ -1476,6 +1674,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 199,
+    principles: ["typology"],
     passages: [
       { ref: "1 Peter 1", book: "1 Peter", chapter: 1, verseStart: null, verseEnd: null },
       { ref: "Exodus 12:5", book: "Exodus", chapter: 12, verseStart: 5, verseEnd: 5 },
@@ -1483,6 +1682,7 @@ export const CROSS_REFERENCE_PLAN = [
   },
   {
     day: 200,
+    principles: ["typology"],
     passages: [
       { ref: "Genesis 2", book: "Genesis", chapter: 2, verseStart: null, verseEnd: null },
       { ref: "Revelation 22", book: "Revelation", chapter: 22, verseStart: null, verseEnd: null },

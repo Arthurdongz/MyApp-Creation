@@ -69,6 +69,9 @@ export const TOPICAL_PLAN_ORDER = [
   "waiting",
   "doubt",
   "weariness",
+  "finances",
+  "loneliness",
+  "rejection",
   "anger",
   "hatred",
   "sexualPurity",
@@ -155,16 +158,23 @@ export const TOPICAL_PLANS = {
     id: "healing",
     category: "study",
     icon: "medkit-outline",
+    // Promise-verses first, then (from 2 Kings 5 on) full narrative accounts
+    // of actual healings, not just verses that name the word "healing" —
+    // the point someone studying this topic needs isn't only that God
+    // promises to heal, but what it actually looked like each time He did.
     refs: [
-      "Genesis 20:17", "Exodus 15:26", "Numbers 12:13", "Deuteronomy 32:39", "2 Kings 20:5",
+      "Genesis 20:17", "Exodus 15:26", "Numbers 12:13", "Deuteronomy 32:39",
       "2 Chronicles 7:14", "2 Chronicles 30:20", "Psalm 6:2", "Psalm 30:2", "Psalm 41:4",
       "Psalm 103:2-3", "Psalm 107:20", "Psalm 147:3", "Proverbs 3:8", "Proverbs 4:20-22",
       "Proverbs 12:18", "Proverbs 16:24", "Proverbs 17:22", "Isaiah 53:5", "Isaiah 57:18-19",
       "Isaiah 58:8", "Jeremiah 17:14", "Jeremiah 30:17", "Jeremiah 33:6", "Hosea 6:1",
       "Hosea 14:4", "Malachi 4:2", "Matthew 4:23-24", "Matthew 8:16-17", "Matthew 9:35",
-      "Mark 5:34", "Luke 4:18", "Luke 5:15", "Luke 6:17-19", "Acts 3:1-11",
-      "Acts 10:38", "Acts 28:8-9", "1 Corinthians 12:9", "James 5:14-16", "1 Peter 2:24",
+      "Luke 4:18", "Luke 5:15", "Luke 6:17-19",
+      "Acts 10:38", "1 Corinthians 12:9", "James 5:14-16", "1 Peter 2:24",
       "Revelation 22:1-2", "3 John 1:2",
+      "2 Kings 5:1-14", "2 Kings 20:1-7", "Matthew 8:5-13", "Matthew 12:9-13", "Mark 2:1-12",
+      "Mark 5:25-34", "Mark 10:46-52", "Luke 17:11-19", "John 5:1-9", "John 9:1-7",
+      "Acts 3:1-11", "Acts 9:32-35", "Acts 14:8-10", "Acts 28:8-9",
     ],
   },
   longLife: {
@@ -506,6 +516,24 @@ export const TOPICAL_PLANS = {
     category: "life",
     icon: "battery-dead-outline",
     refs: ["Isaiah 40:28-29", "Exodus 33:14", "Psalm 23:1-3", "2 Corinthians 12:9-10", "Jeremiah 31:25"],
+  },
+  finances: {
+    id: "finances",
+    category: "life",
+    icon: "wallet-outline",
+    refs: ["Philippians 4:19", "Matthew 6:31-33", "Psalm 37:25", "2 Corinthians 9:8", "Hebrews 13:5"],
+  },
+  loneliness: {
+    id: "loneliness",
+    category: "life",
+    icon: "person-outline",
+    refs: ["Psalm 68:6", "Deuteronomy 31:6", "Psalm 25:16-17", "John 14:18", "Matthew 28:20"],
+  },
+  rejection: {
+    id: "rejection",
+    category: "life",
+    icon: "heart-dislike-outline",
+    refs: ["Psalm 27:10", "Isaiah 41:9-10", "John 1:11-12", "Romans 8:31", "1 Peter 2:4"],
   },
   // The next three are longer and split in two via remedyStartsAtDay:
   // refs before that day number are what Scripture says the danger is;

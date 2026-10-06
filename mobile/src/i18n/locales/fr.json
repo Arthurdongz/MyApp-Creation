@@ -714,6 +714,7 @@
     "crossReferencePlan": {
       "title": "La Bible Explique la Bible",
       "description": "Prophétie et accomplissement, promesse et réponse — des passages reliés qui ouvrent ce que tu lis, de la même façon que Philippe a ouvert les Écritures à l'eunuque éthiopien. Par-dessus tout, ce plan est construit pour montrer une seule chose : Christ, dans toutes les Écritures (Luc 24.27). Un plan qui continue de grandir — chaque livre de la Bible y a déjà sa place, et de nouveaux jours sont ajoutés au fil du temps jusqu'à ce que chaque chapitre y ait la sienne aussi.",
+      "howItAppliesLabel": "Comment cela s'applique ici",
       "days": {
         "1": {
           "theme": "La Création Renouvelée",
@@ -1597,6 +1598,18 @@
         "title": "Fatigue et épuisement",
         "description": "Pour quand tu n'as plus rien à donner — sur le repos et la force que seul Dieu peut restaurer."
       },
+      "finances": {
+        "title": "Soucis d'Argent",
+        "description": "Pour quand les ressources se font rares, ou qu'une perte d'emploi ou une dette t'angoisse — ce que l'Écriture dit du Dieu qui pourvoit."
+      },
+      "loneliness": {
+        "title": "Solitude",
+        "description": "Pour quand tu te sens oublié ou seul — sur le Dieu qui établit les isolés dans une famille et ne s'éloigne jamais vraiment."
+      },
+      "rejection": {
+        "title": "Rejet",
+        "description": "Pour quand tu as été ignoré, laissé de côté ou repoussé — sur le fait d'être choisi et tenu par Dieu même quand les gens te lâchent."
+      },
       "healing": {
         "title": "Santé et Guérison",
         "description": "Ce que dit l'Écriture sur le Dieu qui guérit — le corps, et les blessures sous le corps."
@@ -1725,6 +1738,58 @@
         "title": "Pureté Sexuelle",
         "description": "Ce que l'Écriture avertit au sujet du péché sexuel, et le remède — le moyen d'en sortir, et une conscience nette."
       }
+    }
+  },
+  "interpretationPrinciples": {
+    "icon": "Le saviez-vous ?",
+    "intro": "Douze principes que l'étude sérieuse de la Bible utilise depuis toujours pour lire les Écritures avec précision. Quand l'un d'eux s'applique clairement à un passage que tu lis, une petite icône comme celle-ci le signale.",
+    "literal": {
+      "title": "Principe d'Interprétation Littérale",
+      "description": "Un texte doit être compris dans son sens ordinaire et simple, sauf si le passage lui-même indique le contraire — une parabole lue comme une parabole, une métaphore comme une métaphore, mais un récit historique lu comme une histoire réelle, non réduit à du simple symbole."
+    },
+    "firstMention": {
+      "title": "Loi de la Première Mention",
+      "description": "Le premier endroit où un mot, un concept ou une réalité apparaît dans l'Écriture a un poids réel — ce qu'il signifie là façonne tout usage ultérieur, et une interprétation ultérieure solide ne le contredira jamais."
+    },
+    "context": {
+      "title": "Principe du Contexte",
+      "description": "Un verset ne se lit avec précision qu'à la lumière de ce qui l'entoure — les versets voisins, le chapitre, le livre dans lequel il se trouve, et l'Écriture dans son ensemble. Sorti de son contexte, presque n'importe quelle ligne peut être amenée à dire ce qu'elle ne disait jamais."
+    },
+    "historical": {
+      "title": "Perspective Historique",
+      "description": "Certains passages ne peuvent être lus en toute sécurité qu'une fois leur cadre historique et culturel compris — sans cet arrière-plan, un texte peut être mal appliqué, parfois même de façon dangereuse."
+    },
+    "grammatical": {
+      "title": "Interprétation Grammaticale",
+      "description": "Une interprétation précise dépend de la grammaire, de la syntaxe et de la langue d'origine d'un passage — ce qu'un mot signifiait réellement en hébreu ou en grec, et comment la phrase est construite, pas seulement comment elle se lit dans une traduction."
+    },
+    "scriptureInterprets": {
+      "title": "L'Écriture Interprète l'Écriture",
+      "description": "L'Écriture est son propre meilleur commentaire — un passage plus clair sert à expliquer un passage plus difficile. Là où aucun passage à lui seul ne tranche clairement une question, une affirmation doit reposer sur plus d'une écriture, et non sur un seul verset lu isolément."
+    },
+    "progressiveRevelation": {
+      "title": "Loi de la Révélation Progressive",
+      "description": "La vérité elle-même ne change pas, mais la mesure dans laquelle elle est révélée, si — une promesse peut être énoncée tôt dans l'Écriture sous forme de semence et n'être comprise dans sa plénitude que des siècles plus tard, à mesure que Dieu continue de déployer ce qu'il avait déjà dit."
+    },
+    "harmonization": {
+      "title": "Principe d'Harmonisation",
+      "description": "Un seul Esprit a donné toute l'Écriture, qui ne se contredit donc jamais elle-même — deux passages qui semblent entrer en conflit peuvent toujours être réconciliés une fois correctement compris."
+    },
+    "doubleReference": {
+      "title": "Loi de la Double Référence",
+      "description": "Certains passages portent à la fois un sens immédiat pour le moment où ils ont été écrits et un accomplissement futur plus large — réellement vrais aux deux niveaux à la fois, l'un n'excluant pas l'autre."
+    },
+    "moral": {
+      "title": "Interprétation Morale",
+      "description": "Aux côtés de toute lecture historique ou doctrinale, les leçons morales et éthiques de l'Écriture méritent un poids réel — ce qu'un passage enseigne sur la manière de vivre compte autant que ce qu'il relate."
+    },
+    "typology": {
+      "title": "Principe de Typologie",
+      "description": "Les personnes, événements et institutions de l'Ancien Testament préfigurent souvent de plus grandes réalités du Nouveau Testament — une pratique, une personne ou un objet de l'Ancien Testament peut porter un sens plus profond qui ne devient pleinement clair que dans le Nouveau."
+    },
+    "christological": {
+      "title": "Loi de l'Interprétation Christologique",
+      "description": "L'Écriture, dans son ensemble, pointe vers une seule Personne : Jésus-Christ. Lue correctement — Ancien et Nouveau Testament confondus — la Bible parle, en fin de compte, de Lui (Luc 24.44-45)."
     }
   }
 }

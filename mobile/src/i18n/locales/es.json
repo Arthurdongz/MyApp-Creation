@@ -714,6 +714,7 @@
     "crossReferencePlan": {
       "title": "La Biblia Explica la Biblia",
       "description": "Profecía y cumplimiento, promesa y respuesta — pasajes conectados que abren lo que estás leyendo, tal como Felipe abrió las Escrituras al eunuco etíope. Por encima de todo, este plan está construido para mostrar una sola cosa: a Cristo, en todas las Escrituras (Lucas 24:27). Un plan que sigue creciendo — cada libro de la Biblia ya tiene su lugar en él, y se añaden nuevos días con el tiempo hasta que cada capítulo también lo tenga.",
+      "howItAppliesLabel": "Cómo se aplica aquí",
       "days": {
         "1": {
           "theme": "La Creación Renovada",
@@ -1597,6 +1598,18 @@
         "title": "Cansancio y agotamiento",
         "description": "Para cuando ya no te queda energía: sobre el descanso y la fuerza que solo Dios puede restaurar."
       },
+      "finances": {
+        "title": "Preocupaciones de Dinero",
+        "description": "Para cuando la provisión se siente escasa, o una pérdida de empleo o una deuda te tiene ansioso — lo que la Escritura dice sobre el Dios que provee."
+      },
+      "loneliness": {
+        "title": "Soledad",
+        "description": "Para cuando te sientes olvidado o solo — sobre el Dios que pone en familia a los solitarios y nunca realmente se aparta."
+      },
+      "rejection": {
+        "title": "Rechazo",
+        "description": "Para cuando has sido pasado por alto, dejado de lado o apartado — sobre ser elegido y sostenido por Dios aun cuando las personas te sueltan."
+      },
       "healing": {
         "title": "Salud y Sanidad",
         "description": "Lo que dice la Escritura sobre el Dios que sana — el cuerpo, y las heridas debajo del cuerpo."
@@ -1725,6 +1738,58 @@
         "title": "Pureza Sexual",
         "description": "Lo que la Escritura advierte sobre el pecado sexual, y el remedio — la vía de escape, y una conciencia limpia."
       }
+    }
+  },
+  "interpretationPrinciples": {
+    "icon": "¿Sabías que...?",
+    "intro": "Doce principios que el estudio bíblico serio ha usado desde siempre para leer las Escrituras con precisión. Cuando uno de ellos aplica claramente a un pasaje que estás leyendo, un pequeño ícono como este lo señala.",
+    "literal": {
+      "title": "Principio de Interpretación Literal",
+      "description": "Un texto debe entenderse en su sentido ordinario y llano, a menos que el pasaje mismo indique lo contrario — una parábola leída como parábola, una metáfora como metáfora, pero un relato histórico leído como historia real, no explicado como simplemente simbólico."
+    },
+    "firstMention": {
+      "title": "Ley de la Primera Mención",
+      "description": "El primer lugar donde aparece una palabra, concepto o realidad en la Escritura tiene un peso real — lo que signifique allí da forma a todo uso posterior, y una interpretación posterior sólida nunca lo contradirá."
+    },
+    "context": {
+      "title": "Principio de Contexto",
+      "description": "Un versículo se lee con precisión solo a la luz de lo que lo rodea — los versículos cercanos, el capítulo, el libro en el que está, y la Escritura como un todo. Sacado de su contexto, casi cualquier línea puede hacerse decir algo que nunca estaba diciendo."
+    },
+    "historical": {
+      "title": "Perspectiva Histórica",
+      "description": "Algunos pasajes solo pueden leerse con seguridad una vez que se entiende su contexto histórico y cultural — sin ese trasfondo, un texto puede ser mal aplicado, incluso de forma peligrosa."
+    },
+    "grammatical": {
+      "title": "Interpretación Gramatical",
+      "description": "La interpretación precisa depende de la gramática, la sintaxis y el idioma original de un pasaje — lo que una palabra realmente significaba en hebreo o griego, y cómo está construida la oración, no solo cómo se lee en una traducción."
+    },
+    "scriptureInterprets": {
+      "title": "La Escritura Interpreta a la Escritura",
+      "description": "La Escritura es su propio mejor comentario — un pasaje más claro se usa para explicar uno más difícil. Donde ningún pasaje por sí solo resuelve una pregunta con claridad, una afirmación debe apoyarse en más de una escritura, no en un solo versículo leído aislado."
+    },
+    "progressiveRevelation": {
+      "title": "Ley de la Revelación Progresiva",
+      "description": "La verdad misma no cambia, pero cuán plenamente se revela sí — una promesa puede declararse temprano en la Escritura en forma de semilla y solo entenderse en su plenitud siglos después, a medida que Dios sigue desplegando lo que ya dijo."
+    },
+    "harmonization": {
+      "title": "Principio de Armonización",
+      "description": "Un solo Espíritu dio toda la Escritura, así que nunca se contradice a sí misma — dos pasajes que parecen entrar en conflicto siempre pueden reconciliarse una vez que se entienden correctamente."
+    },
+    "doubleReference": {
+      "title": "Ley de la Doble Referencia",
+      "description": "Algunos pasajes tienen tanto un significado inmediato para el momento en que fueron escritos como un cumplimiento futuro más amplio — verdaderos en ambos niveles a la vez, no uno en lugar del otro."
+    },
+    "moral": {
+      "title": "Interpretación Moral",
+      "description": "Junto a cualquier lectura histórica o doctrinal, las lecciones morales y éticas de la Escritura merecen un peso real — lo que un pasaje enseña sobre cómo vivir importa tanto como lo que registra que sucedió."
+    },
+    "typology": {
+      "title": "Principio de Tipología",
+      "description": "Las personas, eventos e instituciones del Antiguo Testamento a menudo anticipan realidades mayores del Nuevo Testamento — una práctica, una persona o un objeto del Antiguo Testamento puede llevar un significado más profundo que solo se enfoca plenamente en el Nuevo."
+    },
+    "christological": {
+      "title": "Ley de la Interpretación Cristológica",
+      "description": "La Escritura, en todo su conjunto, apunta a una sola Persona: Jesucristo. Leída correctamente — Antiguo y Nuevo Testamento por igual — la Biblia trata, en última instancia, de Él (Lucas 24:44-45)."
     }
   }
 }

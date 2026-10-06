@@ -714,6 +714,7 @@
     "crossReferencePlan": {
       "title": "A Bíblia Explica a Bíblia",
       "description": "Profecia e cumprimento, promessa e resposta — passagens conectadas que abrem o que você está lendo, da mesma forma que Filipe abriu as Escrituras ao eunuco etíope. Acima de tudo, este plano é construído para mostrar uma única coisa: Cristo, em todas as Escrituras (Lucas 24:27). Um plano que continua crescendo — cada livro da Bíblia já tem seu lugar nele, e novos dias são adicionados com o tempo até que cada capítulo também tenha.",
+      "howItAppliesLabel": "Como isso se aplica aqui",
       "days": {
         "1": {
           "theme": "A Criação Renovada",
@@ -1597,6 +1598,18 @@
         "title": "Cansaço e esgotamento",
         "description": "Para quando você não tem mais nada a dar — sobre o descanso e a força que só Deus pode restaurar."
       },
+      "finances": {
+        "title": "Preocupações Financeiras",
+        "description": "Para quando o sustento parece escasso, ou uma perda de emprego ou uma dívida te deixa ansioso — o que a Escritura diz sobre o Deus que provê."
+      },
+      "loneliness": {
+        "title": "Solidão",
+        "description": "Para quando você se sente esquecido ou sozinho — sobre o Deus que põe os solitários em famílias e nunca realmente se afasta."
+      },
+      "rejection": {
+        "title": "Rejeição",
+        "description": "Para quando você foi preterido, deixado de lado ou afastado — sobre ser escolhido e sustentado por Deus mesmo quando as pessoas te soltam."
+      },
       "healing": {
         "title": "Saúde e Cura",
         "description": "O que a Escritura diz sobre o Deus que cura — o corpo, e as feridas por baixo do corpo."
@@ -1725,6 +1738,58 @@
         "title": "Pureza Sexual",
         "description": "O que a Escritura adverte sobre o pecado sexual, e o remédio — a via de escape, e uma consciência limpa."
       }
+    }
+  },
+  "interpretationPrinciples": {
+    "icon": "Você sabia?",
+    "intro": "Doze princípios que o estudo bíblico sério usa há muito tempo para ler as Escrituras com precisão. Quando um deles se aplica claramente a uma passagem que você está lendo, um pequeno ícone como este aponta isso.",
+    "literal": {
+      "title": "Princípio da Interpretação Literal",
+      "description": "Um texto deve ser entendido em seu sentido comum e literal, a menos que a própria passagem indique o contrário — uma parábola lida como parábola, uma metáfora como metáfora, mas um relato histórico lido como história real, não explicado como simplesmente simbólico."
+    },
+    "firstMention": {
+      "title": "Lei da Primeira Menção",
+      "description": "O primeiro lugar onde uma palavra, conceito ou realidade aparece na Escritura carrega um peso real — o que ela significa ali molda todo uso posterior, e uma interpretação posterior sólida nunca a contradirá."
+    },
+    "context": {
+      "title": "Princípio do Contexto",
+      "description": "Um versículo só é lido com precisão à luz do que o cerca — os versículos próximos, o capítulo, o livro em que está, e a Escritura como um todo. Tirado de seu contexto, quase qualquer linha pode ser feita dizer algo que nunca estava dizendo."
+    },
+    "historical": {
+      "title": "Perspectiva Histórica",
+      "description": "Algumas passagens só podem ser lidas com segurança depois que seu contexto histórico e cultural é entendido — sem esse pano de fundo, um texto pode ser mal aplicado, até mesmo de forma perigosa."
+    },
+    "grammatical": {
+      "title": "Interpretação Gramatical",
+      "description": "A interpretação precisa depende da gramática, da sintaxe e do idioma original de uma passagem — o que uma palavra realmente significava em hebraico ou grego, e como a frase foi construída, não apenas como ela aparece em uma tradução."
+    },
+    "scriptureInterprets": {
+      "title": "A Escritura Interpretando a Escritura",
+      "description": "A Escritura é seu próprio melhor comentário — uma passagem mais clara é usada para explicar uma mais difícil. Onde nenhuma passagem isolada resolve uma questão com clareza, uma afirmação deve se apoiar em mais de uma escritura, não em um único versículo lido sozinho."
+    },
+    "progressiveRevelation": {
+      "title": "Lei da Revelação Progressiva",
+      "description": "A verdade em si não muda, mas quão plenamente ela é revelada, sim — uma promessa pode ser declarada cedo na Escritura em forma de semente e só ser compreendida em sua plenitude séculos depois, à medida que Deus continua a desdobrar o que já havia dito."
+    },
+    "harmonization": {
+      "title": "Princípio da Harmonização",
+      "description": "Um só Espírito deu toda a Escritura, então ela nunca se contradiz — duas passagens que parecem entrar em conflito sempre podem ser reconciliadas quando devidamente compreendidas."
+    },
+    "doubleReference": {
+      "title": "Lei da Dupla Referência",
+      "description": "Algumas passagens carregam tanto um significado imediato para o momento em que foram escritas quanto um cumprimento futuro mais amplo — genuinamente verdadeiras em ambos os níveis ao mesmo tempo, não um no lugar do outro."
+    },
+    "moral": {
+      "title": "Interpretação Moral",
+      "description": "Ao lado de qualquer leitura histórica ou doutrinária, as lições morais e éticas da Escritura merecem peso real — o que uma passagem ensina sobre como viver importa tanto quanto o que ela registra ter acontecido."
+    },
+    "typology": {
+      "title": "Princípio da Tipologia",
+      "description": "Pessoas, eventos e instituições do Antigo Testamento frequentemente prefiguram realidades maiores do Novo Testamento — uma prática, uma pessoa ou um objeto do Antigo Testamento pode carregar um significado mais profundo que só se torna totalmente claro no Novo."
+    },
+    "christological": {
+      "title": "Lei da Interpretação Cristológica",
+      "description": "A Escritura, em todo o seu conjunto, aponta para uma só Pessoa: Jesus Cristo. Lida corretamente — Antigo e Novo Testamento igualmente — a Bíblia é, em última análise, sobre Ele (Lucas 24:44-45)."
     }
   }
 }

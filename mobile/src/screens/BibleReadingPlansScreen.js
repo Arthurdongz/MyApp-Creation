@@ -40,6 +40,7 @@ import {
   startPlan,
 } from "../bibleReadingPlanProgress";
 import BibleChapterModal from "../components/BibleChapterModal";
+import PrincipleModal from "../components/PrincipleModal";
 
 const YEAR_PLAN_ID = "year-bible-plan";
 const CROSS_REF_PLAN_ID = "cross-reference-year-plan";
@@ -60,6 +61,10 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   // and passage list — an accordion, since each day can hold 2-3 passages
   // from different books rather than one single reference.
   const [expandedCrossRefDay, setExpandedCrossRefDay] = useState(null);
+  // The day whose "Did you know?" interpretation-principle popup is open
+  // (see ../data/interpretationPrinciples.js and PrincipleModal) — separate
+  // from expandedCrossRefDay so opening it doesn't collapse the day itself.
+  const [principleModalDay, setPrincipleModalDay] = useState(null);
 
   useEffect(() => {
     loadReadingPlanProgress().then(setProgress);
@@ -217,6 +222,20 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
                   {expanded ? (
                     <View style={styles.crossRefExpanded}>
                       <Text style={styles.crossRefConnection}>{connection}</Text>
+                      {item.principles && item.principles.length ? (
+                        <TouchableOpacity
+                          style={styles.principleBtn}
+                          onPress={() => {
+                            hapticTap();
+                            setPrincipleModalDay(item.day);
+                          }}
+                          accessibilityRole="button"
+                          accessibilityLabel={t("interpretationPrinciples.icon")}
+                        >
+                          <Ionicons name="bulb-outline" size={14} color={colors.goldText} />
+                          <Text style={styles.principleBtnText}>{t("interpretationPrinciples.icon")}</Text>
+                        </TouchableOpacity>
+                      ) : null}
                       {item.passages.map((p, i) => (
                         <TouchableOpacity
                           key={i}
@@ -295,6 +314,12 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
           highlightStart={reading?.verseStart ?? null}
           highlightEnd={reading?.verseEnd ?? null}
           onClose={closeReading}
+        />
+        <PrincipleModal
+          visible={principleModalDay != null}
+          principleIds={CROSS_REFERENCE_PLAN.find((d) => d.day === principleModalDay)?.principles || []}
+          note={principleModalDay != null ? t(`bibleReadingPlans.crossReferencePlan.days.${principleModalDay}.principleNote`) : ""}
+          onClose={() => setPrincipleModalDay(null)}
         />
       </View>
     );
@@ -468,6 +493,19 @@ function getStyles(colors) {
       borderTopColor: colors.border,
     },
     crossRefConnection: { fontSize: 13, color: colors.text, lineHeight: 19, marginBottom: 10 },
+    principleBtn: {
+      flexDirection: "row",
+      alignItems: "center",
+      alignSelf: "flex-start",
+      gap: 5,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 999,
+      paddingVertical: 5,
+      paddingHorizontal: 10,
+      marginBottom: 10,
+    },
+    principleBtnText: { fontSize: 12, fontWeight: "700", color: colors.goldText },
     crossRefPassageRow: {
       flexDirection: "row",
       alignItems: "center",
