@@ -17,6 +17,13 @@ import Anthropic from "@anthropic-ai/sdk";
 const CHAT_MODEL = "claude-sonnet-5-5";
 const CLASSIFIER_MODEL = "claude-haiku-4-5";
 
+// Caps a single user message — high enough for someone pasting a
+// paragraph, testimony, or passage to ask Barnabas about (previously
+// 2000, which rejected exactly that kind of message with no clear
+// explanation why). Kept in sync with mobile/src/chat.js's own copy,
+// which the client uses to warn before sending rather than after.
+const MAX_MESSAGE_LEN = 8000;
+
 // Keep this table in sync with mobile/src/crisisResources.js — duplicated
 // here because this Worker is a separate deployable project with no
 // import access to the mobile app's source. Numbers verified against each
@@ -767,8 +774,21 @@ async function handleChat(request, env, ctx) {
   // (ending a `messages` array in an assistant turn makes the model
   // continue that exact text rather than starting fresh).
   const isContinuation = continuePartial === true;
-  if (!isContinuation && (!message || typeof message !== "string" || message.length > 2000)) {
-    return jsonResponse({ error: "Invalid message." }, 400);
+  if (!isContinuation) {
+    if (!message || typeof message !== "string") {
+      return jsonResponse({ error: "Invalid message." }, 400);
+    }
+    // High enough to fit a pasted paragraph, testimony, or short passage
+    // someone wants Barnabas to respond to (a few thousand words), while
+    // still bounded — max_tokens on the reply is capped separately
+    // (MAX_REPLY_TOKENS), so a long message mainly costs more input
+    // tokens, which are cheap relative to output tokens.
+    if (message.length > MAX_MESSAGE_LEN) {
+      return jsonResponse(
+        { error: `Your message is too long (${message.length} characters, ${MAX_MESSAGE_LEN} max) — please shorten it and try again.` },
+        400
+      );
+    }
   }
   if (!deviceId || typeof deviceId !== "string") {
     return jsonResponse({ error: "Missing device id." }, 400);

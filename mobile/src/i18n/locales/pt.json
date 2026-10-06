@@ -399,6 +399,7 @@
     "stopLabel": "Parar a geração",
     "emptyState": "Diga olá — Barnabé está ouvindo.",
     "inputPlaceholder": "Digite uma mensagem...",
+    "messageTooLong": "Mensagem muito longa ({{count}}/{{max}} caracteres) — encurte-a, por favor.",
     "sendLabel": "Enviar mensagem",
     "sendButton": "Enviar",
     "disclaimer": "Se você está em crise, por favor busque ajuda real: {{resource}}",

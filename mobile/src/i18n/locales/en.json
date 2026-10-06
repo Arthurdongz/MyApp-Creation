@@ -399,6 +399,7 @@
     "stopLabel": "Stop generating",
     "emptyState": "Say hello — Barnabas is listening.",
     "inputPlaceholder": "Type a message...",
+    "messageTooLong": "Message too long ({{count}}/{{max}} characters) — please shorten it.",
     "sendLabel": "Send message",
     "sendButton": "Send",
     "disclaimer": "If you're in crisis, please reach real help: {{resource}}",

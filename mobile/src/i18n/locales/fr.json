@@ -399,6 +399,7 @@
     "stopLabel": "Arrêter la génération",
     "emptyState": "Dis bonjour — Barnabas t'écoute.",
     "inputPlaceholder": "Écris un message...",
+    "messageTooLong": "Message trop long ({{count}}/{{max}} caractères) — merci de le raccourcir.",
     "sendLabel": "Envoyer le message",
     "sendButton": "Envoyer",
     "disclaimer": "Si tu traverses une crise, trouve une aide réelle : {{resource}}",

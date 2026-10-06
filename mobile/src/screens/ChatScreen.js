@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../theme";
-import { sendChatMessage, continueChatMessage, sendChatFeedback, updateChatMemory } from "../chat";
+import { sendChatMessage, continueChatMessage, sendChatFeedback, updateChatMemory, MAX_MESSAGE_LEN } from "../chat";
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
@@ -165,6 +165,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   const [view, setView] = useState("chat");
   const [conversation, setConversation] = useState(null);
   const [input, setInput] = useState("");
+  const isTooLong = input.length > MAX_MESSAGE_LEN;
   const [sending, setSending] = useState(false);
   const [streamingText, setStreamingText] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -365,7 +366,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
 
   const handleSend = () => {
     const text = input.trim();
-    if (!text || sending || !conversation) return;
+    if (!text || text.length > MAX_MESSAGE_LEN || sending || !conversation) return;
     const history = messages;
     appendChatMessage(conversation, { role: "user", content: text });
     setInput("");
@@ -757,6 +758,10 @@ export default function ChatScreen({ store, onClose, seedContext }) {
               </TouchableOpacity>
             ) : errorMsg ? (
               <Text style={styles.errorText}>{errorMsg}</Text>
+            ) : isTooLong ? (
+              <Text style={styles.errorText}>
+                {t("chat.messageTooLong", { count: input.length, max: MAX_MESSAGE_LEN })}
+              </Text>
             ) : null}
 
             <View style={styles.inputRow}>
@@ -780,9 +785,9 @@ export default function ChatScreen({ store, onClose, seedContext }) {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
-                  style={[styles.sendBtn, !input.trim() && styles.sendBtnDisabled]}
+                  style={[styles.sendBtn, (!input.trim() || isTooLong) && styles.sendBtnDisabled]}
                   onPress={handleSend}
-                  disabled={!input.trim()}
+                  disabled={!input.trim() || isTooLong}
                   accessibilityRole="button"
                   accessibilityLabel={t("chat.sendLabel")}
                 >

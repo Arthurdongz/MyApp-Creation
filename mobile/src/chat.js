@@ -4,6 +4,11 @@
 // messages to Claude.
 export const CHAT_WORKER_URL = "https://barnabas-chat.barnabas-journal.workers.dev";
 
+// Kept in sync with chat-worker/worker.js's own MAX_MESSAGE_LEN — exported
+// so ChatScreen can warn before sending instead of only finding out after
+// the Worker rejects it.
+export const MAX_MESSAGE_LEN = 8000;
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // expo/fetch (not the global RN fetch) gives a real ReadableStream body fed
 // incrementally by native didReceiveResponseData events — required to

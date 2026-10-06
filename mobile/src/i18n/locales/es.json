@@ -399,6 +399,7 @@
     "stopLabel": "Detener la generación",
     "emptyState": "Saluda — Bernabé está escuchando.",
     "inputPlaceholder": "Escribe un mensaje...",
+    "messageTooLong": "Mensaje demasiado largo ({{count}}/{{max}} caracteres) — acórtalo, por favor.",
     "sendLabel": "Enviar mensaje",
     "sendButton": "Enviar",
     "disclaimer": "Si estás en crisis, por favor busca ayuda real: {{resource}}",
