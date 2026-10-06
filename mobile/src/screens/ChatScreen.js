@@ -373,6 +373,22 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     sendToBarnabas(text, history);
   };
 
+  // A failed send leaves a "tap to retry"/"tap to continue" banner sitting
+  // right above the composer — if the user starts typing something new
+  // instead of tapping it, that banner is now about a different message
+  // than whatever Send will actually fire, and a mis-tap on it silently
+  // resends the old, abandoned one instead of what's in the box. Typing
+  // anything new clears that stale state, so the banner disappears the
+  // moment it would stop meaning what it says.
+  const handleInputChange = (text) => {
+    setInput(text);
+    if (text && (failedMessage || canContinue)) {
+      setErrorMsg("");
+      setFailedMessage(null);
+      setCanContinue(false);
+    }
+  };
+
   const handleRetry = () => {
     if (!failedMessage || sending || !conversation) return;
     sendToBarnabas(failedMessage, messages.slice(0, -1));
@@ -768,7 +784,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
               <TextInput
                 style={styles.input}
                 value={input}
-                onChangeText={setInput}
+                onChangeText={handleInputChange}
                 placeholder={t("chat.inputPlaceholder")}
                 placeholderTextColor={colors.textSoft}
                 multiline
