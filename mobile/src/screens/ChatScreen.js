@@ -19,7 +19,7 @@ import { sendChatMessage, continueChatMessage, sendChatFeedback, updateChatMemor
 import { getCrisisResource, resolveCrisisRegion } from "../crisisResources";
 import { hapticTap } from "../haptics";
 import { BIBLE_BOOKS } from "../bibleLookup";
-import { pickForDay, pickForDaySmallBank } from "../content";
+import { pickForDay } from "../content";
 import { VERSES } from "../data/verses";
 import { loadStories, loadMoments } from "../data/byLang";
 import VersePopup from "../components/VersePopup";
@@ -143,7 +143,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // via the lookup_bible_verse tool for its exact wording) — instead of
   // letting the model guess or paraphrase from training data.
   const todayContext = useMemo(() => {
-    const story = pickForDaySmallBank(storyBank, latestDay, order);
+    const story = pickForDay(storyBank, latestDay, order);
     const moment = todayEntry?.customMoment || pickForDay(momentsBank, latestDay, order);
     const verseEntry = pickForDay(VERSES, latestDay, order);
     return { verseRef: verseEntry.ref, storyTitle: story.title, storyText: story.text, momentText: moment };

@@ -332,7 +332,8 @@ console.log("\n=== STORIES ===");
 {
   const web = load("data-stories.js", "STORIES");
   const mobile = load("mobile/src/data/stories.js", "STORIES");
-  ok(`STORIES (web): ${web.length} entries (no fixed count — cycles via pickForDaySmallBank)`);
+  if (web.length !== 366) fail(`STORIES (web): expected 366 entries, found ${web.length}`);
+  else ok(`STORIES (web): ${web.length} entries`);
   checkObjectFieldDuplicates("STORIES", web, "title");
   checkObjectFieldDuplicates("STORIES", web, "text");
   checkObjectFieldCollisions("STORIES", web, ["text", "insight"]);

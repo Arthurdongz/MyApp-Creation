@@ -84,9 +84,9 @@ export function pickForDay(arr, dayNumber, order) {
   return arr[safeIndex(rawIdx, arr.length)];
 }
 
-// For banks smaller than the full 366 (like true stories, journal prompts,
-// Barnabas principles, and welcome teasers, all of which grow over time),
-// still route through the user's per-user shuffle order so the sequence
+// For banks smaller than the full 366 (like journal prompts, Barnabas
+// principles, and welcome teasers, all of which grow over time), still
+// route through the user's per-user shuffle order so the sequence
 // doesn't feel like a flat repeating loop.
 //
 // This used to just take `order[(dayNumber - 1) % order.length] % arr.length`

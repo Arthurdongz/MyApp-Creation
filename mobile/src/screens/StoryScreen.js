@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import ContentActionCard from "../components/ContentActionCard";
 import SharePreviewModal from "../components/SharePreviewModal";
 import { useTheme } from "../theme";
-import { pickForDaySmallBank } from "../content";
+import { pickForDay } from "../content";
 import { loadStories } from "../data/byLang";
 import { speak } from "../speech";
 import { hapticTap } from "../haptics";
@@ -16,7 +16,7 @@ export default function StoryScreen({ store }) {
   const storiesBank = loadStories(i18n.language);
   const { viewingDay, order, settings, updateSettings, isFavorited, toggleFavorite } = store;
 
-  const story = useMemo(() => pickForDaySmallBank(storiesBank, viewingDay, order), [storiesBank, viewingDay, order]);
+  const story = useMemo(() => pickForDay(storiesBank, viewingDay, order), [storiesBank, viewingDay, order]);
   const storySaved = isFavorited("truestory", viewingDay);
 
   const [sharePreview, setSharePreview] = useState(false);
