@@ -41,6 +41,9 @@ export const TOPICAL_PLAN_ORDER = [
   "fasting",
   "faith",
   "righteousness",
+  "praise",
+  "worship",
+  "thanksgiving",
   "purposeOfLife",
   "salvation",
   "lifeAfterDeath",
@@ -240,6 +243,48 @@ export const TOPICAL_PLANS = {
       "Proverbs 11:18-19", "Proverbs 12:28", "Proverbs 14:34", "Proverbs 21:21", "Isaiah 32:17",
       "Isaiah 61:10", "Isaiah 64:6", "Jeremiah 23:5-6", "2 Timothy 3:16", "1 John 3:7",
       "2 Peter 3:13",
+    ],
+  },
+  // These three were added later, alongside the quality/life/study
+  // categories above, at a reader's request after noticing the app had no
+  // plan specifically on praising, worshipping, or thanking God. Each
+  // mixes direct exhortation verses with full narrative accounts — not
+  // just a command to praise or give thanks, but what it actually looked
+  // like when someone did, and what happened as a result (Jehoshaphat's
+  // singers before the battle, Paul and Silas at midnight in prison, the
+  // one leper who turned back, Daniel still giving thanks with the decree
+  // already signed). Every reference was checked against this project's
+  // own bundled KJV text before inclusion, the same as every other topic
+  // here.
+  praise: {
+    id: "praise",
+    category: "study",
+    icon: "musical-notes-outline",
+    refs: [
+      "Psalm 100", "Psalm 150", "Psalm 34:1", "Psalm 103:1-5", "Psalm 145:1-3",
+      "Psalm 63:3-4", "Psalm 71:14", "Psalm 22:3", "Hebrews 13:15", "Psalm 148",
+      "Psalm 149:1-3", "1 Chronicles 16:7-9", "2 Chronicles 20:20-22", "Luke 19:37-40", "Acts 16:25-34",
+    ],
+  },
+  worship: {
+    id: "worship",
+    category: "study",
+    icon: "sparkles-outline",
+    refs: [
+      "John 4:23-24", "Psalm 95:6", "Psalm 96:9", "Psalm 29:2", "Matthew 4:10",
+      "Romans 12:1", "Revelation 4:10-11", "Revelation 5:11-14", "Genesis 22:5", "Job 1:20-21",
+      "1 Kings 18:38-39", "Daniel 3:16-28", "Matthew 2:10-11", "John 9:35-38", "Luke 24:50-52",
+      "2 Samuel 6:14-15",
+    ],
+  },
+  thanksgiving: {
+    id: "thanksgiving",
+    category: "study",
+    icon: "restaurant-outline",
+    refs: [
+      "1 Thessalonians 5:18", "Psalm 100:4", "Philippians 4:6", "Colossians 3:15-17", "Psalm 107:1",
+      "Ephesians 5:20", "2 Corinthians 9:15", "1 Chronicles 16:34", "Psalm 116:17", "Luke 17:12-19",
+      "John 11:41-42", "John 6:11", "Jonah 2:9", "Daniel 6:10-23", "1 Samuel 2:1",
     ],
   },
   // The 23 topics below answer the wider range of questions and seasons a

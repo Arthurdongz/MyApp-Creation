@@ -1834,6 +1834,18 @@
         "title": "Justicia",
         "description": "Estar en buena relación con Dios — no ganada esforzándose más, sino dada, y luego vivida."
       },
+      "praise": {
+        "title": "Alabanza",
+        "description": "Lo que significa alabar a Dios en voz alta — y lo que pasó las veces que alguien realmente lo hizo, desde un coro enviado delante de un ejército hasta dos hombres cantando a medianoche en una celda."
+      },
+      "worship": {
+        "title": "Adoración",
+        "description": "Darle a Dios lo único que a Él le corresponde — en espíritu, en verdad, y a veces con todo lo demás en juego."
+      },
+      "thanksgiving": {
+        "title": "Acción de Gracias",
+        "description": "Dar gracias a propósito, incluso antes de que llegue la respuesta — y el único leproso, de los diez que fueron sanados, que regresó para decirlo."
+      },
       "purposeOfLife": {
         "title": "Propósito y Sentido de la Vida",
         "description": "Por qué estás aquí — hecho por Dios, para Dios, y para algo que te trasciende."

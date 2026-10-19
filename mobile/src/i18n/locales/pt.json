@@ -1834,6 +1834,18 @@
         "title": "Justiça",
         "description": "Boa posição diante de Deus — não conquistada com mais esforço, mas dada, e depois vivida."
       },
+      "praise": {
+        "title": "Louvor",
+        "description": "O que significa louvar a Deus em voz alta — e o que aconteceu nas vezes em que alguém realmente fez isso, desde um coral enviado à frente de um exército até dois homens cantando à meia-noite numa cela."
+      },
+      "worship": {
+        "title": "Adoração",
+        "description": "Dar a Deus o que só a Ele pertence — em espírito, em verdade, e às vezes com tudo o mais em jogo."
+      },
+      "thanksgiving": {
+        "title": "Ação de Graças",
+        "description": "Dar graças de propósito, mesmo antes de a resposta chegar — e o único leproso, dos dez que foram curados, que voltou para dizer isso."
+      },
       "purposeOfLife": {
         "title": "Propósito e Sentido da Vida",
         "description": "Por que você está aqui — feito por Deus, para Deus, e para algo que ultrapassa você."

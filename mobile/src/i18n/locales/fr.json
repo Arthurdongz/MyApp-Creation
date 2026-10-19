@@ -1834,6 +1834,18 @@
         "title": "Justice",
         "description": "Une bonne relation avec Dieu — non méritée en essayant plus fort, mais donnée, puis vécue."
       },
+      "praise": {
+        "title": "Louange",
+        "description": "Ce que signifie louer Dieu à voix haute — et ce qui s'est passé les fois où quelqu'un l'a vraiment fait, d'une chorale envoyée devant une armée à deux hommes chantant à minuit dans une cellule."
+      },
+      "worship": {
+        "title": "Adoration",
+        "description": "Donner à Dieu ce qui ne revient qu'à Lui seul — en esprit, en vérité, et parfois avec tout le reste en jeu."
+      },
+      "thanksgiving": {
+        "title": "Action de Grâce",
+        "description": "Rendre grâce délibérément, même avant que la réponse n'arrive — et le seul lépreux, sur les dix guéris, qui est revenu pour le dire."
+      },
       "purposeOfLife": {
         "title": "But et Sens de la Vie",
         "description": "Pourquoi tu es ici — fait par Dieu, pour Dieu, et pour quelque chose qui te dépasse."
