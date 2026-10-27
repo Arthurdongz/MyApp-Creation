@@ -4,6 +4,20 @@
 // (see content.js's TOTAL_DAYS/shuffledOrder), so any entries beyond index 365 would
 // never actually be selected for anyone — pickForDay's modulo only helps a bank that's
 // smaller than 366, not one that's larger.
+//
+// Audited for theological accuracy: every confession must be a truth scripture states
+// (or clearly implies) about the believer generally — a New Testament statement about
+// who/what believers in Christ are, a Psalm/Proverbs principle framed about the
+// righteous/godly person generally (not a narrow one-off narrative fact about a single
+// named individual's unique circumstance), or an Old Testament covenant promise the New
+// Testament itself confirms extends to all who are in Christ (e.g. the blessing of
+// Abraham, Galatians 3:13-14, 29). Statements drawn from a historical narrative about one
+// person's unique calling or situation (Joshua's conquest commission, Esther's position
+// in the Persian court, Israel's Sinai covenant terms) were removed even where the
+// sentiment is appealing, unless the New Testament itself explicitly re-grounds that
+// truth for believers generally. One entry (previously sourced from Job 22:28) was
+// replaced outright: that verse is part of Eliphaz's speech, which God explicitly
+// rebukes in Job 42:7 as not having spoken what is right.
 const CONFESSIONS = [
   {"text":"There is no condemnation over me — I am in Christ Jesus, and I walk not after the flesh, but after the Spirit.","ref":"Romans 8:1"},
   {"text":"I am the righteousness of God in Christ Jesus.","ref":"2 Corinthians 5:21"},
@@ -78,11 +92,11 @@ const CONFESSIONS = [
   {"text":"No evil shall befall me, neither shall any plague come near my dwelling — for He commands His angels to guard me in all my ways.","ref":"Psalm 91:10-11"},
   {"text":"The angel of the Lord encamps around me because I fear Him, and He delivers me.","ref":"Psalm 34:7"},
   {"text":"The Lord preserves me from all evil and watches over my going out and my coming in, now and forevermore.","ref":"Psalm 121:7-8"},
-  {"text":"The enemies who rise against me are defeated before my face; they come at me one way and flee from me seven ways.","ref":"Deuteronomy 28:7"},
-  {"text":"The Lord my God goes with me to fight my battles and to save me.","ref":"Deuteronomy 20:4"},
-  {"text":"No one is able to stand against me all the days of my life, for the Lord is with me and will not fail me or forsake me.","ref":"Joshua 1:5"},
-  {"text":"The battle I face is not mine, but God's.","ref":"2 Chronicles 20:15"},
-  {"text":"The Lord fights for me, and I hold my peace.","ref":"Exodus 14:14"},
+  {"text":"I trust in the Lord, so I am like Mount Zion, which cannot be removed but stands forever — the Lord surrounds me, now and forevermore.","ref":"Psalm 125:1-2"},
+  {"text":"Though I am troubled on every side, I am not distressed; perplexed, but not in despair; persecuted, but not forsaken; struck down, but not destroyed.","ref":"2 Corinthians 4:8-9"},
+  {"text":"My heart is fixed and established, trusting in the Lord — I am not afraid.","ref":"Psalm 112:7-8"},
+  {"text":"The Lord is a shield to me as I walk uprightly; He guards my path and preserves my way.","ref":"Proverbs 2:7-8"},
+  {"text":"I am like an everlasting foundation that cannot be shaken.","ref":"Proverbs 10:25"},
   {"text":"God has not given me the spirit of fear, but of power, love, and a sound mind. Therefore, I refuse to be ruled by fear.","ref":"2 Timothy 1:7"},
   {"text":"I can do all things through Christ who strengthens me. My ability comes from Christ, not merely from myself.","ref":"Philippians 4:13"},
   {"text":"I do not fear, for God is with me; He strengthens me, helps me, and upholds me with His righteous right hand.","ref":"Isaiah 41:10"},
@@ -151,11 +165,11 @@ const CONFESSIONS = [
   {"text":"I am God's temple, and His Spirit dwells in me.","ref":"1 Corinthians 3:16"},
   {"text":"God dwells in me and walks in me — I am His, and He is mine.","ref":"2 Corinthians 6:16"},
   {"text":"I am no longer a servant but a friend of Jesus.","ref":"John 15:15"},
-  {"text":"I am called a friend of God.","ref":"James 2:23"},
+  {"text":"The Lord is my sun and shield; He gives me grace and glory, and withholds no good thing from me as I walk uprightly.","ref":"Psalm 84:11"},
   {"text":"I have been made a king and priest unto God through Jesus Christ. I am called to reign with Him and represent Him in the earth.","ref":"Revelation 1:5-6, Revelation 5:9-10"},
   {"text":"Because I belong to Christ, I am Abraham's seed and an heir according to the promise.","ref":"Galatians 3:29"},
-  {"text":"I am God's peculiar treasure above all people — I am part of a kingdom of priests, a holy nation.","ref":"Exodus 19:5-6"},
-  {"text":"I am a holy people to the Lord my God — He has chosen me to be His special people above all on the face of the earth.","ref":"Deuteronomy 7:6"},
+  {"text":"He prepares a table before me in the presence of my enemies; He anoints my head with oil, and my cup runs over.","ref":"Psalm 23:5"},
+  {"text":"I look into the perfect law of liberty and continue in it; I am a doer of the word, not a hearer only, and I am blessed in what I do.","ref":"James 1:25"},
   {"text":"I am the Lord's jewel, His own special treasure, and He spares me as a father spares his own son.","ref":"Malachi 3:17"},
   {"text":"I am made in the image of God, and He has given me dominion to be fruitful, multiply, and care for His world.","ref":"Genesis 1:27-28"},
   {"text":"I am crowned with glory and honor, and I am given dominion over the works of God's hands.","ref":"Psalm 8:5-6"},
@@ -193,12 +207,12 @@ const CONFESSIONS = [
   {"text":"My God supplies all my need according to His riches in glory by Christ Jesus. Therefore, I trust Him as my provider.","ref":"Philippians 4:19"},
   {"text":"I meditate upon God's Word and order my life according to it. As I do so, I walk in the kind of prosperity and success that comes from obedience to God.","ref":"Joshua 1:8, Psalm 1:1, 3"},
   {"text":"God gives me power to get wealth, establishing His covenant in my life.","ref":"Deuteronomy 8:18"},
-  {"text":"Blessings chase me down and overtake me, because I obey the voice of the Lord my God.","ref":"Deuteronomy 28:2"},
-  {"text":"I am blessed in the city and blessed in the field, blessed when I come in and blessed when I go out.","ref":"Deuteronomy 28:3-6"},
-  {"text":"I am the head and not the tail, above always and never beneath.","ref":"Deuteronomy 28:13"},
+  {"text":"I trust in the Lord and do good, so I dwell in the land and am safely fed.","ref":"Psalm 37:3"},
+  {"text":"I do not cast away my confidence, for it has great reward; having done the will of God, I receive His promise.","ref":"Hebrews 10:35-36"},
+  {"text":"My promotion comes from God alone — He is the one who lifts me up.","ref":"Psalm 75:6-7"},
   {"text":"The windows of heaven are open over me.","ref":"Malachi 3:10-11"},
   {"text":"God is able to make all grace abound toward me so that, having sufficiency in all things, I may abound unto every good work.","ref":"2 Corinthians 9:8"},
-  {"text":"I sow bountifully, so I reap bountifully.","ref":"2 Corinthians 9:6"},
+  {"text":"I am generous, and I am made to flourish; as I refresh others, I am refreshed.","ref":"Proverbs 11:25"},
   {"text":"The blessing of the Lord makes me rich, and He adds no sorrow with it.","ref":"Proverbs 10:22"},
   {"text":"The Lord takes pleasure in my prosperity.","ref":"Psalm 35:27"},
   {"text":"Wealth and riches are in my house, because I fear the Lord and delight greatly in His commandments.","ref":"Psalm 112:1-3"},
@@ -248,14 +262,14 @@ const CONFESSIONS = [
   {"text":"God's thoughts toward me are thoughts of peace and not of evil, to give me an expected end and a hope.","ref":"Jeremiah 29:11"},
   {"text":"I know that God works all things together for good for those who love Him and are called according to His purpose.","ref":"Romans 8:28"},
   {"text":"The Lord will perfect everything that concerns me — He does not forsake the work of His own hands.","ref":"Psalm 138:8"},
-  {"text":"I have come into this place for such a time as this, positioned by God on purpose.","ref":"Esther 4:14"},
+  {"text":"God has determined my times and set the bounds of where I live — I am exactly where He has placed me.","ref":"Acts 17:26"},
   {"text":"I am called by His name — He created me for His glory, formed me, and made me.","ref":"Isaiah 43:7"},
   {"text":"God's gifts and calling on my life are without repentance — He never takes them back.","ref":"Romans 11:29"},
   {"text":"I am saved and called with a holy calling, not according to my works but according to His own purpose and grace.","ref":"2 Timothy 1:9"},
   {"text":"I reign in life by Christ Jesus, having received abundance of grace and the gift of righteousness.","ref":"Romans 5:17"},
   {"text":"My tongue is wholesome, a tree of life — I speak words that bring life and health to everyone around me.","ref":"Proverbs 15:4"},
   {"text":"Life and death are in the power of my tongue, and I choose to speak life, so I eat its good fruit.","ref":"Proverbs 18:21"},
-  {"text":"I believe in my heart and do not doubt, so I have what I say, in Jesus' name.","ref":"Mark 11:23"},
+  {"text":"I come before the Lord with thanksgiving and make a joyful noise to Him with singing.","ref":"Psalm 95:1-2"},
   {"text":"Like my Father, I call the things that are not as though they already were.","ref":"Romans 4:17"},
   {"text":"My faith is the substance of things I hope for and the evidence of things I do not see.","ref":"Hebrews 11:1"},
   {"text":"I live by faith, for without it I cannot please God, and I believe He rewards those who diligently seek Him.","ref":"Hebrews 11:6"},
@@ -263,7 +277,7 @@ const CONFESSIONS = [
   {"text":"All things are possible to me, because I believe.","ref":"Mark 9:23"},
   {"text":"My faith, even as small as a mustard seed, says to my mountain, Move — and it moves. Nothing is impossible to me.","ref":"Matthew 17:20"},
   {"text":"My faith comes by hearing, and hearing by the word of God — it grows every time I hear His word.","ref":"Romans 10:17"},
-  {"text":"I decree a thing and it is established for me, and light shines upon all my ways.","ref":"Job 22:28"},
+  {"text":"He knows the way that I take; when I have been tried, I come forth as gold.","ref":"Job 23:10"},
   {"text":"I am satisfied with good things by the fruit of my own mouth.","ref":"Proverbs 12:14"},
   {"text":"I will guard my mouth and refuse destructive speech. I will speak words that are true, gracious, wise, and edifying.","ref":"Proverbs 13:3, Ephesians 4:29"},
   {"text":"I keep watch over my mouth and my tongue, and this keeps my soul from trouble.","ref":"Proverbs 21:23"},
@@ -275,7 +289,7 @@ const CONFESSIONS = [
   {"text":"I hold firmly to the confession of my faith without wavering, because God who promised is faithful.","ref":"Hebrews 10:23"},
   {"text":"The God of hope fills me with all joy and peace as I believe, so I overflow with hope by the power of the Holy Spirit.","ref":"Romans 15:13"},
   {"text":"I commit my works to the Lord, and my thoughts and plans are established.","ref":"Proverbs 16:3"},
-  {"text":"My steps are directed by the Lord — I never go where there is trouble, and I do not take a wrong step.","ref":"Proverbs 16:9"},
+  {"text":"The God of peace sanctifies me wholly — spirit, soul, and body preserved blameless; faithful is He who calls me, and He will do it.","ref":"1 Thessalonians 5:23-24"},
   {"text":"My steps are ordered by the Lord, and He delights in my way.","ref":"Psalm 37:23"},
   {"text":"God has prepared good works for me. I will walk faithfully in what He has entrusted to me rather than live without direction.","ref":"Ephesians 2:10, Proverbs 3:5-6"},
   {"text":"My words, fitly spoken, are like apples of gold in settings of silver, bringing beauty wherever I go.","ref":"Proverbs 25:11"},
@@ -337,7 +351,7 @@ const CONFESSIONS = [
   {"text":"The Lord has brought me up out of the pit and set my feet upon a rock; He has put a new song of praise in my mouth.","ref":"Psalm 40:1-3"},
   {"text":"I cast my burden on the Lord, and He sustains me. He will never let me be moved.","ref":"Psalm 55:22"},
   {"text":"Blessed be the Lord, who daily loads me with benefits — He is the God of my salvation.","ref":"Psalm 68:19"},
-  {"text":"I commit my works to the Lord, and I trust Him to establish the work of my hands.","ref":"Psalm 90:17, Proverbs 16:3"},
+  {"text":"The Lord blesses my home, for I am righteous in Him.","ref":"Proverbs 3:33"},
   {"text":"I bless the Lord with all that is within me; my whole soul blesses His holy name.","ref":"Psalm 103:1"},
   {"text":"The Lord is near to me whenever I call upon Him in truth; He fulfills the desire of my heart and hears my cry.","ref":"Psalm 145:18-19"},
   {"text":"The Lord heals my broken heart and binds up every wound.","ref":"Psalm 147:3"},
