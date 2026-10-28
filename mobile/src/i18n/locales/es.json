@@ -1846,6 +1846,10 @@
         "title": "Acción de Gracias",
         "description": "Dar gracias a propósito, incluso antes de que llegue la respuesta — y el único leproso, de los diez que fueron sanados, que regresó para decirlo."
       },
+      "personalConfessions": {
+        "title": "Confesiones Personales de Salmos y Proverbios",
+        "description": "Los Salmos y Proverbios que hablan bendición sobre el justo, leídos como propios — 'las cuerdas me cayeron en lugares deleitosos', 'no moriré, sino que viviré'."
+      },
       "purposeOfLife": {
         "title": "Propósito y Sentido de la Vida",
         "description": "Por qué estás aquí — hecho por Dios, para Dios, y para algo que te trasciende."

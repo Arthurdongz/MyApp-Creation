@@ -44,6 +44,7 @@ export const TOPICAL_PLAN_ORDER = [
   "praise",
   "worship",
   "thanksgiving",
+  "personalConfessions",
   "purposeOfLife",
   "salvation",
   "lifeAfterDeath",
@@ -285,6 +286,43 @@ export const TOPICAL_PLANS = {
       "1 Thessalonians 5:18", "Psalm 100:4", "Philippians 4:6", "Colossians 3:15-17", "Psalm 107:1",
       "Ephesians 5:20", "2 Corinthians 9:15", "1 Chronicles 16:34", "Psalm 116:17", "Luke 17:12-19",
       "John 11:41-42", "John 6:11", "Jonah 2:9", "Daniel 6:10-23", "1 Samuel 2:1",
+    ],
+  },
+  // This one is different in kind from the rest of this file: every other
+  // topic here is a cross-section of Scripture on a subject. This one is
+  // Psalms and Proverbs read back as first-person confession — verses
+  // where the Psalmist or Solomon states a positive, personal truth about
+  // the righteous/the believer that still makes sense spoken today ("I
+  // shall not die, but live"; "the lines are fallen unto me in pleasant
+  // places"), not a one-off historical detail about one person's unique
+  // situation. Imprecatory psalms (prayers for God to strike down named
+  // enemies), psalms that mainly recite Israel's history, and psalms
+  // addressed to or about "the king" in the third person were left out
+  // even where a line or two reads well, since the chapter as a whole
+  // isn't personal confession. Where the whole chapter holds together as
+  // confession (Psalm 91, 23, 37...) the whole chapter is here; where
+  // only part of a longer psalm fits (Psalm 139's "fearfully and
+  // wonderfully made" without its closing plea against the Psalmist's
+  // enemies), only that range is. Every reference was checked against
+  // this project's own bundled KJV text before inclusion, the same as
+  // every other topic here.
+  personalConfessions: {
+    id: "personalConfessions",
+    category: "study",
+    icon: "megaphone-outline",
+    refs: [
+      "Psalm 1", "Psalm 3", "Psalm 4", "Psalm 8", "Psalm 15", "Psalm 16", "Psalm 18:1-3",
+      "Psalm 23", "Psalm 24", "Psalm 25", "Psalm 27", "Psalm 30", "Psalm 32", "Psalm 34",
+      "Psalm 36:5-9", "Psalm 37", "Psalm 40:1-3", "Psalm 46", "Psalm 61", "Psalm 62", "Psalm 63",
+      "Psalm 84", "Psalm 91", "Psalm 92", "Psalm 103", "Psalm 112", "Psalm 116", "Psalm 118:14-17",
+      "Psalm 118:24", "Psalm 119:11", "Psalm 119:105", "Psalm 119:165", "Psalm 121", "Psalm 125",
+      "Psalm 126", "Psalm 127", "Psalm 128", "Psalm 131", "Psalm 133", "Psalm 138", "Psalm 139:1-18",
+      "Psalm 145",
+      "Proverbs 1:33", "Proverbs 2:21", "Proverbs 3:5-6", "Proverbs 3:24", "Proverbs 3:26",
+      "Proverbs 4:18", "Proverbs 8:34-35", "Proverbs 10:22", "Proverbs 10:24", "Proverbs 10:28",
+      "Proverbs 11:28", "Proverbs 12:3", "Proverbs 12:7", "Proverbs 12:21", "Proverbs 12:28",
+      "Proverbs 13:9", "Proverbs 16:3", "Proverbs 16:7", "Proverbs 18:10", "Proverbs 21:21",
+      "Proverbs 28:1", "Proverbs 28:13",
     ],
   },
   // The 23 topics below answer the wider range of questions and seasons a

@@ -1846,6 +1846,10 @@
         "title": "Action de Grâce",
         "description": "Rendre grâce délibérément, même avant que la réponse n'arrive — et le seul lépreux, sur les dix guéris, qui est revenu pour le dire."
       },
+      "personalConfessions": {
+        "title": "Confessions Personnelles des Psaumes et Proverbes",
+        "description": "Les Psaumes et Proverbes qui parlent de bénédiction sur le juste, lus comme les vôtres — 'les cordeaux sont tombés pour moi dans des lieux agréables', 'je ne mourrai pas, mais je vivrai'."
+      },
       "purposeOfLife": {
         "title": "But et Sens de la Vie",
         "description": "Pourquoi tu es ici — fait par Dieu, pour Dieu, et pour quelque chose qui te dépasse."
