@@ -65,6 +65,12 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   // (see ../data/interpretationPrinciples.js and PrincipleModal) — separate
   // from expandedCrossRefDay so opening it doesn't collapse the day itself.
   const [principleModalDay, setPrincipleModalDay] = useState(null);
+  // Which top-level headline sections ("The Whole Bible", "Barnabas Heart",
+  // "Topical Studies", "For What You're Going Through") are expanded on the
+  // list screen — collapsed by default so the full topic library doesn't
+  // all render at once. Independent per section (not an accordion): more
+  // than one can be open at a time.
+  const [expandedSections, setExpandedSections] = useState(() => new Set());
 
   useEffect(() => {
     loadReadingPlanProgress().then(setProgress);
@@ -88,6 +94,16 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   const toggleDay = (planId, day, isDone) => {
     hapticTap();
     setProgress((prev) => (prev ? (isDone ? markDayIncomplete(prev, planId, day) : markDayComplete(prev, planId, day)) : prev));
+  };
+
+  const toggleSection = (key) => {
+    hapticTap();
+    setExpandedSections((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
   const openReading = (book, chapter, verseStart, verseEnd, meta) => {
@@ -335,53 +351,103 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
     <View style={styles.container}>
       <ScreenHeader title={t("bibleReadingPlans.title")} onClose={onClose} styles={styles} t={t} />
       <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
-        <Text style={styles.sectionTitle}>{t("bibleReadingPlans.yearSection")}</Text>
-        <TouchableOpacity style={styles.planCard} onPress={() => openPlan(YEAR_PLAN_ID)} accessibilityRole="button">
-          <Ionicons name="calendar-outline" size={22} color={colors.sageDark} />
-          <View style={styles.planCardBody}>
-            <Text style={styles.planCardTitle}>{t("bibleReadingPlans.yearPlan.title")}</Text>
-            <Text style={styles.planCardDesc}>{t("bibleReadingPlans.yearPlan.description")}</Text>
-            <Text style={styles.planCardProgress}>
-              {yearProgress
-                ? t("bibleReadingPlans.progressLine", { done: yearProgress.completedDays.length, total: YEAR_BIBLE_PLAN.length })
-                : t("bibleReadingPlans.dayCount", { count: YEAR_BIBLE_PLAN.length })}
-            </Text>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
-        </TouchableOpacity>
+        <CollapsibleSection
+          title={t("bibleReadingPlans.yearSection")}
+          expanded={expandedSections.has("year")}
+          onToggle={() => toggleSection("year")}
+          styles={styles}
+          colors={colors}
+        >
+          <TouchableOpacity style={styles.planCard} onPress={() => openPlan(YEAR_PLAN_ID)} accessibilityRole="button">
+            <Ionicons name="calendar-outline" size={22} color={colors.sageDark} />
+            <View style={styles.planCardBody}>
+              <Text style={styles.planCardTitle}>{t("bibleReadingPlans.yearPlan.title")}</Text>
+              <Text style={styles.planCardDesc}>{t("bibleReadingPlans.yearPlan.description")}</Text>
+              <Text style={styles.planCardProgress}>
+                {yearProgress
+                  ? t("bibleReadingPlans.progressLine", { done: yearProgress.completedDays.length, total: YEAR_BIBLE_PLAN.length })
+                  : t("bibleReadingPlans.dayCount", { count: YEAR_BIBLE_PLAN.length })}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.planCard} onPress={() => openPlan(CROSS_REF_PLAN_ID)} accessibilityRole="button">
-          <Ionicons name="git-network-outline" size={22} color={colors.sageDark} />
-          <View style={styles.planCardBody}>
-            <Text style={styles.planCardTitle}>{t("bibleReadingPlans.crossReferencePlan.title")}</Text>
-            <Text style={styles.planCardDesc}>{t("bibleReadingPlans.crossReferencePlan.description")}</Text>
-            <Text style={styles.planCardProgress}>
-              {crossRefProgress
-                ? t("bibleReadingPlans.progressLine", { done: crossRefProgress.completedDays.length, total: CROSS_REFERENCE_PLAN.length })
-                : t("bibleReadingPlans.dayCount", { count: CROSS_REFERENCE_PLAN.length })}
-            </Text>
-          </View>
-          <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.planCard} onPress={() => openPlan(CROSS_REF_PLAN_ID)} accessibilityRole="button">
+            <Ionicons name="git-network-outline" size={22} color={colors.sageDark} />
+            <View style={styles.planCardBody}>
+              <Text style={styles.planCardTitle}>{t("bibleReadingPlans.crossReferencePlan.title")}</Text>
+              <Text style={styles.planCardDesc}>{t("bibleReadingPlans.crossReferencePlan.description")}</Text>
+              <Text style={styles.planCardProgress}>
+                {crossRefProgress
+                  ? t("bibleReadingPlans.progressLine", { done: crossRefProgress.completedDays.length, total: CROSS_REFERENCE_PLAN.length })
+                  : t("bibleReadingPlans.dayCount", { count: CROSS_REFERENCE_PLAN.length })}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={18} color={colors.textSoft} />
+          </TouchableOpacity>
+        </CollapsibleSection>
 
-        <Text style={styles.sectionTitle}>{t("bibleReadingPlans.qualitySection")}</Text>
-        <Text style={styles.sectionIntro}>{t("bibleReadingPlans.qualitySectionIntro")}</Text>
-        {qualityTopics.map((id) => (
-          <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
-        ))}
+        <CollapsibleSection
+          title={t("bibleReadingPlans.qualitySection")}
+          intro={t("bibleReadingPlans.qualitySectionIntro")}
+          expanded={expandedSections.has("quality")}
+          onToggle={() => toggleSection("quality")}
+          styles={styles}
+          colors={colors}
+        >
+          {qualityTopics.map((id) => (
+            <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
+          ))}
+        </CollapsibleSection>
 
-        <Text style={styles.sectionTitle}>{t("bibleReadingPlans.studySection")}</Text>
-        <Text style={styles.sectionIntro}>{t("bibleReadingPlans.studySectionIntro")}</Text>
-        {studyTopics.map((id) => (
-          <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
-        ))}
+        <CollapsibleSection
+          title={t("bibleReadingPlans.studySection")}
+          intro={t("bibleReadingPlans.studySectionIntro")}
+          expanded={expandedSections.has("study")}
+          onToggle={() => toggleSection("study")}
+          styles={styles}
+          colors={colors}
+        >
+          {studyTopics.map((id) => (
+            <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
+          ))}
+        </CollapsibleSection>
 
-        <Text style={styles.sectionTitle}>{t("bibleReadingPlans.lifeSection")}</Text>
-        <Text style={styles.sectionIntro}>{t("bibleReadingPlans.lifeSectionIntro")}</Text>
-        {lifeTopics.map((id) => (
-          <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
-        ))}
+        <CollapsibleSection
+          title={t("bibleReadingPlans.lifeSection")}
+          intro={t("bibleReadingPlans.lifeSectionIntro")}
+          expanded={expandedSections.has("life")}
+          onToggle={() => toggleSection("life")}
+          styles={styles}
+          colors={colors}
+        >
+          {lifeTopics.map((id) => (
+            <TopicCard key={id} id={id} progress={progress} onOpen={openPlan} styles={styles} colors={colors} t={t} />
+          ))}
+        </CollapsibleSection>
       </ScrollView>
+    </View>
+  );
+}
+
+function CollapsibleSection({ title, intro, expanded, onToggle, styles, colors, children }) {
+  return (
+    <View style={styles.section}>
+      <TouchableOpacity
+        style={styles.sectionHeaderRow}
+        onPress={onToggle}
+        accessibilityRole="button"
+        accessibilityState={{ expanded }}
+      >
+        <Text style={styles.sectionTitle}>{title}</Text>
+        <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={20} color={colors.sageDark} />
+      </TouchableOpacity>
+      {expanded ? (
+        <View>
+          {intro ? <Text style={styles.sectionIntro}>{intro}</Text> : null}
+          {children}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -441,8 +507,15 @@ function getStyles(colors) {
     backBtnText: { fontSize: 14, fontWeight: "700", color: colors.sageDark },
     progressLine: { fontSize: 13, color: colors.textSoft, marginBottom: 10 },
     list: { paddingBottom: 40 },
-    sectionTitle: { fontSize: 16, fontWeight: "700", color: colors.sageDark, marginTop: 18, marginBottom: 4 },
-    sectionIntro: { fontSize: 13, color: colors.textSoft, marginBottom: 10, lineHeight: 18 },
+    section: { marginTop: 18 },
+    sectionHeaderRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: 4,
+    },
+    sectionTitle: { fontSize: 16, fontWeight: "700", color: colors.sageDark, flex: 1, marginRight: 10 },
+    sectionIntro: { fontSize: 13, color: colors.textSoft, marginTop: 4, marginBottom: 10, lineHeight: 18 },
     planCard: {
       flexDirection: "row",
       alignItems: "center",
