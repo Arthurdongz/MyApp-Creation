@@ -1,0 +1,3 @@
+# Bank statements and personal files dropped in for the assistant: never commit
+inbox-drop/*
+!inbox-drop/.gitkeep
