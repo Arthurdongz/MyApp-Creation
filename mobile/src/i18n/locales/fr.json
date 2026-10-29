@@ -1732,6 +1732,9 @@
     "markUnread": "Marquer comme non lu",
     "dangerSectionLabel": "Le Danger",
     "remedySectionLabel": "Le Remède",
+    "devilNatureSectionLabel": "Sa Nature",
+    "devilWorksSectionLabel": "Ses Œuvres",
+    "devilEndSectionLabel": "Sa Fin",
     "meditationPrompt": {
       "question": "As-tu compris ce que tu as lu ? Aimerais-tu en discuter avec Barnabas ?",
       "discussButton": "Discuter avec Barnabas",
@@ -1872,6 +1875,13 @@
         "description": "Leurs œuvres envers Dieu et envers les hommes, de la Genèse à l'Apocalypse, et leur mission présente nommée clairement en Hébreux 1:14 — « des esprits au service de Dieu, envoyés pour exercer un ministère en faveur de ceux qui doivent hériter du salut ».",
         "notes": {
           "angelOfTheLord": "De nombreuses apparitions de « l'ange de l'Éternel » dans l'Ancien Testament — ici, à Agar en Genèse 16:7-13, à Gédéon en Juges 6, à Manoach en Juges 13 — diffèrent des anges nommés ailleurs dans l'Écriture, comme Gabriel ou Michel. Cet Ange parle à la première personne comme Dieu, accepte ce que les anges créés refusent explicitement (comparer Apocalypse 22:8-9), et est identifié directement comme l'Éternel lui-même (v.4,6) plutôt que comme son messager. Beaucoup y ont vu une apparition préincarnée du Fils — ce qui concorde avec Jean 1:18, « personne n'a jamais vu Dieu ; le Fils unique... l'a fait connaître », et avec 1 Corinthiens 10:4, qui identifie le rocher qui a suivi Israël dans le désert comme étant Christ. C'est un rappel de lire attentivement : tout « ange » dans ces pages n'est pas le même genre d'être."
+        }
+      },
+      "devil": {
+        "title": "Le Diable : Un Ennemi Vaincu",
+        "description": "Sa nature, ses œuvres, et enfin sa fin — pour que vous puissiez reconnaître ses manœuvres (2 Corinthiens 2:11) là où Ève ne l'a pas fait, cesser d'attribuer à Dieu ce qui est en réalité son œuvre à lui, et terminer ce plan en voyant un ennemi déjà vaincu, non une puissance rivale à craindre.",
+        "notes": {
+          "satansFall": "Ésaïe 14 s'adresse, dans son contexte immédiat, au roi de Babylone (v.4) — un souverain réel et mortel moqué pour son arrogance. Mais le langage le dépasse : aucun roi humain n'a littéralement dit « Je monterai au ciel, j'élèverai mon trône au-dessus des étoiles de Dieu... je serai semblable au Très-Haut » (v.13-14), et Ézéchiel 28:12-17 dit quelque chose de semblable du roi de Tyr — « tu étais en Éden, le jardin de Dieu », « tu étais un chérubin protecteur » — un langage qui ne correspond non plus à aucun roi mortel. Beaucoup de lecteurs ont depuis longtemps vu dans ces deux passages une double référence : une parole réelle adressée à un roi terrestre réel, et, derrière lui, un aperçu de l'orgueil et de la chute plus grands de l'être qui anime chacun de ces trônes. Les propres paroles de Jésus en Luc 10:18 — « Je voyais Satan tomber du ciel comme un éclair » — font écho à la même image."
         }
       },
       "purposeOfLife": {

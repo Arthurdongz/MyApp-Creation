@@ -48,6 +48,7 @@ export const TOPICAL_PLAN_ORDER = [
   "attributesOfGod",
   "holySpirit",
   "angels",
+  "devil",
   "purposeOfLife",
   "salvation",
   "lifeAfterDeath",
@@ -448,6 +449,51 @@ export const TOPICAL_PLANS = {
       "1 Thessalonians 4:16", "2 Thessalonians 1:7-8",
       "Revelation 1:1", "Revelation 5:11-12", "Revelation 8:2", "Revelation 12:7-9", "Revelation 20:1-3",
       "Revelation 22:8-9",
+    ],
+  },
+  // The devil: deliberately progressive, in three named sections (see
+  // sectionBreaks below) rather than one flat list, because the point
+  // isn't just information — it's 2 Corinthians 2:11's "we are not
+  // ignorant of his devices," so that his schemes can be recognised
+  // before they work, the way Eve didn't (Genesis 3) and Peter didn't,
+  // until Jesus named what was actually happening (Mark 8:33). His
+  // nature first (who/what he actually is — a created, already-defeated
+  // accuser, not God's rival), then his works (how he actually operates:
+  // disguise, suggestion, exploiting pain and desire, corrupting what's
+  // sown), then his end (already judged at the cross, resisted today,
+  // finished forever in Revelation 20:10) — so a reader closes the plan
+  // seeing a defeated foe, not an equal and opposite power to fear, and
+  // stops crediting God with what is actually the devil's own work
+  // (John 10:10 vs. John 8:44). One entry (Isaiah 14:12-15) carries a
+  // commentary note on reading it alongside its immediate audience, the
+  // king of Babylon. Every reference was checked against this project's
+  // own bundled KJV text before inclusion, the same as every other topic
+  // here.
+  devil: {
+    id: "devil",
+    category: "study",
+    icon: "skull-outline",
+    sectionBreaks: [
+      { day: 1, labelKey: "devilNatureSectionLabel" },
+      { day: 12, labelKey: "devilWorksSectionLabel" },
+      { day: 28, labelKey: "devilEndSectionLabel" },
+    ],
+    refs: [
+      // His nature
+      "Job 1:6-12", "Zechariah 3:1-2",
+      { ref: "Isaiah 14:12-15", principles: ["doubleReference"], noteId: "satansFall" },
+      "Ezekiel 28:12-17", "Luke 10:18", "John 8:44", "1 Peter 5:8", "2 Corinthians 4:4",
+      "Ephesians 2:2", "Ephesians 6:12", "Revelation 12:9",
+      // His works
+      "2 Corinthians 2:11", "Genesis 3:1-6", "2 Corinthians 11:3", "2 Corinthians 11:14",
+      "John 10:10", "Mark 8:33", "Luke 22:31", "Matthew 13:19", "Matthew 13:38-39",
+      "Romans 12:2", "2 Corinthians 10:3-5", "Genesis 4:7", "James 1:14-15",
+      "1 Thessalonians 3:5", "Acts 5:3-4", "Job 2:4-7",
+      // His end
+      "1 John 3:8", "Colossians 2:15", "Hebrews 2:14-15", "John 12:31", "John 16:11",
+      "Revelation 12:10-11", "James 4:7", "1 Peter 5:9", "Ephesians 6:11-17", "Proverbs 4:23",
+      "Psalm 119:11", "Matthew 4:1-11", "Philippians 4:8", "1 John 4:4", "Luke 10:19",
+      "Romans 16:20", "Matthew 25:41", "Revelation 20:10",
     ],
   },
   // The 23 topics below answer the wider range of questions and seasons a

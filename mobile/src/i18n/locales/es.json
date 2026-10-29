@@ -1732,6 +1732,9 @@
     "markUnread": "Marcar como no leído",
     "dangerSectionLabel": "El Peligro",
     "remedySectionLabel": "El Remedio",
+    "devilNatureSectionLabel": "Su Naturaleza",
+    "devilWorksSectionLabel": "Sus Obras",
+    "devilEndSectionLabel": "Su Fin",
     "meditationPrompt": {
       "question": "¿Entendiste lo que leíste? ¿Te gustaría conversarlo con Barnabás?",
       "discussButton": "Conversar con Barnabás",
@@ -1872,6 +1875,13 @@
         "description": "Sus obras hacia Dios y hacia las personas, desde Génesis hasta Apocalipsis, y su asignación presente nombrada claramente en Hebreos 1:14 — \"espíritus ministradores, enviados para servicio a favor de los que serán herederos de la salvación\".",
         "notes": {
           "angelOfTheLord": "Muchas apariciones del \"ángel del SEÑOR\" en el Antiguo Testamento — aquí, a Agar en Génesis 16:7-13, a Gedeón en Jueces 6, a Manoa en Jueces 13 — son diferentes de los ángeles nombrados en otras partes de la Escritura, como Gabriel o Miguel. Este Ángel habla en primera persona como Dios, acepta lo que los ángeles creados rechazan explícitamente (compárese Apocalipsis 22:8-9), y es identificado directamente como el SEÑOR mismo (v.4,6) en lugar de como su mensajero. Muchos han leído esto como una aparición preencarnada del Hijo — consistente con Juan 1:18, \"a Dios nadie le vio jamás; el unigénito Hijo... él le ha dado a conocer\", y con 1 Corintios 10:4, que identifica la roca que siguió a Israel en el desierto como Cristo. Es un recordatorio para leer con cuidado: no todo \"ángel\" en estas páginas es el mismo tipo de ser."
+        }
+      },
+      "devil": {
+        "title": "El Diablo: Un Enemigo Derrotado",
+        "description": "Su naturaleza, sus obras y finalmente su fin — para que puedas reconocer sus artimañas (2 Corintios 2:11) como Eva no pudo, dejes de atribuir a Dios lo que en realidad es obra suya, y termines este plan viendo a un enemigo ya derrotado, no a un poder rival que temer.",
+        "notes": {
+          "satansFall": "Isaías 14 está dirigido, en su contexto inmediato, al rey de Babilonia (v.4) — un gobernante real y mortal que es burlado por su arrogancia. Pero el lenguaje lo sobrepasa: ningún rey humano dijo literalmente \"Subiré al cielo, en lo alto, junto a las estrellas de Dios, levantaré mi trono... seré semejante al Altísimo\" (vv.13-14), y Ezequiel 28:12-17 dice algo similar del rey de Tiro — \"estuviste en Edén, en el huerto de Dios\", \"tú, querubín grande, protector\" — lenguaje que tampoco encaja con ningún rey mortal. Muchos lectores han entendido desde hace tiempo que ambos pasajes llevan una doble referencia: una palabra real a un rey terrenal real, y, detrás de él, un vistazo al orgullo y la caída mayores del ser que anima a todo trono semejante. Las propias palabras de Jesús en Lucas 10:18 — \"Yo veía a Satanás caer del cielo como un rayo\" — reflejan la misma imagen."
         }
       },
       "purposeOfLife": {

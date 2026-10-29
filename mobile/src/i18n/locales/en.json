@@ -1732,6 +1732,9 @@
     "markUnread": "Mark as unread",
     "dangerSectionLabel": "The Danger",
     "remedySectionLabel": "The Remedy",
+    "devilNatureSectionLabel": "His Nature",
+    "devilWorksSectionLabel": "His Works",
+    "devilEndSectionLabel": "His End",
     "meditationPrompt": {
       "question": "Did you understand what you read? Would you like to discuss it with Barnabas?",
       "discussButton": "Discuss with Barnabas",
@@ -1872,6 +1875,13 @@
         "description": "Their works toward God and toward people, Genesis to Revelation, and their present assignment named plainly in Hebrews 1:14 — \"ministering spirits, sent forth to minister for them who shall be heirs of salvation.\"",
         "notes": {
           "angelOfTheLord": "Many Old Testament appearances of \"the angel of the LORD\" — here, to Hagar in Genesis 16:7-13, to Gideon in Judges 6, to Manoah in Judges 13 — are different from the angels named elsewhere in Scripture, like Gabriel or Michael. This Angel speaks in the first person as God, accepts what created angels explicitly refuse (compare Revelation 22:8-9), and is identified directly as the LORD Himself (v.4,6) rather than as His messenger. Many have read these as a pre-incarnate appearance of the Son — consistent with John 1:18's \"no man hath seen God at any time; the only begotten Son... hath declared him,\" and with 1 Corinthians 10:4's identification of the rock that followed Israel in the wilderness as Christ. It's a reminder to read carefully: not every \"angel\" in these pages is the same kind of being."
+        }
+      },
+      "devil": {
+        "title": "The Devil: A Defeated Foe",
+        "description": "His nature, his works, and finally his end — so you can recognise his devices (2 Corinthians 2:11) the way Eve didn't, stop crediting God with what is actually his doing, and close the plan seeing an already-defeated enemy, not a rival power to fear.",
+        "notes": {
+          "satansFall": "Isaiah 14 is addressed, in its immediate context, to the king of Babylon (v.4) — a real, mortal ruler being mocked for his arrogance. But the language outgrows him: no human king literally said \"I will ascend into heaven, I will exalt my throne above the stars of God... I will be like the most High\" (vv.13-14), and Ezekiel 28:12-17 says something similar of the king of Tyre — \"thou hast been in Eden the garden of God,\" \"thou wast the anointed cherub that covereth\" — language no mortal king fits either. Many readers have long taken both passages as carrying a double reference: a real word to a real earthly king, and, behind him, a glimpse of the greater pride and fall of the being who animates every such throne. Jesus' own words in Luke 10:18 — \"I beheld Satan as lightning fall from heaven\" — echo the same picture."
         }
       },
       "purposeOfLife": {

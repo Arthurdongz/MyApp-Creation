@@ -282,9 +282,16 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
             // in two via remedyStartsAtDay: the danger Scripture names
             // first, then God's remedy — show a small header at the seam
             // (and at day 1) so the shift in tone doesn't read as random.
+            // `sectionBreaks` generalizes this to any number of named
+            // sections (e.g. the devil topic's nature/works/end) via an
+            // explicit [{ day, labelKey }] list instead of one fixed seam.
             const remedyStartsAtDay = topical?.remedyStartsAtDay;
+            const sectionBreaks = topical?.sectionBreaks;
             let sectionHeader = null;
-            if (remedyStartsAtDay != null) {
+            if (sectionBreaks) {
+              const brk = sectionBreaks.find((b) => b.day === item.day);
+              if (brk) sectionHeader = t(`bibleReadingPlans.${brk.labelKey}`);
+            } else if (remedyStartsAtDay != null) {
               if (item.day === 1) sectionHeader = t("bibleReadingPlans.dangerSectionLabel");
               else if (item.day === remedyStartsAtDay) sectionHeader = t("bibleReadingPlans.remedySectionLabel");
             }

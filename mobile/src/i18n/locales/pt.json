@@ -1732,6 +1732,9 @@
     "markUnread": "Marcar como não lido",
     "dangerSectionLabel": "O Perigo",
     "remedySectionLabel": "O Remédio",
+    "devilNatureSectionLabel": "Sua Natureza",
+    "devilWorksSectionLabel": "Suas Obras",
+    "devilEndSectionLabel": "Seu Fim",
     "meditationPrompt": {
       "question": "Você entendeu o que leu? Gostaria de discutir isso com Barnabás?",
       "discussButton": "Conversar com Barnabás",
@@ -1872,6 +1875,13 @@
         "description": "Suas obras para com Deus e para com as pessoas, de Gênesis a Apocalipse, e sua missão presente nomeada claramente em Hebreus 1:14 — \"espíritos ministradores, enviados para servir a favor dos que hão de herdar a salvação\".",
         "notes": {
           "angelOfTheLord": "Muitas aparições do \"anjo do SENHOR\" no Antigo Testamento — aqui, a Agar em Gênesis 16:7-13, a Gideão em Juízes 6, a Manoá em Juízes 13 — são diferentes dos anjos nomeados em outras partes da Escritura, como Gabriel ou Miguel. Este Anjo fala na primeira pessoa como Deus, aceita o que os anjos criados recusam explicitamente (compare Apocalipse 22:8-9), e é identificado diretamente como o próprio SENHOR (v.4,6), e não como seu mensageiro. Muitos leram isso como uma aparição pré-encarnada do Filho — consistente com João 1:18, \"ninguém jamais viu a Deus; o Filho unigênito... o deu a conhecer\", e com 1 Coríntios 10:4, que identifica a rocha que seguiu Israel no deserto como Cristo. É um lembrete para ler com cuidado: nem todo \"anjo\" nessas páginas é o mesmo tipo de ser."
+        }
+      },
+      "devil": {
+        "title": "O Diabo: Um Inimigo Derrotado",
+        "description": "Sua natureza, suas obras e, por fim, seu fim — para que você possa reconhecer suas artimanhas (2 Coríntios 2:11) como Eva não conseguiu, pare de atribuir a Deus o que na verdade é obra dele, e termine este plano vendo um inimigo já derrotado, não um poder rival a temer.",
+        "notes": {
+          "satansFall": "Isaías 14 é dirigido, em seu contexto imediato, ao rei da Babilônia (v.4) — um governante real e mortal que está sendo zombado por sua arrogância. Mas a linguagem o ultrapassa: nenhum rei humano disse literalmente \"Subirei ao céu, acima das estrelas de Deus levantarei o meu trono... serei semelhante ao Altíssimo\" (vv.13-14), e Ezequiel 28:12-17 diz algo semelhante do rei de Tiro — \"estiveste no Éden, no jardim de Deus\", \"tu eras o querubim da guarda, ungido\" — linguagem que também não se encaixa em nenhum rei mortal. Muitos leitores há muito entendem que ambas as passagens carregam uma dupla referência: uma palavra real a um rei terreno real, e, por trás dele, um vislumbre do orgulho e da queda maiores do ser que anima todo trono semelhante. As próprias palavras de Jesus em Lucas 10:18 — \"Eu via Satanás, como um raio, cair do céu\" — ecoam a mesma imagem."
         }
       },
       "purposeOfLife": {
