@@ -46,6 +46,8 @@ export const TOPICAL_PLAN_ORDER = [
   "thanksgiving",
   "personalConfessions",
   "attributesOfGod",
+  "holySpirit",
+  "angels",
   "purposeOfLife",
   "salvation",
   "lifeAfterDeath",
@@ -379,6 +381,73 @@ export const TOPICAL_PLANS = {
       { ref: "Isaiah 45:7", principles: ["progressiveRevelation"], noteId: "createEvil" },
       { ref: "1 Samuel 16:14", principles: ["progressiveRevelation"], noteId: "evilSpirit" },
       { ref: "Exodus 20:5", principles: ["progressiveRevelation"], noteId: "generationalPunishment" },
+    ],
+  },
+  // The Holy Spirit's own story across Scripture, Genesis to Revelation:
+  // hovering over creation and coming temporarily upon specific people for
+  // specific tasks under the Old Covenant (judges, kings, prophets), the
+  // prophesied outpouring Joel named, the Spirit's full measure resting on
+  // Christ, Jesus' own teaching about the Comforter He would send, and that
+  // Spirit's present, ongoing ministry in and to the believer today —
+  // conviction, indwelling, sealing, gifting, fruit-bearing, guidance,
+  // intercession. One entry (Psalm 51:11) carries a commentary note: the
+  // Old Testament's "take not thy holy spirit from me" describes a real
+  // fear under a real arrangement, one the New Testament explicitly says
+  // no longer applies the same way. Every reference was checked against
+  // this project's own bundled KJV text before inclusion, the same as
+  // every other topic here.
+  holySpirit: {
+    id: "holySpirit",
+    category: "study",
+    icon: "water-outline",
+    refs: [
+      "Genesis 1:2", "Genesis 6:3", "Numbers 11:25", "Judges 6:34", "Judges 14:6", "1 Samuel 16:13",
+      { ref: "Psalm 51:11", principles: ["progressiveRevelation"], noteId: "oldCovenantSpirit" },
+      "Isaiah 11:2", "Isaiah 61:1", "Ezekiel 36:26-27", "Ezekiel 37:1-14", "Joel 2:28-29",
+      "Luke 1:35", "Matthew 3:16-17", "Luke 4:1", "Luke 4:18-19",
+      "John 3:5-8", "John 14:16-17", "John 14:26", "John 15:26", "John 16:7-14", "John 20:22",
+      "Acts 1:8", "Acts 2:1-4", "Acts 2:38", "Acts 4:31", "Acts 5:3-4", "Acts 8:14-17",
+      "Acts 10:44-46", "Acts 13:2", "Acts 16:6-7",
+      "Romans 8:9-11", "Romans 8:14", "Romans 8:16", "Romans 8:26-27",
+      "1 Corinthians 2:10-11", "1 Corinthians 3:16", "1 Corinthians 6:19", "1 Corinthians 12:4-11",
+      "1 Corinthians 12:13", "2 Corinthians 1:22", "2 Corinthians 13:14",
+      "Galatians 4:6", "Galatians 5:16-18", "Galatians 5:22-23",
+      "Ephesians 1:13-14", "Ephesians 4:30", "Ephesians 5:18",
+      "Titus 3:5", "Hebrews 9:14", "Jude 1:20", "Revelation 22:17",
+    ],
+  },
+  // The works of angels toward God and toward people, Genesis to
+  // Revelation: guarding, announcing, protecting, delivering, striking
+  // down, strengthening, directing — and their present assignment named
+  // plainly in Hebrews 1:14, "ministering spirits, sent forth to minister
+  // for them who shall be heirs of salvation." One entry (Exodus 3:2-6)
+  // carries a commentary note: several Old Testament appearances of "the
+  // angel of the LORD" speak and act as God Himself in a way the created
+  // angels named elsewhere in Scripture (Gabriel, Michael) never do and
+  // explicitly refuse to be treated as (compare Revelation 22:8-9) — worth
+  // reading carefully rather than flattening every "angel" into the same
+  // kind of being. Every reference was checked against this project's own
+  // bundled KJV text before inclusion, the same as every other topic here.
+  angels: {
+    id: "angels",
+    category: "study",
+    icon: "star-outline",
+    refs: [
+      "Genesis 3:24",
+      { ref: "Exodus 3:2-6", principles: ["christological"], noteId: "angelOfTheLord" },
+      "Genesis 16:7-13", "Genesis 18:1-2", "Genesis 19:1", "Genesis 22:11-12", "Genesis 28:12", "Genesis 32:1-2",
+      "Exodus 14:19", "Exodus 23:20", "Numbers 22:22-31", "Joshua 5:13-15", "Judges 6:11-14", "Judges 13:3-5",
+      "2 Samuel 24:16", "1 Kings 19:5-7", "2 Kings 6:16-17", "2 Kings 19:35",
+      "Psalm 34:7", "Psalm 91:11-12", "Psalm 103:20",
+      "Daniel 3:28", "Daniel 6:22", "Daniel 9:21-23", "Daniel 10:12-13", "Zechariah 1:9",
+      "Matthew 1:20-21", "Luke 1:11-19", "Luke 1:26-31", "Luke 2:9-14",
+      "Matthew 4:11", "Luke 22:43", "Matthew 28:2-7",
+      "Matthew 18:10", "Matthew 13:49", "Matthew 25:31", "Luke 15:10",
+      "Acts 1:10-11", "Acts 5:19", "Acts 8:26", "Acts 10:3-6", "Acts 12:7-11", "Acts 12:23", "Acts 27:23-24",
+      "1 Timothy 3:16", "Hebrews 1:14", "Hebrews 13:2", "1 Peter 1:12", "Colossians 2:18", "Jude 1:9",
+      "1 Thessalonians 4:16", "2 Thessalonians 1:7-8",
+      "Revelation 1:1", "Revelation 5:11-12", "Revelation 8:2", "Revelation 12:7-9", "Revelation 20:1-3",
+      "Revelation 22:8-9",
     ],
   },
   // The 23 topics below answer the wider range of questions and seasons a
