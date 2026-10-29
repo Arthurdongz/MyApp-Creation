@@ -1,7 +1,7 @@
 // Minimal app-shell cache so the installed PWA opens offline. Bump
 // CACHE_NAME whenever the precached file list changes so old caches get
 // cleaned up — otherwise a stale entry could hang around forever.
-const CACHE_NAME = "barnabas-journal-v1";
+const CACHE_NAME = "barnabas-journal-v2";
 const PRECACHE_URLS = [
   "./",
   "index.html",
@@ -9,6 +9,8 @@ const PRECACHE_URLS = [
   "app.js",
   "content.js",
   "data-verses.js",
+  "data-confessions.js",
+  "data-bible-books.js",
   "data-encouragements.js",
   "data-moments.js",
   "data-wisdom.js",
