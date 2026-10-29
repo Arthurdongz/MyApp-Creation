@@ -161,7 +161,8 @@ export default function SettingsScreen({ store, onClose }) {
       settings.morningReminderHour,
       settings.morningReminderMinute,
       store.state.journeyStartDate,
-      store.order
+      store.order,
+      settings
     );
     if (ok) {
       updateSettings({ morningReminderEnabled: true });

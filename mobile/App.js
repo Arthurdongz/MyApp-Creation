@@ -270,7 +270,7 @@ function AppContent({ store }) {
   if (store.ready && store.settings.onboarded && store.showWhatsNew) {
     return (
       <SafeAreaView style={styles.safeArea}>
-        <WhatsNewScreen onContinue={store.dismissWhatsNew} />
+        <WhatsNewScreen store={store} onContinue={store.dismissWhatsNew} />
       </SafeAreaView>
     );
   }

@@ -225,12 +225,16 @@ export default function RewardsScreen({ store, onJumpToDay, onOpenReadingPlans }
         {BADGE_DEFS.map((b) => {
           const value = b.type === "stars" ? totalStars : streak;
           const earned = value >= b.threshold;
+          const name = t(`rewards.badges.${b.id}.name`);
+          const desc = t(b.type === "stars" ? "rewards.badgeDescStars" : "rewards.badgeDescStreak", {
+            count: b.threshold,
+          });
           return (
             <View
               key={b.id}
               style={[styles.badge, !earned && styles.badgeLocked]}
               accessible
-              accessibilityLabel={`${b.name}, ${b.desc}${earned ? "" : t("rewards.badgeLockedSuffix")}`}
+              accessibilityLabel={`${name}, ${desc}${earned ? "" : t("rewards.badgeLockedSuffix")}`}
             >
               <AppIcon
                 set={b.icon.set}
@@ -240,8 +244,8 @@ export default function RewardsScreen({ store, onJumpToDay, onOpenReadingPlans }
                 color={colors.goldText}
                 style={styles.badgeIcon}
               />
-              <Text style={styles.badgeName}>{b.name}</Text>
-              <Text style={styles.badgeDesc}>{b.desc}</Text>
+              <Text style={styles.badgeName}>{name}</Text>
+              <Text style={styles.badgeDesc}>{desc}</Text>
             </View>
           );
         })}

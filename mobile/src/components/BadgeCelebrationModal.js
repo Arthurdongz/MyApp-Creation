@@ -29,8 +29,14 @@ export default function BadgeCelebrationModal({ badge, onClose }) {
               <AppIcon set={badge.icon.set} name={badge.icon.name} solid={badge.icon.solid} size={44} color={colors.goldText} />
             </View>
           ) : null}
-          <Text style={styles.badgeName}>{badge?.name}</Text>
-          <Text style={styles.badgeDesc}>{badge?.desc}</Text>
+          <Text style={styles.badgeName}>{badge ? t(`rewards.badges.${badge.id}.name`) : ""}</Text>
+          <Text style={styles.badgeDesc}>
+            {badge
+              ? t(badge.type === "stars" ? "rewards.badgeDescStars" : "rewards.badgeDescStreak", {
+                  count: badge.threshold,
+                })
+              : ""}
+          </Text>
           <TouchableOpacity
             style={styles.closeBtn}
             onPress={onClose}

@@ -56,79 +56,22 @@ function isValidIdentity(candidate) {
   );
 }
 
+// name/desc intentionally aren't here — every other piece of user-facing
+// text in this 4-language app lives in i18n, not hardcoded English, so
+// badge names are at rewards.badges.<id>.name and descriptions are derived
+// from type+threshold via rewards.badgeDescStars/badgeDescStreak (see
+// RewardsScreen.js and BadgeCelebrationModal.js) rather than duplicated
+// as English strings here that could drift from the real threshold.
 export const BADGE_DEFS = [
-  {
-    id: "seed",
-    icon: { set: "Ionicons", name: "leaf-outline" },
-    name: "Seed of Encouragement",
-    desc: "Earn 10 stars",
-    type: "stars",
-    threshold: 10,
-  },
-  {
-    id: "growing",
-    icon: { set: "Ionicons", name: "leaf" },
-    name: "Growing in Grace",
-    desc: "Earn 50 stars",
-    type: "stars",
-    threshold: 50,
-  },
-  {
-    id: "heart",
-    icon: { set: "Ionicons", name: "heart" },
-    name: "Barnabas Heart",
-    desc: "Earn 100 stars",
-    type: "stars",
-    threshold: 100,
-  },
-  {
-    id: "son",
-    icon: { set: "FontAwesome5", name: "dove", solid: true },
-    name: "Son of Encouragement",
-    desc: "Earn 250 stars",
-    type: "stars",
-    threshold: 250,
-  },
-  {
-    id: "steady",
-    icon: { set: "MaterialCommunityIcons", name: "candle" },
-    name: "Steady Companion",
-    desc: "3-day streak",
-    type: "streak",
-    threshold: 3,
-  },
-  {
-    id: "week",
-    icon: { set: "Ionicons", name: "sunny" },
-    name: "Week of Hope",
-    desc: "7-day streak",
-    type: "streak",
-    threshold: 7,
-  },
-  {
-    id: "faithful",
-    icon: { set: "Ionicons", name: "star" },
-    name: "Faithful Encourager",
-    desc: "30-day streak",
-    type: "streak",
-    threshold: 30,
-  },
-  {
-    id: "champion",
-    icon: { set: "Ionicons", name: "trophy" },
-    name: "Encouragement Champion",
-    desc: "100-day streak",
-    type: "streak",
-    threshold: 100,
-  },
-  {
-    id: "fullyear",
-    icon: { set: "Ionicons", name: "ribbon" },
-    name: "A Full Year of Hope",
-    desc: "365-day streak",
-    type: "streak",
-    threshold: 365,
-  },
+  { id: "seed", icon: { set: "Ionicons", name: "leaf-outline" }, type: "stars", threshold: 10 },
+  { id: "growing", icon: { set: "Ionicons", name: "leaf" }, type: "stars", threshold: 50 },
+  { id: "heart", icon: { set: "Ionicons", name: "heart" }, type: "stars", threshold: 100 },
+  { id: "son", icon: { set: "FontAwesome5", name: "dove", solid: true }, type: "stars", threshold: 250 },
+  { id: "steady", icon: { set: "MaterialCommunityIcons", name: "candle" }, type: "streak", threshold: 3 },
+  { id: "week", icon: { set: "Ionicons", name: "sunny" }, type: "streak", threshold: 7 },
+  { id: "faithful", icon: { set: "Ionicons", name: "star" }, type: "streak", threshold: 30 },
+  { id: "champion", icon: { set: "Ionicons", name: "trophy" }, type: "streak", threshold: 100 },
+  { id: "fullyear", icon: { set: "Ionicons", name: "ribbon" }, type: "streak", threshold: 365 },
 ];
 
 // New journeys default to Spanish scripture (RVA, pinned rather than

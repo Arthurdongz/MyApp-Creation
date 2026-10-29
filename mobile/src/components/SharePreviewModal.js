@@ -62,8 +62,10 @@ export default function SharePreviewModal({
       const canShare = await Sharing.isAvailableAsync();
       if (canShare) {
         await Sharing.shareAsync(uri, { mimeType: "image/png", dialogTitle: t("share.dialogTitle", { brand: t("app.brand") }) });
+        setShareMsg(t("share.successMsg"));
+      } else {
+        setShareMsg(t("share.unavailableMsg"));
       }
-      setShareMsg(t("share.successMsg"));
     } catch (e) {
       setShareMsg(t("share.errorMsg"));
     }

@@ -12,10 +12,13 @@ import { WHATS_NEW_RELEASES } from "../data/whatsNew";
 // (in practice almost always just the latest one), newest first, so
 // someone who skipped a few app opens in a row still gets the full
 // picture rather than just the most recent entry.
-export default function WhatsNewScreen({ onContinue }) {
+export default function WhatsNewScreen({ store, onContinue }) {
   const { colors } = useTheme();
   const styles = getStyles(colors);
   const { t } = useTranslation();
+
+  const lastSeen = store.settings.lastSeenWhatsNewVersion || 0;
+  const releases = WHATS_NEW_RELEASES.filter((r) => r.version > lastSeen).sort((a, b) => b.version - a.version);
 
   const handleContinue = () => {
     hapticTap();
@@ -28,7 +31,7 @@ export default function WhatsNewScreen({ onContinue }) {
       <Text style={styles.title}>{t("whatsNew.title")}</Text>
       <Text style={styles.subtitle}>{t("whatsNew.subtitle")}</Text>
 
-      {WHATS_NEW_RELEASES.map((release) => (
+      {releases.map((release) => (
         <Card key={release.version} style={styles.releaseCard}>
           <View style={styles.releaseHeaderRow}>
             <Ionicons name={release.icon} size={20} color={colors.sageDark} />

@@ -506,7 +506,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
               disabled={versionLoading || atVeryStart}
               style={[styles.navBtn, (versionLoading || atVeryStart) && styles.navBtnDisabled]}
               accessibilityRole="button"
-              accessibilityLabel={currentChapter <= 1 ? t("today.confession.goToBook", { book: prevBook }) : t("today.confession.prevChapter")}
+              accessibilityLabel={currentChapter <= 1 && prevBook ? t("today.confession.goToBook", { book: prevBook }) : t("today.confession.prevChapter")}
             >
               <Text style={[styles.navBtnText, (versionLoading || atVeryStart) && styles.navBtnTextDisabled]}>
                 ‹ {currentChapter <= 1 && prevBook ? prevBook : t("today.confession.prevChapter")}
@@ -517,7 +517,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
               disabled={versionLoading || atVeryEnd}
               style={[styles.navBtn, (versionLoading || atVeryEnd) && styles.navBtnDisabled]}
               accessibilityRole="button"
-              accessibilityLabel={currentChapter >= total ? t("today.confession.goToBook", { book: nextBook }) : t("today.confession.nextChapter")}
+              accessibilityLabel={currentChapter >= total && nextBook ? t("today.confession.goToBook", { book: nextBook }) : t("today.confession.nextChapter")}
             >
               <Text style={[styles.navBtnText, atVeryEnd && styles.navBtnTextDisabled]}>
                 {currentChapter >= total && nextBook ? nextBook : t("today.confession.nextChapter")} ›
