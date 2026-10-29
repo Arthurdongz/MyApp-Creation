@@ -220,7 +220,9 @@ function AppContent({ store }) {
     setShowSettings(false);
     setShowAbout(false);
     setShowBibleBrowser(false);
+    setShowBibleReadingPlans(false);
     setShowBibleMarks(false);
+    setShowPrayerList(false);
     setReflectionEditorDay(null);
     closeChat();
     setTab("today");
