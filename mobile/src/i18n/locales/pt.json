@@ -1850,6 +1850,16 @@
         "title": "Confissões Pessoais de Salmos e Provérbios",
         "description": "Os Salmos e Provérbios que falam bênção sobre o justo, lidos como seus próprios — 'as cordas me cairam em lugares deliciosos', 'não morrerei, mas viverei'."
       },
+      "attributesOfGod": {
+        "title": "Os Atributos de Deus",
+        "description": "Quem Deus é — seu poder, majestade, santidade e amor — lido através de ambos os Testamentos, com uma nota de 'Você sabia?' sempre que um versículo do Antigo Testamento precisa da revelação mais plena que o próprio Cristo fez do Pai para fazer sentido.",
+        "notes": {
+          "godRepented": "Gênesis 6:6 diz que \"arrependeu-se o SENHOR\" de ter feito o homem — uma tristeza real pela maldade humana, descrita de uma forma que o leitor possa entender. Não é uma mudança no caráter eterno de Deus: Números 23:19 e 1 Samuel 15:29 dizem claramente que Deus, diferente do homem, não se arrepende, e Malaquias 3:6, Hebreus 13:8 e Tiago 1:17 afirmam que ele nunca muda. A Escritura pode descrever sua tristeza em termos humanos sem que sua natureza mude — e o mesmo capítulo que registra sua tristeza pelo pecado já contém sua graça para com Noé, o padrão da misericórdia salvadora cumprido por completo em Cristo.",
+          "createEvil": "A palavra hebraica traduzida \"mal\" em Isaías 45:7 (ra) significa calamidade ou desastre, não maldade moral — aqui ela é emparelhada com \"paz\", não com \"bem\". Isaías está dizendo às nações que não há um deus rival das trevas disputando com um deus da luz: somente o SENHOR governa toda circunstância, próspera ou desastrosa. Nunca foi uma afirmação de que Deus é autor do pecado — Tiago 1:13 e 1:17 resolvem isso: \"Deus não pode ser tentado pelo mal, e a ninguém tenta\", e \"toda boa dádiva e todo dom perfeito vêm do alto\".",
+          "evilSpirit": "A partida do Espírito de Saul em 1 Samuel 16:14 seguiu sua própria rebelião persistente (1 Samuel 15) — julgamento da aliança, não uma mudança na natureza de Deus. O fato de o tormento resultante ser chamado \"da parte do SENHOR\" reflete que nada acontece fora de sua permissão soberana, o mesmo princípio visto em Jó 1-2, onde Satanás só pode agir dentro dos limites que Deus permite. 1 João 1:5 resolve a questão do caráter diretamente: \"Deus é luz, e nele não há nenhumas trevas\" — e nos Evangelhos, o quadro mais completo é Jesus libertando os atormentados, nunca os atormentando (Marcos 5:1-15; Lucas 13:16).",
+          "generationalPunishment": "O aviso de Êxodo 20:5 sobre a iniquidade recaindo \"sobre os filhos\" descreve consequência, não culpa herdada — dentro do próprio Antigo Testamento, Ezequiel 18:20 torna explícita a responsabilidade individual: \"o filho não levará a iniquidade do pai\". Jesus rejeita diretamente a suposição de que o sofrimento é punição herdada (João 9:2-3). O que Êxodo 20:5 aponta é real e observável — o pecado de um pai realmente molda as gerações que vêm depois dele — sustentado ao lado da insistência constante da Escritura, levada à sua plenitude em Cristo, de que ninguém é condenado pelo pecado de outro (Romanos 5:18-19)."
+        }
+      },
       "purposeOfLife": {
         "title": "Propósito e Sentido da Vida",
         "description": "Por que você está aqui — feito por Deus, para Deus, e para algo que ultrapassa você."

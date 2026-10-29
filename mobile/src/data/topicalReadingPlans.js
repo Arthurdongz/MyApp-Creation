@@ -45,6 +45,7 @@ export const TOPICAL_PLAN_ORDER = [
   "worship",
   "thanksgiving",
   "personalConfessions",
+  "attributesOfGod",
   "purposeOfLife",
   "salvation",
   "lifeAfterDeath",
@@ -334,6 +335,50 @@ export const TOPICAL_PLANS = {
       "Proverbs 11:28", "Proverbs 12:3", "Proverbs 12:7", "Proverbs 12:21", "Proverbs 12:28",
       "Proverbs 13:9", "Proverbs 16:3", "Proverbs 16:7", "Proverbs 18:10", "Proverbs 21:21",
       "Proverbs 28:1", "Proverbs 28:13",
+    ],
+  },
+  // Who God is — His nature, majesty, power in action, and how He relates
+  // to people — traced across both Testaments rather than one. Most refs
+  // here need no comment: they're Scripture plainly declaring an attribute
+  // (God is love, God is light, God is spirit) or a work that puts it on
+  // display (Job 38's creation speech, the Red Sea, Isaiah 6's throne-room
+  // vision). A handful of entries are different: Old Testament statements
+  // about God that, read in isolation, sit in real tension with what the
+  // New Testament — and supremely Christ Himself, "the brightness of his
+  // glory, and the express image of his person" (Hebrews 1:3) — reveals
+  // about Him (that He cannot be tempted with evil, James 1:13; that every
+  // good gift, not a mixed one, comes from Him, James 1:17). Those entries
+  // carry a `noteId` and render with a "Did you know?" commentary (see
+  // BibleReadingPlansScreen and interpretationPrinciples.js's
+  // "progressiveRevelation" principle: truth doesn't change, but how fully
+  // God discloses it does) rather than being quietly left out — the aim
+  // is a reader who understands God better for having read all of it, not
+  // one who's only seen the verses that were easy to include. Every
+  // reference was checked against this project's own bundled KJV text
+  // before inclusion, the same as every other topic here.
+  attributesOfGod: {
+    id: "attributesOfGod",
+    category: "study",
+    icon: "flame-outline",
+    refs: [
+      "Exodus 3:14", "Deuteronomy 6:4", "Isaiah 44:6", "1 Timothy 1:17", "John 4:24",
+      "1 John 4:8", "1 John 1:5",
+      "John 1:18", "John 14:9", "Colossians 1:15", "Hebrews 1:1-3", "2 Corinthians 4:6",
+      "Genesis 1:1", "Job 38:4-11", "Job 42:1-2", "Isaiah 40:12", "Isaiah 40:28", "Jeremiah 32:17",
+      "Psalm 33:6-9", "Psalm 19:1", "Exodus 15:11", "Exodus 14:21-31", "Daniel 4:34-35",
+      "Isaiah 6:1-5", "Revelation 4:8-11", "Habakkuk 3:3-4", "Psalm 93", "1 Timothy 6:15-16",
+      "Hebrews 12:28-29", "Revelation 15:4", "1 Peter 1:15-16", "Hebrews 10:31",
+      "John 3:16", "Romans 5:8", "1 John 4:9-10", "1 John 4:16", "Romans 8:38-39",
+      "Zephaniah 3:17", "Jeremiah 31:3",
+      "Exodus 34:6-7", "Psalm 145:8-9", "Lamentations 3:22-23", "Nahum 1:7", "Titus 3:4-5",
+      "Deuteronomy 7:9", "Deuteronomy 32:4", "Psalm 89:14", "Acts 10:34-35",
+      "Hebrews 4:13", "Jeremiah 23:23-24",
+      "Titus 1:2", "James 1:13", "James 1:17", "Hebrews 6:18", "Malachi 3:6", "Hebrews 13:8",
+      "Numbers 23:19",
+      { ref: "Genesis 6:6", principles: ["progressiveRevelation"], noteId: "godRepented" },
+      { ref: "Isaiah 45:7", principles: ["progressiveRevelation"], noteId: "createEvil" },
+      { ref: "1 Samuel 16:14", principles: ["progressiveRevelation"], noteId: "evilSpirit" },
+      { ref: "Exodus 20:5", principles: ["progressiveRevelation"], noteId: "generationalPunishment" },
     ],
   },
   // The 23 topics below answer the wider range of questions and seasons a

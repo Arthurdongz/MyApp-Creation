@@ -175,7 +175,15 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
       ? YEAR_BIBLE_PLAN
       : isCrossRef
       ? CROSS_REFERENCE_PLAN
-      : topical.refs.map((ref, i) => ({ day: i + 1, ref }));
+      : topical.refs.map((entry, i) => {
+          const isNoted = typeof entry === "object";
+          return {
+            day: i + 1,
+            ref: isNoted ? entry.ref : entry,
+            principles: isNoted ? entry.principles : null,
+            noteId: isNoted ? entry.noteId : null,
+          };
+        });
     const planProgress = progress.plans[activePlanId] || { completedDays: [] };
     const completedSet = new Set(planProgress.completedDays);
     const firstUnfinished = days.find((d) => !completedSet.has(d.day));
@@ -293,6 +301,19 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
                     <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>
                     <Text style={styles.dayRef}>{item.ref}</Text>
                   </TouchableOpacity>
+                  {item.noteId ? (
+                    <TouchableOpacity
+                      style={styles.topicalNoteBtn}
+                      onPress={() => {
+                        hapticTap();
+                        setPrincipleModalDay(item.day);
+                      }}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("interpretationPrinciples.icon")}
+                    >
+                      <Ionicons name="bulb-outline" size={20} color={colors.goldText} />
+                    </TouchableOpacity>
+                  ) : null}
                   <TouchableOpacity
                     style={styles.checkBtn}
                     onPress={() => toggleDay(activePlanId, item.day, done)}
@@ -333,8 +354,14 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
         />
         <PrincipleModal
           visible={principleModalDay != null}
-          principleIds={CROSS_REFERENCE_PLAN.find((d) => d.day === principleModalDay)?.principles || []}
-          note={principleModalDay != null ? t(`bibleReadingPlans.crossReferencePlan.days.${principleModalDay}.principleNote`) : ""}
+          principleIds={(principleModalDay != null && days.find((d) => d.day === principleModalDay)?.principles) || []}
+          note={
+            principleModalDay == null
+              ? ""
+              : isCrossRef
+              ? t(`bibleReadingPlans.crossReferencePlan.days.${principleModalDay}.principleNote`)
+              : t(`bibleReadingPlans.topics.${activePlanId}.notes.${days.find((d) => d.day === principleModalDay)?.noteId}`)
+          }
           onClose={() => setPrincipleModalDay(null)}
         />
       </View>
@@ -556,6 +583,7 @@ function getStyles(colors) {
     dayNumber: { fontSize: 12, fontWeight: "700", color: colors.sageDark, marginBottom: 2 },
     dayRef: { fontSize: 15, fontWeight: "600", color: colors.text },
     checkBtn: { padding: 4 },
+    topicalNoteBtn: { padding: 6, marginRight: 2 },
     crossRefRow: { flexDirection: "column", alignItems: "stretch" },
     crossRefHeaderRow: { flexDirection: "row", alignItems: "center" },
     crossRefRefsLine: { fontSize: 12, color: colors.textSoft, marginTop: 2 },

@@ -1850,6 +1850,16 @@
         "title": "Personal Confessions from Psalms & Proverbs",
         "description": "The Psalms and Proverbs that speak blessing over the righteous, read back as your own — 'the lines are fallen unto me in pleasant places,' 'I shall not die, but live.'"
       },
+      "attributesOfGod": {
+        "title": "The Attributes of God",
+        "description": "Who God is — His power, majesty, holiness, and love — read across both Testaments, with a 'Did you know?' note wherever an Old Testament verse needs Christ's own fuller revelation of the Father to make sense of it.",
+        "notes": {
+          "godRepented": "Genesis 6:6 says it \"repented the LORD\" that He had made man — real grief at human wickedness, described the way a reader can understand it. It isn't a change in God's eternal character: Numbers 23:19 and 1 Samuel 15:29 say plainly that God, unlike a man, does not repent, and Malachi 3:6, Hebrews 13:8, and James 1:17 all affirm He never changes. Scripture can describe His grief in human terms without His nature shifting — and the same chapter that records His sorrow over sin already contains His grace toward Noah, the pattern of saving mercy fulfilled completely in Christ.",
+          "createEvil": "The Hebrew word translated \"evil\" in Isaiah 45:7 (ra) means calamity or disaster, not moral wickedness — it's paired here with \"peace,\" not with \"good.\" Isaiah is telling the nations there is no rival god of darkness contending with a god of light: the LORD alone governs every circumstance, prosperous or disastrous. It was never a claim that God authors sin — James 1:13 and 1:17 settle that: \"God cannot be tempted with evil, neither tempteth he any man,\" and \"every good gift and every perfect gift is from above.\"",
+          "evilSpirit": "The Spirit's departure from Saul in 1 Samuel 16:14 followed his own persistent rebellion (1 Samuel 15) — covenant judgment, not a change in God's nature. That the resulting torment is called \"from the LORD\" reflects that nothing happens outside His sovereign permission, the same principle seen in Job 1-2, where Satan can act only within bounds God allows. 1 John 1:5 settles the character question directly: \"God is light, and in him is no darkness at all\" — and in the Gospels, the fuller picture is Jesus freeing the tormented, never tormenting them (Mark 5:1-15; Luke 13:16).",
+          "generationalPunishment": "Exodus 20:5's warning about iniquity visited \"upon the children\" describes consequence, not inherited guilt — within the Old Testament itself, Ezekiel 18:20 makes individual responsibility explicit: \"the son shall not bear the iniquity of the father.\" Jesus directly rejects the assumption that suffering is inherited punishment (John 9:2-3). What Exodus 20:5 names is real and observable — a parent's sin does shape the generations after it — held alongside Scripture's consistent insistence, brought to its fullest in Christ, that no one is condemned for another's sin (Romans 5:18-19)."
+        }
+      },
       "purposeOfLife": {
         "title": "Purpose & Meaning of Life",
         "description": "Why you're here — made by God, for God, and for something that outlasts you."
