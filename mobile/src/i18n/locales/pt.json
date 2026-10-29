@@ -605,6 +605,9 @@
     "exportBackup": "Exportar Backup",
     "restoreBackup": "Restaurar Backup",
     "exportError": "Não foi possível exportar um backup agora.",
+    "importConfirmTitle": "Substituir os Dados Atuais?",
+    "importConfirmMessage": "Restaurar este backup substituirá tudo o que está atualmente neste dispositivo — suas entradas de diário, orações, favoritos e progresso — pelo que está no arquivo. Isso não pode ser desfeito.",
+    "importConfirmButton": "Substituir",
     "importSuccess": "Backup restaurado. Bem-vindo de volta!",
     "importError": "Esse arquivo não parece ser um backup válido."
   },

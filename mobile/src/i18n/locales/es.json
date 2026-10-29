@@ -605,6 +605,9 @@
     "exportBackup": "Exportar Copia de Seguridad",
     "restoreBackup": "Restaurar Copia de Seguridad",
     "exportError": "No se pudo exportar una copia de seguridad en este momento.",
+    "importConfirmTitle": "¿Reemplazar los Datos Actuales?",
+    "importConfirmMessage": "Restaurar esta copia de seguridad reemplazará todo lo que hay actualmente en este dispositivo — tus entradas de diario, oraciones, favoritos y progreso — con lo que haya en el archivo. Esto no se puede deshacer.",
+    "importConfirmButton": "Reemplazar",
     "importSuccess": "Copia de seguridad restaurada. ¡Bienvenido de nuevo!",
     "importError": "Ese archivo no parece ser una copia de seguridad válida."
   },

@@ -605,6 +605,9 @@
     "exportBackup": "Export Backup",
     "restoreBackup": "Restore Backup",
     "exportError": "Couldn't export a backup right now.",
+    "importConfirmTitle": "Replace Current Data?",
+    "importConfirmMessage": "Restoring this backup will replace everything currently on this device — your journal entries, prayers, favorites, and progress — with what's in the file. This can't be undone.",
+    "importConfirmButton": "Replace",
     "importSuccess": "Backup restored. Welcome back!",
     "importError": "That file doesn't look like a valid backup."
   },

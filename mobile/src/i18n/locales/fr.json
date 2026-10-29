@@ -605,6 +605,9 @@
     "exportBackup": "Exporter la Sauvegarde",
     "restoreBackup": "Restaurer la Sauvegarde",
     "exportError": "Impossible d'exporter une sauvegarde pour le moment.",
+    "importConfirmTitle": "Remplacer les Données Actuelles ?",
+    "importConfirmMessage": "Restaurer cette sauvegarde remplacera tout ce qui se trouve actuellement sur cet appareil — vos entrées de journal, prières, favoris et progression — par le contenu du fichier. Cette action est irréversible.",
+    "importConfirmButton": "Remplacer",
     "importSuccess": "Sauvegarde restaurée. Bon retour parmi nous !",
     "importError": "Ce fichier ne ressemble pas à une sauvegarde valide."
   },

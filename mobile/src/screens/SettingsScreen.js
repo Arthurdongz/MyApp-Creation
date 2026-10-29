@@ -143,8 +143,17 @@ export default function SettingsScreen({ store, onClose }) {
     try {
       const incoming = await pickAndReadBackup();
       if (!incoming) return;
-      store.restoreFromBackup(incoming);
-      showBackupMsg(t("settings.importSuccess"));
+      Alert.alert(t("settings.importConfirmTitle"), t("settings.importConfirmMessage"), [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("settings.importConfirmButton"),
+          style: "destructive",
+          onPress: () => {
+            store.restoreFromBackup(incoming);
+            showBackupMsg(t("settings.importSuccess"));
+          },
+        },
+      ]);
     } catch (e) {
       showBackupMsg(e.message || t("settings.importError"));
     }
