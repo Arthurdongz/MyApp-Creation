@@ -644,7 +644,8 @@
     "reopenButton": "Reopen",
     "reopenLabel": "Move this prayer back to active",
     "deleteLabel": "Delete this prayer",
-    "dayLabel": "Day {{day}}",
+    "writtenOn": "Written {{date}}",
+    "answeredOn": "Answered {{date}}",
     "answeredSameDay": "Answered the same day",
     "answeredAfter_one": "Answered {{count}} day later",
     "answeredAfter_other": "Answered {{count}} days later"

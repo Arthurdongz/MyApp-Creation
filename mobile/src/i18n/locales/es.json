@@ -644,7 +644,8 @@
     "reopenButton": "Reabrir",
     "reopenLabel": "Volver a mover esta oración a activas",
     "deleteLabel": "Eliminar esta oración",
-    "dayLabel": "Día {{day}}",
+    "writtenOn": "Escrita el {{date}}",
+    "answeredOn": "Respondida el {{date}}",
     "answeredSameDay": "Respondida el mismo día",
     "answeredAfter_one": "Respondida {{count}} día después",
     "answeredAfter_other": "Respondida {{count}} días después"

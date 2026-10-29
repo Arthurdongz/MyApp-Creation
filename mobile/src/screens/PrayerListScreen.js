@@ -148,7 +148,9 @@ export default function PrayerListScreen({ store, onClose }) {
             renderItem={({ item }) => (
               <View style={styles.card}>
                 <View style={styles.cardHeader}>
-                  <Text style={styles.cardMeta}>{t("prayerList.dayLabel", { day: item.dayNumber })}</Text>
+                  <Text style={styles.cardMeta}>
+                    {t("prayerList.writtenOn", { date: formatDate(item.createdAt, i18n.language) })}
+                  </Text>
                   <TouchableOpacity
                     onPress={() => store.deletePrayer(item.id)}
                     accessibilityRole="button"
@@ -208,9 +210,15 @@ export default function PrayerListScreen({ store, onClose }) {
           renderItem={({ item }) => (
             <View style={styles.card}>
               <View style={styles.cardHeader}>
-                <Text style={styles.cardMeta}>
-                  {formatDate(item.answeredAt, i18n.language)} · {answeredAfterLabel(t, item.createdAt, item.answeredAt)}
-                </Text>
+                <View style={styles.cardMetaDates}>
+                  <Text style={styles.cardMeta}>
+                    {t("prayerList.writtenOn", { date: formatDate(item.createdAt, i18n.language) })}
+                  </Text>
+                  <Text style={styles.cardMeta}>
+                    {t("prayerList.answeredOn", { date: formatDate(item.answeredAt, i18n.language) })} ·{" "}
+                    {answeredAfterLabel(t, item.createdAt, item.answeredAt)}
+                  </Text>
+                </View>
                 <TouchableOpacity
                   onPress={() => store.deletePrayer(item.id)}
                   accessibilityRole="button"
@@ -321,7 +329,8 @@ function getStyles(colors, shadow) {
       marginBottom: 12,
       ...shadow,
     },
-    cardHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 6 },
+    cardHeader: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 6 },
+    cardMetaDates: { gap: 2, flex: 1, marginRight: 8 },
     cardMeta: { fontSize: 11, color: colors.textSoft, fontWeight: "600" },
     remove: { color: colors.textSoft, fontSize: 14, paddingHorizontal: 4 },
     cardText: { fontSize: 15, lineHeight: 21, color: colors.text },

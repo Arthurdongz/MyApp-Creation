@@ -644,7 +644,8 @@
     "reopenButton": "Rouvrir",
     "reopenLabel": "Remettre cette prière en actif",
     "deleteLabel": "Supprimer cette prière",
-    "dayLabel": "Jour {{day}}",
+    "writtenOn": "Écrite le {{date}}",
+    "answeredOn": "Exaucée le {{date}}",
     "answeredSameDay": "Exaucée le jour même",
     "answeredAfter_one": "Exaucée {{count}} jour plus tard",
     "answeredAfter_other": "Exaucée {{count}} jours plus tard"
