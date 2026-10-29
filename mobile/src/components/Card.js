@@ -3,7 +3,12 @@ import { useTheme } from "../theme";
 
 export default function Card({ children, style }) {
   const { colors, shadow } = useTheme();
-  const styles = StyleSheet.create({
+  const styles = getStyles(colors, shadow);
+  return <View style={[styles.card, style]}>{children}</View>;
+}
+
+function getStyles(colors, shadow) {
+  return StyleSheet.create({
     card: {
       backgroundColor: colors.card,
       borderWidth: 1,
@@ -14,5 +19,4 @@ export default function Card({ children, style }) {
       ...shadow,
     },
   });
-  return <View style={[styles.card, style]}>{children}</View>;
 }

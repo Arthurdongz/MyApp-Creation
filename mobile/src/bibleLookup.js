@@ -117,7 +117,7 @@ export function getChapter(book, chapter) {
 export function chapterCount(book) {
   const bi = BOOK_INDEX.get(book);
   if (bi == null) return 0;
-  return getKjvText()[bi].length;
+  return getKjvText()[bi]?.length || 0;
 }
 
 // Version-aware equivalents of getChapter/chapterCount, for the full
