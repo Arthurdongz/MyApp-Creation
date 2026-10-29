@@ -5,6 +5,14 @@
 // the 366 content slots on first use, and a new day unlocks once per real
 // calendar day since then. Users can navigate back through days they've
 // already reached, but not ahead of the current unlocked day.
+//
+// Scope note: this web app is deliberately kept lighter than the React
+// Native app in mobile/ — it covers the core daily journal loop (verse,
+// confession, encouragement, Barnabas Moment, mood/journal, streaks,
+// stars, badges) but does not mirror mobile-only features like the Bible
+// reading plans library or the prayer list. That's an intentional,
+// revisited-as-needed scope decision, not an oversight — see mobile/'s
+// own data/screens for everything this app doesn't have.
 
 const STORAGE_KEY = "barnabasJournalStateV2";
 
