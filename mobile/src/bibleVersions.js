@@ -61,27 +61,34 @@ export async function loadVersionText(id) {
 
   const promise = (async () => {
     const url = `${BIBLE_DATA_BASE_URL}${id}.json`;
-    let raw;
+    let data;
     if (CACHE_DIR) {
       await ensureCacheDir();
       const localUri = `${CACHE_DIR}${id}.json`;
       const info = await FileSystem.getInfoAsync(localUri);
       if (info.exists) {
-        raw = await FileSystem.readAsStringAsync(localUri);
-      } else {
+        try {
+          data = JSON.parse(await FileSystem.readAsStringAsync(localUri));
+        } catch (e) {
+          // Corrupted cached copy (e.g. an interrupted earlier write) —
+          // remove it so the download branch below gets a clean retry
+          // instead of failing identically on every future attempt.
+          await FileSystem.deleteAsync(localUri, { idempotent: true });
+        }
+      }
+      if (!data) {
         const result = await FileSystem.downloadAsync(url, localUri);
         if (result.status !== 200) {
           await FileSystem.deleteAsync(localUri, { idempotent: true });
           throw new Error(`Failed to download ${id} (status ${result.status})`);
         }
-        raw = await FileSystem.readAsStringAsync(localUri);
+        data = JSON.parse(await FileSystem.readAsStringAsync(localUri));
       }
     } else {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Failed to download ${id}`);
-      raw = await response.text();
+      data = JSON.parse(await response.text());
     }
-    const data = JSON.parse(raw);
     textCache[id] = data;
     return data;
   })();

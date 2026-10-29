@@ -272,7 +272,7 @@ function loadState() {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-      if (parsed.journeyStartDate && Array.isArray(parsed.order)) {
+      if (parsed.journeyStartDate && isValidOrder(parsed.order)) {
         return {
           journeyStartDate: parsed.journeyStartDate,
           order: parsed.order,
@@ -526,7 +526,7 @@ function importDataFromFile(file) {
     try {
       const parsed = JSON.parse(String(reader.result));
       const incoming = parsed.state || parsed;
-      if (!incoming.journeyStartDate || !Array.isArray(incoming.order)) {
+      if (!incoming.journeyStartDate || !isValidOrder(incoming.order)) {
         throw new Error("Missing required fields");
       }
       state = {

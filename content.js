@@ -126,9 +126,32 @@ function computeWeeklyRecap(entries, latestDay) {
   return { daysShownUp, momentsDone, journalEntries, kindnessReceived, totalDays: latestDay - start + 1 };
 }
 
+// A user's shuffled day-order must be exactly TOTAL_DAYS integer indices
+// (0..TOTAL_DAYS-1) for pickForDay/pickForDaySmallBank's indexing to be
+// safe. Used to reject a corrupted or malformed `order` — from a bad
+// backup file, a hand-edited localStorage value, or any other source —
+// before it's ever accepted into state, rather than letting it crash the
+// app the first time a content lookup runs against it.
+function isValidOrder(order) {
+  return (
+    Array.isArray(order) &&
+    order.length === TOTAL_DAYS &&
+    order.every((n) => Number.isInteger(n) && n >= 0 && n < TOTAL_DAYS)
+  );
+}
+
+// Defensive fallback for when `order` is well-formed as an array but the
+// computed index still can't be trusted (e.g. a mismatched content bank
+// length) — wraps into range instead of indexing out of bounds and
+// returning `undefined` to a caller that assumes real content.
+function safeIndex(idx, length) {
+  if (!Number.isFinite(idx) || length <= 0) return 0;
+  return ((idx % length) + length) % length;
+}
+
 function pickForDay(arr, dayNumber, order) {
-  const idx = order[(dayNumber - 1) % order.length];
-  return arr[idx];
+  const rawIdx = order[(dayNumber - 1) % order.length];
+  return arr[safeIndex(rawIdx, arr.length)];
 }
 
 // Which Bible translation to show for a given day: either a pinned favorite
@@ -145,9 +168,27 @@ function pickVerseVersion(dayNumber, settings, versionIds) {
 
 // For banks smaller than the full 366 (like the true-stories bank, which
 // grows over time), still route through the user's per-user shuffle order
-// so the sequence doesn't feel like a flat repeating loop, but wrap it down
-// to the bank's actual size.
+// so the sequence doesn't feel like a flat repeating loop.
+//
+// This used to just take `order[(dayNumber - 1) % order.length] % arr.length`
+// — but since `order` is a full random shuffle of 0..365, that modulo lands
+// on essentially a random value in [0, arr.length) for every day, with no
+// guarantee of spacing between repeats of the same entry. Two occurrences of
+// the same item could land, by chance, just days apart.
+//
+// Instead, derive one fixed permutation of the bank from the user's `order`
+// (ranking its first `arr.length` values) and cycle through that same
+// permutation every time it runs out, rather than reshuffling per cycle —
+// the only way to *guarantee* every repeat is exactly `arr.length` days
+// apart, never closer (see mobile/src/content.js for the full rationale;
+// this mirrors that fix).
+function argsort(values) {
+  return values.map((_, i) => i).sort((a, b) => values[a] - values[b]);
+}
+
 function pickForDaySmallBank(arr, dayNumber, order) {
-  const idx = order[(dayNumber - 1) % order.length] % arr.length;
-  return arr[idx];
+  const size = arr.length;
+  if (size <= 0) return undefined;
+  const perm = argsort(order.slice(0, size));
+  return arr[perm[(dayNumber - 1) % size]];
 }
