@@ -295,7 +295,13 @@ export const TOPICAL_PLANS = {
   // the righteous/the believer that still makes sense spoken today ("I
   // shall not die, but live"; "the lines are fallen unto me in pleasant
   // places"), not a one-off historical detail about one person's unique
-  // situation. Imprecatory psalms (prayers for God to strike down named
+  // situation. That includes two related kinds of line: a general
+  // statement about "the righteous man" (Proverbs' usual register), and
+  // a Psalmist's own testimony of a specific thing God did or does for
+  // him — "he drew me out of many waters," "thy gentleness hath made me
+  // great," "I will declare what he hath done for my soul" (Psalm 66:16)
+  // — since that second kind is just as much a believer's confession as
+  // the first. Imprecatory psalms (prayers for God to strike down named
   // enemies), psalms that mainly recite Israel's history, and psalms
   // addressed to or about "the king" in the third person were left out
   // even where a line or two reads well, since the chapter as a whole
@@ -303,19 +309,24 @@ export const TOPICAL_PLANS = {
   // confession (Psalm 91, 23, 37...) the whole chapter is here; where
   // only part of a longer psalm fits (Psalm 139's "fearfully and
   // wonderfully made" without its closing plea against the Psalmist's
-  // enemies), only that range is. Every reference was checked against
-  // this project's own bundled KJV text before inclusion, the same as
-  // every other topic here.
+  // enemies, or Psalm 18's many "he delivered me" lines without its
+  // closing verses about subduing and ruling over other nations), only
+  // that range is. Every reference was checked against this project's
+  // own bundled KJV text before inclusion, the same as every other topic
+  // here.
   personalConfessions: {
     id: "personalConfessions",
     category: "study",
     icon: "megaphone-outline",
     refs: [
-      "Psalm 1", "Psalm 3", "Psalm 4", "Psalm 8", "Psalm 15", "Psalm 16", "Psalm 18:1-3",
-      "Psalm 23", "Psalm 24", "Psalm 25", "Psalm 27", "Psalm 30", "Psalm 32", "Psalm 34",
-      "Psalm 36:5-9", "Psalm 37", "Psalm 40:1-3", "Psalm 46", "Psalm 61", "Psalm 62", "Psalm 63",
-      "Psalm 84", "Psalm 91", "Psalm 92", "Psalm 103", "Psalm 112", "Psalm 116", "Psalm 118:14-17",
-      "Psalm 118:24", "Psalm 119:11", "Psalm 119:105", "Psalm 119:165", "Psalm 121", "Psalm 125",
+      "Psalm 1", "Psalm 3", "Psalm 4", "Psalm 6:9", "Psalm 8", "Psalm 9:4", "Psalm 15", "Psalm 16",
+      "Psalm 18:1-3", "Psalm 18:16-17", "Psalm 18:19", "Psalm 18:28-30", "Psalm 18:32-36", "Psalm 18:39",
+      "Psalm 18:43-44", "Psalm 18:46", "Psalm 18:48",
+      "Psalm 23", "Psalm 24", "Psalm 25", "Psalm 27", "Psalm 30", "Psalm 31:3-5", "Psalm 32", "Psalm 34",
+      "Psalm 36:5-9", "Psalm 37", "Psalm 40:1-3", "Psalm 46", "Psalm 55:18", "Psalm 56:13", "Psalm 61",
+      "Psalm 62", "Psalm 63", "Psalm 66:16-20", "Psalm 71:3-5", "Psalm 71:20-21",
+      "Psalm 84", "Psalm 91", "Psalm 92", "Psalm 103", "Psalm 112", "Psalm 116", "Psalm 118:5-7", "Psalm 118:14-17",
+      "Psalm 118:24", "Psalm 119:11", "Psalm 119:73", "Psalm 119:105", "Psalm 119:165", "Psalm 121", "Psalm 125",
       "Psalm 126", "Psalm 127", "Psalm 128", "Psalm 131", "Psalm 133", "Psalm 138", "Psalm 139:1-18",
       "Psalm 145",
       "Proverbs 1:33", "Proverbs 2:21", "Proverbs 3:5-6", "Proverbs 3:24", "Proverbs 3:26",
