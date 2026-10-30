@@ -336,6 +336,15 @@ export default function SettingsScreen({ store, onClose }) {
     { key: "bibleVersion", icon: "book-outline", title: t("settings.bibleVersionTitle"), subtitle: bibleVersionSubtitle },
     { key: "crisisRegion", icon: "earth-outline", title: t("settings.crisisRegionTitle"), subtitle: crisisRegionSubtitle },
     { key: "voiceSpeech", icon: "volume-high-outline", title: t("settings.voiceSpeechTitle"), subtitle: selectedVoiceName },
+    {
+      key: "accessibility",
+      icon: "accessibility-outline",
+      title: t("settings.accessibilityTitle"),
+      subtitle:
+        settings.chatHeaderIconsPosition === "left"
+          ? t("settings.chatIconsPositionLeft")
+          : t("settings.chatIconsPositionRight"),
+    },
     ...(notificationsSupported
       ? [
           {
@@ -885,6 +894,45 @@ export default function SettingsScreen({ store, onClose }) {
             </TouchableOpacity>
           </View>
           {backupMsg ? <Text style={styles.backupMsg}>{backupMsg}</Text> : null}
+        </View>
+      ) : null}
+
+      {section === "accessibility" ? (
+        <View>
+          <Text style={styles.subtitle}>{t("settings.accessibilitySubtitle")}</Text>
+          <Text style={styles.settingsLabel}>{t("settings.chatIconsPositionLabel")}</Text>
+          <View style={styles.presetRow}>
+            <TouchableOpacity
+              style={[styles.presetBtn, settings.chatHeaderIconsPosition !== "left" && styles.presetBtnActive]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ chatHeaderIconsPosition: "right" });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: settings.chatHeaderIconsPosition !== "left" }}
+            >
+              <Text
+                style={[styles.presetText, settings.chatHeaderIconsPosition !== "left" && styles.presetTextActive]}
+              >
+                {t("settings.chatIconsPositionRight")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.presetBtn, settings.chatHeaderIconsPosition === "left" && styles.presetBtnActive]}
+              onPress={() => {
+                hapticTap();
+                updateSettings({ chatHeaderIconsPosition: "left" });
+              }}
+              accessibilityRole="button"
+              accessibilityState={{ selected: settings.chatHeaderIconsPosition === "left" }}
+            >
+              <Text
+                style={[styles.presetText, settings.chatHeaderIconsPosition === "left" && styles.presetTextActive]}
+              >
+                {t("settings.chatIconsPositionLeft")}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       ) : null}
 

@@ -125,6 +125,12 @@ function defaultSettings() {
     // Editable via the "Vibe" button in ChatScreen.
     chatPersonaStyle: "friend",
     chatPersonaNote: "",
+    // Accessibility: which corner of the chat screen's header the action
+    // icons (new chat, history, close) render in — see ChatScreen.js. Lets
+    // someone whose device has a dead/unresponsive touch zone in one
+    // corner move those controls to the other side instead of being
+    // unable to reach them at all.
+    chatHeaderIconsPosition: "right",
     // A short, consolidated memory of past *separate* conversations (name,
     // an ongoing situation, a recurring prayer topic — see chat-worker/
     // worker.js's updateMemory for exactly what gets kept), carried into

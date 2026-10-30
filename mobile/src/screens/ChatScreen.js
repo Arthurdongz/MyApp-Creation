@@ -592,7 +592,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         style={styles.flexFill}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.header}>
+        <View style={[styles.header, settings.chatHeaderIconsPosition === "left" && styles.headerReversed]}>
           <View style={styles.headerLeft}>
             {view === "history" ? (
               <TouchableOpacity
@@ -885,6 +885,12 @@ function getStyles(colors, shadow) {
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
+    // Accessibility: settings.chatHeaderIconsPosition === "left" applies
+    // this on top of `header` above, so the new-chat/history/close icons
+    // (headerRight) swap to the opposite corner from their default — for
+    // someone whose device has a dead touch zone in one corner. See
+    // SettingsScreen's "accessibility" section.
+    headerReversed: { flexDirection: "row-reverse" },
     headerLeft: { flexDirection: "row", alignItems: "center", flex: 1, marginRight: 8, gap: 8 },
     headerTextWrap: { flex: 1 },
     headerRight: { flexDirection: "row", alignItems: "center", gap: 8 },
