@@ -192,6 +192,45 @@ export default function ChatScreen({ store, onClose, seedContext }) {
   // request is in flight; see handleStop.
   const abortControllerRef = useRef(null);
 
+  // A reply streams in as many small chunks (often one per token) — calling
+  // setStreamingText on every single one means a full re-render and text
+  // layout pass per chunk, hundreds in a row with no gap between them. That
+  // showed up in production as a Sentry "App Hang" of ~19-20s on a reply
+  // that was only 3.5KB: not a network wait (the HTTP call itself had
+  // already finished), the main thread was just busy re-rendering back to
+  // back. updateStreamingText below throttles the actual state update to at
+  // most once per STREAM_UPDATE_INTERVAL_MS (leading + trailing edge, so
+  // the text still reads as smoothly "typed" rather than jumping in
+  // chunks), while still always landing on the true latest text.
+  const streamThrottleRef = useRef({ lastFlush: 0, timeoutId: null, latest: "" });
+  const STREAM_UPDATE_INTERVAL_MS = 80;
+
+  const resetStreamingThrottle = () => {
+    const s = streamThrottleRef.current;
+    if (s.timeoutId) clearTimeout(s.timeoutId);
+    s.lastFlush = 0;
+    s.timeoutId = null;
+    s.latest = "";
+  };
+
+  const updateStreamingText = (text) => {
+    const s = streamThrottleRef.current;
+    s.latest = text;
+    const now = Date.now();
+    const elapsed = now - s.lastFlush;
+    const flush = () => {
+      s.lastFlush = Date.now();
+      s.timeoutId = null;
+      setStreamingText(s.latest);
+    };
+    if (elapsed >= STREAM_UPDATE_INTERVAL_MS) {
+      if (s.timeoutId) clearTimeout(s.timeoutId);
+      flush();
+    } else if (!s.timeoutId) {
+      s.timeoutId = setTimeout(flush, STREAM_UPDATE_INTERVAL_MS - elapsed);
+    }
+  };
+
   const openVerseRef = (ref) => {
     hapticTap();
     setVersePopupRef(ref);
@@ -311,6 +350,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setErrorMsg("");
     setFailedMessage(null);
     setCanContinue(false);
+    resetStreamingThrottle();
     setStreamingText("");
     // sendChatMessage already makes one automatic attempt to pick a
     // mid-stream network drop back up (see chat.js) — this controller is
@@ -336,7 +376,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         memory,
         conversationSummary,
         {
-          onDelta: (_chunk, fullTextSoFar) => setStreamingText(fullTextSoFar),
+          onDelta: (_chunk, fullTextSoFar) => updateStreamingText(fullTextSoFar),
           signal: controller.signal,
           onSummary: ({ text: summaryText, throughIndex }) =>
             setChatConversationSummary(conv, summaryText, throughIndex),
@@ -359,6 +399,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
       }
     } finally {
       setSending(false);
+      resetStreamingThrottle();
       setStreamingText("");
       abortControllerRef.current = null;
     }
@@ -414,6 +455,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     setSending(true);
     setErrorMsg("");
     setCanContinue(false);
+    resetStreamingThrottle();
     setStreamingText("");
     const controller = new AbortController();
     abortControllerRef.current = controller;
@@ -434,7 +476,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
         memory,
         conversationSummary,
         {
-          onDelta: (_chunk, tailSoFar) => setStreamingText(tailSoFar),
+          onDelta: (_chunk, tailSoFar) => updateStreamingText(tailSoFar),
           signal: controller.signal,
           onSummary: ({ text: summaryText, throughIndex }) =>
             setChatConversationSummary(conversation, summaryText, throughIndex),
@@ -449,6 +491,7 @@ export default function ChatScreen({ store, onClose, seedContext }) {
       }
     } finally {
       setSending(false);
+      resetStreamingThrottle();
       setStreamingText("");
       abortControllerRef.current = null;
     }
