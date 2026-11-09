@@ -347,20 +347,27 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     const conv = convOverride || conversation;
     hapticTap();
     setSending(true);
-    setErrorMsg("");
-    setFailedMessage(null);
-    setCanContinue(false);
-    resetStreamingThrottle();
-    setStreamingText("");
-    // sendChatMessage already makes one automatic attempt to pick a
-    // mid-stream network drop back up (see chat.js) — this controller is
-    // for the person themselves choosing to stop, either mid-generation
-    // (handleStop) or by leaving the screen. Either way it's read in the
-    // catch block below via `controller.signal.aborted` to tell a
-    // deliberate stop apart from a real failure.
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+    // Everything else that can throw lives inside this try, right down to
+    // building the AbortController, so `finally` below is guaranteed to
+    // flip `sending` back off no matter what fails — otherwise a stray
+    // exception in this setup (now or from a future change) could leave
+    // `sending` stuck true forever, silently no-opping every later tap of
+    // Send/Retry/Continue (they all guard on `!sending`) with no visible
+    // error at all.
     try {
+      setErrorMsg("");
+      setFailedMessage(null);
+      setCanContinue(false);
+      resetStreamingThrottle();
+      setStreamingText("");
+      // sendChatMessage already makes one automatic attempt to pick a
+      // mid-stream network drop back up (see chat.js) — this controller is
+      // for the person themselves choosing to stop, either mid-generation
+      // (handleStop) or by leaving the screen. Either way it's read in the
+      // catch block below via `controller.signal.aborted` to tell a
+      // deliberate stop apart from a real failure.
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
       // The streaming bubble below renders `streamingText` directly, not
       // the store — appendChatMessage persists to AsyncStorage on every
       // call, which is fine once per message but far too much I/O to do
@@ -453,13 +460,15 @@ export default function ChatScreen({ store, onClose, seedContext }) {
     if (!canContinue || sending || !conversation || messages.length === 0) return;
     hapticTap();
     setSending(true);
-    setErrorMsg("");
-    setCanContinue(false);
-    resetStreamingThrottle();
-    setStreamingText("");
-    const controller = new AbortController();
-    abortControllerRef.current = controller;
+    // See sendToBarnabas's matching comment — everything that can throw
+    // lives inside this try so `finally` always flips `sending` back off.
     try {
+      setErrorMsg("");
+      setCanContinue(false);
+      resetStreamingThrottle();
+      setStreamingText("");
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
       // The partial reply being continued is already its own stored,
       // rendered bubble (see the message list below) — the streaming bubble
       // only ever needs the new tail text on its own, not that text

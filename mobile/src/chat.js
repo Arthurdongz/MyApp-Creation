@@ -34,7 +34,17 @@ export async function getOrCreateChatDeviceId() {
 // pre-flight network failure). "Stall" is re-armed on every chunk received
 // after that, bounding only the *gap* between chunks — so one fixed overall
 // deadline doesn't kill a reply that's legitimately just long.
-const CONNECT_TIMEOUT_MS = 15000;
+//
+// 20s rather than the original 15s: the Worker does real, sequential-ish
+// pre-stream work before the response even starts (a safety classifier
+// call, and a conversation-summary call once a chat runs long enough) —
+// both real network round trips to Anthropic, not local computation. On a
+// longer conversation, or just a slow moment for either model, that could
+// edge past 15s even though the Worker was never actually stuck, producing
+// a spurious "connection interrupted" for a request that was really just
+// still warming up. See chat-worker/worker.js, which now also runs those
+// two calls in parallel rather than back-to-back to cut this risk further.
+const CONNECT_TIMEOUT_MS = 20000;
 const STALL_TIMEOUT_MS = 20000;
 const MAX_RETRIES = 2;
 const RETRY_BASE_DELAY_MS = 500;

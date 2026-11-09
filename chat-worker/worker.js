@@ -625,6 +625,16 @@ async function generateReplyStreaming(anthropic, system, initialMessages, ndjson
 
     messages = appendAssistantContent(messages, response.content);
     const toolUseBlocks = response.content.filter((b) => b.type === "tool_use");
+    // Keep the client's stall timer from expiring during tool execution —
+    // resolving lookup_bible_verse (a cold Worker isolate's first lookup
+    // fetches and caches a multi-MB KJV file) and then starting the next
+    // round's model call both take real time with zero delta text to send
+    // meanwhile. mobile/src/chat.js's consumeChatStream resets its stall
+    // timeout on any stream chunk, not just ones it recognizes, so an
+    // otherwise-ignored "ping" line here is enough. Matters most for a
+    // reply that cites multiple verses, since that's multiple rounds in a
+    // row each with this same silent gap.
+    ndjson.write({ type: "ping" });
     const toolResults = [];
     for (const block of toolUseBlocks) {
       const result =
@@ -841,13 +851,34 @@ async function handleChat(request, env, ctx) {
   // one new message at a time), so this is a no-op summarization call
   // every turn except the ones where the window actually advances.
   const boundaryIndex = Math.max(0, fullSafeHistory.length - SUMMARY_WINDOW);
-  let effectiveSummary = safePriorSummary || "";
-  let newSummarizedThroughIndex = safeSummarizedThroughIndex;
-  if (boundaryIndex > newSummarizedThroughIndex) {
-    const agedOut = fullSafeHistory.slice(newSummarizedThroughIndex, boundaryIndex);
-    effectiveSummary = await summarizeOlderTurns(anthropic, safePriorSummary, agedOut);
-    newSummarizedThroughIndex = boundaryIndex;
-  }
+  const needsSummary = boundaryIndex > safeSummarizedThroughIndex;
+
+  // These two calls are independent of each other (the classifier only
+  // looks at `message`; the summarizer only looks at the aged-out turns)
+  // but both are real network round trips to Anthropic that happen before
+  // the response even starts streaming — run them concurrently rather than
+  // one after the other, since back-to-back they were stacking onto the
+  // time-to-first-byte the client is timing (see mobile/src/chat.js's
+  // CONNECT_TIMEOUT_MS) before any reply text could start arriving, and on
+  // a longer conversation or just a slow moment for either model, that
+  // could tip past the client's timeout even though neither call was
+  // actually stuck — producing a spurious "connection interrupted" for a
+  // request that was really just still warming up.
+  // needsCrisisResponse swallows its own errors and falls back to `false`
+  // (see its own catch) so a classifier hiccup never blocks the chat.
+  // Skipped for a continuation: there's no new user text to classify, and
+  // the original message already went through this check on the attempt
+  // that got interrupted — if it had been a crisis message, that attempt
+  // would have taken the crisis branch below (a single atomic write, not a
+  // multi-second Claude stream) and never produced the partial text a
+  // continuation picks up from.
+  const [effectiveSummary, isCrisis] = await Promise.all([
+    needsSummary
+      ? summarizeOlderTurns(anthropic, safePriorSummary, fullSafeHistory.slice(safeSummarizedThroughIndex, boundaryIndex))
+      : Promise.resolve(safePriorSummary || ""),
+    isContinuation ? Promise.resolve(false) : needsCrisisResponse(anthropic, message),
+  ]);
+  const newSummarizedThroughIndex = needsSummary ? boundaryIndex : safeSummarizedThroughIndex;
   const verbatimHistory = fullSafeHistory.slice(newSummarizedThroughIndex);
   const summaryChanged = newSummarizedThroughIndex !== safeSummarizedThroughIndex;
 
@@ -857,17 +888,6 @@ async function handleChat(request, env, ctx) {
       return jsonResponse({ error: "Nothing to continue." }, 400);
     }
   }
-
-  // needsCrisisResponse swallows its own errors and falls back to `false`
-  // (see its own catch) so a classifier hiccup never blocks the chat — it
-  // stays outside the streaming commitment below, since it can still fail
-  // with a plain error response at this point. Skipped for a continuation:
-  // there's no new user text to classify, and the original message already
-  // went through this check on the attempt that got interrupted — if it had
-  // been a crisis message, that attempt would have taken the crisis branch
-  // below (a single atomic write, not a multi-second Claude stream) and
-  // never produced the partial text a continuation picks up from.
-  const isCrisis = isContinuation ? false : await needsCrisisResponse(anthropic, message);
 
   // From here on the response is committed to streaming NDJSON — no more
   // synchronous validation, since headers are about to be sent. Any later
