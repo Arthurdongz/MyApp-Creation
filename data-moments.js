@@ -360,7 +360,7 @@ const BARNABAS_MOMENTS = [
   "Let a child teach you something today — a game, a dance, a fact — and act genuinely impressed.",
   "Write a note today and tuck it into a child's lunchbox, backpack, or pocket before they leave for school.",
   "Start a new family tradition today, however small, and tell everyone this is now a thing you do.",
-  "Ask your parents today to tell you a story from before you were born that you've never heard.",
+  "Ask your parents, or any elder who's known you since childhood, to tell you a story from before you were born that you've never heard — if they're gone, write down one you remember them telling you instead.",
   "Give a sibling today a genuine compliment you've never actually said out loud to them.",
   "Take a family member today to do something they love that you usually just tolerate.",
   "Interview a grandparent or elder today on video, and ask them questions you'll wish you'd asked someday.",
