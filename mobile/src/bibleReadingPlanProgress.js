@@ -8,7 +8,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const STORAGE_KEY = "barnabas.bibleReadingPlanProgress.v1";
 
-// { plans: { "<planId>": { startedAt: "YYYY-MM-DD", completedDays: [1, 2, 5] } } }
+// { plans: { "<planId>": { startedAt: "YYYY-MM-DD", completedDays: [1, 2, 5], lastOpenedDay: 5 } } }
+// lastOpenedDay is independent of completedDays — it tracks whichever day's
+// scripture was most recently opened in the reader (see
+// BibleReadingPlansScreen.js's openYearDay/openTopicalDay/
+// openCrossRefPassage), so the list screen's highlight follows wherever a
+// reader actually left off, not just the first not-yet-checked-off day.
+// Persisted the same as everything else here, so it survives closing the
+// app for any length of time, and tracked per plan, so reading several
+// plans in the same week doesn't make them fight over one shared marker.
 function emptyState() {
   return { plans: {} };
 }
@@ -52,7 +60,24 @@ export function getPlanProgress(state, planId) {
 // be marked complete.
 export function startPlan(state, planId) {
   if (state.plans[planId]) return state;
-  const next = { ...state, plans: { ...state.plans, [planId]: { startedAt: todayKey(), completedDays: [] } } };
+  const next = {
+    ...state,
+    plans: { ...state.plans, [planId]: { startedAt: todayKey(), completedDays: [], lastOpenedDay: null } },
+  };
+  persist(next);
+  return next;
+}
+
+// Records whichever day's scripture a reader most recently opened — called
+// every time the reader opens, regardless of whether that day ever gets
+// marked complete, so it tracks "where did I actually last read," not
+// "where's the first checkbox left unchecked." Always overwrites (unlike
+// markDayComplete's includes-check), since re-opening an already-read day
+// is still the most recent thing read.
+export function markDayOpened(state, planId, day) {
+  const existing = state.plans[planId] || { startedAt: todayKey(), completedDays: [] };
+  if (existing.lastOpenedDay === day) return state;
+  const next = { ...state, plans: { ...state.plans, [planId]: { ...existing, lastOpenedDay: day } } };
   persist(next);
   return next;
 }

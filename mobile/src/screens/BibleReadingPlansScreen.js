@@ -37,6 +37,7 @@ import {
   loadReadingPlanProgress,
   markDayComplete,
   markDayIncomplete,
+  markDayOpened,
   startPlan,
 } from "../bibleReadingPlanProgress";
 import BibleChapterModal from "../components/BibleChapterModal";
@@ -113,16 +114,18 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
 
   const openYearDay = (dayEntry) => {
     const first = dayEntry.ranges[0];
+    setProgress((prev) => (prev ? markDayOpened(prev, YEAR_PLAN_ID, dayEntry.day) : prev));
     openReading(first.book, first.from, null, null, {
       ref: dayEntry.ref,
       planTitle: t("bibleReadingPlans.yearPlan.title"),
     });
   };
 
-  const openTopicalDay = (ref, planTitle) => {
+  const openTopicalDay = (ref, planTitle, day) => {
     const pieces = parseRef(ref);
     if (!pieces || !pieces.length) return;
     const piece = pieces[0];
+    setProgress((prev) => (prev ? markDayOpened(prev, activePlanId, day) : prev));
     openReading(piece.book, piece.chapter, piece.verseStart, piece.verseEnd, { ref, planTitle });
   };
 
@@ -131,7 +134,8 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
   // ref-parsing is needed here — theme is passed as planTitle, matching how
   // topical plans use their topic title, so the "discuss with Barnabas" seed
   // message reads the same way across all three plan types.
-  const openCrossRefPassage = (passage, theme) => {
+  const openCrossRefPassage = (passage, theme, day) => {
+    setProgress((prev) => (prev ? markDayOpened(prev, CROSS_REF_PLAN_ID, day) : prev));
     openReading(passage.book, passage.chapter, passage.verseStart, passage.verseEnd, { ref: passage.ref, planTitle: theme });
   };
 
@@ -187,6 +191,11 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
     const planProgress = progress.plans[activePlanId] || { completedDays: [] };
     const completedSet = new Set(planProgress.completedDays);
     const firstUnfinished = days.find((d) => !completedSet.has(d.day));
+    // Once a reader has opened anything in this plan, the highlight follows
+    // wherever they last opened — not just the first unchecked day — so it
+    // tracks the verse currently being read and stays there indefinitely,
+    // per plan, no matter how much time passes between sessions.
+    const highlightDay = planProgress.lastOpenedDay != null ? planProgress.lastOpenedDay : firstUnfinished ? firstUnfinished.day : 1;
     const title = isYear
       ? t("bibleReadingPlans.yearPlan.title")
       : isCrossRef
@@ -208,7 +217,7 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
           contentContainerStyle={styles.list}
           renderItem={({ item }) => {
             const done = completedSet.has(item.day);
-            const isNext = firstUnfinished && item.day === firstUnfinished.day;
+            const isNext = item.day === highlightDay;
 
             if (isCrossRef) {
               const expanded = expandedCrossRefDay === item.day;
@@ -264,7 +273,7 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
                         <TouchableOpacity
                           key={i}
                           style={styles.crossRefPassageRow}
-                          onPress={() => openCrossRefPassage(p, theme)}
+                          onPress={() => openCrossRefPassage(p, theme, item.day)}
                           accessibilityRole="button"
                         >
                           <Ionicons name="book-outline" size={14} color={colors.sageDark} />
@@ -302,7 +311,7 @@ export default function BibleReadingPlansScreen({ onClose, onDiscussWithBarnabas
                 <View style={[styles.dayRow, isNext && styles.dayRowNext]}>
                   <TouchableOpacity
                     style={styles.dayMain}
-                    onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref, title))}
+                    onPress={() => (isYear ? openYearDay(item) : openTopicalDay(item.ref, title, item.day))}
                     accessibilityRole="button"
                   >
                     <Text style={styles.dayNumber}>{t("bibleReadingPlans.dayLabel", { day: item.day })}</Text>

@@ -95,6 +95,14 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
   const [versionError, setVersionError] = useState(false);
   const scrollRef = useRef(null);
   const scrolledToTargetRef = useRef(false);
+  // Bumped alongside scrolledToTargetRef below and used as part of each verse
+  // row's `key`, forcing React to remount every row on every fresh open or
+  // retarget. onLayout only fires when a view's measured position actually
+  // changes, so re-opening on a different verse within the SAME chapter (row
+  // positions unchanged from the previous render) would otherwise never
+  // refire onLayout for the new target and the scroll-to-verse would silently
+  // no-op, leaving the reader wherever the chapter last happened to be.
+  const [scrollEpoch, setScrollEpoch] = useState(0);
   const copyFlashTimerRef = useRef(null);
   const versionRequestRef = useRef(0);
 
@@ -140,6 +148,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
       closeSelection();
       setVersionPickerOpen(false);
       scrolledToTargetRef.current = false;
+      setScrollEpoch((e) => e + 1);
       setVersion(lastUsedBibleVersion);
       loadVersion(lastUsedBibleVersion);
       if (highlightStart == null) {
@@ -345,7 +354,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                 if (!v.text || !v.text.trim()) {
                   const kjvText = kjvVerses?.find((kv) => kv.verse === v.verse)?.text;
                   return (
-                    <View key={v.verse} style={styles.verseRow}>
+                    <View key={`${scrollEpoch}-${v.verse}`} style={styles.verseRow}>
                       <Text style={styles.omittedNote}>
                         <Text style={styles.verseNum}>{v.verse} </Text>
                         {kjvText
@@ -360,7 +369,7 @@ export default function BibleChapterModal({ visible, book, chapter, highlightSta
                 const selected = selectedVerses.includes(v.verse);
                 return (
                   <TouchableOpacity
-                    key={v.verse}
+                    key={`${scrollEpoch}-${v.verse}`}
                     activeOpacity={0.7}
                     onPress={() => onVersePress(v.verse)}
                     onLayout={(e) => {
